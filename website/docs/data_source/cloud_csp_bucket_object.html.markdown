@@ -1,5 +1,5 @@
 ---
-subcategory: "Cloud Object Storage(CSP)"
+subcategory: "Cloud Storage Private(CSP)"
 layout: "cloud"
 page_title: "TencentCloud: cloud_csp_bucket_object"
 sidebar_current: "docs-cloud-datasource-csp_bucket_object"
@@ -27,7 +27,6 @@ The following arguments are supported:
 
 * `bucket` - (Required, String) Name of the bucket that contains the objects to query.
 * `delimiter` - (Optional, String) bucket object key delimiter.
-* `encode_type` - (Optional, String) Specifies the encoding method of the returned key. Valid values: url. If this parameter is not specified, the returned key is not encoded.
 * `encoding_type` - (Optional, String) Specifies the encoding method of the returned key. Valid values: url. If this parameter is not specified, the returned key is not encoded.
 * `marker` - (Optional, String) Specifies the object name to start with when listing objects in a bucket. The object name in the response must be greater than this parameter in lexicographic order.
 * `max_keys` - (Optional, Int) Specifies the maximum number of objects returned in the response. The default value is 1000. The maximum value is 1000.
@@ -41,11 +40,11 @@ In addition to all arguments above, the following attributes are exported:
 * `common_prefixes` - Specifies the object name to start with when listing objects in a bucket.
   * `prefix` - Specifies the object name to start with when listing objects in a bucket.
 * `contents` - Specifies the object name to start with when listing objects in a bucket.
-  * `display_name` - account owner name.
+  * `display_name` - Account owner name.
   * `etag` - ETag generated for the object, which is may not equal to MD5 value.
-  * `key` - key name to start with when listing objects in a bucket.
-  * `last_modified` - last modify change.
-  * `owner_id` - account owner id.
+  * `key` - Key name to start with when listing objects in a bucket.
+  * `last_modified` - Last modify change.
+  * `owner_id` - Account owner id.
   * `size` - bucket size.
   * `storage_class` - Object storage type such as STANDARD.
 * `is_truncated` - Specifies whether the returned object list is truncated.

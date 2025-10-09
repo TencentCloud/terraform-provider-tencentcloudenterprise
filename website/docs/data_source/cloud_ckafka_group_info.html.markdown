@@ -1,5 +1,5 @@
 ---
-subcategory: "Cloud Kafka(ckafka)"
+subcategory: "Cloud Kafka(CKafka)"
 layout: "cloud"
 page_title: "TencentCloud: cloud_ckafka_group_info"
 sidebar_current: "docs-cloud-datasource-ckafka_group_info"
@@ -32,15 +32,15 @@ The following arguments are supported:
 
 In addition to all arguments above, the following attributes are exported:
 
-* `result` - result.
+* `result` - Result.
   * `error_code` - Error code, normally 0.
   * `group` - Kafka consumer group.
   * `members` - This array contains information only if state is Stable and protocol_type is consumer.
     * `assignment` - Stores the partition information assigned to the consumer.
-      * `topics` - topic list.
+      * `topics` - Topic list.
         * `partitions` - Allocated partition information.
         * `topic` - Assigned topic name.
-      * `version` - assignment version information.
+      * `version` - Assignment version information.
     * `client_host` - Generally store the customer&#39;s IP address.
     * `client_id` - The client.id information set by the client consumer SDK itself.
     * `member_id` - ID that the coordinator generated for consumer.

@@ -46,7 +46,7 @@ In addition to all arguments above, the following attributes are exported:
 
 * `id` - ID of the resource.
 * `attached` - Indicates whether the CBS is mounted the CVM.
-* `disk_ids` - disk id list.
+* `disk_ids` - Disk id list.
 * `storage_status` - Status of CBS. Valid values: UNATTACHED, ATTACHING, ATTACHED, DETACHING, EXPANDING, ROLLBACKING, TORECYCLE and DUMPING.
 
 

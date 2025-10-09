@@ -1,5 +1,5 @@
 ---
-subcategory: "Virtual Private Cloud DNS(VPCDNS)"
+subcategory: "Virtual Private Cloud Domain Name System(VPCDNS)"
 layout: "cloud"
 page_title: "TencentCloud: cloud_vpcdns_forward_rule"
 sidebar_current: "docs-cloud-resource-vpcdns_forward_rule"

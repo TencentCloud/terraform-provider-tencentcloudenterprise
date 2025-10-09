@@ -50,10 +50,17 @@ The following arguments are supported:
 * `log_type` - (Required, String) Log type.
 * `logset_id` - (Required, String) Logset id.
 * `name` - (Required, String) Recharge name.
-* `prefix` - (Required, String) Cos file prefix.
 * `topic_id` - (Required, String, ForceNew) Topic id.
 * `compress` - (Optional, String) Supported gzip, lzop, snappy.
-* `extract_rule_info` - (Optional, List) Extract rule info.
+* `extract_rule_info` - (Optional, List, ForceNew) Extract rule info.
+* `prefix` - (Optional, String) Cos file prefix.
+
+The `event_log_rules` object supports the following:
+
+* `event_channel` - (Required, String) event channel, optional value: Application, Security, Setup, System and ALL
+* `time_type` - (Required, Int) time type, 1: user-defined, 2: current time.
+* `event_ids` - (Optional, List) event id filter list, Supports positive filtering for single values (e.g.: 20) or ranges (e.g.: 0-20), as well as negative filtering for single values (e.g.: -20). Multiple filter items can be separated by commas. For example: 1-200,-100 means collecting event logs in the range 1-200 excluding 100.
+* `time_stamp` - (Optional, Int) time, When the user selects the custom time type, a specific time needs to be specified.
 
 The `extract_rule_info` object supports the following:
 
@@ -61,10 +68,11 @@ The `extract_rule_info` object supports the following:
 * `backtracking` - (Optional, Int) backtracking data volume in incremental acquisition mode.
 * `begin_regex` - (Optional, String) begin line regex.
 * `delimiter` - (Optional, String) Log delimiter.
+* `event_log_rules` - (Optional, List) Only take effect when LogType is set to "windows_event_log"; no need to fill in for other types.
 * `filter_key_regex` - (Optional, List) Rules that need to filter logs.
 * `is_gbk` - (Optional, Int) Gbk encoding.
 * `json_standard` - (Optional, Int) Is standard json.
-* `keys` - (Optional, Set) Key list.
+* `keys` - (Optional, List) Key list.
 * `log_regex` - (Optional, String) Log regex.
 * `meta_tags` - (Optional, List) Metadata tag list.
 * `metadata_type` - (Optional, Int) Metadata type.
@@ -91,7 +99,7 @@ The `meta_tags` object supports the following:
 In addition to all arguments above, the following attributes are exported:
 
 * `id` - ID of the resource.
-
+* `id` - COS recharge task ID.
 
 
 ## Import

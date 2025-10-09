@@ -26,17 +26,17 @@ data "cloud_tsf_microservice_api_version" "microservice_api_version" {
 The following arguments are supported:
 
 * `microservice_id` - (Required, String) Microservice ID.
-* `method` - (Optional, String) request method.
-* `path` - (Optional, String) api path.
+* `method` - (Optional, String) Request method.
+* `path` - (Optional, String) Api path.
 * `result_output_file` - (Optional, String) Used to save results.
 
 ## Attributes Reference
 
 In addition to all arguments above, the following attributes are exported:
 
-* `result` - api version list.
+* `result` - Api version list.
   * `application_id` - Application ID.
   * `application_name` - Application Name.
-  * `pkg_version` - application pkg version.
+  * `pkg_version` - Application pkg version.
 
 

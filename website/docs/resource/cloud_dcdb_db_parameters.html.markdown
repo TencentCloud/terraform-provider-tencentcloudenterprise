@@ -1,5 +1,5 @@
 ---
-subcategory: "TDSQL for MySQL(DCDB)"
+subcategory: "Distributed Database For MySQL(DCDB)"
 layout: "cloud"
 page_title: "TencentCloud: cloud_dcdb_db_parameters"
 sidebar_current: "docs-cloud-resource-dcdb_db_parameters"
@@ -27,14 +27,6 @@ resource "cloud_dcdb_db_parameters" "db_parameters" {
 }
 ```
 
-### # Import
-
-dcdb db_parameters can be imported using the id, e.g.
-
-```hcl
-terraform import cloud_dcdb_db_parameters.db_parameters instanceId #paramName
-```
-
 ## Argument Reference
 
 The following arguments are supported:
@@ -54,4 +46,12 @@ In addition to all arguments above, the following attributes are exported:
 * `id` - ID of the resource.
 
 
+
+## Import
+
+dcdb db_parameters can be imported using the id, e.g.
+
+```
+terraform import cloud_dcdb_db_parameters.db_parameters instanceId#paramName
+```
 

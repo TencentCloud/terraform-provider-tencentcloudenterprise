@@ -16,7 +16,7 @@ Use this data source to query detailed information of vpc private_ip_addresses
 ```hcl
 data "cloud_vpc_private_ip_addresses" "private_ip_addresses" {
   vpc_id               = "vpc-l0dw94uh"
-  private_ip_addresses = ["10.0.0.1"]
+  private_ip_addresses = ["203.0.113.1"]
 }
 ```
 

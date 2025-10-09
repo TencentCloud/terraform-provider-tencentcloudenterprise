@@ -15,7 +15,7 @@ Provides a resource to create a cvm renew_instance
 
 ```hcl
 resource "cloud_cvm_renew_instance" "renew_instance" {
-  instance_ids =
+  instance_id = "xxx"
   instance_charge_prepaid {
     period     = 1
     renew_flag = "NOTIFY_AND_AUTO_RENEW"

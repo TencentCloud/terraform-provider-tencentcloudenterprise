@@ -1,15 +1,15 @@
 ---
-subcategory: "TencentDB for Redis(crs)"
+subcategory: "Cloud Redis®(Redis)"
 layout: "cloud"
 page_title: "TencentCloud: cloud_redis_param"
 sidebar_current: "docs-cloud-resource-redis_param"
 description: |-
-  Provides a resource to create a redis param
+  Provides a resource to create a param
 ---
 
 # cloud_redis_param
 
-Provides a resource to create a redis param
+Provides a resource to create a param
 
 ## Example Usage
 

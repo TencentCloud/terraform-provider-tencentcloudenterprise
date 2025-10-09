@@ -41,6 +41,6 @@ In addition to all arguments above, the following attributes are exported:
   * `key_id` - ID of the key pair.
   * `key_name` - Name of the key pair.
   * `project_id` - Project ID of the key pair.
-  * `public_key` - public key of the key pair.
+  * `public_key` - Public key of the key pair.
 
 

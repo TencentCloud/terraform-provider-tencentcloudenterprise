@@ -14,7 +14,7 @@ Provides a resource to manage address template group.
 ## Example Usage
 
 ```hcl
-resource "cloud_address_template_group" "foo" {
+resource "cloud_vpc_address_template_group" "foo" {
   name         = "group-test"
   template_ids = ["ipl-axaf24151", "ipl-axaf24152"]
 }
@@ -40,6 +40,6 @@ In addition to all arguments above, the following attributes are exported:
 Address template group can be imported using the id, e.g.
 
 ```
-$ terraform import cloud_address_template_group.foo ipmg-0np3u974
+$ terraform import cloud_vpc_address_template_group.foo ipmg-0np3u974
 ```
 

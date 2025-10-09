@@ -1,5 +1,5 @@
 ---
-subcategory: "Cloud Kafka(ckafka)"
+subcategory: "Cloud Kafka(CKafka)"
 layout: "cloud"
 page_title: "TencentCloud: cloud_ckafka_group"
 sidebar_current: "docs-cloud-datasource-ckafka_group"
@@ -26,14 +26,14 @@ The following arguments are supported:
 
 * `instance_id` - (Required, String) InstanceId.
 * `result_output_file` - (Optional, String) Used to save results.
-* `search_word` - (Optional, String) search for the keyword.
+* `search_word` - (Optional, String) Search for the keyword.
 
 ## Attributes Reference
 
 In addition to all arguments above, the following attributes are exported:
 
 * `group_list` - GroupList.
-  * `group` - groupId.
+  * `group` - GroupId.
   * `protocol` - The protocol used by this group.
 
 

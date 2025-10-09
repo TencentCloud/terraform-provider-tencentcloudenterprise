@@ -1,15 +1,15 @@
 ---
-subcategory: "TencentDB for Redis(crs)"
+subcategory: "Cloud Redis®(Redis)"
 layout: "cloud"
 page_title: "TencentCloud: cloud_redis_clear_instance_operation"
 sidebar_current: "docs-cloud-resource-redis_clear_instance_operation"
 description: |-
-  Provides a resource to create a redis clear_instance_operation
+  Provides a resource to create a clear_instance_operation
 ---
 
 # cloud_redis_clear_instance_operation
 
-Provides a resource to create a redis clear_instance_operation
+Provides a resource to create a clear_instance_operation
 
 ## Example Usage
 
@@ -25,7 +25,7 @@ resource "cloud_redis_clear_instance_operation" "clear_instance_operation" {
 The following arguments are supported:
 
 * `instance_id` - (Required, String, ForceNew) The ID of instance.
-* `password` - (Optional, String, ForceNew) Redis instance password (password-free instances do not need to pass passwords, non-password-free instances must be transmitted).
+* `password` - (Optional, String, ForceNew) Redis® instance password (password-free instances do not need to pass passwords, non-password-free instances must be transmitted).
 
 ## Attributes Reference
 

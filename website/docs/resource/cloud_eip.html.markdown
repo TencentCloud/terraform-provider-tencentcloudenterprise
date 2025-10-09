@@ -14,7 +14,7 @@ Provides an EIP resource.
 ## Example Usage
 
 ```hcl
-resource "cloud_eip_instance" "foo" {
+resource "cloud_eip" "foo" {
   name                 = "awesome_gateway_ip"
   bandwidth_package_id = "bwp-jtvzuky6"
   internet_charge_type = "BANDWIDTH_PACKAGE"
@@ -53,6 +53,6 @@ In addition to all arguments above, the following attributes are exported:
 EIP can be imported using the id, e.g.
 
 ```
-$ terraform import cloud_eip_instance.foo eip-nyvf60va
+$ terraform import cloud_eip.foo eip-nyvf60va
 ```
 

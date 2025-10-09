@@ -1,5 +1,5 @@
 ---
-subcategory: "Cloud Kafka(ckafka)"
+subcategory: "Cloud Kafka(CKafka)"
 layout: "cloud"
 page_title: "TencentCloud: cloud_ckafka_topic"
 sidebar_current: "docs-cloud-resource-ckafka_topic"
@@ -37,15 +37,15 @@ The following arguments are supported:
 
 * `instance_id` - (Required, String, ForceNew) Ckafka instance ID.
 * `partition_num` - (Required, Int) The number of partition.
-* `replica_num` - (Required, Int) The number of replica.
+* `replica_num` - (Required, Int) Number of replicas. The value cannot exceed the number of brokers. Maximum value: 3.
 * `topic_name` - (Required, String, ForceNew) Name of the CKafka topic. It must start with a letter, the rest can contain letters, numbers and dashes(-).
-* `clean_up_policy` - (Optional, String) Clear log policy, log clear mode, default is `delete`. `delete`: logs are deleted according to the storage time. `compact`: logs are compressed according to the key. `compact, delete`: logs are compressed according to the key and will be deleted according to the storage time.
+* `clean_up_policy` - (Optional, String) Policy or mode to clear logs. Default value: delete. delete": logs are deleted based on the corresponding retention period. "compact": logs are compressed based on the corresponding keys. "compact, delete": logs are compressed based on the corresponding keys and deleted based on the corresponding retention period.
 * `enable_white_list` - (Optional, Bool) Whether to open the ip whitelist, `true`: open, `false`: close.
-* `ip_white_list` - (Optional, List: [`String`]) Ip whitelist, quota limit, required when enableWhileList=true.
-* `max_message_bytes` - (Optional, Int) Max message bytes. min: 1024 Byte(1KB), max: 8388608 Byte(8MB).
+* `ip_white_list` - (Optional, List: [`String`]) IP allowlist used for specifying a quota. You are required to specify this parameter when EnableWhiteList is set to true.
+* `max_message_bytes` - (Optional, Int) Maximum size of messages in a topic. Unit: Byte. Maximum value: 12582912. The maximum value is equal to 12 MB.
 * `note` - (Optional, String) The subject note. It must start with a letter, and the remaining part can contain letters, numbers and dashes (-).
-* `retention` - (Optional, Int) Message can be selected. Retention time, unit is ms, the current minimum value is 60000ms.
-* `segment` - (Optional, Int) Segment scrolling time, in ms, the current minimum is 3600000ms.
+* `retention` - (Optional, Int) Message retention period. Unit: ms. Minimum value: 60000.
+* `segment` - (Optional, Int) Period after which a segment is rolled. Unit: ms. Minimum value: 3600000.
 * `sync_replica_min_num` - (Optional, Int) Min number of sync replicas, Default is `1`.
 * `unclean_leader_election_enable` - (Optional, Bool) Whether to allow unsynchronized replicas to be selected as leader, default is `false`, `true: `allowed, `false`: not allowed.
 

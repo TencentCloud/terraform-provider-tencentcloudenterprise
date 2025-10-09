@@ -52,6 +52,8 @@ In addition to all arguments above, the following attributes are exported:
 ssl certificate can be imported using the id, e.g.
 
 ```
-  $ terraform import cloud_clb_certificates.cert GjTNRoK7
+
+	$ terraform import cloud_clb_certificates.cert GjTNRoK7
+
 ```
 

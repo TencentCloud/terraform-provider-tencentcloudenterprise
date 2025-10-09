@@ -26,8 +26,8 @@ resource "cloud_tsf_application_release_config" "application_release_config" {
 The following arguments are supported:
 
 * `config_id` - (Required, String, ForceNew) Configuration ID.
-* `group_id` - (Required, String, ForceNew) deployment group ID.
-* `release_desc` - (Optional, String, ForceNew) release description.
+* `group_id` - (Required, String, ForceNew) Deployment group ID.
+* `release_desc` - (Optional, String, ForceNew) Release description.
 
 ## Attributes Reference
 
@@ -35,15 +35,15 @@ In addition to all arguments above, the following attributes are exported:
 
 * `id` - ID of the resource.
 * `application_id` - Application ID.
-* `cluster_id` - cluster ID.
-* `cluster_name` - cluster name.
-* `config_name` - configuration item name.
-* `config_release_id` - configuration item release ID.
-* `config_version` - configuration item version.
-* `group_name` - deployment group name.
+* `cluster_id` - Cluster ID.
+* `cluster_name` - Cluster name.
+* `config_name` - Configuration item name.
+* `config_release_id` - Configuration item release ID.
+* `config_version` - Configuration item version.
+* `group_name` - Deployment group name.
 * `namespace_id` - Namespace ID.
-* `namespace_name` - namespace name.
-* `release_time` - release time.
+* `namespace_name` - Namespace name.
+* `release_time` - Release time.
 
 
 ## Import

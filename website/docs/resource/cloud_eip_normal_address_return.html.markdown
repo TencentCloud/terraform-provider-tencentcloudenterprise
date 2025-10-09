@@ -15,7 +15,7 @@ Provides a resource to create a vpc normal_address_return
 
 ```hcl
 resource "cloud_eip_normal_address_return" "normal_address_return" {
-  address_ips =
+  address_ids = ["eip-8zei45vm"]
 }
 ```
 
@@ -23,7 +23,7 @@ resource "cloud_eip_normal_address_return" "normal_address_return" {
 
 The following arguments are supported:
 
-* `address_ips` - (Optional, Set: [`String`], ForceNew) The IP address of the EIP, example: 203.0.113.2.
+* `address_ids` - (Required, Set: [`String`], ForceNew) The Id of the EIP, example: eip-8zei45vm.
 
 ## Attributes Reference
 

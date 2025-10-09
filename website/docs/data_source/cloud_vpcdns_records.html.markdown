@@ -1,5 +1,5 @@
 ---
-subcategory: "Virtual Private Cloud DNS(VPCDNS)"
+subcategory: "Virtual Private Cloud Domain Name System(VPCDNS)"
 layout: "cloud"
 page_title: "TencentCloud: cloud_vpcdns_records"
 sidebar_current: "docs-cloud-datasource-vpcdns_records"
@@ -14,12 +14,8 @@ Provide a resource to query VPCDNS records.
 ## Example Usage
 
 ```hcl
-data "cloud_vpcdns_domain" "foo" {
-  domain             = "brucezylin.cc"
-  dns_forward_status = "ENABLED"
-  tags = {
-    "createdBy" = "terraform3"
-  }
+data "cloud_vpcdns_records" "foo" {
+  domain_id = "xxx"
 }
 ```
 
@@ -28,24 +24,24 @@ data "cloud_vpcdns_domain" "foo" {
 The following arguments are supported:
 
 * `domain_id` - (Required, Int) The domain id of the VpcDns.
+* `sub_domain` - (Required, String) The domain of the VpcDns.
 * `result_output_file` - (Optional, String) The file path to output the result.
-* `sub_domain` - (Optional, String) The domain of the VpcDns.
 
 ## Attributes Reference
 
 In addition to all arguments above, the following attributes are exported:
 
-* `list` - list of records.
-  * `create_time` - create time of record.
+* `list` - List of records.
+  * `create_time` - Create time of record.
   * `domain_id` - ID of the domain.
-  * `enabled` - is enabled, 0: disabled, 1: enabled.
+  * `enabled` - Is enabled, 0: disabled, 1: enabled.
   * `mx` - MX.
   * `record_id` - ID of the record.
-  * `record_type` - type of record.
-  * `status` - status of record.
-  * `sub_domain` - sub domain of the record.
+  * `record_type` - Type of record.
+  * `status` - Status of record.
+  * `sub_domain` - Sub domain of the record.
   * `ttl` - TTL.
-  * `update_time` - update time of record.
+  * `update_time` - Update time of record.
 
 
 ## Import

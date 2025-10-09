@@ -14,7 +14,7 @@ Use this data source to query query ENIs.
 ## Example Usage
 
 ```hcl
-data "cloud_enis" "name" {
+data "cloud_vpc_enis" "name" {
   name = "test eni"
 }
 ```

@@ -1,5 +1,5 @@
 ---
-subcategory: "Virtual Private Cloud DNS(VPCDNS)"
+subcategory: "Virtual Private Cloud Domain Name System(VPCDNS)"
 layout: "cloud"
 page_title: "TencentCloud: cloud_vpcdns_domain"
 sidebar_current: "docs-cloud-resource-vpcdns_domain"
@@ -37,6 +37,7 @@ In addition to all arguments above, the following attributes are exported:
 
 * `id` - ID of the resource.
 * `create_time` - Creation time of VpcDns Domain.
+* `domain_id` - id of vpcdns domain.
 
 
 ## Import

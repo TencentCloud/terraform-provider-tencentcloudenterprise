@@ -1,5 +1,5 @@
 ---
-subcategory: "Cloud Kafka(ckafka)"
+subcategory: "Cloud Kafka(CKafka)"
 layout: "cloud"
 page_title: "TencentCloud: cloud_ckafka_user"
 sidebar_current: "docs-cloud-resource-ckafka_user"
@@ -13,7 +13,7 @@ Provides a resource to create a Ckafka user.
 
 ## Example Usage
 
-### Ckafka User
+### # Ckafka User
 
 ```hcl
 resource "cloud_ckafka_user" "foo" {

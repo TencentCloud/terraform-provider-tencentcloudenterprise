@@ -27,38 +27,38 @@ data "cloud_tsf_api_detail" "api_detail" {
 
 The following arguments are supported:
 
-* `application_id` - (Required, String) application id.
-* `method` - (Required, String) request method.
-* `microservice_id` - (Required, String) microservice id.
-* `path` - (Required, String) api path.
-* `pkg_version` - (Required, String) pkg version.
+* `application_id` - (Required, String) Application id.
+* `method` - (Required, String) Request method.
+* `microservice_id` - (Required, String) Microservice id.
+* `path` - (Required, String) Api path.
+* `pkg_version` - (Required, String) Pkg version.
 * `result_output_file` - (Optional, String) Used to save results.
 
 ## Attributes Reference
 
 In addition to all arguments above, the following attributes are exported:
 
-* `result` - api detail.
-  * `can_run` - can debug or not.
-  * `definitions` - api data struct.
-    * `name` - object name.
-    * `properties` - object property list.
-      * `description` - property description.
-      * `name` - property name.
-      * `type` - property type.
+* `result` - Api detail.
+  * `can_run` - Can debug or not.
+  * `definitions` - Api data struct.
+    * `name` - Object name.
+    * `properties` - Object property list.
+      * `description` - Property description.
+      * `name` - Property name.
+      * `type` - Property type.
   * `description` - API description. Note: This field may return null, indicating that no valid value can be obtained.
-  * `request_content_type` - api content type.
-  * `request` - api request description.
-    * `default_value` - default value.
-    * `description` - param description.
-    * `in` - param position.
-    * `name` - param name.
-    * `required` - require or not.
-    * `type` - type.
-  * `response` - api response.
-    * `description` - param description.
-    * `name` - param description.
-    * `type` - param type.
+  * `request_content_type` - Api content type.
+  * `request` - Api request description.
+    * `default_value` - Default value.
+    * `description` - Param description.
+    * `in` - Param position.
+    * `name` - Param name.
+    * `required` - Require or not.
+    * `type` - Type.
+  * `response` - Api response.
+    * `description` - Param description.
+    * `name` - Param description.
+    * `type` - Param type.
   * `status` - API status 0: offline 1: online, default 0. Note: This section may return null, indicating that no valid value can be obtained.
 
 

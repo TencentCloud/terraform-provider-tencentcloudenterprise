@@ -26,7 +26,7 @@ resource "cloud_tsf_application_public_config_release" "application_public_confi
 The following arguments are supported:
 
 * `config_id` - (Required, String, ForceNew) ConfigId.
-* `namespace_id` - (Required, String, ForceNew) namespace-id.
+* `namespace_id` - (Required, String, ForceNew) Namespace-id.
 * `release_desc` - (Optional, String, ForceNew) Release description.
 
 ## Attributes Reference

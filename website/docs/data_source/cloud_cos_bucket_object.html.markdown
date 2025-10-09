@@ -16,7 +16,7 @@ Use this data source to query the metadata of an object stored inside a bucket.
 ```hcl
 data "cloud_cos_bucket_object" "mycos" {
   bucket             = "mycos-test-1258798060"
-  repfix             = "hello-world.py"
+  prefix             = "hello-world.py"
   result_output_file = "TfCosResults"
 }
 ```

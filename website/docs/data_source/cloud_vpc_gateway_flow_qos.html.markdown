@@ -31,10 +31,10 @@ The following arguments are supported:
 
 In addition to all arguments above, the following attributes are exported:
 
-* `gateway_qos_set` - instance detail list.
+* `gateway_qos_set` - Instance detail list.
   * `bandwidth` - bandwidth value.
-  * `create_time` - create time.
-  * `ip_address` - cvm ip address.
-  * `vpc_id` - vpc id.
+  * `create_time` - Create time.
+  * `ip_address` - Cvm ip address.
+  * `vpc_id` - Vpc id.
 
 

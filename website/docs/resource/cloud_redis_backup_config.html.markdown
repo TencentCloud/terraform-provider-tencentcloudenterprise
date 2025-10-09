@@ -1,15 +1,15 @@
 ---
-subcategory: "TencentDB for Redis(crs)"
+subcategory: "Cloud Redis®(Redis)"
 layout: "cloud"
 page_title: "TencentCloud: cloud_redis_backup_config"
 sidebar_current: "docs-cloud-resource-redis_backup_config"
 description: |-
-  Use this resource to create a backup config of redis.
+  Use this resource to create a backup config.
 ---
 
 # cloud_redis_backup_config
 
-Use this resource to create a backup config of redis.
+Use this resource to create a backup config.
 
 ## Example Usage
 

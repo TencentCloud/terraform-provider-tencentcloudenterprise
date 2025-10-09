@@ -23,7 +23,6 @@ data "cloud_bms_instances" "bms" {
 
 The following arguments are supported:
 
-* `cpu_arch` - (Optional, String) The cpu arch of the instance.
 * `instance_id` - (Optional, String) The ID of the instance.
 * `instance_name` - (Optional, String) The name of the instance. The max length of instance_name is 60, and default value is `Terraform-bms-Instance`.
 * `instance_state` - (Optional, String) The state of the instance.

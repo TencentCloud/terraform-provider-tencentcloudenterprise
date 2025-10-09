@@ -24,7 +24,7 @@ resource "cloud_cls_ckafka_consumer" "ckafka_consumer" {
     instance_name = "ckafka-instance"
     topic_id      = "topic-c6tm4kpm"
     topic_name    = "name"
-    vip           = "172.16.112.23"
+    vip           = "203.0.113.23"
     vport         = "9092"
   }
 
@@ -47,27 +47,28 @@ resource "cloud_cls_ckafka_consumer" "ckafka_consumer" {
 
 The following arguments are supported:
 
-* `topic_id` - (Required, String, ForceNew) Topic id.
-* `ckafka` - (Optional, List) Ckafka info.
-* `compression` - (Optional, Int) Compression method. 0 for NONE, 2 for SNAPPY, 3 for LZ4.
-* `content` - (Optional, List) Metadata information.
-* `need_content` - (Optional, Bool) Whether to deliver the metadata information of the log.
+* `ckafka` - (Required, List) CKafka description.
+* `topic_id` - (Required, String, ForceNew) ID of the log topic bound to the delivery task.
+* `compression` - (Optional, Int) Compression method for delivery. Values: 0 (NONE), 2 (SNAPPY), 3 (LZ4).
+* `content` - (Optional, List) Description of metadata information if metadata needs to be delivered.
+* `need_content` - (Optional, Bool) Whether to deliver log metadata information. Default is true. When NeedContent is true, the Content field is valid. When NeedContent is false, the Content field is invalid.
 
 The `ckafka` object supports the following:
 
-* `instance_id` - (Required, String) Instance id.
-* `instance_name` - (Required, String) Instance name.
-* `topic_id` - (Required, String) Topic id of ckafka.
-* `topic_name` - (Required, String) Topic name of ckafka.
-* `vip` - (Required, String) Vip.
-* `vport` - (Required, String) Vport.
+* `instance_id` - (Required, String) CKafka instance ID.
+* `instance_name` - (Required, String) CKafka instance name.
+* `topic_id` - (Required, String) CKafka topic ID.
+* `topic_name` - (Required, String) CKafka topic name.
+* `vip` - (Required, String) CKafka VIP address.
+* `vport` - (Required, String) CKafka VPort.
 
 The `content` object supports the following:
 
-* `enable_tag` - (Required, Bool) Whether to deliver the TAG info.
-* `meta_fields` - (Required, Set) Metadata info list.
-* `tag_json_not_tiled` - (Optional, Bool) Whether to tiling tag json.
-* `timestamp_accuracy` - (Optional, Int) Delivery timestamp precision,1 for second, 2 for millisecond.
+* `enable_tag` - (Required, Bool) Whether to deliver TAG information. When EnableTag is true, it means delivering TAG metadata information.
+* `meta_fields` - (Required, List) List of metadata to be delivered. Currently only supports: __SOURCE__, __FILENAME__, __TIMESTAMP__, __HOSTNAME__ and __PKGID__.
+* `json_type` - (Optional, Int) Delivery JSON format. JsonType 0: consistent with original log, no escaping. JsonType 1: escaped.
+* `tag_json_not_tiled` - (Optional, Bool) When EnableTag is true, this field must be filled. TagJsonNotTiled is used to identify whether tag information is JSON flattened. When TagJsonNotTiled is true, it is not flattened. When TagJsonNotTiled is false, it is flattened.
+* `timestamp_accuracy` - (Optional, Int) Delivery timestamp precision. Options: [1: second; 2: millisecond]. Default is 1.
 
 ## Attributes Reference
 

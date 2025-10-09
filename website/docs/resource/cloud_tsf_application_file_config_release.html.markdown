@@ -27,7 +27,7 @@ The following arguments are supported:
 
 * `config_id` - (Required, String, ForceNew) File config id.
 * `group_id` - (Required, String, ForceNew) Group Id.
-* `release_desc` - (Optional, String, ForceNew) release Description.
+* `release_desc` - (Optional, String, ForceNew) Release Description.
 
 ## Attributes Reference
 

@@ -36,11 +36,11 @@ resource "cloud_route_table" "foo" {
   name   = "ci-temp-test-rt"
 }
 
-resource "cloud_route_table_entry" "instance" {
+resource "cloud_vpc_route_table_entry" "instance" {
   route_table_id         = cloud_route_table.foo.id
   destination_cidr_block = "10.4.4.0/24"
   next_type              = "EIP"
-  next_hub               = "0"
+  next_hop               = "0"
   description            = "ci-test-route-table-entry"
 }
 ```
@@ -50,8 +50,8 @@ resource "cloud_route_table_entry" "instance" {
 The following arguments are supported:
 
 * `destination_cidr_block` - (Required, String, ForceNew) Destination address block.
-* `next_hub` - (Required, String, ForceNew) ID of next-hop gateway. Note: when `next_type` is EIP, GatewayId should be `0`.
-* `next_type` - (Required, String, ForceNew) Type of next-hop. Valid values: `CVM`, `VPN`, `DIRECTCONNECT`, `PEERCONNECTION`, `HAVIP`, `NAT`, `NORMAL_CVM`, `EIP` and `LOCAL_GATEWAY`.
+* `next_hop` - (Required, String, ForceNew) ID of next-hop gateway. Note: when `next_type` is EIP, GatewayId should be `0`.
+* `next_type` - (Required, String, ForceNew) Type of next-hop. Valid values: `VPN`, `DIRECTCONNECT`, `PEERCONNECTION`, `HAVIP`, `NAT`, `NORMAL_CVM`, `EIP`.
 * `route_table_id` - (Required, String, ForceNew) ID of routing table to which this entry belongs.
 * `description` - (Optional, String, ForceNew) Description of the routing table entry.
 * `disabled` - (Optional, Bool) Whether the entry is disabled, default is `false`.
@@ -69,6 +69,6 @@ In addition to all arguments above, the following attributes are exported:
 Route table entry can be imported using the id, e.g.
 
 ```
-$ terraform import cloud_route_table_entry.foo 83517.rtb-mlhpg09u
+$ terraform import cloud_vpc_route_table_entry.foo 83517.rtb-mlhpg09u
 ```
 

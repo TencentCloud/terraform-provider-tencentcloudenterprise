@@ -1,5 +1,5 @@
 ---
-subcategory: "TDSQL for MySQL(DCDB)"
+subcategory: "Distributed Database For MySQL(DCDB)"
 layout: "cloud"
 page_title: "TencentCloud: cloud_dcdb_security_groups"
 sidebar_current: "docs-cloud-datasource-dcdb_security_groups"
@@ -23,27 +23,27 @@ data "cloud_dcdb_security_groups" "securityGroups" {
 
 The following arguments are supported:
 
-* `instance_id` - (Required, String) instance id.
+* `instance_id` - (Required, String) Instance id.
 * `result_output_file` - (Optional, String) Used to save results.
 
 ## Attributes Reference
 
 In addition to all arguments above, the following attributes are exported:
 
-* `list` - security group list.
-  * `create_time` - create time.
-  * `inbound` - inbound rules.
-    * `action` - policy action.
-    * `cidr_ip` - cidr ip.
-    * `ip_protocol` - internet protocol.
-    * `port_range` - port range.
-  * `outbound` - outbound rules.
-    * `action` - policy action.
-    * `cidr_ip` - cidr ip.
-    * `ip_protocol` - internet protocol.
-    * `port_range` - port range.
-  * `project_id` - project id.
-  * `security_group_id` - security group id.
-  * `security_group_name` - security group name.
+* `list` - Security group list.
+  * `create_time` - Create time.
+  * `inbound` - Inbound rules.
+    * `action` - Policy action.
+    * `cidr_ip` - Cidr ip.
+    * `ip_protocol` - Internet protocol.
+    * `port_range` - Port range.
+  * `outbound` - Outbound rules.
+    * `action` - Policy action.
+    * `cidr_ip` - Cidr ip.
+    * `ip_protocol` - Internet protocol.
+    * `port_range` - Port range.
+  * `project_id` - Project id.
+  * `security_group_id` - Security group id.
+  * `security_group_name` - Security group name.
 
 

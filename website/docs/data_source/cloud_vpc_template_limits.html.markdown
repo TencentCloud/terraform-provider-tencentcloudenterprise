@@ -27,10 +27,10 @@ The following arguments are supported:
 
 In addition to all arguments above, the following attributes are exported:
 
-* `template_limit` - template limit.
-  * `address_template_group_member_limit` - address template group member limit.
-  * `address_template_member_limit` - address template member limit.
-  * `service_template_group_member_limit` - service template group member limit.
-  * `service_template_member_limit` - service template member limit.
+* `template_limit` - Template limit.
+  * `address_template_group_member_limit` - Address template group member limit.
+  * `address_template_member_limit` - Address template member limit.
+  * `service_template_group_member_limit` - Service template group member limit.
+  * `service_template_member_limit` - Service template member limit.
 
 

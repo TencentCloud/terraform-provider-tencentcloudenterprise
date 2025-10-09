@@ -35,7 +35,7 @@ The following arguments are supported:
 * `order_by` - (Optional, String) Sorting field: created_time or group_context.
 * `order_type` - (Optional, Int) Sorting type: 0 (ASC) or 1 (DESC).
 * `result_output_file` - (Optional, String) Used to save results.
-* `search_word` - (Optional, String) search word.
+* `search_word` - (Optional, String) Search word.
 * `status` - (Optional, String) Publishing status. drafted: Not published. released: Published.
 
 ## Attributes Reference
@@ -45,7 +45,7 @@ In addition to all arguments above, the following attributes are exported:
 * `result` - Pagination structure.Note: This field may return null, indicating that no valid values can be obtained.
   * `content` - Api group info.
     * `acl_mode` - Number of APIs.Note: This field may return null, indicating that no valid values can be obtained.
-    * `api_count` - api count.
+    * `api_count` - Api count.
     * `auth_type` - Authentication type. secret: key authentication; none: no authentication.Note: This field may return null, indicating that no valid values can be obtained.
     * `binded_gateway_deploy_groups` - The gateway group bind with the api group list.
       * `application_id` - Application ID.Note: This field may return null, indicating that no valid values can be obtained.
@@ -68,6 +68,6 @@ In addition to all arguments above, the following attributes are exported:
     * `service_name_key` - Key value of microservice name parameter.Note: This field may return null, indicating that no valid values can be obtained.
     * `status` - Release status. drafted: not released. released: released.Note: This field may return null, indicating that no valid values can be obtained.
     * `updated_time` - Group creation time, such as: 2019-06-20 15:51:28.Note: This field may return null, indicating that no valid values can be obtained.
-  * `total_count` - record count.
+  * `total_count` - Record count.
 
 

@@ -16,19 +16,19 @@ Use this data source to query detailed information of DNATs.
 ```hcl
 # query by nat gateway id
 
-data "cloud_dnats" "foo" {
+data "cloud_vpc_dnats" "foo" {
   nat_id = "nat-xfaq1"
 }
 
 # query by vpc id
 
-data "cloud_dnats" "foo" {
+data "cloud_vpc_dnats" "foo" {
   vpc_id = "vpc-xfqag"
 }
 
 # query by elastic ip
 
-data "cloud_dnats" "foo" {
+data "cloud_vpc_dnats" "foo" {
   elastic_ip = "203.0.113.1"
 }
 ```

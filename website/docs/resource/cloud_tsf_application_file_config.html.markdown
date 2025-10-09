@@ -34,14 +34,14 @@ The following arguments are supported:
 
 * `application_id` - (Required, String, ForceNew) Config file associated application ID.
 * `config_file_name` - (Required, String, ForceNew) Config file name.
-* `config_file_path` - (Required, String, ForceNew) config release path.
+* `config_file_path` - (Required, String, ForceNew) Config release path.
 * `config_file_value` - (Required, String, ForceNew) Configuration file content (the original content encoding needs to be in utf-8 format, if the ConfigFileCode is gbk, it will be converted in the background).
 * `config_name` - (Required, String, ForceNew) Config Name.
 * `config_version` - (Required, String, ForceNew) Config version.
 * `config_file_code` - (Optional, String, ForceNew) Configuration file encoding, utf-8 or gbk. Note: If you choose gbk, you need the support of a new version of tsf-consul-template (public cloud virtual machines need to use 1.32 tsf-agent, and containers need to obtain the latest tsf-consul-template-docker.tar.gz from the documentation).
-* `config_post_cmd` - (Optional, String, ForceNew) post command.
-* `config_version_desc` - (Optional, String, ForceNew) config version description.
-* `encode_with_base64` - (Optional, Bool, ForceNew) the config value is encoded with base64 or not.
+* `config_post_cmd` - (Optional, String, ForceNew) Post command.
+* `config_version_desc` - (Optional, String, ForceNew) Config version description.
+* `encode_with_base64` - (Optional, Bool, ForceNew) The config value is encoded with base64 or not.
 
 ## Attributes Reference
 

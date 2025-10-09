@@ -1,5 +1,5 @@
 ---
-subcategory: "TDSQL for MySQL(DCDB)"
+subcategory: "Distributed Database For MySQL(DCDB)"
 layout: "cloud"
 page_title: "TencentCloud: cloud_dcdb_account"
 sidebar_current: "docs-cloud-resource-dcdb_account"
@@ -28,13 +28,13 @@ resource "cloud_dcdb_account" "account" {
 
 The following arguments are supported:
 
-* `host` - (Required, String) db host.
-* `instance_id` - (Required, String) instance id.
-* `password` - (Required, String) password.
-* `user_name` - (Required, String) account name.
+* `host` - (Required, String) Db host.
+* `instance_id` - (Required, String) Instance id.
+* `password` - (Required, String) Password.
+* `user_name` - (Required, String) Account name.
 * `delay_thresh` - (Optional, Int) If the delay of the backup machine exceeds the value set in this parameter, the system will consider the backup machine to have a failure. It is recommended to set the parameter value greater than 10. This parameter takes effect when ReadOnly is set to 1 or 2.
-* `description` - (Optional, String) description for account.
-* `read_only` - (Optional, Int) whether the account is readonly. 0 means not a readonly account.
+* `description` - (Optional, String) Description for account.
+* `read_only` - (Optional, Int) Whether the account is readonly. 0 means not a readonly account.
 
 ## Attributes Reference
 

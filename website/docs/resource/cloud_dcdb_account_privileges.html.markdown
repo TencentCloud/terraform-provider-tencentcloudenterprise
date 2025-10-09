@@ -1,5 +1,5 @@
 ---
-subcategory: "TDSQL for MySQL(DCDB)"
+subcategory: "Distributed Database For MySQL(DCDB)"
 layout: "cloud"
 page_title: "TencentCloud: cloud_dcdb_account_privileges"
 sidebar_current: "docs-cloud-resource-dcdb_account_privileges"
@@ -35,14 +35,6 @@ resource "cloud_dcdb_account_privileges" "account_privileges" {
 }
 ```
 
-### # Import
-
-dcdb account_privileges can be imported using the id, e.g.
-
-```hcl
-terraform import cloud_dcdb_account_privileges.account_privileges instanceId #userName#host#dbName#tabName#viewName#colName
-```
-
 ## Argument Reference
 
 The following arguments are supported:
@@ -57,8 +49,8 @@ The following arguments are supported:
 
 The `account` object supports the following:
 
-* `host` - (Required, String) account host.
-* `user` - (Required, String) account name.
+* `host` - (Required, String) Account host.
+* `user` - (Required, String) Account name.
 
 The `column_privileges` object supports the following:
 
@@ -91,4 +83,12 @@ In addition to all arguments above, the following attributes are exported:
 * `id` - ID of the resource.
 
 
+
+## Import
+
+dcdb account_privileges can be imported using the id, e.g.
+
+```
+terraform import cloud_dcdb_account_privileges.account_privileges instanceId#userName#host#dbName#tabName#viewName#colName
+```
 

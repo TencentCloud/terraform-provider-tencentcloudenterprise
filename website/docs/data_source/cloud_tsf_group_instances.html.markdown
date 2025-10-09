@@ -26,11 +26,11 @@ data "cloud_tsf_group_instances" "group_instances" {
 
 The following arguments are supported:
 
-* `group_id` - (Required, String) group id.
-* `order_by` - (Optional, String) order term.
-* `order_type` - (Optional, Int) order type.
+* `group_id` - (Required, String) Group id.
+* `order_by` - (Optional, String) Order term.
+* `order_type` - (Optional, Int) Order type.
 * `result_output_file` - (Optional, String) Used to save results.
-* `search_word` - (Optional, String) search word.
+* `search_word` - (Optional, String) Search word.
 
 ## Attributes Reference
 
@@ -41,7 +41,7 @@ In addition to all arguments above, the following attributes are exported:
     * `agent_version` - Agent version.Note: This field may return null, which means no valid value was found.
     * `application_id` - Application id.Note: This field may return null, which means no valid value was found.
     * `application_name` - Application name. Note: This field may return null, which means no valid value was found.
-    * `application_resource_type` - application resource id.Note: This field may return null, which means no valid value was found.
+    * `application_resource_type` - Application resource id.Note: This field may return null, which means no valid value was found.
     * `application_type` - Application id.Note: This field may return null, which means no valid value was found.
     * `cluster_id` - Cluster id.Note: This field may return null, which means no valid value was found.
     * `cluster_name` - Cluster name. Note: This field may return null, which means no valid value was found.
@@ -50,7 +50,7 @@ In addition to all arguments above, the following attributes are exported:
     * `group_id` - Group id.Note: This field may return null, which means no valid value was found.
     * `group_name` - Group name.Note: This field may return null, which means no valid value was found.
     * `instance_available_status` - VM availability status. For virtual machines, it indicates whether the virtual machine can be used as a resource. For containers, it indicates whether the virtual machine can be used to deploy pods.Note: This field may return null, which means no valid value was found.
-    * `instance_charge_type` - machine instance charge type.Note: This field may return null, which means no valid value was found.
+    * `instance_charge_type` - Machine instance charge type.Note: This field may return null, which means no valid value was found.
     * `instance_created_time` - Creation time of the machine instance in CVM.Note: This field may return null, which means no valid value was found.
     * `instance_desc` - Description.Note: This field may return null, which means no valid value was found.
     * `instance_expired_time` - Expire time of the machine instance in CVM.Note: This field may return null, which means no valid value was found.
@@ -59,7 +59,7 @@ In addition to all arguments above, the following attributes are exported:
     * `instance_limit_cpu` - Limit CPU information of the machine instance.Note: This field may return null, which means no valid value was found.
     * `instance_limit_mem` - Limit memory information of the machine instance.Note: This field may return null, which means no valid value was found.
     * `instance_name` - Machine name.Note: This field may return null, which means no valid value was found.
-    * `instance_pkg_version` - instance pkg version.Note: This field may return null, which means no valid value was found.
+    * `instance_pkg_version` - Instance pkg version.Note: This field may return null, which means no valid value was found.
     * `instance_status` - VM status. For virtual machines, it indicates the status of the virtual machine. For containers, it indicates the status of the virtual machine where the pod is located.Note: This field may return null, which means no valid value was found.
     * `instance_total_cpu` - Total CPU information of the machine instance.Note: This field may return null, which means no valid value was found.
     * `instance_total_mem` - Total memory information of the machine instance.Note: This field may return null, which means no valid value was found.

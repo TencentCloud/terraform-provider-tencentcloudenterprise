@@ -1,15 +1,15 @@
 ---
-subcategory: "TencentDB for Redis(crs)"
+subcategory: "Cloud Redis®(Redis)"
 layout: "cloud"
 page_title: "TencentCloud: cloud_redis_replica_readonly"
 sidebar_current: "docs-cloud-resource-redis_replica_readonly"
 description: |-
-  Provides a resource to create a redis replica_readonly
+  Provides a resource to create a replica_readonly
 ---
 
 # cloud_redis_replica_readonly
 
-Provides a resource to create a redis replica_readonly
+Provides a resource to create a replica_readonly
 
 ## Example Usage
 

@@ -11,11 +11,11 @@ description: |-
 
 Provides a resource to create security group rule.
 
-~> **NOTE:** Single security rule is hardly ordered, use cloud_security_group_lite_rule instead.
+~> **NOTE:** Single security rule is hardly ordered, use cloud_vpc_security_group_lite_rule instead.
 
 ## Example Usage
 
-### Source is CIDR ip
+### # Source is CIDR ip
 
 ```hcl
 resource "cloud_vpc_security_group" "sglab_1" {
@@ -24,7 +24,7 @@ resource "cloud_vpc_security_group" "sglab_1" {
   project_id  = 0
 }
 
-resource "cloud_security_group_rule" "sglab_1" {
+resource "cloud_vpc_security_group_rule" "sglab_1" {
   security_group_id = cloud_vpc_security_group.sglab_1.id
   type              = "ingress"
   cidr_ip           = "10.0.0.0/16"
@@ -35,7 +35,7 @@ resource "cloud_security_group_rule" "sglab_1" {
 }
 ```
 
-### Source is a security group id
+### # Source is a security group id
 
 ```hcl
 resource "cloud_vpc_security_group" "sglab_2" {
@@ -50,7 +50,7 @@ resource "cloud_vpc_security_group" "sglab_3" {
   project_id  = 0
 }
 
-resource "cloud_security_group_rule" "sglab_2" {
+resource "cloud_vpc_security_group_rule" "sglab_2" {
   security_group_id = cloud_vpc_security_group.sglab_2.id
   type              = "ingress"
   ip_protocol       = "TCP"

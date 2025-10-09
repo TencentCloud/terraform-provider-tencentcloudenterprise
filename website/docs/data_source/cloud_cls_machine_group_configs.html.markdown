@@ -24,8 +24,8 @@ resource "cloud_cls_machine_group" "group" {
   machine_group_type {
     type = "ip"
     values = [
-      "192.168.1.1",
-      "192.168.1.2",
+      "203.0.113.101",
+      "203.0.113.102",
     ]
   }
 }
@@ -40,46 +40,51 @@ data "cloud_cls_machine_group_configs" "machine_group_configs" {
 The following arguments are supported:
 
 * `group_id` - (Required, String) Group id.
-* `result_output_file` - (Optional, String) Used to save results.
+* `result_output_file` - (Optional, String) path to save result file.
 
 ## Attributes Reference
 
 In addition to all arguments above, the following attributes are exported:
 
-* `configs` - Scrape config list.
-  * `config_id` - Scrape config id.
+* `configs` - Collection configuration list.
+  * `advanced_config` - Advanced config.
+  * `config_extra_id` - Config extra id.
+  * `config_flag` - Config flag.
+  * `config_id` - Collection configuration ID.
   * `create_time` - Create time.
   * `exclude_paths` - Collection path blocklist.
-    * `type` - Type. Valid values: File, Path.
-    * `value` - Specific content corresponding to Type.
   * `extract_rule` - Extraction rule. If ExtractRule is set, LogType must be set.
     * `address` - Syslog system log collection specifies the address and port that the collector listens to.
     * `backtracking` - Size of the data to be rewound in incremental collection mode. Default value: -1 (full collection).
     * `begin_regex` - First-Line matching rule, which is valid only if log_type is multiline_log or fullregex_log.
     * `delimiter` - Delimiter for delimited log, which is valid only if log_type is delimiter_log.
+    * `event_log_rules` - Windows event log collection rules, which only take effect when LogType is windows_event_log.
+      * `event_channel` - Event channel, supports Application, Security, Setup, System, ALL.
+      * `event_ids` - Event ID filter list. An empty list means no filtering. It supports positive filtering of single values or ranges, and also supports negative filtering of single values.
+      * `time_stamp` - Time, when the user selects a custom time type, a specific time needs to be specified.
+      * `time_type` - Time type, 1: user-defined, 2: current time.
     * `filter_key_regex` - Log keys to be filtered and the corresponding regex.
-      * `key` - Log key to be filtered.
-      * `regex` - Filter rule regex corresponding to key.
     * `is_gbk` - GBK encoding. Default 0.
     * `json_standard` - Standard json. Default 0.
     * `keys` - Key name of each extracted field. An empty key indicates to discard the field. This parameter is valid only if log_type is delimiter_log. json_log logs use the key of JSON itself.
     * `log_regex` - Full log matching rule, which is valid only if log_type is fullregex_log.
     * `meta_tags` - Metadata tags.
-      * `key` - Tag key.
-      * `value` - Tag value.
+      * `key` - Metadata tag key.
+      * `value` - Metadata tag value.
     * `metadata_type` - Metadata type.
     * `parse_protocol` - Parse protocol.
     * `path_regex` - Metadata path regex.
     * `protocol` - Syslog protocol, tcp or udp.
     * `time_format` - Time field format. For more information, please see the output parameters of the time format description of the strftime function in C language.
-    * `time_key` - Time field key name. time_key and time_format must appear in pair.
+    * `time_key` - The key name of the time field. time_key and time_format must appear in pairs.
     * `un_match_log_key` - Unmatched log key.
     * `un_match_up_load_switch` - Whether to upload the logs that failed to be parsed. Valid values: true: yes; false: no.
-  * `log_format` - Style of log format.
-  * `log_type` - Log type.
-  * `name` - Scrape config name.
+  * `log_format` - Log formatting method.
+  * `log_type` - Type of the log to be collected. json_log represents JSON format logs, delimiter_log represents delimiter format logs, minimalist_log represents minimalist logs, multiline_log represents multi-line logs, fullregex_log represents full regex, default is minimalist_log.
+  * `name` - Collection configuration name.
   * `output` - Topicid.
-  * `path` - Scrape log path.
+  * `path` - Log collection path, including filename.
+  * `source` - Config source.
   * `update_time` - Update time.
   * `user_define_rule` - User define rule.
 

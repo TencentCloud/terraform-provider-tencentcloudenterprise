@@ -14,7 +14,7 @@ Provides a resource to create a eni_sg_attachment
 ## Example Usage
 
 ```hcl
-resource "cloud_eni_sg_attachment" "eni_sg_attachment" {
+resource "cloud_vpc_eni_sg_attachment" "eni_sg_attachment" {
   network_interface_ids = ["eni-p0hkgx8p"]
   security_group_ids    = ["sg-902tl7t7", "sg-edmur627"]
 }
@@ -40,6 +40,6 @@ In addition to all arguments above, the following attributes are exported:
 vpc eni_sg_attachment can be imported using the id, e.g.
 
 ```
-terraform import cloud_eni_sg_attachment.eni_sg_attachment eni_sg_attachment_id
+terraform import cloud_vpc_eni_sg_attachment.eni_sg_attachment eni_sg_attachment_id
 ```
 

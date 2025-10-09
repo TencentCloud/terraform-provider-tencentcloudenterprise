@@ -40,7 +40,7 @@ In addition to all arguments above, the following attributes are exported:
     * `directory` - Repository Directory. Note: This field may return null, indicating that no valid value can be obtained.
     * `is_used` - Whether the repository is being used. Note: This field may return null, indicating that no valid value can be obtained.
     * `repository_desc` - Repository description (default warehouse: default, private warehouse: private).
-    * `repository_id` - repository Id.
+    * `repository_id` - Repository Id.
     * `repository_name` - Repository Name.
     * `repository_type` - Repository type (default Repository: default, private Repository: private).
   * `total_count` - Total Repository.

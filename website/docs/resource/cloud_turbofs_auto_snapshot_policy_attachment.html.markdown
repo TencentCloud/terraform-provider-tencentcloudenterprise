@@ -1,5 +1,5 @@
 ---
-subcategory: "CFS Turbo(Turbofs)"
+subcategory: "Parallel File Storage(TurboFS)"
 layout: "cloud"
 page_title: "TencentCloud: cloud_turbofs_auto_snapshot_policy_attachment"
 sidebar_current: "docs-cloud-resource-turbofs_auto_snapshot_policy_attachment"
@@ -16,7 +16,7 @@ Provides a resource to create a turbofs auto_snapshot_policy_attachment
 ```hcl
 resource "cloud_turbofs_auto_snapshot_policy_attachment" "auto_snapshot_policy_attachment" {
   auto_snapshot_policy_id = "asp-basic"
-  file_system_ids         = "cfs-4xzkct19,cfs-iobiaxtj"
+  file_system_id          = "turbofs-4xzkct19"
 }
 ```
 
@@ -24,8 +24,8 @@ resource "cloud_turbofs_auto_snapshot_policy_attachment" "auto_snapshot_policy_a
 
 The following arguments are supported:
 
-* `auto_snapshot_policy_id` - (Required, String, ForceNew) ID of the snapshot to be unbound.
-* `file_system_ids` - (Required, String, ForceNew) List of IDs of the file systems to be unbound, separated by comma.
+* `auto_snapshot_policy_id` - (Required, String, ForceNew) ID of the snapshot to bound.
+* `file_system_id` - (Required, String, ForceNew) ID of the file systems to bound.
 
 ## Attributes Reference
 

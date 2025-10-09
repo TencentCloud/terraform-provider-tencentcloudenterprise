@@ -14,7 +14,7 @@ Provides a resource to create a HA VIP.
 ## Example Usage
 
 ```hcl
-resource "cloud_ha_vip" "foo" {
+resource "cloud_vpc_ha_vip" "foo" {
   name      = "terraform_test"
   vpc_id    = "vpc-gzea3dd7"
   subnet_id = "subnet-4d4m4cd4s"
@@ -48,6 +48,6 @@ In addition to all arguments above, the following attributes are exported:
 HA VIP can be imported using the id, e.g.
 
 ```
-$ terraform import cloud_ha_vip.foo havip-kjqwe4ba
+$ terraform import cloud_vpc_ha_vip.foo havip-kjqwe4ba
 ```
 

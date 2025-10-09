@@ -24,17 +24,17 @@ data "cloud_tsf_delivery_configs" "delivery_configs" {
 The following arguments are supported:
 
 * `result_output_file` - (Optional, String) Used to save results.
-* `search_word` - (Optional, String) search word.
+* `search_word` - (Optional, String) Search word.
 
 ## Attributes Reference
 
 In addition to all arguments above, the following attributes are exported:
 
-* `result` - deploy group information about the deployment group associated with a delivery item.Note: This field may return null, which means that no valid value was obtained.
-  * `content` - content. Note: This field may return null, which means that no valid value was obtained.
-    * `collect_path` - harvest log path. Note: This field may return null, which means that no valid value was obtained.
-    * `config_id` - config id.
-    * `config_name` - config name.
+* `result` - Deploy group information about the deployment group associated with a delivery item.Note: This field may return null, which means that no valid value was obtained.
+  * `content` - Content. Note: This field may return null, which means that no valid value was obtained.
+    * `collect_path` - Harvest log path. Note: This field may return null, which means that no valid value was obtained.
+    * `config_id` - Config id.
+    * `config_name` - Config name.
     * `create_time` - Creation time.Note: This field may return null, indicating that no valid values can be obtained.
     * `groups` - Associated deployment group information.Note: This field may return null, indicating that no valid values can be obtained.
       * `associate_time` - Associate Time. Note: This field may return null, indicating that no valid values can be obtained.
@@ -44,6 +44,6 @@ In addition to all arguments above, the following attributes are exported:
       * `group_id` - Group Id.
       * `group_name` - Group Name.
       * `namespace_name` - Namespace Name. Note: This field may return null, indicating that no valid values can be obtained.
-  * `total_count` - total count. Note: This field may return null, which means that no valid value was obtained.
+  * `total_count` - Total count. Note: This field may return null, which means that no valid value was obtained.
 
 

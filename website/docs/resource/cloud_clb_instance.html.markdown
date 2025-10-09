@@ -105,21 +105,16 @@ The following arguments are supported:
 * `internet_charge_type` - (Optional, String) Internet charge type, only applicable to open CLB. Valid values are only `TRAFFIC_POSTPAID_BY_HOUR`.
 * `log_set_id` - (Optional, String) The id of log set.
 * `log_topic_id` - (Optional, String) The id of log topic.
-* `master_zone_id` - (Optional, String) Setting master zone id of cross available zone disaster recovery, only applicable to open CLB.
+* `master_zone_id` - (Optional, String) Setting master zone id of cross available zone disaster recovery.
 * `project_id` - (Optional, Int, ForceNew) ID of the project within the CLB instance, `0` - Default Project.
 * `security_groups` - (Optional, List: [`String`]) Security groups of the CLB instance. Supports both `OPEN` and `INTERNAL` CLBs.
-* `slave_zone_id` - (Optional, String) Setting slave zone id of cross available zone disaster recovery, only applicable to open CLB. this zone will undertake traffic when the master is down.
-* `snat_ips` - (Optional, List) Snat Ip List, required with `snat_pro=true`. NOTE: This argument cannot be read and modified here because dynamic ip is untraceable, please import resource `cloud_clb_snat_ip` to handle fixed ips.
-* `snat_pro` - (Optional, Bool) Indicates whether Binding IPs of other VPCs feature switch.
-* `subnet_id` - (Optional, String, ForceNew) Subnet ID of the CLB. Effective only for CLB within the VPC. Only supports `INTERNAL` CLBs. Default is `ipv4`.
+* `slave_zone_id` - (Optional, String) Setting slave zone id of cross available zone disaster recovery. this zone will undertake traffic when the master is down.
+* `subnet_id` - (Optional, String, ForceNew) Subnet ID of the CLB. Effective only for CLB within the VPC.
 * `tags` - (Optional, Map) The available tags within this CLB.
+* `target_region_info_region` - (Optional, String) Region of the target region for cross-region CLB.
+* `target_region_info_vpc_id` - (Optional, String) VPC ID of the target region for cross-region CLB.
 * `vpc_id` - (Optional, String, ForceNew) VPC ID of the CLB.
 * `zone_id` - (Optional, String) Available zone id, only applicable to open CLB.
-
-The `snat_ips` object supports the following:
-
-* `subnet_id` - (Required, String) Snat subnet ID.
-* `ip` - (Optional, String) Snat IP address, If set to empty will auto allocated.
 
 ## Attributes Reference
 

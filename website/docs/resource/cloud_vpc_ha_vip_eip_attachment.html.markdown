@@ -14,7 +14,7 @@ Provides a resource to create a HA VIP EIP attachment.
 ## Example Usage
 
 ```hcl
-resource "cloud_ha_vip_eip_attachment" "foo" {
+resource "cloud_vpc_ha_vip_eip_attachment" "foo" {
   havip_id   = "havip-kjqwe4ba"
   address_ip = "1.1.1.1"
 }
@@ -40,6 +40,6 @@ In addition to all arguments above, the following attributes are exported:
 HA VIP EIP attachment can be imported using the id, e.g.
 
 ```
-$ terraform import cloud_ha_vip_eip_attachment.foo havip-kjqwe4ba#1.1.1.1
+$ terraform import cloud_vpc_ha_vip_eip_attachment.foo havip-kjqwe4ba#1.1.1.1
 ```
 

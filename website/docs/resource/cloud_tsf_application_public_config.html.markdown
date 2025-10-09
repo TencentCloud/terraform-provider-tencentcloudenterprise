@@ -30,10 +30,10 @@ resource "cloud_tsf_application_public_config" "application_public_config" {
 The following arguments are supported:
 
 * `config_name` - (Required, String, ForceNew) Config Name.
-* `config_value` - (Required, String, ForceNew) config value, only yaml file allowed.
-* `config_version` - (Required, String, ForceNew) config version.
+* `config_value` - (Required, String, ForceNew) Config value, only yaml file allowed.
+* `config_version` - (Required, String, ForceNew) Config version.
 * `config_version_desc` - (Optional, String, ForceNew) Config version description.
-* `encode_with_base64` - (Optional, Bool, ForceNew) the config value is encoded with base64 or not.
+* `encode_with_base64` - (Optional, Bool, ForceNew) The config value is encoded with base64 or not.
 
 ## Attributes Reference
 

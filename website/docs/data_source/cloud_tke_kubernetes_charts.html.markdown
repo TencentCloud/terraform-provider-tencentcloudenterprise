@@ -14,7 +14,7 @@ Use this data source to query detailed information of kubernetes cluster addons.
 ## Example Usage
 
 ```hcl
-data "cloud_kubernetes_charts" "name" {}
+data "cloud_tke_kubernetes_charts" "name" {}
 ```
 
 ## Argument Reference

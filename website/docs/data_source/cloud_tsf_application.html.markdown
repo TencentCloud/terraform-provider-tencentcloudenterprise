@@ -38,25 +38,25 @@ In addition to all arguments above, the following attributes are exported:
 
 * `result` - The application paging list information.
   * `content` - The list of application information.
-    * `apigateway_service_id` - gateway service id.
+    * `apigateway_service_id` - Gateway service id.
     * `application_desc` - The description of the application.
     * `application_id` - The ID of the application.
     * `application_name` - The name of the application.
-    * `application_remark_name` - remark name.
-    * `application_resource_type` - application resource type.
-    * `application_runtime_type` - application runtime type.
+    * `application_remark_name` - Remark name.
+    * `application_resource_type` - Application resource type.
+    * `application_runtime_type` - Application runtime type.
     * `application_type` - The type of the application.
-    * `create_time` - create time.
+    * `create_time` - Create time.
     * `microservice_type` - The microservice type of the application.
     * `prog_lang` - Programming language.
-    * `service_config_list` - service config list.
-      * `health_check` - health check setting.
-        * `path` - health check path.
-      * `name` - serviceName.
-      * `ports` - port list.
-        * `protocol` - protocol.
-        * `target_port` - service port.
-    * `update_time` - update time.
+    * `service_config_list` - Service config list.
+      * `health_check` - Health check setting.
+        * `path` - Health check path.
+      * `name` - ServiceName.
+      * `ports` - Port list.
+        * `protocol` - Protocol.
+        * `target_port` - Service port.
+    * `update_time` - Update time.
   * `total_count` - The total number of applications.
 
 

@@ -14,22 +14,22 @@ Use this data source to query detailed information of kubernetes available_clust
 ## Example Usage
 
 ```hcl
-data "cloud_kubernetes_available_cluster_versions" "query_by_id" {
+data "cloud_tke_kubernetes_available_cluster_versions" "query_by_id" {
   cluster_id = "xxx"
 }
 
 output "versions_id" {
   description = "Query versions from id."
-  value       = data.cloud_kubernetes_available_cluster_versions.query_by_id.versions
+  value       = data.cloud_tke_kubernetes_available_cluster_versions.query_by_id.versions
 }
 
-data "cloud_kubernetes_available_cluster_versions" "query_by_ids" {
+data "cloud_tke_kubernetes_available_cluster_versions" "query_by_ids" {
   cluster_ids = ["xxx"]
 }
 
 output "versions_ids" {
   description = "Query versions from ids."
-  value       = data.cloud_kubernetes_available_cluster_versions.query_by_ids.clusters
+  value       = data.cloud_tke_kubernetes_available_cluster_versions.query_by_ids.clusters
 }
 ```
 
@@ -37,17 +37,17 @@ output "versions_ids" {
 
 The following arguments are supported:
 
-* `cluster_id` - (Optional, String) Cluster Id.
-* `cluster_ids` - (Optional, Set: [`String`]) list of cluster IDs.
+* `cluster_id` - (Optional, String) Cluster Id.  cluster_id and cluster_ids must be set only one.
+* `cluster_ids` - (Optional, Set: [`String`]) List of cluster IDs. cluster_id and cluster_ids must be set only one.
 * `result_output_file` - (Optional, String) Used to save results.
 
 ## Attributes Reference
 
 In addition to all arguments above, the following attributes are exported:
 
-* `clusters` - cluster information. Note: This field may return null, indicating that no valid value can be obtained.
+* `clusters` - Cluster information. Note: This field may return null, indicating that no valid value can be obtained.
   * `cluster_id` - Cluster ID.
-  * `versions` - list of cluster major version numbers, for example 1.18.4.
+  * `versions` - List of cluster major version numbers, for example 1.18.4.
 * `versions` - Upgradable cluster version number. Note: This field may return null, indicating that no valid value can be obtained.
 
 

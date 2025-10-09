@@ -1,5 +1,5 @@
 ---
-subcategory: "CFS Turbo(Turbofs)"
+subcategory: "Parallel File Storage(TurboFS)"
 layout: "cloud"
 page_title: "TencentCloud: cloud_turbofs_mount_targets"
 sidebar_current: "docs-cloud-datasource-turbofs_mount_targets"

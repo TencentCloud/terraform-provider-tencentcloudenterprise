@@ -36,7 +36,7 @@ The following arguments are supported:
 In addition to all arguments above, the following attributes are exported:
 
 * `id` - ID of the resource.
-* `ipv6_cidr_block` - ipv6 cidr block.
+* `ipv6_cidr_block` - Ipv6 cidr block.
 
 
 ## Import

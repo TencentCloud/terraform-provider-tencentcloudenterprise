@@ -1,5 +1,5 @@
 ---
-subcategory: "TDSQL for MySQL(DCDB)"
+subcategory: "Distributed Database For MySQL(DCDB)"
 layout: "cloud"
 page_title: "TencentCloud: cloud_dcdb_accounts"
 sidebar_current: "docs-cloud-datasource-dcdb_accounts"
@@ -23,7 +23,7 @@ data "cloud_dcdb_accounts" "foo" {
 
 The following arguments are supported:
 
-* `instance_id` - (Required, String) instance id.
+* `instance_id` - (Required, String) Instance id.
 * `result_output_file` - (Optional, String) Used to save results.
 
 ## Attributes Reference

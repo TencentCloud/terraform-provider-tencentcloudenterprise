@@ -11,7 +11,7 @@ description: |-
 
 Provide a resource to create security group some lite rules quickly.
 
--> **NOTE:** It can't be used with cloud_security_group_rule, and don't create multiple cloud_security_group_rule resources, otherwise it may cause problems.
+-> **NOTE:** It can't be used with cloud_vpc_security_group_rule, and don't create multiple cloud_vpc_security_group_rule resources, otherwise it may cause problems.
 
 ## Example Usage
 
@@ -20,7 +20,7 @@ resource "cloud_vpc_security_group" "foo" {
   name = "ci-temp-test-sg"
 }
 
-resource "cloud_security_group_lite_rule" "foo" {
+resource "cloud_vpc_security_group_lite_rule" "foo" {
   security_group_id = cloud_vpc_security_group.foo.id
 
   ingress = [
@@ -63,6 +63,8 @@ In addition to all arguments above, the following attributes are exported:
 Security group lite rule can be imported using the id, e.g.
 
 ```
-  $ terraform import cloud_security_group_lite_rule.foo sg-ey3wmiz1
+
+	$ terraform import cloud_vpc_security_group_lite_rule.foo sg-ey3wmiz1
+
 ```
 

@@ -24,8 +24,8 @@ resource "cloud_tsf_enable_unit_rule" "enable_unit_rule" {
 
 The following arguments are supported:
 
-* `rule_id` - (Required, String) api ID.
-* `switch` - (Required, String) switch, on: `enabled`, off: `disabled`.
+* `rule_id` - (Required, String) Api ID.
+* `switch` - (Required, String) Switch, on: `enabled`, off: `disabled`.
 
 ## Attributes Reference
 

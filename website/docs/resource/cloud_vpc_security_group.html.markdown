@@ -43,6 +43,8 @@ In addition to all arguments above, the following attributes are exported:
 Security group can be imported using the id, e.g.
 
 ```
-  $ terraform import cloud_vpc_security_group.sglab sg-ey3wmiz1
+
+	$ terraform import cloud_vpc_security_group.sglab sg-ey3wmiz1
+
 ```
 

@@ -1,5 +1,5 @@
 ---
-subcategory: "Cloud Kafka(ckafka)"
+subcategory: "Cloud Kafka(CKafka)"
 layout: "cloud"
 page_title: "TencentCloud: cloud_ckafka_zone"
 sidebar_current: "docs-cloud-datasource-ckafka_zone"
@@ -28,7 +28,7 @@ The following arguments are supported:
 
 In addition to all arguments above, the following attributes are exported:
 
-* `result` - query result complex object entity.
+* `result` - Query result complex object entity.
   * `cluster_info` - User exclusive cluster information.
     * `available_band_width` - The current available bandwidth of the cluster in MBs.
     * `available_disk_size` - The current available disk of the cluster, in GB.
@@ -41,19 +41,19 @@ In addition to all arguments above, the following attributes are exported:
   * `max_bandwidth` - Maximum purchased bandwidth in Mbs.
   * `max_buy_instance_num` - The maximum number of purchased instances.
   * `message_price` - Postpaid message unit price.
-    * `real_total_cost` - discount price.
-    * `total_cost` - original price.
+    * `real_total_cost` - Discount price.
+    * `total_cost` - Original price.
   * `unit_price` - Postpaid unit price.
-    * `real_total_cost` - discount price.
-    * `total_cost` - original price.
-  * `zone_list` - zone list.
-    * `app_id` - app id.
-    * `exflag` - extra flag.
-    * `flag` - flag.
-    * `is_internal_app` - internal APP.
-    * `sold_out` - json object, key is model, value true is sold out, false is not sold out.
-    * `zone_id` - zone id.
-    * `zone_name` - zone name.
-    * `zone_status` - zone status.
+    * `real_total_cost` - Discount price.
+    * `total_cost` - Original price.
+  * `zone_list` - Zone list.
+    * `app_id` - App id.
+    * `exflag` - Extra flag.
+    * `flag` - Flag.
+    * `is_internal_app` - Internal APP.
+    * `sold_out` - Json object, key is model, value true is sold out, false is not sold out.
+    * `zone_id` - Zone id.
+    * `zone_name` - Zone name.
+    * `zone_status` - Zone status.
 
 

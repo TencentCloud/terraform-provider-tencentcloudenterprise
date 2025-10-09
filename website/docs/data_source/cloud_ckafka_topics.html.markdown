@@ -1,5 +1,5 @@
 ---
-subcategory: "Cloud Kafka(ckafka)"
+subcategory: "Cloud Kafka(CKafka)"
 layout: "cloud"
 page_title: "TencentCloud: cloud_ckafka_topics"
 sidebar_current: "docs-cloud-datasource-ckafka_topics"
@@ -43,7 +43,7 @@ The following arguments are supported:
 
 In addition to all arguments above, the following attributes are exported:
 
-* `instance_list` - A list of instances. Each element contains the following attributes.
+* `topic_list` - A list of instances. Each element contains the following attributes.
   * `clean_up_policy` - Clear log policy, log clear mode. `delete`: logs are deleted according to the storage time, `compact`: logs are compressed according to the key, `compact, delete`: logs are compressed according to the key and will be deleted according to the storage time.
   * `create_time` - Create time of the CKafka topic.
   * `enable_white_list` - Whether to open the IP Whitelist. `true`: open, `false`: close.

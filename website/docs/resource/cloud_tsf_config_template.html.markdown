@@ -18,12 +18,12 @@ resource "cloud_tsf_config_template" "config_template" {
   config_template_name  = "terraform-template-name"
   config_template_type  = "Ribbon"
   config_template_value = <<-EOT
-    ribbon.ReadTimeout: 5000
-    ribbon.ConnectTimeout: 2000
-    ribbon.MaxAutoRetries: 0
-    ribbon.MaxAutoRetriesNextServer: 1
-    ribbon.OkToRetryOnAllOperations: true
-  EOT
+	    ribbon.ReadTimeout: 5000
+	    ribbon.ConnectTimeout: 2000
+	    ribbon.MaxAutoRetries: 0
+	    ribbon.MaxAutoRetriesNextServer: 1
+	    ribbon.OkToRetryOnAllOperations: true
+	  EOT
   config_template_desc  = "terraform-test"
 }
 ```
@@ -44,7 +44,7 @@ In addition to all arguments above, the following attributes are exported:
 
 * `id` - ID of the resource.
 * `config_template_id` - Template Id.
-* `create_time` - creation time.
-* `update_time` - update time.
+* `create_time` - Creation time.
+* `update_time` - Update time.
 
 

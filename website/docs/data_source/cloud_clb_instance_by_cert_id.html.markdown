@@ -51,7 +51,7 @@ In addition to all arguments above, the following attributes are exported:
     * `create_time` - CLB instance creation time. Note: This field may return null, indicating that no valid values can be obtained.
     * `domain` - Domain name of the CLB instance. It is only available for public classic CLBs. This parameter will be discontinued soon. Please use LoadBalancerDomain instead. Note: This field may return null, indicating that no valid values can be obtained.
     * `exclusive_cluster` - Private network dedicated cluster. Note: this field may return null, indicating that no valid values can be obtained.
-      * `classical_cluster` - vpcgw cluster. Note: this field may return null, indicating that no valid values can be obtained.
+      * `classical_cluster` - Vpcgw cluster. Note: this field may return null, indicating that no valid values can be obtained.
         * `cluster_id` - Unique cluster ID.
         * `cluster_name` - Cluster name. Note: this field may return null, indicating that no valid values can be obtained.
         * `zone` - Cluster AZ, such as ap-guangzhou-1. Note: this field may return null, indicating that no valid values can be obtained.

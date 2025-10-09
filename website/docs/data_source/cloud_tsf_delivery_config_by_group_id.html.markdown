@@ -23,14 +23,14 @@ data "cloud_tsf_delivery_config_by_group_id" "delivery_config_by_group_id" {
 
 The following arguments are supported:
 
-* `group_id` - (Required, String) groupId.
+* `group_id` - (Required, String) GroupId.
 * `result_output_file` - (Optional, String) Used to save results.
 
 ## Attributes Reference
 
 In addition to all arguments above, the following attributes are exported:
 
-* `result` - configuration item for deliver to a Kafka.
+* `result` - Configuration item for deliver to a Kafka.
   * `config_id` - Config ID. Note: This field may return null, which means that no valid value was obtained.
   * `config_name` - Config Name. Note: This field may return null, which means that no valid value was obtained.
 

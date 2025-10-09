@@ -29,20 +29,20 @@ resource "cloud_cls_export" "export" {
 
 The following arguments are supported:
 
-* `from` - (Required, Int, ForceNew) Export start time.
-* `log_count` - (Required, Int, ForceNew) Export amount of log.
-* `query` - (Required, String, ForceNew) Export query rules.
-* `to` - (Required, Int, ForceNew) Export end time.
-* `topic_id` - (Required, String, ForceNew) Topic id.
-* `format` - (Optional, String, ForceNew) Log export format.
-* `order` - (Optional, String, ForceNew) Log export time sorting. desc or asc.
+* `from` - (Required, Int, ForceNew) Log export start time, millisecond timestamp.
+* `log_count` - (Required, Int, ForceNew) Number of logs to export, maximum value is 10 million.
+* `query` - (Required, String, ForceNew) Log export search statement, SQL statements are not supported.
+* `to` - (Required, Int, ForceNew) Log export end time, millisecond timestamp.
+* `topic_id` - (Required, String, ForceNew) Log topic ID.
+* `format` - (Optional, String, ForceNew) Log export data format. json, csv, default is json.
+* `order` - (Optional, String, ForceNew) Log export time sorting. desc, asc, default is desc.
 
 ## Attributes Reference
 
 In addition to all arguments above, the following attributes are exported:
 
 * `id` - ID of the resource.
-
+* `export_id` - Log export ID.
 
 
 ## Import

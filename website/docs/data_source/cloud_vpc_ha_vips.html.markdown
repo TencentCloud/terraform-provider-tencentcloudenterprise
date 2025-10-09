@@ -14,7 +14,7 @@ Use this data source to query detailed information of HA VIPs.
 ## Example Usage
 
 ```hcl
-data "cloud_ha_vips" "havips" {
+data "cloud_vpc_ha_vips" "havips" {
   id         = "havip-kjqwe4ba"
   name       = "test"
   vpc_id     = "vpc-gzea3dd7"

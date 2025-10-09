@@ -1,5 +1,5 @@
 ---
-subcategory: "TDSQL for MySQL(DCDB)"
+subcategory: "Distributed Database For MySQL(DCDB)"
 layout: "cloud"
 page_title: "TencentCloud: cloud_dcdb_instances"
 sidebar_current: "docs-cloud-datasource-dcdb_instances"
@@ -43,65 +43,65 @@ data "cloud_dcdb_instances" "instances3" {
 
 The following arguments are supported:
 
-* `excluster_type` - (Optional, Int) cluster excluster type.
-* `instance_ids` - (Optional, Set: [`String`]) instance ids.
-* `is_filter_excluster` - (Optional, Bool) search according to the cluster excluter type.
-* `is_filter_vpc` - (Optional, Bool) search according to the vpc.
-* `project_ids` - (Optional, Set: [`Int`]) project ids.
+* `excluster_type` - (Optional, Int) Cluster excluster type.
+* `instance_ids` - (Optional, Set: [`String`]) Instance ids.
+* `is_filter_excluster` - (Optional, Bool) Search according to the cluster excluter type.
+* `is_filter_vpc` - (Optional, Bool) Search according to the vpc.
+* `project_ids` - (Optional, Set: [`Int`]) Project ids.
 * `result_output_file` - (Optional, String) Used to save results.
-* `search_key` - (Optional, String) search key, support fuzzy query.
-* `search_name` - (Optional, String) search name, support instancename, vip, all.
-* `subnet_id` - (Optional, String) subnet id, valid when IsFilterVpc is true.
-* `vpc_id` - (Optional, String) vpc id, valid when IsFilterVpc is true.
+* `search_key` - (Optional, String) Search key, support fuzzy query.
+* `search_name` - (Optional, String) Search name, support instancename, vip, all.
+* `subnet_id` - (Optional, String) Subnet id, valid when IsFilterVpc is true.
+* `vpc_id` - (Optional, String) Vpc id, valid when IsFilterVpc is true.
 
 ## Attributes Reference
 
 In addition to all arguments above, the following attributes are exported:
 
-* `list` - instance list.
-  * `app_id` - app id.
-  * `auto_renew_flag` - auto renew flag.
-  * `create_time` - create time.
-  * `db_engine` - db engine.
-  * `db_version` - db engine version.
-  * `instance_id` - instance id.
-  * `instance_name` - instance name.
-  * `instance_type` - instance type.
-  * `is_audit_supported` - aduit support, 0:support, 1:unsupport.
-  * `is_tmp` - tmp instance mark.
-  * `isolated_timestamp` - isolated time.
-  * `memory` - memory, the unit is GB.
-  * `node_count` - node count.
-  * `paymode` - pay mode.
-  * `period_end_time` - expired time.
-  * `project_id` - project id.
-  * `region` - region.
-  * `resource_tags` - resource tags.
-    * `tag_key` - tag key.
-    * `tag_value` - tag value.
-  * `shard_count` - shard count.
-  * `shard_detail` - shard detail.
-    * `cpu` - cpu cores.
-    * `createtime` - shard create time.
-    * `memory` - memory.
-    * `node_count` - node count.
-    * `shard_id` - shard id.
-    * `shard_instance_id` - shard instance id.
-    * `shard_serial_id` - shard serial id.
-    * `status` - shard status.
-    * `storage` - storage.
-  * `status_desc` - status description.
-  * `status` - status.
-  * `storage` - memory, the unit is GB.
-  * `subnet_id` - subnet id.
-  * `uin` - account uin.
-  * `update_time` - update time.
-  * `vip` - vip.
-  * `vpc_id` - vpc id.
-  * `vport` - vport.
-  * `wan_domain` - wan domain.
-  * `wan_port` - wan port.
-  * `wan_status` - wan status, 0:nonactivated, 1:activated, 2:closed, 3:activating.
-  * `wan_vip` - wan vip.
+* `list` - Instance list.
+  * `app_id` - App id.
+  * `auto_renew_flag` - Auto renew flag.
+  * `create_time` - Create time.
+  * `db_engine` - Db engine.
+  * `db_version` - Db engine version.
+  * `instance_id` - Instance id.
+  * `instance_name` - Instance name.
+  * `instance_type` - Instance type.
+  * `is_audit_supported` - Aduit support, 0:support, 1:unsupport.
+  * `is_tmp` - Tmp instance mark.
+  * `isolated_timestamp` - Isolated time.
+  * `memory` - Memory, the unit is GB.
+  * `node_count` - Node count.
+  * `paymode` - Pay mode.
+  * `period_end_time` - Expired time.
+  * `project_id` - Project id.
+  * `region` - Region.
+  * `resource_tags` - Resource tags.
+    * `tag_key` - Tag key.
+    * `tag_value` - Tag value.
+  * `shard_count` - Shard count.
+  * `shard_detail` - Shard detail.
+    * `cpu` - Cpu cores.
+    * `createtime` - Shard create time.
+    * `memory` - Memory.
+    * `node_count` - Node count.
+    * `shard_id` - Shard id.
+    * `shard_instance_id` - Shard instance id.
+    * `shard_serial_id` - Shard serial id.
+    * `status` - Shard status.
+    * `storage` - Storage.
+  * `status_desc` - Status description.
+  * `status` - Status.
+  * `storage` - Memory, the unit is GB.
+  * `subnet_id` - Subnet id.
+  * `uin` - Account uin.
+  * `update_time` - Update time.
+  * `vip` - Vip.
+  * `vpc_id` - Vpc id.
+  * `vport` - Vport.
+  * `wan_domain` - Wan domain.
+  * `wan_port` - Wan port.
+  * `wan_status` - Wan status, 0:nonactivated, 1:activated, 2:closed, 3:activating.
+  * `wan_vip` - Wan vip.
 
 

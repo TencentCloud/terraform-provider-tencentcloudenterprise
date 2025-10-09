@@ -31,11 +31,11 @@ resource "cloud_tsf_application_config" "application_config" {
 The following arguments are supported:
 
 * `application_id` - (Required, String) Application ID.
-* `config_name` - (Required, String) configuration item name.
-* `config_value` - (Required, String) configuration item value.
-* `config_version` - (Required, String) configuration item version.
-* `config_type` - (Optional, String) configuration item value type.
-* `config_version_desc` - (Optional, String) configuration item version description.
+* `config_name` - (Required, String) Configuration item name.
+* `config_value` - (Required, String) Configuration item value.
+* `config_version` - (Required, String) Configuration item version.
+* `config_type` - (Optional, String) Configuration item value type.
+* `config_version_desc` - (Optional, String) Configuration item version description.
 * `encode_with_base64` - (Optional, Bool) Base64 encoded configuration items.
 
 ## Attributes Reference

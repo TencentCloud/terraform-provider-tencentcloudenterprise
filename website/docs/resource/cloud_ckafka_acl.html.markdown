@@ -1,5 +1,5 @@
 ---
-subcategory: "Cloud Kafka(ckafka)"
+subcategory: "Cloud Kafka(CKafka)"
 layout: "cloud"
 page_title: "TencentCloud: cloud_ckafka_acl"
 sidebar_current: "docs-cloud-resource-ckafka_acl"
@@ -13,7 +13,7 @@ Provides a resource to create a Ckafka Acl.
 
 ## Example Usage
 
-### Ckafka Acl
+### # Ckafka Acl
 
 ```hcl
 resource "cloud_ckafka_acl" "foo" {
@@ -32,10 +32,10 @@ resource "cloud_ckafka_acl" "foo" {
 The following arguments are supported:
 
 * `instance_id` - (Required, String, ForceNew) ID of the ckafka instance.
-* `operation_type` - (Required, String, ForceNew) ACL operation mode. Valid values: `UNKNOWN`, `ANY`, `ALL`, `READ`, `WRITE`, `CREATE`, `DELETE`, `ALTER`, `DESCRIBE`, `CLUSTER_ACTION`, `DESCRIBE_CONFIGS` and `ALTER_CONFIGS`.
-* `permission_type` - (Required, String, ForceNew) ACL permission type. Valid values: `UNKNOWN`, `ANY`, `DENY`, `ALLOW`. and `ALLOW` by default. Currently, CKafka supports `ALLOW` (equivalent to allow list), and other fields will be used for future ACLs compatible with open-source Kafka.
-* `resource_type_name` - (Required, String, ForceNew) ACL resource name, which is related to `resource_type`. For example, if `resource_type` is `TOPIC`, this field indicates the topic name; if `resource_type` is `GROUP`, this field indicates the group name.
-* `resource_type` - (Required, String, ForceNew) ACL resource type. Valid values are `UNKNOWN`, `ANY`, `TOPIC`, `GROUP`, `CLUSTER`, `TRANSACTIONAL_ID`. and `TOPIC` by default. Currently, only `TOPIC` is available, and other fields will be used for future ACLs compatible with open-source Kafka.
+* `operation_type` - (Required, String, ForceNew) ACL operation mode. Valid values: `READ`, `WRITE`.
+* `permission_type` - (Required, String, ForceNew) ACL permission type. Valid values: `DENY`, `ALLOW`. and `ALLOW` by default. Currently, CKafka supports `ALLOW` (equivalent to allow list), and other fields will be used for future ACLs compatible with open-source Kafka.
+* `resource_type_name` - (Required, String, ForceNew) ACL resource name, which is related to `resource_type`. For example, if `resource_type` is `TOPIC`, this field indicates the topic name;.
+* `resource_type` - (Required, String, ForceNew) ACL resource type.  `TOPIC` by default. Currently, only `TOPIC` is available, and other fields will be used for future ACLs compatible with open-source Kafka.
 * `host` - (Optional, String, ForceNew) IP address allowed to access. The default value is `*`, which means that any host can access.
 * `principal` - (Optional, String, ForceNew) User list. The default value is `*`, which means that any user can access. The current user can only be one included in the user list.
 

@@ -24,8 +24,8 @@ resource "cloud_tsf_bind_api_group" "bind_api_group" {
 
 The following arguments are supported:
 
-* `gateway_deploy_group_id` - (Required, String, ForceNew) gateway group id.
-* `group_id` - (Required, String, ForceNew) group id.
+* `gateway_deploy_group_id` - (Required, String, ForceNew) Gateway group id.
+* `group_id` - (Required, String, ForceNew) Group id.
 
 ## Attributes Reference
 

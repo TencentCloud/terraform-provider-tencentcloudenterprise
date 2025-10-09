@@ -31,11 +31,11 @@ resource "cloud_vpc_dc_gateway" "vpc_main" {
 
 The following arguments are supported:
 
+* `gateway_type` - (Required, String) Type of the gateway. Valid value: `NORMAL` and `NAT`. Default is `NORMAL`.
 * `name` - (Required, String) Name of the DCG.
-* `network_instance_id` - (Required, String, ForceNew) If the `network_type` value is `VPC`, the available value is VPC ID. But when the `network_type` value is `CCN`, the available value is CCN instance ID.
-* `network_type` - (Required, String, ForceNew) Type of associated network. Valid value: `VPC` and `CCN`.
-* `band_with` - (Optional, Int) the bandwith speed limit of the gateway.
-* `gateway_type` - (Optional, String, ForceNew) Type of the gateway. Valid value: `NORMAL` and `NAT`. Default is `NORMAL`. NOTES: CCN only supports `NORMAL` and a VPC can create two DCGs, the one is NAT type and the other is non-NAT type.
+* `network_instance_id` - (Required, String, ForceNew) If the `network_type` value is `VPC`, the available value is VPC ID.
+* `network_type` - (Required, String, ForceNew) Type of associated network. Valid value: `VPC`.
+* `band_with` - (Optional, Int) The bandwith speed limit of the gateway.
 
 ## Attributes Reference
 

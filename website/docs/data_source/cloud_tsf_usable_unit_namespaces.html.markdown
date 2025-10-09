@@ -24,17 +24,17 @@ data "cloud_tsf_usable_unit_namespaces" "usable_unit_namespaces" {
 The following arguments are supported:
 
 * `result_output_file` - (Optional, String) Used to save results.
-* `search_word` - (Optional, String) search by namespace id or namespace Name.
+* `search_word` - (Optional, String) Search by namespace id or namespace Name.
 
 ## Attributes Reference
 
 In addition to all arguments above, the following attributes are exported:
 
-* `result` - namespace object list.
-  * `content` - namespace list.
+* `result` - Namespace object list.
+  * `content` - Namespace list.
     * `id` - Unit namespace ID. Note: This field may return null, indicating that no valid value was found.
-    * `namespace_id` - namespace id.
-    * `namespace_name` - namespace name.
-  * `total_count` - total count.
+    * `namespace_id` - Namespace id.
+    * `namespace_name` - Namespace name.
+  * `total_count` - Total count.
 
 

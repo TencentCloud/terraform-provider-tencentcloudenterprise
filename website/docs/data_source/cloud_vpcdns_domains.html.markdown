@@ -1,5 +1,5 @@
 ---
-subcategory: "Virtual Private Cloud DNS(VPCDNS)"
+subcategory: "Virtual Private Cloud Domain Name System(VPCDNS)"
 layout: "cloud"
 page_title: "TencentCloud: cloud_vpcdns_domains"
 sidebar_current: "docs-cloud-datasource-vpcdns_domains"
@@ -14,7 +14,7 @@ Provide a resource to query VPCDNS domain.
 ## Example Usage
 
 ```hcl
-data "cloud_vpcdns_domain" "foo" {
+data "cloud_vpcdns_domains" "foo" {
   domain = "brucezylin.cc"
 }
 ```
@@ -30,14 +30,14 @@ The following arguments are supported:
 
 In addition to all arguments above, the following attributes are exported:
 
-* `list` - list of domain.
-  * `create_time` - create time of domain.
-  * `dns_forward_status` - dns forward status of domain.
+* `list` - List of domain.
+  * `create_time` - Create time of domain.
+  * `dns_forward_status` - Dns forward status of domain.
   * `domain_id` - ID of the domain.
-  * `domain` - content of domain.
-  * `record_count` - record count of domain.
-  * `remark` - remark of domain.
-  * `update_time` - update time of domain.
+  * `domain` - Content of domain.
+  * `record_count` - Record count of domain.
+  * `remark` - Remark of domain.
+  * `update_time` - Update time of domain.
 
 
 ## Import

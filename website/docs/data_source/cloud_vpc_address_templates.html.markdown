@@ -14,7 +14,7 @@ Use this data source to query detailed information of address templates.
 ## Example Usage
 
 ```hcl
-data "cloud_address_templates" "name" {
+data "cloud_vpc_address_templates" "name" {
   name = "test"
 }
 ```

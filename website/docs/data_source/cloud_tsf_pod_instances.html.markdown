@@ -32,7 +32,7 @@ The following arguments are supported:
 
 In addition to all arguments above, the following attributes are exported:
 
-* `result` - pod instance list.
+* `result` - Pod instance list.
   * `content` - Content list.Note: This field may return null, which means no valid value was found.
     * `created_at` - Instance start time.Note: This field may return null, which means no valid value was found.
     * `instance_available_status` - Instance available status.Note: This field may return null, which means no valid value was found.

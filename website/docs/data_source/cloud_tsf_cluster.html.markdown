@@ -38,13 +38,13 @@ In addition to all arguments above, the following attributes are exported:
 
 * `result` - TSF cluster pagination object. Note: This field may return null, indicating no valid value.
   * `content` - Cluster list. Note: This field may return null, indicating no valid values.
-    * `cluster_cidr` - cluster CIDR. Note: This field may return null, indicating no valid value.
+    * `cluster_cidr` - Cluster CIDR. Note: This field may return null, indicating no valid value.
     * `cluster_desc` - Cluster description. Note: This field may return null, indicating no valid value.
     * `cluster_id` - Cluster ID. Note: This field may return null, indicating no valid value.
     * `cluster_limit_cpu` - Maximum CPU limit of the cluster, in cores. This field may return null, indicating that no valid value was found.
     * `cluster_limit_mem` - Cluster maximum memory limit in GB. This field may return null, indicating that no valid value was found.
     * `cluster_name` - Cluster name. Note: This field may return null, indicating no valid value.
-    * `cluster_status` - cluster status. Note: This field may return null, indicating no valid value.
+    * `cluster_status` - Cluster status. Note: This field may return null, indicating no valid value.
     * `cluster_total_cpu` - Total CPU of the cluster, unit: cores. Note: This field may return null, indicating that no valid value was found.
     * `cluster_total_mem` - Total memory of the cluster, unit: G. Note: This field may return null, indicating that no valid value is obtained.
     * `cluster_type` - Cluster type. Note: This field may return null, indicating no valid value.
@@ -72,11 +72,11 @@ In addition to all arguments above, the following attributes are exported:
     * `run_instance_count` - Cluster running instance number. This field may return null, indicating no valid value.
     * `run_service_instance_count` - Number of available service instances in the cluster. Note: This field may return null, indicating no valid value.
     * `subnet_id` - Cluster subnet ID. Note: This field may return null, indicating no valid values.
-    * `tsf_region_id` - region ID of TSF.  Note: This field may return null, indicating that no valid values can be obtained.
-    * `tsf_region_name` - region name of TSF.  Note: This field may return null, indicating that no valid values can be obtained.
+    * `tsf_region_id` - Region ID of TSF.  Note: This field may return null, indicating that no valid values can be obtained.
+    * `tsf_region_name` - Region name of TSF.  Note: This field may return null, indicating that no valid values can be obtained.
     * `tsf_zone_id` - Zone Id of TSF.  Note: This field may return null, indicating that no valid values can be obtained.
     * `tsf_zone_name` - Zone name of TSF.  Note: This field may return null, indicating that no valid values can be obtained.
-    * `update_time` - last update time.  Note: This field may return null, indicating that no valid values can be obtained.
+    * `update_time` - Last update time.  Note: This field may return null, indicating that no valid values can be obtained.
     * `vpc_id` - Private network ID of the cluster. Note: This field may return null, indicating no valid value.
   * `total_count` - Total number of items. Note: This field may return null, indicating that no valid value was found.
 

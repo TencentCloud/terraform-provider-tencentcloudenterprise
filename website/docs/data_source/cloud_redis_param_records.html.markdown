@@ -1,15 +1,15 @@
 ---
-subcategory: "TencentDB for Redis(crs)"
+subcategory: "Cloud Redis®(Redis)"
 layout: "cloud"
 page_title: "TencentCloud: cloud_redis_param_records"
 sidebar_current: "docs-cloud-datasource-redis_param_records"
 description: |-
-  Use this data source to query detailed information of redis param records
+  Use this data source to query detailed information of param records
 ---
 
 # cloud_redis_param_records
 
-Use this data source to query detailed information of redis param records
+Use this data source to query detailed information of param records
 
 ## Example Usage
 

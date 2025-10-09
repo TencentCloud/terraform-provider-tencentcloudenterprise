@@ -14,7 +14,7 @@ Use this data source to query detailed information of address template groups.
 ## Example Usage
 
 ```hcl
-data "cloud_address_template_groups" "name" {
+data "cloud_vpc_address_template_groups" "name" {
   name = "test"
 }
 ```

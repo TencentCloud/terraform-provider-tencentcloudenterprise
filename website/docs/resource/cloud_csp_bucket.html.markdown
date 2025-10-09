@@ -1,5 +1,5 @@
 ---
-subcategory: "Cloud Object Storage(CSP)"
+subcategory: "Cloud Storage Private(CSP)"
 layout: "cloud"
 page_title: "TencentCloud: cloud_csp_bucket"
 sidebar_current: "docs-cloud-resource-csp_bucket"
@@ -13,7 +13,7 @@ Provides a cos resource to create a COS bucket and set its attributes.
 
 ## Example Usage
 
-### Private Bucket
+### # Private Bucket
 
 ```hcl
 resource "cloud_csp_bucket" "mycsp" {
@@ -22,7 +22,7 @@ resource "cloud_csp_bucket" "mycsp" {
 }
 ```
 
-### Creation of multiple available zone bucket
+### # Creation of multiple available zone bucket
 
 ```hcl
 resource "cloud_csp_bucket" "mycsp" {
@@ -33,7 +33,7 @@ resource "cloud_csp_bucket" "mycsp" {
 }
 ```
 
-### Static Website
+### # Static Website
 
 ```hcl
 resource "cloud_csp_bucket" "mycsp" {
@@ -50,7 +50,7 @@ output "endpoint_test" {
 }
 ```
 
-### Using CORS
+### # Using CORS
 
 ```hcl
 resource "cloud_csp_bucket" "mycsp" {
@@ -67,7 +67,7 @@ resource "cloud_csp_bucket" "mycsp" {
 }
 ```
 
-### Using object lifecycle
+### # Using object lifecycle
 
 ```hcl
 resource "cloud_csp_bucket" "mycsp" {
@@ -77,11 +77,6 @@ resource "cloud_csp_bucket" "mycsp" {
   lifecycle_rules {
     filter_prefix = "path1/"
 
-    transition {
-      date          = "2019-06-01"
-      storage_class = "STANDARD_IA"
-    }
-
     expiration {
       days = 90
     }
@@ -89,7 +84,7 @@ resource "cloud_csp_bucket" "mycsp" {
 }
 ```
 
-### Using custom origin domain settings
+### # Using custom origin domain settings
 
 ```hcl
 resource "cloud_csp_bucket" "with_origin" {
@@ -112,51 +107,30 @@ resource "cloud_csp_bucket" "with_origin" {
 }
 ```
 
-### Using replication
-
-```hcl
-resource "cloud_csp_bucket" "replica1" {
-  bucket            = "tf-replica-foo-1234567890"
-  acl               = "private"
-  versioning_enable = true
-}
-
-resource "cloud_csp_bucket" "with_replication" {
-  bucket            = "tf-bucket-replica-1234567890"
-  acl               = "private"
-  versioning_enable = true
-  replica_role      = "qcs::cam::uin/100000000001:uin/100000000001"
-  replica_rules {
-    id                 = "test-rep1"
-    status             = "Enabled"
-    prefix             = "dist"
-    destination_bucket = "qcs::cos:%s::${cloud_csp_bucket.replica1.bucket}"
-  }
-}
-```
-
-### Setting log status
+### # Setting log status
 
 ```hcl
 resource "cloud_cam_role" "cspLogGrant" {
   name     = "CLS_QcsRole"
   document = <<EOF
-{
-  "version": "2.0",
-  "statement": [
-    {
-      "action": [
-        "name/sts:AssumeRole"
-      ],
-      "effect": "allow",
-      "principal": {
-        "service": [
-          "cls.cloud.tencent.com"
-        ]
-      }
-    }
-  ]
-}
+
+	{
+	  "version": "2.0",
+	  "statement": [
+	    {
+	      "action": [
+	        "name/sts:AssumeRole"
+	      ],
+	      "effect": "allow",
+	      "principal": {
+	        "service": [
+	          "cls.cloud.tencent.com"
+	        ]
+	      }
+	    }
+	  ]
+	}
+
 EOF
 
   description = "csp log enable grant"
@@ -190,17 +164,10 @@ resource "cloud_csp_bucket" "mycsp" {
 The following arguments are supported:
 
 * `bucket` - (Required, String, ForceNew) The name of a bucket to be created. Bucket format should be [custom name]-[appid], for example `mycsp-1258798060`.
-* `acceleration_enable` - (Optional, Bool) Enable bucket acceleration.
 * `acl` - (Optional, String) The canned ACL to apply. Valid values: private, public-read, and public-read-write. Defaults to private.
 * `cors_rules` - (Optional, List) A rule of Cross-Origin Resource Sharing (documented below).
-* `encryption_algorithm` - (Optional, String) The server-side encryption algorithm to use. Valid value is `AES256`.
-* `force_clean` - (Optional, Bool) Force cleanup all objects before delete bucket.
+* `encryption_algorithm` - (Optional, String) The server-side encryption algorithm to use. Valid value is `AES256`, `SM4`.
 * `lifecycle_rules` - (Optional, List) A configuration of object lifecycle management (documented below).
-* `log_enable` - (Optional, Bool) Indicate the access log of this bucket to be saved or not. Default is `false`. If set `true`, the access log will be saved with `log_target_bucket`. To enable log, the full access of log service must be granted. [Full Access Role Policy](https://intl.cloud.tencent.com/document/product/436/16920).
-* `log_prefix` - (Optional, String) The prefix log name which saves the access log of this bucket per 5 minutes. Eg. `MyLogPrefix/`. The log access file format is `log_target_bucket`/`log_prefix`{YYYY}/{MM}/{DD}/{time}_{random}_{index}.gz. Only valid when `log_enable` is `true`.
-* `log_target_bucket` - (Optional, String) The target bucket name which saves the access log of this bucket per 5 minutes. The log access file format is `log_target_bucket`/`log_prefix`{YYYY}/{MM}/{DD}/{time}_{random}_{index}.gz. Only valid when `log_enable` is `true`. User must have full access on this bucket.
-* `replica_role` - (Optional, String) Request initiator identifier, format: `qcs::cam::uin/<owneruin>:uin/<subuin>`. NOTE: only `versioning_enable` is true can configure this argument.
-* `replica_rules` - (Optional, List) List of replica rule. NOTE: only `versioning_enable` is true and `replica_role` set can configure this argument.
 * `tags` - (Optional, Map) The tags of a bucket.
 * `versioning_enable` - (Optional, Bool) Enable bucket versioning.
 * `website` - (Optional, List) A website object(documented below).
@@ -215,46 +182,24 @@ The `cors_rules` object supports the following:
 
 The `expiration` object supports the following:
 
-* `date` - (Optional, String) Specifies the date after which you want the corresponding action to take effect.
 * `days` - (Optional, Int) Specifies the number of days after object creation when the specific rule action takes effect.
 * `delete_marker` - (Optional, Bool) Indicates whether the delete marker of an expired object will be removed.
 
 The `lifecycle_rules` object supports the following:
 
 * `filter_prefix` - (Required, String) Object key prefix identifying one or more objects to which the rule applies.
+* `id` - (Required, String) A unique identifier for the rule. It can be up to 255 characters.
 * `expiration` - (Optional, Set) Specifies a period in the object's expire (documented below).
-* `id` - (Optional, String) A unique identifier for the rule. It can be up to 255 characters.
 * `non_current_expiration` - (Optional, Set) Specifies when non current object versions shall expire.
-* `non_current_transition` - (Optional, Set) Specifies a period in the non current object's transitions.
-* `transition` - (Optional, Set) Specifies a period in the object's transitions (documented below).
 
 The `non_current_expiration` object supports the following:
 
 * `non_current_days` - (Optional, Int) Number of days after non current object creation when the specific rule action takes effect. The maximum value is 3650.
 
-The `non_current_transition` object supports the following:
-
-* `storage_class` - (Required, String) Specifies the storage class to which you want the non current object to transition. Available values include `STANDARD_IA`, `MAZ_STANDARD_IA`, `INTELLIGENT_TIERING`, `MAZ_INTELLIGENT_TIERING`, `ARCHIVE`, `DEEP_ARCHIVE`. For more information, please refer to: https://cloud.tencent.com/document/product/436/33417.
-* `non_current_days` - (Optional, Int) Number of days after non current object creation when the specific rule action takes effect.
-
-The `replica_rules` object supports the following:
-
-* `destination_bucket` - (Required, String) Destination bucket identifier, format: `qcs::cos:<region>::<bucketname-appid>`. NOTE: destination bucket must enable versioning.
-* `status` - (Required, String) Status identifier, available values: `Enabled`, `Disabled`.
-* `destination_storage_class` - (Optional, String) Storage class of destination, available values: `STANDARD`, `INTELLIGENT_TIERING`, `STANDARD_IA`. default is following current class of destination.
-* `id` - (Optional, String) Name of a specific rule.
-* `prefix` - (Optional, String) Prefix matching policy. Policies cannot overlap; otherwise, an error will be returned. To match the root directory, leave this parameter empty.
-
-The `transition` object supports the following:
-
-* `storage_class` - (Required, String) Specifies the storage class to which you want the object to transition. Available values include `STANDARD_IA`, `MAZ_STANDARD_IA`, `INTELLIGENT_TIERING`, `MAZ_INTELLIGENT_TIERING`, `ARCHIVE`, `DEEP_ARCHIVE`. For more information, please refer to: https://cloud.tencent.com/document/product/436/33417.
-* `date` - (Optional, String) Specifies the date after which you want the corresponding action to take effect.
-* `days` - (Optional, Int) Specifies the number of days after object creation when the specific rule action takes effect.
-
 The `website` object supports the following:
 
+* `index_document` - (Required, String) COS returns this index document when requests are made to the root domain or any of the subfolders.
 * `error_document` - (Optional, String) An absolute path to the document to return in case of a 4XX error.
-* `index_document` - (Optional, String) COS returns this index document when requests are made to the root domain or any of the subfolders.
 
 ## Attributes Reference
 

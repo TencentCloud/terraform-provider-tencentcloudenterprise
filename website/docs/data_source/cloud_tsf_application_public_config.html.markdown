@@ -38,18 +38,18 @@ In addition to all arguments above, the following attributes are exported:
 
 * `result` - Paginated global configuration  list. Note: This field may return null, indicating that no valid value can be obtained.
   * `content` - Config list.
-    * `application_id` - application Id. Note: This field may return null, indicating that no valid values can be obtained.
-    * `application_name` - application Id. Note: This field may return null, indicating that no valid values can be obtained.
+    * `application_id` - Application Id. Note: This field may return null, indicating that no valid values can be obtained.
+    * `application_name` - Application Id. Note: This field may return null, indicating that no valid values can be obtained.
     * `config_id` - Config ID. Note: This field may return null, indicating that no valid value can be obtained.
     * `config_name` - Config name. Note: This field may return null, indicating that no valid value can be obtained.
     * `config_type` - Config type. Note: This field may return null, indicating that no valid value can be obtained.
     * `config_value` - Config value. Note: This field may return null, indicating that no valid value can be obtained.
-    * `config_version_count` - config version count.  Note: This field may return null, indicating that no valid values can be obtained.
+    * `config_version_count` - Config version count.  Note: This field may return null, indicating that no valid values can be obtained.
     * `config_version_desc` - Config version description. Note: This field may return null, indicating that no valid value can be obtained.
     * `config_version` - Config version. Note: This field may return null, indicating that no valid value can be obtained.
     * `creation_time` - CreationTime. Note: This field may return null, indicating that no valid values can be obtained.
-    * `delete_flag` - delete flag, true: allow delete; false: delete prohibit.
-    * `last_update_time` - last update time.  Note: This field may return null, indicating that no valid values can be obtained.
+    * `delete_flag` - Delete flag, true: allow delete; false: delete prohibit.
+    * `last_update_time` - Last update time.  Note: This field may return null, indicating that no valid values can be obtained.
   * `total_count` - TsfPageConfig.
 
 

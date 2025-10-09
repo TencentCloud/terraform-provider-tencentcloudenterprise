@@ -1,15 +1,15 @@
 ---
-subcategory: "TencentDB for Redis(crs)"
+subcategory: "Cloud Redis®(Redis)"
 layout: "cloud"
 page_title: "TencentCloud: cloud_redis_startup_instance_operation"
 sidebar_current: "docs-cloud-resource-redis_startup_instance_operation"
 description: |-
-  Provides a resource to create a redis startup_instance_operation
+  Provides a resource to create a startup_instance_operation
 ---
 
 # cloud_redis_startup_instance_operation
 
-Provides a resource to create a redis startup_instance_operation
+Provides a resource to create a startup_instance_operation
 
 ## Example Usage
 

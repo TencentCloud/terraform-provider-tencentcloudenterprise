@@ -14,13 +14,13 @@ Provides a resource to create a NAT forwarding.
 ## Example Usage
 
 ```hcl
-resource "cloud_dnat" "foo" {
+resource "cloud_vpc_dnat" "foo" {
   vpc_id       = "vpc-asg3sfa3"
   nat_id       = "nat-2515tdg"
   protocol     = "tcp"
-  elastic_ip   = "203.0.113.2"
+  elastic_ip   = "203.0.113.1"
   elastic_port = 80
-  private_ip   = "203.0.113.3"
+  private_ip   = "203.0.113.2"
   private_port = 22
   description  = "test"
 }
@@ -52,6 +52,6 @@ In addition to all arguments above, the following attributes are exported:
 NAT forwarding can be imported using the id, e.g.
 
 ```
-$ terraform import cloud_dnat.foo tcp://vpc-asg3sfa3:nat-1asg3t63@127.15.2.3:8080
+$ terraform import cloud_vpc_dnat.foo tcp://vpc-asg3sfa3:nat-1asg3t63@127.15.2.3:8080
 ```
 

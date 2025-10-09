@@ -1,5 +1,5 @@
 ---
-subcategory: "TDSQL for MySQL(DCDB)"
+subcategory: "Distributed Database For MySQL(DCDB)"
 layout: "cloud"
 page_title: "TencentCloud: cloud_dcdb_switch_db_instance_ha_operation"
 sidebar_current: "docs-cloud-resource-dcdb_switch_db_instance_ha_operation"

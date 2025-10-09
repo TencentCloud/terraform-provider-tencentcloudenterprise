@@ -83,7 +83,7 @@ The following arguments are supported:
 * `spot_max_price` - (Optional, String) Max price of a spot instance, is the format of decimal string, for example "0.50". Note: it only works when instance_charge_type is set to `SPOTPAID`.
 * `system_disk_size` - (Optional, Int) Volume of system disk in GB. Default is `50`.
 * `system_disk_type` - (Optional, String) Type of a CVM disk. Valid values: `CLOUD_PREMIUM` and `CLOUD_SSD`. Default is `CLOUD_PREMIUM`. valid when disk_type_policy is ORIGINAL.
-* `user_data` - (Optional, String) ase64-encoded User Data text, the length limit is 16KB.
+* `user_data` - (Optional, String) Ase64-encoded User Data text, the length limit is 16KB.
 
 The `data_disk` object supports the following:
 

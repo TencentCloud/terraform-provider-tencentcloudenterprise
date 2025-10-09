@@ -1,15 +1,15 @@
 ---
-subcategory: "TencentDB for Redis(crs)"
+subcategory: "Cloud Redis®(Redis)"
 layout: "cloud"
 page_title: "TencentCloud: cloud_redis_zone_config"
 sidebar_current: "docs-cloud-datasource-redis_zone_config"
 description: |-
-  Use this data source to query which instance types of Redis are available in a specific region.
+  Use this data source to query which instance types of Redis® are available in a specific region.
 ---
 
 # cloud_redis_zone_config
 
-Use this data source to query which instance types of Redis are available in a specific region.
+Use this data source to query which instance types of Redis® are available in a specific region.
 
 ## Example Usage
 

@@ -1,5 +1,5 @@
 ---
-subcategory: "TDSQL for MySQL(DCDB)"
+subcategory: "Distributed Database For MySQL(DCDB)"
 layout: "cloud"
 page_title: "TencentCloud: cloud_dcdb_parameters"
 sidebar_current: "docs-cloud-datasource-dcdb_parameters"
@@ -23,25 +23,25 @@ data "cloud_dcdb_parameters" "parameters" {
 
 The following arguments are supported:
 
-* `instance_id` - (Required, String) instance id.
+* `instance_id` - (Required, String) Instance id.
 * `result_output_file` - (Optional, String) Used to save results.
 
 ## Attributes Reference
 
 In addition to all arguments above, the following attributes are exported:
 
-* `list` - parameter list.
-  * `constraint` - params constraint.
-    * `enum` - a list of optional values of type num.
-    * `range` - range constraint.
-      * `max` - max value.
-      * `min` - min value.
-    * `string` - constraint type is string.
-    * `type` - type.
-  * `default` - default value.
-  * `have_set_value` - have set value.
-  * `need_restart` - need restart.
-  * `param` - parameter name.
-  * `value` - parameter value.
+* `list` - Parameter list.
+  * `constraint` - Params constraint.
+    * `enum` - A list of optional values of type num.
+    * `range` - Range constraint.
+      * `max` - Max value.
+      * `min` - Min value.
+    * `string` - Constraint type is string.
+    * `type` - Type.
+  * `default` - Default value.
+  * `have_set_value` - Have set value.
+  * `need_restart` - Need restart.
+  * `param` - Parameter name.
+  * `value` - Parameter value.
 
 

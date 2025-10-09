@@ -27,7 +27,7 @@ data "cloud_cbs_storages" "whats_new" {
   charge_type   = ["POSTPAID_BY_HOUR", "PREPAID"]
   portable      = true
   storage_state = ["ATTACHED"]
-  instance_ips  = ["10.0.0.2"]
+  instance_ips  = ["203.0.113.2"]
   instance_name = ["my-instance"]
   tag_keys      = ["foo"]
   tag_values    = ["bar", "baz"]

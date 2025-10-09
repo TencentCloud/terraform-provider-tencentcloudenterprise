@@ -1,5 +1,5 @@
 ---
-subcategory: "Virtual Private Cloud DNS(VPCDNS)"
+subcategory: "Virtual Private Cloud Domain Name System(VPCDNS)"
 layout: "cloud"
 page_title: "TencentCloud: cloud_vpcdns_record"
 sidebar_current: "docs-cloud-resource-vpcdns_record"
@@ -28,11 +28,11 @@ resource "cloud_vpcdns_record" "foo" {
 
 The following arguments are supported:
 
-* `domain_id` - (Required, Int) id of the VpcDns.
-* `record_type` - (Required, String) record type, valid values: A, CNAME, TXT, MX, SRV, AAAA, SPF. Default value: A.
+* `domain_id` - (Required, Int) Id of the VpcDns.
+* `record_type` - (Required, String) Record type, valid values: A, CNAME, TXT, MX, SRV, AAAA, SPF. Default value: A.
+* `sub_domain` - (Required, String) Sub domain.
 * `value` - (Required, String) The value of the VpcDns Record.
 * `mx` - (Optional, Int) The priority of the MX record. Value range: 1-50. Default value: 10.
-* `sub_domain` - (Optional, String) sub domain.
 * `weight` - (Optional, String) The weight of the SRV record. Value range: 1-100. Default value: 10.
 
 ## Attributes Reference

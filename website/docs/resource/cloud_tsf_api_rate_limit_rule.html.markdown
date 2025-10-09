@@ -26,7 +26,7 @@ resource "cloud_tsf_api_rate_limit_rule" "api_rate_limit_rule" {
 The following arguments are supported:
 
 * `api_id` - (Required, String) Api Id.
-* `max_qps` - (Required, Int) qps value.
+* `max_qps` - (Required, Int) Qps value.
 * `usable_status` - (Optional, String) Enabled/disabled, enabled/disabled, if not passed, it is enabled by default.
 
 ## Attributes Reference
@@ -34,13 +34,13 @@ The following arguments are supported:
 In addition to all arguments above, the following attributes are exported:
 
 * `id` - ID of the resource.
-* `created_time` - creation time.
-* `description` - describe.
+* `created_time` - Creation time.
+* `description` - Describe.
 * `rule_content` - Rule content.
-* `rule_id` - rule Id.
+* `rule_id` - Rule Id.
 * `rule_name` - Current limit name.
 * `tsf_rule_id` - Tsf Rule ID.
-* `updated_time` - update time.
+* `updated_time` - Update time.
 
 
 ## Import

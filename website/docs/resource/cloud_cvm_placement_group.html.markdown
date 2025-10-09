@@ -14,7 +14,7 @@ Provide a resource to create a placement group.
 ## Example Usage
 
 ```hcl
-resource "cloud_placement_group" "foo" {
+resource "cloud_cvm_placement_group" "foo" {
   name = "test"
   type = "HOST"
 }
@@ -26,7 +26,7 @@ The following arguments are supported:
 
 * `name` - (Required, String) Name of the placement group, 1-60 characters in length.
 * `type` - (Required, String, ForceNew) Type of the placement group. Valid values: `HOST`, `SW` and `RACK`.
-* `strategy` - (Optional, String) Types are: `SPREAD`,`FORCED_AFFINITY`.
+* `strategy` - (Optional, String) Types are: `SPREAD`,`WEAK_SPREAD`,`AFFINITY` and `WEAK_AFFINITY`.
 
 ## Attributes Reference
 
@@ -43,6 +43,6 @@ In addition to all arguments above, the following attributes are exported:
 Placement group can be imported using the id, e.g.
 
 ```
-$ terraform import cloud_placement_group.foo ps-ilan8vjf
+$ terraform import cloud_cvm_placement_group.foo ps-ilan8vjf
 ```
 

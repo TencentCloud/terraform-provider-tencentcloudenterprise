@@ -32,14 +32,14 @@ resource "cloud_tsf_api_group" "api_group" {
 
 The following arguments are supported:
 
-* `group_context` - (Required, String) grouping context.
-* `group_name` - (Required, String) group name, cannot contain Chinese.
-* `auth_type` - (Optional, String) authentication type. secret: key authentication; none: no authentication.
-* `description` - (Optional, String) remarks.
-* `gateway_instance_id` - (Optional, String) gateway entity ID.
-* `group_type` - (Optional, String) grouping type, default ms. ms: microservice grouping; external: external Api grouping.
-* `namespace_name_key_position` - (Optional, String) namespace parameter position, path, header or query, the default is path.
-* `service_name_key_position` - (Optional, String) microservice name parameter position, path, header or query, the default is path.
+* `group_context` - (Required, String) Grouping context.
+* `group_name` - (Required, String) Group name, cannot contain Chinese.
+* `auth_type` - (Optional, String) Authentication type. secret: key authentication; none: no authentication.
+* `description` - (Optional, String) Remarks.
+* `gateway_instance_id` - (Optional, String) Gateway entity ID.
+* `group_type` - (Optional, String) Grouping type, default ms. ms: microservice grouping; external: external Api grouping.
+* `namespace_name_key_position` - (Optional, String) Namespace parameter position, path, header or query, the default is path.
+* `service_name_key_position` - (Optional, String) Microservice name parameter position, path, header or query, the default is path.
 
 ## Attributes Reference
 
@@ -47,9 +47,9 @@ In addition to all arguments above, the following attributes are exported:
 
 * `id` - ID of the resource.
 * `acl_mode` - Access group ACL type.
-* `api_count` - number of APIs.
-* `binded_gateway_deploy_groups` - api group bound gateway deployment group.
-  * `application_id` - application ID.
+* `api_count` - Number of APIs.
+* `binded_gateway_deploy_groups` - Api group bound gateway deployment group.
+  * `application_id` - Application ID.
   * `application_name` - Application Name.
   * `application_type` - Application classification: V: virtual machine application, C: container application.
   * `cluster_type` - Cluster type, C: container, V: virtual machine.

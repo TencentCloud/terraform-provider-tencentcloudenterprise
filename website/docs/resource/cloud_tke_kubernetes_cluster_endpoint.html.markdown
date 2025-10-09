@@ -18,7 +18,7 @@ Provide a resource to create a KubernetesClusterEndpoint. This resource allows y
 ```hcl
 resource "cloud_kubernetes_node_pool" "pool1" {}
 
-resource "cloud_kubernetes_cluster_endpoint" "foo" {
+resource "cloud_tke_kubernetes_cluster_endpoint" "foo" {
   cluster_id       = "cls-xxxxxxxx"
   cluster_internet = true
   cluster_intranet = true
@@ -44,22 +44,20 @@ The following arguments are supported:
 * `cluster_intranet_subnet_id` - (Optional, String) Subnet id who can access this independent cluster, this field must and can only set  when `cluster_intranet` is true. `cluster_intranet_subnet_id` can not modify once be set.
 * `cluster_intranet` - (Optional, Bool) Open intranet access or not.
 * `extensive_parameters` - (Optional, String, ForceNew) The LB parameter. Only used for public network access.
-* `managed_cluster_internet_security_policies` - (Optional, List: [`String`], **Deprecated**) this argument was deprecated, use `cluster_internet_security_group` instead. Security policies for managed cluster internet, like:'192.168.1.0/24' or '113.116.51.27', '0.0.0.0/0' means all. This field can only set when field `cluster_deploy_type` is 'MANAGED_CLUSTER' and `cluster_internet` is true. `managed_cluster_internet_security_policies` can not delete or empty once be set.
+* `managed_cluster_internet_security_policies` - (Optional, List: [`String`], **Deprecated**) this argument was deprecated, use `cluster_internet_security_group` instead. Security policies for managed cluster internet, like:'192.168.1.0/24' or '203.0.113.27', '0.0.0.0/0' means all. This field can only set when field `cluster_deploy_type` is 'MANAGED_CLUSTER' and `cluster_internet` is true. `managed_cluster_internet_security_policies` can not delete or empty once be set.
 
 ## Attributes Reference
 
 In addition to all arguments above, the following attributes are exported:
 
 * `id` - ID of the resource.
-* `cluster_deploy_type` - Cluster deploy type of `MANAGED_CLUSTER` or `INDEPENDENT_CLUSTER`.
-* `cluster_external_endpoint` - External network address to access.
-* `domain` - Domain name for access.
+
 
 
 ## Import
 
 KubernetesClusterEndpoint instance can be imported by passing cluster id, e.g.
 ```
-$ terraform import cloud_kubernetes_cluster_endpoint.test cluster-id
+$ terraform import cloud_tke_kubernetes_cluster_endpoint.test cluster-id
 ```
 

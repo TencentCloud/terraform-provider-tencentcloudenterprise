@@ -1,5 +1,5 @@
 ---
-subcategory: "TencentDB for Redis(crs)"
+subcategory: "Cloud Redis®(Redis)"
 layout: "cloud"
 page_title: "TencentCloud: cloud_redis_backup"
 sidebar_current: "docs-cloud-datasource-redis_backup"
@@ -27,10 +27,9 @@ data "cloud_redis_backup" "backup" {
 
 The following arguments are supported:
 
-* `begin_time` - (Optional, String) start time, such as 2017-02-08 19:09:26.Query the list of backups that the instance started backing up during the [beginTime, endTime] time period.
+* `instance_id` - (Required, String) The ID of instance.
+* `begin_time` - (Optional, String) Start time, such as 2017-02-08 19:09:26.Query the list of backups that the instance started backing up during the [beginTime, endTime] time period.
 * `end_time` - (Optional, String) End time, such as 2017-02-08 19:09:26.Query the list of backups that the instance started backing up during the [beginTime, endTime] time period.
-* `instance_id` - (Optional, String) The ID of instance.
-* `instance_name` - (Optional, String) Instance name, which supports fuzzy search based on instance name.
 * `result_output_file` - (Optional, String) Used to save results.
 * `status` - (Optional, Set: [`Int`]) Status of the backup task:1: Backup is in the process.2: The backup is normal.3: Backup to RDB file processing.4: RDB conversion completed.-1: The backup has expired.-2: Backup deleted.
 

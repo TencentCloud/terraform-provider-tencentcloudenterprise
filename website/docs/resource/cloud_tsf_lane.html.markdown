@@ -36,26 +36,26 @@ The `lane_group_list` object supports the following:
 
 * `entrance` - (Required, Bool) Whether to enter the application.
 * `group_id` - (Required, String) Deployment group ID.
-* `application_id` - (Optional, String) application ID.
-* `application_name` - (Optional, String) application name.
-* `cluster_type` - (Optional, String) cluster type.
-* `create_time` - (Optional, Int) creation time.
-* `group_name` - (Optional, String) deployment group name.
+* `application_id` - (Optional, String) Application ID.
+* `application_name` - (Optional, String) Application name.
+* `cluster_type` - (Optional, String) Cluster type.
+* `create_time` - (Optional, Int) Creation time.
+* `group_name` - (Optional, String) Deployment group name.
 * `lane_group_id` - (Optional, String) Swimlane deployment group ID.
 * `lane_id` - (Optional, String) Lane ID.
 * `namespace_id` - (Optional, String) Namespace ID.
-* `namespace_name` - (Optional, String) namespace name.
-* `update_time` - (Optional, Int) update time.
+* `namespace_name` - (Optional, String) Namespace name.
+* `update_time` - (Optional, Int) Update time.
 
 ## Attributes Reference
 
 In addition to all arguments above, the following attributes are exported:
 
 * `id` - ID of the resource.
-* `create_time` - creation time.
+* `create_time` - Creation time.
 * `entrance` - Whether to enter the application.
 * `lane_id` - Lane id.
 * `namespace_id_list` - A list of namespaces to which the swimlane has associated deployment groups.
-* `update_time` - update time.
+* `update_time` - Update time.
 
 

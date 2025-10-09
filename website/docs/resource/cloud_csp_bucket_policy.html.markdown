@@ -1,5 +1,5 @@
 ---
-subcategory: "Cloud Object Storage(CSP)"
+subcategory: "Cloud Storage Private(CSP)"
 layout: "cloud"
 page_title: "TencentCloud: cloud_csp_bucket_policy"
 sidebar_current: "docs-cloud-resource-csp_bucket_policy"
@@ -18,26 +18,28 @@ resource "cloud_csp_bucket_policy" "csp_policy" {
   bucket = "mycsp-1258798060"
 
   policy = <<EOF
-{
-  "version": "2.0",
-  "Statement": [
-    {
-      "Principal": {
-        "qcs": [
-          "qcs::cam::uin/<your-account-id>:uin/<your-account-id>"
-        ]
-      },
-      "Action": [
-        "name/csp:DeleteBucket",
-        "name/csp:PutBucketACL"
-      ],
-      "Effect": "allow",
-      "Resource": [
-        "qcs::csp:<bucket region>:uid/<your-account-id>:<bucket name>/*"
-      ]
-    }
-  ]
-}
+
+	{
+	  "version": "2.0",
+	  "Statement": [
+	    {
+	      "Principal": {
+	        "qcs": [
+	          "qcs::cam::uin/<your-account-id>:uin/<your-account-id>"
+	        ]
+	      },
+	      "Action": [
+	        "name/csp:DeleteBucket",
+	        "name/csp:PutBucketACL"
+	      ],
+	      "Effect": "allow",
+	      "Resource": [
+	        "qcs::csp:<bucket region>:uid/<your-account-id>:<bucket name>/*"
+	      ]
+	    }
+	  ]
+	}
+
 EOF
 }
 ```

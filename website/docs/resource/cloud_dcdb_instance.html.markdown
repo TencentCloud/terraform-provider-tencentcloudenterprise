@@ -1,5 +1,5 @@
 ---
-subcategory: "TDSQL for MySQL(DCDB)"
+subcategory: "Distributed Database For MySQL(DCDB)"
 layout: "cloud"
 page_title: "TencentCloud: cloud_dcdb_instance"
 sidebar_current: "docs-cloud-resource-dcdb_instance"
@@ -45,25 +45,25 @@ resource "cloud_dcdb_instance" "hourdb_instance" {
 The following arguments are supported:
 
 * `init_params` - (Required, List) The optional values for this interface are: character_set_server (character set,required), lower_case_table_names (case sensitivity of table names, required, 0 - sensitive; 1 - insensitive), innodb_page_size (innodb data page, default 16K), sync_mode (synchronization mode: 0 - asynchronous; 1 - strong synchronization; 2 - degradable strong synchronization. Default is strong synchronization).
-* `shard_count` - (Required, Int) instance shard count.
-* `shard_memory` - (Required, Int) memory(GB) for each shard. It can be obtained by querying api DescribeShardSpec.
-* `shard_node_count` - (Required, Int) node count for each shard. It can be obtained by querying api DescribeShardSpec.
-* `shard_storage` - (Required, Int) storage(GB) for each shard. It can be obtained by querying api DescribeShardSpec.
-* `subnet_id` - (Required, String) subnet id, its required when vpcId is set.
-* `vpc_id` - (Required, String) vpc id.
-* `zones` - (Required, Set: [`String`]) available zone.
-* `cpu_arch` - (Optional, String) cpu architecture, default to x86_64.
-* `db_version_id` - (Optional, String) db engine version, default to Percona 5.7.17.
+* `shard_count` - (Required, Int) Instance shard count.
+* `shard_memory` - (Required, Int) Memory(GB) for each shard. It can be obtained by querying api DescribeShardSpec.
+* `shard_node_count` - (Required, Int) Node count for each shard. It can be obtained by querying api DescribeShardSpec.
+* `shard_storage` - (Required, Int) Storage(GB) for each shard. It can be obtained by querying api DescribeShardSpec.
+* `subnet_id` - (Required, String) Subnet id, its required when vpcId is set.
+* `vpc_id` - (Required, String) Vpc id.
+* `zones` - (Required, Set: [`String`]) Available zone.
+* `cpu_arch` - (Optional, String) Cpu architecture, default to x86_64.
+* `db_version_id` - (Optional, String) Db engine version, default to Percona 5.7.17.
 * `dcn_instance_id` - (Optional, String) DCN source instance ID.
 * `dcn_region` - (Optional, String) DCN source region.
 * `extranet_access` - (Optional, Bool) Whether to open the extranet access.
-* `instance_count` - (Optional, Int) instance count, default to 1.
-* `instance_name` - (Optional, String) name of this instance.
+* `instance_count` - (Optional, Int) Instance count, default to 1.
+* `instance_name` - (Optional, String) Name of this instance.
 * `ipv6_flag` - (Optional, Int) Whether to support IPv6.
-* `project_id` - (Optional, String) project id.
-* `resource_tags` - (Optional, List) resource tags.
-* `security_group_id` - (Optional, String) security group id.
-* `shard_cpu` - (Optional, Int) cpu core for each shard. It can be obtained by querying api DescribeShardSpec.
+* `project_id` - (Optional, String) Project id.
+* `resource_tags` - (Optional, List) Resource tags.
+* `security_group_id` - (Optional, String) Security group id.
+* `shard_cpu` - (Optional, Int) Cpu core for each shard. It can be obtained by querying api DescribeShardSpec.
 * `vip` - (Optional, String) The field is required to specify VIP.
 * `vipv6` - (Optional, String) The field is required to specify VIPv6.
 
@@ -75,8 +75,8 @@ The `init_params` object supports the following:
 
 The `resource_tags` object supports the following:
 
-* `tag_key` - (Required, String) tag key.
-* `tag_value` - (Required, String) tag value.
+* `tag_key` - (Required, String) Tag key.
+* `tag_value` - (Required, String) Tag value.
 
 ## Attributes Reference
 

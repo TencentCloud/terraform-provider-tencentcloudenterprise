@@ -29,7 +29,7 @@ data "cloud_tsf_describe_public_config_summary" "describe_public_config_summary"
 The following arguments are supported:
 
 * `config_id_list` - (Optional, Set: [`String`]) Config Id List.
-* `config_tag_list` - (Optional, Set: [`String`]) config tag list.
+* `config_tag_list` - (Optional, Set: [`String`]) Config tag list.
 * `disable_program_auth_check` - (Optional, Bool) Whether to disable dataset authentication.
 * `order_by` - (Optional, String) Sort by time: creation_time; Sort by name: config_name.
 * `order_type` - (Optional, Int) Pass 0 for ascending order and 1 for descending order.
@@ -41,7 +41,7 @@ The following arguments are supported:
 In addition to all arguments above, the following attributes are exported:
 
 * `result` - Public config Page Item.
-  * `content` - config list.
+  * `content` - Config list.
     * `application_id` - Application ID.Note: This field may return null, indicating that no valid value was found.
     * `application_name` - Application Name. Note: This field may return null, indicating that no valid value was found.
     * `config_id` - Configuration item ID.Note: This field may return null, indicating that no valid value was found.
@@ -54,6 +54,6 @@ In addition to all arguments above, the following attributes are exported:
     * `creation_time` - Create time.Note: This field may return null, indicating that no valid value was found.
     * `delete_flag` - Deletion flag, true: deletable; false: not deletable.Note: This field may return null, indicating that no valid value was found.
     * `last_update_time` - Last update time.Note: This field may return null, indicating that no valid value was found.
-  * `total_count` - total count.
+  * `total_count` - Total count.
 
 

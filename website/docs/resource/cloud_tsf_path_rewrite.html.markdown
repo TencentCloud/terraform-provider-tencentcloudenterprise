@@ -28,17 +28,17 @@ resource "cloud_tsf_path_rewrite" "path_rewrite" {
 The following arguments are supported:
 
 * `blocked` - (Required, String) Whether to shield the mapped path, Y: Yes N: No.
-* `gateway_group_id` - (Required, String) gateway deployment group ID.
-* `order` - (Required, Int) rule order, the smaller the higher the priority.
-* `regex` - (Required, String) regular expression.
-* `replacement` - (Required, String) content to replace.
+* `gateway_group_id` - (Required, String) Gateway deployment group ID.
+* `order` - (Required, Int) Rule order, the smaller the higher the priority.
+* `regex` - (Required, String) Regular expression.
+* `replacement` - (Required, String) Content to replace.
 
 ## Attributes Reference
 
 In addition to all arguments above, the following attributes are exported:
 
 * `id` - ID of the resource.
-* `path_rewrite_id` - path rewrite rule ID.
+* `path_rewrite_id` - Path rewrite rule ID.
 
 
 ## Import

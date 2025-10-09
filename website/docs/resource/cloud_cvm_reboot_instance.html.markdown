@@ -15,8 +15,8 @@ Provides a resource to create a cvm reboot_instance
 
 ```hcl
 resource "cloud_cvm_reboot_instance" "reboot_instance" {
-  instance_id  = "ins-xxxxx"
-  force_reboot = false
+  instance_id = "ins-xxxxx"
+  stop_type   = "SOFT"
 }
 ```
 

@@ -39,6 +39,7 @@ data "cloud_availability_zones" "my_favorite_zones" {
 }
 
 // Create VPC resource
+
 resource "cloud_vpc" "app" {
   cidr_block = "10.0.0.0/16"
   name       = "awesome_app_vpc"
@@ -52,7 +53,8 @@ resource "cloud_vpc_subnet" "app" {
 }
 
 // Create 10 CVM instances to host awesome_app
-resource "cloud_instance_set" "my_awesome_app" {
+
+resource "cloud_cvm_instance_set" "my_awesome_app" {
   timeouts {
     create = "5m"
     read   = "20s"
@@ -84,7 +86,7 @@ The following arguments are supported:
 * `cam_role_name` - (Optional, String, ForceNew) CAM role name authorized to access.
 * `disable_monitor_service` - (Optional, Bool) Disable enhance service for monitor, it is enabled by default. When this options is set, monitor agent won't be installed. Modifying will cause the instance reset.
 * `disable_security_service` - (Optional, Bool) Disable enhance service for security, it is enabled by default. When this options is set, security agent won't be installed. Modifying will cause the instance reset.
-* `exclude_instance_ids` - (Optional, Set: [`String`]) instance ids list to exclude.
+* `exclude_instance_ids` - (Optional, Set: [`String`]) Instance ids list to exclude.
 * `hostname` - (Optional, String) The hostname of the instance. Windows instance: The name should be a combination of 2 to 15 characters comprised of letters (case insensitive), numbers, and hyphens (-). Period (.) is not supported, and the name cannot be a string of pure numbers. Other types (such as Linux) of instances: The name should be a combination of 2 to 60 characters, supporting multiple periods (.). The piece between two periods is composed of letters (case insensitive), numbers, and hyphens (-). Modifying will cause the instance reset.
 * `instance_charge_type` - (Optional, String) The charge type of instance. Only support `POSTPAID_BY_HOUR`.
 * `instance_count` - (Optional, Int) The number of instances to be purchased. Value range:[1,100]; default value: 1.
@@ -95,8 +97,10 @@ The following arguments are supported:
 * `key_name` - (Optional, String) The key pair to use for the instance, it looks like `skey-16jig7tx`. Modifying will cause the instance reset.
 * `password` - (Optional, String) Password for the instance. In order for the new password to take effect, the instance will be restarted after the password change. Modifying will cause the instance reset.
 * `placement_group_id` - (Optional, String, ForceNew) The ID of a placement group.
+* `platform_project_id` - (Optional, String) The project the instance belongs to.
 * `private_ip` - (Optional, String) The private IP to be assigned to this instance, must be in the provided subnet and available.
 * `project_id` - (Optional, Int) The project the instance belongs to, default to 0.
+* `resource_type` - (Optional, String) resource type, default instance.
 * `security_groups` - (Optional, Set: [`String`]) A list of security group IDs to associate with.
 * `subnet_id` - (Optional, String) The ID of a VPC subnet. If you want to create instances in a VPC network, this parameter must be set.
 * `system_disk_id` - (Optional, String) System disk snapshot ID used to initialize the system disk. When system disk type is `LOCAL_BASIC` and `LOCAL_SSD`, disk id is not supported.
@@ -113,7 +117,7 @@ In addition to all arguments above, the following attributes are exported:
 * `id` - ID of the resource.
 * `create_time` - Create time of the instance.
 * `expired_time` - Expired time of the instance.
-* `instance_ids` - instance id list.
+* `instance_ids` - Instance id list.
 * `instance_status` - Current status of the instance.
 * `public_ip` - Public IP of the instance.
 

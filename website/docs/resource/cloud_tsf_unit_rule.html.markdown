@@ -39,30 +39,30 @@ resource "cloud_tsf_unit_rule" "unit_rule" {
 
 The following arguments are supported:
 
-* `gateway_instance_id` - (Required, String) gateway entity ID.
-* `name` - (Required, String) rule name.
-* `description` - (Optional, String) rule description.
-* `unit_rule_item_list` - (Optional, List) list of rule items.
+* `gateway_instance_id` - (Required, String) Gateway entity ID.
+* `name` - (Required, String) Rule name.
+* `description` - (Optional, String) Rule description.
+* `unit_rule_item_list` - (Optional, List) List of rule items.
 
 The `unit_rule_item_list` object supports the following:
 
-* `dest_namespace_id` - (Required, String) destination namespace ID.
-* `dest_namespace_name` - (Required, String) destination namespace name.
-* `name` - (Required, String) rule item name.
-* `relationship` - (Required, String) logical relationship: AND/OR.
-* `description` - (Optional, String) rule description.
-* `priority` - (Optional, Int) rule order, the smaller the higher the priority: the default is 0.
-* `rule_id` - (Optional, String) rule item ID.
+* `dest_namespace_id` - (Required, String) Destination namespace ID.
+* `dest_namespace_name` - (Required, String) Destination namespace name.
+* `name` - (Required, String) Rule item name.
+* `relationship` - (Required, String) Logical relationship: AND/OR.
+* `description` - (Optional, String) Rule description.
+* `priority` - (Optional, Int) Rule order, the smaller the higher the priority: the default is 0.
+* `rule_id` - (Optional, String) Rule item ID.
 * `unit_rule_id` - (Optional, String) Unitization rule ID.
-* `unit_rule_tag_list` - (Optional, List) list of rule labels.
+* `unit_rule_tag_list` - (Optional, List) List of rule labels.
 
 The `unit_rule_tag_list` object supports the following:
 
-* `tag_field` - (Required, String) label name.
+* `tag_field` - (Required, String) Label name.
 * `tag_operator` - (Required, String) Operator: IN/NOT_IN/EQUAL/NOT_EQUAL/REGEX.
 * `tag_type` - (Required, String) Tag Type: U(User Tag).
-* `tag_value` - (Required, String) tag value.
-* `rule_id` - (Optional, String) rule ID.
+* `tag_value` - (Required, String) Tag value.
+* `rule_id` - (Optional, String) Rule ID.
 * `unit_rule_item_id` - (Optional, String) Unitization rule item ID.
 
 ## Attributes Reference
@@ -70,8 +70,8 @@ The `unit_rule_tag_list` object supports the following:
 In addition to all arguments above, the following attributes are exported:
 
 * `id` - ID of the resource.
-* `rule_id` - rule ID.
-* `status` - usage status: enabled/disabled.
+* `rule_id` - Rule ID.
+* `status` - Usage status: enabled/disabled.
 
 
 ## Import

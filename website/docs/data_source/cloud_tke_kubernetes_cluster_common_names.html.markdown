@@ -33,7 +33,7 @@ The following arguments are supported:
 In addition to all arguments above, the following attributes are exported:
 
 * `list` - List of the CommonName in the certificate of the client corresponding to the sub-account UIN.
-  * `cn` - the cn of the client certificate corresponding to the sub-account UIN.
+  * `cn` - The cn of the client certificate corresponding to the sub-account UIN.
   * `subaccount_uin` - User UIN.
 
 

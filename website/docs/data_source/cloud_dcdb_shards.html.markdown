@@ -1,5 +1,5 @@
 ---
-subcategory: "TDSQL for MySQL(DCDB)"
+subcategory: "Distributed Database For MySQL(DCDB)"
 layout: "cloud"
 page_title: "TencentCloud: cloud_dcdb_shards"
 sidebar_current: "docs-cloud-datasource-dcdb_shards"
@@ -28,37 +28,37 @@ data "cloud_dcdb_shards" "shards" {
 
 The following arguments are supported:
 
-* `instance_id` - (Required, String) instance id.
+* `instance_id` - (Required, String) Instance id.
 * `result_output_file` - (Optional, String) Used to save results.
-* `shard_instance_ids` - (Optional, Set: [`String`]) shard instance ids.
+* `shard_instance_ids` - (Optional, Set: [`String`]) Shard instance ids.
 
 ## Attributes Reference
 
 In addition to all arguments above, the following attributes are exported:
 
-* `list` - shard list.
-  * `cpu` - cpu cores.
-  * `create_time` - create time.
-  * `instance_id` - instance id.
-  * `memory_usage` - memory usage.
-  * `memory` - memory, the unit is GB.
-  * `node_count` - node count.
-  * `paymode` - pay mode.
-  * `period_end_time` - expired time.
-  * `project_id` - project id.
-  * `proxy_version` - proxy version.
-  * `range` - the range of shard key.
-  * `region` - region.
-  * `shard_instance_id` - shard instance id.
-  * `shard_master_zone` - shard master zone.
-  * `shard_serial_id` - shard serial id.
-  * `shard_slave_zones` - shard slave zones.
-  * `status_desc` - status description.
-  * `status` - status.
-  * `storage_usage` - storage usage.
-  * `storage` - memory, the unit is GB.
-  * `subnet_id` - subnet id.
-  * `vpc_id` - vpc id.
-  * `zone` - zone.
+* `list` - Shard list.
+  * `cpu` - Cpu cores.
+  * `create_time` - Create time.
+  * `instance_id` - Instance id.
+  * `memory_usage` - Memory usage.
+  * `memory` - Memory, the unit is GB.
+  * `node_count` - Node count.
+  * `paymode` - Pay mode.
+  * `period_end_time` - Expired time.
+  * `project_id` - Project id.
+  * `proxy_version` - Proxy version.
+  * `range` - The range of shard key.
+  * `region` - Region.
+  * `shard_instance_id` - Shard instance id.
+  * `shard_master_zone` - Shard master zone.
+  * `shard_serial_id` - Shard serial id.
+  * `shard_slave_zones` - Shard slave zones.
+  * `status_desc` - Status description.
+  * `status` - Status.
+  * `storage_usage` - Storage usage.
+  * `storage` - Memory, the unit is GB.
+  * `subnet_id` - Subnet id.
+  * `vpc_id` - Vpc id.
+  * `zone` - Zone.
 
 

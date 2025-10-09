@@ -24,7 +24,7 @@ data "cloud_tsf_gateway_all_group_apis" "gateway_all_group_apis" {
 
 The following arguments are supported:
 
-* `gateway_deploy_group_id` - (Required, String) gateway group Id.
+* `gateway_deploy_group_id` - (Required, String) Gateway group Id.
 * `result_output_file` - (Optional, String) Used to save results.
 * `search_word` - (Optional, String) Search keyword, supports api group name or API path.
 
@@ -42,9 +42,9 @@ In addition to all arguments above, the following attributes are exported:
       * `api_id` - API ID.
       * `method` - API method.
       * `microservice_name` - API service name.
-      * `namespace_name` - namespace name.
+      * `namespace_name` - Namespace name.
       * `path` - API path.
-    * `group_id` - api group id.Note: This field may return null, which means no valid value was found.
-    * `group_name` - api group name.Note: This field may return null, which means no valid value was found.
+    * `group_id` - Api group id.Note: This field may return null, which means no valid value was found.
+    * `group_name` - Api group name.Note: This field may return null, which means no valid value was found.
 
 

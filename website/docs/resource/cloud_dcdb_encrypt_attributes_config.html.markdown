@@ -1,5 +1,5 @@
 ---
-subcategory: "TDSQL for MySQL(DCDB)"
+subcategory: "Distributed Database For MySQL(DCDB)"
 layout: "cloud"
 page_title: "TencentCloud: cloud_dcdb_encrypt_attributes_config"
 sidebar_current: "docs-cloud-resource-dcdb_encrypt_attributes_config"
@@ -89,20 +89,12 @@ resource "cloud_dcdb_encrypt_attributes_config" "config_prepaid" {
 }
 ```
 
-### # Import
-
-dcdb encrypt_attributes_config can be imported using the id, e.g.
-
-```hcl
-terraform import cloud_dcdb_encrypt_attributes_config.encrypt_attributes_config encrypt_attributes_config_id
-```
-
 ## Argument Reference
 
 The following arguments are supported:
 
-* `encrypt_enabled` - (Required, Int) whether to enable data encryption. Notice: it is not supported to turn it off after it is turned on. The optional values: 0-disable, 1-enable.
-* `instance_id` - (Required, String) instance id.
+* `encrypt_enabled` - (Required, Int) Whether to enable data encryption. Notice: it is not supported to turn it off after it is turned on. The optional values: 0-disable, 1-enable.
+* `instance_id` - (Required, String) Instance id.
 
 ## Attributes Reference
 
@@ -111,4 +103,12 @@ In addition to all arguments above, the following attributes are exported:
 * `id` - ID of the resource.
 
 
+
+## Import
+
+dcdb encrypt_attributes_config can be imported using the id, e.g.
+
+```
+terraform import cloud_dcdb_encrypt_attributes_config.encrypt_attributes_config encrypt_attributes_config_id
+```
 

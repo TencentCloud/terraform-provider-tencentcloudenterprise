@@ -23,14 +23,14 @@ data "cloud_tsf_application_attribute" "application_attribute" {
 
 The following arguments are supported:
 
-* `application_id` - (Required, String) application Id.
+* `application_id` - (Required, String) Application Id.
 * `result_output_file` - (Optional, String) Used to save results.
 
 ## Attributes Reference
 
 In addition to all arguments above, the following attributes are exported:
 
-* `result` - application list other attribute.
+* `result` - Application list other attribute.
   * `group_count` - Number of deployment groups under the application.Note: This field may return null, indicating that no valid values can be obtained.
   * `instance_count` - Total number of instances.Note: This field may return null, indicating that no valid values can be obtained.
   * `run_instance_count` - Number of running instances.Note: This field may return null, indicating that no valid values can be obtained.

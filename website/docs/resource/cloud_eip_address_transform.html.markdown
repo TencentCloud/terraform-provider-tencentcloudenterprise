@@ -23,7 +23,7 @@ resource "cloud_eip_address_transform" "address_transform" {
 
 The following arguments are supported:
 
-* `instance_id` - (Required, String, ForceNew) the instance ID of a normal public network IP to be operated. eg:ins-23mk45jn.
+* `instance_id` - (Required, String, ForceNew) The instance ID of a normal public network IP to be operated. eg:ins-23mk45jn.
 
 ## Attributes Reference
 

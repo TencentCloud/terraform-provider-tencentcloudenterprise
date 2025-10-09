@@ -1,5 +1,5 @@
 ---
-subcategory: "Cloud Kafka(ckafka)"
+subcategory: "Cloud Kafka(CKafka)"
 layout: "cloud"
 page_title: "TencentCloud: cloud_ckafka_instances"
 sidebar_current: "docs-cloud-datasource-ckafka_instances"
@@ -44,7 +44,7 @@ In addition to all arguments above, the following attributes are exported:
 * `instance_list` - A list of ckafka users. Each element contains the following attributes:
   * `bandwidth` - Instance bandwidth, in Mbps.
   * `create_time` - The time when the instance was created.
-  * `cvm` - ckafka sale type. Note: This field may return null, indicating that a valid value could not be retrieved.
+  * `cvm` - Ckafka sale type. Note: This field may return null, indicating that a valid value could not be retrieved.
   * `disk_size` - The storage size of the instance, in GB.
   * `disk_type` - Disk Type. Note: This field may return null, indicating that a valid value could not be retrieved.
   * `expire_time` - The instance expiration time.

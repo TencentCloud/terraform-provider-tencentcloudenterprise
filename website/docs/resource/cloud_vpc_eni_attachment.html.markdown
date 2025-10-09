@@ -27,7 +27,7 @@ resource "cloud_vpc_subnet" "foo" {
   is_multicast      = false
 }
 
-resource "cloud_eni" "foo" {
+resource "cloud_vpc_eni" "foo" {
   name        = "ci-test-eni"
   vpc_id      = cloud_vpc.foo.id
   subnet_id   = cloud_vpc_subnet.foo.id
@@ -65,8 +65,8 @@ resource "cloud_cvm_instance" "foo" {
   subnet_id                = cloud_vpc_subnet.foo.id
 }
 
-resource "cloud_eni_attachment" "foo" {
-  eni_id      = cloud_eni.foo.id
+resource "cloud_vpc_eni_attachment" "foo" {
+  eni_id      = cloud_vpc_eni.foo.id
   instance_id = cloud_cvm_instance.foo.id
 }
 ```
@@ -91,6 +91,8 @@ In addition to all arguments above, the following attributes are exported:
 ENI attachment can be imported using the id, e.g.
 
 ```
-  $ terraform import cloud_eni_attachment.foo eni-gtlvkjvz+ins-0h3a5new
+
+	$ terraform import cloud_vpc_eni_attachment.foo eni-gtlvkjvz+ins-0h3a5new
+
 ```
 

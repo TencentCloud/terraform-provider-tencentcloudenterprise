@@ -40,21 +40,21 @@ resource "cloud_tsf_task" "task" {
 
 The following arguments are supported:
 
-* `execute_type` - (Required, String) execution type, unicast/broadcast.
-* `group_id` - (Required, String) deployment group ID.
-* `task_content` - (Required, String) task content, length limit 65536 bytes.
-* `task_name` - (Required, String) task name, task length 64 characters.
-* `task_type` - (Required, String) task type, java.
-* `time_out` - (Required, Int) task timeout, time unit ms.
-* `advance_settings` - (Optional, List) advanced settings.
-* `retry_count` - (Optional, Int) number of retries, 0 &amp;lt;= RetryCount&amp;lt;= 10.
-* `retry_interval` - (Optional, Int) retry interval, 0 &amp;lt;= RetryInterval &amp;lt;= 600000, time unit ms.
+* `execute_type` - (Required, String) Execution type, unicast/broadcast.
+* `group_id` - (Required, String) Deployment group ID.
+* `task_content` - (Required, String) Task content, length limit 65536 bytes.
+* `task_name` - (Required, String) Task name, task length 64 characters.
+* `task_type` - (Required, String) Task type, java.
+* `time_out` - (Required, Int) Task timeout, time unit ms.
+* `advance_settings` - (Optional, List) Advanced settings.
+* `retry_count` - (Optional, Int) Number of retries, 0 &amp;lt;= RetryCount&amp;lt;= 10.
+* `retry_interval` - (Optional, Int) Retry interval, 0 &amp;lt;= RetryInterval &amp;lt;= 600000, time unit ms.
 * `shard_arguments` - (Optional, List) Fragmentation parameters.
-* `shard_count` - (Optional, Int) number of shards.
-* `success_operator` - (Optional, String) the operator to judge the success of the task.
+* `shard_count` - (Optional, Int) Number of shards.
+* `success_operator` - (Optional, String) The operator to judge the success of the task.
 * `success_ratio` - (Optional, String) The threshold for judging the success rate of the task, such as 100.
-* `task_argument` - (Optional, String) task parameters, the length limit is 10000 characters.
-* `task_rule` - (Optional, List) trigger rule.
+* `task_argument` - (Optional, String) Task parameters, the length limit is 10000 characters.
+* `task_rule` - (Optional, List) Trigger rule.
 
 The `advance_settings` object supports the following:
 
@@ -67,9 +67,9 @@ The `shard_arguments` object supports the following:
 
 The `task_rule` object supports the following:
 
-* `rule_type` - (Required, String) trigger rule type, Cron/Repeat.
+* `rule_type` - (Required, String) Trigger rule type, Cron/Repeat.
 * `expression` - (Optional, String) Cron type rule, cron expression.
-* `repeat_interval` - (Optional, Int) time interval, in milliseconds.
+* `repeat_interval` - (Optional, Int) Time interval, in milliseconds.
 
 ## Attributes Reference
 
@@ -77,10 +77,10 @@ In addition to all arguments above, the following attributes are exported:
 
 * `id` - ID of the resource.
 * `belong_flow_ids` - ID of the workflow to which it belongs.
-* `task_id` - task ID.
-* `task_log_id` - task history ID.
+* `task_id` - Task ID.
+* `task_log_id` - Task history ID.
 * `task_state` - Whether to enable the task, ENABLED/DISABLED.
-* `trigger_type` - trigger type.
+* `trigger_type` - Trigger type.
 
 
 ## Import

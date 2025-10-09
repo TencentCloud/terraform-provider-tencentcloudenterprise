@@ -1,15 +1,15 @@
 ---
-subcategory: "TencentDB for Redis(crs)"
+subcategory: "Cloud Redis®(Redis)"
 layout: "cloud"
 page_title: "TencentCloud: cloud_redis_instance_task_list"
 sidebar_current: "docs-cloud-datasource-redis_instance_task_list"
 description: |-
-  Use this data source to query detailed information of redis instance_task_list
+  Use this data source to query detailed information of instance_task_list
 ---
 
 # cloud_redis_instance_task_list
 
-Use this data source to query detailed information of redis instance_task_list
+Use this data source to query detailed information of instance_task_list
 
 ## Example Usage
 
@@ -22,8 +22,6 @@ data "cloud_redis_instance_task_list" "instance_task_list" {
   begin_time    = "2021-12-30 00:00:00"
   end_time      = "2021-12-30 00:00:00"
   task_status   = [""]
-  result        = [""]
-  operate_uin   = [""]
 }
 ```
 

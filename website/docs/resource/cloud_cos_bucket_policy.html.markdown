@@ -18,26 +18,28 @@ resource "cloud_cos_bucket_policy" "cos_policy" {
   bucket = "mycos-1258798060"
 
   policy = <<EOF
-{
-  "version": "2.0",
-  "Statement": [
-    {
-      "Principal": {
-        "qcs": [
-          "qcs::cam::uin/<your-account-id>:uin/<your-account-id>"
-        ]
-      },
-      "Action": [
-        "name/cos:DeleteBucket",
-        "name/cos:PutBucketACL"
-      ],
-      "Effect": "allow",
-      "Resource": [
-        "qcs::cos:<bucket region>:uid/<your-account-id>:<bucket name>/*"
-      ]
-    }
-  ]
-}
+
+	{
+	  "version": "2.0",
+	  "Statement": [
+	    {
+	      "Principal": {
+	        "qcs": [
+	          "qcs::cam::uin/<your-account-id>:uin/<your-account-id>"
+	        ]
+	      },
+	      "Action": [
+	        "name/cos:DeleteBucket",
+	        "name/cos:PutBucketACL"
+	      ],
+	      "Effect": "allow",
+	      "Resource": [
+	        "qcs::cos:<bucket region>:uid/<your-account-id>:<bucket name>/*"
+	      ]
+	    }
+	  ]
+	}
+
 EOF
 }
 ```

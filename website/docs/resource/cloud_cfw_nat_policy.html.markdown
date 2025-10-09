@@ -37,9 +37,9 @@ The following arguments are supported:
 * `port` - (Required, String) The port for the access control policy. Value: -1/-1: All ports 80: Port 80.
 * `protocol` - (Required, String) Protocol. If Direction=1, optional values: TCP, UDP, ANY; If Direction=0, optional values: TCP, UDP, ICMP, ANY, HTTP, HTTPS, HTTP/HTTPS, SMTP, SMTPS, SMTP/SMTPS, FTP, and DNS.
 * `rule_action` - (Required, String) How the traffic set in the access control policy passes through the cloud firewall. Values: accept: allow; drop: reject; log: observe.
-* `source_content` - (Required, String) Access source example: net:IP/CIDR(192.168.0.2).
+* `source_content` - (Required, String) Access source example: net:IP/CIDR(203.0.113.200).
 * `source_type` - (Required, String) Access source type: for inbound rules, the type can be net, location, vendor, template; for outbound rules, it can be net, instance, tag, template, group.
-* `target_content` - (Required, String) Example of access purpose: net: IP/CIDR(192.168.0.2) domain: domain name rules, such as *.qq.com.
+* `target_content` - (Required, String) Example of access purpose: net: IP/CIDR(203.0.113.200) domain: domain name rules, such as *.qq.com.
 * `target_type` - (Required, String) Access purpose type: For inbound rules, the type can be net, instance, tag, template, group; for outbound rules, it can be net, location, vendor, template.
 * `description` - (Optional, String) Description.
 * `enable` - (Optional, String) Rule status, true means enabled, false means disabled. Default is true.

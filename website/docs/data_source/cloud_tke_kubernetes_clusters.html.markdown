@@ -14,11 +14,11 @@ Use this data source to query detailed information of kubernetes clusters.
 ## Example Usage
 
 ```hcl
-data "cloud_kubernetes_clusters" "name" {
+data "cloud_tke_kubernetes_clusters" "name" {
   cluster_name = "terraform"
 }
 
-data "cloud_kubernetes_clusters" "id" {
+data "cloud_tke_kubernetes_clusters" "id" {
   cluster_id = "cls-godovr32"
 }
 ```

@@ -13,7 +13,7 @@ Provides a resource to create a cloud firewall (cfw) vpc instance.
 
 ## Example Usage
 
-### If mode is 0
+### # If mode is 0
 
 ```hcl
 resource "cloud_cfw_vpc_instance" "example" {
@@ -38,7 +38,7 @@ resource "cloud_cfw_vpc_instance" "example" {
 }
 ```
 
-### If mode is 1
+### # If mode is 1
 
 ```hcl
 resource "cloud_cfw_vpc_instance" "example" {

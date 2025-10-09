@@ -1,5 +1,5 @@
 ---
-subcategory: "TDSQL for MySQL(DCDB)"
+subcategory: "Distributed Database For MySQL(DCDB)"
 layout: "cloud"
 page_title: "TencentCloud: cloud_dcdb_security_group_attachment"
 sidebar_current: "docs-cloud-resource-dcdb_security_group_attachment"
@@ -24,8 +24,8 @@ resource "cloud_dcdb_security_group_attachment" "security_group_attachment" {
 
 The following arguments are supported:
 
-* `instance_id` - (Required, String, ForceNew) attached instance id.
-* `security_group_id` - (Required, String, ForceNew) security group id.
+* `instance_id` - (Required, String, ForceNew) Attached instance id.
+* `security_group_id` - (Required, String, ForceNew) Security group id.
 
 ## Attributes Reference
 

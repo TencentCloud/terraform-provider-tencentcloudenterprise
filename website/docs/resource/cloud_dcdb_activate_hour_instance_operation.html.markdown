@@ -1,5 +1,5 @@
 ---
-subcategory: "TDSQL for MySQL(DCDB)"
+subcategory: "Distributed Database For MySQL(DCDB)"
 layout: "cloud"
 page_title: "TencentCloud: cloud_dcdb_activate_hour_instance_operation"
 sidebar_current: "docs-cloud-resource-dcdb_activate_hour_instance_operation"
@@ -23,7 +23,7 @@ resource "cloud_dcdb_activate_hour_instance_operation" "activate_hour_instance_o
 
 The following arguments are supported:
 
-* `instance_id` - (Required, String, ForceNew) instance ID in the format of dcdbt-ow728lmc, which can be obtained through the `DescribeDCDBInstances` API.
+* `instance_id` - (Required, String, ForceNew) Instance ID in the format of dcdbt-ow728lmc, which can be obtained through the `DescribeDCDBInstances` API.
 
 ## Attributes Reference
 

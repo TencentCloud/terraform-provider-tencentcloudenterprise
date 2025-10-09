@@ -27,6 +27,7 @@ The following arguments are supported:
 * `name` - (Optional, String) Name of the placement group to be queried.
 * `placement_group_id` - (Optional, String) ID of the placement group to be queried.
 * `result_output_file` - (Optional, String) Used to save results.
+* `strategies` - (Optional, List: [`String`]) Placement group strategies. Valid values: `SPREAD`, `WEAK_SPREAD`, `AFFINITY`, and `WEAK_AFFINITY`.
 
 ## Attributes Reference
 
@@ -39,6 +40,7 @@ In addition to all arguments above, the following attributes are exported:
   * `instance_ids` - Host IDs in the placement group.
   * `name` - Name of the placement group.
   * `placement_group_id` - ID of the placement group.
+  * `strategy` - Placement group strategy.
   * `type` - Type of the placement group.
 
 

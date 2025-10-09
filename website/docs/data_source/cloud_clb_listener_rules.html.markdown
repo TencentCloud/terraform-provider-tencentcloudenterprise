@@ -33,7 +33,7 @@ The following arguments are supported:
 * `domain` - (Optional, String) Domain name of the forwarding rule to be queried.
 * `result_output_file` - (Optional, String) Used to save results.
 * `rule_id` - (Optional, String) ID of the forwarding rule to be queried.
-* `scheduler` - (Optional, String) Scheduling method of the forwarding rule of thr CLB listener, and available values include `WRR`, `IP HASH` and `LEAST_CONN`. The default is `WRR`.
+* `scheduler` - (Optional, String) Scheduling method of the forwarding rule of thr CLB listener, and available values include `WRR`, `IP_HASH` and `LEAST_CONN`. The default is `WRR`.
 * `url` - (Optional, String) Url of the forwarding rule to be queried.
 
 ## Attributes Reference

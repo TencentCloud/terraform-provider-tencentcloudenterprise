@@ -1,15 +1,15 @@
 ---
-subcategory: "TencentDB for Redis(crs)"
+subcategory: "Cloud Redis®(Redis)"
 layout: "cloud"
 page_title: "TencentCloud: cloud_redis_instance_shards"
 sidebar_current: "docs-cloud-datasource-redis_instance_shards"
 description: |-
-  Use this data source to query detailed information of redis instance_shards
+  Use this data source to query detailed information of instance_shards
 ---
 
 # cloud_redis_instance_shards
 
-Use this data source to query detailed information of redis instance_shards
+Use this data source to query detailed information of instance_shards
 
 ## Example Usage
 
@@ -35,7 +35,7 @@ In addition to all arguments above, the following attributes are exported:
 * `instance_shards` - Instance shard list information.
   * `connected` - Service status: 0-down;1-on.
   * `keys` - Number of keys.
-  * `role` - role.
+  * `role` - Role.
   * `runid` - The node ID of the instance runtime.
   * `shard_id` - Shard node ID.
   * `shard_name` - Shard node name.

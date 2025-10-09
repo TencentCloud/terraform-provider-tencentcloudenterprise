@@ -18,7 +18,7 @@ resource "cloud_cvm_launch_template" "launch_template" {
   launch_template_name = "test_launch_template"
   placement {
     project_id = 0
-    zone       = var.availability_zone
+    zone       = yfm18
   }
   image_id                            = "img-95xgn7er"
   launch_template_version_description = "test111"
@@ -65,7 +65,6 @@ The following arguments are supported:
 * `cam_role_name` - (Optional, String, ForceNew) The role name of CAM.
 * `client_token` - (Optional, String, ForceNew) A string to used guarantee request idempotency.
 * `data_disks` - (Optional, List, ForceNew) Data disk configuration information of the instance.
-* `disable_api_termination` - (Optional, Bool, ForceNew) Instance destruction protection flag.
 * `disaster_recover_group_ids` - (Optional, Set: [`String`], ForceNew) The ID of disaster recover group.
 * `dry_run` - (Optional, Bool, ForceNew) Whether to preflight only this request, true or false.
 * `enhanced_service` - (Optional, List, ForceNew) Enhanced service. If this parameter is not specified, cloud monitoring and cloud security services will be enabled by default in public images.

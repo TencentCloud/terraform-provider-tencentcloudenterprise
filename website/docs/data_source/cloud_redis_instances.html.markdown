@@ -1,15 +1,15 @@
 ---
-subcategory: "TencentDB for Redis(crs)"
+subcategory: "Cloud Redis®(Redis)"
 layout: "cloud"
 page_title: "TencentCloud: cloud_redis_instances"
 sidebar_current: "docs-cloud-datasource-redis_instances"
 description: |-
-  Use this data source to query the detail information of redis instance.
+  Use this data source to query the detail information of instance.
 ---
 
 # cloud_redis_instances
 
-Use this data source to query the detail information of redis instance.
+Use this data source to query the detail information of instance.
 
 ## Example Usage
 

@@ -30,8 +30,8 @@ The following arguments are supported:
 
 In addition to all arguments above, the following attributes are exported:
 
-* `vpc_limit_set` - vpc limit.
-  * `limit_type` - type of vpc limit.
-  * `limit_value` - value of vpc limit.
+* `vpc_limit_set` - Vpc limit.
+  * `limit_type` - Type of vpc limit.
+  * `limit_value` - Value of vpc limit.
 
 
