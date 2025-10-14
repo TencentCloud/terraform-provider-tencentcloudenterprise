@@ -1,0 +1,94 @@
+---
+subcategory: "Distributed Database For MySQL(DCDB)"
+layout: "cloud"
+page_title: "TencentCloud: cloud_dcdb_account_privileges"
+sidebar_current: "docs-cloud-resources-dcdb_account_privileges"
+description: |-
+  Provides a resource to create a dcdb account_privileges
+---
+
+# cloud_dcdb_account_privileges
+
+Provides a resource to create a dcdb account_privileges
+
+## Example Usage
+
+```hcl
+resource "cloud_dcdb_account_privileges" "account_privileges" {
+  instance_id = "tdsqlshard-973xatu3"
+  account {
+    user = "brucelin"
+    host = "127.0.0.1"
+  }
+  global_privileges = ["SHOW DATABASES", "SHOW VIEW"]
+  database_privileges {
+    privileges = ["SELECT", "INSERT", "UPDATE", "DELETE", "CREATE"]
+    database   = "SysDB"
+  }
+
+  table_privileges {
+    database   = "SysDB"
+    table      = "StatusTable"
+    privileges = ["SELECT", "INSERT", "UPDATE", "DELETE", "CREATE"]
+
+  }
+}
+```
+
+## Argument Reference
+
+The following arguments are supported:
+
+* `account` - (Required, List) The account of the database, including username and host.
+* `instance_id` - (Required, String) The ID of instance.
+* `column_privileges` - (Optional, List) Permissions for columns in database tables. Optional values for the Privileges permission are:  SELECT, INSERT, UPDATE, REFERENCES.  Note that if this parameter is not passed, the existing privileges are reserved. If you need to clear them, please pass an empty array in the complex type Privileges field.
+* `database_privileges` - (Optional, List) Database permissions. Optional values for the Privileges permission are: SELECT, INSERT, UPDATE, DELETE, CREATE, DROP, REFERENCES, INDEX, ALTER, CREATE TEMPORARY TABLES,  LOCK TABLES, EXECUTE, CREATE VIEW, SHOW VIEW, CREATE ROUTINE, ALTER ROUTINE, EVENT, TRIGGER.  Note that if this parameter is not passed, the existing privileges are reserved. If you need to clear them, please pass an empty array in the complex type Privileges field.
+* `global_privileges` - (Optional, Set: [`String`]) Global permissions. Among them, the optional value of the permission in GlobalPrivileges is: SELECT, INSERT, UPDATE, DELETE, CREATE, PROCESS, DROP, REFERENCES, INDEX, ALTER, SHOW DATABASES,  CREATE TEMPORARY TABLES, LOCK TABLES, EXECUTE, CREATE VIEW, SHOW VIEW, CREATE ROUTINE, ALTER ROUTINE, EVENT, TRIGGER.  Note that if this parameter is not passed, it means that the existing permissions are reserved. If it needs to be cleared, pass an empty array in this field.
+* `table_privileges` - (Optional, List) Permissions for tables in the database. Optional values for the Privileges permission are: SELECT, INSERT, UPDATE, DELETE, CREATE, DROP, REFERENCES, INDEX, ALTER, CREATE VIEW, SHOW VIEW, TRIGGER. Note that if this parameter is not passed, the existing privileges are reserved. If you need to clear them, please pass an empty array in the complex type Privileges field.
+* `view_privileges` - (Optional, List) Permissions for database views. Optional values for the Privileges permission are:  SELECT, INSERT, UPDATE, DELETE, CREATE, DROP, REFERENCES, INDEX, ALTER, CREATE VIEW, SHOW VIEW, TRIGGER.  Note that if this parameter is not passed, the existing privileges are reserved. If you need to clear them, please pass an empty array in the complex type Privileges field.
+
+The `account` object supports the following:
+
+* `host` - (Required, String) Account host.
+* `user` - (Required, String) Account name.
+
+The `column_privileges` object supports the following:
+
+* `column` - (Required, String) Database column name.
+* `database` - (Required, String) The name of database.
+* `privileges` - (Required, Set) Permission information.
+* `table` - (Required, String) Database table name.
+
+The `database_privileges` object supports the following:
+
+* `database` - (Required, String) The name of database.
+* `privileges` - (Required, Set) Permission information.
+
+The `table_privileges` object supports the following:
+
+* `database` - (Required, String) The name of database.
+* `privileges` - (Required, Set) Permission information.
+* `table` - (Required, String) Database table name.
+
+The `view_privileges` object supports the following:
+
+* `database` - (Required, String) The name of database.
+* `privileges` - (Required, Set) Permission information.
+* `view` - (Required, String) Database view name.
+
+## Attributes Reference
+
+In addition to all arguments above, the following attributes are exported:
+
+* `id` - ID of the resource.
+
+
+
+## Import
+
+dcdb account_privileges can be imported using the id, e.g.
+
+```
+terraform import cloud_dcdb_account_privileges.account_privileges instanceId#userName#host#dbName#tabName#viewName#colName
+```
+

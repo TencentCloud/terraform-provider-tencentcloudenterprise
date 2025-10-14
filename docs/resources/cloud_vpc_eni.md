@@ -1,0 +1,82 @@
+---
+subcategory: "Virtual Private Cloud(VPC)"
+layout: "cloud"
+page_title: "TencentCloud: cloud_vpc_eni"
+sidebar_current: "docs-cloud-resources-vpc_eni"
+description: |-
+  Provides a resource to create an ENI.
+---
+
+# cloud_vpc_eni
+
+Provides a resource to create an ENI.
+
+## Example Usage
+
+```hcl
+resource "cloud_vpc" "foo" {
+  name       = "ci-test-eni-vpc"
+  cidr_block = "10.0.0.0/16"
+}
+
+resource "cloud_vpc_subnet" "foo" {
+  availability_zone = "ap-guangzhou-3"
+  name              = "ci-test-eni-subnet"
+  vpc_id            = cloud_vpc.foo.id
+  cidr_block        = "10.0.0.0/16"
+  is_multicast      = false
+}
+
+resource "cloud_vpc_eni" "foo" {
+  name        = "ci-test-eni"
+  vpc_id      = cloud_vpc.foo.id
+  subnet_id   = cloud_vpc_subnet.foo.id
+  description = "eni desc"
+  ipv4_count  = 1
+}
+```
+
+## Argument Reference
+
+The following arguments are supported:
+
+* `name` - (Required, String) Name of the ENI, maximum length 60.
+* `subnet_id` - (Required, String, ForceNew) ID of the subnet within this vpc.
+* `vpc_id` - (Required, String, ForceNew) ID of the vpc.
+* `description` - (Optional, String) Description of the ENI, maximum length 60.
+* `ipv4_count` - (Optional, Int) The number of intranet IPv4s. When it is greater than 1, there is only one primary intranet IP. The others are auxiliary intranet IPs, which conflict with `ipv4s`.
+* `ipv4s` - (Optional, Set) Applying for intranet IPv4s collection, conflict with `ipv4_count`. When there are multiple ipv4s, can only be one primary IP, and the maximum length of the array is 30. Each element contains the following attributes:
+* `security_groups` - (Optional, Set: [`String`]) A set of security group IDs.
+* `tags` - (Optional, Map) Tags of the ENI.
+
+The `ipv4s` object supports the following:
+
+* `ip` - (Required, String) Intranet IP.
+* `primary` - (Required, Bool) Indicates whether the IP is primary.
+* `description` - (Optional, String) Description of the IP, maximum length 25.
+
+## Attributes Reference
+
+In addition to all arguments above, the following attributes are exported:
+
+* `id` - ID of the resource.
+* `create_time` - Creation time of the ENI.
+* `ipv4_info` - An information list of IPv4s. Each element contains the following attributes:
+  * `description` - Description of the IP.
+  * `ip` - Intranet IP.
+  * `primary` - Indicates whether the IP is primary.
+* `mac` - MAC address.
+* `primary` - Indicates whether the IP is primary.
+* `state` - State of the ENI.
+
+
+## Import
+
+ENI can be imported using the id, e.g.
+
+```
+
+	$ terraform import cloud_vpc_eni.foo eni-qka182br
+
+```
+
