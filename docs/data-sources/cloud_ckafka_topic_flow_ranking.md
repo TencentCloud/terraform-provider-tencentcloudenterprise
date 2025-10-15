@@ -1,5 +1,5 @@
 ---
-subcategory: "Cloud Kafka(ckafka)"
+subcategory: "Cloud Kafka(CKafka)"
 layout: "cloud"
 page_title: "TencentCloud: cloud_ckafka_topic_flow_ranking"
 sidebar_current: "docs-cloud-datasource-ckafka_topic_flow_ranking"

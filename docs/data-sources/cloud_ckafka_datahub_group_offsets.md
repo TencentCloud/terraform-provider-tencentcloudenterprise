@@ -1,5 +1,5 @@
 ---
-subcategory: "Cloud Kafka(ckafka)"
+subcategory: "Cloud Kafka(CKafka)"
 layout: "cloud"
 page_title: "TencentCloud: cloud_ckafka_datahub_group_offsets"
 sidebar_current: "docs-cloud-datasource-ckafka_datahub_group_offsets"
