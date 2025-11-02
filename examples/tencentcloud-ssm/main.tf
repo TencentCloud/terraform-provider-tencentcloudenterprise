@@ -1,31 +1,35 @@
-provider "tencentcloud" {
-  region = "ap-guangzhou"
+# Secret Manager (SSM) Examples
+
+# ========== Data Sources ==========
+
+# Query SSM secrets
+data "cloud_ssm_secrets" "secrets" {
+  secret_name = "example-secret"
 }
 
-resource "cloud_ssm_secret" "foo" {
-  secret_name = "test"
-  description = "test secret"
-  recovery_window_in_days = 0
-  is_enabled = true
+# Query SSM secret versions
+data "cloud_ssm_secret_versions" "versions" {
+  secret_name = "example-secret"
+}
 
+# ========== Resources ==========
+
+# SSM Secret
+resource "cloud_ssm_secret" "secret" {
+  secret_name = "example-secret"
+  description = "Example secret"
+  
   tags = {
-    test-tag = "test"
+    env = "test"
   }
 }
 
-resource "cloud_ssm_secret_version" "v1" {
-  secret_name = cloud_ssm_secret.foo.secret_name
-  version_id = "v1"
-  secret_binary = "MTIzMTIzMTIzMTIzMTIzQQ=="
-}
-
-data "cloud_ssm_secrets" "secret_list" {
-  secret_name = cloud_ssm_secret.foo.secret_name
-  order_type = 1
-  state = 1
-}
-
-data "cloud_ssm_secret_versions" "secret_version_list" {
-  secret_name = cloud_ssm_secret_version.v1.secret_name
-  version_id = cloud_ssm_secret_version.v1.version_id
+# SSM Secret Version
+resource "cloud_ssm_secret_version" "version" {
+  secret_name   = cloud_ssm_secret.secret.secret_name
+  version_id    = "v1"
+  secret_string = jsonencode({
+    username = "admin"
+    password = "password123"
+  })
 }
