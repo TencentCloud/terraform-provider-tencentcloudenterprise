@@ -18,121 +18,219 @@ Provides a CVM instance resource.
 ## Example Usage
 
 ```hcl
-data "cloud_cvm_images" "my_favorite_image" {
-  image_type = ["PUBLIC_IMAGE"]
-  os_name    = "CentOs"
+# variables.tf
+variable "number" {
+  default = "1"
 }
 
-data "cloud_cvm_instance_types" "my_favorite_instance_types" {
+variable "count_format" {
+  default = "%02d"
+}
+
+variable "image_name_regex_centos" {
+  default = "CentOS 7.4"
+}
+
+variable "terraform-instance-name" {
+  default = "terraform-instance"
+}
+
+variable "instance_family" {
+  default = "S2"
+}
+
+variable "cvm_password" {
+  default = "Test@12345"
+}
+
+variable "internet_charge_type" {
+  default = "TRAFFIC_POSTPAID_BY_HOUR"
+}
+
+variable "instance_charge_type" {
+  default = "POSTPAID_BY_HOUR"
+}
+
+variable "internet_max_bandwidth_out" {
+  default = 5
+}
+
+variable "disk_type" {
+  default = "CLOUD_PREMIUM"
+}
+
+variable "disk_size" {
+  default = "50"
+}
+
+variable "internet_service_provider" {
+  default = "CTCC"
+}
+
+# main.tf
+## Datasource Query
+data "cloud_cvm_instance_types" "instance_type" {
   filter {
-    name   = "instance-family"
-    values = ["HUZI345"]
+    name = "instance-family"
+    values = [var.instance_family]
+  }
+  exclude_sold_out = true
+}
+
+data "cloud_cvm_images" "foo" {
+  instance_type = data.cloud_cvm_instance_types.instance_type.instance_types[0].instance_type
+  image_type = ["PUBLIC_IMAGE"]
+  image_name_regex = var.image_name_regex_centos
+}
+
+# Create VPC & Subnet 
+resource "cloud_vpc" "vpc" {
+  cidr_block = "172.16.0.0/16"
+  name       = var.terraform-instance-name
+}
+
+resource "cloud_vpc_subnet" "subnet" {
+  vpc_id            = cloud_vpc.vpc.id
+  cidr_block        = "172.16.0.0/24"
+  availability_zone = data.cloud_cvm_instance_types.instance_type.instance_types[0].availability_zone
+  name              = "${var.terraform-instance-name}-subnet"
+  is_multicast      = false
+}
+
+## Create security group & rule set
+resource "cloud_vpc_security_group" "group" {
+  name        = var.terraform-instance-name
+  description = "New security group"
+  project_id  = 0
+}
+
+resource "cloud_vpc_security_group_rule_set" "group_rule" {
+  security_group_id = cloud_vpc_security_group.group.id
+
+  ingress {
+    cidr_block  = "0.0.0.0/0"
+    protocol    = "TCP"
+    port        = "22"
+    action      = "ACCEPT"
+    description = "Allow SSH"
   }
 
-  cpu_core_count = 1
-  memory_size    = 1
-}
-
-data "cloud_availability_zones" "my_favorite_zones" {
-}
-
-// Create VPC resources
-
-resource "cloud_vpc" "app" {
-  cidr_block = "10.0.0.0/16"
-  name       = "awesome_app_vpc"
-}
-
-resource "cloud_vpc_subnet" "app" {
-  vpc_id            = cloud_vpc.app.id
-  availability_zone = data.cloud_availability_zones.my_favorite_zones.zones.0.name
-  name              = "awesome_app_subnet"
-  cidr_block        = "10.0.1.0/24"
-}
-
-// Create 2 CVM instances to host awesome_app
-
-resource "cloud_cvm_instance" "my_awesome_app" {
-  instance_name     = "awesome_app"
-  availability_zone = data.cloud_availability_zones.my_favorite_zones.zones.0.name
-  image_id          = data.cloud_cvm_images.my_favorite_image.images.0.image_id
-  instance_type     = data.cloud_cvm_instance_types.my_favorite_instance_types.instance_types.0.instance_type
-  system_disk_type  = "CLOUD_PREMIUM"
-  system_disk_size  = 50
-  hostname          = "user"
-  project_id        = 0
-  vpc_id            = cloud_vpc.app.id
-  subnet_id         = cloud_vpc_subnet.app.id
-  count             = 2
-
-  data_disks {
-    data_disk_type = "CLOUD_PREMIUM"
-    data_disk_size = 50
+  ingress {
+    cidr_block  = "0.0.0.0/0"
+    protocol    = "TCP"
+    port        = "80"
+    action      = "ACCEPT"
+    description = "Allow HTTP"
   }
+
+  ingress {
+    cidr_block  = "0.0.0.0/0"
+    protocol    = "TCP"
+    port        = "443"
+    action      = "ACCEPT"
+    description = "Allow HTTPS"
+  }
+
+  ingress {
+    cidr_block  = "0.0.0.0/0"
+    protocol    = "ICMP"
+    action      = "ACCEPT"
+    description = "Allow ICMP"
+  }
+
+  egress {
+    cidr_block  = "0.0.0.0/0"
+    action      = "ACCEPT"
+    description = "Allow all egress"
+  }
+}
+
+
+
+## CVM Instance
+resource "cloud_cvm_instance" "instance" {
+  instance_name   = "${var.terraform-instance-name}-instance-${format(var.count_format, count.index + 1)}"
+  hostname        = "${var.terraform-instance-name}-host-${format(var.count_format, count.index + 1)}"
+  image_id        = data.cloud_cvm_images.foo.images[0].image_id
+  instance_type   = data.cloud_cvm_instance_types.instance_type.instance_types[0].instance_type
+  count           = var.number
+  availability_zone = data.cloud_cvm_instance_types.instance_type.instance_types[0].availability_zone
+
+  orderly_security_groups = [cloud_vpc_security_group.group.id]
+  vpc_id                  = cloud_vpc.vpc.id
+  subnet_id               = cloud_vpc_subnet.subnet.id
+
+  password = var.cvm_password
+
+  instance_charge_type    = var.instance_charge_type
+  system_disk_type        = var.disk_type
+  system_disk_size        = 50
 
   tags = {
-    tagKey = "tagValue"
+    type = "example"
+    env  = "test"
   }
 }
-```
 
-### Create CVM instance based on CDH
+## Create EIP and attach to CVM(If public network configuration is applicable)
+resource "cloud_eip" "eip" {
+  count                      = var.number
+  name                       = "eip-${format(var.count_format, count.index + 1)}"
+  internet_charge_type       = var.internet_charge_type
+  internet_max_bandwidth_out = var.internet_max_bandwidth_out
+  internet_service_provider = var.internet_service_provider
+  type                       = "EIP"
 
-```hcl
-variable "availability_zone" {
-  default = "ap-shanghai-4"
-}
-
-resource "cloud_cdh_instance" "foo" {
-  availability_zone                   = var.availability_zone
-  host_type                           = "HM50"
-  charge_type                         = "PREPAID"
-  instance_charge_type_prepaid_period = 1
-  hostname                            = "test"
-  prepaid_renew_flag                  = "DISABLE_NOTIFY_AND_MANUAL_RENEW"
-}
-
-data "cloud_cdh_instances" "list" {
-  availability_zone = var.availability_zone
-  host_id           = cloud_cdh_instance.foo.id
-  hostname          = "test"
-  host_state        = "RUNNING"
-}
-
-resource "cloud_cvm_key_pair" "random_key" {
-  key_ids    = ["tf_example_key6"]
-  public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAAAgQDjd8fTnp7Dcuj4mLaQxf9Zs/ORgUL9fQxRCNKkPgP1paTy1I513maMX126i36Lxxl3+FUB52oVbo/FgwlIfX8hyCnv8MCxqnuSDozf1CD0/wRYHcTWAtgHQHBPCC2nJtod6cVC3kB18KeV4U7zsxmwFeBIxojMOOmcOBuh7+trRw=="
-}
-
-resource "cloud_bms_placement_group" "foo" {
-  name = "test"
-  type = "HOST"
-}
-
-resource "cloud_cvm_instance" "foo" {
-  availability_zone  = var.availability_zone
-  instance_name      = "terraform-testing"
-  image_id           = "img-ix05e4px"
-  key_ids            = [cloud_cvm_key_pair.random_key.id]
-  placement_group_id = cloud_bms_placement_group.foo.id
-  security_groups    = ["sg-9c3f33xk"]
-  system_disk_type   = "CLOUD_PREMIUM"
-
-  instance_charge_type = "CDHPAID"
-  cdh_instance_type    = "CDH_10C10G"
-  cdh_host_id          = cloud_cdh_instance.foo.id
-
-  vpc_id                     = "vpc-31zmeluu"
-  subnet_id                  = "subnet-aujc02np"
-  allocate_public_ip         = true
-  internet_max_bandwidth_out = 2
-  count                      = 3
-
-  data_disks {
-    data_disk_type = "CLOUD_PREMIUM"
-    data_disk_size = 50
-    encrypt        = false
+  tags = {
+    type = "example"
+    env  = "test"
   }
+}
+resource "cloud_eip_association" "eip_attachment" {
+  count       = var.number
+  eip_id      = cloud_eip.eip[count.index].id
+  instance_id = cloud_cvm_instance.instance[count.index].id
+}
+
+
+## Create CBS data disk and attach to CVM(If applicable)
+resource "cloud_cbs_storage" "disk" {
+  availability_zone = data.cloud_cvm_instance_types.instance_type.instance_types[0].availability_zone
+  storage_type      = var.disk_type
+  storage_size      = var.disk_size
+  storage_name      = "${var.terraform-instance-name}-disk-${format(var.count_format, count.index + 1)}"
+  count             = var.number
+}
+
+resource "cloud_cbs_storage_attachment" "instance_attachment" {
+  count       = var.number
+  storage_id  = cloud_cbs_storage.disk.*.id[count.index]
+  instance_id = cloud_cvm_instance.instance.*.id[count.index]
+}
+
+# outputs.tf
+output "hostname_list" {
+  value = join(",", cloud_cvm_instance.instance.*.instance_name)
+}
+
+output "cvm_ids" {
+  value = join(",", cloud_cvm_instance.instance.*.id)
+}
+
+output "cvm_public_ip" {
+  value = join(",", cloud_eip.eip.*.public_ip)
+}
+
+output "eip_ids" {
+  value = join(",", cloud_eip.eip.*.id)
+}
+
+output "cvm_private_ip" {
+  value = join(",", cloud_cvm_instance.instance.*.private_ip)
+}
+
+output "tags" {
+  value = jsonencode(cloud_cvm_instance.instance.*.tags)
 }
 ```
 
