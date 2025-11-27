@@ -5,7 +5,7 @@ Provides a resource to create a cfs snapshot
 
 ```hcl
 
-	resource "cloud_cfs_snapshot" "snapshot" {
+	resource "tencentcloudenterprise_cfs_snapshot" "snapshot" {
 	  file_system_id = "cfs-iobiaxtj"
 	  snapshot_name = "test"
 	  tags = {
@@ -38,7 +38,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_cfs_snapshot", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_cfs_snapshot", CNDescription{
 		TerraformTypeCN: "快照",
 		DescriptionCN:   "提供CFS快照资源，用于创建和管理CFS快照。",
 		AttributesCN: map[string]string{

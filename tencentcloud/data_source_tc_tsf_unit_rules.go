@@ -5,7 +5,7 @@ Use this data source to query detailed information of tsf unit_rules
 
 ```hcl
 
-	data "cloud_tsf_unit_rules" "unit_rules" {
+	data "tencentcloudenterprise_tsf_unit_rules" "unit_rules" {
 	  gateway_instance_id = "gw-ins-lvdypq5k"
 	  status = "disabled"
 	}

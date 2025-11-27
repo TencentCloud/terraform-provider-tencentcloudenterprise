@@ -17,12 +17,12 @@ func TestAccTencentCloudTsfApplicationFileConfigReleaseResource_basic(t *testing
 			{
 				Config: testAccTsfApplicationFileConfigRelease2,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttrSet("cloud_tsf_application_file_config_release.application_file_config_release", "id"),
-					resource.TestCheckResourceAttr("cloud_tsf_application_file_config_release.application_file_config_release", "release_desc", "product release"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_tsf_application_file_config_release.application_file_config_release", "id"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_tsf_application_file_config_release.application_file_config_release", "release_desc", "product release"),
 				),
 			},
 			{
-				ResourceName:      "cloud_tsf_application_file_config_release.application_file_config_release",
+				ResourceName:      "tencentcloudenterprise_tsf_application_file_config_release.application_file_config_release",
 				ImportState:       true,
 				ImportStateVerify: true,
 			},
@@ -37,7 +37,7 @@ variable "config_id" {
 `
 const testAccTsfApplicationFileConfigRelease = testAccTsfGroup + testAccTsfApplicationFileConfigReleaseVar + `
 
-resource "cloud_tsf_application_file_config_release" "application_file_config_release" {
+resource "tencentcloudenterprise_tsf_application_file_config_release" "application_file_config_release" {
   config_id = var.config_id
   group_id = cloud_tsf_group.group.id
   release_desc = "product release"
@@ -46,7 +46,7 @@ resource "cloud_tsf_application_file_config_release" "application_file_config_re
 `
 
 const testAccTsfApplicationFileConfigRelease2 = `
-resource "cloud_tsf_application_file_config_release" "application_file_config_release" {
+resource "tencentcloudenterprise_tsf_application_file_config_release" "application_file_config_release" {
   config_id = "dcfg-f-qevjmlvb"
   group_id = "group-byxmmovl"
   release_desc = "product release"

@@ -5,11 +5,11 @@ Use this data source to query key pairs.
 
 ```hcl
 
-	data "cloud_cvm_key_pairs" "foo" {
+	data "tencentcloudenterprise_cvm_key_pairs" "foo" {
 	  key_id = "skey-ie97i3ml"
 	}
 
-	data "cloud_cvm_key_pairs" "name" {
+	data "tencentcloudenterprise_cvm_key_pairs" "name" {
 	  key_name = "^test$"
 	}
 
@@ -32,7 +32,7 @@ import (
 
 func init() {
 	// 注册资源中文描述提供者映射
-	registerDataDescriptionProvider("cloud_cvm_key_pairs", CNDescription{
+	registerDataDescriptionProvider("tencentcloudenterprise_cvm_key_pairs", CNDescription{
 		TerraformTypeCN: "SSH密钥",
 		DescriptionCN:   "提供SSH密钥数据源，用于查询密钥对信息。",
 		AttributesCN: map[string]string{

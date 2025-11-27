@@ -5,7 +5,7 @@ Use this data source to query the detail information of instance.
 
 ```hcl
 
-	data "cloud_redis_instances" "redislab" {
+	data "tencentcloudenterprise_redis_instances" "redislab" {
 	  zone               = "ap-hongkong-1"
 	  search_key         = "myredis"
 	  project_id         = 0
@@ -26,7 +26,7 @@ import (
 )
 
 func init() {
-	registerDataDescriptionProvider("cloud_redis_instances", CNDescription{
+	registerDataDescriptionProvider("tencentcloudenterprise_redis_instances", CNDescription{
 		TerraformTypeCN: "Redis®实例",
 		DescriptionCN:   "提供Redis实例数据源，用于查询Redis实例的详细信息。",
 		AttributesCN: map[string]string{

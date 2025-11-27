@@ -5,7 +5,7 @@ Provides a resource to create a tsf application_public_config
 
 ```hcl
 
-	resource "cloud_tsf_application_public_config" "application_public_config" {
+	resource "tencentcloudenterprise_tsf_application_public_config" "application_public_config" {
 	  config_name = "my_config"
 	  config_version = "1.0"
 	  config_value = "test: 1"
@@ -30,7 +30,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_tsf_application_public_config", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_tsf_application_public_config", CNDescription{
 		TerraformTypeCN: "全局配置",
 		DescriptionCN:   "提供TSF全局配置资源，用于创建和管理全局配置。",
 		AttributesCN: map[string]string{

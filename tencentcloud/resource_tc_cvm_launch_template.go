@@ -5,7 +5,7 @@ Provides a resource to create a cvm launch_template
 
 ```hcl
 
-	resource "cloud_cvm_launch_template" "launch_template" {
+	resource "tencentcloudenterprise_cvm_launch_template" "launch_template" {
 	  launch_template_name = "test_launch_template"
 	  placement {
 	    project_id = 0
@@ -57,7 +57,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_cvm_launch_template", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_cvm_launch_template", CNDescription{
 		TerraformTypeCN: "云服务器启动模板",
 		DescriptionCN:   "提供云服务器启动模板资源，用于创建和管理云服务器启动模板。",
 		AttributesCN: map[string]string{

@@ -6,7 +6,7 @@ INTERNAL CLB
 
 ```hcl
 
-	resource "cloud_clb_instance" "internal_clb" {
+	resource "tencentcloudenterprise_clb_instance" "internal_clb" {
 	  network_type = "INTERNAL"
 	  clb_name     = "myclb"
 	  project_id   = 0
@@ -23,7 +23,7 @@ INTERNAL CLB
 OPEN CLB
 ```hcl
 
-	resource "cloud_clb_instance" "open_clb" {
+	resource "tencentcloudenterprise_clb_instance" "open_clb" {
 	  network_type              = "OPEN"
 	  clb_name                  = "myclb"
 	  project_id                = 0
@@ -40,7 +40,7 @@ OPEN CLB
 Default enable
 ```hcl
 
-	resource "cloud_vpc_subnet" "subnet" {
+	resource "tencentcloudenterprise_vpc_subnet" "subnet" {
 	  availability_zone = "ap-guangzhou-1"
 	  name              = "sdk-feature-test"
 	  vpc_id            = cloud_vpc.foo.id
@@ -48,13 +48,13 @@ Default enable
 	  is_multicast      = false
 	}
 
-	resource "cloud_vpc_security_group" "sglab" {
+	resource "tencentcloudenterprise_vpc_security_group" "sglab" {
 	  name        = "sg_o0ek7r93"
 	  description = "favourite sg"
 	  project_id  = 0
 	}
 
-	resource "cloud_vpc" "foo" {
+	resource "tencentcloudenterprise_vpc" "foo" {
 	  name         = "for-my-open-clb"
 	  cidr_block   = "10.0.0.0/16"
 
@@ -63,7 +63,7 @@ Default enable
 	  }
 	}
 
-	resource "cloud_clb_instance" "open_clb" {
+	resource "tencentcloudenterprise_clb_instance" "open_clb" {
 	  network_type                 = "OPEN"
 	  clb_name                     = "my-open-clb"
 	  project_id                   = 0
@@ -80,7 +80,7 @@ Default enable
 CREATE multiple instance
 ```hcl
 
-	resource "cloud_clb_instance" "open_clb1" {
+	resource "tencentcloudenterprise_clb_instance" "open_clb1" {
 	  network_type              = "OPEN"
 	  clb_name = "hello"
 	  master_zone_id = "ap-guangzhou-3"
@@ -114,7 +114,7 @@ import (
 var clbActionMu = &sync.Mutex{}
 
 func init() {
-	registerResourceDescriptionProvider("cloud_clb_instance", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_clb_instance", CNDescription{
 		TerraformTypeCN: "CLB实例",
 		DescriptionCN:   "提供负载均衡CLB实例资源，用于创建和管理腾讯云负载均衡实例。",
 		AttributesCN: map[string]string{

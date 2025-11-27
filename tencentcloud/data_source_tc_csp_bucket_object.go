@@ -5,7 +5,7 @@ Use this data source to query the metadata of an object stored inside a bucket.
 
 ```hcl
 
-	data "cloud_csp_bucket_object" "mycsp" {
+	data "tencentcloudenterprise_csp_bucket_object" "mycsp" {
 	  bucket             = "mycos-test-1258798060"
 	  prefix                = "hello-world."
 	  result_output_file = "TFCspresults"
@@ -26,7 +26,7 @@ import (
 )
 
 func init() {
-	registerDataDescriptionProvider("cloud_csp_bucket_object", CNDescription{
+	registerDataDescriptionProvider("tencentcloudenterprise_csp_bucket_object", CNDescription{
 		TerraformTypeCN: "获取存储桶对象列表（CSP）",
 		DescriptionCN:   "提供CSP存储桶对象数据源，用于查询存储桶对象的元数据。",
 		AttributesCN: map[string]string{

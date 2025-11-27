@@ -17,7 +17,7 @@ func TestAccTencentCloudClbServerAttachmentsDataSource(t *testing.T) {
 			{
 				Config: testAccTencentCloudDataSourceClbServerAttachments,
 				Check: resource.ComposeAggregateTestCheckFunc(
-					testAccCheckClbServerAttachmentExists("cloud_clb_attachment.foo"),
+					testAccCheckClbServerAttachmentExists("tencentcloudenterprise_clb_attachment.foo"),
 					resource.TestCheckResourceAttr("data.cloud_clb_attachments.foo", "attachment_list.#", "1"),
 					resource.TestCheckResourceAttrSet("data.cloud_clb_attachments.foo", "attachment_list.0.clb_id"),
 					resource.TestCheckResourceAttrSet("data.cloud_clb_attachments.foo", "attachment_list.0.listener_id"),
@@ -29,13 +29,13 @@ func TestAccTencentCloudClbServerAttachmentsDataSource(t *testing.T) {
 }
 
 const testAccTencentCloudDataSourceClbServerAttachments = instanceCommonTestCase + `
-resource "cloud_clb_instance" "foo" {
+resource "tencentcloudenterprise_clb_instance" "foo" {
   network_type = "OPEN"
   clb_name     = var.instance_name
   vpc_id       = var.cvm_vpc_id
 }
 
-resource "cloud_clb_listener" "foo" {
+resource "tencentcloudenterprise_clb_listener" "foo" {
   clb_id                     = cloud_clb_instance.foo.id
   listener_name              = var.instance_name
   port                       = 44
@@ -49,7 +49,7 @@ resource "cloud_clb_listener" "foo" {
   scheduler                  = "WRR"
 }
 
-resource "cloud_clb_attachment" "foo" {
+resource "tencentcloudenterprise_clb_attachment" "foo" {
   clb_id      = cloud_clb_instance.foo.id
   listener_id = cloud_clb_listener.foo.listener_id
 
@@ -60,7 +60,7 @@ resource "cloud_clb_attachment" "foo" {
   }
 }
 
-data "cloud_clb_attachments" "foo" {
+data "tencentcloudenterprise_clb_attachments" "foo" {
   clb_id      = cloud_clb_instance.foo.id
   listener_id = cloud_clb_attachment.foo.listener_id
 }

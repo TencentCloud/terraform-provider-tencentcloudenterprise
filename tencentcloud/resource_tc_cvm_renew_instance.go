@@ -5,7 +5,7 @@ Provides a resource to create a cvm renew_instance
 
 ```hcl
 
-	resource "cloud_cvm_renew_instance" "renew_instance" {
+	resource "tencentcloudenterprise_cvm_renew_instance" "renew_instance" {
 	  instance_id = "xxx"
 	  instance_charge_prepaid {
 		period = 1
@@ -27,7 +27,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_cvm_renew_instance", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_cvm_renew_instance", CNDescription{
 		TerraformTypeCN: "续费实例",
 		DescriptionCN:   "提供续费实例资源，用于续费云服务器实例。",
 		AttributesCN: map[string]string{

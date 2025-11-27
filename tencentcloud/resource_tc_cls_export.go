@@ -5,7 +5,7 @@ Provides a resource to create a cls export
 
 ```hcl
 
-	resource "cloud_cls_export" "export" {
+	resource "tencentcloudenterprise_cls_export" "export" {
 	  topic_id  = "7e34a3a7-635e-4da8-9005-88106c1fde69"
 	  log_count = 2
 	  query     = "select count(*) as count"
@@ -40,7 +40,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_cls_export", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_cls_export", CNDescription{
 		TerraformTypeCN: "CLS日志导出",
 		DescriptionCN:   "提供CLS日志导出资源，用于创建和管理日志服务导出任务。",
 		AttributesCN: map[string]string{

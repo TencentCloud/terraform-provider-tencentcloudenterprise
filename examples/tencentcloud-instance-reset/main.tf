@@ -1,4 +1,4 @@
-data "cloud_cvm_instance_types" "my_favorate_instance_types" {
+data "tencentcloudenterprise_cvm_instance_types" "my_favorate_instance_types" {
   filter {
     name   = "instance-family"
     values = ["S1"]
@@ -8,9 +8,9 @@ data "cloud_cvm_instance_types" "my_favorate_instance_types" {
   memory_size    = 1
 }
 
-data "cloud_availability_zones" "my_favorate_zones" {}
+data "tencentcloudenterprise_availability_zones" "my_favorate_zones" {}
 
-resource "cloud_cvm_instance" "jilei" {
+resource "tencentcloudenterprise_cvm_instance" "jilei" {
   availability_zone = data.cloud_availability_zones.my_favorate_zones.zones.0.name
   instance_type     = data.cloud_cvm_instance_types.my_favorate_instance_types.instance_types.0.instance_type
   instance_name     = "tf_example_os_reinstall"

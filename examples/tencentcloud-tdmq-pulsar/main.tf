@@ -3,19 +3,19 @@
 # ========== Data Sources ==========
 
 # Query Pulsar clusters
-data "cloud_tdmq_pulsar_clusters" "clusters" {
+data "tencentcloudenterprise_tdmq_pulsar_clusters" "clusters" {
   cluster_id = "pulsar-xxxxx"
 }
 
 # Query Pulsar environments (namespaces)
-data "cloud_tdmq_pulsar_environments" "envs" {
+data "tencentcloudenterprise_tdmq_pulsar_environments" "envs" {
   cluster_id = "pulsar-xxxxx"
 }
 
 # ========== Resources ==========
 
 # Pulsar Cluster
-resource "cloud_tdmq_pulsar_cluster" "cluster" {
+resource "tencentcloudenterprise_tdmq_pulsar_cluster" "cluster" {
   cluster_name = "example-pulsar"
   remark       = "Example Pulsar cluster"
   
@@ -25,13 +25,13 @@ resource "cloud_tdmq_pulsar_cluster" "cluster" {
 }
 
 # Pulsar Route (HTTP access)
-resource "cloud_tdmq_pulsar_route" "route" {
+resource "tencentcloudenterprise_tdmq_pulsar_route" "route" {
   cluster_id  = cloud_tdmq_pulsar_cluster.cluster.cluster_id
   route_type  = 0
 }
 
 # Pulsar Environment (Namespace)
-resource "cloud_tdmq_pulsar_environment" "env" {
+resource "tencentcloudenterprise_tdmq_pulsar_environment" "env" {
   environment_name = "example-namespace"
   cluster_id       = cloud_tdmq_pulsar_cluster.cluster.cluster_id
   msg_ttl          = 300
@@ -43,7 +43,7 @@ resource "cloud_tdmq_pulsar_environment" "env" {
 }
 
 # Pulsar Topic
-resource "cloud_tdmq_pulsar_topic" "topic" {
+resource "tencentcloudenterprise_tdmq_pulsar_topic" "topic" {
   environment_id = cloud_tdmq_pulsar_environment.env.environment_id
   topic_name     = "example-topic"
   cluster_id     = cloud_tdmq_pulsar_cluster.cluster.cluster_id
@@ -53,14 +53,14 @@ resource "cloud_tdmq_pulsar_topic" "topic" {
 }
 
 # Pulsar Role
-resource "cloud_tdmq_pulsar_role" "role" {
+resource "tencentcloudenterprise_tdmq_pulsar_role" "role" {
   role_name  = "example-role"
   cluster_id = cloud_tdmq_pulsar_cluster.cluster.cluster_id
   remark     = "Example role"
 }
 
 # Pulsar Environment Role Attachment
-resource "cloud_tdmq_pulsar_environment_role_attachment" "attachment" {
+resource "tencentcloudenterprise_tdmq_pulsar_environment_role_attachment" "attachment" {
   environment_id = cloud_tdmq_pulsar_environment.env.environment_id
   role_name      = cloud_tdmq_pulsar_role.role.role_name
   permissions    = ["produce", "consume"]

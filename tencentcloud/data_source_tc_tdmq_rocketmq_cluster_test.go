@@ -25,12 +25,12 @@ func TestAccTencentCloudTdmqRocketmqClusterDataSource(t *testing.T) {
 }
 
 const testAccDataSourceRocketmqCluster = `
-resource "cloud_tdmq_rocketmq_cluster" "cluster" {
+resource "tencentcloudenterprise_tdmq_rocketmq_cluster" "cluster" {
 	cluster_name = "test_rocketmq_datasource"
 	remark = "test recket mq"
 }
 
-data "cloud_tdmq_rocketmq_cluster" "cluster" {
+data "tencentcloudenterprise_tdmq_rocketmq_cluster" "cluster" {
   	name_keyword = "test_rocketmq_datasource"
 }
 `

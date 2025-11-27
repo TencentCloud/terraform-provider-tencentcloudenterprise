@@ -28,7 +28,7 @@ func TestAccTencentCloudTsfDeliveryConfigByGroupIdDataSource_basic(t *testing.T)
 
 const testAccTsfDeliveryConfigByGroupIdDataSource = `
 
-data "cloud_tsf_delivery_config_by_group_id" "delivery_config_by_group_id" {
+data "tencentcloudenterprise_tsf_delivery_config_by_group_id" "delivery_config_by_group_id" {
 	group_id = "group-yrjkln9v"
 }
 

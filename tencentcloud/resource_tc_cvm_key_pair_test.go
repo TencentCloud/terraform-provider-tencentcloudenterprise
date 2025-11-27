@@ -14,8 +14,8 @@ import (
 
 func init() {
 	// go test -v ./tencentcloud -sweep=ap-guangzhou -sweep-run=cloud_cvm_key_pair
-	resource.AddTestSweepers("cloud_cvm_key_pair", &resource.Sweeper{
-		Name: "cloud_cvm_key_pair",
+	resource.AddTestSweepers("tencentcloudenterprise_cvm_key_pair", &resource.Sweeper{
+		Name: "tencentcloudenterprise_cvm_key_pair",
 		F: func(region string) error {
 			logId := getLogId(contextNil)
 			ctx := context.WithValue(context.TODO(), logIdKey, logId)
@@ -61,19 +61,19 @@ func TestAccTencentCloudKeyPairResource_basic(t *testing.T) {
 	t.Parallel()
 	resource.Test(t, resource.TestCase{
 		PreCheck:      func() { testAccPreCheck(t) },
-		IDRefreshName: "cloud_cvm_key_pair.foo",
+		IDRefreshName: "tencentcloudenterprise_cvm_key_pair.foo",
 		Providers:     testAccProviders,
 		CheckDestroy:  testAccCheckKeyPairDestroy,
 		Steps: []resource.TestStep{
 			{
 				Config: testAccKeyPairPublicKeyBasic,
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckKeyPairExists("cloud_cvm_key_pair.foo"),
-					resource.TestCheckResourceAttr("cloud_cvm_key_pair.foo", "key_name", "test_terraform"),
+					testAccCheckKeyPairExists("tencentcloudenterprise_cvm_key_pair.foo"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_cvm_key_pair.foo", "key_name", "test_terraform"),
 				),
 			},
 			{
-				ResourceName:      "cloud_cvm_key_pair.foo",
+				ResourceName:      "tencentcloudenterprise_cvm_key_pair.foo",
 				ImportState:       true,
 				ImportStateVerify: true,
 			},
@@ -84,19 +84,19 @@ func TestAccTencentCloudKeyPairResource_publicKey(t *testing.T) {
 	t.Parallel()
 	resource.Test(t, resource.TestCase{
 		PreCheck:      func() { testAccPreCheck(t) },
-		IDRefreshName: "cloud_cvm_key_pair.foo",
+		IDRefreshName: "tencentcloudenterprise_cvm_key_pair.foo",
 		Providers:     testAccProviders,
 		CheckDestroy:  testAccCheckKeyPairDestroy,
 		Steps: []resource.TestStep{
 			{
 				Config: testAccKeyPairPublicKeyImport,
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckKeyPairExists("cloud_cvm_key_pair.foo1"),
-					resource.TestCheckResourceAttr("cloud_cvm_key_pair.foo1", "key_name", "from_terraform"),
+					testAccCheckKeyPairExists("tencentcloudenterprise_cvm_key_pair.foo1"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_cvm_key_pair.foo1", "key_name", "from_terraform"),
 				),
 			},
 			{
-				ResourceName:      "cloud_cvm_key_pair.foo1",
+				ResourceName:      "tencentcloudenterprise_cvm_key_pair.foo1",
 				ImportState:       true,
 				ImportStateVerify: true,
 			},
@@ -146,7 +146,7 @@ func testAccCheckKeyPairDestroy(s *terraform.State) error {
 		client: testAccProvider.Meta().(*TencentCloudClient).apiV3Conn,
 	}
 	for _, rs := range s.RootModule().Resources {
-		if rs.Type != "cloud_cvm_key_pair" {
+		if rs.Type != "tencentcloudenterprise_cvm_key_pair" {
 			continue
 		}
 
@@ -171,13 +171,13 @@ func testAccCheckKeyPairDestroy(s *terraform.State) error {
 }
 
 const testAccKeyPairPublicKeyBasic = `
-resource "cloud_cvm_key_pair" "foo" {
+resource "tencentcloudenterprise_cvm_key_pair" "foo" {
   key_name   = "test_terraform"
 }
 `
 
 const testAccKeyPairPublicKeyImport = `
-resource "cloud_cvm_key_pair" "foo1" {
+resource "tencentcloudenterprise_cvm_key_pair" "foo1" {
   key_name   = "from_terraform"
   public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAAAgQDjd8fTnp7Dcuj4mLaQxf9Zs/ORgUL9fQxRCNKkPgP1paTy1I513maMX126i36Lxxl3+FUB52oVbo/FgwlIfX8hyCnv8MCxqnuSDozf1CD0/wRYHcTWAtgHQHBPCC2nJtod6cVC3kB18KeV4U7zsxmwFeBIxojMOOmcOBuh7+trRw=="
 }

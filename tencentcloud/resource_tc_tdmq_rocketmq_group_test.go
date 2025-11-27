@@ -13,7 +13,7 @@ import (
 
 func TestAccTencentCloudTdmqRocketmqGroupResource_basic(t *testing.T) {
 	t.Parallel()
-	terraformId := "cloud_tdmq_rocketmq_group.group"
+	terraformId := "tencentcloudenterprise_tdmq_rocketmq_group.group"
 	resource.Test(t, resource.TestCase{
 		PreCheck:     func() { testAccPreCheck(t) },
 		Providers:    testAccProviders,
@@ -43,7 +43,7 @@ func testAccCheckTdmqRocketmqGroupDestroy(s *terraform.State) error {
 
 	service := TdmqRocketmqService{client: testAccProvider.Meta().(*TencentCloudClient).apiV3Conn}
 	for _, rs := range s.RootModule().Resources {
-		if rs.Type != "cloud_tdmq_rocketmq_group" {
+		if rs.Type != "tencentcloudenterprise_tdmq_rocketmq_group" {
 			continue
 		}
 		idSplit := strings.Split(rs.Primary.ID, FILED_SP)
@@ -110,12 +110,12 @@ func testAccCheckTdmqRocketmqGroupExists(re string) resource.TestCheckFunc {
 }
 
 const testAccTdmqRocketmqGroup = `
-resource "cloud_tdmq_rocketmq_cluster" "cluster" {
+resource "tencentcloudenterprise_tdmq_rocketmq_cluster" "cluster" {
 	cluster_name = "test_rocketmq"
 	remark = "test recket mq"
 }
 
-resource "cloud_tdmq_rocketmq_namespace" "namespace" {
+resource "tencentcloudenterprise_tdmq_rocketmq_namespace" "namespace" {
   cluster_id = cloud_tdmq_rocketmq_cluster.cluster.cluster_id
   namespace_name = "test_namespace"
   ttl = 65000
@@ -123,7 +123,7 @@ resource "cloud_tdmq_rocketmq_namespace" "namespace" {
   remark = "test namespace"
 }
 
-resource "cloud_tdmq_rocketmq_group" "group" {
+resource "tencentcloudenterprise_tdmq_rocketmq_group" "group" {
   group_name = "test_rocketmq_group"
   namespace = cloud_tdmq_rocketmq_namespace.namespace.namespace_name
   read_enable = true

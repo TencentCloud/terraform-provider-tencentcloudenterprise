@@ -5,7 +5,7 @@ Provides a resource to create a clear_instance_operation
 
 ```hcl
 
-	resource "cloud_redis_clear_instance_operation" "clear_instance_operation" {
+	resource "tencentcloudenterprise_redis_clear_instance_operation" "clear_instance_operation" {
 	  instance_id = "crs-c1nl9rpv"
 	  password 	  = ""
 	}
@@ -27,7 +27,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_redis_clear_instance_operation", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_redis_clear_instance_operation", CNDescription{
 		TerraformTypeCN: "redis®清空实例数据",
 		DescriptionCN:   "提供Redis®清空实例数据资源，用于清空Redis®实例的所有数据。",
 		AttributesCN: map[string]string{

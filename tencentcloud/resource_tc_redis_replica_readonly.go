@@ -5,7 +5,7 @@ Provides a resource to create a replica_readonly
 
 ```hcl
 
-	resource "cloud_redis_replica_readonly" "replica_readonly" {
+	resource "tencentcloudenterprise_redis_replica_readonly" "replica_readonly" {
 	  instance_id = "crs-c1nl9rpv"
 	  operate = "enable"
 	}
@@ -26,7 +26,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_redis_replica_readonly", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_redis_replica_readonly", CNDescription{
 		TerraformTypeCN: "redis®只读实例",
 		DescriptionCN:   "提供Redis®只读实例资源，用于启用或禁用Redis®实例的读写分离功能。",
 		AttributesCN: map[string]string{

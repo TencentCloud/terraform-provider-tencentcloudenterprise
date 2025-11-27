@@ -11,7 +11,7 @@ import (
 func TestAccKmsExternalKey_basic(t *testing.T) {
 	t.Parallel()
 	rName := fmt.Sprintf("tf-testacc-kms-key-%s", acctest.RandString(13))
-	resourceName := "cloud_kms_external_key.test"
+	resourceName := "tencentcloudenterprise_kms_external_key.test"
 
 	resource.Test(t, resource.TestCase{
 		PreCheck:     func() { testAccPreCheck(t) },
@@ -54,7 +54,7 @@ func TestAccKmsExternalKey_basic(t *testing.T) {
 
 func testAccKmsExternalKey_basic(rName string) string {
 	return fmt.Sprintf(`
-resource "cloud_kms_external_key" "test" {
+resource "tencentcloudenterprise_kms_external_key" "test" {
 	alias = %[1]q
 	description = %[1]q
 
@@ -67,7 +67,7 @@ resource "cloud_kms_external_key" "test" {
 
 func testAccKmsExternalKey_import(rName string) string {
 	return fmt.Sprintf(`
-resource "cloud_kms_external_key" "test" {
+resource "tencentcloudenterprise_kms_external_key" "test" {
  	alias = %[1]q
 	description = %[1]q
 	wrapping_algorithm = "RSAES_PKCS1_V1_5"
@@ -83,7 +83,7 @@ resource "cloud_kms_external_key" "test" {
 
 func testAccKmsExternalKey_disabled(rName string) string {
 	return fmt.Sprintf(`
-resource "cloud_kms_external_key" "test" {
+resource "tencentcloudenterprise_kms_external_key" "test" {
  	alias = %[1]q
 	description = %[1]q
 	wrapping_algorithm = "RSAES_PKCS1_V1_5"

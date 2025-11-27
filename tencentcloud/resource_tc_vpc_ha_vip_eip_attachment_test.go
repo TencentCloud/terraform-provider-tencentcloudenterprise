@@ -19,13 +19,13 @@ func TestAccTencentCloudHaVipEipAttachment_basic(t *testing.T) {
 			{
 				Config: testAccHaVipEipAttachment_basic,
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckHaVipEipAttachmentExists("cloud_vpc_ha_vip_eip_attachment.ha_vip_eip_attachment_basic"),
-					resource.TestCheckResourceAttrSet("cloud_vpc_ha_vip_eip_attachment.ha_vip_eip_attachment_basic", "havip_id"),
-					resource.TestCheckResourceAttrSet("cloud_vpc_ha_vip_eip_attachment.ha_vip_eip_attachment_basic", "address_ip"),
+					testAccCheckHaVipEipAttachmentExists("tencentcloudenterprise_vpc_ha_vip_eip_attachment.ha_vip_eip_attachment_basic"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_vpc_ha_vip_eip_attachment.ha_vip_eip_attachment_basic", "havip_id"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_vpc_ha_vip_eip_attachment.ha_vip_eip_attachment_basic", "address_ip"),
 				),
 			},
 			{
-				ResourceName:      "cloud_vpc_ha_vip_eip_attachment.ha_vip_eip_attachment_basic",
+				ResourceName:      "tencentcloudenterprise_vpc_ha_vip_eip_attachment.ha_vip_eip_attachment_basic",
 				ImportState:       true,
 				ImportStateVerify: true,
 			},
@@ -41,7 +41,7 @@ func testAccCheckHaVipEipAttachmentDestroy(s *terraform.State) error {
 		client: testAccProvider.Meta().(*TencentCloudClient).apiV3Conn,
 	}
 	for _, rs := range s.RootModule().Resources {
-		if rs.Type != "cloud_vpc_ha_vip_eip_attachment" {
+		if rs.Type != "tencentcloudenterprise_vpc_ha_vip_eip_attachment" {
 			continue
 		}
 
@@ -81,15 +81,15 @@ func testAccCheckHaVipEipAttachmentExists(n string) resource.TestCheckFunc {
 
 const testAccHaVipEipAttachment_basic = defaultVpcVariable + `
 #Create EIP
-resource "cloud_eip" "eip" {
+resource "tencentcloudenterprise_eip" "eip" {
   name = "havip_eip"
 }
-resource "cloud_vpc_ha_vip" "havip" {
+resource "tencentcloudenterprise_vpc_ha_vip" "havip" {
   name      = "terraform_test"
   vpc_id    = var.vpc_id
   subnet_id = var.subnet_id
 }
-resource "cloud_vpc_ha_vip_eip_attachment" "ha_vip_eip_attachment_basic"{
+resource "tencentcloudenterprise_vpc_ha_vip_eip_attachment" "ha_vip_eip_attachment_basic"{
   havip_id = cloud_vpc_ha_vip.havip.id
   address_ip = cloud_eip.eip.public_ip
 }

@@ -25,12 +25,12 @@ func TestAccTencentCloudTdmqRocketmqNamespaceDataSource(t *testing.T) {
 }
 
 const testAccDataSourceTdmqRocketmqNamespace = `
-resource "cloud_tdmq_rocketmq_cluster" "cluster" {
+resource "tencentcloudenterprise_tdmq_rocketmq_cluster" "cluster" {
 	cluster_name = "test_rocketmq_namespace_sdatasource"
 	remark = "test recket mq"
 }
 
-resource "cloud_tdmq_rocketmq_namespace" "namespacedata" {
+resource "tencentcloudenterprise_tdmq_rocketmq_namespace" "namespacedata" {
 	cluster_id = cloud_tdmq_rocketmq_cluster.cluster.cluster_id
 	namespace_name = "test_namespace_datasource"
 	ttl = 65000
@@ -38,7 +38,7 @@ resource "cloud_tdmq_rocketmq_namespace" "namespacedata" {
 	remark = "test namespace"
 }
 
-data "cloud_tdmq_rocketmq_namespace" "namespace" {
+data "tencentcloudenterprise_tdmq_rocketmq_namespace" "namespace" {
 	cluster_id = cloud_tdmq_rocketmq_cluster.cluster.cluster_id
 	name_keyword = cloud_tdmq_rocketmq_namespace.namespacedata.namespace_name
 }

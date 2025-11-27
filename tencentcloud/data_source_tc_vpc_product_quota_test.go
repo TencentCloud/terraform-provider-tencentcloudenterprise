@@ -24,7 +24,7 @@ func TestAccTencentCloudVpcProductQuotaDataSource_basic(t *testing.T) {
 
 const testAccVpcProductQuotaDataSource = `
 
-data "cloud_vpc_product_quota" "product_quota" {
+data "tencentcloudenterprise_vpc_product_quota" "product_quota" {
   product = "vpc"
 }
 

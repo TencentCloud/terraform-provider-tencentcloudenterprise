@@ -5,7 +5,7 @@ Provide a resource to create a VPCDNS domain forward rule.
 
 ```hcl
 
-	resource "cloud_vpcdns_forward_rule" "foo" {
+	resource "tencentcloudenterprise_vpcdns_forward_rule" "foo" {
 	  remark     = "forward_rule_foo"
 	  domain_id = "my_domain_id1"
 	  forward_address = ["8.8.8.8:88", "1.1.1.1:88"]
@@ -33,7 +33,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_vpcdns_forward_rule", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_vpcdns_forward_rule", CNDescription{
 		TerraformTypeCN: "VPCDNS转发规则",
 		DescriptionCN:   "提供VPCDNS转发规则资源，用于创建和管理DNS转发规则。",
 		AttributesCN: map[string]string{

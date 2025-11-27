@@ -88,12 +88,12 @@ variable "availability_zone" {
   default = "ap-guangzhou-3"
 }
 
-resource "cloud_vpc" "foo" {
+resource "tencentcloudenterprise_vpc" "foo" {
   name       = "guagua_vpc_instance_test"
   cidr_block = "10.0.0.0/16"
 }
 
-resource "cloud_vpc_subnet" "subnet" {
+resource "tencentcloudenterprise_vpc_subnet" "subnet" {
   availability_zone = var.availability_zone
   name              = "guagua_vpc_subnet_test"
   vpc_id            = cloud_vpc.foo.id
@@ -105,23 +105,23 @@ resource "cloud_vpc_subnet" "subnet" {
   }
 }
 
-data "cloud_vpc_subnets" "vpc_instances" {
+data "tencentcloudenterprise_vpc_subnets" "vpc_instances" {
   vpc_id = cloud_vpc_subnet.subnet.vpc_id
 }
 
-data "cloud_vpc_subnets" "id_instances" {
+data "tencentcloudenterprise_vpc_subnets" "id_instances" {
   subnet_id = cloud_vpc_subnet.subnet.id
 }
 
-data "cloud_vpc_subnets" "cidr_block_instances" {
+data "tencentcloudenterprise_vpc_subnets" "cidr_block_instances" {
   cidr_block = cloud_vpc_subnet.subnet.cidr_block
 }
 
-data "cloud_vpc_subnets" "name_instances" {
+data "tencentcloudenterprise_vpc_subnets" "name_instances" {
   name = cloud_vpc_subnet.subnet.name
 }
 
-data "cloud_vpc_subnets" "tags_instances" {
+data "tencentcloudenterprise_vpc_subnets" "tags_instances" {
   tags = cloud_vpc_subnet.subnet.tags
 }
 `

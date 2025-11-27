@@ -18,15 +18,15 @@ func TestAccTencentCloudDcdbActivateHourInstanceOperationResource_basic(t *testi
 			{
 				Config: fmt.Sprintf(testAccDcdbIsolateHourInstanceOperation, "oper_isolate"),
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttrSet("cloud_dcdb_isolate_hour_instance_operation.isolate_operation", "id"),
-					resource.TestCheckResourceAttrSet("cloud_dcdb_isolate_hour_instance_operation.isolate_operation", "instance_id"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_dcdb_isolate_hour_instance_operation.isolate_operation", "id"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_dcdb_isolate_hour_instance_operation.isolate_operation", "instance_id"),
 				),
 			},
 			{
 				Config: fmt.Sprintf(testAccDcdbActivateHourInstanceOperation, "oper_isolate"),
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttrSet("cloud_dcdb_activate_hour_instance_operation.activate_operation", "id"),
-					resource.TestCheckResourceAttrSet("cloud_dcdb_activate_hour_instance_operation.activate_operation", "instance_id"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_dcdb_activate_hour_instance_operation.activate_operation", "id"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_dcdb_activate_hour_instance_operation.activate_operation", "instance_id"),
 				),
 			},
 		},
@@ -34,15 +34,15 @@ func TestAccTencentCloudDcdbActivateHourInstanceOperationResource_basic(t *testi
 }
 
 const testAccDcdbHourInsOperation = defaultAzVariable + `
-data "cloud_vpc_security_groups" "internal" {
+data "tencentcloudenterprise_vpc_security_groups" "internal" {
 	name = "default"
 }
 
-data "cloud_vpc_instances" "vpc" {
+data "tencentcloudenterprise_vpc_instances" "vpc" {
 	name ="Default-VPC"
 }
 	
-data "cloud_vpc_subnets" "subnet" {
+data "tencentcloudenterprise_vpc_subnets" "subnet" {
 	vpc_id = data.cloud_vpc_instances.vpc.instance_list.0.vpc_id
 }
 
@@ -52,7 +52,7 @@ locals {
 	sg_id = data.cloud_vpc_security_groups.internal.security_groups.0.security_group_id
 }
 
-resource "cloud_dcdb_instance" "hourdb_instance" {
+resource "tencentcloudenterprise_dcdb_instance" "hourdb_instance" {
 	instance_name = "test_dcdb_db_hourdb_instance_%s"
 	zones = [var.default_az]
 	shard_memory = "2"
@@ -76,7 +76,7 @@ resource "cloud_dcdb_instance" "hourdb_instance" {
 
 const testAccDcdbActivateHourInstanceOperation = testAccDcdbHourInsOperation + `
 
-resource "cloud_dcdb_activate_hour_instance_operation" "activate_operation" {
+resource "tencentcloudenterprise_dcdb_activate_hour_instance_operation" "activate_operation" {
   instance_id = local.dcdb_id
 }
 
@@ -84,7 +84,7 @@ resource "cloud_dcdb_activate_hour_instance_operation" "activate_operation" {
 
 const testAccDcdbIsolateHourInstanceOperation = testAccDcdbHourInsOperation + `
 
-resource "cloud_dcdb_isolate_hour_instance_operation" "isolate_operation" {
+resource "tencentcloudenterprise_dcdb_isolate_hour_instance_operation" "isolate_operation" {
 	instance_id = local.dcdb_id
 }
 

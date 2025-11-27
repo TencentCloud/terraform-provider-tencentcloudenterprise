@@ -5,7 +5,7 @@ Use this data source to query detailed information of ckafka task_status
 
 ```hcl
 
-	data "cloud_ckafka_task_status" "task_status" {
+	data "tencentcloudenterprise_ckafka_task_status" "task_status" {
 	  flow_id = 123456
 	}
 
@@ -23,7 +23,7 @@ import (
 )
 
 func init() {
-	registerDataDescriptionProvider("cloud_ckafka_task_status", CNDescription{
+	registerDataDescriptionProvider("tencentcloudenterprise_ckafka_task_status", CNDescription{
 		TerraformTypeCN: "ckafka任务状态",
 		DescriptionCN:   "提供CKafka任务状态数据源，用于查询CKafka任务状态的详细信息。",
 		AttributesCN: map[string]string{

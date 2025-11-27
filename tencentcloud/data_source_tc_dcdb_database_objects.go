@@ -5,7 +5,7 @@ Use this data source to query detailed information of dcdb database_objects
 
 ```hcl
 
-	data "cloud_dcdb_database_objects" "database_objects" {
+	data "tencentcloudenterprise_dcdb_database_objects" "database_objects" {
 	  instance_id = "tdsqlshard-973xatu3"
 	  db_name = "SysDB"
 	  result_output_file = "database_objects.json"
@@ -26,7 +26,7 @@ import (
 )
 
 func init() {
-	registerDataDescriptionProvider("cloud_dcdb_database_objects", CNDescription{
+	registerDataDescriptionProvider("tencentcloudenterprise_dcdb_database_objects", CNDescription{
 		TerraformTypeCN: "数据库实例",
 		DescriptionCN:   "提供DCDB数据库对象数据源，用于查询DCDB数据库对象的详细信息。",
 		AttributesCN: map[string]string{

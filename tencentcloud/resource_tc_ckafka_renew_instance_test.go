@@ -14,14 +14,14 @@ func TestAccTencentCloudCkafkaRenewInstanceResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			{
 				Config: testAccCkafkaRenewInstance,
-				Check:  resource.ComposeTestCheckFunc(resource.TestCheckResourceAttrSet("cloud_ckafka_renew_instance.renew_instance", "id")),
+				Check:  resource.ComposeTestCheckFunc(resource.TestCheckResourceAttrSet("tencentcloudenterprise_ckafka_renew_instance.renew_instance", "id")),
 			},
 		},
 	})
 }
 
 const testAccCkafkaRenewInstance = defaultKafkaVariable + `
-resource "cloud_ckafka_instance" "renew_instance" {
+resource "tencentcloudenterprise_ckafka_instance" "renew_instance" {
 	instance_name      = "ckafka-instance-renew-test"
 	zone_id            = 100003
 	period             = 1
@@ -46,7 +46,7 @@ resource "cloud_ckafka_instance" "renew_instance" {
 	}
 }
 
-resource "cloud_ckafka_renew_instance" "renew_instance" {
+resource "tencentcloudenterprise_ckafka_renew_instance" "renew_instance" {
   instance_id = cloud_ckafka_instance.renew_instance.id
   time_span = 1
 }

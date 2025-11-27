@@ -5,7 +5,7 @@
 //
 // ```hcl
 //
-//	resource "cloud_redis_ssl" "ssl" {
+//	resource "tencentcloudenterprise_redis_ssl" "ssl" {
 //	 instance_id = "crs-c1nl9rpv"
 //	 ssl_config = "disabled"
 //	}

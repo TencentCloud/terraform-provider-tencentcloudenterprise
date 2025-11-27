@@ -5,7 +5,7 @@ Use this data source to query detailed information of vpc private_ip_addresses
 
 ```hcl
 
-	data "cloud_vpc_private_ip_addresses" "private_ip_addresses" {
+	data "tencentcloudenterprise_vpc_private_ip_addresses" "private_ip_addresses" {
 	  vpc_id = "vpc-l0dw94uh"
 	  private_ip_addresses = ["203.0.113.1"]
 	}
@@ -24,7 +24,7 @@ import (
 )
 
 func init() {
-	registerDataDescriptionProvider("cloud_vpc_private_ip_addresses", CNDescription{
+	registerDataDescriptionProvider("tencentcloudenterprise_vpc_private_ip_addresses", CNDescription{
 		TerraformTypeCN: "私有网络专用IP查询",
 		DescriptionCN:   "提供VPC私有IP地址数据源，用于查询VPC私有IP地址的详细信息。",
 		AttributesCN: map[string]string{

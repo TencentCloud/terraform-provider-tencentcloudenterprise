@@ -5,7 +5,7 @@ Use this data source to query detailed information of CBS snapshots.
 
 ```hcl
 
-	data "cloud_cbs_snapshots" "snapshots" {
+	data "tencentcloudenterprise_cbs_snapshots" "snapshots" {
 	  snapshot_id        = "snap-f3io7adt"
 	  result_output_file = "mytestpath"
 	}
@@ -24,7 +24,7 @@ import (
 )
 
 func init() {
-	registerDataDescriptionProvider("cloud_cbs_snapshots", CNDescription{
+	registerDataDescriptionProvider("tencentcloudenterprise_cbs_snapshots", CNDescription{
 		TerraformTypeCN: "cbs快照",
 		DescriptionCN:   "提供CBS快照数据源，用于查询CBS快照的详细信息。",
 		AttributesCN: map[string]string{

@@ -21,7 +21,7 @@ func TestAccTencentCloudCkafkaTaskStatusDataSource_basic(t *testing.T) {
 }
 
 const testAccCkafkaTaskStatusDataSource = `
-data "cloud_ckafka_task_status" "task_status" {
+data "tencentcloudenterprise_ckafka_task_status" "task_status" {
 	flow_id = 906791
 }
 `

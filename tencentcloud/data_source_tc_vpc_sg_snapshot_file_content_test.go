@@ -24,7 +24,7 @@ func TestAccTencentCloudNeedFixVpcSgSnapshotFileContentDataSource_basic(t *testi
 
 const testAccVpcSgSnapshotFileContentDataSource = `
 
-data "cloud_vpc_sg_snapshot_file_content" "sg_snapshot_file_content" {
+data "tencentcloudenterprise_vpc_sg_snapshot_file_content" "sg_snapshot_file_content" {
   snapshot_policy_id = "sspolicy-ebjofe71"
   snapshot_file_id   = "ssfile-017gepjxpr"
   security_group_id  = "sg-ntrgm89v"

@@ -24,6 +24,6 @@ func TestAccTencentCloudCvmImageQuotaDataSource_basic(t *testing.T) {
 
 const testAccCvmImageQuotaDataSource = `
 
-data "cloud_cvm_image_quota" "image_quota" {
+data "tencentcloudenterprise_cvm_image_quota" "image_quota" {
 }
 `

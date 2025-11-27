@@ -29,7 +29,7 @@ func TestAccTencentCloudTsfMicroserviceApiVersionDataSource_basic(t *testing.T) 
 
 const testAccTsfMicroserviceApiVersionDataSource = `
 
-data "cloud_tsf_microservice_api_version" "microservice_api_version" {
+data "tencentcloudenterprise_tsf_microservice_api_version" "microservice_api_version" {
   microservice_id = "ms-yq3jo6jd"
   path = "/printRequest"
   method = "get"

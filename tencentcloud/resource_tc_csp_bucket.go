@@ -6,7 +6,7 @@ Example Usage
 
 ```hcl
 
-	resource "cloud_csp_bucket" "mycsp" {
+	resource "tencentcloudenterprise_csp_bucket" "mycsp" {
 	  bucket = "mycos-1258798060"
 	  acl    = "private"
 	}
@@ -17,7 +17,7 @@ Example Usage
 
 ```hcl
 
-	resource "cloud_csp_bucket" "mycsp" {
+	resource "tencentcloudenterprise_csp_bucket" "mycsp" {
 	  bucket   = "mycos-1258798060"
 	  acl      = "private"
 	  versioning_enable = true
@@ -30,7 +30,7 @@ Example Usage
 
 ```hcl
 
-	resource "cloud_csp_bucket" "mycsp" {
+	resource "tencentcloudenterprise_csp_bucket" "mycsp" {
 	  bucket = "mycsp-1258798060"
 
 	  website {
@@ -49,7 +49,7 @@ Example Usage
 
 ```hcl
 
-	resource "cloud_csp_bucket" "mycsp" {
+	resource "tencentcloudenterprise_csp_bucket" "mycsp" {
 	  bucket = "mycsp-1258798060"
 	  acl    = "public-read-write"
 
@@ -68,7 +68,7 @@ Example Usage
 
 ```hcl
 
-	resource "cloud_csp_bucket" "mycsp" {
+	resource "tencentcloudenterprise_csp_bucket" "mycsp" {
 	  bucket = "mycsp-1258798060"
 	  acl    = "public-read-write"
 
@@ -87,7 +87,7 @@ Example Usage
 
 ```hcl
 
-	resource "cloud_csp_bucket" "with_origin" {
+	resource "tencentcloudenterprise_csp_bucket" "with_origin" {
 	  bucket = "mycsp-1258798060"
 	  acl    = "private"
 	  origin_domain_rules {
@@ -102,7 +102,7 @@ Example Usage
 Using origin-pull settings
 ```hcl
 
-	resource "cloud_csp_bucket" "with_origin" {
+	resource "tencentcloudenterprise_csp_bucket" "with_origin" {
 	  bucket = "mycsp-1258798060"
 	  acl    = "private"
 	}
@@ -113,7 +113,7 @@ Using origin-pull settings
 
 ```hcl
 
-	resource "cloud_cam_role" "cspLogGrant" {
+	resource "tencentcloudenterprise_cam_role" "cspLogGrant" {
 	  name          = "CLS_QcsRole"
 	  document      = <<EOF
 
@@ -139,21 +139,21 @@ EOF
 	  description   = "csp log enable grant"
 	}
 
-	data "cloud_cam_policies" "cspAccess" {
+	data "tencentcloudenterprise_cam_policies" "cspAccess" {
 	  name      = "QcloudcspAccessForCLSRole"
 	}
 
-	resource "cloud_cam_role_policy_attachment" "cspLogGrant" {
+	resource "tencentcloudenterprise_cam_role_policy_attachment" "cspLogGrant" {
 	  role_id   = cloud_cam_role.cspLogGrant.id
 	  policy_id = data.cloud_cam_policies.cspAccess.policy_list.0.policy_id
 	}
 
-	resource "cloud_csp_bucket" "mylog" {
+	resource "tencentcloudenterprise_csp_bucket" "mylog" {
 	  bucket = "mylog-1258798060"
 	  acl    = "private"
 	}
 
-	resource "cloud_csp_bucket" "mycsp" {
+	resource "tencentcloudenterprise_csp_bucket" "mycsp" {
 	  bucket = "mycsp-1258798060"
 	  acl    = "private"
 	  log_enable = true
@@ -188,7 +188,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_csp_bucket", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_csp_bucket", CNDescription{
 		TerraformTypeCN: "创建存储桶（CSP）",
 		DescriptionCN:   "提供CSP存储桶资源，用于创建和管理CSP存储桶及其属性。",
 		AttributesCN: map[string]string{

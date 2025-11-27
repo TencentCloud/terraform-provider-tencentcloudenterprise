@@ -5,7 +5,7 @@ Use this data source to query detailed information of tsf microservice_api_versi
 
 ```hcl
 
-	data "cloud_tsf_microservice_api_version" "microservice_api_version" {
+	data "tencentcloudenterprise_tsf_microservice_api_version" "microservice_api_version" {
 	  microservice_id = "ms-yq3jo6jd"
 	  path = ""
 	  method = "get"
@@ -25,7 +25,7 @@ import (
 )
 
 func init() {
-	registerDataDescriptionProvider("cloud_tsf_microservice_api_version", CNDescription{
+	registerDataDescriptionProvider("tencentcloudenterprise_tsf_microservice_api_version", CNDescription{
 		TerraformTypeCN: "TSF微服务API版本",
 		DescriptionCN:   "提供TSF微服务API版本数据源，用于查询TSF微服务API版本的详细信息。",
 		AttributesCN: map[string]string{

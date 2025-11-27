@@ -16,10 +16,10 @@ func TestAccTencentCloudNeedFixVpcPublicAddressAdjustResource_basic(t *testing.T
 		Steps: []resource.TestStep{
 			{
 				Config: testAccVpcPublicAddressAdjust,
-				Check:  resource.ComposeTestCheckFunc(resource.TestCheckResourceAttrSet("cloud_eip_public_address_adjust.public_address_adjust", "id")),
+				Check:  resource.ComposeTestCheckFunc(resource.TestCheckResourceAttrSet("tencentcloudenterprise_eip_public_address_adjust.public_address_adjust", "id")),
 			},
 			{
-				ResourceName:      "cloud_eip_public_address_adjust.public_address_adjust",
+				ResourceName:      "tencentcloudenterprise_eip_public_address_adjust.public_address_adjust",
 				ImportState:       true,
 				ImportStateVerify: true,
 			},
@@ -29,7 +29,7 @@ func TestAccTencentCloudNeedFixVpcPublicAddressAdjustResource_basic(t *testing.T
 
 const testAccVpcPublicAddressAdjust = `
 
-resource "cloud_eip_public_address_adjust" "public_address_adjust" {
+resource "tencentcloudenterprise_eip_public_address_adjust" "public_address_adjust" {
   instance_id = "ins-osckfnm7"
 }
 

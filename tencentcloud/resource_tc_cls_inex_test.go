@@ -16,11 +16,11 @@ func TestAccTencentCloudClsIndex_basic(t *testing.T) {
 			{
 				Config: testAccClsIndex,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr("cloud_cls_index.index", "status", "true"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_cls_index.index", "status", "true"),
 				),
 			},
 			{
-				ResourceName:      "cloud_cls_index.index",
+				ResourceName:      "tencentcloudenterprise_cls_index.index",
 				ImportState:       true,
 				ImportStateVerify: true,
 			},
@@ -29,14 +29,14 @@ func TestAccTencentCloudClsIndex_basic(t *testing.T) {
 }
 
 const testAccClsIndex = `
-resource "cloud_cls_logset" "logset" {
+resource "tencentcloudenterprise_cls_logset" "logset" {
   logset_name = "tf-topic-index"
   tags        = {
     "test" = "test"
   }
 }
 
-resource "cloud_cls_topic" "topic" {
+resource "tencentcloudenterprise_cls_topic" "topic" {
   auto_split           = true
   logset_id            = cloud_cls_logset.logset.id
   max_split_partitions = 20
@@ -49,7 +49,7 @@ resource "cloud_cls_topic" "topic" {
   topic_name           = "tf-topic-index"
 }
 
-resource "cloud_cls_index" "index" {
+resource "tencentcloudenterprise_cls_index" "index" {
   topic_id = cloud_cls_topic.topic.id
 
   rule {

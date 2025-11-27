@@ -5,7 +5,7 @@ Use this data source to query detailed information of turbofs file_system_client
 
 ```hcl
 
-	data "cloud_turbofs_file_system_clients" "file_system_clients" {
+	data "tencentcloudenterprise_turbofs_file_system_clients" "file_system_clients" {
 	  file_system_id = "cfs-iobiaxtj"
 	}
 
@@ -22,7 +22,7 @@ import (
 )
 
 func init() {
-	registerDataDescriptionProvider("cloud_turbofs_file_system_clients", CNDescription{
+	registerDataDescriptionProvider("tencentcloudenterprise_turbofs_file_system_clients", CNDescription{
 		TerraformTypeCN: "文件系统客户端",
 		DescriptionCN:   "提供TurboFS文件系统客户端数据源，用于查询TurboFS文件系统客户端的详细信息。",
 		AttributesCN: map[string]string{

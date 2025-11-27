@@ -5,7 +5,7 @@ Use this data source to query detailed information of tdmq publisher_summary
 
 ```hcl
 
-	data "cloud_tdmq_publisher_summary" "publisher_summary" {
+	data "tencentcloudenterprise_tdmq_publisher_summary" "publisher_summary" {
 	  cluster_id = "pulsar-9n95ax58b9vn"
 	  namespace  = "keep-ns"
 	  topic      = "keep-topic"

@@ -5,7 +5,7 @@ Use this data source to query detailed information of tsf group_instances
 
 ```hcl
 
-	data "cloud_tsf_group_instances" "group_instances" {
+	data "tencentcloudenterprise_tsf_group_instances" "group_instances" {
 	  group_id = "group-yrjkln9v"
 	  search_word = "testing"
 	  order_by = "ASC"
@@ -26,7 +26,7 @@ import (
 )
 
 func init() {
-	registerDataDescriptionProvider("cloud_tsf_group_instances", CNDescription{
+	registerDataDescriptionProvider("tencentcloudenterprise_tsf_group_instances", CNDescription{
 		TerraformTypeCN: "TSF部署组实例",
 		DescriptionCN:   "提供TSF部署组实例数据源，用于查询TSF部署组实例的详细信息。",
 		AttributesCN: map[string]string{

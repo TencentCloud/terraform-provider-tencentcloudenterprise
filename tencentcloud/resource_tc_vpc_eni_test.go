@@ -14,8 +14,8 @@ import (
 )
 
 func init() {
-	resource.AddTestSweepers("cloud_vpc_eni", &resource.Sweeper{
-		Name: "cloud_vpc_eni",
+	resource.AddTestSweepers("tencentcloudenterprise_vpc_eni", &resource.Sweeper{
+		Name: "tencentcloudenterprise_vpc_eni",
 		F:    testSweepEniInstance,
 	})
 }
@@ -77,23 +77,23 @@ func TestAccTencentCloudEni_basic(t *testing.T) {
 			{
 				Config: testAccEniBasic,
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckEniExists("cloud_vpc_eni.foo", &eniId),
-					resource.TestCheckResourceAttr("cloud_vpc_eni.foo", "name", "ci-test-eni"),
-					resource.TestCheckResourceAttr("cloud_vpc_eni.foo", "description", "eni desc"),
-					resource.TestCheckResourceAttr("cloud_vpc_eni.foo", "security_groups.#", "0"),
-					resource.TestCheckResourceAttrSet("cloud_vpc_eni.foo", "vpc_id"),
-					resource.TestCheckResourceAttrSet("cloud_vpc_eni.foo", "subnet_id"),
-					resource.TestCheckResourceAttr("cloud_vpc_eni.foo", "ipv4_count", "1"),
-					resource.TestCheckNoResourceAttr("cloud_vpc_eni.foo", "tags"),
-					resource.TestCheckResourceAttrSet("cloud_vpc_eni.foo", "mac"),
-					resource.TestCheckResourceAttr("cloud_vpc_eni.foo", "state", ENI_STATE_AVAILABLE),
-					resource.TestCheckResourceAttr("cloud_vpc_eni.foo", "primary", "false"),
-					resource.TestCheckResourceAttrSet("cloud_vpc_eni.foo", "create_time"),
-					resource.TestCheckResourceAttr("cloud_vpc_eni.foo", "ipv4_info.#", "1"),
+					testAccCheckEniExists("tencentcloudenterprise_vpc_eni.foo", &eniId),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_vpc_eni.foo", "name", "ci-test-eni"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_vpc_eni.foo", "description", "eni desc"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_vpc_eni.foo", "security_groups.#", "0"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_vpc_eni.foo", "vpc_id"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_vpc_eni.foo", "subnet_id"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_vpc_eni.foo", "ipv4_count", "1"),
+					resource.TestCheckNoResourceAttr("tencentcloudenterprise_vpc_eni.foo", "tags"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_vpc_eni.foo", "mac"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_vpc_eni.foo", "state", ENI_STATE_AVAILABLE),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_vpc_eni.foo", "primary", "false"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_vpc_eni.foo", "create_time"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_vpc_eni.foo", "ipv4_info.#", "1"),
 				),
 			},
 			{
-				ResourceName:      "cloud_vpc_eni.foo",
+				ResourceName:      "tencentcloudenterprise_vpc_eni.foo",
 				ImportState:       true,
 				ImportStateVerify: true,
 			},
@@ -113,35 +113,35 @@ func TestAccTencentCloudEni_updateAttr(t *testing.T) {
 			{
 				Config: testAccEniBasic,
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckEniExists("cloud_vpc_eni.foo", &eniId),
-					resource.TestCheckResourceAttr("cloud_vpc_eni.foo", "name", "ci-test-eni"),
-					resource.TestCheckResourceAttr("cloud_vpc_eni.foo", "description", "eni desc"),
-					resource.TestCheckResourceAttr("cloud_vpc_eni.foo", "security_groups.#", "0"),
-					resource.TestCheckResourceAttrSet("cloud_vpc_eni.foo", "vpc_id"),
-					resource.TestCheckResourceAttrSet("cloud_vpc_eni.foo", "subnet_id"),
-					resource.TestCheckResourceAttr("cloud_vpc_eni.foo", "ipv4_count", "1"),
-					resource.TestCheckNoResourceAttr("cloud_vpc_eni.foo", "tags"),
-					resource.TestCheckResourceAttrSet("cloud_vpc_eni.foo", "mac"),
-					resource.TestCheckResourceAttr("cloud_vpc_eni.foo", "state", ENI_STATE_AVAILABLE),
-					resource.TestCheckResourceAttr("cloud_vpc_eni.foo", "primary", "false"),
-					resource.TestCheckResourceAttrSet("cloud_vpc_eni.foo", "create_time"),
-					resource.TestCheckResourceAttr("cloud_vpc_eni.foo", "ipv4_info.#", "1"),
+					testAccCheckEniExists("tencentcloudenterprise_vpc_eni.foo", &eniId),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_vpc_eni.foo", "name", "ci-test-eni"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_vpc_eni.foo", "description", "eni desc"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_vpc_eni.foo", "security_groups.#", "0"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_vpc_eni.foo", "vpc_id"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_vpc_eni.foo", "subnet_id"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_vpc_eni.foo", "ipv4_count", "1"),
+					resource.TestCheckNoResourceAttr("tencentcloudenterprise_vpc_eni.foo", "tags"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_vpc_eni.foo", "mac"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_vpc_eni.foo", "state", ENI_STATE_AVAILABLE),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_vpc_eni.foo", "primary", "false"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_vpc_eni.foo", "create_time"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_vpc_eni.foo", "ipv4_info.#", "1"),
 				),
 			},
 			{
 				Config: testAccEniUpdateAttr,
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckEniExists("cloud_vpc_eni.foo", &eniId),
-					resource.TestCheckResourceAttr("cloud_vpc_eni.foo", "name", "ci-test-eni-new"),
-					resource.TestCheckResourceAttr("cloud_vpc_eni.foo", "description", "eni desc new"),
-					resource.TestCheckResourceAttr("cloud_vpc_eni.foo", "security_groups.#", "2"),
+					testAccCheckEniExists("tencentcloudenterprise_vpc_eni.foo", &eniId),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_vpc_eni.foo", "name", "ci-test-eni-new"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_vpc_eni.foo", "description", "eni desc new"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_vpc_eni.foo", "security_groups.#", "2"),
 				),
 			},
 			{
 				Config: testAccEniUpdateTags,
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckEniExists("cloud_vpc_eni.foo", &eniId),
-					resource.TestCheckResourceAttr("cloud_vpc_eni.foo", "tags.test", "test"),
+					testAccCheckEniExists("tencentcloudenterprise_vpc_eni.foo", &eniId),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_vpc_eni.foo", "tags.test", "test"),
 				),
 			},
 		},
@@ -160,35 +160,35 @@ func TestAccTencentCloudEni_updateCount(t *testing.T) {
 			{
 				Config: testAccEniBasic,
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckEniExists("cloud_vpc_eni.foo", &eniId),
-					resource.TestCheckResourceAttr("cloud_vpc_eni.foo", "name", "ci-test-eni"),
-					resource.TestCheckResourceAttr("cloud_vpc_eni.foo", "description", "eni desc"),
-					resource.TestCheckResourceAttr("cloud_vpc_eni.foo", "security_groups.#", "0"),
-					resource.TestCheckResourceAttrSet("cloud_vpc_eni.foo", "vpc_id"),
-					resource.TestCheckResourceAttrSet("cloud_vpc_eni.foo", "subnet_id"),
-					resource.TestCheckResourceAttr("cloud_vpc_eni.foo", "ipv4_count", "1"),
-					resource.TestCheckNoResourceAttr("cloud_vpc_eni.foo", "tags"),
-					resource.TestCheckResourceAttrSet("cloud_vpc_eni.foo", "mac"),
-					resource.TestCheckResourceAttr("cloud_vpc_eni.foo", "state", ENI_STATE_AVAILABLE),
-					resource.TestCheckResourceAttr("cloud_vpc_eni.foo", "primary", "false"),
-					resource.TestCheckResourceAttrSet("cloud_vpc_eni.foo", "create_time"),
-					resource.TestCheckResourceAttr("cloud_vpc_eni.foo", "ipv4_info.#", "1"),
+					testAccCheckEniExists("tencentcloudenterprise_vpc_eni.foo", &eniId),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_vpc_eni.foo", "name", "ci-test-eni"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_vpc_eni.foo", "description", "eni desc"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_vpc_eni.foo", "security_groups.#", "0"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_vpc_eni.foo", "vpc_id"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_vpc_eni.foo", "subnet_id"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_vpc_eni.foo", "ipv4_count", "1"),
+					resource.TestCheckNoResourceAttr("tencentcloudenterprise_vpc_eni.foo", "tags"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_vpc_eni.foo", "mac"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_vpc_eni.foo", "state", ENI_STATE_AVAILABLE),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_vpc_eni.foo", "primary", "false"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_vpc_eni.foo", "create_time"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_vpc_eni.foo", "ipv4_info.#", "1"),
 				),
 			},
 			{
 				Config: testAccEniUpdateCountAdd,
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckEniExists("cloud_vpc_eni.foo", &eniId),
-					resource.TestCheckResourceAttr("cloud_vpc_eni.foo", "ipv4_count", "30"),
-					resource.TestCheckResourceAttr("cloud_vpc_eni.foo", "ipv4_info.#", "30"),
+					testAccCheckEniExists("tencentcloudenterprise_vpc_eni.foo", &eniId),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_vpc_eni.foo", "ipv4_count", "30"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_vpc_eni.foo", "ipv4_info.#", "30"),
 				),
 			},
 			{
 				Config: testAccEniUpdateCountSub,
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckEniExists("cloud_vpc_eni.foo", &eniId),
-					resource.TestCheckResourceAttr("cloud_vpc_eni.foo", "ipv4_count", "20"),
-					resource.TestCheckResourceAttr("cloud_vpc_eni.foo", "ipv4_info.#", "20"),
+					testAccCheckEniExists("tencentcloudenterprise_vpc_eni.foo", &eniId),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_vpc_eni.foo", "ipv4_count", "20"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_vpc_eni.foo", "ipv4_info.#", "20"),
 				),
 			},
 		},
@@ -207,43 +207,43 @@ func TestAccTencentCloudEni_updateManually(t *testing.T) {
 			{
 				Config: testAccEniManually,
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckEniExists("cloud_vpc_eni.foo", &eniId),
-					resource.TestCheckResourceAttr("cloud_vpc_eni.foo", "name", "ci-test-eni"),
-					resource.TestCheckResourceAttr("cloud_vpc_eni.foo", "description", "eni desc"),
-					resource.TestCheckResourceAttr("cloud_vpc_eni.foo", "security_groups.#", "0"),
-					resource.TestCheckResourceAttrSet("cloud_vpc_eni.foo", "vpc_id"),
-					resource.TestCheckResourceAttrSet("cloud_vpc_eni.foo", "subnet_id"),
-					resource.TestCheckResourceAttr("cloud_vpc_eni.foo", "ipv4s.#", "1"),
-					resource.TestCheckNoResourceAttr("cloud_vpc_eni.foo", "ipv4_count"),
-					resource.TestCheckNoResourceAttr("cloud_vpc_eni.foo", "tags"),
-					resource.TestCheckResourceAttrSet("cloud_vpc_eni.foo", "mac"),
-					resource.TestCheckResourceAttr("cloud_vpc_eni.foo", "state", ENI_STATE_AVAILABLE),
-					resource.TestCheckResourceAttr("cloud_vpc_eni.foo", "primary", "false"),
-					resource.TestCheckResourceAttrSet("cloud_vpc_eni.foo", "create_time"),
-					resource.TestCheckResourceAttr("cloud_vpc_eni.foo", "ipv4_info.#", "1"),
+					testAccCheckEniExists("tencentcloudenterprise_vpc_eni.foo", &eniId),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_vpc_eni.foo", "name", "ci-test-eni"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_vpc_eni.foo", "description", "eni desc"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_vpc_eni.foo", "security_groups.#", "0"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_vpc_eni.foo", "vpc_id"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_vpc_eni.foo", "subnet_id"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_vpc_eni.foo", "ipv4s.#", "1"),
+					resource.TestCheckNoResourceAttr("tencentcloudenterprise_vpc_eni.foo", "ipv4_count"),
+					resource.TestCheckNoResourceAttr("tencentcloudenterprise_vpc_eni.foo", "tags"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_vpc_eni.foo", "mac"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_vpc_eni.foo", "state", ENI_STATE_AVAILABLE),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_vpc_eni.foo", "primary", "false"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_vpc_eni.foo", "create_time"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_vpc_eni.foo", "ipv4_info.#", "1"),
 				),
 			},
 			{
 				Config: testAccEniManuallyUpdatePrimaryDesc,
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckEniExists("cloud_vpc_eni.foo", &eniId),
-					resource.TestCheckResourceAttr("cloud_vpc_eni.foo", "ipv4_info.#", "1"),
+					testAccCheckEniExists("tencentcloudenterprise_vpc_eni.foo", &eniId),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_vpc_eni.foo", "ipv4_info.#", "1"),
 				),
 			},
 			{
 				Config: testAccEniManuallyUpdateAdd,
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckEniExists("cloud_vpc_eni.foo", &eniId),
-					resource.TestCheckResourceAttr("cloud_vpc_eni.foo", "ipv4s.#", "30"),
-					resource.TestCheckResourceAttr("cloud_vpc_eni.foo", "ipv4_info.#", "30"),
+					testAccCheckEniExists("tencentcloudenterprise_vpc_eni.foo", &eniId),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_vpc_eni.foo", "ipv4s.#", "30"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_vpc_eni.foo", "ipv4_info.#", "30"),
 				),
 			},
 			{
 				Config: testAccEniManuallyUpdateSub,
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckEniExists("cloud_vpc_eni.foo", &eniId),
-					resource.TestCheckResourceAttr("cloud_vpc_eni.foo", "ipv4s.#", "15"),
-					resource.TestCheckResourceAttr("cloud_vpc_eni.foo", "ipv4_info.#", "15"),
+					testAccCheckEniExists("tencentcloudenterprise_vpc_eni.foo", &eniId),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_vpc_eni.foo", "ipv4s.#", "15"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_vpc_eni.foo", "ipv4_info.#", "15"),
 				),
 			},
 		},
@@ -306,12 +306,12 @@ variable "availability_zone" {
   default = "ap-guangzhou-3"
 }
 
-resource "cloud_vpc" "foo" {
+resource "tencentcloudenterprise_vpc" "foo" {
   name       = "ci-test-eni-vpc"
   cidr_block = "10.0.0.0/16"
 }
 
-resource "cloud_vpc_subnet" "foo" {
+resource "tencentcloudenterprise_vpc_subnet" "foo" {
   availability_zone = var.availability_zone
   name              = "ci-test-eni-subnet"
   vpc_id            = cloud_vpc.foo.id
@@ -322,7 +322,7 @@ resource "cloud_vpc_subnet" "foo" {
 
 const testAccEniBasic = testAccEniVpc + `
 
-resource "cloud_vpc_eni" "foo" {
+resource "tencentcloudenterprise_vpc_eni" "foo" {
   name        = "ci-test-eni"
   vpc_id      = cloud_vpc.foo.id
   subnet_id   = cloud_vpc_subnet.foo.id
@@ -333,15 +333,15 @@ resource "cloud_vpc_eni" "foo" {
 
 const testAccEniUpdateAttr = testAccEniVpc + `
 
-resource "cloud_vpc_security_group" "foo" {
+resource "tencentcloudenterprise_vpc_security_group" "foo" {
   name = "test-ci-eni-sg1"
 }
 
-resource "cloud_vpc_security_group" "bar" {
+resource "tencentcloudenterprise_vpc_security_group" "bar" {
   name = "test-ci-eni-sg2"
 }
 
-resource "cloud_vpc_eni" "foo" {
+resource "tencentcloudenterprise_vpc_eni" "foo" {
   name            = "ci-test-eni-new"
   vpc_id          = cloud_vpc.foo.id
   subnet_id       = cloud_vpc_subnet.foo.id
@@ -353,15 +353,15 @@ resource "cloud_vpc_eni" "foo" {
 
 const testAccEniUpdateTags = testAccEniVpc + `
 
-resource "cloud_vpc_security_group" "foo" {
+resource "tencentcloudenterprise_vpc_security_group" "foo" {
   name = "test-ci-eni-sg1"
 }
 
-resource "cloud_vpc_security_group" "bar" {
+resource "tencentcloudenterprise_vpc_security_group" "bar" {
   name = "test-ci-eni-sg2"
 }
 
-resource "cloud_vpc_eni" "foo" {
+resource "tencentcloudenterprise_vpc_eni" "foo" {
   name            = "ci-test-eni-new"
   vpc_id          = cloud_vpc.foo.id
   subnet_id       = cloud_vpc_subnet.foo.id
@@ -377,7 +377,7 @@ resource "cloud_vpc_eni" "foo" {
 
 const testAccEniUpdateCountAdd = testAccEniVpc + `
 
-resource "cloud_vpc_eni" "foo" {
+resource "tencentcloudenterprise_vpc_eni" "foo" {
   name        = "ci-test-eni"
   vpc_id      = cloud_vpc.foo.id
   subnet_id   = cloud_vpc_subnet.foo.id
@@ -388,7 +388,7 @@ resource "cloud_vpc_eni" "foo" {
 
 const testAccEniUpdateCountSub = testAccEniVpc + `
 
-resource "cloud_vpc_eni" "foo" {
+resource "tencentcloudenterprise_vpc_eni" "foo" {
   name        = "ci-test-eni"
   vpc_id      = cloud_vpc.foo.id
   subnet_id   = cloud_vpc_subnet.foo.id
@@ -399,7 +399,7 @@ resource "cloud_vpc_eni" "foo" {
 
 const testAccEniManually = testAccEniVpc + `
 
-resource "cloud_vpc_eni" "foo" {
+resource "tencentcloudenterprise_vpc_eni" "foo" {
   name        = "ci-test-eni"
   vpc_id      = cloud_vpc.foo.id
   subnet_id   = cloud_vpc_subnet.foo.id
@@ -415,7 +415,7 @@ resource "cloud_vpc_eni" "foo" {
 
 const testAccEniManuallyUpdatePrimaryDesc = testAccEniVpc + `
 
-resource "cloud_vpc_eni" "foo" {
+resource "tencentcloudenterprise_vpc_eni" "foo" {
   name        = "ci-test-eni"
   vpc_id      = cloud_vpc.foo.id
   subnet_id   = cloud_vpc_subnet.foo.id
@@ -431,7 +431,7 @@ resource "cloud_vpc_eni" "foo" {
 
 const testAccEniManuallyUpdateAdd = testAccEniVpc + `
 
-resource "cloud_vpc_eni" "foo" {
+resource "tencentcloudenterprise_vpc_eni" "foo" {
   name        = "ci-test-eni"
   vpc_id      = cloud_vpc.foo.id
   subnet_id   = cloud_vpc_subnet.foo.id
@@ -592,7 +592,7 @@ resource "cloud_vpc_eni" "foo" {
 
 const testAccEniManuallyUpdateSub = testAccEniVpc + `
 
-resource "cloud_vpc_eni" "foo" {
+resource "tencentcloudenterprise_vpc_eni" "foo" {
   name        = "ci-test-eni"
   vpc_id      = cloud_vpc.foo.id
   subnet_id   = cloud_vpc_subnet.foo.id

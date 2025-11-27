@@ -5,7 +5,7 @@ Use this data source to query detailed information of tsf gateway_all_group_apis
 
 ```hcl
 
-	data "cloud_tsf_gateway_all_group_apis" "gateway_all_group_apis" {
+	data "tencentcloudenterprise_tsf_gateway_all_group_apis" "gateway_all_group_apis" {
 	  gateway_deploy_group_id = "group-aeoej4qy"
 	  search_word = "user"
 	}
@@ -24,7 +24,7 @@ import (
 )
 
 func init() {
-	registerDataDescriptionProvider("cloud_tsf_gateway_all_group_apis", CNDescription{
+	registerDataDescriptionProvider("tencentcloudenterprise_tsf_gateway_all_group_apis", CNDescription{
 		TerraformTypeCN: "TSF网关所有API分组",
 		DescriptionCN:   "提供TSF网关所有API分组数据源，用于查询TSF网关所有API分组的详细信息。",
 		AttributesCN: map[string]string{

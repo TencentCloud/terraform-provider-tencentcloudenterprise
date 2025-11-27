@@ -22,6 +22,6 @@ func TestAccTencentCloudCkafkaCkafkaZoneDataSource_basic(t *testing.T) {
 
 const testAccCkafkaCkafkaZoneDataSource = `
 
-data "cloud_ckafka_zone" "ckafka_zone" {
+data "tencentcloudenterprise_ckafka_zone" "ckafka_zone" {
 }
 `

@@ -5,7 +5,7 @@ Provides a resource to create a cls alarm
 
 ```hcl
 
-	resource "cloud_cls_alarm" "alarm" {
+	resource "tencentcloudenterprise_cls_alarm" "alarm" {
 	  name             = "terraform-alarm-test"
 	  alarm_notice_ids = [
 	    "notice-0850756b-245d-4bc7-bb27-2a58fffc780b",
@@ -69,7 +69,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_cls_alarm", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_cls_alarm", CNDescription{
 		TerraformTypeCN: "CLS告警策略",
 		DescriptionCN:   "提供CLS告警策略资源，用于创建和管理日志服务告警策略。",
 		AttributesCN: map[string]string{

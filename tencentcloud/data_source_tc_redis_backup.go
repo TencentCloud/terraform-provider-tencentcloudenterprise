@@ -5,7 +5,7 @@ Use this data source to query detailed information of redis backup
 
 ```hcl
 
-	data "cloud_redis_backup" "backup" {
+	data "tencentcloudenterprise_redis_backup" "backup" {
 	  instance_id = "crs-c1nl9rpv"
 	  begin_time = "2023-04-07 03:57:30"
 	  end_time = "2023-04-07 03:57:56"
@@ -27,7 +27,7 @@ import (
 )
 
 func init() {
-	registerDataDescriptionProvider("cloud_redis_backup", CNDescription{
+	registerDataDescriptionProvider("tencentcloudenterprise_redis_backup", CNDescription{
 		TerraformTypeCN: "Redis®备份",
 		DescriptionCN:   "提供Redis备份数据源，用于查询Redis备份的详细信息。",
 		AttributesCN: map[string]string{

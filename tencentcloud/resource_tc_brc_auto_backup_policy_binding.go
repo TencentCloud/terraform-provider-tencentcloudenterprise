@@ -5,7 +5,7 @@ Provides a resource to create a brc auto_snapshot_policy binding
 
 ```hcl
 
-	resource "cloud_brc_auto_backup_policy_binding" "example" {
+	resource "tencentcloudenterprise_brc_auto_backup_policy_binding" "example" {
 	  auto_backup_policy_id = cloud_brc_autobackup_policy.example.id
 	  instance_ids          = ["ins-21ahx7qj"]
 	  resource_type         = "INSTANCE"
@@ -27,7 +27,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_brc_auto_backup_policy_binding", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_brc_auto_backup_policy_binding", CNDescription{
 		TerraformTypeCN: "自动备份策略绑定",
 		DescriptionCN:   "提供BRC自动备份策略绑定资源，用于将自动备份策略绑定到指定实例。",
 		AttributesCN: map[string]string{

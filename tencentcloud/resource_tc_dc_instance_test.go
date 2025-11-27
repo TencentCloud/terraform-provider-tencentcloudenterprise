@@ -16,10 +16,10 @@ func TestAccTencentCloudDcInstanceResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			{
 				Config: testAccDcInstance,
-				Check:  resource.ComposeTestCheckFunc(resource.TestCheckResourceAttrSet("cloud_dc_instance.instance", "id")),
+				Check:  resource.ComposeTestCheckFunc(resource.TestCheckResourceAttrSet("tencentcloudenterprise_dc_instance.instance", "id")),
 			},
 			{
-				ResourceName:      "cloud_dc_instance.instance",
+				ResourceName:      "tencentcloudenterprise_dc_instance.instance",
 				ImportState:       true,
 				ImportStateVerify: true,
 			},
@@ -29,7 +29,7 @@ func TestAccTencentCloudDcInstanceResource_basic(t *testing.T) {
 
 const testAccDcInstance = `
 
-resource "cloud_dc_instance" "instance" {
+resource "tencentcloudenterprise_dc_instance" "instance" {
   access_point_id         = "ap-shenzhen-b-ft"
   bandwidth               = 10
   customer_contact_number = "0"

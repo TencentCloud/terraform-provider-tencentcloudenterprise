@@ -4,7 +4,7 @@ Use this data source to query detailed information of vpc vpn_customer_gateway_v
 # Example Usage
 
 ```hcl
-data "cloud_vpn_customer_gateway_vendors" "vpn_customer_gateway_vendors" {}
+data "tencentcloudenterprise_vpn_customer_gateway_vendors" "vpn_customer_gateway_vendors" {}
 ```
 */
 package tencentcloud
@@ -19,7 +19,7 @@ import (
 )
 
 func init() {
-	registerDataDescriptionProvider("cloud_vpn_customer_gateway_vendors", CNDescription{
+	registerDataDescriptionProvider("tencentcloudenterprise_vpn_customer_gateway_vendors", CNDescription{
 		TerraformTypeCN: "VPN客户网关供应商",
 		AttributesCN: map[string]string{
 			"customer_gateway_vendor_set": "客户网关供应商集",

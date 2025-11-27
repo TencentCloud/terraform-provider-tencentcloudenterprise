@@ -5,16 +5,16 @@ Use this data source to query vpc instances' information.
 
 ```hcl
 
-	resource "cloud_vpc" "foo" {
+	resource "tencentcloudenterprise_vpc" "foo" {
 	  name       = "guagua_vpc_instance_test"
 	  cidr_block = "10.0.0.0/16"
 	}
 
-	data "cloud_vpc_instances" "id_instances" {
+	data "tencentcloudenterprise_vpc_instances" "id_instances" {
 	  vpc_id = cloud_vpc.foo.id
 	}
 
-	data "cloud_vpc_instances" "name_instances" {
+	data "tencentcloudenterprise_vpc_instances" "name_instances" {
 	  name = cloud_vpc.foo.name
 	}
 
@@ -36,7 +36,7 @@ import (
 )
 
 func init() {
-	registerDataDescriptionProvider("cloud_vpc_instances", CNDescription{
+	registerDataDescriptionProvider("tencentcloudenterprise_vpc_instances", CNDescription{
 		TerraformTypeCN: "私有网络实例",
 		DescriptionCN:   "提供私有网络实例数据源，用于查询VPC实例信息。",
 		AttributesCN: map[string]string{

@@ -3,19 +3,19 @@
 # ========== Data Sources ==========
 
 # Query DC access points
-data "cloud_dc_access_points" "points" {
+data "tencentcloudenterprise_dc_access_points" "points" {
   region_id = "ap-guangzhou"
 }
 
 # Query DC instances
-data "cloud_dc_instances" "instances" {
+data "tencentcloudenterprise_dc_instances" "instances" {
   dcx_id = "dcx-xxxxx"
 }
 
 # ========== Resources ==========
 
 # DC Instance (Direct Connect)
-resource "cloud_dc_instance" "dc" {
+resource "tencentcloudenterprise_dc_instance" "dc" {
   dc_name                = "example-dc"
   access_point_id        = "ap-xxxxx"
   line_operator          = "ChinaTelecom"
@@ -32,7 +32,7 @@ resource "cloud_dc_instance" "dc" {
 }
 
 # DC Dedicated Connection (DCX)
-resource "cloud_dc_dcx" "dcx" {
+resource "tencentcloudenterprise_dc_dcx" "dcx" {
   dc_id            = cloud_dc_instance.dc.id
   dcx_name         = "example-dcx"
   network_type     = "VPC"

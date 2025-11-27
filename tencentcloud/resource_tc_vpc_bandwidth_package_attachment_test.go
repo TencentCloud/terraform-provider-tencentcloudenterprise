@@ -24,10 +24,10 @@ func TestAccTencentCloudVpcBandwidthPackageAttachment_basic(t *testing.T) {
 			{
 				Config: testAccVpcBandwidthPackageAttachment,
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckBandwidthPackageAttachmentExists("cloud_vpc_bandwidth_package_attachment.bandwidthPackageAttachment"),
-					resource.TestCheckResourceAttr("cloud_vpc_bandwidth_package_attachment.bandwidthPackageAttachment", "resource_id", "eip-r2l240dq"),
-					resource.TestCheckResourceAttr("cloud_vpc_bandwidth_package_attachment.bandwidthPackageAttachment", "network_type", "BGP"),
-					resource.TestCheckResourceAttr("cloud_vpc_bandwidth_package_attachment.bandwidthPackageAttachment", "resource_type", "Address"),
+					testAccCheckBandwidthPackageAttachmentExists("tencentcloudenterprise_vpc_bandwidth_package_attachment.bandwidthPackageAttachment"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_vpc_bandwidth_package_attachment.bandwidthPackageAttachment", "resource_id", "eip-r2l240dq"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_vpc_bandwidth_package_attachment.bandwidthPackageAttachment", "network_type", "BGP"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_vpc_bandwidth_package_attachment.bandwidthPackageAttachment", "resource_type", "Address"),
 				),
 			},
 		},
@@ -39,7 +39,7 @@ func testAccCheckBandwidthPackageAttachmentDestroy(s *terraform.State) error {
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
 	service := VpcService{client: testAccProvider.Meta().(*TencentCloudClient).apiV3Conn}
 	for _, rs := range s.RootModule().Resources {
-		if rs.Type != "cloud_vpc_bandwidth_package_attachment" {
+		if rs.Type != "tencentcloudenterprise_vpc_bandwidth_package_attachment" {
 			continue
 		}
 		idSplit := strings.Split(rs.Primary.ID, FILED_SP)
@@ -103,7 +103,7 @@ func testAccCheckBandwidthPackageAttachmentExists(r string) resource.TestCheckFu
 
 const testAccVpcBandwidthPackageAttachment = `
 
-resource "cloud_vpc_bandwidth_package" "bandwidth_package" {
+resource "tencentcloudenterprise_vpc_bandwidth_package" "bandwidth_package" {
   network_type            = "BGP"
   charge_type             = "TOP5_POSTPAID_BY_MONTH"
   bandwidth_package_name  = "iac-test-002"
@@ -112,7 +112,7 @@ resource "cloud_vpc_bandwidth_package" "bandwidth_package" {
   }
 }
 
-resource "cloud_vpc_bandwidth_package_attachment" "bandwidthPackageAttachment" {
+resource "tencentcloudenterprise_vpc_bandwidth_package_attachment" "bandwidthPackageAttachment" {
   resource_id          = "eip-r2l240dq"
   bandwidth_package_id  = cloud_vpc_bandwidth_package.bandwidth_package.id
   network_type          = "BGP"

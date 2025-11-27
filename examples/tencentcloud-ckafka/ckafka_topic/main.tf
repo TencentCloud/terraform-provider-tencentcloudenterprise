@@ -1,4 +1,4 @@
-resource "cloud_ckafka_topic" "create_topic" {
+resource "tencentcloudenterprise_ckafka_topic" "create_topic" {
   instance_id = "ckafka-agl7fgoz"
   topic_name  = "terraform_create"
   partition_num = 1

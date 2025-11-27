@@ -5,12 +5,12 @@ Provides a resource to detailed information of attached backend server to an ENI
 
 ```hcl
 
-	resource "cloud_vpc" "foo" {
+	resource "tencentcloudenterprise_vpc" "foo" {
 	  name       = "ci-test-eni-vpc"
 	  cidr_block = "10.0.0.0/16"
 	}
 
-	resource "cloud_vpc_subnet" "foo" {
+	resource "tencentcloudenterprise_vpc_subnet" "foo" {
 	  availability_zone = "ap-guangzhou-3"
 	  name              = "ci-test-eni-subnet"
 	  vpc_id            = cloud_vpc.foo.id
@@ -18,7 +18,7 @@ Provides a resource to detailed information of attached backend server to an ENI
 	  is_multicast      = false
 	}
 
-	resource "cloud_vpc_eni" "foo" {
+	resource "tencentcloudenterprise_vpc_eni" "foo" {
 	  name        = "ci-test-eni"
 	  vpc_id      = cloud_vpc.foo.id
 	  subnet_id   = cloud_vpc_subnet.foo.id
@@ -26,12 +26,12 @@ Provides a resource to detailed information of attached backend server to an ENI
 	  ipv4_count  = 1
 	}
 
-	data "cloud_cvm_images" "my_favorite_image" {
+	data "tencentcloudenterprise_cvm_images" "my_favorite_image" {
 	  image_type = ["PUBLIC_IMAGE"]
 	  os_name    = "centos"
 	}
 
-	data "cloud_cvm_instance_types" "my_favorite_instance_types" {
+	data "tencentcloudenterprise_cvm_instance_types" "my_favorite_instance_types" {
 	  filter {
 	    name   = "instance-family"
 	    values = ["S3"]
@@ -41,10 +41,10 @@ Provides a resource to detailed information of attached backend server to an ENI
 	  memory_size    = 1
 	}
 
-data "cloud_availability_zones" "my_favorite_zones" {
+data "tencentcloudenterprise_availability_zones" "my_favorite_zones" {
 }
 
-	resource "cloud_cvm_instance" "foo" {
+	resource "tencentcloudenterprise_cvm_instance" "foo" {
 	  instance_name            = "ci-test-eni-attach"
 	  availability_zone        = data.cloud_availability_zones.my_favorite_zones.zones.0.name
 	  image_id                 = data.cloud_cvm_images.my_favorite_image.images.0.image_id
@@ -56,7 +56,7 @@ data "cloud_availability_zones" "my_favorite_zones" {
 	  subnet_id                = cloud_vpc_subnet.foo.id
 	}
 
-	resource "cloud_vpc_eni_attachment" "foo" {
+	resource "tencentcloudenterprise_vpc_eni_attachment" "foo" {
 	  eni_id      = cloud_vpc_eni.foo.id
 	  instance_id = cloud_cvm_instance.foo.id
 	}
@@ -85,7 +85,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_vpc_eni_attachment", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_vpc_eni_attachment", CNDescription{
 		TerraformTypeCN: "绑定弹性网卡",
 		DescriptionCN:   "提供弹性网卡绑定资源，用于将弹性网卡绑定到CVM实例。",
 		AttributesCN: map[string]string{

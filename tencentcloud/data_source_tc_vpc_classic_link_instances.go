@@ -5,7 +5,7 @@ Use this data source to query detailed information of vpc classic_link_instances
 
 ```hcl
 
-	data "cloud_vpc_classic_link_instances" "classic_link_instances" {
+	data "tencentcloudenterprise_vpc_classic_link_instances" "classic_link_instances" {
 	  filters {
 	    name   = "vpc-id"
 	    values = ["vpc-lh4nqig9"]
@@ -26,7 +26,7 @@ import (
 )
 
 func init() {
-	registerDataDescriptionProvider("cloud_vpc_classic_link_instances", CNDescription{
+	registerDataDescriptionProvider("tencentcloudenterprise_vpc_classic_link_instances", CNDescription{
 		TerraformTypeCN: "私有网络连接实例",
 		DescriptionCN:   "提供私有网络连接实例数据源，用于查询VPC经典网络连接实例的详细信息。",
 		AttributesCN: map[string]string{

@@ -5,7 +5,7 @@ Provides a resource to create a cls topic.
 
 ```hcl
 
-	resource "cloud_cls_topic" "topic" {
+	resource "tencentcloudenterprise_cls_topic" "topic" {
 	  topic_name           = "topic"
 	  logset_id            = "5cd3a17e-fb0b-418c-afd7-77b365397426"
 	  auto_split           = false
@@ -42,7 +42,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_cls_topic", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_cls_topic", CNDescription{
 		TerraformTypeCN: "CLS日志主题",
 		DescriptionCN:   "提供CLS日志主题资源，用于创建和管理日志服务日志主题。",
 		AttributesCN: map[string]string{

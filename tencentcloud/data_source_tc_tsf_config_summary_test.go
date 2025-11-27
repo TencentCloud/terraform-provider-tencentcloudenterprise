@@ -35,7 +35,7 @@ func TestAccTencentCloudTsfConfigSummaryDataSource_basic(t *testing.T) {
 
 const testAccTsfConfigSummaryDataSource = `
 
-data "cloud_tsf_config_summary" "config_summary" {
+data "tencentcloudenterprise_tsf_config_summary" "config_summary" {
 	application_id = "application-a24x29xv"
 	search_word = "terraform"
 	order_by = "last_update_time"

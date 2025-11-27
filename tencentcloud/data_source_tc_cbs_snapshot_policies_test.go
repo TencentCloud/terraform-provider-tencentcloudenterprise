@@ -17,7 +17,7 @@ func TestAccTencentCloudCbsSnapshotPoliciesDataSource(t *testing.T) {
 			{
 				Config: testAccCbsSnapshotPoliciesDataSource,
 				Check: resource.ComposeAggregateTestCheckFunc(
-					testAccCheckSnapshotPolicyExists("cloud_cbs_snapshot_policy.policy"),
+					testAccCheckSnapshotPolicyExists("tencentcloudenterprise_cbs_snapshot_policy.policy"),
 					resource.TestCheckResourceAttr("data.cloud_cbs_snapshot_policies.policies", "snapshot_policy_list.#", "1"),
 					resource.TestCheckResourceAttrSet("data.cloud_cbs_snapshot_policies.policies", "snapshot_policy_list.0.snapshot_policy_id"),
 					resource.TestCheckResourceAttr("data.cloud_cbs_snapshot_policies.policies", "snapshot_policy_list.0.snapshot_policy_name", "tf-test-snapshot-policy"),
@@ -31,14 +31,14 @@ func TestAccTencentCloudCbsSnapshotPoliciesDataSource(t *testing.T) {
 }
 
 const testAccCbsSnapshotPoliciesDataSource = `
-resource "cloud_cbs_snapshot_policy" "policy" {
+resource "tencentcloudenterprise_cbs_snapshot_policy" "policy" {
   snapshot_policy_name = "tf-test-snapshot-policy"
   repeat_weekdays      = [0, 3]
   repeat_hours         = [0]
   retention_days       = 30
 }
 
-data "cloud_cbs_snapshot_policies" "policies" {
+data "tencentcloudenterprise_cbs_snapshot_policies" "policies" {
   snapshot_policy_id = cloud_cbs_snapshot_policy.policy.id
   snapshot_policy_name = cloud_cbs_snapshot_policy.policy.snapshot_policy_name
 }

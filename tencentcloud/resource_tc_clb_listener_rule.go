@@ -6,7 +6,7 @@ Provides a resource to create a CLB listener rule.
 Example Usage
 ```hcl
 
-	resource "cloud_clb_listener_rule" "foo" {
+	resource "tencentcloudenterprise_clb_listener_rule" "foo" {
 	  listener_id                = "lbl-hh141sn9"
 	  clb_id                     = "lb-k2zjp9lv"
 	  domain                     = "foo.net"
@@ -52,7 +52,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_clb_listener_rule", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_clb_listener_rule", CNDescription{
 		TerraformTypeCN: "CLB监听器规则",
 		DescriptionCN:   "提供CLB监听器规则资源，用于创建和管理CLB七层监听器转发规则。",
 		AttributesCN: map[string]string{

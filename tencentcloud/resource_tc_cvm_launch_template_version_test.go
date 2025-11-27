@@ -16,10 +16,10 @@ func TestAccTencentCloudCvmLaunchTemplateVersionResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			{
 				Config: testAccCvmLaunchTemplateVersion,
-				Check:  resource.ComposeTestCheckFunc(resource.TestCheckResourceAttrSet("cloud_cvm_launch_template_version.launch_template_version", "id")),
+				Check:  resource.ComposeTestCheckFunc(resource.TestCheckResourceAttrSet("tencentcloudenterprise_cvm_launch_template_version.launch_template_version", "id")),
 			},
 			{
-				ResourceName:      "cloud_cvm_launch_template_version.launch_template_version",
+				ResourceName:      "tencentcloudenterprise_cvm_launch_template_version.launch_template_version",
 				ImportState:       true,
 				ImportStateVerify: true,
 			},
@@ -28,7 +28,7 @@ func TestAccTencentCloudCvmLaunchTemplateVersionResource_basic(t *testing.T) {
 }
 
 const testAccCvmLaunchTemplateVersion = `
-resource "cloud_cvm_launch_template_version" "launch_template_version" {
+resource "tencentcloudenterprise_cvm_launch_template_version" "launch_template_version" {
 	placement {
 		  zone = "ap-guangzhou-6"
 		  project_id = 0

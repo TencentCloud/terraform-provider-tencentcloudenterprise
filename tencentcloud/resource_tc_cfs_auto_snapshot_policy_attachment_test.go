@@ -16,10 +16,10 @@ func TestAccTencentCloudCfsAutoSnapshotPolicyAttachmentResource_basic(t *testing
 		Steps: []resource.TestStep{
 			{
 				Config: testAccCfsAutoSnapshotPolicyAttachment,
-				Check:  resource.ComposeTestCheckFunc(resource.TestCheckResourceAttrSet("cloud_cfs_auto_snapshot_policy_attachment.auto_snapshot_policy_attachment", "id")),
+				Check:  resource.ComposeTestCheckFunc(resource.TestCheckResourceAttrSet("tencentcloudenterprise_cfs_auto_snapshot_policy_attachment.auto_snapshot_policy_attachment", "id")),
 			},
 			{
-				ResourceName:      "cloud_cfs_auto_snapshot_policy_attachment.auto_snapshot_policy_attachment",
+				ResourceName:      "tencentcloudenterprise_cfs_auto_snapshot_policy_attachment.auto_snapshot_policy_attachment",
 				ImportState:       true,
 				ImportStateVerify: true,
 			},
@@ -29,7 +29,7 @@ func TestAccTencentCloudCfsAutoSnapshotPolicyAttachmentResource_basic(t *testing
 
 const testAccCfsAutoSnapshotPolicyAttachment = `
 
-resource "cloud_cfs_auto_snapshot_policy_attachment" "auto_snapshot_policy_attachment" {
+resource "tencentcloudenterprise_cfs_auto_snapshot_policy_attachment" "auto_snapshot_policy_attachment" {
   auto_snapshot_policy_id = "asp-basic"
   file_system_ids         = "cfs-iobiaxtj"
 }

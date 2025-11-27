@@ -7,7 +7,7 @@ Provides a resource to create a Ckafka user.
 
 ```hcl
 
-	resource "cloud_ckafka_user" "foo" {
+	resource "tencentcloudenterprise_ckafka_user" "foo" {
 	  instance_id  = "ckafka-f9ife4zz"
 	  account_name = "tf-test"
 	  password     = "test1234"
@@ -34,7 +34,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_ckafka_user", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_ckafka_user", CNDescription{
 		TerraformTypeCN: "Ckafka 用户",
 		DescriptionCN:   "提供CKafka用户资源，用于创建和管理CKafka用户账号。",
 		AttributesCN: map[string]string{

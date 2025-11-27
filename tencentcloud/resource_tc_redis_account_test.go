@@ -22,17 +22,17 @@ func TestAccTencentCloudRedisAccountResource_basic(t *testing.T) {
 			{
 				Config: testAccRedisAccount,
 				Check: resource.ComposeAggregateTestCheckFunc(
-					testAccTencentCloudRedisAccountExists("cloud_redis_account.account"),
-					resource.TestCheckResourceAttrSet("cloud_redis_account.account", "id"),
-					resource.TestCheckResourceAttr("cloud_redis_account.account", "instance_id", defaultCrsInstanceId),
-					resource.TestCheckResourceAttr("cloud_redis_account.account", "account_name", "account_test"),
-					resource.TestCheckResourceAttr("cloud_redis_account.account", "remark", "redis desc"),
-					resource.TestCheckResourceAttr("cloud_redis_account.account", "readonly_policy.#", "1"),
-					resource.TestCheckResourceAttr("cloud_redis_account.account", "privilege", "r"),
+					testAccTencentCloudRedisAccountExists("tencentcloudenterprise_redis_account.account"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_redis_account.account", "id"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_redis_account.account", "instance_id", defaultCrsInstanceId),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_redis_account.account", "account_name", "account_test"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_redis_account.account", "remark", "redis desc"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_redis_account.account", "readonly_policy.#", "1"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_redis_account.account", "privilege", "r"),
 				),
 			},
 			{
-				ResourceName:            "cloud_redis_account.account",
+				ResourceName:            "tencentcloudenterprise_redis_account.account",
 				ImportState:             true,
 				ImportStateVerify:       true,
 				ImportStateVerifyIgnore: []string{"account_password"},
@@ -78,7 +78,7 @@ func testAccTencentCloudRedisAccountDestroy(s *terraform.State) error {
 
 	service := RedisService{client: testAccProvider.Meta().(*TencentCloudClient).apiV3Conn}
 	for _, rs := range s.RootModule().Resources {
-		if rs.Type != "cloud_redis_account" {
+		if rs.Type != "tencentcloudenterprise_redis_account" {
 			continue
 		}
 		time.Sleep(5 * time.Second)
@@ -109,7 +109,7 @@ variable "instance_id" {
 
 const testAccRedisAccount = testAccRedisAccountVar + `
 
-resource "cloud_redis_account" "account" {
+resource "tencentcloudenterprise_redis_account" "account" {
 	instance_id 	 = var.instance_id
 	account_name 	 = "account_test"
 	account_password = "test1234"

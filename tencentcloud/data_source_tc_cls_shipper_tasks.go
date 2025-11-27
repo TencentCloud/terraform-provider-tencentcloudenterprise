@@ -5,7 +5,7 @@ Use this data source to query detailed information of cls shipper_tasks
 
 ```hcl
 
-	data "cloud_cls_shipper_tasks" "shipper_tasks" {
+	data "tencentcloudenterprise_cls_shipper_tasks" "shipper_tasks" {
 	  shipper_id = "dbde3c9b-ea16-4032-bc2a-d8fa65567a8e"
 	  start_time = 160749910700
 	  end_time = 160749910800
@@ -25,7 +25,7 @@ import (
 )
 
 func init() {
-	registerDataDescriptionProvider("cloud_cls_shipper_tasks", CNDescription{
+	registerDataDescriptionProvider("tencentcloudenterprise_cls_shipper_tasks", CNDescription{
 		TerraformTypeCN: "CLS投递任务列表",
 		DescriptionCN:   "提供CLS投递任务列表数据源，用于查询指定投递器的任务执行状态和详细信息。",
 		AttributesCN: map[string]string{

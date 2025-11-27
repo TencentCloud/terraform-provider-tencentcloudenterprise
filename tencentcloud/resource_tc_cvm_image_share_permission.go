@@ -5,7 +5,7 @@ Provides a resource to create a cvm image_share_permission
 
 ```hcl
 
-	resource "cloud_cvm_image_share_permission" "image_share_permission" {
+	resource "tencentcloudenterprise_cvm_image_share_permission" "image_share_permission" {
 	  image_id = "img-xxxxxx"
 	  account_ids = ["xxxxxx"]
 	}
@@ -33,7 +33,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_cvm_image_share_permission", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_cvm_image_share_permission", CNDescription{
 		TerraformTypeCN: "共享镜像",
 		DescriptionCN:   "提供云服务器共享镜像资源，用于管理和创建共享镜像。",
 		AttributesCN: map[string]string{

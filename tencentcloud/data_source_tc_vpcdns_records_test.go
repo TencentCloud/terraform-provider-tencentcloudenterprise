@@ -26,7 +26,7 @@ func TestAccTencentCloudVpnDnsRecordDataSource(t *testing.T) {
 }
 
 const testAccTencentCloudVpnDnsRecordDataSourceConfig_basic = `
-data "cloud_vpcdns_records" "records" {
+data "tencentcloudenterprise_vpcdns_records" "records" {
   domain_id = 745
   result_output_file = "records.json"
 }

@@ -18,13 +18,13 @@ func TestAccTencentCloudDcdbEncryptAttributesConfigResource_basic(t *testing.T) 
 				Config: fmt.Sprintf(testAccDcdbEncryptAttributesConfig, "encrypt_attributes"),
 				// PreventDiskCleanup: true,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttrSet("cloud_dcdb_encrypt_attributes_config.config", "id"),
-					resource.TestCheckResourceAttrSet("cloud_dcdb_encrypt_attributes_config.config", "instance_id"),
-					resource.TestCheckResourceAttr("cloud_dcdb_encrypt_attributes_config.config", "encrypt_enabled", "1"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_dcdb_encrypt_attributes_config.config", "id"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_dcdb_encrypt_attributes_config.config", "instance_id"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_dcdb_encrypt_attributes_config.config", "encrypt_enabled", "1"),
 				),
 			},
 			{
-				ResourceName:      "cloud_dcdb_encrypt_attributes_config.config",
+				ResourceName:      "tencentcloudenterprise_dcdb_encrypt_attributes_config.config",
 				ImportState:       true,
 				ImportStateVerify: true,
 			},
@@ -34,15 +34,15 @@ func TestAccTencentCloudDcdbEncryptAttributesConfigResource_basic(t *testing.T) 
 
 // const testAccDcdbConfig_common_ins = defaultVpcSubnets + defaultSecurityGroupData + `
 const testAccDcdbConfig_common_ins = defaultAzVariable + `
-data "cloud_vpc_security_groups" "internal" {
+data "tencentcloudenterprise_vpc_security_groups" "internal" {
 	name = "default"
 }
 
-data "cloud_vpc_instances" "vpc" {
+data "tencentcloudenterprise_vpc_instances" "vpc" {
 	name ="Default-VPC"
 }
 	
-data "cloud_vpc_subnets" "subnet" {
+data "tencentcloudenterprise_vpc_subnets" "subnet" {
 	vpc_id = data.cloud_vpc_instances.vpc.instance_list.0.vpc_id
 }
 
@@ -52,7 +52,7 @@ locals {
 	sg_id = data.cloud_vpc_security_groups.internal.security_groups.0.security_group_id
 }
 
-// resource "cloud_dcdb_db_instance" "post_instance" {
+// resource "tencentcloudenterprise_dcdb_db_instance" "post_instance" {
 // 	instance_name = "test_dcdb_db_post_instance_"
 // 	zones = [var.default_az]
 // 	period = 1
@@ -70,7 +70,7 @@ locals {
 // 	security_group_ids = [local.sg_id]
 // }
 
-resource "cloud_dcdb_instance" "hourdb_instance" {
+resource "tencentcloudenterprise_dcdb_instance" "hourdb_instance" {
 	instance_name = "test_dcdb_db_hourdb_instance_%s"
 	zones = [var.default_az]
 	shard_memory = "2"
@@ -96,7 +96,7 @@ resource "cloud_dcdb_instance" "hourdb_instance" {
 
 const testAccDcdbEncryptAttributesConfig = testAccDcdbConfig_common_ins + `
 
-resource "cloud_dcdb_encrypt_attributes_config" "config" {
+resource "tencentcloudenterprise_dcdb_encrypt_attributes_config" "config" {
   instance_id = local.dcdb_id
   encrypt_enabled = 1
 }

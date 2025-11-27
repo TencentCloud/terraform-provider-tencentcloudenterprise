@@ -10,7 +10,7 @@ import (
 const (
 	targetGroupById     = "data.cloud_clb_target_groups.target_group_info_id"
 	targetGroupByName   = "data.cloud_clb_target_groups.target_group_info_name"
-	targetGroupResource = "cloud_clb_target_group.test"
+	targetGroupResource = "tencentcloudenterprise_clb_target_group.test"
 )
 
 func TestAccTencentCloudClbTargetGroupDataSource(t *testing.T) {
@@ -55,20 +55,20 @@ func TestAccTencentCloudClbTargetGroupDataSource(t *testing.T) {
 }
 
 const tareGetGroupBase = defaultVpcSubnets + `
-resource "cloud_clb_instance" "clb_basic" {
+resource "tencentcloudenterprise_clb_instance" "clb_basic" {
   network_type = "OPEN"
   clb_name     = "tf-clb-rule-data"
   vpc_id = local.vpc_id
 }
 
-resource "cloud_clb_listener" "listener_basic" {
+resource "tencentcloudenterprise_clb_listener" "listener_basic" {
   clb_id        = cloud_clb_instance.clb_basic.id
   port          = 1
   protocol      = "HTTP"
   listener_name = "listener_basic"
 }
 
-resource "cloud_clb_listener_rule" "rule_basic" {
+resource "tencentcloudenterprise_clb_listener_rule" "rule_basic" {
   clb_id              = cloud_clb_instance.clb_basic.id
   listener_id         = cloud_clb_listener.listener_basic.listener_id
   domain              = "abc.com"
@@ -78,12 +78,12 @@ resource "cloud_clb_listener_rule" "rule_basic" {
   target_type         = "TARGETGROUP"
 }
 
-resource "cloud_clb_target_group" "test"{
+resource "tencentcloudenterprise_clb_target_group" "test"{
     target_group_name = "test-target-keep-1"
     vpc_id = local.vpc_id
 }
 
-resource "cloud_clb_target_group_attachment" "group" {
+resource "tencentcloudenterprise_clb_target_group_attachment" "group" {
     clb_id          = cloud_clb_instance.clb_basic.id
     listener_id     = cloud_clb_listener.listener_basic.listener_id
     rule_id         = cloud_clb_listener_rule.rule_basic.rule_id
@@ -92,13 +92,13 @@ resource "cloud_clb_target_group_attachment" "group" {
 `
 
 const testAccTencentCloudDataSourceClbTargetGroup = tareGetGroupBase + `
-data "cloud_clb_target_groups" "target_group_info_id" {
+data "tencentcloudenterprise_clb_target_groups" "target_group_info_id" {
   target_group_id = cloud_clb_target_group.test.id
 }
 `
 
 const testAccTencentCloudDataSourceClbTargetGroupName = tareGetGroupBase + `
-data "cloud_clb_target_groups" "target_group_info_name" {
+data "tencentcloudenterprise_clb_target_groups" "target_group_info_name" {
   target_group_name = cloud_clb_target_group.test.target_group_name
 }
 `

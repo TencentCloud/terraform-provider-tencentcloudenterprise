@@ -19,10 +19,10 @@ func TestAccTencentCloudCfsAccessRule(t *testing.T) {
 			{
 				Config: testAccCfsAccessRule,
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckCfsAccessRuleExists("cloud_cfs_access_rule.foo"),
-					resource.TestCheckResourceAttr("cloud_cfs_access_rule.foo", "auth_client_ip", "10.11.1.0/24"),
-					resource.TestCheckResourceAttr("cloud_cfs_access_rule.foo", "priority", "1"),
-					resource.TestCheckResourceAttrSet("cloud_cfs_access_rule.foo", "access_group_id"),
+					testAccCheckCfsAccessRuleExists("tencentcloudenterprise_cfs_access_rule.foo"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_cfs_access_rule.foo", "auth_client_ip", "10.11.1.0/24"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_cfs_access_rule.foo", "priority", "1"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_cfs_access_rule.foo", "access_group_id"),
 				),
 			},
 		},
@@ -36,7 +36,7 @@ func testAccCheckCfsAccessRuleDestroy(s *terraform.State) error {
 		client: testAccProvider.Meta().(*TencentCloudClient).apiV3Conn,
 	}
 	for _, rs := range s.RootModule().Resources {
-		if rs.Type != "cloud_cfs_access_rule" {
+		if rs.Type != "tencentcloudenterprise_cfs_access_rule" {
 			continue
 		}
 
@@ -99,7 +99,7 @@ func testAccCheckCfsAccessRuleExists(n string) resource.TestCheckFunc {
 
 const testAccCfsAccessRule = defaultCfsAccessGroup + `
 
-resource "cloud_cfs_access_rule" "foo" {
+resource "tencentcloudenterprise_cfs_access_rule" "foo" {
   access_group_id = local.cfs_access_group_id
   auth_client_ip = "10.11.1.0/24"
   priority = 1

@@ -11,7 +11,7 @@ import (
 
 func TestAccTencentCloudEipAssociationWithInstance(t *testing.T) {
 	t.Parallel()
-	id := "cloud_eip_association.foo"
+	id := "tencentcloudenterprise_eip_association.foo"
 	resource.Test(t, resource.TestCase{
 		PreCheck:     func() { testAccPreCheck(t) },
 		Providers:    testAccProviders,
@@ -26,9 +26,9 @@ func TestAccTencentCloudEipAssociationWithInstance(t *testing.T) {
 					resource.TestCheckResourceAttrSet(id, "instance_id"),
 					resource.TestCheckNoResourceAttr(id, "network_interface_id"),
 					resource.TestCheckNoResourceAttr(id, "private_ip"),
-					resource.TestCheckResourceAttrSet("cloud_eip.foo", "public_ip"),
-					resource.TestCheckResourceAttr("cloud_eip.foo", "name", defaultInsName),
-					resource.TestCheckResourceAttr("cloud_eip.foo", "status", "UNBIND"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_eip.foo", "public_ip"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_eip.foo", "name", defaultInsName),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_eip.foo", "status", "UNBIND"),
 				),
 			},
 			{
@@ -42,7 +42,7 @@ func TestAccTencentCloudEipAssociationWithInstance(t *testing.T) {
 
 func TestAccTencentCloudEipAssociationWithNetworkInterface(t *testing.T) {
 	t.Parallel()
-	id := "cloud_eip_association.foo"
+	id := "tencentcloudenterprise_eip_association.foo"
 	resource.Test(t, resource.TestCase{
 		PreCheck:     func() { testAccPreCheck(t) },
 		Providers:    testAccProviders,
@@ -57,9 +57,9 @@ func TestAccTencentCloudEipAssociationWithNetworkInterface(t *testing.T) {
 					resource.TestCheckResourceAttrSet(id, "network_interface_id"),
 					resource.TestCheckResourceAttrSet(id, "private_ip"),
 					resource.TestCheckNoResourceAttr(id, "instance_id"),
-					resource.TestCheckResourceAttrSet("cloud_eip.foo", "public_ip"),
-					resource.TestCheckResourceAttr("cloud_eip.foo", "name", defaultInsName),
-					resource.TestCheckResourceAttr("cloud_eip.foo", "status", "UNBIND"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_eip.foo", "public_ip"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_eip.foo", "name", defaultInsName),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_eip.foo", "status", "UNBIND"),
 				),
 			},
 		},
@@ -73,7 +73,7 @@ func testAccCheckEipAssociationDestroy(s *terraform.State) error {
 		client: testAccProvider.Meta().(*TencentCloudClient).apiV3Conn,
 	}
 	for _, rs := range s.RootModule().Resources {
-		if rs.Type != "cloud_eip_association" {
+		if rs.Type != "tencentcloudenterprise_eip_association" {
 			continue
 		}
 
@@ -147,11 +147,11 @@ func testAccCheckEipAssociationExists(n string) resource.TestCheckFunc {
 }
 
 const testAccTencentCloudEipAssociationWithInstance = defaultInstanceVariable + `
-resource "cloud_eip" "foo" {
+resource "tencentcloudenterprise_eip" "foo" {
   name = var.instance_name
 }
 
-resource "cloud_cvm_instance" "foo" {
+resource "tencentcloudenterprise_cvm_instance" "foo" {
   instance_name      = var.instance_name
   availability_zone  = var.availability_cvm_zone
   image_id           = data.cloud_cvm_images.default.images.0.image_id
@@ -159,18 +159,18 @@ resource "cloud_cvm_instance" "foo" {
   system_disk_type   = "CLOUD_PREMIUM"
 }
 
-resource "cloud_eip_association" "foo" {
+resource "tencentcloudenterprise_eip_association" "foo" {
   eip_id      = cloud_eip.foo.id
   instance_id = cloud_cvm_instance.foo.id
 }
 `
 
 const testAccTencentCloudEipAssociationWithNetworkInterface = defaultVpcVariable + `
-resource "cloud_eip" "foo" {
+resource "tencentcloudenterprise_eip" "foo" {
   name = var.instance_name
 }
 
-resource "cloud_vpc_eni" "foo" {
+resource "tencentcloudenterprise_vpc_eni" "foo" {
   name        = var.instance_name
   vpc_id      = var.vpc_id
   subnet_id   = var.subnet_id
@@ -178,7 +178,7 @@ resource "cloud_vpc_eni" "foo" {
   ipv4_count  = 1
 }
 
-resource "cloud_eip_association" "foo" {
+resource "tencentcloudenterprise_eip_association" "foo" {
   eip_id               = cloud_eip.foo.id
   network_interface_id = cloud_vpc_eni.foo.id
   private_ip           = cloud_vpc_eni.foo.ipv4_info.0.ip

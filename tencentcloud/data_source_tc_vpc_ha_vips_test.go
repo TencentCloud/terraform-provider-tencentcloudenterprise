@@ -30,13 +30,13 @@ func TestAccTencentCloudHaVipsDataSource(t *testing.T) {
 }
 
 const testAccTencentCloudHaVipsDataSourceConfig_basic = defaultVpcVariable + `
-resource "cloud_vpc_ha_vip" "havip" {
+resource "tencentcloudenterprise_vpc_ha_vip" "havip" {
   name      = "terraform_test"
   vpc_id    = var.vpc_id
   subnet_id = var.subnet_id
 }
 
-data "cloud_vpc_ha_vips" "havips" {
+data "tencentcloudenterprise_vpc_ha_vips" "havips" {
   id = cloud_vpc_ha_vip.havip.id
 }
 `

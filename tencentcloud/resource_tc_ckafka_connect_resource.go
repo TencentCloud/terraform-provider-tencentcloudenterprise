@@ -5,7 +5,7 @@
 //
 // ```hcl
 //
-//	resource "cloud_ckafka_connect_resource" "connect_resource" {
+//	resource "tencentcloudenterprise_ckafka_connect_resource" "connect_resource" {
 //	 resource_name = "terraform-test"
 //	 type          = "MYSQL"
 //	 description   = "for terraform test"

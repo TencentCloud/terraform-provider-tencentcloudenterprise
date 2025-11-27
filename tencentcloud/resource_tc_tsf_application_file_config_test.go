@@ -21,17 +21,17 @@ func TestAccTencentCloudTsfApplicationFileConfigResource_basic(t *testing.T) {
 			{
 				Config: testAccTsfApplicationFileConfig2,
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckTsfApplicationFileConfigExists("cloud_tsf_application_file_config.application_file_config"),
-					resource.TestCheckResourceAttrSet("cloud_tsf_application_file_config.application_file_config", "id"),
-					//resource.TestCheckResourceAttr("cloud_tsf_application_file_config.application_file_config", "application_id", defaultTsfApplicationId),
-					resource.TestCheckResourceAttr("cloud_tsf_application_file_config.application_file_config", "config_name", "terraform-test"),
-					resource.TestCheckResourceAttr("cloud_tsf_application_file_config.application_file_config", "config_file_code", "UTF-8"),
-					resource.TestCheckResourceAttr("cloud_tsf_application_file_config.application_file_config", "config_file_name", "application.yaml"),
-					resource.TestCheckResourceAttr("cloud_tsf_application_file_config.application_file_config", "config_file_path", "/etc/nginx"),
-					resource.TestCheckResourceAttr("cloud_tsf_application_file_config.application_file_config", "config_file_value", "test: 1"),
-					resource.TestCheckResourceAttr("cloud_tsf_application_file_config.application_file_config", "config_post_cmd", "source .bashrc"),
-					resource.TestCheckResourceAttr("cloud_tsf_application_file_config.application_file_config", "config_version", "1.0"),
-					resource.TestCheckResourceAttr("cloud_tsf_application_file_config.application_file_config", "config_version_desc", "1.0"),
+					testAccCheckTsfApplicationFileConfigExists("tencentcloudenterprise_tsf_application_file_config.application_file_config"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_tsf_application_file_config.application_file_config", "id"),
+					//resource.TestCheckResourceAttr("tencentcloudenterprise_tsf_application_file_config.application_file_config", "application_id", defaultTsfApplicationId),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_tsf_application_file_config.application_file_config", "config_name", "terraform-test"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_tsf_application_file_config.application_file_config", "config_file_code", "UTF-8"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_tsf_application_file_config.application_file_config", "config_file_name", "application.yaml"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_tsf_application_file_config.application_file_config", "config_file_path", "/etc/nginx"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_tsf_application_file_config.application_file_config", "config_file_value", "test: 1"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_tsf_application_file_config.application_file_config", "config_post_cmd", "source .bashrc"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_tsf_application_file_config.application_file_config", "config_version", "1.0"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_tsf_application_file_config.application_file_config", "config_version_desc", "1.0"),
 				),
 			},
 		},
@@ -43,7 +43,7 @@ func testAccCheckTsfApplicationFileConfigDestroy(s *terraform.State) error {
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
 	service := TsfService{client: testAccProvider.Meta().(*TencentCloudClient).apiV3Conn}
 	for _, rs := range s.RootModule().Resources {
-		if rs.Type != "cloud_tsf_application_file_config" {
+		if rs.Type != "tencentcloudenterprise_tsf_application_file_config" {
 			continue
 		}
 
@@ -92,7 +92,7 @@ variable "application_id" {
 
 const testAccTsfApplicationFileConfig = testAccTsfApplicationFileConfigVar + `
 
-resource "cloud_tsf_application_file_config" "application_file_config" {
+resource "tencentcloudenterprise_tsf_application_file_config" "application_file_config" {
 	config_name = "terraform-test"
 	config_version = "1.0"
 	config_file_name = "application.yaml"
@@ -107,7 +107,7 @@ resource "cloud_tsf_application_file_config" "application_file_config" {
 
 `
 const testAccTsfApplicationFileConfig2 = `
-resource "cloud_tsf_application_file_config" "application_file_config" {
+resource "tencentcloudenterprise_tsf_application_file_config" "application_file_config" {
 	config_name = "terraform-test"
 	config_version = "1.0"
 	config_file_name = "application.yaml"

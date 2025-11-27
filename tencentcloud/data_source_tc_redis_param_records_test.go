@@ -33,7 +33,7 @@ func TestAccTencentCloudRedisParamRecordsDataSource_basic(t *testing.T) {
 
 const testAccRedisParamRecordsDataSource = `
 
-data "cloud_redis_param_records" "param_records" {
+data "tencentcloudenterprise_redis_param_records" "param_records" {
 	instance_id = "crs-jf4ico4v"
 }
 

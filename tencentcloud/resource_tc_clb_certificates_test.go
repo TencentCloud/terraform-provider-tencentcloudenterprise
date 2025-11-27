@@ -19,8 +19,8 @@ import (
 )
 
 func init() {
-	resource.AddTestSweepers("cloud_ssl_certificate", &resource.Sweeper{
-		Name: "cloud_ssl_certificate",
+	resource.AddTestSweepers("tencentcloudenterprise_ssl_certificate", &resource.Sweeper{
+		Name: "tencentcloudenterprise_ssl_certificate",
 		F:    testSweepSslCertificate,
 	})
 }
@@ -80,23 +80,23 @@ func TestAccTencentCloudSslCertificate_basic(t *testing.T) {
 			{
 				Config: testAccSslCertificate("CA", testAccSslCertificateCA, "CA", ""),
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckSslCertificateExists("cloud_ssl_certificate.foo"),
-					resource.TestCheckResourceAttr("cloud_ssl_certificate.foo", "name", "CA"),
-					resource.TestCheckResourceAttr("cloud_ssl_certificate.foo", "type", "CA"),
-					resource.TestCheckResourceAttr("cloud_ssl_certificate.foo", "project_id", "0"),
-					resource.TestCheckResourceAttrSet("cloud_ssl_certificate.foo", "cert"),
-					resource.TestCheckNoResourceAttr("cloud_ssl_certificate.foo", "key"),
-					resource.TestCheckResourceAttrSet("cloud_ssl_certificate.foo", "product_zh_name"),
-					resource.TestCheckResourceAttrSet("cloud_ssl_certificate.foo", "domain"),
-					resource.TestCheckResourceAttrSet("cloud_ssl_certificate.foo", "status"),
-					resource.TestCheckResourceAttrSet("cloud_ssl_certificate.foo", "begin_time"),
-					resource.TestCheckResourceAttrSet("cloud_ssl_certificate.foo", "end_time"),
-					resource.TestCheckResourceAttrSet("cloud_ssl_certificate.foo", "create_time"),
-					resource.TestCheckResourceAttr("cloud_ssl_certificate.foo", "subject_names.#", "0"),
+					testAccCheckSslCertificateExists("tencentcloudenterprise_ssl_certificate.foo"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_ssl_certificate.foo", "name", "CA"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_ssl_certificate.foo", "type", "CA"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_ssl_certificate.foo", "project_id", "0"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_ssl_certificate.foo", "cert"),
+					resource.TestCheckNoResourceAttr("tencentcloudenterprise_ssl_certificate.foo", "key"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_ssl_certificate.foo", "product_zh_name"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_ssl_certificate.foo", "domain"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_ssl_certificate.foo", "status"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_ssl_certificate.foo", "begin_time"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_ssl_certificate.foo", "end_time"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_ssl_certificate.foo", "create_time"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_ssl_certificate.foo", "subject_names.#", "0"),
 				),
 			},
 			{
-				ResourceName:      "cloud_ssl_certificate.foo",
+				ResourceName:      "tencentcloudenterprise_ssl_certificate.foo",
 				ImportState:       true,
 				ImportStateVerify: true,
 			},
@@ -116,8 +116,8 @@ func TestAccTencentCloudSslCertificate_tags(t *testing.T) {
 					tagKey1="tagValue1"
 				}`),
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckSslCertificateExists("cloud_ssl_certificate.test-ssl-certificate-tag"),
-					resource.TestCheckResourceAttr("cloud_ssl_certificate.test-ssl-certificate-tag", "tags.tagKey1", "tagValue1"),
+					testAccCheckSslCertificateExists("tencentcloudenterprise_ssl_certificate.test-ssl-certificate-tag"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_ssl_certificate.test-ssl-certificate-tag", "tags.tagKey1", "tagValue1"),
 				),
 			},
 			{
@@ -126,9 +126,9 @@ func TestAccTencentCloudSslCertificate_tags(t *testing.T) {
 					tagKey2="tagValue2"
 				}`),
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckSslCertificateExists("cloud_ssl_certificate.test-ssl-certificate-tag"),
-					resource.TestCheckResourceAttr("cloud_ssl_certificate.test-ssl-certificate-tag", "tags.tagKey1", "tagValue1"),
-					resource.TestCheckResourceAttr("cloud_ssl_certificate.test-ssl-certificate-tag", "tags.tagKey2", "tagValue2"),
+					testAccCheckSslCertificateExists("tencentcloudenterprise_ssl_certificate.test-ssl-certificate-tag"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_ssl_certificate.test-ssl-certificate-tag", "tags.tagKey1", "tagValue1"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_ssl_certificate.test-ssl-certificate-tag", "tags.tagKey2", "tagValue2"),
 				),
 			},
 		},
@@ -145,19 +145,19 @@ func TestAccTencentCloudSslCertificate_svr(t *testing.T) {
 			{
 				Config: testAccSslCertificate("SVR", testAccSslCertificateCA, "server", testAccSslCertificateKey),
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckSslCertificateExists("cloud_ssl_certificate.foo"),
-					resource.TestCheckResourceAttr("cloud_ssl_certificate.foo", "name", "server"),
-					resource.TestCheckResourceAttr("cloud_ssl_certificate.foo", "type", "SVR"),
-					resource.TestCheckResourceAttr("cloud_ssl_certificate.foo", "project_id", "0"),
-					resource.TestCheckResourceAttrSet("cloud_ssl_certificate.foo", "cert"),
-					resource.TestCheckResourceAttrSet("cloud_ssl_certificate.foo", "key"),
-					resource.TestCheckResourceAttrSet("cloud_ssl_certificate.foo", "product_zh_name"),
-					resource.TestCheckResourceAttrSet("cloud_ssl_certificate.foo", "domain"),
-					resource.TestCheckResourceAttrSet("cloud_ssl_certificate.foo", "status"),
-					resource.TestCheckResourceAttrSet("cloud_ssl_certificate.foo", "begin_time"),
-					resource.TestCheckResourceAttrSet("cloud_ssl_certificate.foo", "end_time"),
-					resource.TestCheckResourceAttrSet("cloud_ssl_certificate.foo", "create_time"),
-					resource.TestCheckResourceAttr("cloud_ssl_certificate.foo", "subject_names.#", "0"),
+					testAccCheckSslCertificateExists("tencentcloudenterprise_ssl_certificate.foo"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_ssl_certificate.foo", "name", "server"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_ssl_certificate.foo", "type", "SVR"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_ssl_certificate.foo", "project_id", "0"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_ssl_certificate.foo", "cert"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_ssl_certificate.foo", "key"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_ssl_certificate.foo", "product_zh_name"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_ssl_certificate.foo", "domain"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_ssl_certificate.foo", "status"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_ssl_certificate.foo", "begin_time"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_ssl_certificate.foo", "end_time"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_ssl_certificate.foo", "create_time"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_ssl_certificate.foo", "subject_names.#", "0"),
 				),
 			},
 		},
@@ -177,7 +177,7 @@ func testAccCheckSslCertificateDestroy(s *terraform.State) error {
 		client: testAccProvider.Meta().(*TencentCloudClient).apiV3Conn,
 	}
 	for _, rs := range s.RootModule().Resources {
-		if rs.Type != "cloud_ssl_certificate" {
+		if rs.Type != "tencentcloudenterprise_ssl_certificate" {
 			continue
 		}
 		resourceId := rs.Primary.ID
@@ -258,7 +258,7 @@ func testAccCheckSslCertificateExists(n string) resource.TestCheckFunc {
 
 func testAccSslCertificate(certificateType string, cert, name, key string) string {
 	const str = `
-resource "cloud_ssl_certificate" "foo" {
+resource "tencentcloudenterprise_ssl_certificate" "foo" {
   type = "%s"
   cert = "%s"
   %s
@@ -280,7 +280,7 @@ resource "cloud_ssl_certificate" "foo" {
 
 func testAccSslCertificateWithTags(tags string) string {
 	const str = `
-resource "cloud_ssl_certificate" "test-ssl-certificate-tag" {
+resource "tencentcloudenterprise_ssl_certificate" "test-ssl-certificate-tag" {
   type = "CA"
   cert = "%s"
   name = "test-ssl-certificate-tag"

@@ -5,7 +5,7 @@ Use this data source to query detailed information of ckafka topic.
 
 ```hcl
 
-	resource "cloud_ckafka_topic" "foo" {
+	resource "tencentcloudenterprise_ckafka_topic" "foo" {
 		instance_id                     = "ckafka-f9ife4zz"
 		topic_name                      = "example"
 		note                            = "topic note"
@@ -34,7 +34,7 @@ import (
 )
 
 func init() {
-	registerDataDescriptionProvider("cloud_ckafka_topics", CNDescription{
+	registerDataDescriptionProvider("tencentcloudenterprise_ckafka_topics", CNDescription{
 		TerraformTypeCN: "ckafka主题",
 		DescriptionCN:   "提供CKafka主题数据源，用于查询CKafka主题的详细信息。",
 		AttributesCN: map[string]string{

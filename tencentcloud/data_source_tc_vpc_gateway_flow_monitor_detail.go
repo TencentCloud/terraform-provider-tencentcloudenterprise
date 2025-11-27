@@ -5,7 +5,7 @@ Use this data source to query detailed information of vpc gateway_flow_monitor_d
 
 ```hcl
 
-	data "cloud_vpc_gateway_flow_monitor_detail" "gateway_flow_monitor_detail" {
+	data "tencentcloudenterprise_vpc_gateway_flow_monitor_detail" "gateway_flow_monitor_detail" {
 	  time_point      = "2023-06-02 12:15:20"
 	  vpn_id          = "vpngw-gt8bianl"
 	  order_field     = "OutTraffic"
@@ -26,7 +26,7 @@ import (
 )
 
 func init() {
-	registerDataDescriptionProvider("cloud_vpc_gateway_flow_monitor_detail", CNDescription{
+	registerDataDescriptionProvider("tencentcloudenterprise_vpc_gateway_flow_monitor_detail", CNDescription{
 		TerraformTypeCN: "VPC流量监控明细",
 		DescriptionCN:   "提供VPC网关流量监控详细信息数据源，用于查询VPC网关流量监控的详细信息。",
 		AttributesCN: map[string]string{

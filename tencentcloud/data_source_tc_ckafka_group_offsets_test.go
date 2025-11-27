@@ -21,7 +21,7 @@ func TestAccTencentCloudCkafkaGroupOffsetsDataSource_basic(t *testing.T) {
 }
 
 const testAccCkafkaGroupOffsetsDataSource = `
-data "cloud_ckafka_group_offsets" "group_offsets" {
+data "tencentcloudenterprise_ckafka_group_offsets" "group_offsets" {
 	instance_id = "ckafka-vv7wpvae"
 	group = "keep-group"
 }

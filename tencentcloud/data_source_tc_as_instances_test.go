@@ -27,25 +27,25 @@ func TestAccTencentCloudAsInstancesDataSource_basic(t *testing.T) {
 
 func testAccAsInstancesDataSource_basic() string {
 	return defaultAsVariable + `
-resource "cloud_vpc" "vpc" {
+resource "tencentcloudenterprise_vpc" "vpc" {
   name       = "tf-as-vpc"
   cidr_block = "10.2.0.0/16"
 }
 
-resource "cloud_vpc_subnet" "subnet" {
+resource "tencentcloudenterprise_vpc_subnet" "subnet" {
   vpc_id            = cloud_vpc.vpc.id
   name              = "tf-as-subnet"
   cidr_block        = "10.2.11.0/24"
   availability_zone = var.availability_zone
 }
 
-resource "cloud_as_scaling_config" "launch_configuration" {
+resource "tencentcloudenterprise_as_scaling_config" "launch_configuration" {
   configuration_name = "tf-as-configuration-ds-ins-basic"
   image_id           = "img-2lr9q49h"
   instance_types     = [data.cloud_cvm_instance_types.default.instance_types.0.instance_type]
 }
 
-resource "cloud_as_scaling_group" "scaling_group" {
+resource "tencentcloudenterprise_as_scaling_group" "scaling_group" {
   scaling_group_name = "tf-as-group-ds-ins-basic"
   configuration_id   = cloud_as_scaling_config.launch_configuration.id
   max_size           = 1
@@ -58,7 +58,7 @@ resource "cloud_as_scaling_group" "scaling_group" {
   }
 }
 
-data "cloud_as_instances" "instances" {
+data "tencentcloudenterprise_as_instances" "instances" {
 	filters {
 		name = "auto-scaling-group-id"
 		values = [cloud_as_scaling_group.scaling_group.id]

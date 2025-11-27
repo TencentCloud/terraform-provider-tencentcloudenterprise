@@ -24,6 +24,6 @@ func TestAccTencentCloudEipAddressQuotaDataSource_basic(t *testing.T) {
 
 const testAccEipAddressQuotaDataSource = `
 
-data "cloud_eip_address_quota" "address_quota" {}
+data "tencentcloudenterprise_eip_address_quota" "address_quota" {}
 
 `

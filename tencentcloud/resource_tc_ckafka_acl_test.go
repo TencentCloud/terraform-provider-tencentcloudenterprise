@@ -19,18 +19,18 @@ func TestAccTencentCloudCkafkaAclResource(t *testing.T) {
 			{
 				Config: testAccCkafkaAcl,
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckCkafkaAclExists("cloud_ckafka_acl.foo"),
-					resource.TestCheckResourceAttr("cloud_ckafka_acl.foo", "resource_type", "TOPIC"),
-					resource.TestCheckResourceAttr("cloud_ckafka_acl.foo", "operation_type", "WRITE"),
-					resource.TestCheckResourceAttr("cloud_ckafka_acl.foo", "permission_type", "ALLOW"),
-					resource.TestCheckResourceAttr("cloud_ckafka_acl.foo", "host", "10.10.10.0"),
-					resource.TestCheckResourceAttrSet("cloud_ckafka_acl.foo", "instance_id"),
-					resource.TestCheckResourceAttrSet("cloud_ckafka_acl.foo", "resource_name"),
-					resource.TestCheckResourceAttrSet("cloud_ckafka_acl.foo", "principal"),
+					testAccCheckCkafkaAclExists("tencentcloudenterprise_ckafka_acl.foo"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_ckafka_acl.foo", "resource_type", "TOPIC"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_ckafka_acl.foo", "operation_type", "WRITE"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_ckafka_acl.foo", "permission_type", "ALLOW"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_ckafka_acl.foo", "host", "10.10.10.0"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_ckafka_acl.foo", "instance_id"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_ckafka_acl.foo", "resource_name"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_ckafka_acl.foo", "principal"),
 				),
 			},
 			{
-				ResourceName:      "cloud_ckafka_acl.foo",
+				ResourceName:      "tencentcloudenterprise_ckafka_acl.foo",
 				ImportState:       true,
 				ImportStateVerify: true,
 			},
@@ -73,7 +73,7 @@ func testAccCheckCkafkaAclDestroy(s *terraform.State) error {
 	}
 
 	for _, rs := range s.RootModule().Resources {
-		if rs.Type != "cloud_ckafka_acl" {
+		if rs.Type != "tencentcloudenterprise_ckafka_acl" {
 			continue
 		}
 
@@ -90,13 +90,13 @@ func testAccCheckCkafkaAclDestroy(s *terraform.State) error {
 }
 
 const testAccCkafkaAcl = defaultKafkaVariable + `
-resource "cloud_ckafka_user" "foo" {
+resource "tencentcloudenterprise_ckafka_user" "foo" {
 	instance_id  = var.instance_id
 	account_name = "tf-test-acl-resource"
 	password     = "test1234"
   }
 
-resource "cloud_ckafka_topic" "kafka_topic_acl" {
+resource "tencentcloudenterprise_ckafka_topic" "kafka_topic_acl" {
 	instance_id                     = var.instance_id
 	topic_name                      = "ckafka-topic-acl-test"
 	replica_num                     = 2
@@ -112,7 +112,7 @@ resource "cloud_ckafka_topic" "kafka_topic_acl" {
 	max_message_bytes               = 8388608
 }
 
-resource "cloud_ckafka_acl" foo {
+resource "tencentcloudenterprise_ckafka_acl" foo {
   instance_id     = var.instance_id
   resource_type   = "TOPIC"
   resource_name   = cloud_ckafka_topic.kafka_topic_acl.topic_name

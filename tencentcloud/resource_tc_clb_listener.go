@@ -6,7 +6,7 @@ HTTP Listener
 
 ```hcl
 
-	resource "cloud_clb_listener" "HTTP_listener" {
+	resource "tencentcloudenterprise_clb_listener" "HTTP_listener" {
 	  clb_id        = "lb-0lh5au7v"
 	  listener_name = "test_listener"
 	  port          = 80
@@ -19,7 +19,7 @@ TCP/UDP Listener
 
 ```hcl
 
-	resource "cloud_clb_listener" "TCP_listener" {
+	resource "tencentcloudenterprise_clb_listener" "TCP_listener" {
 	  clb_id                     = "lb-0lh5au7v"
 	  listener_name              = "test_listener"
 	  port                       = 80
@@ -43,7 +43,7 @@ TCP/UDP Listener
 TCP/UDP Listener with tcp health check
 ```hcl
 
-	resource "cloud_clb_listener" "listener_tcp" {
+	resource "tencentcloudenterprise_clb_listener" "listener_tcp" {
 	  clb_id                     = cloud_clb_instance.clb_basic.id
 	  listener_name              = "listener_tcp"
 	  port                       = 44
@@ -64,7 +64,7 @@ TCP/UDP Listener with tcp health check
 TCP/UDP Listener with http health check
 ```hcl
 
-	resource "cloud_clb_listener" "listener_tcp" {
+	resource "tencentcloudenterprise_clb_listener" "listener_tcp" {
 	  clb_id                     = cloud_clb_instance.clb_basic.id
 	  listener_name              = "listener_tcp"
 	  port                       = 44
@@ -89,7 +89,7 @@ TCP/UDP Listener with http health check
 TCP/UDP Listener with customer health check
 ```hcl
 
-	resource "cloud_clb_listener" "listener_tcp"{
+	resource "tencentcloudenterprise_clb_listener" "listener_tcp"{
 	  clb_id                     = cloud_clb_instance.clb_basic.id
 	  listener_name              = "listener_tcp"
 	  port                       = 44
@@ -113,7 +113,7 @@ TCP/UDP Listener with customer health check
 HTTPS Listener
 ```hcl
 
-	resource "cloud_clb_listener" "HTTPS_listener" {
+	resource "tencentcloudenterprise_clb_listener" "HTTPS_listener" {
 	  clb_id               = "lb-0lh5au7v"
 	  listener_name        = "test_listener"
 	  port                 = "80"
@@ -129,7 +129,7 @@ HTTPS Listener
 TCP SSL Listener
 ```hcl
 
-	resource "cloud_clb_listener" "TCPSSL_listener" {
+	resource "tencentcloudenterprise_clb_listener" "TCPSSL_listener" {
 	  clb_id                     = "lb-0lh5au7v"
 	  listener_name              = "test_listener"
 	  port                       = "80"
@@ -172,7 +172,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_clb_listener", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_clb_listener", CNDescription{
 		TerraformTypeCN: "CLB监听器",
 		DescriptionCN:   "提供CLB监听器资源，用于创建和管理CLB监听器。",
 		AttributesCN: map[string]string{

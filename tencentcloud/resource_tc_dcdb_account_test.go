@@ -12,8 +12,8 @@ import (
 )
 
 func init() {
-	resource.AddTestSweepers("cloud_dcdb_account", &resource.Sweeper{
-		Name: "cloud_dcdb_account",
+	resource.AddTestSweepers("tencentcloudenterprise_dcdb_account", &resource.Sweeper{
+		Name: "tencentcloudenterprise_dcdb_account",
 		F:    testSweepDCDBAccount,
 	})
 }
@@ -59,30 +59,30 @@ func TestAccTencentCloudDcdbAccountResource_basic(t *testing.T) {
 			{
 				Config: fmt.Sprintf(testAccDcdbAccount_basic, defaultDcdbInstanceId, timestamp),
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckDcdbAccountExists("cloud_dcdb_account.basic"),
-					resource.TestCheckResourceAttrSet("cloud_dcdb_account.basic", "instance_id"),
-					resource.TestCheckResourceAttrSet("cloud_dcdb_account.basic", "user_name"),
-					resource.TestCheckResourceAttr("cloud_dcdb_account.basic", "host", "127.0.0.1"),
-					resource.TestCheckResourceAttr("cloud_dcdb_account.basic", "password", "===password==="),
-					resource.TestCheckResourceAttr("cloud_dcdb_account.basic", "description", "this is a test account"),
-					resource.TestCheckResourceAttr("cloud_dcdb_account.basic", "max_user_connections", "10"),
-					resource.TestCheckResourceAttr("cloud_dcdb_account.basic", "read_only", "0"),
+					testAccCheckDcdbAccountExists("tencentcloudenterprise_dcdb_account.basic"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_dcdb_account.basic", "instance_id"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_dcdb_account.basic", "user_name"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_dcdb_account.basic", "host", "127.0.0.1"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_dcdb_account.basic", "password", "===password==="),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_dcdb_account.basic", "description", "this is a test account"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_dcdb_account.basic", "max_user_connections", "10"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_dcdb_account.basic", "read_only", "0"),
 				),
 			},
 			{
 				Config: fmt.Sprintf(testAccDcdbAccount_update, defaultDcdbInstanceId, timestamp),
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckDcdbAccountExists("cloud_dcdb_account.basic"),
-					resource.TestCheckResourceAttrSet("cloud_dcdb_account.basic", "instance_id"),
-					resource.TestCheckResourceAttrSet("cloud_dcdb_account.basic", "user_name"),
-					resource.TestCheckResourceAttr("cloud_dcdb_account.basic", "host", "127.0.0.1"),
-					resource.TestCheckResourceAttr("cloud_dcdb_account.basic", "password", "===password===updated==="),
-					resource.TestCheckResourceAttr("cloud_dcdb_account.basic", "description", "this is a changed test account"),
-					resource.TestCheckResourceAttr("cloud_dcdb_account.basic", "read_only", "0"),
+					testAccCheckDcdbAccountExists("tencentcloudenterprise_dcdb_account.basic"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_dcdb_account.basic", "instance_id"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_dcdb_account.basic", "user_name"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_dcdb_account.basic", "host", "127.0.0.1"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_dcdb_account.basic", "password", "===password===updated==="),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_dcdb_account.basic", "description", "this is a changed test account"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_dcdb_account.basic", "read_only", "0"),
 				),
 			},
 			{
-				ResourceName: "cloud_dcdb_account.basic",
+				ResourceName: "tencentcloudenterprise_dcdb_account.basic",
 				ImportState:  true,
 			},
 		},
@@ -95,7 +95,7 @@ func testAccCheckDcdbAccountDestroy(s *terraform.State) error {
 
 	dcdbService := DcdbService{client: testAccProvider.Meta().(*TencentCloudClient).apiV3Conn}
 	for _, rs := range s.RootModule().Resources {
-		if rs.Type != "cloud_dcdb_account" {
+		if rs.Type != "tencentcloudenterprise_dcdb_account" {
 			continue
 		}
 		idSplit := strings.Split(rs.Primary.ID, FILED_SP)
@@ -143,7 +143,7 @@ func testAccCheckDcdbAccountExists(re string) resource.TestCheckFunc {
 
 const testAccDcdbAccount_basic = `
 
-resource "cloud_dcdb_account" "basic" {
+resource "tencentcloudenterprise_dcdb_account" "basic" {
 	instance_id = "%s"
 	user_name = "mysql_%d"
 	host = "127.0.0.1"
@@ -156,7 +156,7 @@ resource "cloud_dcdb_account" "basic" {
 `
 const testAccDcdbAccount_update = `
 
-resource "cloud_dcdb_account" "basic" {
+resource "tencentcloudenterprise_dcdb_account" "basic" {
   instance_id = "%s"
   user_name = "mysql_%d"
   host = "127.0.0.1"

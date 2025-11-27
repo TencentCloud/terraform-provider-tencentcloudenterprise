@@ -42,7 +42,7 @@ variable "instance_id" {
 `
 const testAccRedisInstanceNodeInfoDataSource = testAccRedisInstanceNodeInfoDataSourceVar + `
 
-data "cloud_redis_instance_node_info" "instance_node_info" {
+data "tencentcloudenterprise_redis_instance_node_info" "instance_node_info" {
 	instance_id = var.instance_id
 }
 

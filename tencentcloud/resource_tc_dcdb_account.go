@@ -5,7 +5,7 @@ Provides a resource to create a dcdb account
 
 ```hcl
 
-	resource "cloud_dcdb_account" "account" {
+	resource "tencentcloudenterprise_dcdb_account" "account" {
 		instance_id = "tdsqlshard-973xatu3"
 		user_name = "mysql"
 		host = "127.0.0.1"
@@ -39,7 +39,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_dcdb_account", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_dcdb_account", CNDescription{
 		TerraformTypeCN: "数据库账号",
 		DescriptionCN:   "提供DCDB数据库账号资源，用于创建和管理DCDB数据库账号。",
 		AttributesCN: map[string]string{

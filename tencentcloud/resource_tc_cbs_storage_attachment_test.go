@@ -20,13 +20,13 @@ func TestAccTencentCloudCbsStorageAttachment(t *testing.T) {
 			{
 				Config: testAccCbsStorageAttachmentConfig,
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckCbsStorageAttachmentExists("cloud_cbs_storage_attachment.foo"),
-					resource.TestCheckResourceAttrSet("cloud_cbs_storage_attachment.foo", "storage_id"),
-					resource.TestCheckResourceAttrSet("cloud_cbs_storage_attachment.foo", "instance_id"),
+					testAccCheckCbsStorageAttachmentExists("tencentcloudenterprise_cbs_storage_attachment.foo"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_cbs_storage_attachment.foo", "storage_id"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_cbs_storage_attachment.foo", "instance_id"),
 				),
 			},
 			{
-				ResourceName:      "cloud_cbs_storage_attachment.foo",
+				ResourceName:      "tencentcloudenterprise_cbs_storage_attachment.foo",
 				ImportState:       true,
 				ImportStateVerify: true,
 			},
@@ -42,7 +42,7 @@ func testAccCheckCsbStorageAttachmentDestroy(s *terraform.State) error {
 		client: testAccProvider.Meta().(*TencentCloudClient).apiV3Conn,
 	}
 	for _, rs := range s.RootModule().Resources {
-		if rs.Type != "cloud_cbs_storage_attachment" {
+		if rs.Type != "tencentcloudenterprise_cbs_storage_attachment" {
 			continue
 		}
 
@@ -88,7 +88,7 @@ func testAccCheckCbsStorageAttachmentExists(n string) resource.TestCheckFunc {
 }
 
 const testAccCbsStorageAttachmentConfig = defaultInstanceVariable + defaultAzVariable + `
-resource "cloud_cvm_instance" "test_cbs_attach" {
+resource "tencentcloudenterprise_cvm_instance" "test_cbs_attach" {
   instance_name     = "test-cbs-attach-cvm"
   availability_zone = var.default_az
   image_id          = data.cloud_cvm_images.default.images.0.image_id
@@ -96,7 +96,7 @@ resource "cloud_cvm_instance" "test_cbs_attach" {
   instance_type     = data.cloud_cvm_instance_types.default.instance_types.0.instance_type
 }
 
-resource "cloud_cbs_storage" "foo" {
+resource "tencentcloudenterprise_cbs_storage" "foo" {
   availability_zone = var.default_az
   storage_size      = 100
   storage_type      = "CLOUD_PREMIUM"
@@ -104,7 +104,7 @@ resource "cloud_cbs_storage" "foo" {
   charge_type       = "POSTPAID_BY_HOUR"
 }
 
-resource "cloud_cbs_storage_attachment" "foo" {
+resource "tencentcloudenterprise_cbs_storage_attachment" "foo" {
   storage_id  = cloud_cbs_storage.foo.id
   instance_id = cloud_cvm_instance.test_cbs_attach.id
 }

@@ -4,7 +4,7 @@ Use this data source to query detailed information of clb target_group_list
 Example Usage
 ```hcl
 
-	data "cloud_clb_target_group_list" "target_group_list" {
+	data "tencentcloudenterprise_clb_target_group_list" "target_group_list" {
 	  filters {
 	    name = "TargetGroupName"
 	    values = ["keep-tgg"]
@@ -26,7 +26,7 @@ import (
 )
 
 func init() {
-	// registerDataDescriptionProvider("cloud_clb_target_group_list", CNDescription{
+	// registerDataDescriptionProvider("tencentcloudenterprise_clb_target_group_list", CNDescription{
 	// 	TerraformTypeCN: "目标组列表",
 	// 	AttributesCN: map[string]string{
 	// 		"target_group_ids":   "目标组ID数组",

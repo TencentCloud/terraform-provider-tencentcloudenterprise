@@ -5,7 +5,7 @@ Use this data source to query the detail information of cloud file systems(CFS).
 
 ```hcl
 
-	data "cloud_cfs_file_systems" "file_systems" {
+	data "tencentcloudenterprise_cfs_file_systems" "file_systems" {
 	  file_system_id    = "cfs-6hgquxmj"
 	  name              = "test"
 	  availability_zone = "ap-guangzhou-3"
@@ -26,7 +26,7 @@ import (
 )
 
 func init() {
-	registerDataDescriptionProvider("cloud_cfs_file_systems", CNDescription{
+	registerDataDescriptionProvider("tencentcloudenterprise_cfs_file_systems", CNDescription{
 		TerraformTypeCN: "云文件系统",
 		DescriptionCN:   "提供CFS文件系统数据源，用于查询文件系统的详细信息。",
 		AttributesCN: map[string]string{

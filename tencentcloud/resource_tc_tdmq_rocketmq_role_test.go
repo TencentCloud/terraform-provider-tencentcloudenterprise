@@ -13,7 +13,7 @@ import (
 
 func TestAccTencentCloudTdmqRocketmqRoleResource_basic(t *testing.T) {
 	t.Parallel()
-	terraformId := "cloud_tdmq_rocketmq_role.role"
+	terraformId := "tencentcloudenterprise_tdmq_rocketmq_role.role"
 
 	resource.Test(t, resource.TestCase{
 		PreCheck:     func() { testAccPreCheck(t) },
@@ -37,7 +37,7 @@ func TestAccTencentCloudTdmqRocketmqRoleResource_basic(t *testing.T) {
 				),
 			},
 			{
-				ResourceName:      "cloud_tdmq_rocketmq_role.role",
+				ResourceName:      "tencentcloudenterprise_tdmq_rocketmq_role.role",
 				ImportState:       true,
 				ImportStateVerify: true,
 			},
@@ -51,7 +51,7 @@ func testAccCheckTdmqRocketmqRoleDestroy(s *terraform.State) error {
 
 	service := TdmqRocketmqService{client: testAccProvider.Meta().(*TencentCloudClient).apiV3Conn}
 	for _, rs := range s.RootModule().Resources {
-		if rs.Type != "cloud_tdmq_rocketmq_role" {
+		if rs.Type != "tencentcloudenterprise_tdmq_rocketmq_role" {
 			continue
 		}
 		idSplit := strings.Split(rs.Primary.ID, FILED_SP)
@@ -113,12 +113,12 @@ func testAccCheckTdmqRocketmqRoleExists(re string) resource.TestCheckFunc {
 }
 
 const testAccTdmqRocketmqRole = `
-resource "cloud_tdmq_rocketmq_cluster" "cluster" {
+resource "tencentcloudenterprise_tdmq_rocketmq_cluster" "cluster" {
 	cluster_name = "test_rocketmq"
 	remark = "test recket mq"
 }
 
-resource "cloud_tdmq_rocketmq_role" "role" {
+resource "tencentcloudenterprise_tdmq_rocketmq_role" "role" {
   role_name = "test_rocketmq_role"
   remark = "test rocketmq role"
   cluster_id = cloud_tdmq_rocketmq_cluster.cluster.cluster_id
@@ -126,12 +126,12 @@ resource "cloud_tdmq_rocketmq_role" "role" {
 `
 
 const testAccTdmqRocketmqRoleUpdate = `
-resource "cloud_tdmq_rocketmq_cluster" "cluster" {
+resource "tencentcloudenterprise_tdmq_rocketmq_cluster" "cluster" {
 	cluster_name = "test_rocketmq"
 	remark = "test recket mq"
 }
 
-resource "cloud_tdmq_rocketmq_role" "role" {
+resource "tencentcloudenterprise_tdmq_rocketmq_role" "role" {
   role_name = "test_rocketmq_role"
   remark = "test rocketmq role update"
   cluster_id = cloud_tdmq_rocketmq_cluster.cluster.cluster_id

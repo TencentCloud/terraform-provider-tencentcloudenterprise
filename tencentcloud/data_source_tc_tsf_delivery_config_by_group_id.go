@@ -5,7 +5,7 @@ Use this data source to query detailed information of tsf delivery_config_by_gro
 
 ```hcl
 
-	data "cloud_tsf_delivery_config_by_group_id" "delivery_config_by_group_id" {
+	data "tencentcloudenterprise_tsf_delivery_config_by_group_id" "delivery_config_by_group_id" {
 	  group_id = "group-yrjkln9v"
 	}
 
@@ -23,7 +23,7 @@ import (
 )
 
 func init() {
-	registerDataDescriptionProvider("cloud_tsf_delivery_config_by_group_id", CNDescription{
+	registerDataDescriptionProvider("tencentcloudenterprise_tsf_delivery_config_by_group_id", CNDescription{
 		TerraformTypeCN: "TSF分组下配置项",
 		DescriptionCN:   "提供TSF分组下配置项数据源，用于查询TSF分组下配置项的详细信息。",
 		AttributesCN: map[string]string{

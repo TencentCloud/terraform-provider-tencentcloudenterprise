@@ -1,8 +1,8 @@
-resource "cloud_vpc_security_group" "foo" {
+resource "tencentcloudenterprise_vpc_security_group" "foo" {
   name = "ci-temp-test-sg"
 }
 
-resource "cloud_security_group_lite_rule" "lite-rule" {
+resource "tencentcloudenterprise_security_group_lite_rule" "lite-rule" {
   security_group_id = cloud_vpc_security_group.foo.id
 
   ingress = [
@@ -18,7 +18,7 @@ resource "cloud_security_group_lite_rule" "lite-rule" {
   ]
 }
 
-resource "cloud_security_group_lite_rule" "lite-rule-ingress" {
+resource "tencentcloudenterprise_security_group_lite_rule" "lite-rule-ingress" {
   security_group_id = cloud_vpc_security_group.foo.id
 
   ingress = [
@@ -26,7 +26,7 @@ resource "cloud_security_group_lite_rule" "lite-rule-ingress" {
   ]
 }
 
-resource "cloud_security_group_lite_rule" "lite-rule-egress" {
+resource "tencentcloudenterprise_security_group_lite_rule" "lite-rule-egress" {
   security_group_id = cloud_vpc_security_group.foo.id
 
   egress = [

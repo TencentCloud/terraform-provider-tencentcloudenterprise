@@ -26,13 +26,13 @@ func TestAccTencentCloudEniAttachmentBasic(t *testing.T) {
 			{
 				Config: testAccEniAttachmentBasic,
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckEniAttachmentExists("cloud_vpc_eni_attachment.foo", &eniId, &cvmId),
-					resource.TestCheckResourceAttrSet("cloud_vpc_eni_attachment.foo", "eni_id"),
-					resource.TestCheckResourceAttrSet("cloud_vpc_eni_attachment.foo", "instance_id"),
+					testAccCheckEniAttachmentExists("tencentcloudenterprise_vpc_eni_attachment.foo", &eniId, &cvmId),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_vpc_eni_attachment.foo", "eni_id"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_vpc_eni_attachment.foo", "instance_id"),
 				),
 			},
 			{
-				ResourceName:      "cloud_vpc_eni_attachment.foo",
+				ResourceName:      "tencentcloudenterprise_vpc_eni_attachment.foo",
 				ImportState:       true,
 				ImportStateVerify: true,
 			},
@@ -109,7 +109,7 @@ func testAccCheckEniAttachmentDestroy(eniId *string) resource.TestCheckFunc {
 }
 
 const testAccEniAttachmentBasic = instanceCommonTestCase + `
-resource "cloud_vpc_eni" "foo" {
+resource "tencentcloudenterprise_vpc_eni" "foo" {
   name        = var.instance_name
   vpc_id      = var.vpc_id
   subnet_id   = var.subnet_id
@@ -117,7 +117,7 @@ resource "cloud_vpc_eni" "foo" {
   ipv4_count  = 1
 }
 
-resource "cloud_vpc_eni_attachment" "foo" {
+resource "tencentcloudenterprise_vpc_eni_attachment" "foo" {
   eni_id      = cloud_vpc_eni.foo.id
   instance_id = cloud_cvm_instance.default.id
 }

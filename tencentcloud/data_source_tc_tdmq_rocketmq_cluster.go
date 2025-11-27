@@ -5,7 +5,7 @@ Use this data source to query detailed information of tdmqRocketmq cluster
 
 ```hcl
 
-	data "cloud_tdmq_rocketmq_cluster" "cluster" {
+	data "tencentcloudenterprise_tdmq_rocketmq_cluster" "cluster" {
 	  name_keyword = "test_rocketmq"
 	}
 
@@ -24,7 +24,7 @@ import (
 )
 
 func init() {
-	registerDataDescriptionProvider("cloud_tdmq_rocketmq_cluster", CNDescription{
+	registerDataDescriptionProvider("tencentcloudenterprise_tdmq_rocketmq_cluster", CNDescription{
 		TerraformTypeCN: "RocketMQ集群",
 		DescriptionCN:   "提供TDMQ RocketMQ集群数据源，用于查询TDMQ RocketMQ集群的详细信息。",
 		AttributesCN: map[string]string{

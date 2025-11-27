@@ -5,7 +5,7 @@ Provides a resource to create a Tbase parameters
 
 ```hcl
 
-	resource "cloud_Tbase_parameters" "parameters" {
+	resource "tencentcloudenterprise_Tbase_parameters" "parameters" {
 	    instance_id = "tdsql-4pzs5b67"
 
 	    params {

@@ -48,7 +48,7 @@ variable "group_id" {
 
 const testAccTsfGroupConfigReleaseDataSource = testAccTsfGroupConfigReleaseDataSourceVar + `
 
-data "cloud_tsf_group_config_release" "group_config_release" {
+data "tencentcloudenterprise_tsf_group_config_release" "group_config_release" {
 	group_id = var.group_id
 }
 

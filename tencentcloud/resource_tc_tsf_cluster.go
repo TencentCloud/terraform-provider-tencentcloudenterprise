@@ -5,7 +5,7 @@ Provides a resource to create a tsf cluster
 
 ```hcl
 
-	resource "cloud_tsf_cluster" "cluster" {
+	resource "tencentcloudenterprise_tsf_cluster" "cluster" {
 		cluster_name = "terraform-test"
 		cluster_type = "V"
 		vpc_id = "vpc-2l7uk2q1"
@@ -33,7 +33,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_tsf_cluster", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_tsf_cluster", CNDescription{
 		TerraformTypeCN: "tsf集群",
 		DescriptionCN:   "提供TSF集群资源，用于创建和管理TSF集群。",
 		AttributesCN: map[string]string{

@@ -5,7 +5,7 @@ Use this data source to query detailed information of instance_task_list
 
 ```hcl
 
-	data "cloud_redis_instance_task_list" "instance_task_list" {
+	data "tencentcloudenterprise_redis_instance_task_list" "instance_task_list" {
 	  instance_id = "crs-c1nl9rpv"
 	  instance_name = ""
 	  project_ids = [""]
@@ -30,7 +30,7 @@ import (
 )
 
 func init() {
-	registerDataDescriptionProvider("cloud_redis_instance_task_list", CNDescription{
+	registerDataDescriptionProvider("tencentcloudenterprise_redis_instance_task_list", CNDescription{
 		TerraformTypeCN: "redis®实例任务列表",
 		DescriptionCN:   "提供Redis实例任务列表数据源，用于查询Redis实例任务列表的详细信息。",
 		AttributesCN: map[string]string{

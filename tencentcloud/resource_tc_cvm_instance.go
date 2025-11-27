@@ -9,12 +9,12 @@ Provides a CVM instance resource.
 
 ```hcl
 
-	data "cloud_cvm_images" "my_favorite_image" {
+	data "tencentcloudenterprise_cvm_images" "my_favorite_image" {
 	  image_type = ["PUBLIC_IMAGE"]
 	  os_name    = "CentOs"
 	}
 
-	data "cloud_cvm_instance_types" "my_favorite_instance_types" {
+	data "tencentcloudenterprise_cvm_instance_types" "my_favorite_instance_types" {
 	  filter {
 	    name   = "instance-family"
 	    values = ["HUZI345"]
@@ -24,17 +24,17 @@ Provides a CVM instance resource.
 	  memory_size    = 1
 	}
 
-data "cloud_availability_zones" "my_favorite_zones" {
+data "tencentcloudenterprise_availability_zones" "my_favorite_zones" {
 }
 
 // Create VPC resource
 
-	resource "cloud_vpc" "app" {
+	resource "tencentcloudenterprise_vpc" "app" {
 	  cidr_block = "10.0.0.0/16"
 	  name       = "awesome_app_vpc"
 	}
 
-	resource "cloud_vpc_subnet" "app" {
+	resource "tencentcloudenterprise_vpc_subnet" "app" {
 	  vpc_id            = cloud_vpc.app.id
 	  availability_zone = data.cloud_availability_zones.my_favorite_zones.zones.0.name
 	  name              = "awesome_app_subnet"
@@ -43,7 +43,7 @@ data "cloud_availability_zones" "my_favorite_zones" {
 
 // Create 2 CVM instances to host awesome_app
 
-	resource "cloud_cvm_instance" "my_awesome_app" {
+	resource "tencentcloudenterprise_cvm_instance" "my_awesome_app" {
 	  instance_name              = "awesome_app"
 	  availability_zone          = data.cloud_availability_zones.my_favorite_zones.zones.0.name
 	  image_id                   = data.cloud_cvm_images.my_favorite_image.images.0.image_id
@@ -75,7 +75,7 @@ Create CVM instance based on CDH
 	  default = "ap-shanghai-4"
 	}
 
-	resource "cloud_cdh_instance" "foo" {
+	resource "tencentcloudenterprise_cdh_instance" "foo" {
 	  availability_zone = var.availability_zone
 	  host_type = "HM50"
 	  charge_type = "PREPAID"
@@ -84,24 +84,24 @@ Create CVM instance based on CDH
 	  prepaid_renew_flag = "DISABLE_NOTIFY_AND_MANUAL_RENEW"
 	}
 
-	data "cloud_cdh_instances" "list" {
+	data "tencentcloudenterprise_cdh_instances" "list" {
 	  availability_zone = var.availability_zone
 	  host_id = cloud_cdh_instance.foo.id
 	  hostname = "test"
 	  host_state = "RUNNING"
 	}
 
-	resource "cloud_cvm_key_pair" "random_key" {
+	resource "tencentcloudenterprise_cvm_key_pair" "random_key" {
 	  key_ids   = ["tf_example_key6"]
 	  public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAAAgQDjd8fTnp7Dcuj4mLaQxf9Zs/ORgUL9fQxRCNKkPgP1paTy1I513maMX126i36Lxxl3+FUB52oVbo/FgwlIfX8hyCnv8MCxqnuSDozf1CD0/wRYHcTWAtgHQHBPCC2nJtod6cVC3kB18KeV4U7zsxmwFeBIxojMOOmcOBuh7+trRw=="
 	}
 
-	resource "cloud_bms_placement_group" "foo" {
+	resource "tencentcloudenterprise_bms_placement_group" "foo" {
 	  name = "test"
 	  type = "HOST"
 	}
 
-	resource "cloud_cvm_instance" "foo" {
+	resource "tencentcloudenterprise_cvm_instance" "foo" {
 	  availability_zone = var.availability_zone
 	  instance_name     = "terraform-testing"
 	  image_id          = "img-ix05e4px"
@@ -157,7 +157,7 @@ import (
 
 func init() {
 	// 注册资源到资源中文描述提供者映射里
-	registerResourceDescriptionProvider("cloud_cvm_instance", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_cvm_instance", CNDescription{
 		TerraformTypeCN: "云主机实例",
 		DescriptionCN:   "提供云服务器实例资源，用于创建和管理云服务器实例。",
 		AttributesCN: map[string]string{

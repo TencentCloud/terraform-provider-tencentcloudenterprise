@@ -5,7 +5,7 @@ Provides a resource to create a tsf application_file_config
 
 ```hcl
 
-	resource "cloud_tsf_application_file_config" "application_file_config" {
+	resource "tencentcloudenterprise_tsf_application_file_config" "application_file_config" {
 	  config_name = "terraform-test"
 	  config_version = "1.0"
 	  config_file_name = "application.yaml"
@@ -33,7 +33,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_tsf_application_file_config", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_tsf_application_file_config", CNDescription{
 		TerraformTypeCN: "文件配置",
 		DescriptionCN:   "提供TSF文件配置资源，用于创建和管理文件配置。",
 		AttributesCN: map[string]string{

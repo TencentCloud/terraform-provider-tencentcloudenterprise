@@ -31,29 +31,29 @@ variable "keep_tke_cn" {
 `
 
 const testAccKubernetesCommonNamesBasic = KeepTkeCNRoleName + `
-data "cloud_user_info" "info" {}
+data "tencentcloudenterprise_user_info" "info" {}
 
 locals {
   app_id = data.cloud_user_info.info.app_id
   uin    = data.cloud_user_info.info.uin
 }
 
-data "cloud_tke_kubernetes_clusters" "cls" {
+data "tencentcloudenterprise_tke_kubernetes_clusters" "cls" {
   cluster_name = "` + defaultTkeClusterName + `"
 }
 
-data "cloud_cam_roles" "role_basic" {
+data "tencentcloudenterprise_cam_roles" "role_basic" {
   name          = var.keep_tke_cn
 }
 
-data "cloud_tke_kubernetes_cluster_common_names" "foo" {
+data "tencentcloudenterprise_tke_kubernetes_cluster_common_names" "foo" {
   cluster_id = data.cloud_tke_kubernetes_clusters.cls.list.0.cluster_id
   role_ids = [data.cloud_cam_roles.role_basic.role_list.0.role_id]
 }
 `
 
 const testAccKubernetesCommonNamesWithSubAccount = `
-data "cloud_tke_kubernetes_cluster_common_names" "foo" {
+data "tencentcloudenterprise_tke_kubernetes_cluster_common_names" "foo" {
 	result_output_file = "333.json"
 	cluster_id = "cls-9h465v27"
 	subaccount_uins = ["100004614032"]

@@ -25,7 +25,7 @@ func TestAccTencentNeedFixCloudTdmqVipInstanceDataSource_basic(t *testing.T) {
 }
 
 const testAccTdmqVipInstanceDataSource = `
-data "cloud_tdmq_vip_instance" "vip_instance" {
+data "tencentcloudenterprise_tdmq_vip_instance" "vip_instance" {
   cluster_id = "rocketmq-rd3545bkkj49"
 }
 `

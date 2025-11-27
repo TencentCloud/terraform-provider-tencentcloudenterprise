@@ -7,7 +7,7 @@ Provide a resource to increase instance to cluster
 
 ```hcl
 
-	resource "cloud_kubernetes_cluster_secret" "app-csp-sm" {
+	resource "tencentcloudenterprise_kubernetes_cluster_secret" "app-csp-sm" {
 	  cluster_id = cloud_tke_kubernetes_cluster.cluster.id
 	  namespace  = "app-csp-sm"
 	  path = "/apis/platform.tkestack.io/v1/clusters/cls-x8lxd2jx/apply"
@@ -27,7 +27,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_tke_kubernetes_cluster_secret", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_tke_kubernetes_cluster_secret", CNDescription{
 		TerraformTypeCN: "集群密钥配置",
 		DescriptionCN:   "提供集群密钥配置资源，用于向集群增加密钥。",
 		AttributesCN: map[string]string{

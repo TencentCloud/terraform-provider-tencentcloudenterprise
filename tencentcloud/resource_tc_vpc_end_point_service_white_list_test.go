@@ -16,10 +16,10 @@ func TestAccTencentCloudVpcEndPointServiceWhiteListResource_basic(t *testing.T) 
 		Steps: []resource.TestStep{
 			{
 				Config: testAccVpcEndPointServiceWhiteList,
-				Check:  resource.ComposeTestCheckFunc(resource.TestCheckResourceAttrSet("cloud_vpc_end_point_service_white_list.end_point_service_white_list", "id")),
+				Check:  resource.ComposeTestCheckFunc(resource.TestCheckResourceAttrSet("tencentcloudenterprise_vpc_end_point_service_white_list.end_point_service_white_list", "id")),
 			},
 			{
-				ResourceName:      "cloud_vpc_end_point_service_white_list.end_point_service_white_list",
+				ResourceName:      "tencentcloudenterprise_vpc_end_point_service_white_list.end_point_service_white_list",
 				ImportState:       true,
 				ImportStateVerify: true,
 			},
@@ -29,7 +29,7 @@ func TestAccTencentCloudVpcEndPointServiceWhiteListResource_basic(t *testing.T) 
 
 const testAccVpcEndPointServiceWhiteList = `
 
-resource "cloud_vpc_end_point_service_white_list" "end_point_service_white_list" {
+resource "tencentcloudenterprise_vpc_end_point_service_white_list" "end_point_service_white_list" {
   user_uin = "100020512675"
   end_point_service_id = "vpcsvc-98jddhcz"
   description = "terraform for test"

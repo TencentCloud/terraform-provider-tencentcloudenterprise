@@ -25,18 +25,18 @@ func TestAccTencentCloudTdmqRocketmqRoleDataSource(t *testing.T) {
 }
 
 const testAccDataSourceTdmqRocketmqRole = `
-resource "cloud_tdmq_rocketmq_cluster" "cluster" {
+resource "tencentcloudenterprise_tdmq_rocketmq_cluster" "cluster" {
 	cluster_name = "test_rocketmq_datasource_role"
 	remark = "test recket mq"
 }
 
-resource "cloud_tdmq_rocketmq_role" "role" {
+resource "tencentcloudenterprise_tdmq_rocketmq_role" "role" {
   role_name = "test_rocketmq_role"
   remark = "test rocketmq role"
   cluster_id = cloud_tdmq_rocketmq_cluster.cluster.cluster_id
 }
 
-data "cloud_tdmq_rocketmq_role" "role" {
+data "tencentcloudenterprise_tdmq_rocketmq_role" "role" {
   role_name = cloud_tdmq_rocketmq_role.role.role_name
   cluster_id = cloud_tdmq_rocketmq_cluster.cluster.cluster_id
 }

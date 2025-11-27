@@ -5,7 +5,7 @@ Provides a resource to create a vpc ipv6_subnet_cidr_block
 
 ```hcl
 
-	resource "cloud_vpc_ipv6_subnet_cidr_block" "ipv6_subnet_cidr_block" {
+	resource "tencentcloudenterprise_vpc_ipv6_subnet_cidr_block" "ipv6_subnet_cidr_block" {
 	  vpc_id = "vpc-7w3kgnpl"
 	  ipv6_subnet_cidr_blocks {
 	    subnet_id = "subnet-plg028y8"
@@ -38,7 +38,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_vpc_ipv6_subnet_cidr_block", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_vpc_ipv6_subnet_cidr_block", CNDescription{
 		TerraformTypeCN: "创建VPC IPv6子网网段",
 		DescriptionCN:   "提供VPC IPv6子网网段资源，用于创建VPC IPv6子网网段。",
 		AttributesCN: map[string]string{

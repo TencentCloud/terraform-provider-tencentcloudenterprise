@@ -3,14 +3,14 @@
 # ========== Data Sources ==========
 
 # Query CLS machine group configs
-data "cloud_cls_machine_group_configs" "configs" {
+data "tencentcloudenterprise_cls_machine_group_configs" "configs" {
   group_id = "group-xxxxx"
 }
 
 # ========== Resources ==========
 
 # CLS Logset
-resource "cloud_cls_logset" "logset" {
+resource "tencentcloudenterprise_cls_logset" "logset" {
   logset_name = "example-logset"
   period      = 7
   
@@ -20,7 +20,7 @@ resource "cloud_cls_logset" "logset" {
 }
 
 # CLS Topic
-resource "cloud_cls_topic" "topic" {
+resource "tencentcloudenterprise_cls_topic" "topic" {
   topic_name           = "example-topic"
   logset_id            = cloud_cls_logset.logset.id
   auto_split           = true
@@ -35,7 +35,7 @@ resource "cloud_cls_topic" "topic" {
 }
 
 # CLS Index
-resource "cloud_cls_index" "index" {
+resource "tencentcloudenterprise_cls_index" "index" {
   topic_id = cloud_cls_topic.topic.id
   status   = true
   
@@ -71,7 +71,7 @@ resource "cloud_cls_index" "index" {
 }
 
 # CLS Machine Group
-resource "cloud_cls_machine_group" "group" {
+resource "tencentcloudenterprise_cls_machine_group" "group" {
   group_name        = "example-machine-group"
   service_logging   = true
   auto_update       = true
@@ -89,7 +89,7 @@ resource "cloud_cls_machine_group" "group" {
 }
 
 # CLS Config
-resource "cloud_cls_config" "config" {
+resource "tencentcloudenterprise_cls_config" "config" {
   name = "example-config"
   output = cloud_cls_topic.topic.id
   path = "/var/log/nginx"
@@ -103,13 +103,13 @@ resource "cloud_cls_config" "config" {
 }
 
 # CLS Config Attachment
-resource "cloud_cls_config_attachment" "attachment" {
+resource "tencentcloudenterprise_cls_config_attachment" "attachment" {
   config_id = cloud_cls_config.config.id
   group_id  = cloud_cls_machine_group.group.id
 }
 
 # CLS COS Shipper
-resource "cloud_cls_cos_shipper" "shipper" {
+resource "tencentcloudenterprise_cls_cos_shipper" "shipper" {
   topic_id       = cloud_cls_topic.topic.id
   bucket         = "example-bucket-123456"
   prefix         = "logs/"
@@ -125,7 +125,7 @@ resource "cloud_cls_cos_shipper" "shipper" {
 }
 
 # CLS COS Recharge
-resource "cloud_cls_cos_recharge" "recharge" {
+resource "tencentcloudenterprise_cls_cos_recharge" "recharge" {
   topic_id    = cloud_cls_topic.topic.id
   name        = "example-recharge"
   bucket      = "example-bucket-123456"
@@ -135,7 +135,7 @@ resource "cloud_cls_cos_recharge" "recharge" {
 }
 
 # CLS CKafka Consumer
-resource "cloud_cls_ckafka_consumer" "consumer" {
+resource "tencentcloudenterprise_cls_ckafka_consumer" "consumer" {
   topic_id = cloud_cls_topic.topic.id
   need_content = true
   
@@ -152,7 +152,7 @@ resource "cloud_cls_ckafka_consumer" "consumer" {
 }
 
 # CLS Export
-resource "cloud_cls_export" "export" {
+resource "tencentcloudenterprise_cls_export" "export" {
   topic_id    = cloud_cls_topic.topic.id
   log_count   = 1000
   query       = "level:ERROR"

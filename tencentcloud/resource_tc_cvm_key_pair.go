@@ -5,11 +5,11 @@ Provides a key pair resource.
 
 ```hcl
 
-	resource "cloud_cvm_key_pair" "foo" {
+	resource "tencentcloudenterprise_cvm_key_pair" "foo" {
 		key_name   = "terraform_test"
 	}
 
-	resource "cloud_cvm_key_pair" "foo1" {
+	resource "tencentcloudenterprise_cvm_key_pair" "foo1" {
 	  key_name   = "terraform_test"
 	  public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAAAgQDjd8fTnp7Dcuj4mLaQxf9Zs/ORgUL9fQxRCNKkPgP1paTy1I513maMX126i36Lxxl3+FUB52oVbo/FgwlIfX8hyCnv8MCxqnuSDozf1CD0/wRYHcTWAtgHQHBPCC2nJtod6cVC3kB18KeV4U7zsxmwFeBIxojMOOmcOBuh7+trRw=="
 	}
@@ -41,7 +41,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_cvm_key_pair", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_cvm_key_pair", CNDescription{
 		TerraformTypeCN: "SSH密钥",
 		DescriptionCN:   "提供SSH密钥对资源，用于创建和管理云服务器的SSH密钥对。",
 		AttributesCN: map[string]string{

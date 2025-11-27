@@ -6,19 +6,19 @@ Use this data source to query detailed information of DNATs.
 ```hcl
 # query by nat gateway id
 
-	data "cloud_vpc_dnats" "foo" {
+	data "tencentcloudenterprise_vpc_dnats" "foo" {
 	  nat_id = "nat-xfaq1"
 	}
 
 # query by vpc id
 
-	data "cloud_vpc_dnats" "foo" {
+	data "tencentcloudenterprise_vpc_dnats" "foo" {
 	  vpc_id = "vpc-xfqag"
 	}
 
 # query by elastic ip
 
-	data "cloud_vpc_dnats" "foo" {
+	data "tencentcloudenterprise_vpc_dnats" "foo" {
 	  elastic_ip = "203.0.113.1"
 	}
 
@@ -37,7 +37,7 @@ import (
 )
 
 func init() {
-	registerDataDescriptionProvider("cloud_vpc_dnats", CNDescription{
+	registerDataDescriptionProvider("tencentcloudenterprise_vpc_dnats", CNDescription{
 		TerraformTypeCN: "NAT网关端口转发规则对象数组",
 		DescriptionCN:   "提供VPC DNAT数据源，用于查询VPC DNAT的详细信息。",
 		AttributesCN: map[string]string{

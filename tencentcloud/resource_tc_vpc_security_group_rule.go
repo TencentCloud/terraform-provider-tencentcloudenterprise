@@ -9,13 +9,13 @@ Provides a resource to create security group rule.
 
 ```hcl
 
-	resource "cloud_vpc_security_group" "sglab_1" {
+	resource "tencentcloudenterprise_vpc_security_group" "sglab_1" {
 	  name        = "mysg_1"
 	  description = "favourite sg_1"
 	  project_id  = 0
 	}
 
-	resource "cloud_vpc_security_group_rule" "sglab_1" {
+	resource "tencentcloudenterprise_vpc_security_group_rule" "sglab_1" {
 	  security_group_id = cloud_vpc_security_group.sglab_1.id
 	  type              = "ingress"
 	  cidr_ip           = "10.0.0.0/16"
@@ -31,19 +31,19 @@ Provides a resource to create security group rule.
 
 ```hcl
 
-	resource "cloud_vpc_security_group" "sglab_2" {
+	resource "tencentcloudenterprise_vpc_security_group" "sglab_2" {
 	  name        = "mysg_2"
 	  description = "favourite sg_2"
 	  project_id  = 0
 	}
 
-	resource "cloud_vpc_security_group" "sglab_3" {
+	resource "tencentcloudenterprise_vpc_security_group" "sglab_3" {
 	  name        = "mysg_3"
 	  description = "favourite sg_3"
 	  project_id  = 0
 	}
 
-	resource "cloud_vpc_security_group_rule" "sglab_2" {
+	resource "tencentcloudenterprise_vpc_security_group_rule" "sglab_2" {
 	  security_group_id = cloud_vpc_security_group.sglab_2.id
 	  type              = "ingress"
 	  ip_protocol       = "TCP"
@@ -72,7 +72,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_vpc_security_group_rule", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_vpc_security_group_rule", CNDescription{
 		TerraformTypeCN: "创建安全组规则",
 		DescriptionCN:   "提供创建安全组规则资源，用于创建安全组规则。",
 		AttributesCN: map[string]string{

@@ -4,7 +4,7 @@ Use this data source to query detailed information of cvm image_quota
 # Example Usage
 
 ```hcl
-data "cloud_cvm_image_quota" "image_quota" {
+data "tencentcloudenterprise_cvm_image_quota" "image_quota" {
 }
 ```
 */
@@ -20,7 +20,7 @@ import (
 
 func init() {
 	// 注册资源中文描述提供者映射
-	registerDataDescriptionProvider("cloud_cvm_image_quota", CNDescription{
+	registerDataDescriptionProvider("tencentcloudenterprise_cvm_image_quota", CNDescription{
 		TerraformTypeCN: "CVM 镜像配额",
 		DescriptionCN:   "提供CVM镜像配额数据源，用于查询账户的镜像配额详细信息。",
 		AttributesCN: map[string]string{

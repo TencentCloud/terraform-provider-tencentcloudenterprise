@@ -16,7 +16,7 @@ func TestAccTencentCloudNeedFixEipNormalAddressReturnResource_basic(t *testing.T
 		Steps: []resource.TestStep{
 			{
 				Config: testAccEipNormalAddressReturn,
-				Check:  resource.ComposeTestCheckFunc(resource.TestCheckResourceAttrSet("cloud_eip_normal_address_return.normal_address_return", "id")),
+				Check:  resource.ComposeTestCheckFunc(resource.TestCheckResourceAttrSet("tencentcloudenterprise_eip_normal_address_return.normal_address_return", "id")),
 			},
 		},
 	})
@@ -24,7 +24,7 @@ func TestAccTencentCloudNeedFixEipNormalAddressReturnResource_basic(t *testing.T
 
 const testAccEipNormalAddressReturn = `
 
-resource "cloud_eip_normal_address_return" "normal_address_return" {
+resource "tencentcloudenterprise_eip_normal_address_return" "normal_address_return" {
   address_ips = ["203.0.113.68"]
 }
 `

@@ -5,7 +5,7 @@ Use this data source to query detailed information of security groups.
 
 ```hcl
 
-	data "cloud_vpc_security_groups" "sglab" {
+	data "tencentcloudenterprise_vpc_security_groups" "sglab" {
 	  security_group_id = cloud_vpc_security_group.sglab.id
 	}
 
@@ -28,7 +28,7 @@ import (
 )
 
 func init() {
-	registerDataDescriptionProvider("cloud_vpc_security_groups", CNDescription{
+	registerDataDescriptionProvider("tencentcloudenterprise_vpc_security_groups", CNDescription{
 		TerraformTypeCN: "安全组",
 		DescriptionCN:   "提供VPC安全组数据源，用于查询VPC安全组的详细信息。",
 		AttributesCN: map[string]string{

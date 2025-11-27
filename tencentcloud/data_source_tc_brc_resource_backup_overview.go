@@ -1,12 +1,14 @@
 /*
- Use this data source to query detailed information of brc backup overviews
+	Use this data source to query detailed information of brc backup overviews
 
-Example Usage
+# Example Usage
 
 ```hcl
-  data "cloud_brc_resource_backup_overview" "overview" {
-    result_output_file = "backup_overview.json"
- }
+
+	 data "tencentcloudenterprise_brc_resource_backup_overview" "overview" {
+	   result_output_file = "backup_overview.json"
+	}
+
 ```
 */
 package tencentcloud
@@ -22,7 +24,7 @@ import (
 )
 
 func init() {
-	registerDataDescriptionProvider("cloud_brc_resource_backup_overview", CNDescription{
+	registerDataDescriptionProvider("tencentcloudenterprise_brc_resource_backup_overview", CNDescription{
 		TerraformTypeCN: "BRC资源备份概览",
 		DescriptionCN:   "提供BRC资源备份概览数据源，用于查询资源备份的概览信息。",
 		AttributesCN: map[string]string{

@@ -1,0 +1,84 @@
+---
+subcategory: "Virtual Private Cloud(VPC)"
+layout: "tencentcloudenterprise"
+page_title: "TencentCloudEnterprise: tencentcloudenterprise_vpc_route_tables"
+sidebar_current: "docs-tencentcloudenterprise-datasource-vpc_route_tables"
+description: |-
+  Use this data source to query vpc route tables information.
+---
+
+# tencentcloudenterprise_vpc_route_tables
+
+Use this data source to query vpc route tables information.
+
+## Example Usage
+
+```hcl
+variable "availability_zone" {
+  default = "ap-guangzhou-3"
+}
+
+resource "tencentcloudenterprise_vpc" "foo" {
+  name       = "guagua-ci-temp-test"
+  cidr_block = "10.0.0.0/16"
+}
+
+resource "tencentcloudenterprise_route_table" "route_table" {
+  vpc_id = tencentcloudenterprise_vpc.foo.id
+  name   = "ci-temp-test-rt"
+
+  tags = {
+    "test" = "test"
+  }
+}
+
+data "tencentcloudenterprise_vpc_route_tables" "id_instances" {
+  route_table_id = tencentcloudenterprise_route_table.route_table.id
+}
+
+data "tencentcloudenterprise_vpc_route_tables" "name_instances" {
+  name = tencentcloudenterprise_route_table.route_table.name
+}
+
+data "tencentcloudenterprise_vpc_route_tables" "vpc_default_instance" {
+  vpc_id           = tencentcloudenterprise_vpc.foo.id
+  association_main = true
+}
+
+data "tencentcloudenterprise_vpc_route_tables" "tags_instances" {
+  tags = tencentcloudenterprise_route_table.route_table.tags
+}
+```
+
+## Argument Reference
+
+The following arguments are supported:
+
+* `association_main` - (Optional, Bool) Filter the main routing table.
+* `name` - (Optional, String) Name of the routing table to be queried.
+* `result_output_file` - (Optional, String) Used to save results.
+* `route_table_id` - (Optional, String) ID of the routing table to be queried.
+* `tag_key` - (Optional, String) Filter if routing table has this tag.
+* `tags` - (Optional, Map) Tags of the routing table to be queried.
+* `vpc_id` - (Optional, String) ID of the VPC to be queried.
+
+## Attributes Reference
+
+In addition to all arguments above, the following attributes are exported:
+
+* `instance_list` - The information list of the VPC route table.
+  * `create_time` - Creation time of the routing table.
+  * `is_default` - Indicates whether it is the default routing table.
+  * `name` - Name of the routing table.
+  * `route_entry_infos` - Detailed information of each entry of the route table.
+    * `description` - Description information user defined for a route table rule.
+    * `destination_cidr_block` - The destination address block.
+    * `next_hub` - ID of next-hop gateway. Note: when 'next_type' is EIP, GatewayId will fix the value `0`.
+    * `next_type` - Type of next-hop, and available values include `CVM`, `VPN`, `DIRECTCONNECT`, `PEERCONNECTION`, `SSLVPN`, `NAT`, `NORMAL_CVM`, `EIP` and `CCN`.
+    * `route_entry_id` - ID of a route table entry.
+  * `route_table_id` - ID of the routing table.
+  * `subnet_ids` - List of subnet IDs bound to the route table.
+  * `tags` - Tags of the routing table.
+  * `vpc_id` - ID of the VPC.
+
+

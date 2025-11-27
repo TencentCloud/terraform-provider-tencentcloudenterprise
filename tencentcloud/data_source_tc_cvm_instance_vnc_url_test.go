@@ -24,7 +24,7 @@ func TestAccTencentCloudCvmInstanceVncUrlDataSource_basic(t *testing.T) {
 
 const testAccCvmInstanceVncUrlDataSource = defaultCvmModificationVariable + `
 
-data "cloud_cvm_instance_vnc_url" "instance_vnc_url" {
+data "tencentcloudenterprise_cvm_instance_vnc_url" "instance_vnc_url" {
   instance_id = var.cvm_id
   result_output_file = "testAccCvmInstanceVncUrlDataSource.txt"
 }

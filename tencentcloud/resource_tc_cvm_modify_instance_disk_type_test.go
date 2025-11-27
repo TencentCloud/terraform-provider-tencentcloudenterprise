@@ -16,10 +16,10 @@ func TestAccTencentCloudNeedFixCvmModifyInstanceDiskTypeResource_basic(t *testin
 		Steps: []resource.TestStep{
 			{
 				Config: testAccCvmModifyInstanceDiskType,
-				Check:  resource.ComposeTestCheckFunc(resource.TestCheckResourceAttrSet("cloud_cvm_modify_instance_disk_type.modify_instance_disk_type", "id")),
+				Check:  resource.ComposeTestCheckFunc(resource.TestCheckResourceAttrSet("tencentcloudenterprise_cvm_modify_instance_disk_type.modify_instance_disk_type", "id")),
 			},
 			{
-				ResourceName:      "cloud_cvm_modify_instance_disk_type.modify_instance_disk_type",
+				ResourceName:      "tencentcloudenterprise_cvm_modify_instance_disk_type.modify_instance_disk_type",
 				ImportState:       true,
 				ImportStateVerify: true,
 			},
@@ -29,7 +29,7 @@ func TestAccTencentCloudNeedFixCvmModifyInstanceDiskTypeResource_basic(t *testin
 
 const testAccCvmModifyInstanceDiskType = `
 
-resource "cloud_cvm_modify_instance_disk_type" "modify_instance_disk_type" {
+resource "tencentcloudenterprise_cvm_modify_instance_disk_type" "modify_instance_disk_type" {
   instance_id = "ins-r8hr2upy"
   data_disks {
 		disk_size = 50

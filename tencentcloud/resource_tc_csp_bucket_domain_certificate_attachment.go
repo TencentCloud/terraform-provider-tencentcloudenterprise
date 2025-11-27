@@ -5,7 +5,7 @@ Provides a resource to attach/detach the corresponding certificate for the domai
 
 ```hcl
 
-	resource "cloud_csp_bucket_domain_certificate_attachment" "foo" {
+	resource "tencentcloudenterprise_csp_bucket_domain_certificate_attachment" "foo" {
 	  bucket = ""
 	  domain_certificate {
 		domain = "domain_name"

@@ -7,7 +7,7 @@ Provides a TencentCloud Container Cluster Instance resource.
 
 ```hcl
 
-	resource "cloud_container_cluster_instance" "bar_instance" {
+	resource "tencentcloudenterprise_container_cluster_instance" "bar_instance" {
 	  cpu               = 1
 	  mem               = 1
 	  bandwidth         = 1

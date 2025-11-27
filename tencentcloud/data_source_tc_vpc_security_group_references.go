@@ -5,7 +5,7 @@ Use this data source to query detailed information of vpc security_group_referen
 
 ```hcl
 
-	data "cloud_vpc_security_group_references" "security_group_references" {
+	data "tencentcloudenterprise_vpc_security_group_references" "security_group_references" {
 	  security_group_ids = ["sg-edmur627"]
 	}
 
@@ -23,7 +23,7 @@ import (
 )
 
 func init() {
-	registerDataDescriptionProvider("cloud_vpc_security_group_references", CNDescription{
+	registerDataDescriptionProvider("tencentcloudenterprise_vpc_security_group_references", CNDescription{
 		TerraformTypeCN: "安全组关联",
 		DescriptionCN:   "提供VPC安全组引用数据源，用于查询VPC安全组引用的详细信息。",
 		AttributesCN: map[string]string{

@@ -5,7 +5,7 @@ Use this data source to query detailed information of tsf microservice
 
 ```hcl
 
-	data "cloud_tsf_microservice" "microservice" {
+	data "tencentcloudenterprise_tsf_microservice" "microservice" {
 		namespace_id = var.namespace_id
 		# status =
 		microservice_id_list = ["ms-yq3jo6jd"]
@@ -26,7 +26,7 @@ import (
 )
 
 func init() {
-	registerDataDescriptionProvider("cloud_tsf_microservice", CNDescription{
+	registerDataDescriptionProvider("tencentcloudenterprise_tsf_microservice", CNDescription{
 		TerraformTypeCN: "TSF微服务",
 		DescriptionCN:   "提供TSF微服务数据源，用于查询TSF微服务的详细信息。",
 		AttributesCN: map[string]string{

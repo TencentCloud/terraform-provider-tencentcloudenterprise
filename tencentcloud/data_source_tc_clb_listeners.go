@@ -4,7 +4,7 @@ Use this data source to query detailed information of CLB listener
 Example Usage
 ```hcl
 
-	data "cloud_clb_listeners" "foo" {
+	data "tencentcloudenterprise_clb_listeners" "foo" {
 	  clb_id      = "lb-k2zjp9lv"
 	  listener_id = "lbl-mwr6vbtv"
 	  protocol    = "TCP"
@@ -27,7 +27,7 @@ import (
 )
 
 func init() {
-	registerDataDescriptionProvider("cloud_clb_listeners", CNDescription{
+	registerDataDescriptionProvider("tencentcloudenterprise_clb_listeners", CNDescription{
 		TerraformTypeCN: "负载均衡监听器",
 		DescriptionCN:   "提供负载均衡监听器数据源，用于查询CLB监听器的详细信息。",
 		AttributesCN: map[string]string{

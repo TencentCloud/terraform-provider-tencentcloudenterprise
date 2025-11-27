@@ -25,12 +25,12 @@ func TestAccTencentCloudTdmqRocketmqGroupDataSource(t *testing.T) {
 }
 
 const testAccDataSourceTdmqRocketmqGroup = `
-resource "cloud_tdmq_rocketmq_cluster" "cluster" {
+resource "tencentcloudenterprise_tdmq_rocketmq_cluster" "cluster" {
 	cluster_name = "test_rocketmq_datasource_group"
 	remark = "test recket mq"
   }
   
-  resource "cloud_tdmq_rocketmq_namespace" "namespace" {
+  resource "tencentcloudenterprise_tdmq_rocketmq_namespace" "namespace" {
 	cluster_id = cloud_tdmq_rocketmq_cluster.cluster.cluster_id
 	namespace_name = "test_namespace_datasource"
 	ttl = 65000
@@ -38,7 +38,7 @@ resource "cloud_tdmq_rocketmq_cluster" "cluster" {
 	remark = "test namespace"
   }
   
-  resource "cloud_tdmq_rocketmq_group" "group" {
+  resource "tencentcloudenterprise_tdmq_rocketmq_group" "group" {
 	group_name = "test_rocketmq_group"
 	namespace = cloud_tdmq_rocketmq_namespace.namespace.namespace_name
 	read_enable = true
@@ -47,7 +47,7 @@ resource "cloud_tdmq_rocketmq_cluster" "cluster" {
 	remark = "test rocketmq group"
   }
   
-  data "cloud_tdmq_rocketmq_group" "group" {
+  data "tencentcloudenterprise_tdmq_rocketmq_group" "group" {
 	cluster_id = cloud_tdmq_rocketmq_cluster.cluster.cluster_id
 	namespace_id = cloud_tdmq_rocketmq_namespace.namespace.namespace_name
 	filter_group = cloud_tdmq_rocketmq_group.group.group_name

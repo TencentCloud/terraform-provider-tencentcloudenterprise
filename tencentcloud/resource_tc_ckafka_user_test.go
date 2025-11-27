@@ -13,8 +13,8 @@ import (
 
 func init() {
 	// go test -v ./tencentcloud -sweep=ap-guangzhou -sweep-run=cloud_kafka
-	resource.AddTestSweepers("cloud_kafka", &resource.Sweeper{
-		Name: "cloud_kafka",
+	resource.AddTestSweepers("tencentcloudenterprise_kafka", &resource.Sweeper{
+		Name: "tencentcloudenterprise_kafka",
 		F: func(r string) error {
 			logId := getLogId(contextNil)
 			ctx := context.WithValue(context.TODO(), logIdKey, logId)
@@ -64,27 +64,27 @@ func TestAccTencentCloudCkafkaUser(t *testing.T) {
 			{
 				Config: testAccCkafkaUser,
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckCkafkaUserExists("cloud_ckafka_user.foo"),
-					resource.TestCheckResourceAttr("cloud_ckafka_user.foo", "account_name", "tf-test"),
-					resource.TestCheckResourceAttrSet("cloud_ckafka_user.foo", "instance_id"),
-					resource.TestCheckResourceAttrSet("cloud_ckafka_user.foo", "create_time"),
-					resource.TestCheckResourceAttrSet("cloud_ckafka_user.foo", "update_time"),
-					resource.TestCheckResourceAttrSet("cloud_ckafka_user.foo", "password"),
+					testAccCheckCkafkaUserExists("tencentcloudenterprise_ckafka_user.foo"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_ckafka_user.foo", "account_name", "tf-test"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_ckafka_user.foo", "instance_id"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_ckafka_user.foo", "create_time"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_ckafka_user.foo", "update_time"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_ckafka_user.foo", "password"),
 				),
 			},
 			{
 				Config: testAccCkafkaUser_update,
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckCkafkaUserExists("cloud_ckafka_user.foo"),
-					resource.TestCheckResourceAttr("cloud_ckafka_user.foo", "account_name", "tf-test"),
-					resource.TestCheckResourceAttrSet("cloud_ckafka_user.foo", "instance_id"),
-					resource.TestCheckResourceAttrSet("cloud_ckafka_user.foo", "create_time"),
-					resource.TestCheckResourceAttrSet("cloud_ckafka_user.foo", "update_time"),
-					resource.TestCheckResourceAttrSet("cloud_ckafka_user.foo", "password"),
+					testAccCheckCkafkaUserExists("tencentcloudenterprise_ckafka_user.foo"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_ckafka_user.foo", "account_name", "tf-test"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_ckafka_user.foo", "instance_id"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_ckafka_user.foo", "create_time"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_ckafka_user.foo", "update_time"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_ckafka_user.foo", "password"),
 				),
 			},
 			{
-				ResourceName:            "cloud_ckafka_user.foo",
+				ResourceName:            "tencentcloudenterprise_ckafka_user.foo",
 				ImportState:             true,
 				ImportStateVerify:       true,
 				ImportStateVerifyIgnore: []string{"password"},
@@ -128,7 +128,7 @@ func testAccCheckCkafkaUserDestroy(s *terraform.State) error {
 	}
 
 	for _, rs := range s.RootModule().Resources {
-		if rs.Type != "cloud_ckafka_user" {
+		if rs.Type != "tencentcloudenterprise_ckafka_user" {
 			continue
 		}
 
@@ -145,7 +145,7 @@ func testAccCheckCkafkaUserDestroy(s *terraform.State) error {
 }
 
 const testAccCkafkaUser = defaultKafkaVariable + `
-resource "cloud_ckafka_user" "foo" {
+resource "tencentcloudenterprise_ckafka_user" "foo" {
   instance_id  = var.instance_id
   account_name = "tf-test"
   password     = "test1234"
@@ -153,7 +153,7 @@ resource "cloud_ckafka_user" "foo" {
 `
 
 const testAccCkafkaUser_update = defaultKafkaVariable + `
-resource "cloud_ckafka_user" "foo" {
+resource "tencentcloudenterprise_ckafka_user" "foo" {
   instance_id  = var.instance_id
   account_name = "tf-test"
   password     = "test1234update"

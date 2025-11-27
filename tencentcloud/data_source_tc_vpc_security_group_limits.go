@@ -4,7 +4,7 @@ Use this data source to query detailed information of vpc security_group_limits
 # Example Usage
 
 ```hcl
-data "cloud_vpc_security_group_limits" "security_group_limits" {}
+data "tencentcloudenterprise_vpc_security_group_limits" "security_group_limits" {}
 ```
 */
 package tencentcloud
@@ -19,7 +19,7 @@ import (
 )
 
 func init() {
-	registerDataDescriptionProvider("cloud_vpc_security_group_limits", CNDescription{
+	registerDataDescriptionProvider("tencentcloudenterprise_vpc_security_group_limits", CNDescription{
 		TerraformTypeCN: "用户安全组配额",
 		DescriptionCN:   "提供VPC安全组限额数据源，用于查询VPC安全组限额的详细信息。",
 		AttributesCN: map[string]string{

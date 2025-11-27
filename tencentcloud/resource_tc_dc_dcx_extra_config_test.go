@@ -16,10 +16,10 @@ func TestAccTencentCloudNeedFixDcxExtraConfigResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			{
 				Config: testAccDcxExtraConfig,
-				Check:  resource.ComposeTestCheckFunc(resource.TestCheckResourceAttrSet("cloud_dcx_extra_config.dcx_extra_config", "id")),
+				Check:  resource.ComposeTestCheckFunc(resource.TestCheckResourceAttrSet("tencentcloudenterprise_dcx_extra_config.dcx_extra_config", "id")),
 			},
 			{
-				ResourceName:      "cloud_dcx_extra_config.dcx_extra_config",
+				ResourceName:      "tencentcloudenterprise_dcx_extra_config.dcx_extra_config",
 				ImportState:       true,
 				ImportStateVerify: true,
 			},
@@ -29,7 +29,7 @@ func TestAccTencentCloudNeedFixDcxExtraConfigResource_basic(t *testing.T) {
 
 const testAccDcxExtraConfig = `
 
-resource "cloud_dcx_extra_config" "dcx_extra_config" {
+resource "tencentcloudenterprise_dcx_extra_config" "dcx_extra_config" {
   direct_connect_tunnel_id = "dcx-4z49tnws"
   vlan                     = 123
   bgp_peer {

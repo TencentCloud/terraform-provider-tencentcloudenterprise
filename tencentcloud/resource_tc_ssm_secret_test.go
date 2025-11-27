@@ -15,8 +15,8 @@ import (
 
 func init() {
 	// go test -v ./tencentcloud -sweep=ap-guangzhou -sweep-run=cloud_ssm_secret
-	resource.AddTestSweepers("cloud_ssm_secret", &resource.Sweeper{
-		Name: "cloud_ssm_secret",
+	resource.AddTestSweepers("tencentcloudenterprise_ssm_secret", &resource.Sweeper{
+		Name: "tencentcloudenterprise_ssm_secret",
 		F: func(r string) error {
 			logId := getLogId(contextNil)
 			ctx := context.WithValue(context.TODO(), logIdKey, logId)
@@ -64,7 +64,7 @@ func init() {
 
 func TestAccTencentCloudSsmSecret_basic(t *testing.T) {
 	t.Parallel()
-	resourceName := "cloud_ssm_secret.secret"
+	resourceName := "tencentcloudenterprise_ssm_secret.secret"
 
 	resource.Test(t, resource.TestCase{
 		PreCheck:     func() { testAccPreCheck(t) },
@@ -108,7 +108,7 @@ func testAccCheckSsmSecretDestroy(s *terraform.State) error {
 		client: testAccProvider.Meta().(*TencentCloudClient).apiV3Conn,
 	}
 	for _, rs := range s.RootModule().Resources {
-		if rs.Type != "cloud_ssm_secret" {
+		if rs.Type != "tencentcloudenterprise_ssm_secret" {
 			continue
 		}
 
@@ -155,7 +155,7 @@ func testAccCheckSsmSecretExists(name string) resource.TestCheckFunc {
 }
 
 const TestAccTencentCloudSsmSecret_basicConfig = `
-resource "cloud_ssm_secret" "secret" {
+resource "tencentcloudenterprise_ssm_secret" "secret" {
   secret_name = "unit-test"
   description = "test secret"
   is_enabled = false
@@ -167,7 +167,7 @@ resource "cloud_ssm_secret" "secret" {
 `
 
 const TestAccTencentCloudSsmSecret_modifyConfig = `
-resource "cloud_ssm_secret" "secret" {
+resource "tencentcloudenterprise_ssm_secret" "secret" {
   secret_name = "unit-test"
   description = "test description modify"
   is_enabled = true

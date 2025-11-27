@@ -5,7 +5,7 @@ Use this data source to query detailed information of vpc cvm_instances
 
 ```hcl
 
-	data "cloud_vpc_cvm_instances" "cvm_instances" {
+	data "tencentcloudenterprise_vpc_cvm_instances" "cvm_instances" {
 	  filters {
 	    name   = "vpc-id"
 	    values = ["vpc-lh4nqig9"]
@@ -26,7 +26,7 @@ import (
 )
 
 func init() {
-	registerDataDescriptionProvider("cloud_vpc_cvm_instances", CNDescription{
+	registerDataDescriptionProvider("tencentcloudenterprise_vpc_cvm_instances", CNDescription{
 		TerraformTypeCN: "VPC下的云主机实例列表",
 		DescriptionCN:   "提供VPC下的云主机实例列表数据源，用于查询VPC下的CVM实例详细信息。",
 		AttributesCN: map[string]string{

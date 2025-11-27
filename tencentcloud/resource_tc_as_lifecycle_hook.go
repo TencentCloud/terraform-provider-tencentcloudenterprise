@@ -5,7 +5,7 @@ Provides a resource for an AS (Auto scaling) lifecycle hook.
 
 ```hcl
 
-	resource "cloud_as_lifecycle_hook" "lifecycle_hook" {
+	resource "tencentcloudenterprise_as_lifecycle_hook" "lifecycle_hook" {
 	  scaling_group_id         = "sg-12af45"
 	  lifecycle_hook_name      = "tf-as-lifecycle-hook"
 	  lifecycle_transition     = "INSTANCE_LAUNCHING"
@@ -32,7 +32,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_as_lifecycle_hook", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_as_lifecycle_hook", CNDescription{
 		TerraformTypeCN: "自动伸缩组生命周期挂钩",
 		DescriptionCN:   "提供自动伸缩生命周期挂钩资源，用于创建和管理AS生命周期挂钩。",
 		AttributesCN: map[string]string{

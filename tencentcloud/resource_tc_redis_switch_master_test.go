@@ -18,17 +18,17 @@ func TestAccTencentCloudRedisSwitchMasterResource_basic(t *testing.T) {
 			{
 				Config: testAccRedisSwitchMaster,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttrSet("cloud_redis_switch_master.switch_master", "id"),
-					resource.TestCheckResourceAttr("cloud_redis_switch_master.switch_master", "instance_id", "crs-2yypjrnv"),
-					resource.TestCheckResourceAttr("cloud_redis_switch_master.switch_master", "group_id", "8925"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_redis_switch_master.switch_master", "id"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_redis_switch_master.switch_master", "instance_id", "crs-2yypjrnv"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_redis_switch_master.switch_master", "group_id", "8925"),
 				),
 			},
 			{
 				Config: testAccRedisSwitchMasterUp,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttrSet("cloud_redis_switch_master.switch_master", "id"),
-					resource.TestCheckResourceAttr("cloud_redis_switch_master.switch_master", "instance_id", "crs-2yypjrnv"),
-					resource.TestCheckResourceAttr("cloud_redis_switch_master.switch_master", "group_id", "8924"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_redis_switch_master.switch_master", "id"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_redis_switch_master.switch_master", "instance_id", "crs-2yypjrnv"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_redis_switch_master.switch_master", "group_id", "8924"),
 				),
 			},
 		},
@@ -37,7 +37,7 @@ func TestAccTencentCloudRedisSwitchMasterResource_basic(t *testing.T) {
 
 const testAccRedisSwitchMaster = `
 
-resource "cloud_redis_switch_master" "switch_master" {
+resource "tencentcloudenterprise_redis_switch_master" "switch_master" {
   instance_id = "crs-2yypjrnv"
   group_id = 8925
 }
@@ -46,7 +46,7 @@ resource "cloud_redis_switch_master" "switch_master" {
 
 const testAccRedisSwitchMasterUp = `
 
-resource "cloud_redis_switch_master" "switch_master" {
+resource "tencentcloudenterprise_redis_switch_master" "switch_master" {
   instance_id = "crs-2yypjrnv"
   group_id = 8924
 }

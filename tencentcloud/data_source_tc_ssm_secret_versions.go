@@ -3,7 +3,7 @@ Use this data source to query detailed information of SSM secret version
 Example Usage
 ```hcl
 
-	data "cloud_ssm_secret_versions" "foo" {
+	data "tencentcloudenterprise_ssm_secret_versions" "foo" {
 	  secret_name = "test"
 	  version_id = "v1"
 	}
@@ -24,7 +24,7 @@ import (
 )
 
 func init() {
-	registerDataDescriptionProvider("cloud_ssm_secret_versions", CNDescription{
+	registerDataDescriptionProvider("tencentcloudenterprise_ssm_secret_versions", CNDescription{
 		TerraformTypeCN: "SSM凭据版本",
 		DescriptionCN:   "用于查询SSM凭据版本的详细信息",
 		AttributesCN: map[string]string{

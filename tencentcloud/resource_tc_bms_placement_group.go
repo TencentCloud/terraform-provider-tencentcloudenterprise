@@ -5,7 +5,7 @@ Provide a resource to create a placement group.
 
 ```hcl
 
-	resource "cloud_bms_placement_group" "foo" {
+	resource "tencentcloudenterprise_bms_placement_group" "foo" {
 	  name = "test"
 	  type = "RACK"
 	}
@@ -31,7 +31,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_bms_placement_group", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_bms_placement_group", CNDescription{
 		TerraformTypeCN: "置放群组",
 		DescriptionCN:   "提供置放群组资源，用于创建和管理裸金属服务器的置放群组。",
 		AttributesCN: map[string]string{

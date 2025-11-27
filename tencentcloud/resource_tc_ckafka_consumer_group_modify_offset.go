@@ -5,7 +5,7 @@ Provides a resource to create a ckafka consumer_group_modify_offset
 
 ```hcl
 
-	resource "cloud_ckafka_consumer_group_modify_offset" "consumer_group_modify_offset" {
+	resource "tencentcloudenterprise_ckafka_consumer_group_modify_offset" "consumer_group_modify_offset" {
 	  instance_id = "ckafka-xxxxxx"
 	  group = "xxxxxx"
 	  offset = 0

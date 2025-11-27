@@ -1,0 +1,53 @@
+---
+subcategory: "Virtual Private Cloud(VPC)"
+layout: "tencentcloudenterprise"
+page_title: "TencentCloudEnterprise: tencentcloudenterprise_vpc_ha_vips"
+sidebar_current: "docs-tencentcloudenterprise-datasource-vpc_ha_vips"
+description: |-
+  Use this data source to query detailed information of HA VIPs.
+---
+
+# tencentcloudenterprise_vpc_ha_vips
+
+Use this data source to query detailed information of HA VIPs.
+
+## Example Usage
+
+```hcl
+data "tencentcloudenterprise_vpc_ha_vips" "havips" {
+  id         = "havip-kjqwe4ba"
+  name       = "test"
+  vpc_id     = "vpc-gzea3dd7"
+  subnet_id  = "subnet-4d4m4cd4"
+  address_ip = "10.0.4.16"
+}
+```
+
+## Argument Reference
+
+The following arguments are supported:
+
+* `address_ip` - (Optional, String) EIP of the HA VIP to be queried.
+* `id` - (Optional, String) ID of the HA VIP to be queried.
+* `name` - (Optional, String) Name of the HA VIP. The length of character is limited to 1-60.
+* `result_output_file` - (Optional, String) Used to save results.
+* `subnet_id` - (Optional, String) Subnet id of the HA VIP to be queried.
+* `vpc_id` - (Optional, String) VPC id of the HA VIP to be queried.
+
+## Attributes Reference
+
+In addition to all arguments above, the following attributes are exported:
+
+* `ha_vip_list` - Information list of the dedicated HA VIPs.
+  * `address_ip` - EIP that is associated.
+  * `create_time` - Create time of the HA VIP.
+  * `id` - ID of the HA VIP.
+  * `instance_id` - Instance id that is associated.
+  * `name` - Name of the HA VIP.
+  * `network_interface_id` - Network interface id that is associated.
+  * `state` - State of the HA VIP. Valid values: `AVAILABLE`, `UNBIND`.
+  * `subnet_id` - Subnet id.
+  * `vip` - Virtual IP address, it must not be occupied and in this VPC network segment. If not set, it will be assigned after resource created automatically.
+  * `vpc_id` - VPC id.
+
+

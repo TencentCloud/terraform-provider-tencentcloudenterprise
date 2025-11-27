@@ -19,7 +19,7 @@ func TestAccTencentCloudCosBucketDataSource_basic(t *testing.T) {
 			{
 				Config: testAccCosBucketDataSource_basic(appid),
 				Check: resource.ComposeAggregateTestCheckFunc(
-					testAccCheckCosBucketExists("cloud_cos_bucket.bucket_basic"),
+					testAccCheckCosBucketExists("tencentcloudenterprise_cos_bucket.bucket_basic"),
 					resource.TestCheckResourceAttr("data.cloud_cos_buckets.bucket_list", "bucket_list.#", "1"),
 					resource.TestCheckResourceAttr("data.cloud_cos_buckets.bucket_list", "bucket_list.0.cors_rules.#", "0"),
 					resource.TestCheckResourceAttr("data.cloud_cos_buckets.bucket_list", "bucket_list.0.lifecycle_rules.#", "0"),
@@ -58,7 +58,7 @@ func TestAccTencentCloudCosBucketDataSource_full(t *testing.T) {
 			{
 				Config: testAccCosBucketDataSource_full(appid),
 				Check: resource.ComposeAggregateTestCheckFunc(
-					testAccCheckCosBucketExists("cloud_cos_bucket.bucket_full"),
+					testAccCheckCosBucketExists("tencentcloudenterprise_cos_bucket.bucket_full"),
 					resource.TestCheckResourceAttr("data.cloud_cos_buckets.bucket_list", "bucket_list.#", "1"),
 					resource.TestCheckResourceAttr("data.cloud_cos_buckets.bucket_list", "bucket_list.0.cors_rules.#", "1"),
 					resource.TestCheckResourceAttr("data.cloud_cos_buckets.bucket_list", "bucket_list.0.cors_rules.0.allowed_headers.#", "1"),
@@ -94,11 +94,11 @@ func TestAccTencentCloudCosBucketDataSource_full(t *testing.T) {
 
 func testAccCosBucketDataSource_basic(appid string) string {
 	return fmt.Sprintf(`
-resource "cloud_cos_bucket" "bucket_basic" {
+resource "tencentcloudenterprise_cos_bucket" "bucket_basic" {
   bucket = "tf-baisc-%d-%s"
 }
 
-data "cloud_cos_buckets" "bucket_list" {
+data "tencentcloudenterprise_cos_buckets" "bucket_list" {
   bucket_prefix = cloud_cos_bucket.bucket_basic.bucket
 }
 `, acctest.RandInt(), appid)
@@ -107,7 +107,7 @@ data "cloud_cos_buckets" "bucket_list" {
 func testAccCosBucketDataSource_tags() string {
 	return fmt.Sprintf(`
 %s
-data "cloud_cos_buckets" "bucket_list" {
+data "tencentcloudenterprise_cos_buckets" "bucket_list" {
   tags = var.fixed_tags
 }
 `, fixedTagVariable)
@@ -115,7 +115,7 @@ data "cloud_cos_buckets" "bucket_list" {
 
 func testAccCosBucketDataSource_full(appid string) string {
 	return fmt.Sprintf(`
-resource "cloud_cos_bucket" "bucket_full" {
+resource "tencentcloudenterprise_cos_bucket" "bucket_full" {
   bucket = "tf-full-%d-%s"
 
   cors_rules {
@@ -164,7 +164,7 @@ resource "cloud_cos_bucket" "bucket_full" {
   }
 }
 
-data "cloud_cos_buckets" "bucket_list" {
+data "tencentcloudenterprise_cos_buckets" "bucket_list" {
   bucket_prefix = cloud_cos_bucket.bucket_full.bucket
 }
 `, acctest.RandInt(), appid)

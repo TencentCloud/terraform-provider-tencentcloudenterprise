@@ -22,16 +22,16 @@ func TestAccTencentCloudTsfInstancesAttachmentResource_basic(t *testing.T) {
 			{
 				Config: testAccTsfInstancesAttachmentTce,
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckTsfInstancesAttachmentExists("cloud_tsf_instances_attachment.instances_attachment"),
-					resource.TestCheckResourceAttrSet("cloud_tsf_instances_attachment.instances_attachment", "id"),
-					//resource.TestCheckResourceAttr("cloud_tsf_instances_attachment.instances_attachment", "cluster_id", defaultTsfClustId),
-					//resource.TestCheckResourceAttr("cloud_tsf_instances_attachment.instances_attachment", "image_id", defaultTsfImageId),
-					resource.TestCheckResourceAttrSet("cloud_tsf_instances_attachment.instances_attachment", "instance_id"),
-					resource.TestCheckResourceAttr("cloud_tsf_instances_attachment.instances_attachment", "instance_import_mode", "R"),
-					//resource.TestCheckResourceAttr("cloud_tsf_instances_attachment.instances_attachment", "os_customize_type", "my_customize"),
-					//resource.TestCheckResourceAttr("cloud_tsf_instances_attachment.instances_attachment", "instance_advanced_settings.#", "1"),
-					//resource.TestCheckResourceAttr("cloud_tsf_instances_attachment.instances_attachment", "instance_advanced_settings.0.docker_graph_path", "/var/lib/docker"),
-					//resource.TestCheckResourceAttr("cloud_tsf_instances_attachment.instances_attachment", "instance_advanced_settings.0.mount_target", "/mnt/data"),
+					testAccCheckTsfInstancesAttachmentExists("tencentcloudenterprise_tsf_instances_attachment.instances_attachment"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_tsf_instances_attachment.instances_attachment", "id"),
+					//resource.TestCheckResourceAttr("tencentcloudenterprise_tsf_instances_attachment.instances_attachment", "cluster_id", defaultTsfClustId),
+					//resource.TestCheckResourceAttr("tencentcloudenterprise_tsf_instances_attachment.instances_attachment", "image_id", defaultTsfImageId),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_tsf_instances_attachment.instances_attachment", "instance_id"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_tsf_instances_attachment.instances_attachment", "instance_import_mode", "R"),
+					//resource.TestCheckResourceAttr("tencentcloudenterprise_tsf_instances_attachment.instances_attachment", "os_customize_type", "my_customize"),
+					//resource.TestCheckResourceAttr("tencentcloudenterprise_tsf_instances_attachment.instances_attachment", "instance_advanced_settings.#", "1"),
+					//resource.TestCheckResourceAttr("tencentcloudenterprise_tsf_instances_attachment.instances_attachment", "instance_advanced_settings.0.docker_graph_path", "/var/lib/docker"),
+					//resource.TestCheckResourceAttr("tencentcloudenterprise_tsf_instances_attachment.instances_attachment", "instance_advanced_settings.0.mount_target", "/mnt/data"),
 				),
 			},
 		},
@@ -43,7 +43,7 @@ func testAccCheckTsfInstancesAttachmentDestroy(s *terraform.State) error {
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
 	service := TsfService{client: testAccProvider.Meta().(*TencentCloudClient).apiV3Conn}
 	for _, rs := range s.RootModule().Resources {
-		if rs.Type != "cloud_tsf_instances_attachment" {
+		if rs.Type != "tencentcloudenterprise_tsf_instances_attachment" {
 			continue
 		}
 
@@ -109,7 +109,7 @@ variable "image_id" {
 
 const testAccTsfInstancesAttachment = testAccTsfInstancesAttachmentVar + `
 
-data "cloud_cvm_instance_types" "default" {
+data "tencentcloudenterprise_cvm_instance_types" "default" {
 	filter {
 	  name   = "instance-family"
 	  values = ["S1"]
@@ -119,7 +119,7 @@ data "cloud_cvm_instance_types" "default" {
 	memory_size    = 2
   }
   
-  resource "cloud_cvm_instance" "foo" {
+  resource "tencentcloudenterprise_cvm_instance" "foo" {
 	instance_name     = "tf-tsf-test"
 	availability_zone = "ap-guangzhou-3"
 	image_id          = var.image_id
@@ -131,7 +131,7 @@ data "cloud_cvm_instance_types" "default" {
 	force_delete = true
   }
 
-resource "cloud_tsf_instances_attachment" "instances_attachment" {
+resource "tencentcloudenterprise_tsf_instances_attachment" "instances_attachment" {
 	cluster_id = var.cluster_id
 	instance_id = cloud_cvm_instance.foo.id
 	# os_name = "CentOS Stream 8"
@@ -152,7 +152,7 @@ resource "cloud_tsf_instances_attachment" "instances_attachment" {
 `
 
 const testAccTsfInstancesAttachmentTce = `
-resource "cloud_tsf_instances_attachment" "instances_attachment" {
+resource "tencentcloudenterprise_tsf_instances_attachment" "instances_attachment" {
 	cluster_id = "cluster-zvw7jwy8"
 	instance_id = "ins-j7za7rwo"
 	image_id = "img-3y126h0t"

@@ -12,8 +12,8 @@ import (
 
 func init() {
 	// go test -v ./tencentcloud -sweep=ap-guangzhou -sweep-run=cloud_cvm_sync_image
-	resource.AddTestSweepers("cloud_cvm_sync_image", &resource.Sweeper{
-		Name: "cloud_cvm_sync_image",
+	resource.AddTestSweepers("tencentcloudenterprise_cvm_sync_image", &resource.Sweeper{
+		Name: "tencentcloudenterprise_cvm_sync_image",
 		F: func(r string) error {
 			logId := getLogId(contextNil)
 			ctx := context.WithValue(context.TODO(), logIdKey, logId)
@@ -60,14 +60,14 @@ func TestAccTencentCloudCvmSyncImageResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			{
 				Config: testAccCvmSyncImage,
-				Check:  resource.ComposeTestCheckFunc(resource.TestCheckResourceAttrSet("cloud_cvm_sync_image.sync_image", "id")),
+				Check:  resource.ComposeTestCheckFunc(resource.TestCheckResourceAttrSet("tencentcloudenterprise_cvm_sync_image.sync_image", "id")),
 			},
 		},
 	})
 }
 
 const testAccCvmSyncImage = `
-resource "cloud_cvm_sync_image" "sync_image" {
+resource "tencentcloudenterprise_cvm_sync_image" "sync_image" {
 	image_id = "img-k4h0m5la" 
 	destination_regions = ["ap-shanghai"]
 }

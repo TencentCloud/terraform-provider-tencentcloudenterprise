@@ -48,7 +48,7 @@ variable "group_id" {
 
 const testAccTsfGroupInstancesDataSource = testAccTsfGroupInstancesDataSourceVar + `
 
-data "cloud_tsf_group_instances" "group_instances" {
+data "tencentcloudenterprise_tsf_group_instances" "group_instances" {
 	group_id = var.group_id
 	order_by = "ASC"
 	order_type = 0

@@ -26,28 +26,28 @@ func TestAccTencentCloudVpcV3RouteEntryBasic(t *testing.T) {
 			{
 				Config: testAccVpcRouteEntryConfig,
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckVpcRouteEntryExists("cloud_vpc_route_table_entry.foo"),
+					testAccCheckVpcRouteEntryExists("tencentcloudenterprise_vpc_route_table_entry.foo"),
 
-					resource.TestCheckResourceAttr("cloud_vpc_route_table_entry.foo", "next_type", "EIP"),
-					resource.TestCheckResourceAttr("cloud_vpc_route_table_entry.foo", "description", defaultInsName),
-					resource.TestCheckResourceAttr("cloud_vpc_route_table_entry.foo", "destination_cidr_block", "10.0.0.0/24"),
-					resource.TestCheckResourceAttr("cloud_vpc_route_table_entry.foo", "next_hub", "0"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_vpc_route_table_entry.foo", "next_type", "EIP"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_vpc_route_table_entry.foo", "description", defaultInsName),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_vpc_route_table_entry.foo", "destination_cidr_block", "10.0.0.0/24"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_vpc_route_table_entry.foo", "next_hub", "0"),
 				),
 			},
 			{
 				Config: testAccVpcRouteEntryUpdate,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr("cloud_vpc_route_table_entry.foo", "disabled", "true"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_vpc_route_table_entry.foo", "disabled", "true"),
 				),
 			},
 			{
 				Config: testAccVpcRouteEntryUpdate2,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr("cloud_vpc_route_table_entry.foo", "disabled", "false"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_vpc_route_table_entry.foo", "disabled", "false"),
 				),
 			},
 			{
-				ResourceName:            "cloud_vpc_route_table_entry.foo",
+				ResourceName:            "tencentcloudenterprise_vpc_route_table_entry.foo",
 				ImportState:             true,
 				ImportStateVerify:       true,
 				ImportStateVerifyIgnore: []string{"enabled"},
@@ -106,7 +106,7 @@ func testAccCheckVpcRouteEntryDestroy(s *terraform.State) error {
 
 	service := VpcService{client: testAccProvider.Meta().(*TencentCloudClient).apiV3Conn}
 	for _, rs := range s.RootModule().Resources {
-		if rs.Type != "cloud_vpc_route_table_entry" {
+		if rs.Type != "tencentcloudenterprise_vpc_route_table_entry" {
 			continue
 		}
 
@@ -145,17 +145,17 @@ func testAccCheckVpcRouteEntryDestroy(s *terraform.State) error {
 }
 
 const testAccVpcRouteEntryConfig = defaultVpcVariable + `
-resource "cloud_vpc" "foo" {
+resource "tencentcloudenterprise_vpc" "foo" {
   name       = var.instance_name
   cidr_block = var.vpc_cidr
 }
 
-resource "cloud_route_table" "foo" {
+resource "tencentcloudenterprise_route_table" "foo" {
   name   = var.instance_name
   vpc_id = cloud_vpc.foo.id
 }
 
-resource "cloud_vpc_subnet" "foo" {
+resource "tencentcloudenterprise_vpc_subnet" "foo" {
   name              = var.instance_name
   vpc_id            = cloud_vpc.foo.id
   availability_zone = var.availability_zone
@@ -164,7 +164,7 @@ resource "cloud_vpc_subnet" "foo" {
   route_table_id    = cloud_route_table.foo.id
 }
 
-resource "cloud_vpc_route_table_entry" "foo" {
+resource "tencentcloudenterprise_vpc_route_table_entry" "foo" {
   route_table_id         = cloud_route_table.foo.id
   destination_cidr_block = "10.0.0.0/24"
   next_type              = "EIP"
@@ -173,17 +173,17 @@ resource "cloud_vpc_route_table_entry" "foo" {
 }
 `
 const testAccVpcRouteEntryUpdate = defaultVpcVariable + `
-resource "cloud_vpc" "foo" {
+resource "tencentcloudenterprise_vpc" "foo" {
   name       = var.instance_name
   cidr_block = var.vpc_cidr
 }
 
-resource "cloud_route_table" "foo" {
+resource "tencentcloudenterprise_route_table" "foo" {
   name   = var.instance_name
   vpc_id = cloud_vpc.foo.id
 }
 
-resource "cloud_vpc_subnet" "foo" {
+resource "tencentcloudenterprise_vpc_subnet" "foo" {
   name              = var.instance_name
   vpc_id            = cloud_vpc.foo.id
   availability_zone = var.availability_zone
@@ -192,7 +192,7 @@ resource "cloud_vpc_subnet" "foo" {
   route_table_id    = cloud_route_table.foo.id
 }
 
-resource "cloud_vpc_route_table_entry" "foo" {
+resource "tencentcloudenterprise_vpc_route_table_entry" "foo" {
   route_table_id         = cloud_route_table.foo.id
   destination_cidr_block = "10.0.0.0/24"
   next_type              = "EIP"
@@ -202,17 +202,17 @@ resource "cloud_vpc_route_table_entry" "foo" {
 }
 `
 const testAccVpcRouteEntryUpdate2 = defaultVpcVariable + `
-resource "cloud_vpc" "foo" {
+resource "tencentcloudenterprise_vpc" "foo" {
   name       = var.instance_name
   cidr_block = var.vpc_cidr
 }
 
-resource "cloud_route_table" "foo" {
+resource "tencentcloudenterprise_route_table" "foo" {
   name   = var.instance_name
   vpc_id = cloud_vpc.foo.id
 }
 
-resource "cloud_vpc_subnet" "foo" {
+resource "tencentcloudenterprise_vpc_subnet" "foo" {
   name              = var.instance_name
   vpc_id            = cloud_vpc.foo.id
   availability_zone = var.availability_zone
@@ -221,7 +221,7 @@ resource "cloud_vpc_subnet" "foo" {
   route_table_id    = cloud_route_table.foo.id
 }
 
-resource "cloud_vpc_route_table_entry" "foo" {
+resource "tencentcloudenterprise_vpc_route_table_entry" "foo" {
   route_table_id         = cloud_route_table.foo.id
   destination_cidr_block = "10.0.0.0/24"
   next_type              = "EIP"

@@ -5,7 +5,7 @@ Provides a resource to create a cbs snapshot_share_permission
 
 ```hcl
 
-	resource "cloud_cbs_snapshot_share_permission" "snapshot_share_permission" {
+	resource "tencentcloudenterprise_cbs_snapshot_share_permission" "snapshot_share_permission" {
 	  account_ids = ["1xxxxxx", "2xxxxxx"]
 	  snapshot_id = "snap-xxxxxx"
 	}
@@ -31,7 +31,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_cbs_snapshot_share_permission", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_cbs_snapshot_share_permission", CNDescription{
 		TerraformTypeCN: "快照分享",
 		DescriptionCN:   "提供CBS快照分享权限资源，用于创建和管理快照分享权限。",
 		AttributesCN: map[string]string{

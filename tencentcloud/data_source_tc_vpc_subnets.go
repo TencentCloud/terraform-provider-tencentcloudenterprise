@@ -9,12 +9,12 @@
 	  default = "ap-guangzhou-3"
 	}
 
-	resource "cloud_vpc" "foo" {
+	resource "tencentcloudenterprise_vpc" "foo" {
 	  name       = "guagua_vpc_instance_test"
 	  cidr_block = "10.0.0.0/16"
 	}
 
-	resource "cloud_vpc_subnet" "subnet" {
+	resource "tencentcloudenterprise_vpc_subnet" "subnet" {
 	  availability_zone = var.availability_zone
 	  name              = "guagua_vpc_subnet_test"
 	  vpc_id            = cloud_vpc.foo.id
@@ -26,15 +26,15 @@
 	  }
 	}
 
-	data "cloud_vpc_subnets" "id_instances" {
+	data "tencentcloudenterprise_vpc_subnets" "id_instances" {
 	  subnet_id = cloud_vpc_subnet.subnet.id
 	}
 
-	data "cloud_vpc_subnets" "name_instances" {
+	data "tencentcloudenterprise_vpc_subnets" "name_instances" {
 	  name = cloud_vpc_subnet.subnet.name
 	}
 
-	data "cloud_vpc_subnets" "tags_instances" {
+	data "tencentcloudenterprise_vpc_subnets" "tags_instances" {
 	  tags = cloud_vpc_subnet.subnet.tags
 	}
 
@@ -55,7 +55,7 @@ import (
 )
 
 func init() {
-	registerDataDescriptionProvider("cloud_vpc_subnets", CNDescription{
+	registerDataDescriptionProvider("tencentcloudenterprise_vpc_subnets", CNDescription{
 		TerraformTypeCN: "私有网络子网",
 		DescriptionCN:   "提供VPC子网数据源，用于查询VPC子网的详细信息。",
 		AttributesCN: map[string]string{

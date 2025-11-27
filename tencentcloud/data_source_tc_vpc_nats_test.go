@@ -26,20 +26,20 @@ func TestAccTencentCloudNatsDataSource(t *testing.T) {
 }
 
 const testAccTencentCloudNatsDataSourceConfig_basic = `
-resource "cloud_vpc" "main" {
+resource "tencentcloudenterprise_vpc" "main" {
   name       = "terraform_test_nats"
   cidr_block = "10.6.0.0/16"
 }
 
-resource "cloud_eip" "eip_dev_dnat" {
+resource "tencentcloudenterprise_eip" "eip_dev_dnat" {
   name = "terraform_test"
 }
 
-resource "cloud_eip" "eip_test_dnat" {
+resource "tencentcloudenterprise_eip" "eip_test_dnat" {
   name = "terraform_test"
 }
 
-resource "cloud_vpc_nat_gateway" "dev_nat" {
+resource "tencentcloudenterprise_vpc_nat_gateway" "dev_nat" {
   vpc_id         = cloud_vpc.main.id
   name           = "terraform_test_nats"
   max_concurrent = 3000000
@@ -50,7 +50,7 @@ resource "cloud_vpc_nat_gateway" "dev_nat" {
   ]
 }
 
-resource "cloud_vpc_nat_gateway" "test_nat" {
+resource "tencentcloudenterprise_vpc_nat_gateway" "test_nat" {
   vpc_id         = cloud_vpc.main.id
   name           = "terraform_test_nats"
   max_concurrent = 3000000
@@ -61,7 +61,7 @@ resource "cloud_vpc_nat_gateway" "test_nat" {
   ]
 }
 
-data "cloud_nats" "multi_nat" {
+data "tencentcloudenterprise_nats" "multi_nat" {
   state          = 0
   name           = cloud_vpc_nat_gateway.dev_nat.name
   vpc_id         = cloud_vpc.main.id

@@ -12,8 +12,8 @@ import (
 
 func init() {
 	// go test -v ./tencentcloud -sweep=ap-guangzhou -sweep-run=cloud_cbs_storage
-	resource.AddTestSweepers("cloud_cbs_storage", &resource.Sweeper{
-		Name: "cloud_cbs_storage",
+	resource.AddTestSweepers("tencentcloudenterprise_cbs_storage", &resource.Sweeper{
+		Name: "tencentcloudenterprise_cbs_storage",
 		F: func(r string) error {
 			logId := getLogId(contextNil)
 			ctx := context.WithValue(context.TODO(), logIdKey, logId)
@@ -68,15 +68,15 @@ func TestAccTencentCloudCbsStorageResource_basic(t *testing.T) {
 			{
 				Config: testAccCbsStorage_basic,
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckStorageExists("cloud_cbs_storage.storage_basic"),
-					resource.TestCheckResourceAttr("cloud_cbs_storage.storage_basic", "storage_name", "tf-storage-basic"),
-					resource.TestCheckResourceAttr("cloud_cbs_storage.storage_basic", "storage_type", "CLOUD_PREMIUM"),
-					resource.TestCheckResourceAttr("cloud_cbs_storage.storage_basic", "storage_size", "50"),
-					resource.TestCheckResourceAttr("cloud_cbs_storage.storage_basic", "availability_zone", "ap-guangzhou-3"),
+					testAccCheckStorageExists("tencentcloudenterprise_cbs_storage.storage_basic"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_cbs_storage.storage_basic", "storage_name", "tf-storage-basic"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_cbs_storage.storage_basic", "storage_type", "CLOUD_PREMIUM"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_cbs_storage.storage_basic", "storage_size", "50"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_cbs_storage.storage_basic", "availability_zone", "ap-guangzhou-3"),
 				),
 			},
 			{
-				ResourceName:            "cloud_cbs_storage.storage_basic",
+				ResourceName:            "tencentcloudenterprise_cbs_storage.storage_basic",
 				ImportState:             true,
 				ImportStateVerify:       true,
 				ImportStateVerifyIgnore: []string{"force_delete"},
@@ -96,27 +96,27 @@ func TestAccTencentCloudCbsStorageResource_full(t *testing.T) {
 			{
 				Config: testAccCbsStorage_full,
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckStorageExists("cloud_cbs_storage.storage_full"),
-					resource.TestCheckResourceAttr("cloud_cbs_storage.storage_full", "storage_name", "tf-storage-full"),
-					resource.TestCheckResourceAttr("cloud_cbs_storage.storage_full", "storage_type", "CLOUD_PREMIUM"),
-					resource.TestCheckResourceAttr("cloud_cbs_storage.storage_full", "storage_size", "50"),
-					resource.TestCheckResourceAttr("cloud_cbs_storage.storage_full", "availability_zone", "ap-guangzhou-3"),
-					resource.TestCheckResourceAttr("cloud_cbs_storage.storage_full", "project_id", "0"),
-					resource.TestCheckResourceAttr("cloud_cbs_storage.storage_full", "encrypt", "false"),
-					resource.TestCheckResourceAttr("cloud_cbs_storage.storage_full", "tags.test", "tf"),
+					testAccCheckStorageExists("tencentcloudenterprise_cbs_storage.storage_full"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_cbs_storage.storage_full", "storage_name", "tf-storage-full"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_cbs_storage.storage_full", "storage_type", "CLOUD_PREMIUM"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_cbs_storage.storage_full", "storage_size", "50"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_cbs_storage.storage_full", "availability_zone", "ap-guangzhou-3"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_cbs_storage.storage_full", "project_id", "0"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_cbs_storage.storage_full", "encrypt", "false"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_cbs_storage.storage_full", "tags.test", "tf"),
 				),
 			},
 			{
 				Config: testAccCbsStorage_update,
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckStorageExists("cloud_cbs_storage.storage_full"),
-					resource.TestCheckResourceAttr("cloud_cbs_storage.storage_full", "storage_name", "tf-storage-update"),
-					resource.TestCheckResourceAttr("cloud_cbs_storage.storage_full", "storage_size", "60"),
-					resource.TestCheckResourceAttr("cloud_cbs_storage.storage_full", "availability_zone", "ap-guangzhou-3"),
-					resource.TestCheckResourceAttr("cloud_cbs_storage.storage_full", "project_id", "0"),
-					resource.TestCheckResourceAttr("cloud_cbs_storage.storage_full", "encrypt", "false"),
-					resource.TestCheckResourceAttr("cloud_cbs_storage.storage_full", "tags.test", "tf-test"),
-					resource.TestCheckResourceAttr("cloud_cbs_storage.storage_full", "disk_backup_quota", "2"),
+					testAccCheckStorageExists("tencentcloudenterprise_cbs_storage.storage_full"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_cbs_storage.storage_full", "storage_name", "tf-storage-update"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_cbs_storage.storage_full", "storage_size", "60"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_cbs_storage.storage_full", "availability_zone", "ap-guangzhou-3"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_cbs_storage.storage_full", "project_id", "0"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_cbs_storage.storage_full", "encrypt", "false"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_cbs_storage.storage_full", "tags.test", "tf-test"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_cbs_storage.storage_full", "disk_backup_quota", "2"),
 				),
 			},
 		},
@@ -134,19 +134,19 @@ func TestAccTencentCloudCbsStorageResource_prepaid(t *testing.T) {
 			{
 				Config: testAccCbsStorage_prepaid,
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckStorageExists("cloud_cbs_storage.storage_prepaid"),
-					resource.TestCheckResourceAttr("cloud_cbs_storage.storage_prepaid", "storage_name", "tf-storage-prepaid"),
-					resource.TestCheckResourceAttr("cloud_cbs_storage.storage_prepaid", "charge_type", "PREPAID"),
-					resource.TestCheckResourceAttr("cloud_cbs_storage.storage_prepaid", "prepaid_renew_flag", "NOTIFY_AND_AUTO_RENEW"),
+					testAccCheckStorageExists("tencentcloudenterprise_cbs_storage.storage_prepaid"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_cbs_storage.storage_prepaid", "storage_name", "tf-storage-prepaid"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_cbs_storage.storage_prepaid", "charge_type", "PREPAID"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_cbs_storage.storage_prepaid", "prepaid_renew_flag", "NOTIFY_AND_AUTO_RENEW"),
 				),
 			},
 			{
 				Config: testAccCbsStorage_prepaidupdate,
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckStorageExists("cloud_cbs_storage.storage_prepaid"),
-					resource.TestCheckResourceAttr("cloud_cbs_storage.storage_prepaid", "storage_name", "tf-storage-prepaid"),
-					resource.TestCheckResourceAttr("cloud_cbs_storage.storage_prepaid", "charge_type", "PREPAID"),
-					resource.TestCheckResourceAttr("cloud_cbs_storage.storage_prepaid", "prepaid_renew_flag", "NOTIFY_AND_MANUAL_RENEW"),
+					testAccCheckStorageExists("tencentcloudenterprise_cbs_storage.storage_prepaid"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_cbs_storage.storage_prepaid", "storage_name", "tf-storage-prepaid"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_cbs_storage.storage_prepaid", "charge_type", "PREPAID"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_cbs_storage.storage_prepaid", "prepaid_renew_flag", "NOTIFY_AND_MANUAL_RENEW"),
 				),
 			},
 		},
@@ -163,9 +163,9 @@ func TestAccTencentCloudCbsStorageResource_upgrade(t *testing.T) {
 			{
 				Config: testAccCbsStorage_upgrade,
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckStorageExists("cloud_cbs_storage.storage_upgrade"),
-					resource.TestCheckResourceAttr("cloud_cbs_storage.storage_upgrade", "storage_name", "tf-storage-upgrade"),
-					resource.TestCheckResourceAttr("cloud_cbs_storage.storage_upgrade", "charge_type", "POSTPAID_BY_HOUR"),
+					testAccCheckStorageExists("tencentcloudenterprise_cbs_storage.storage_upgrade"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_cbs_storage.storage_upgrade", "storage_name", "tf-storage-upgrade"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_cbs_storage.storage_upgrade", "charge_type", "POSTPAID_BY_HOUR"),
 				),
 			},
 			{
@@ -175,9 +175,9 @@ func TestAccTencentCloudCbsStorageResource_upgrade(t *testing.T) {
 				},
 				Config: testAccCbsStorage_upgradeupdate,
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckStorageExists("cloud_cbs_storage.storage_upgrade"),
-					resource.TestCheckResourceAttr("cloud_cbs_storage.storage_upgrade", "storage_name", "tf-storage-upgrade"),
-					resource.TestCheckResourceAttr("cloud_cbs_storage.storage_upgrade", "charge_type", "PREPAID"),
+					testAccCheckStorageExists("tencentcloudenterprise_cbs_storage.storage_upgrade"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_cbs_storage.storage_upgrade", "storage_name", "tf-storage-upgrade"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_cbs_storage.storage_upgrade", "charge_type", "PREPAID"),
 				),
 			},
 		},
@@ -192,7 +192,7 @@ func testAccCheckCbsStorageDestroy(s *terraform.State) error {
 		client: testAccProvider.Meta().(*TencentCloudClient).apiV3Conn,
 	}
 	for _, rs := range s.RootModule().Resources {
-		if rs.Type != "cloud_cbs_storage" {
+		if rs.Type != "tencentcloudenterprise_cbs_storage" {
 			continue
 		}
 
@@ -234,7 +234,7 @@ func testAccCheckStorageExists(n string) resource.TestCheckFunc {
 }
 
 const testAccCbsStorage_basic = `
-resource "cloud_cbs_storage" "storage_basic" {
+resource "tencentcloudenterprise_cbs_storage" "storage_basic" {
 	storage_type      = "CLOUD_PREMIUM"
 	storage_name      = "tf-storage-basic"
 	storage_size      = 50
@@ -243,7 +243,7 @@ resource "cloud_cbs_storage" "storage_basic" {
 `
 
 const testAccCbsStorage_full = `
-resource "cloud_cbs_storage" "storage_full" {
+resource "tencentcloudenterprise_cbs_storage" "storage_full" {
 	storage_type      = "CLOUD_PREMIUM"
 	storage_name      = "tf-storage-full"
 	storage_size      = 50
@@ -256,7 +256,7 @@ resource "cloud_cbs_storage" "storage_full" {
 }
 `
 const testAccCbsStorage_update = `
-resource "cloud_cbs_storage" "storage_full" {
+resource "tencentcloudenterprise_cbs_storage" "storage_full" {
 	storage_type      = "CLOUD_PREMIUM"
 	storage_name      = "tf-storage-update"
 	storage_size      = 60
@@ -271,7 +271,7 @@ resource "cloud_cbs_storage" "storage_full" {
 `
 
 const testAccCbsStorage_prepaid = `
-resource "cloud_cbs_storage" "storage_prepaid" {
+resource "tencentcloudenterprise_cbs_storage" "storage_prepaid" {
 	storage_type      = "CLOUD_PREMIUM"
 	storage_name      = "tf-storage-prepaid"
 	storage_size      = 50
@@ -288,7 +288,7 @@ resource "cloud_cbs_storage" "storage_prepaid" {
 }
 `
 const testAccCbsStorage_prepaidupdate = `
-resource "cloud_cbs_storage" "storage_prepaid" {
+resource "tencentcloudenterprise_cbs_storage" "storage_prepaid" {
 	storage_type      = "CLOUD_PREMIUM"
 	storage_name      = "tf-storage-prepaid"
 	storage_size      = 50
@@ -306,7 +306,7 @@ resource "cloud_cbs_storage" "storage_prepaid" {
 `
 
 const testAccCbsStorage_upgrade = `
-resource "cloud_cbs_storage" "storage_upgrade" {
+resource "tencentcloudenterprise_cbs_storage" "storage_upgrade" {
 	storage_type      = "CLOUD_PREMIUM"
 	storage_name      = "tf-storage-upgrade"
 	storage_size      = 50
@@ -316,7 +316,7 @@ resource "cloud_cbs_storage" "storage_upgrade" {
 `
 
 const testAccCbsStorage_upgradeupdate = `
-resource "cloud_cbs_storage" "storage_upgrade" {
+resource "tencentcloudenterprise_cbs_storage" "storage_upgrade" {
 	storage_type      = "CLOUD_PREMIUM"
 	storage_name      = "tf-storage-upgrade"
 	storage_size      = 50

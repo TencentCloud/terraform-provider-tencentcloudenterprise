@@ -7,7 +7,7 @@ use day of week
 
 ```hcl
 
-	resource "cloud_turbofs_auto_snapshot_policy" "auto_snapshot_policy" {
+	resource "tencentcloudenterprise_turbofs_auto_snapshot_policy" "auto_snapshot_policy" {
 	  day_of_week = "1,2"
 	  hour = "2,3"
 	  policy_name = "policy_name"
@@ -20,7 +20,7 @@ use day of month
 
 ```hcl
 
-	resource "cloud_turbofs_auto_snapshot_policy" "auto_snapshot_policy" {
+	resource "tencentcloudenterprise_turbofs_auto_snapshot_policy" "auto_snapshot_policy" {
 	  hour = "2,3"
 	  policy_name = "policy_name"
 	  alive_days = 7
@@ -50,7 +50,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_turbofs_auto_snapshot_policy", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_turbofs_auto_snapshot_policy", CNDescription{
 		TerraformTypeCN: "自动快照策略",
 		DescriptionCN:   "提供TurboFS自动快照策略资源，用于创建和管理TurboFS自动快照策略。",
 		AttributesCN: map[string]string{

@@ -5,7 +5,7 @@
 //
 // ```hcl
 //
-//	resource "cloud_ckafka_acl_rule" "acl_rule" {
+//	resource "tencentcloudenterprise_ckafka_acl_rule" "acl_rule" {
 //	 instance_id = "ckafka-xxx"
 //	 resource_type = "Topic"
 //	 pattern_type = "PREFIXED"

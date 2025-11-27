@@ -5,7 +5,7 @@ Use this data source to query detailed information of scaling policy.
 
 ```hcl
 
-	data "cloud_as_scaling_policies" "as_scaling_policies" {
+	data "tencentcloudenterprise_as_scaling_policies" "as_scaling_policies" {
 	  scaling_policy_id  = "asg-mvyghxu7"
 	  result_output_file = "mytestpath"
 	}
@@ -23,7 +23,7 @@ import (
 )
 
 func init() {
-	registerDataDescriptionProvider("cloud_as_scaling_policies", CNDescription{
+	registerDataDescriptionProvider("tencentcloudenterprise_as_scaling_policies", CNDescription{
 		TerraformTypeCN: "弹性伸缩策略",
 		DescriptionCN:   "提供弹性伸缩策略数据源，用于查询弹性伸缩策略的详细信息。",
 		AttributesCN: map[string]string{

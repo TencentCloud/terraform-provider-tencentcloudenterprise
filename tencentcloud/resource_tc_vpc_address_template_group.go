@@ -5,7 +5,7 @@ Provides a resource to manage address template group.
 
 ```hcl
 
-	resource "cloud_vpc_address_template_group" "foo" {
+	resource "tencentcloudenterprise_vpc_address_template_group" "foo" {
 	  name                = "group-test"
 	  template_ids = ["ipl-axaf24151","ipl-axaf24152"]
 	}
@@ -31,7 +31,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_vpc_address_template_group", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_vpc_address_template_group", CNDescription{
 		TerraformTypeCN: "地址模板组",
 		DescriptionCN:   "提供地址模板组资源，用于管理地址模板组。",
 		AttributesCN: map[string]string{

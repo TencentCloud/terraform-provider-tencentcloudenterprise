@@ -19,26 +19,26 @@ func TestAccTencentCloudAsLifecycleHook(t *testing.T) {
 			{
 				Config: testAccAsLifecycleHook(),
 				Check: resource.ComposeAggregateTestCheckFunc(
-					testAccCheckAsLifecycleHookExists("cloud_as_lifecycle_hook.lifecycle_hook"),
-					resource.TestCheckResourceAttrSet("cloud_as_lifecycle_hook.lifecycle_hook", "scaling_group_id"),
-					resource.TestCheckResourceAttr("cloud_as_lifecycle_hook.lifecycle_hook", "lifecycle_hook_name", "tf-as-lifecycle-hook"),
-					resource.TestCheckResourceAttr("cloud_as_lifecycle_hook.lifecycle_hook", "lifecycle_transition", "INSTANCE_LAUNCHING"),
-					resource.TestCheckResourceAttr("cloud_as_lifecycle_hook.lifecycle_hook", "default_result", "CONTINUE"),
-					resource.TestCheckResourceAttr("cloud_as_lifecycle_hook.lifecycle_hook", "heartbeat_timeout", "500"),
-					resource.TestCheckResourceAttr("cloud_as_lifecycle_hook.lifecycle_hook", "notification_metadata", "tf test"),
+					testAccCheckAsLifecycleHookExists("tencentcloudenterprise_as_lifecycle_hook.lifecycle_hook"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_as_lifecycle_hook.lifecycle_hook", "scaling_group_id"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_as_lifecycle_hook.lifecycle_hook", "lifecycle_hook_name", "tf-as-lifecycle-hook"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_as_lifecycle_hook.lifecycle_hook", "lifecycle_transition", "INSTANCE_LAUNCHING"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_as_lifecycle_hook.lifecycle_hook", "default_result", "CONTINUE"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_as_lifecycle_hook.lifecycle_hook", "heartbeat_timeout", "500"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_as_lifecycle_hook.lifecycle_hook", "notification_metadata", "tf test"),
 				),
 			},
 			// test update case
 			{
 				Config: testAccAsLifecycleHook_update(),
 				Check: resource.ComposeAggregateTestCheckFunc(
-					testAccCheckAsLifecycleHookExists("cloud_as_lifecycle_hook.lifecycle_hook"),
-					resource.TestCheckResourceAttrSet("cloud_as_lifecycle_hook.lifecycle_hook", "scaling_group_id"),
-					resource.TestCheckResourceAttr("cloud_as_lifecycle_hook.lifecycle_hook", "lifecycle_hook_name", "tf-as-lifecycle-test"),
-					resource.TestCheckResourceAttr("cloud_as_lifecycle_hook.lifecycle_hook", "lifecycle_transition", "INSTANCE_TERMINATING"),
-					resource.TestCheckResourceAttr("cloud_as_lifecycle_hook.lifecycle_hook", "default_result", "ABANDON"),
-					resource.TestCheckResourceAttr("cloud_as_lifecycle_hook.lifecycle_hook", "heartbeat_timeout", "300"),
-					resource.TestCheckResourceAttr("cloud_as_lifecycle_hook.lifecycle_hook", "notification_metadata", "tf lifecycle test"),
+					testAccCheckAsLifecycleHookExists("tencentcloudenterprise_as_lifecycle_hook.lifecycle_hook"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_as_lifecycle_hook.lifecycle_hook", "scaling_group_id"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_as_lifecycle_hook.lifecycle_hook", "lifecycle_hook_name", "tf-as-lifecycle-test"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_as_lifecycle_hook.lifecycle_hook", "lifecycle_transition", "INSTANCE_TERMINATING"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_as_lifecycle_hook.lifecycle_hook", "default_result", "ABANDON"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_as_lifecycle_hook.lifecycle_hook", "heartbeat_timeout", "300"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_as_lifecycle_hook.lifecycle_hook", "notification_metadata", "tf lifecycle test"),
 				),
 			},
 		},
@@ -77,7 +77,7 @@ func testAccCheckAsLifecycleHookDestroy(s *terraform.State) error {
 		client: testAccProvider.Meta().(*TencentCloudClient).apiV3Conn,
 	}
 	for _, rs := range s.RootModule().Resources {
-		if rs.Type != "cloud_as_lifecycle_hook" {
+		if rs.Type != "tencentcloudenterprise_as_lifecycle_hook" {
 			continue
 		}
 
@@ -94,25 +94,25 @@ func testAccCheckAsLifecycleHookDestroy(s *terraform.State) error {
 
 func testAccAsLifecycleHook() string {
 	return `
-resource "cloud_vpc" "vpc" {
+resource "tencentcloudenterprise_vpc" "vpc" {
   name       = "tf-as-vpc"
   cidr_block = "10.2.0.0/16"
 }
 
-resource "cloud_vpc_subnet" "subnet" {
+resource "tencentcloudenterprise_vpc_subnet" "subnet" {
   vpc_id            = cloud_vpc.vpc.id
   name              = "tf-as-subnet"
   cidr_block        = "10.2.11.0/24"
   availability_zone = "ap-guangzhou-3"
 }
 
-resource "cloud_as_scaling_config" "launch_configuration" {
+resource "tencentcloudenterprise_as_scaling_config" "launch_configuration" {
   configuration_name = "tf-as-configuration-lifecycle-hook"
   image_id           = "img-9qabwvbn"
   instance_types     = ["SA1.SMALL1"]
 }
 
-resource "cloud_as_scaling_group" "scaling_group" {
+resource "tencentcloudenterprise_as_scaling_group" "scaling_group" {
   scaling_group_name = "tf-as-scaling-group-lifecycle-hook"
   configuration_id   = cloud_as_scaling_config.launch_configuration.id
   max_size           = 1
@@ -121,7 +121,7 @@ resource "cloud_as_scaling_group" "scaling_group" {
   subnet_ids         = [cloud_vpc_subnet.subnet.id]
 }
 
-resource "cloud_as_lifecycle_hook" "lifecycle_hook" {
+resource "tencentcloudenterprise_as_lifecycle_hook" "lifecycle_hook" {
   scaling_group_id      = cloud_as_scaling_group.scaling_group.id
   lifecycle_hook_name   = "tf-as-lifecycle-hook"
   lifecycle_transition  = "INSTANCE_LAUNCHING"
@@ -134,25 +134,25 @@ resource "cloud_as_lifecycle_hook" "lifecycle_hook" {
 
 func testAccAsLifecycleHook_update() string {
 	return `
-resource "cloud_vpc" "vpc" {
+resource "tencentcloudenterprise_vpc" "vpc" {
   name       = "tf-as-vpc"
   cidr_block = "10.2.0.0/16"
 }
 
-resource "cloud_vpc_subnet" "subnet" {
+resource "tencentcloudenterprise_vpc_subnet" "subnet" {
   vpc_id            = cloud_vpc.vpc.id
   name              = "tf-as-subnet"
   cidr_block        = "10.2.11.0/24"
   availability_zone = "ap-guangzhou-3"
 }
 
-resource "cloud_as_scaling_config" "launch_configuration" {
+resource "tencentcloudenterprise_as_scaling_config" "launch_configuration" {
   configuration_name = "tf-as-configuration-lifecycle-hook"
   image_id           = "img-9qabwvbn"
   instance_types     = ["SA1.SMALL1"]
 }
 
-resource "cloud_as_scaling_group" "scaling_group" {
+resource "tencentcloudenterprise_as_scaling_group" "scaling_group" {
   scaling_group_name = "tf-as-scaling-group-lifecycle-hook"
   configuration_id   = cloud_as_scaling_config.launch_configuration.id
   max_size           = 1
@@ -161,7 +161,7 @@ resource "cloud_as_scaling_group" "scaling_group" {
   subnet_ids         = [cloud_vpc_subnet.subnet.id]
 }
 
-resource "cloud_as_lifecycle_hook" "lifecycle_hook" {
+resource "tencentcloudenterprise_as_lifecycle_hook" "lifecycle_hook" {
   scaling_group_id      = cloud_as_scaling_group.scaling_group.id
   lifecycle_hook_name   = "tf-as-lifecycle-test"
   lifecycle_transition  = "INSTANCE_TERMINATING"

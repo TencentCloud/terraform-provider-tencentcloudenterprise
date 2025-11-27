@@ -5,12 +5,12 @@ Use this data source to query detailed information of tdmqRocketmq topic
 
 ```hcl
 
-	resource "cloud_tdmq_rocketmq_cluster" "cluster" {
+	resource "tencentcloudenterprise_tdmq_rocketmq_cluster" "cluster" {
 		cluster_name = "test_rocketmq"
 		remark = "test recket mq"
 	}
 
-	resource "cloud_tdmq_rocketmq_namespace" "namespace" {
+	resource "tencentcloudenterprise_tdmq_rocketmq_namespace" "namespace" {
 	  cluster_id = cloud_tdmq_rocketmq_cluster.cluster.cluster_id
 	  namespace_name = "test_namespace"
 	  ttl = 65000
@@ -18,7 +18,7 @@ Use this data source to query detailed information of tdmqRocketmq topic
 	  remark = "test namespace"
 	}
 
-	resource "cloud_tdmq_rocketmq_topic" "topic" {
+	resource "tencentcloudenterprise_tdmq_rocketmq_topic" "topic" {
 	  topic_name = "test_rocketmq_topic"
 	  namespace_name = cloud_tdmq_rocketmq_namespace.namespace.namespace_name
 	  type = "Normal"
@@ -26,7 +26,7 @@ Use this data source to query detailed information of tdmqRocketmq topic
 	  remark = "test rocketmq topic"
 	}
 
-	data "cloud_tdmq_rocketmq_topic" "topic" {
+	data "tencentcloudenterprise_tdmq_rocketmq_topic" "topic" {
 	  cluster_id = cloud_tdmq_rocketmq_cluster.cluster.cluster_id
 	  namespace_id = cloud_tdmq_rocketmq_namespace.namespace.namespace_name
 	  filter_name = cloud_tdmq_rocketmq_topic.topic.topic_name
@@ -47,7 +47,7 @@ import (
 )
 
 func init() {
-	registerDataDescriptionProvider("cloud_tdmq_rocketmq_topic", CNDescription{
+	registerDataDescriptionProvider("tencentcloudenterprise_tdmq_rocketmq_topic", CNDescription{
 		TerraformTypeCN: "RocketMQ Topic",
 		DescriptionCN:   "提供TDMQ RocketMQ主题数据源，用于查询TDMQ RocketMQ主题的详细信息。",
 		AttributesCN: map[string]string{

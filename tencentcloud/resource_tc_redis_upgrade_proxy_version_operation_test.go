@@ -16,7 +16,7 @@ func TestAccTencentCloudNeedFixRedisUpgradeProxyVersionOperationResource_basic(t
 		Steps: []resource.TestStep{
 			{
 				Config: testAccRedisUpgradeProxyVersionOperation,
-				Check:  resource.ComposeTestCheckFunc(resource.TestCheckResourceAttrSet("cloud_redis_upgrade_proxy_version_operation.upgrade_proxy_version_operation", "id")),
+				Check:  resource.ComposeTestCheckFunc(resource.TestCheckResourceAttrSet("tencentcloudenterprise_redis_upgrade_proxy_version_operation.upgrade_proxy_version_operation", "id")),
 			},
 		},
 	})
@@ -24,7 +24,7 @@ func TestAccTencentCloudNeedFixRedisUpgradeProxyVersionOperationResource_basic(t
 
 const testAccRedisUpgradeProxyVersionOperation = `
 
-resource "cloud_redis_upgrade_proxy_version_operation" "upgrade_proxy_version_operation" {
+resource "tencentcloudenterprise_redis_upgrade_proxy_version_operation" "upgrade_proxy_version_operation" {
   instance_id = "crs-c1nl9rpv"
   current_proxy_version = "5.0.0"
   upgrade_proxy_version = "5.0.0"

@@ -5,7 +5,7 @@ Provides a resource to create a brc cfs backup
 
 ```hcl
 
-	resource "cloud_brc_backup_cfs" "example" {
+	resource "tencentcloudenterprise_brc_backup_cfs" "example" {
 	  file_system_id = "cfs-bo74chkp"
 	  backup_name    = "test"
 	  deadline       = "2025-07-06 03:06:09"
@@ -39,7 +39,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_brc_backup_cfs", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_brc_backup_cfs", CNDescription{
 		TerraformTypeCN: "CFS文件系统备份",
 		DescriptionCN:   "提供BRC文件系统备份资源，用于创建CFS文件系统备份。",
 		AttributesCN: map[string]string{

@@ -12,8 +12,8 @@ import (
 )
 
 func init() {
-	resource.AddTestSweepers("cloud_route_table", &resource.Sweeper{
-		Name: "cloud_route_table",
+	resource.AddTestSweepers("tencentcloudenterprise_route_table", &resource.Sweeper{
+		Name: "tencentcloudenterprise_route_table",
 		F:    testSweepRouteTable,
 	})
 }
@@ -83,17 +83,17 @@ variable "availability_zone" {
   default = "ap-guangzhou-3"
 }
 
-resource "cloud_vpc" "foo" {
+resource "tencentcloudenterprise_vpc" "foo" {
   name       = "tf-ci-test"
   cidr_block = "10.0.0.0/16"
 }
 
-resource "cloud_route_table" "route_table" {
+resource "tencentcloudenterprise_route_table" "route_table" {
   vpc_id = cloud_vpc.foo.id
   name   = "tf-ci-test"
 }
 
-data "cloud_route_table" "foo" {
+data "tencentcloudenterprise_route_table" "foo" {
   route_table_id = cloud_route_table.route_table.id
 }
 `

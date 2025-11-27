@@ -16,10 +16,10 @@ func TestAccTencentCloudNeedFixVpcResumeSnapshotInstanceResource_basic(t *testin
 		Steps: []resource.TestStep{
 			{
 				Config: testAccVpcResumeSnapshotInstance,
-				Check:  resource.ComposeTestCheckFunc(resource.TestCheckResourceAttrSet("cloud_vpc_resume_snapshot_instance.resume_snapshot_instance", "id")),
+				Check:  resource.ComposeTestCheckFunc(resource.TestCheckResourceAttrSet("tencentcloudenterprise_vpc_resume_snapshot_instance.resume_snapshot_instance", "id")),
 			},
 			{
-				ResourceName:      "cloud_vpc_resume_snapshot_instance.resume_snapshot_instance",
+				ResourceName:      "tencentcloudenterprise_vpc_resume_snapshot_instance.resume_snapshot_instance",
 				ImportState:       true,
 				ImportStateVerify: true,
 			},
@@ -29,7 +29,7 @@ func TestAccTencentCloudNeedFixVpcResumeSnapshotInstanceResource_basic(t *testin
 
 const testAccVpcResumeSnapshotInstance = `
 
-resource "cloud_vpc_resume_snapshot_instance" "resume_snapshot_instance" {
+resource "tencentcloudenterprise_vpc_resume_snapshot_instance" "resume_snapshot_instance" {
   snapshot_policy_id = "sspolicy-1t6cobbv"
   snapshot_file_id = "ssfile-test"
   instance_id = "policy-1t6cob"

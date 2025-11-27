@@ -16,8 +16,8 @@ func TestAccTencentCloudClbSnatIp(t *testing.T) {
 			{
 				Config: testAccClbSnatIpBasic,
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttrSet("cloud_clb_snat_ip.snat_ips", "id"),
-					resource.TestCheckResourceAttr("cloud_clb_snat_ip.snat_ips", "ips.#", "3"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_clb_snat_ip.snat_ips", "id"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_clb_snat_ip.snat_ips", "ips.#", "3"),
 				),
 			},
 			{
@@ -26,8 +26,8 @@ func TestAccTencentCloudClbSnatIp(t *testing.T) {
 				},
 				Config: testAccClbSnatIpBasicUpdate,
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttrSet("cloud_clb_snat_ip.snat_ips", "id"),
-					resource.TestCheckResourceAttr("cloud_clb_snat_ip.snat_ips", "ips.#", "3"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_clb_snat_ip.snat_ips", "id"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_clb_snat_ip.snat_ips", "ips.#", "3"),
 				),
 			},
 			{
@@ -36,8 +36,8 @@ func TestAccTencentCloudClbSnatIp(t *testing.T) {
 				},
 				Config: testAccClbSnatIpBasicUpdate2,
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttrSet("cloud_clb_snat_ip.snat_ips", "id"),
-					resource.TestCheckResourceAttr("cloud_clb_snat_ip.snat_ips", "ips.#", "1"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_clb_snat_ip.snat_ips", "id"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_clb_snat_ip.snat_ips", "ips.#", "1"),
 				),
 			},
 		},
@@ -45,12 +45,12 @@ func TestAccTencentCloudClbSnatIp(t *testing.T) {
 }
 
 const testAccClbSnatIpBasic = `
-data "cloud_vpc_instances" "gz3vpc" {
+data "tencentcloudenterprise_vpc_instances" "gz3vpc" {
   name = "Default-"
   is_default = true
 }
 
-data "cloud_vpc_subnets" "gz3" {
+data "tencentcloudenterprise_vpc_subnets" "gz3" {
   vpc_id = data.cloud_vpc_instances.gz3vpc.instance_list.0.vpc_id
 }
 
@@ -60,12 +60,12 @@ locals {
   subnet_for_clb_snat = concat(local.keep_clb_subnets, local.subnets)
 }
 
-resource "cloud_clb_instance" "foo" {
+resource "tencentcloudenterprise_clb_instance" "foo" {
   network_type = "OPEN"
   clb_name     = "tf-clb-snat-resource-test"
 }
 
-resource "cloud_clb_snat_ip" "snat_ips" {
+resource "tencentcloudenterprise_clb_snat_ip" "snat_ips" {
   clb_id = cloud_clb_instance.foo.id
   ips {
     ip = "203.0.113.17"
@@ -83,12 +83,12 @@ resource "cloud_clb_snat_ip" "snat_ips" {
 `
 
 const testAccClbSnatIpBasicUpdate = `
-data "cloud_vpc_instances" "gz3vpc" {
+data "tencentcloudenterprise_vpc_instances" "gz3vpc" {
   name = "Default-"
   is_default = true
 }
 
-data "cloud_vpc_subnets" "gz3" {
+data "tencentcloudenterprise_vpc_subnets" "gz3" {
   vpc_id = data.cloud_vpc_instances.gz3vpc.instance_list.0.vpc_id
 }
 
@@ -98,12 +98,12 @@ locals {
   subnet_for_clb_snat = concat(local.keep_clb_subnets, local.subnets)
 }
 
-resource "cloud_clb_instance" "foo" {
+resource "tencentcloudenterprise_clb_instance" "foo" {
   network_type = "OPEN"
   clb_name     = "tf-clb-snat-resource-test"
 }
 
-resource "cloud_clb_snat_ip" "snat_ips" {
+resource "tencentcloudenterprise_clb_snat_ip" "snat_ips" {
   clb_id = cloud_clb_instance.foo.id
   ips {
     ip = "203.0.113.17"
@@ -121,12 +121,12 @@ resource "cloud_clb_snat_ip" "snat_ips" {
 `
 
 const testAccClbSnatIpBasicUpdate2 = `
-data "cloud_vpc_instances" "gz3vpc" {
+data "tencentcloudenterprise_vpc_instances" "gz3vpc" {
   name = "Default-"
   is_default = true
 }
 
-data "cloud_vpc_subnets" "gz3" {
+data "tencentcloudenterprise_vpc_subnets" "gz3" {
   vpc_id = data.cloud_vpc_instances.gz3vpc.instance_list.0.vpc_id
 }
 
@@ -136,12 +136,12 @@ locals {
   subnet_for_clb_snat = concat(local.keep_clb_subnets, local.subnets)
 }
 
-resource "cloud_clb_instance" "foo" {
+resource "tencentcloudenterprise_clb_instance" "foo" {
   network_type = "OPEN"
   clb_name     = "tf-clb-snat-resource-test"
 }
 
-resource "cloud_clb_snat_ip" "snat_ips" {
+resource "tencentcloudenterprise_clb_snat_ip" "snat_ips" {
   clb_id = cloud_clb_instance.foo.id
   ips {
     ip = "203.0.113.16"

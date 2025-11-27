@@ -16,16 +16,16 @@ func TestAccTencentCloudVpcFlowLogConfigResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			{
 				Config: testAccVpcFlowLogConfig,
-				Check:  resource.ComposeTestCheckFunc(resource.TestCheckResourceAttrSet("cloud_vpc_flow_log_config.flow_log_config", "id")),
+				Check:  resource.ComposeTestCheckFunc(resource.TestCheckResourceAttrSet("tencentcloudenterprise_vpc_flow_log_config.flow_log_config", "id")),
 			},
 			{
 				Config: testAccVpcFlowLogConfigUpdate,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr("cloud_vpc_flow_log_config.flow_log_config", "enable", "true"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_vpc_flow_log_config.flow_log_config", "enable", "true"),
 				),
 			},
 			{
-				ResourceName:      "cloud_vpc_flow_log_config.flow_log_config",
+				ResourceName:      "tencentcloudenterprise_vpc_flow_log_config.flow_log_config",
 				ImportState:       true,
 				ImportStateVerify: true,
 			},
@@ -35,7 +35,7 @@ func TestAccTencentCloudVpcFlowLogConfigResource_basic(t *testing.T) {
 
 const testAccVpcFlowLogConfig = `
 
-resource "cloud_vpc_flow_log_config" "flow_log_config" {
+resource "tencentcloudenterprise_vpc_flow_log_config" "flow_log_config" {
   flow_log_id = "fl-geg2keoj"
   enable = false
 }
@@ -44,7 +44,7 @@ resource "cloud_vpc_flow_log_config" "flow_log_config" {
 
 const testAccVpcFlowLogConfigUpdate = `
 
-resource "cloud_vpc_flow_log_config" "flow_log_config" {
+resource "tencentcloudenterprise_vpc_flow_log_config" "flow_log_config" {
   flow_log_id = "fl-geg2keoj"
   enable = true
 }

@@ -5,7 +5,7 @@ Use this data source to query detailed instance information of Ckafka
 
 ```hcl
 
-	data "cloud_ckafka_instances" "foo" {
+	data "tencentcloudenterprise_ckafka_instances" "foo" {
 	  instance_ids=["ckafka-vv7wpvae"]
 	}
 
@@ -20,7 +20,7 @@ import (
 )
 
 func init() {
-	registerDataDescriptionProvider("cloud_ckafka_instances", CNDescription{
+	registerDataDescriptionProvider("tencentcloudenterprise_ckafka_instances", CNDescription{
 		TerraformTypeCN: "ckafka实例",
 		DescriptionCN:   "提供CKafka实例数据源，用于查询CKafka实例的详细信息。",
 		AttributesCN: map[string]string{

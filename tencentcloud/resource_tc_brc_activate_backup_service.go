@@ -5,7 +5,7 @@ Provides a resource to activate a brc backup service
 
 ```hcl
 
-	resource "cloud_brc_activate_backup_service" "activate_backup_service" {
+	resource "tencentcloudenterprise_brc_activate_backup_service" "activate_backup_service" {
 	  resource_type = "COS"
 	}
 
@@ -25,7 +25,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_brc_activate_backup_service", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_brc_activate_backup_service", CNDescription{
 		TerraformTypeCN: "开通BRC服务",
 		DescriptionCN:   "提供BRC备份服务开通资源，用于激活指定资源类型的备份服务。",
 		AttributesCN: map[string]string{

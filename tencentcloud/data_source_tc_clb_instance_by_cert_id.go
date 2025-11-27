@@ -5,7 +5,7 @@ Use this data source to query detailed information of clb instance_by_cert_id
 
 ```hcl
 
-	data "cloud_clb_instance_by_cert_id" "instance_by_cert_id" {
+	data "tencentcloudenterprise_clb_instance_by_cert_id" "instance_by_cert_id" {
 	  cert_ids = ["3a6B5y8v"]
 	}
 
@@ -23,7 +23,7 @@ import (
 )
 
 func init() {
-	registerDataDescriptionProvider("cloud_clb_instance_by_cert_id", CNDescription{
+	registerDataDescriptionProvider("tencentcloudenterprise_clb_instance_by_cert_id", CNDescription{
 		TerraformTypeCN: "根据证书ID查询CLB实例详细信息",
 		DescriptionCN:   "提供根据证书ID查询CLB实例详细信息数据源，用于查询与指定证书关联的CLB实例信息。",
 		AttributesCN: map[string]string{

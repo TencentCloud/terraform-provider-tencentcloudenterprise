@@ -5,7 +5,7 @@ Use this data source to query detailed information of cfs mount_targets
 
 ```hcl
 
-	data "cloud_cfs_mount_targets" "mount_targets" {
+	data "tencentcloudenterprise_cfs_mount_targets" "mount_targets" {
 	  file_system_id = "cfs-iobiaxtj"
 	}
 
@@ -22,7 +22,7 @@ import (
 )
 
 func init() {
-	registerDataDescriptionProvider("cloud_cfs_mount_targets", CNDescription{
+	registerDataDescriptionProvider("tencentcloudenterprise_cfs_mount_targets", CNDescription{
 		TerraformTypeCN: "CFS挂载点",
 		DescriptionCN:   "提供CFS文件系统挂载点数据源，用于查询文件系统挂载点的详细信息。",
 		AttributesCN: map[string]string{

@@ -38,7 +38,7 @@ func TestAccTencentCloudTsfPodInstancesDataSource_basic(t *testing.T) {
 
 const testAccTsfPodInstancesDataSource = `
 
-data "cloud_tsf_pod_instances" "pod_instances" {
+data "tencentcloudenterprise_tsf_pod_instances" "pod_instances" {
 	group_id = "group-ynd95rea"
 	pod_name_list = ["keep-terraform-6f8f977688-zvphm"]
 }

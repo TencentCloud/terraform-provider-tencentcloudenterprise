@@ -7,7 +7,7 @@ Provides a resource to create a tbase instance.
 
 ```hcl
 
-	resource "cloud_tbase_pg_instance" "example" {
+	resource "tencentcloudenterprise_tbase_pg_instance" "example" {
 	  vpc_id                 = "vpc-cs6ffr73"
 	  subnet_id              = "subnet-38oi34ta"
 	  net_type               = "vpc"
@@ -53,7 +53,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_tbase_pg_instance", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_tbase_pg_instance", CNDescription{
 		TerraformTypeCN: "PGSQL实例",
 		DescriptionCN:   "提供TBase PostgreSQL实例资源，用于创建和管理TBase PostgreSQL数据库实例。",
 		AttributesCN: map[string]string{

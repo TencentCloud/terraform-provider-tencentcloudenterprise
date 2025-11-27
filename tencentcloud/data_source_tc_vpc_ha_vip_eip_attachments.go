@@ -5,7 +5,7 @@ Use this data source to query detailed information of HA VIP EIP attachments
 
 ```hcl
 
-	data "cloud_vpc_ha_vip_eip_attachments" "foo" {
+	data "tencentcloudenterprise_vpc_ha_vip_eip_attachments" "foo" {
 	  havip_id   = "havip-kjqwe4ba"
 	  address_ip = "1.1.1.1"
 	}
@@ -25,7 +25,7 @@ import (
 )
 
 func init() {
-	registerDataDescriptionProvider("cloud_vpc_ha_vip_eip_attachments", CNDescription{
+	registerDataDescriptionProvider("tencentcloudenterprise_vpc_ha_vip_eip_attachments", CNDescription{
 		TerraformTypeCN: "HA VIP EIP接入详细信息",
 		DescriptionCN:   "提供HA VIP EIP接入数据源，用于查询HA VIP EIP接入的详细信息。",
 		AttributesCN: map[string]string{

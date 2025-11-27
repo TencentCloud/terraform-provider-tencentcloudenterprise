@@ -21,17 +21,17 @@ func TestAccTencentCloudTsfLaneResource_basic(t *testing.T) {
 			{
 				Config: testAccTsfLane2,
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckTsfLaneExists("cloud_tsf_lane.lane"),
-					resource.TestCheckResourceAttrSet("cloud_tsf_lane.lane", "id"),
-					resource.TestCheckResourceAttr("cloud_tsf_lane.lane", "lane_name", "terraform-lane"),
-					resource.TestCheckResourceAttr("cloud_tsf_lane.lane", "remark", "lane desc"),
-					resource.TestCheckResourceAttr("cloud_tsf_lane.lane", "lane_group_list.#", "1"),
-					//resource.TestCheckResourceAttr("cloud_tsf_lane.lane", "lane_group_list.0.group_id", defaultTsfGroupId),
-					resource.TestCheckResourceAttr("cloud_tsf_lane.lane", "lane_group_list.0.entrance", "true"),
+					testAccCheckTsfLaneExists("tencentcloudenterprise_tsf_lane.lane"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_tsf_lane.lane", "id"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_tsf_lane.lane", "lane_name", "terraform-lane"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_tsf_lane.lane", "remark", "lane desc"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_tsf_lane.lane", "lane_group_list.#", "1"),
+					//resource.TestCheckResourceAttr("tencentcloudenterprise_tsf_lane.lane", "lane_group_list.0.group_id", defaultTsfGroupId),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_tsf_lane.lane", "lane_group_list.0.entrance", "true"),
 				),
 			},
 			// {
-			// 	ResourceName:      "cloud_tsf_lane.lane",
+			// 	ResourceName:      "tencentcloudenterprise_tsf_lane.lane",
 			// 	ImportState:       true,
 			// 	ImportStateVerify: true,
 			// },
@@ -44,7 +44,7 @@ func testAccCheckTsfLaneDestroy(s *terraform.State) error {
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
 	service := TsfService{client: testAccProvider.Meta().(*TencentCloudClient).apiV3Conn}
 	for _, rs := range s.RootModule().Resources {
-		if rs.Type != "cloud_tsf_lane" {
+		if rs.Type != "tencentcloudenterprise_tsf_lane" {
 			continue
 		}
 
@@ -92,7 +92,7 @@ variable "group_id" {
 
 const testAccTsfLane = testAccTsfLaneVar + `
 
-resource "cloud_tsf_lane" "lane" {
+resource "tencentcloudenterprise_tsf_lane" "lane" {
 	lane_name = "terraform-lane"
 	remark = "lane desc"
 	lane_group_list {
@@ -104,7 +104,7 @@ resource "cloud_tsf_lane" "lane" {
 `
 
 const testAccTsfLane2 = `
-resource "cloud_tsf_lane" "lane" {
+resource "tencentcloudenterprise_tsf_lane" "lane" {
 	lane_name = "terraform-lane"
 	remark = "lane desc"
 	lane_group_list {

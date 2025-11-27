@@ -6,9 +6,9 @@ Provide a resource to create a KubernetesClusterEndpoint. This resource allows y
 # Example Usage
 
 ```hcl
-resource "cloud_kubernetes_node_pool" "pool1" {}
+resource "tencentcloudenterprise_kubernetes_node_pool" "pool1" {}
 
-	resource "cloud_tke_kubernetes_cluster_endpoint" "foo" {
+	resource "tencentcloudenterprise_tke_kubernetes_cluster_endpoint" "foo" {
 	  cluster_id = "cls-xxxxxxxx"
 	  cluster_internet = true
 	  cluster_intranet = true
@@ -45,7 +45,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_tke_kubernetes_cluster_endpoint", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_tke_kubernetes_cluster_endpoint", CNDescription{
 		TerraformTypeCN: "集群访问端点",
 		DescriptionCN:   "提供Kubernetes集群访问端点资源，用于创建和管理集群的访问端点。",
 		AttributesCN: map[string]string{

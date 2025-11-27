@@ -34,7 +34,7 @@ func TestAccTencentCloudTsfApplicationPublicConfigDataSource_basic(t *testing.T)
 
 const testAccTsfApplicationPublicConfigDataSource = `
 
-data "cloud_tsf_application_public_config" "application_public_config" {
+data "tencentcloudenterprise_tsf_application_public_config" "application_public_config" {
 	# config_id = "dcfg-p-evjrbgly"
 	# # config_id_list = [""]
 	# config_name = "dsadsa"

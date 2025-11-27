@@ -5,7 +5,7 @@ Provides a resource to create a tsf task
 
 ```hcl
 
-	resource "cloud_tsf_task" "task" {
+	resource "tencentcloudenterprise_tsf_task" "task" {
 	  task_name = "terraform-test"
 	  task_content = "/test"
 	  execute_type = "unicast"
@@ -51,7 +51,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_tsf_task", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_tsf_task", CNDescription{
 		TerraformTypeCN: "创建任务",
 		DescriptionCN:   "提供TSF任务资源，用于创建和管理任务。",
 		AttributesCN: map[string]string{

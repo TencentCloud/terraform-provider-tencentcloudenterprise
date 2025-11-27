@@ -7,7 +7,7 @@ Provides a resource to create a tbase instance.
 
 ```hcl
 
-	resource "cloud_tbase_instance" "instance1" {
+	resource "tencentcloudenterprise_tbase_instance" "instance1" {
 	  admin_password    = "Tcdn@2007"
 	  charset           = "UTF8"
 	  engine_type        = "TbaseV5"
@@ -54,7 +54,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_tbase_instance", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_tbase_instance", CNDescription{
 		TerraformTypeCN: "分布式PGSQL实例",
 		DescriptionCN:   "提供TBase分布式PostgreSQL实例资源，用于创建和管理TBase分布式数据库实例。",
 		AttributesCN: map[string]string{

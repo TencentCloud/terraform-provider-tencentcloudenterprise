@@ -3,7 +3,7 @@ Provide a resource to create a SSM secret.
 Example Usage
 ```hcl
 
-	resource "cloud_ssm_secret" "foo" {
+	resource "tencentcloudenterprise_ssm_secret" "foo" {
 	  secret_name = "test"
 	  description = "test secret"
 	  recovery_window_in_days = 0
@@ -35,7 +35,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_ssm_secret", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_ssm_secret", CNDescription{
 		TerraformTypeCN: "凭据管理密钥",
 		DescriptionCN:   "提供凭据管理密钥资源，用于创建和管理SSM凭据。",
 		AttributesCN: map[string]string{

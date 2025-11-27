@@ -6,7 +6,7 @@ Uploading a file to a bucket
 
 ```hcl
 
-	resource "cloud_cos_bucket_object" "myobject" {
+	resource "tencentcloudenterprise_cos_bucket_object" "myobject" {
 	  bucket = "mycos-1258798060"
 	  key    = "new_object_key"
 	  acl    = "public-read"
@@ -19,12 +19,12 @@ Uploading a file to a bucket
 
 ```hcl
 
-	resource "cloud_cos_bucket" "mycos" {
+	resource "tencentcloudenterprise_cos_bucket" "mycos" {
 	  bucket = "mycos-1258798060"
 	  acl    = "public-read"
 	}
 
-	resource "cloud_cos_bucket_object" "myobject" {
+	resource "tencentcloudenterprise_cos_bucket_object" "myobject" {
 	  bucket  = cloud_cos_bucket.mycos.bucket
 	  key     = "new_object_key"
 	  content = "the content that you want to upload."
@@ -51,7 +51,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_cos_bucket_object", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_cos_bucket_object", CNDescription{
 		TerraformTypeCN: "云存储对象COS",
 		DescriptionCN:   "提供对象存储COS对象资源，用于创建和管理存储桶中的对象文件。",
 		AttributesCN: map[string]string{

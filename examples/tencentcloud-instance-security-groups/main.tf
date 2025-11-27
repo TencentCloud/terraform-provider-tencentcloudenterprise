@@ -1,9 +1,9 @@
-data "cloud_cvm_images" "my_favorate_image" {
+data "tencentcloudenterprise_cvm_images" "my_favorate_image" {
   image_type = ["PUBLIC_IMAGE"]
   os_name    = "centos"
 }
 
-data "cloud_cvm_instance_types" "my_favorate_instance_types" {
+data "tencentcloudenterprise_cvm_instance_types" "my_favorate_instance_types" {
   filter {
     name   = "instance-family"
     values = ["S1"]
@@ -13,14 +13,14 @@ data "cloud_cvm_instance_types" "my_favorate_instance_types" {
   memory_size    = 1
 }
 
-data "cloud_availability_zones" "my_favorate_zones" {}
+data "tencentcloudenterprise_availability_zones" "my_favorate_zones" {}
 
-resource "cloud_vpc_security_group" "my_sg" {
+resource "tencentcloudenterprise_vpc_security_group" "my_sg" {
   name        = "tf_test_sg_name"
   description = "tf_test_sg_desc"
 }
 
-resource "cloud_security_group_rule" "web" {
+resource "tencentcloudenterprise_security_group_rule" "web" {
   security_group_id = cloud_vpc_security_group.my_sg.id
   type              = "ingress"
   cidr_ip           = "203.0.113.225/32"
@@ -29,7 +29,7 @@ resource "cloud_security_group_rule" "web" {
   policy            = "accept"
 }
 
-resource "cloud_security_group_rule" "login" {
+resource "tencentcloudenterprise_security_group_rule" "login" {
   security_group_id = cloud_vpc_security_group.my_sg.id
   type              = "ingress"
   cidr_ip           = "203.0.113.93/32"
@@ -38,12 +38,12 @@ resource "cloud_security_group_rule" "login" {
   policy            = "accept"
 }
 
-resource "cloud_vpc_security_group" "my_sg2" {
+resource "tencentcloudenterprise_vpc_security_group" "my_sg2" {
   name        = "tf_test_sg_name2"
   description = "tf_test_sg_desc2"
 }
 
-resource "cloud_security_group_rule" "qortex" {
+resource "tencentcloudenterprise_security_group_rule" "qortex" {
   security_group_id = cloud_vpc_security_group.my_sg2.id
   type              = "ingress"
   cidr_ip           = "203.0.113.93/32"
@@ -52,7 +52,7 @@ resource "cloud_security_group_rule" "qortex" {
   policy            = "accept"
 }
 
-resource "cloud_cvm_instance" "instance-without-specified-image-id-example" {
+resource "tencentcloudenterprise_cvm_instance" "instance-without-specified-image-id-example" {
   instance_name     = var.instance_name
   availability_zone = data.cloud_availability_zones.my_favorate_zones.zones.0.name
   image_id          = data.cloud_cvm_images.my_favorate_image.images.0.image_id

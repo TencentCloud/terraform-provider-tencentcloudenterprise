@@ -5,7 +5,7 @@ Provides a resource to create a tsf api_rate_limit_rule
 
 ```hcl
 
-	resource "cloud_tsf_api_rate_limit_rule" "api_rate_limit_rule" {
+	resource "tencentcloudenterprise_tsf_api_rate_limit_rule" "api_rate_limit_rule" {
 	  api_id = "api-xxxxxx"
 	  max_qps = 10
 	  usable_status = "enable"
@@ -36,7 +36,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_tsf_api_rate_limit_rule", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_tsf_api_rate_limit_rule", CNDescription{
 		TerraformTypeCN: "API 限流规则",
 		DescriptionCN:   "提供TSF API限流规则资源，用于创建和管理API限流规则。",
 		AttributesCN: map[string]string{

@@ -4,7 +4,7 @@ Use this data source to query detailed information of clb cluster_resources
 Example Usage
 ```hcl
 
-	data "cloud_clb_cluster_resources" "cluster_resources" {
+	data "tencentcloudenterprise_clb_cluster_resources" "cluster_resources" {
 	  filters {
 	    name = "idle"
 	    values = ["True"]
@@ -26,7 +26,7 @@ import (
 )
 
 func init() {
-	// registerDataDescriptionProvider("cloud_clb_cluster_resources", CNDescription{
+	// registerDataDescriptionProvider("tencentcloudenterprise_clb_cluster_resources", CNDescription{
 	// 	TerraformTypeCN: "负载均衡集群资源",
 	// 	AttributesCN: map[string]string{
 	// 		"filters":              "筛选条件以查询群集cluster-id-String-必需：否-（过滤条件）按集群id过滤，如tgw-12345678vip-String-必选：否-（过滤条件）按负载均衡器vip过滤，如192.168.0.1loadblanc id-String-必需：否-（筛选条件）按loadblanc id进行筛选，例如lbl-12345678idle-String-必需：否-（筛选条件）根据负载平衡是否空闲进行筛选，例如True、False",

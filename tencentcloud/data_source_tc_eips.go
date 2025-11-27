@@ -5,7 +5,7 @@ Use this data source to query eip instances.
 
 ```hcl
 
-	data "cloud_eips" "foo" {
+	data "tencentcloudenterprise_eips" "foo" {
 	  eip_id = "eip-ry9h95hg"
 	}
 
@@ -24,7 +24,7 @@ import (
 )
 
 func init() {
-	registerDataDescriptionProvider("cloud_eips", CNDescription{
+	registerDataDescriptionProvider("tencentcloudenterprise_eips", CNDescription{
 		TerraformTypeCN: "弹性IP",
 		AttributesCN: map[string]string{
 			"eip_id":             "要查询的EIP的ID",

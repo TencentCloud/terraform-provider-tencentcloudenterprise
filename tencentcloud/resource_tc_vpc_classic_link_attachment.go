@@ -5,7 +5,7 @@ Provides a resource to create a vpc classic_link_attachment
 
 ```hcl
 
-	resource "cloud_vpc_classic_link_attachment" "classic_link_attachment" {
+	resource "tencentcloudenterprise_vpc_classic_link_attachment" "classic_link_attachment" {
 	  vpc_id       = "vpc-hdvfe0g1"
 	  instance_ids = ["ins-ceynqvnu"]
 	}
@@ -35,7 +35,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_vpc_classic_link_attachment", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_vpc_classic_link_attachment", CNDescription{
 		TerraformTypeCN: "创建基础网络互通",
 		DescriptionCN:   "提供基础网络互通资源，用于创建VPC与基础网络的互通关系。",
 		AttributesCN: map[string]string{

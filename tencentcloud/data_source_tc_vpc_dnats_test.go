@@ -26,16 +26,16 @@ func TestAccTencentCloudNatGatewayTransRuleDataSource(t *testing.T) {
 
 const testAccTencentCloudDataSourceDnatsBase = instanceCommonTestCase + `
 # Create EIP 
-resource "cloud_eip" "eip_dev_dnat" {
+resource "tencentcloudenterprise_eip" "eip_dev_dnat" {
   name = var.instance_name
 }
 
-resource "cloud_eip" "eip_test_dnat" {
+resource "tencentcloudenterprise_eip" "eip_test_dnat" {
   name = var.instance_name
 }
 
 # Create NAT Gateway
-resource "cloud_vpc_nat_gateway" "my_nat" {
+resource "tencentcloudenterprise_vpc_nat_gateway" "my_nat" {
   vpc_id         = var.cvm_vpc_id
   name           = var.instance_name
   max_concurrent = 3000000
@@ -48,7 +48,7 @@ resource "cloud_vpc_nat_gateway" "my_nat" {
 }
 
 # Add DNAT Entry
-resource "cloud_vpc_dnat" "dev_dnat" {
+resource "tencentcloudenterprise_vpc_dnat" "dev_dnat" {
   vpc_id       = cloud_vpc_nat_gateway.my_nat.vpc_id
   nat_id       = cloud_vpc_nat_gateway.my_nat.id
   protocol     = "TCP"
@@ -59,7 +59,7 @@ resource "cloud_vpc_dnat" "dev_dnat" {
   description  = var.instance_name
 }
 
-data "cloud_vpc_dnats" "multi_dnats" {
+data "tencentcloudenterprise_vpc_dnats" "multi_dnats" {
   nat_id = cloud_vpc_dnat.dev_dnat.nat_id
   vpc_id = cloud_vpc_dnat.dev_dnat.vpc_id
 }

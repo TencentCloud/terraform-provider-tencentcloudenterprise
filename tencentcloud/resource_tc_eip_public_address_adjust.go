@@ -5,7 +5,7 @@ Provides a resource to create a eip public_address_adjust
 
 ```hcl
 
-	resource "cloud_eip_public_address_adjust" "public_address_adjust" {
+	resource "tencentcloudenterprise_eip_public_address_adjust" "public_address_adjust" {
 	  instance_id = "ins-osckfnm7"
 	}
 
@@ -24,7 +24,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_eip_public_address_adjust", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_eip_public_address_adjust", CNDescription{
 		TerraformTypeCN: "更换公网IP",
 		AttributesCN: map[string]string{
 			"instance_id": "实例ID",

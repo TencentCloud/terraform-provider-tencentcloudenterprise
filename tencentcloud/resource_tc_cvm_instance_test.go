@@ -13,8 +13,8 @@ import (
 )
 
 func init() {
-	resource.AddTestSweepers("cloud_cvm_instance", &resource.Sweeper{
-		Name: "cloud_cvm_instance",
+	resource.AddTestSweepers("tencentcloudenterprise_cvm_instance", &resource.Sweeper{
+		Name: "tencentcloudenterprise_cvm_instance",
 		F:    testSweepCvmInstance,
 	})
 }
@@ -64,7 +64,7 @@ func testSweepCvmInstance(region string) error {
 func TestAccTencentCloudInstanceResource_Basic(t *testing.T) {
 	t.Parallel()
 
-	id := "cloud_cvm_instance.foo"
+	id := "tencentcloudenterprise_cvm_instance.foo"
 	resource.Test(t, resource.TestCase{
 		PreCheck:      func() { testAccPreCheck(t) },
 		IDRefreshName: id,
@@ -108,7 +108,7 @@ func TestAccTencentCloudInstanceResource_Basic(t *testing.T) {
 func TestAccTencentCloudInstanceResource_WithDataDisk(t *testing.T) {
 	t.Parallel()
 
-	id := "cloud_cvm_instance.foo"
+	id := "tencentcloudenterprise_cvm_instance.foo"
 	resource.Test(t, resource.TestCase{
 		PreCheck:      func() { testAccPreCheck(t) },
 		IDRefreshName: id,
@@ -154,7 +154,7 @@ func TestAccTencentCloudInstanceResource_WithDataDisk(t *testing.T) {
 func TestAccTencentCloudInstanceResource_WithNetwork(t *testing.T) {
 	t.Parallel()
 
-	id := "cloud_cvm_instance.foo"
+	id := "tencentcloudenterprise_cvm_instance.foo"
 	resource.Test(t, resource.TestCase{
 		PreCheck:      func() { testAccPreCheck(t) },
 		IDRefreshName: id,
@@ -188,7 +188,7 @@ func TestAccTencentCloudInstanceResource_WithNetwork(t *testing.T) {
 
 func TestAccTencentCloudInstanceResource_WithPrivateIP(t *testing.T) {
 	t.Parallel()
-	id := "cloud_cvm_instance.foo"
+	id := "tencentcloudenterprise_cvm_instance.foo"
 	resource.Test(t, resource.TestCase{
 		PreCheck:      func() { testAccPreCheck(t) },
 		IDRefreshName: id,
@@ -209,7 +209,7 @@ func TestAccTencentCloudInstanceResource_WithPrivateIP(t *testing.T) {
 }
 
 func TestAccTencentCloudInstanceResource_WithKeyPairs(t *testing.T) {
-	id := "cloud_cvm_instance.foo"
+	id := "tencentcloudenterprise_cvm_instance.foo"
 	resource.Test(t, resource.TestCase{
 		PreCheck:      func() { testAccPreCheck(t) },
 		IDRefreshName: id,
@@ -257,7 +257,7 @@ func TestAccTencentCloudInstanceResource_WithKeyPairs(t *testing.T) {
 func TestAccTencentCloudInstanceResource_WithPassword(t *testing.T) {
 	t.Parallel()
 
-	id := "cloud_cvm_instance.foo"
+	id := "tencentcloudenterprise_cvm_instance.foo"
 	resource.Test(t, resource.TestCase{
 		PreCheck:      func() { testAccPreCheck(t) },
 		IDRefreshName: id,
@@ -293,7 +293,7 @@ func TestAccTencentCloudInstanceResource_WithPassword(t *testing.T) {
 
 func TestAccTencentCloudInstanceResource_WithImageLogin(t *testing.T) {
 
-	id := "cloud_cvm_instance.foo"
+	id := "tencentcloudenterprise_cvm_instance.foo"
 	resource.Test(t, resource.TestCase{
 		PreCheck:      func() { testAccPreCheck(t) },
 		IDRefreshName: id,
@@ -318,7 +318,7 @@ func TestAccTencentCloudInstanceResource_WithImageLogin(t *testing.T) {
 func TestAccTencentCloudInstanceResource_WithName(t *testing.T) {
 	t.Parallel()
 
-	id := "cloud_cvm_instance.foo"
+	id := "tencentcloudenterprise_cvm_instance.foo"
 	resource.Test(t, resource.TestCase{
 		PreCheck:      func() { testAccPreCheck(t) },
 		IDRefreshName: id,
@@ -352,7 +352,7 @@ func TestAccTencentCloudInstanceResource_WithName(t *testing.T) {
 func TestAccTencentCloudInstanceResource_WithHostname(t *testing.T) {
 	t.Parallel()
 
-	id := "cloud_cvm_instance.foo"
+	id := "tencentcloudenterprise_cvm_instance.foo"
 	resource.Test(t, resource.TestCase{
 		PreCheck:      func() { testAccPreCheck(t) },
 		IDRefreshName: id,
@@ -376,10 +376,10 @@ func TestAccTencentCloudInstanceResource_WithHostname(t *testing.T) {
 func TestAccTencentCloudInstanceResource_WithSecurityGroup(t *testing.T) {
 	t.Parallel()
 
-	instanceId := "cloud_cvm_instance.foo"
-	securitygroupId := "cloud_vpc_security_group.foo"
-	securitygroupRuleFooId := "cloud_vpc_security_group_rule.foo"
-	securitygroupRuleBarId := "cloud_vpc_security_group_rule.bar"
+	instanceId := "tencentcloudenterprise_cvm_instance.foo"
+	securitygroupId := "tencentcloudenterprise_vpc_security_group.foo"
+	securitygroupRuleFooId := "tencentcloudenterprise_vpc_security_group_rule.foo"
+	securitygroupRuleBarId := "tencentcloudenterprise_vpc_security_group_rule.bar"
 
 	resource.Test(t, resource.TestCase{
 		PreCheck:      func() { testAccPreCheck(t) },
@@ -428,10 +428,10 @@ func TestAccTencentCloudInstanceResource_WithOrderlySecurityGroup(t *testing.T) 
 	t.Parallel()
 
 	var sgId1, sgId2, sgId3 string
-	instanceId := "cloud_cvm_instance.cvm_with_orderly_sg"
-	orderlySecurityGroupId1 := "cloud_vpc_security_group.orderly_security_group1"
-	orderlySecurityGroupId2 := "cloud_vpc_security_group.orderly_security_group2"
-	orderlySecurityGroupId3 := "cloud_vpc_security_group.orderly_security_group3"
+	instanceId := "tencentcloudenterprise_cvm_instance.cvm_with_orderly_sg"
+	orderlySecurityGroupId1 := "tencentcloudenterprise_vpc_security_group.orderly_security_group1"
+	orderlySecurityGroupId2 := "tencentcloudenterprise_vpc_security_group.orderly_security_group2"
+	orderlySecurityGroupId3 := "tencentcloudenterprise_vpc_security_group.orderly_security_group3"
 
 	resource.Test(t, resource.TestCase{
 		PreCheck:      func() { testAccPreCheck(t) },
@@ -483,7 +483,7 @@ func TestAccTencentCloudInstanceResource_WithOrderlySecurityGroup(t *testing.T) 
 func TestAccTencentCloudInstanceResource_WithTags(t *testing.T) {
 	t.Parallel()
 
-	id := "cloud_cvm_instance.foo"
+	id := "tencentcloudenterprise_cvm_instance.foo"
 	resource.Test(t, resource.TestCase{
 		PreCheck:      func() { testAccPreCheck(t) },
 		IDRefreshName: id,
@@ -524,7 +524,7 @@ func TestAccTencentCloudInstanceResource_WithTags(t *testing.T) {
 func TestAccTencentCloudInstanceResource_WithPlacementGroup(t *testing.T) {
 	t.Parallel()
 
-	id := "cloud_cvm_instance.foo"
+	id := "tencentcloudenterprise_cvm_instance.foo"
 	resource.Test(t, resource.TestCase{
 		PreCheck:     func() { testAccPreCheck(t) },
 		Providers:    testAccProviders,
@@ -546,7 +546,7 @@ func TestAccTencentCloudInstanceResource_WithPlacementGroup(t *testing.T) {
 func TestAccTencentCloudInstanceResource_WithSpotpaid(t *testing.T) {
 	t.Parallel()
 
-	id := "cloud_cvm_instance.foo"
+	id := "tencentcloudenterprise_cvm_instance.foo"
 	resource.Test(t, resource.TestCase{
 		PreCheck:      func() { testAccPreCheck(t) },
 		IDRefreshName: id,
@@ -568,7 +568,7 @@ func TestAccTencentCloudInstanceResource_WithSpotpaid(t *testing.T) {
 
 func TestAccTencentCloudNeedFixInstancePostpaidToPrepaid(t *testing.T) {
 
-	id := "cloud_cvm_instance.foo"
+	id := "tencentcloudenterprise_cvm_instance.foo"
 	resource.Test(t, resource.TestCase{
 		PreCheck:      func() { testAccPreCheck(t) },
 		IDRefreshName: id,
@@ -601,7 +601,7 @@ func TestAccTencentCloudNeedFixInstancePostpaidToPrepaid(t *testing.T) {
 
 func TestAccTencentCloudInstanceResource_PrepaidFallbackToPostpaid(t *testing.T) {
 
-	id := "cloud_cvm_instance.foo"
+	id := "tencentcloudenterprise_cvm_instance.foo"
 	resource.Test(t, resource.TestCase{
 		PreCheck:      func() { testAccPreCheck(t) },
 		IDRefreshName: id,
@@ -675,7 +675,7 @@ func testAccCheckInstanceDestroy(s *terraform.State) error {
 		client: testAccProvider.Meta().(*TencentCloudClient).apiV3Conn,
 	}
 	for _, rs := range s.RootModule().Resources {
-		if rs.Type != "cloud_cvm_instance" {
+		if rs.Type != "tencentcloudenterprise_cvm_instance" {
 			continue
 		}
 
@@ -700,7 +700,7 @@ func testAccCheckInstanceDestroy(s *terraform.State) error {
 }
 
 const testAccTencentCloudInstanceBasic = defaultInstanceVariable + `
-resource "cloud_cvm_instance" "foo" {
+resource "tencentcloudenterprise_cvm_instance" "foo" {
   instance_name     = var.instance_name
   availability_zone = var.availability_cvm_zone
   image_id          = data.cloud_cvm_images.default.images.0.image_id
@@ -713,7 +713,7 @@ resource "cloud_cvm_instance" "foo" {
 `
 
 const testAccTencentCloudInstancePostPaid = `
-data "cloud_cvm_instance_types" "default" {
+data "tencentcloudenterprise_cvm_instance_types" "default" {
   filter {
     name   = "instance-family"
     values = ["S1"]
@@ -723,7 +723,7 @@ data "cloud_cvm_instance_types" "default" {
   memory_size    = 2
 }
 
-resource "cloud_cvm_instance" "foo" {
+resource "tencentcloudenterprise_cvm_instance" "foo" {
   instance_name     = "` + defaultInsName + `"
   availability_zone = "` + defaultAZone + `"
   image_id          = "` + defaultTkeOSImageId + `"
@@ -734,7 +734,7 @@ resource "cloud_cvm_instance" "foo" {
 `
 
 const testAccTencentCloudInstanceBasicToPrepaid = `
-data "cloud_cvm_instance_types" "default" {
+data "tencentcloudenterprise_cvm_instance_types" "default" {
   filter {
     name   = "instance-family"
     values = ["S1"]
@@ -744,7 +744,7 @@ data "cloud_cvm_instance_types" "default" {
   memory_size    = 2
 }
 
-resource "cloud_cvm_instance" "foo" {
+resource "tencentcloudenterprise_cvm_instance" "foo" {
   instance_name     = "` + defaultInsName + `"
   availability_zone = "` + defaultAZone + `"
   image_id          = "` + defaultTkeOSImageId + `"
@@ -758,14 +758,14 @@ resource "cloud_cvm_instance" "foo" {
 `
 
 const testAccTencentCloudInstanceModifyInstanceType = defaultInstanceVariable + `
-data "cloud_cvm_instance_types" "new_type" {
+data "tencentcloudenterprise_cvm_instance_types" "new_type" {
 	availability_zone = var.availability_cvm_zone
   
 	cpu_core_count = 2
 	memory_size    = 2
   }
 
-resource "cloud_cvm_instance" "foo" {
+resource "tencentcloudenterprise_cvm_instance" "foo" {
   instance_name     = var.instance_name
   availability_zone = var.availability_cvm_zone
   image_id          = data.cloud_cvm_images.default.images.0.image_id
@@ -778,7 +778,7 @@ resource "cloud_cvm_instance" "foo" {
 `
 
 const testAccTencentCloudInstanceWithDataDisk = defaultInstanceVariable + `
-resource "cloud_cvm_instance" "foo" {
+resource "tencentcloudenterprise_cvm_instance" "foo" {
   instance_name     = var.instance_name
   availability_zone = var.availability_cvm_zone
   image_id          = data.cloud_cvm_images.default.images.0.image_id
@@ -807,7 +807,7 @@ resource "cloud_cvm_instance" "foo" {
 `
 
 const testAccTencentCloudInstanceWithDataDiskUpdate = defaultInstanceVariable + `
-resource "cloud_cvm_instance" "foo" {
+resource "tencentcloudenterprise_cvm_instance" "foo" {
   instance_name     = var.instance_name
   availability_zone = var.availability_cvm_zone
   image_id          = data.cloud_cvm_images.default.images.0.image_id
@@ -906,7 +906,7 @@ resource "cloud_cvm_instance" "foo" {
 func testAccTencentCloudInstanceWithNetworkFalse(hasPublicIp string) string {
 	return fmt.Sprintf(
 		defaultInstanceVariable+`
-resource "cloud_cvm_instance" "foo" {
+resource "tencentcloudenterprise_cvm_instance" "foo" {
   instance_name              = var.instance_name
   availability_zone          = var.availability_cvm_zone
   image_id                   = data.cloud_cvm_images.default.images.0.image_id
@@ -922,7 +922,7 @@ resource "cloud_cvm_instance" "foo" {
 func testAccTencentCloudInstanceWithNetwork(hasPublicIp string, maxBandWidthOut int64) string {
 	return fmt.Sprintf(
 		defaultInstanceVariable+`
-resource "cloud_cvm_instance" "foo" {
+resource "tencentcloudenterprise_cvm_instance" "foo" {
   instance_name              = var.instance_name
   availability_zone          = var.availability_cvm_zone
   image_id                   = data.cloud_cvm_images.default.images.0.image_id
@@ -937,7 +937,7 @@ resource "cloud_cvm_instance" "foo" {
 }
 
 const testAccTencentCloudInstanceWithPrivateIP = defaultInstanceVariable + `
-resource "cloud_cvm_instance" "foo" {
+resource "tencentcloudenterprise_cvm_instance" "foo" {
   instance_name     = var.instance_name
   availability_zone = var.availability_cvm_zone
   image_id          = data.cloud_cvm_images.default.images.0.image_id
@@ -950,7 +950,7 @@ resource "cloud_cvm_instance" "foo" {
 `
 
 const testAccTencentCloudInstanceWithKeyPair_withoutKeyPair = defaultInstanceVariable + `
-resource "cloud_cvm_instance" "foo" {
+resource "tencentcloudenterprise_cvm_instance" "foo" {
 	instance_name     = var.instance_name
 	availability_zone = var.availability_cvm_zone
 	image_id          = data.cloud_cvm_images.default.images.0.image_id
@@ -963,22 +963,22 @@ func testAccTencentCloudInstanceWithKeyPair(keyIds string) string {
 
 	return fmt.Sprintf(
 		defaultInstanceVariable+`
-resource "cloud_cvm_key_pair" "key_pair_0" {
+resource "tencentcloudenterprise_cvm_key_pair" "key_pair_0" {
   key_name = "key_pair_0"
   public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAAAgQDjd8fTnp7Dcuj4mLaQxf9Zs/ORgUL9fQxRCNKkPgP1paTy1I513maMX126i36Lxxl3+FUB52oVbo/FgwlIfX8hyCnv8MCxqnuSDozf1CD0/wRYHcTWAtgHQHBPCC2nJtod6cVC3kB18KeV4U7zsxmwFeBIxojMOOmcOBuh7+trRw=="
 }
 
-resource "cloud_cvm_key_pair" "key_pair_1" {
+resource "tencentcloudenterprise_cvm_key_pair" "key_pair_1" {
   key_name = "key_pair_1"
   public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCzwYE6KI8uULEvSNA2k1tlsLtMDe+x1Saw6yL3V1mk9NFws0K2BshYqsnP/BlYiGZv/Nld5xmGoA9LupOcUpyyGGSHZdBrMx1Dz9ajewe7kGowRWwwMAHTlzh9+iqeg/v6P5vW6EwK4hpGWgv06vGs3a8CzfbHu1YRbZAO/ysp3ymdL+vGvw/vzC0T+YwPMisn9wFD5FTlJ+Em6s9PzxqR/41t4YssmCwUV78ZoYL8CyB0emuB8wALvcXbdUVxMxpBEHd5U6ZP5+HPxU2WFbWqiFCuErLIZRuxFw8L/Ot+JOyNnadN1XU4crYDX5cML1i/ExXKVIDoBaLtgAJOpyeP"
 }
 
-resource "cloud_cvm_key_pair" "key_pair_2" {
+resource "tencentcloudenterprise_cvm_key_pair" "key_pair_2" {
   key_name = "key_pair_2"
   public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDJ1zyoM55pKxJptZBKceZSEypPN7BOunqBR1Qj3Tz5uImJ+dwfKzggu8PGcbHtuN8D2n1BH/GDkiGFaz/sIYUJWWZudcdut+ra32MqUvk953Sztf12rsFC1+lZ1CYEgon8Lt6ehxn+61tsS31yfUmpL1mq2vuca7J0NLdPMpxIYkGlifyAMISMmxi/m7gPYpbdZTmhQQS2aOhuLm+B4MwtTvT58jqNzIaFU0h5sqAvGQfzI5pcxwYvFTeQeXjJZfaYapDHN0MAg0b/vIWWNrDLv7dlv//OKBIaL0LIzIGQS8XXhF3HlyqfDuf3bjLBIKzYGSV/DRqlEsGBgzinJZXvJZug5oq1n2njDFsdXEvL6fYsP4WLvBLiQlceQ7oXi7m5nfrwFTaX+mpo7dUOR9AcyQ1AAgCcM67orB4E33ycaArGHtpjnCnWUjqQ+yCj4EXsD4yOL77wGsmhkbboVNnYAD9MJWsFP03hZE7p/RHY0C5NfLPT3mL45oZxBpC5mis="
 }
 
-resource "cloud_cvm_instance" "foo" {
+resource "tencentcloudenterprise_cvm_instance" "foo" {
   instance_name     = var.instance_name
   availability_zone = var.availability_cvm_zone
   image_id          = data.cloud_cvm_images.default.images.0.image_id
@@ -994,7 +994,7 @@ resource "cloud_cvm_instance" "foo" {
 func testAccTencentCloudInstanceWithPassword(password string) string {
 	return fmt.Sprintf(
 		defaultInstanceVariable+`
-resource "cloud_cvm_instance" "foo" {
+resource "tencentcloudenterprise_cvm_instance" "foo" {
   instance_name              = var.instance_name
   availability_zone          = var.availability_cvm_zone
   image_id                   = data.cloud_cvm_images.default.images.0.image_id
@@ -1008,10 +1008,10 @@ resource "cloud_cvm_instance" "foo" {
 }
 
 const testAccTencentCloudInstanceWithImageLogin = defaultInstanceVariable + `
-data "cloud_cvm_images" "zoo" {
+data "tencentcloudenterprise_cvm_images" "zoo" {
   image_type = ["PRIVATE_IMAGE"]
 }
-resource "cloud_cvm_instance" "foo" {
+resource "tencentcloudenterprise_cvm_instance" "foo" {
   instance_name              = var.instance_name
   availability_zone          = var.availability_cvm_zone
   image_id                   = data.cloud_cvm_images.zoo.images.0.image_id
@@ -1025,7 +1025,7 @@ resource "cloud_cvm_instance" "foo" {
 func testAccTencentCloudInstanceWithName(instanceName string) string {
 	return fmt.Sprintf(
 		defaultInstanceVariable+`
-resource "cloud_cvm_instance" "foo" {
+resource "tencentcloudenterprise_cvm_instance" "foo" {
   instance_name     = "%s"
   availability_zone = var.availability_cvm_zone
   image_id          = data.cloud_cvm_images.default.images.0.image_id
@@ -1038,7 +1038,7 @@ resource "cloud_cvm_instance" "foo" {
 }
 
 const testAccTencentCloudInstanceWithHostname = defaultInstanceVariable + `
-resource "cloud_cvm_instance" "foo" {
+resource "tencentcloudenterprise_cvm_instance" "foo" {
   instance_name     = var.instance_name
   availability_zone = var.availability_cvm_zone
   image_id          = data.cloud_cvm_images.default.images.0.image_id
@@ -1051,12 +1051,12 @@ resource "cloud_cvm_instance" "foo" {
 func testAccTencentCloudInstanceWithSecurityGroup(ids string) string {
 	return fmt.Sprintf(
 		defaultInstanceVariable+`
-resource "cloud_vpc_security_group" "foo" {
+resource "tencentcloudenterprise_vpc_security_group" "foo" {
   name        = var.instance_name
   description = var.instance_name
 }
 
-resource "cloud_vpc_security_group_rule" "foo" {
+resource "tencentcloudenterprise_vpc_security_group_rule" "foo" {
   security_group_id = cloud_vpc_security_group.foo.id
   type              = "ingress"
   cidr_ip           = "0.0.0.0/0"
@@ -1065,12 +1065,12 @@ resource "cloud_vpc_security_group_rule" "foo" {
   policy            = "accept"
 }
 
-resource "cloud_vpc_security_group" "bar" {
+resource "tencentcloudenterprise_vpc_security_group" "bar" {
   name        = var.instance_name
   description = var.instance_name
 }
 
-resource "cloud_vpc_security_group_rule" "bar" {
+resource "tencentcloudenterprise_vpc_security_group_rule" "bar" {
   security_group_id = cloud_vpc_security_group.bar.id
   type              = "ingress"
   cidr_ip           = "0.0.0.0/0"
@@ -1079,7 +1079,7 @@ resource "cloud_vpc_security_group_rule" "bar" {
   policy            = "accept"
 }
 
-resource "cloud_cvm_instance" "foo" {
+resource "tencentcloudenterprise_cvm_instance" "foo" {
   instance_name              = var.instance_name
   availability_zone          = var.availability_cvm_zone
   image_id                   = data.cloud_cvm_images.default.images.0.image_id
@@ -1095,7 +1095,7 @@ resource "cloud_cvm_instance" "foo" {
 func testAccTencentCloudInstanceWithTags(tags string) string {
 	return fmt.Sprintf(
 		defaultInstanceVariable+`
-resource "cloud_cvm_instance" "foo" {
+resource "tencentcloudenterprise_cvm_instance" "foo" {
   instance_name     = var.instance_name
   availability_zone = var.availability_cvm_zone
   image_id          = data.cloud_cvm_images.default.images.0.image_id
@@ -1114,12 +1114,12 @@ resource "cloud_cvm_instance" "foo" {
 }
 
 const testAccTencentCloudInstanceWithPlacementGroup = defaultInstanceVariable + `
-resource "cloud_bms_placement_group" "foo" {
+resource "tencentcloudenterprise_bms_placement_group" "foo" {
   name = var.instance_name
   type = "HOST"
 }
 
-resource "cloud_cvm_instance" "foo" {
+resource "tencentcloudenterprise_cvm_instance" "foo" {
   instance_name      = var.instance_name
   availability_zone  = var.availability_cvm_zone
   image_id           = data.cloud_cvm_images.default.images.0.image_id
@@ -1130,7 +1130,7 @@ resource "cloud_cvm_instance" "foo" {
 `
 
 const testAccTencentCloudInstanceWithSpotpaid = defaultInstanceVariable + `
-resource "cloud_cvm_instance" "foo" {
+resource "tencentcloudenterprise_cvm_instance" "foo" {
   instance_name        = var.instance_name
   availability_zone    = var.availability_cvm_zone
   image_id             = data.cloud_cvm_images.default.images.0.image_id
@@ -1145,22 +1145,22 @@ resource "cloud_cvm_instance" "foo" {
 func testAccTencentCloudInstanceOrderlySecurityGroups(sgs string) string {
 
 	return fmt.Sprintf(defaultInstanceVariable+`
-resource "cloud_vpc_security_group" "orderly_security_group1" {
+resource "tencentcloudenterprise_vpc_security_group" "orderly_security_group1" {
 	name        = "test-cvm-orderly-sg1"
 	description = "test-cvm-orderly-sg1"
 }
 
-resource "cloud_vpc_security_group" "orderly_security_group2" {
+resource "tencentcloudenterprise_vpc_security_group" "orderly_security_group2" {
 	name        = "test-cvm-orderly-sg2"
 	description = "test-cvm-orderly-sg2"
 }
 
-resource "cloud_vpc_security_group" "orderly_security_group3" {
+resource "tencentcloudenterprise_vpc_security_group" "orderly_security_group3" {
 	name        = "test-cvm-orderly-sg3"
 	description = "test-cvm-orderly-sg3"
 }
 
-resource "cloud_cvm_instance" "cvm_with_orderly_sg" {
+resource "tencentcloudenterprise_cvm_instance" "cvm_with_orderly_sg" {
 	instance_name              = "test-orderly-sg-cvm"
 	availability_zone          = var.availability_cvm_zone
 	image_id                   = data.cloud_cvm_images.default.images.0.image_id

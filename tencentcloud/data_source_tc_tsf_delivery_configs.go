@@ -5,7 +5,7 @@ Use this data source to query detailed information of tsf delivery_configs
 
 ```hcl
 
-	data "cloud_tsf_delivery_configs" "delivery_configs" {
+	data "tencentcloudenterprise_tsf_delivery_configs" "delivery_configs" {
 	  search_word = "test"
 	}
 
@@ -23,7 +23,7 @@ import (
 )
 
 func init() {
-	registerDataDescriptionProvider("cloud_tsf_delivery_configs", CNDescription{
+	registerDataDescriptionProvider("tencentcloudenterprise_tsf_delivery_configs", CNDescription{
 		TerraformTypeCN: "TSF交付配置",
 		DescriptionCN:   "提供TSF交付配置数据源，用于查询TSF交付配置的详细信息。",
 		AttributesCN: map[string]string{

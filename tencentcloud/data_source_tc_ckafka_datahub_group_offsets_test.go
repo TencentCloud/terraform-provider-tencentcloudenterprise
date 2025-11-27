@@ -22,7 +22,7 @@ func TestAccTencentCloudCkafkaDatahubGroupOffsetsDataSource_basic(t *testing.T) 
 
 const testAccCkafkaDatahubGroupOffsetsDataSource = `
 
-data "cloud_ckafka_datahub_group_offsets" "datahub_group_offsets" {
+data "tencentcloudenterprise_ckafka_datahub_group_offsets" "datahub_group_offsets" {
 	name = "1308726196-keep-topic"
 	group = "topic-lejrlafu-test"
 }

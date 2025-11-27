@@ -5,7 +5,7 @@ Provides a resource to create a cvm renew_host
 
 ```hcl
 
-	resource "cloud_cvm_renew_host" "renew_host" {
+	resource "tencentcloudenterprise_cvm_renew_host" "renew_host" {
 	  host_id = "xxxxxx"
 	  host_charge_prepaid {
 		period = 1
@@ -27,7 +27,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_cvm_renew_host", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_cvm_renew_host", CNDescription{
 		TerraformTypeCN: "续费CDH实例",
 		AttributesCN: map[string]string{
 			"host_id":             "CDH实例ID",

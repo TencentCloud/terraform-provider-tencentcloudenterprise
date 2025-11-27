@@ -24,7 +24,7 @@ func TestAccTencentCloudVpcCvmInstancesDataSource_basic(t *testing.T) {
 
 const testAccVpcCvmInstancesDataSource = `
 
-data "cloud_vpc_cvm_instances" "cvm_instances" {
+data "tencentcloudenterprise_vpc_cvm_instances" "cvm_instances" {
   filters {
     name   = "vpc-id"
     values = ["vpc-lh4nqig9"]

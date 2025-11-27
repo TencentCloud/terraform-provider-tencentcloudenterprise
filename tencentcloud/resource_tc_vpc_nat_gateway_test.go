@@ -14,8 +14,8 @@ import (
 )
 
 func init() {
-	resource.AddTestSweepers("cloud_nat", &resource.Sweeper{
-		Name: "cloud_nat",
+	resource.AddTestSweepers("tencentcloudenterprise_nat", &resource.Sweeper{
+		Name: "tencentcloudenterprise_nat",
 		F:    testSweepNatInstance,
 	})
 }
@@ -75,23 +75,23 @@ func TestAccTencentCloudNatGateway_basic(t *testing.T) {
 			{
 				Config: testAccNatGatewayConfig,
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckNatGatewayExists("cloud_vpc_nat_gateway.my_nat"),
-					resource.TestCheckResourceAttr("cloud_vpc_nat_gateway.my_nat", "name", "terraform_test"),
-					resource.TestCheckResourceAttr("cloud_vpc_nat_gateway.my_nat", "max_concurrent", "3000000"),
-					resource.TestCheckResourceAttr("cloud_vpc_nat_gateway.my_nat", "bandwidth", "500"),
-					resource.TestCheckResourceAttr("cloud_vpc_nat_gateway.my_nat", "assigned_eip_set.#", "2"),
-					resource.TestCheckResourceAttr("cloud_vpc_nat_gateway.my_nat", "tags.tf", "test"),
+					testAccCheckNatGatewayExists("tencentcloudenterprise_vpc_nat_gateway.my_nat"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_vpc_nat_gateway.my_nat", "name", "terraform_test"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_vpc_nat_gateway.my_nat", "max_concurrent", "3000000"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_vpc_nat_gateway.my_nat", "bandwidth", "500"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_vpc_nat_gateway.my_nat", "assigned_eip_set.#", "2"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_vpc_nat_gateway.my_nat", "tags.tf", "test"),
 				),
 			},
 			{
 				Config: testAccNatGatewayConfigUpdate,
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckNatGatewayExists("cloud_vpc_nat_gateway.my_nat"),
-					resource.TestCheckResourceAttr("cloud_vpc_nat_gateway.my_nat", "name", "new_name"),
-					resource.TestCheckResourceAttr("cloud_vpc_nat_gateway.my_nat", "max_concurrent", "10000000"),
-					resource.TestCheckResourceAttr("cloud_vpc_nat_gateway.my_nat", "bandwidth", "1000"),
-					resource.TestCheckResourceAttr("cloud_vpc_nat_gateway.my_nat", "assigned_eip_set.#", "2"),
-					resource.TestCheckResourceAttr("cloud_vpc_nat_gateway.my_nat", "tags.tf", "teest"),
+					testAccCheckNatGatewayExists("tencentcloudenterprise_vpc_nat_gateway.my_nat"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_vpc_nat_gateway.my_nat", "name", "new_name"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_vpc_nat_gateway.my_nat", "max_concurrent", "10000000"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_vpc_nat_gateway.my_nat", "bandwidth", "1000"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_vpc_nat_gateway.my_nat", "assigned_eip_set.#", "2"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_vpc_nat_gateway.my_nat", "tags.tf", "teest"),
 				),
 			},
 		},
@@ -103,7 +103,7 @@ func testAccCheckNatGatewayDestroy(s *terraform.State) error {
 
 	conn := testAccProvider.Meta().(*TencentCloudClient).apiV3Conn
 	for _, rs := range s.RootModule().Resources {
-		if rs.Type != "cloud_vpc_nat_gateway" {
+		if rs.Type != "tencentcloudenterprise_vpc_nat_gateway" {
 			continue
 		}
 		request := vpc.NewDescribeNatGatewaysRequest()
@@ -168,17 +168,17 @@ func testAccCheckNatGatewayExists(n string) resource.TestCheckFunc {
 }
 
 const testAccNatGatewayConfig = `
-data "cloud_vpc_instances" "foo" {
+data "tencentcloudenterprise_vpc_instances" "foo" {
 	name = "Default-VPC"
 }
 # Create EIP 
-resource "cloud_eip" "eip_dev_dnat" {
+resource "tencentcloudenterprise_eip" "eip_dev_dnat" {
   name = "terraform_test"
 }
-resource "cloud_eip" "eip_test_dnat" {
+resource "tencentcloudenterprise_eip" "eip_test_dnat" {
   name = "terraform_test"
 }
-resource "cloud_vpc_nat_gateway" "my_nat" {
+resource "tencentcloudenterprise_vpc_nat_gateway" "my_nat" {
   vpc_id           = data.cloud_vpc_instances.foo.instance_list.0.vpc_id
   name             = "terraform_test"
   max_concurrent   = 3000000
@@ -194,18 +194,18 @@ resource "cloud_vpc_nat_gateway" "my_nat" {
 }
 `
 const testAccNatGatewayConfigUpdate = `
-data "cloud_vpc_instances" "foo" {
+data "tencentcloudenterprise_vpc_instances" "foo" {
 	name = "Default-VPC"
 }
 # Create EIP 
-resource "cloud_eip" "eip_dev_dnat" {
+resource "tencentcloudenterprise_eip" "eip_dev_dnat" {
 	name = "terraform_test"
 }
-resource "cloud_eip" "new_eip" {
+resource "tencentcloudenterprise_eip" "new_eip" {
   name = "terraform_test"
 }
 
-resource "cloud_vpc_nat_gateway" "my_nat" {
+resource "tencentcloudenterprise_vpc_nat_gateway" "my_nat" {
   vpc_id           = data.cloud_vpc_instances.foo.instance_list.0.vpc_id
   name             = "new_name"
   max_concurrent   = 10000000

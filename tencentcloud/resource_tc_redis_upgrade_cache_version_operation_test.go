@@ -16,7 +16,7 @@ func TestAccTencentCloudNeedFixRedisUpgradeCacheVersionOperationResource_basic(t
 		Steps: []resource.TestStep{
 			{
 				Config: testAccRedisUpgradeCacheVersionOperation,
-				Check:  resource.ComposeTestCheckFunc(resource.TestCheckResourceAttrSet("cloud_redis_upgrade_cache_version_operation.upgrade_cache_version_operation", "id")),
+				Check:  resource.ComposeTestCheckFunc(resource.TestCheckResourceAttrSet("tencentcloudenterprise_redis_upgrade_cache_version_operation.upgrade_cache_version_operation", "id")),
 			},
 		},
 	})
@@ -24,7 +24,7 @@ func TestAccTencentCloudNeedFixRedisUpgradeCacheVersionOperationResource_basic(t
 
 const testAccRedisUpgradeCacheVersionOperation = `
 
-resource "cloud_redis_upgrade_cache_version_operation" "upgrade_cache_version_operation" {
+resource "tencentcloudenterprise_redis_upgrade_cache_version_operation" "upgrade_cache_version_operation" {
   instance_id = "crs-c1nl9rpv"
   current_redis_version = "5.0.0"
   upgrade_redis_version = "5.0.0"

@@ -5,7 +5,7 @@ Provides a resource to create a tsf contain_group
 
 ```hcl
 
-	resource "cloud_tsf_contain_group" "contain_group" {
+	resource "tencentcloudenterprise_tsf_contain_group" "contain_group" {
 	    access_type           = 0
 	    application_id        = "application-y5r4nejv"
 	    cluster_id            = "cls-2yu5kxr8"

@@ -4,7 +4,7 @@
 // # Example Usage
 //
 // ```hcl
-// data "cloud_ckafka_region" "region" {
+// data "tencentcloudenterprise_ckafka_region" "region" {
 // }
 // ```
 // */
@@ -16,7 +16,7 @@ package tencentcloud
 //)
 //
 //func init() {
-//	registerDataDescriptionProvider("cloud_ckafka_region", CNDescription{
+//	registerDataDescriptionProvider("tencentcloudenterprise_ckafka_region", CNDescription{
 //		TerraformTypeCN: "ckafka 区域配置",
 //		AttributesCN: map[string]string{
 //			"result":             "返回区域枚举结果的列表",

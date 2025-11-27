@@ -3,66 +3,66 @@
 # ========== Data Sources ==========
 
 # Query VPC instances
-data "cloud_vpc_instances" "vpcs" {
+data "tencentcloudenterprise_vpc_instances" "vpcs" {
   vpc_id = "vpc-xxxxx"
 }
 
 # Query VPC subnets
-data "cloud_vpc_subnets" "subnets" {
+data "tencentcloudenterprise_vpc_subnets" "subnets" {
   vpc_id    = "vpc-xxxxx"
   subnet_id = "subnet-xxxxx"
 }
 
 # Query VPC security groups
-data "cloud_vpc_security_groups" "sgs" {
+data "tencentcloudenterprise_vpc_security_groups" "sgs" {
   security_group_id = "sg-xxxxx"
 }
 
 # Query VPC ACLs
-data "cloud_vpc_acls" "acls" {
+data "tencentcloudenterprise_vpc_acls" "acls" {
   vpc_id = "vpc-xxxxx"
 }
 
 # Query VPC route tables
-data "cloud_vpc_route_tables" "route_tables" {
+data "tencentcloudenterprise_vpc_route_tables" "route_tables" {
   vpc_id = "vpc-xxxxx"
 }
 
 # Query VPC ENIs
-data "cloud_vpc_enis" "enis" {
+data "tencentcloudenterprise_vpc_enis" "enis" {
   vpc_id = "vpc-xxxxx"
 }
 
 # Query VPC NAT gateways
-data "cloud_vpc_nat_gateways" "nats" {
+data "tencentcloudenterprise_vpc_nat_gateways" "nats" {
   vpc_id = "vpc-xxxxx"
 }
 
 # Query VPC HA VIPs
-data "cloud_vpc_ha_vips" "vips" {
+data "tencentcloudenterprise_vpc_ha_vips" "vips" {
   vpc_id = "vpc-xxxxx"
 }
 
 # Query VPC DNATs
-data "cloud_vpc_dnats" "dnats" {
+data "tencentcloudenterprise_vpc_dnats" "dnats" {
   vpc_id     = "vpc-xxxxx"
   nat_id     = "nat-xxxxx"
 }
 
 # Query VPC address templates
-data "cloud_vpc_address_templates" "templates" {
+data "tencentcloudenterprise_vpc_address_templates" "templates" {
   name = "example-template"
 }
 
 # Query VPC address template groups
-data "cloud_vpc_address_template_groups" "groups" {
+data "tencentcloudenterprise_vpc_address_template_groups" "groups" {
   name = "example-group"
 }
 
 # ========== Resources ==========
 
 # VPC
-resource "cloud_vpc" "vpc" {
+resource "tencentcloudenterprise_vpc" "vpc" {
   name         = "example-vpc"
   cidr_block   = "10.0.0.0/16"
   dns_servers  = ["183.60.83.19", "183.60.82.98"]
@@ -74,7 +74,7 @@ resource "cloud_vpc" "vpc" {
 }
 
 # VPC Subnet
-resource "cloud_vpc_subnet" "subnet" {
+resource "tencentcloudenterprise_vpc_subnet" "subnet" {
   name              = "example-subnet"
   vpc_id            = cloud_vpc.vpc.id
   availability_zone = "ap-guangzhou-3"
@@ -87,7 +87,7 @@ resource "cloud_vpc_subnet" "subnet" {
 }
 
 # VPC Security Group
-resource "cloud_vpc_security_group" "sg" {
+resource "tencentcloudenterprise_vpc_security_group" "sg" {
   name        = "example-sg"
   description = "Example security group"
   project_id  = 0
@@ -98,7 +98,7 @@ resource "cloud_vpc_security_group" "sg" {
 }
 
 # VPC Security Group Rule
-resource "cloud_vpc_security_group_rule" "rule" {
+resource "tencentcloudenterprise_vpc_security_group_rule" "rule" {
   security_group_id = cloud_vpc_security_group.sg.id
   type              = "ingress"
   cidr_ip           = "0.0.0.0/0"
@@ -109,7 +109,7 @@ resource "cloud_vpc_security_group_rule" "rule" {
 }
 
 # VPC Security Group Rule Set (batch rules)
-resource "cloud_vpc_security_group_rule_set" "rule_set" {
+resource "tencentcloudenterprise_vpc_security_group_rule_set" "rule_set" {
   security_group_id = cloud_vpc_security_group.sg.id
   
   ingress {
@@ -136,7 +136,7 @@ resource "cloud_vpc_security_group_rule_set" "rule_set" {
 }
 
 # VPC Security Group Lite Rule
-resource "cloud_vpc_security_group_lite_rule" "lite_rule" {
+resource "tencentcloudenterprise_vpc_security_group_lite_rule" "lite_rule" {
   security_group_id = cloud_vpc_security_group.sg.id
   
   ingress = [
@@ -150,7 +150,7 @@ resource "cloud_vpc_security_group_lite_rule" "lite_rule" {
 }
 
 # VPC ACL
-resource "cloud_vpc_acl" "acl" {
+resource "tencentcloudenterprise_vpc_acl" "acl" {
   vpc_id  = cloud_vpc.vpc.id
   name    = "example-acl"
   
@@ -165,13 +165,13 @@ resource "cloud_vpc_acl" "acl" {
 }
 
 # VPC ACL Attachment
-resource "cloud_vpc_acl_attachment" "acl_attachment" {
+resource "tencentcloudenterprise_vpc_acl_attachment" "acl_attachment" {
   acl_id    = cloud_vpc_acl.acl.id
   subnet_id = cloud_vpc_subnet.subnet.id
 }
 
 # VPC Route Table
-resource "cloud_vpc_route_table" "route_table" {
+resource "tencentcloudenterprise_vpc_route_table" "route_table" {
   vpc_id = cloud_vpc.vpc.id
   name   = "example-route-table"
   
@@ -181,7 +181,7 @@ resource "cloud_vpc_route_table" "route_table" {
 }
 
 # VPC Route Table Entry
-resource "cloud_vpc_route_table_entry" "route" {
+resource "tencentcloudenterprise_vpc_route_table_entry" "route" {
   route_table_id         = cloud_vpc_route_table.route_table.id
   destination_cidr_block = "192.168.0.0/16"
   next_type              = "VPN"
@@ -190,7 +190,7 @@ resource "cloud_vpc_route_table_entry" "route" {
 }
 
 # VPC NAT Gateway
-resource "cloud_vpc_nat_gateway" "nat" {
+resource "tencentcloudenterprise_vpc_nat_gateway" "nat" {
   name             = "example-nat"
   vpc_id           = cloud_vpc.vpc.id
   bandwidth        = 100
@@ -203,7 +203,7 @@ resource "cloud_vpc_nat_gateway" "nat" {
 }
 
 # VPC DNAT
-resource "cloud_vpc_dnat" "dnat" {
+resource "tencentcloudenterprise_vpc_dnat" "dnat" {
   vpc_id       = cloud_vpc.vpc.id
   nat_id       = cloud_vpc_nat_gateway.nat.id
   protocol     = "TCP"
@@ -215,7 +215,7 @@ resource "cloud_vpc_dnat" "dnat" {
 }
 
 # VPC ENI (Elastic Network Interface)
-resource "cloud_vpc_eni" "eni" {
+resource "tencentcloudenterprise_vpc_eni" "eni" {
   name        = "example-eni"
   vpc_id      = cloud_vpc.vpc.id
   subnet_id   = cloud_vpc_subnet.subnet.id
@@ -231,19 +231,19 @@ resource "cloud_vpc_eni" "eni" {
 }
 
 # VPC ENI Attachment
-resource "cloud_vpc_eni_attachment" "attachment" {
+resource "tencentcloudenterprise_vpc_eni_attachment" "attachment" {
   eni_id      = cloud_vpc_eni.eni.id
   instance_id = "ins-xxxxx"
 }
 
 # VPC ENI Security Group Attachment
-resource "cloud_vpc_eni_sg_attachment" "sg_attachment" {
+resource "tencentcloudenterprise_vpc_eni_sg_attachment" "sg_attachment" {
   network_interface_ids = [cloud_vpc_eni.eni.id]
   security_group_ids    = [cloud_vpc_security_group.sg.id]
 }
 
 # VPC HA VIP (High Availability Virtual IP)
-resource "cloud_vpc_ha_vip" "vip" {
+resource "tencentcloudenterprise_vpc_ha_vip" "vip" {
   name      = "example-vip"
   vpc_id    = cloud_vpc.vpc.id
   subnet_id = cloud_vpc_subnet.subnet.id
@@ -251,30 +251,30 @@ resource "cloud_vpc_ha_vip" "vip" {
 }
 
 # VPC HA VIP EIP Attachment
-resource "cloud_vpc_ha_vip_eip_attachment" "vip_eip" {
+resource "tencentcloudenterprise_vpc_ha_vip_eip_attachment" "vip_eip" {
   ha_vip_id      = cloud_vpc_ha_vip.vip.id
   address_ip     = "eip-xxxxx"
 }
 
 # VPC Address Template
-resource "cloud_vpc_address_template" "template" {
+resource "tencentcloudenterprise_vpc_address_template" "template" {
   name      = "example-template"
   addresses = ["10.0.0.0/16", "192.168.0.0/16"]
 }
 
 # VPC Address Template Group
-resource "cloud_vpc_address_template_group" "group" {
+resource "tencentcloudenterprise_vpc_address_template_group" "group" {
   name         = "example-group"
   template_ids = [cloud_vpc_address_template.template.id]
 }
 
 # VPC IPv6 CIDR Block
-resource "cloud_vpc_ipv6_cidr_block" "ipv6" {
+resource "tencentcloudenterprise_vpc_ipv6_cidr_block" "ipv6" {
   vpc_id = cloud_vpc.vpc.id
 }
 
 # VPC IPv6 Subnet CIDR Block
-resource "cloud_vpc_ipv6_subnet_cidr_block" "ipv6_subnet" {
+resource "tencentcloudenterprise_vpc_ipv6_subnet_cidr_block" "ipv6_subnet" {
   vpc_id            = cloud_vpc.vpc.id
   ipv6_cidr_blocks {
     subnet_id         = cloud_vpc_subnet.subnet.id
@@ -283,7 +283,7 @@ resource "cloud_vpc_ipv6_subnet_cidr_block" "ipv6_subnet" {
 }
 
 # VPC IPv6 ENI Address
-resource "cloud_vpc_ipv6_eni_address" "ipv6_eni" {
+resource "tencentcloudenterprise_vpc_ipv6_eni_address" "ipv6_eni" {
   network_interface_id = cloud_vpc_eni.eni.id
   ipv6_addresses {
     address     = "2402:4e00:1000:4200::1"
@@ -293,14 +293,14 @@ resource "cloud_vpc_ipv6_eni_address" "ipv6_eni" {
 }
 
 # VPC IPv6 Address Bandwidth
-resource "cloud_vpc_ipv6_address_bandwidth" "ipv6_bw" {
+resource "tencentcloudenterprise_vpc_ipv6_address_bandwidth" "ipv6_bw" {
   ipv6_address         = "2402:4e00:1000:4200::1"
   internet_charge_type = "TRAFFIC_POSTPAID_BY_HOUR"
   internet_max_bandwidth_out = 10
 }
 
 # VPC DC Gateway (Direct Connect Gateway)
-resource "cloud_vpc_dc_gateway" "dc_gw" {
+resource "tencentcloudenterprise_vpc_dc_gateway" "dc_gw" {
   name                = "example-dc-gateway"
   vpc_id              = cloud_vpc.vpc.id
   network_type        = "VPC"
@@ -308,7 +308,7 @@ resource "cloud_vpc_dc_gateway" "dc_gw" {
 }
 
 # VPC Net Detect
-resource "cloud_vpc_net_detect" "detect" {
+resource "tencentcloudenterprise_vpc_net_detect" "detect" {
   vpc_id          = cloud_vpc.vpc.id
   subnet_id       = cloud_vpc_subnet.subnet.id
   net_detect_name = "example-detect"
@@ -318,7 +318,7 @@ resource "cloud_vpc_net_detect" "detect" {
 }
 
 # VPC Bandwidth Package
-resource "cloud_vpc_bandwidth_package" "bw_pkg" {
+resource "tencentcloudenterprise_vpc_bandwidth_package" "bw_pkg" {
   network_type = "BGP"
   charge_type  = "TOP5_POSTPAID_BY_MONTH"
   bandwidth_package_name = "example-bw-package"
@@ -329,7 +329,7 @@ resource "cloud_vpc_bandwidth_package" "bw_pkg" {
 }
 
 # VPC Bandwidth Package Attachment
-resource "cloud_vpc_bandwidth_package_attachment" "bw_attachment" {
+resource "tencentcloudenterprise_vpc_bandwidth_package_attachment" "bw_attachment" {
   resource_id          = "eip-xxxxx"
   bandwidth_package_id = cloud_vpc_bandwidth_package.bw_pkg.id
   resource_type        = "Address"

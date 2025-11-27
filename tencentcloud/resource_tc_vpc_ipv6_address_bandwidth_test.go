@@ -16,13 +16,13 @@ func TestAccTencentCloudIpv6AddressBandwidthResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			{
 				Config: testAccIpv6AddressBandwidth,
-				Check:  resource.ComposeTestCheckFunc(resource.TestCheckResourceAttrSet("cloud_vpc_ipv6_address_bandwidth.ipv6_address", "id")),
+				Check:  resource.ComposeTestCheckFunc(resource.TestCheckResourceAttrSet("tencentcloudenterprise_vpc_ipv6_address_bandwidth.ipv6_address", "id")),
 			},
 			{
 				Config: testAccIpv6AddressBandwidthUpdate,
 				Check: resource.ComposeTestCheckFunc(
-					resource.ComposeTestCheckFunc(resource.TestCheckResourceAttrSet("cloud_vpc_ipv6_address_bandwidth.ipv6_address", "id")),
-					resource.TestCheckResourceAttr("cloud_vpc_ipv6_address_bandwidth.ipv6_address", "internet_max_bandwidth_out", "8"),
+					resource.ComposeTestCheckFunc(resource.TestCheckResourceAttrSet("tencentcloudenterprise_vpc_ipv6_address_bandwidth.ipv6_address", "id")),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_vpc_ipv6_address_bandwidth.ipv6_address", "internet_max_bandwidth_out", "8"),
 				),
 			},
 		},
@@ -31,7 +31,7 @@ func TestAccTencentCloudIpv6AddressBandwidthResource_basic(t *testing.T) {
 
 const testAccIpv6AddressBandwidth = `
 
-resource "cloud_vpc_ipv6_address_bandwidth" "ipv6_address" {
+resource "tencentcloudenterprise_vpc_ipv6_address_bandwidth" "ipv6_address" {
   ipv6_address               = "2402:4e00:1019:9400:0:9905:a90b:2ef0"
   internet_max_bandwidth_out = 6
   internet_charge_type       = "TRAFFIC_POSTPAID_BY_HOUR"
@@ -41,7 +41,7 @@ resource "cloud_vpc_ipv6_address_bandwidth" "ipv6_address" {
 
 const testAccIpv6AddressBandwidthUpdate = `
 
-resource "cloud_vpc_ipv6_address_bandwidth" "ipv6_address" {
+resource "tencentcloudenterprise_vpc_ipv6_address_bandwidth" "ipv6_address" {
   ipv6_address               = "2402:4e00:1019:9400:0:9905:a90b:2ef0"
   internet_max_bandwidth_out = 8
   internet_charge_type       = "TRAFFIC_POSTPAID_BY_HOUR"

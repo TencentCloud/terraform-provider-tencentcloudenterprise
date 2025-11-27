@@ -10,11 +10,11 @@ This resource can prove useful when a module accepts a vpc id as an input variab
 ```hcl
 variable "vpc_id" {}
 
-	data "cloud_vpc" "selected" {
+	data "tencentcloudenterprise_vpc" "selected" {
 	  id = var.vpc_id
 	}
 
-	resource "cloud_vpc_subnet" "main" {
+	resource "tencentcloudenterprise_vpc_subnet" "main" {
 	  name              = "my test subnet"
 	  cidr_block        = cidrsubnet(data.cloud_vpc.selected.cidr_block, 4, 1)
 	  availability_zone = "eu-frankfurt-1"
@@ -33,7 +33,7 @@ import (
 )
 
 func init() {
-	registerDataDescriptionProvider("cloud_vpc", CNDescription{
+	registerDataDescriptionProvider("tencentcloudenterprise_vpc", CNDescription{
 		TerraformTypeCN: "VPC",
 		AttributesCN: map[string]string{
 			"id":           "要检索的特定VPC的ID",

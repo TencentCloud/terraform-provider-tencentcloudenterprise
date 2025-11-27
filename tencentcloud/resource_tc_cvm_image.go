@@ -5,7 +5,7 @@ Provide a resource to manage image.
 
 ```hcl
 
-	resource "cloud_cvm_image" "image_snap" {
+	resource "tencentcloudenterprise_cvm_image" "image_snap" {
 		image_name   		= "image-snapshot-keep"
 		snapshot_ids 		= ["snap-nbp3xy1d", "snap-nvzu3dmh"]
 		force_poweroff 		= true
@@ -37,7 +37,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_cvm_image", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_cvm_image", CNDescription{
 		TerraformTypeCN: "云服务器镜像",
 		DescriptionCN:   "提供云服务器镜像资源，用于创建和管理自定义镜像。",
 		AttributesCN: map[string]string{

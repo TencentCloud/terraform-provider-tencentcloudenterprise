@@ -5,7 +5,7 @@ Use this data source to query bms instances.
 
 ```hcl
 
-	data "cloud_bms_instances" "bms" {
+	data "tencentcloudenterprise_bms_instances" "bms" {
 	  result_output_file = "bms.json"
 	}
 
@@ -24,7 +24,7 @@ import (
 )
 
 func init() {
-	registerDataDescriptionProvider("cloud_bms_instances", CNDescription{
+	registerDataDescriptionProvider("tencentcloudenterprise_bms_instances", CNDescription{
 		TerraformTypeCN: "裸金属服务器列表",
 		DescriptionCN:   "提供裸金属服务器列表数据源，用于查询BMS实例信息。",
 		AttributesCN: map[string]string{

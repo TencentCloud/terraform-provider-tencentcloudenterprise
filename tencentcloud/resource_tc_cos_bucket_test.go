@@ -13,8 +13,8 @@ import (
 
 func init() {
 	// go test -v ./tencentcloud -sweep=ap-guangzhou -sweep-run=cloud_cos_bucket
-	resource.AddTestSweepers("cloud_cos_bucket", &resource.Sweeper{
-		Name: "cloud_cos_bucket",
+	resource.AddTestSweepers("tencentcloudenterprise_cos_bucket", &resource.Sweeper{
+		Name: "tencentcloudenterprise_cos_bucket",
 		F:    testSweepCosBuckets,
 	})
 }
@@ -75,23 +75,23 @@ func TestAccTencentCloudCosBucketResource_basic(t *testing.T) {
 			{
 				Config: testAccCosBucket_basic(),
 				Check: resource.ComposeAggregateTestCheckFunc(
-					testAccCheckCosBucketExists("cloud_cos_bucket.bucket_basic"),
+					testAccCheckCosBucketExists("tencentcloudenterprise_cos_bucket.bucket_basic"),
 				),
 			},
 			// test update bucket acl
 			{
 				Config: testAccCosBucket_basicUpdate(),
 				Check: resource.ComposeAggregateTestCheckFunc(
-					testAccCheckCosBucketExists("cloud_cos_bucket.bucket_basic"),
-					resource.TestCheckResourceAttr("cloud_cos_bucket.bucket_basic", "encryption_algorithm", "AES256"),
-					resource.TestCheckResourceAttr("cloud_cos_bucket.bucket_basic", "versioning_enable", "true"),
-					resource.TestCheckResourceAttr("cloud_cos_bucket.bucket_basic", "acceleration_enable", "true"),
-					resource.TestCheckResourceAttr("cloud_cos_bucket.bucket_basic", "force_clean", "true"),
-					resource.TestCheckResourceAttrSet("cloud_cos_bucket.bucket_basic", "cos_bucket_url"),
+					testAccCheckCosBucketExists("tencentcloudenterprise_cos_bucket.bucket_basic"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_cos_bucket.bucket_basic", "encryption_algorithm", "AES256"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_cos_bucket.bucket_basic", "versioning_enable", "true"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_cos_bucket.bucket_basic", "acceleration_enable", "true"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_cos_bucket.bucket_basic", "force_clean", "true"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_cos_bucket.bucket_basic", "cos_bucket_url"),
 				),
 			},
 			{
-				ResourceName:            "cloud_cos_bucket.bucket_basic",
+				ResourceName:            "tencentcloudenterprise_cos_bucket.bucket_basic",
 				ImportState:             true,
 				ImportStateVerify:       true,
 				ImportStateVerifyIgnore: []string{"force_clean"},
@@ -111,22 +111,22 @@ func TestAccTencentCloudCosBucketResource_ACL(t *testing.T) {
 			{
 				Config: testAccCosBucket_ACL(),
 				Check: resource.ComposeAggregateTestCheckFunc(
-					testAccCheckCosBucketExists("cloud_cos_bucket.bucket_acl"),
-					resource.TestCheckResourceAttr("cloud_cos_bucket.bucket_acl", "acl", "public-read"),
-					resource.TestCheckResourceAttrSet("cloud_cos_bucket.bucket_acl", "acl_body"),
+					testAccCheckCosBucketExists("tencentcloudenterprise_cos_bucket.bucket_acl"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_cos_bucket.bucket_acl", "acl", "public-read"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_cos_bucket.bucket_acl", "acl_body"),
 				),
 			},
 			// test update bucket acl
 			{
 				Config: testAccCosBucket_ACLUpdate(),
 				Check: resource.ComposeAggregateTestCheckFunc(
-					testAccCheckCosBucketExists("cloud_cos_bucket.bucket_acl"),
-					resource.TestCheckResourceAttr("cloud_cos_bucket.bucket_acl", "acl", "private"),
-					resource.TestCheckResourceAttrSet("cloud_cos_bucket.bucket_acl", "acl_body"),
+					testAccCheckCosBucketExists("tencentcloudenterprise_cos_bucket.bucket_acl"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_cos_bucket.bucket_acl", "acl", "private"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_cos_bucket.bucket_acl", "acl_body"),
 				),
 			},
 			{
-				ResourceName:            "cloud_cos_bucket.bucket_acl",
+				ResourceName:            "tencentcloudenterprise_cos_bucket.bucket_acl",
 				ImportState:             true,
 				ImportStateVerify:       true,
 				ImportStateVerifyIgnore: []string{"acl_body"},
@@ -146,23 +146,23 @@ func TestAccTencentCloudCosBucketResource_tags(t *testing.T) {
 			{
 				Config: testAccCosBucket_tags(),
 				Check: resource.ComposeAggregateTestCheckFunc(
-					testAccCheckCosBucketExists("cloud_cos_bucket.bucket_tags"),
-					resource.TestCheckResourceAttr("cloud_cos_bucket.bucket_tags", "tags.test", "test"),
+					testAccCheckCosBucketExists("tencentcloudenterprise_cos_bucket.bucket_tags"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_cos_bucket.bucket_tags", "tags.test", "test"),
 				),
 			},
 			{
 				Config: testAccCosBucket_tagsReplace(),
 				Check: resource.ComposeAggregateTestCheckFunc(
-					testAccCheckCosBucketExists("cloud_cos_bucket.bucket_tags"),
-					resource.TestCheckNoResourceAttr("cloud_cos_bucket.bucket_tags", "tags.test"),
-					resource.TestCheckResourceAttr("cloud_cos_bucket.bucket_tags", "tags.abc", "abc"),
+					testAccCheckCosBucketExists("tencentcloudenterprise_cos_bucket.bucket_tags"),
+					resource.TestCheckNoResourceAttr("tencentcloudenterprise_cos_bucket.bucket_tags", "tags.test"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_cos_bucket.bucket_tags", "tags.abc", "abc"),
 				),
 			},
 			{
 				Config: testAccCosBucket_tagsDelete(),
 				Check: resource.ComposeAggregateTestCheckFunc(
-					testAccCheckCosBucketExists("cloud_cos_bucket.bucket_tags"),
-					resource.TestCheckNoResourceAttr("cloud_cos_bucket.bucket_tags", "tags.abc"),
+					testAccCheckCosBucketExists("tencentcloudenterprise_cos_bucket.bucket_tags"),
+					resource.TestCheckNoResourceAttr("tencentcloudenterprise_cos_bucket.bucket_tags", "tags.abc"),
 				),
 			},
 		},
@@ -180,36 +180,36 @@ func TestAccTencentCloudCosBucketResource_cors(t *testing.T) {
 			{
 				Config: testAccCosBucket_cors(),
 				Check: resource.ComposeAggregateTestCheckFunc(
-					testAccCheckCosBucketExists("cloud_cos_bucket.bucket_cors"),
-					resource.TestCheckResourceAttr("cloud_cos_bucket.bucket_cors", "cors_rules.#", "1"),
-					resource.TestCheckResourceAttr("cloud_cos_bucket.bucket_cors", "cors_rules.0.allowed_headers.#", "1"),
-					resource.TestCheckResourceAttr("cloud_cos_bucket.bucket_cors", "cors_rules.0.allowed_headers.0", "*"),
-					resource.TestCheckResourceAttr("cloud_cos_bucket.bucket_cors", "cors_rules.0.allowed_methods.#", "2"),
-					resource.TestCheckResourceAttr("cloud_cos_bucket.bucket_cors", "cors_rules.0.allowed_methods.0", "GET"),
-					resource.TestCheckResourceAttr("cloud_cos_bucket.bucket_cors", "cors_rules.0.allowed_methods.1", "POST"),
-					resource.TestCheckResourceAttr("cloud_cos_bucket.bucket_cors", "cors_rules.0.allowed_origins.#", "1"),
-					resource.TestCheckResourceAttr("cloud_cos_bucket.bucket_cors", "cors_rules.0.allowed_origins.0", "https://www.test.com"),
-					resource.TestCheckResourceAttr("cloud_cos_bucket.bucket_cors", "cors_rules.0.expose_headers.#", "1"),
-					resource.TestCheckResourceAttr("cloud_cos_bucket.bucket_cors", "cors_rules.0.expose_headers.0", "x-cos-test"),
-					resource.TestCheckResourceAttr("cloud_cos_bucket.bucket_cors", "cors_rules.0.max_age_seconds", "300"),
+					testAccCheckCosBucketExists("tencentcloudenterprise_cos_bucket.bucket_cors"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_cos_bucket.bucket_cors", "cors_rules.#", "1"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_cos_bucket.bucket_cors", "cors_rules.0.allowed_headers.#", "1"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_cos_bucket.bucket_cors", "cors_rules.0.allowed_headers.0", "*"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_cos_bucket.bucket_cors", "cors_rules.0.allowed_methods.#", "2"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_cos_bucket.bucket_cors", "cors_rules.0.allowed_methods.0", "GET"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_cos_bucket.bucket_cors", "cors_rules.0.allowed_methods.1", "POST"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_cos_bucket.bucket_cors", "cors_rules.0.allowed_origins.#", "1"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_cos_bucket.bucket_cors", "cors_rules.0.allowed_origins.0", "https://www.test.com"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_cos_bucket.bucket_cors", "cors_rules.0.expose_headers.#", "1"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_cos_bucket.bucket_cors", "cors_rules.0.expose_headers.0", "x-cos-test"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_cos_bucket.bucket_cors", "cors_rules.0.max_age_seconds", "300"),
 				),
 			},
 			// test updata bucket cors
 			{
 				Config: testAccCosBucket_corsUpdate(),
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr("cloud_cos_bucket.bucket_cors", "cors_rules.#", "1"),
-					resource.TestCheckResourceAttr("cloud_cos_bucket.bucket_cors", "cors_rules.0.allowed_methods.#", "3"),
-					resource.TestCheckResourceAttr("cloud_cos_bucket.bucket_cors", "cors_rules.0.allowed_methods.0", "GET"),
-					resource.TestCheckResourceAttr("cloud_cos_bucket.bucket_cors", "cors_rules.0.allowed_methods.1", "POST"),
-					resource.TestCheckResourceAttr("cloud_cos_bucket.bucket_cors", "cors_rules.0.allowed_methods.2", "PUT"),
-					resource.TestCheckResourceAttr("cloud_cos_bucket.bucket_cors", "cors_rules.0.allowed_origins.#", "1"),
-					resource.TestCheckResourceAttr("cloud_cos_bucket.bucket_cors", "cors_rules.0.allowed_origins.0", "https://www.example.com"),
-					resource.TestCheckResourceAttr("cloud_cos_bucket.bucket_cors", "cors_rules.0.max_age_seconds", "100"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_cos_bucket.bucket_cors", "cors_rules.#", "1"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_cos_bucket.bucket_cors", "cors_rules.0.allowed_methods.#", "3"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_cos_bucket.bucket_cors", "cors_rules.0.allowed_methods.0", "GET"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_cos_bucket.bucket_cors", "cors_rules.0.allowed_methods.1", "POST"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_cos_bucket.bucket_cors", "cors_rules.0.allowed_methods.2", "PUT"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_cos_bucket.bucket_cors", "cors_rules.0.allowed_origins.#", "1"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_cos_bucket.bucket_cors", "cors_rules.0.allowed_origins.0", "https://www.example.com"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_cos_bucket.bucket_cors", "cors_rules.0.max_age_seconds", "100"),
 				),
 			},
 			{
-				ResourceName:            "cloud_cos_bucket.bucket_cors",
+				ResourceName:            "tencentcloudenterprise_cos_bucket.bucket_cors",
 				ImportState:             true,
 				ImportStateVerify:       true,
 				ImportStateVerifyIgnore: []string{"acl"},
@@ -229,22 +229,22 @@ func TestAccTencentCloudCosBucketResource_lifecycle(t *testing.T) {
 			{
 				Config: testAccBucket_lifecycle(),
 				Check: resource.ComposeAggregateTestCheckFunc(
-					testAccCheckCosBucketExists("cloud_cos_bucket.bucket_lifecycle"),
-					resource.TestCheckResourceAttr("cloud_cos_bucket.bucket_lifecycle", "lifecycle_rules.#", "1"),
-					resource.TestCheckResourceAttr("cloud_cos_bucket.bucket_lifecycle", "lifecycle_rules.0.id", "rule1"),
-					resource.TestCheckResourceAttr("cloud_cos_bucket.bucket_lifecycle", "lifecycle_rules.0.filter_prefix", "test/"),
-					resource.TestCheckResourceAttr("cloud_cos_bucket.bucket_lifecycle", "lifecycle_rules.0.expiration.#", "1"),
-					resource.TestCheckTypeSetElemNestedAttrs("cloud_cos_bucket.bucket_lifecycle", "lifecycle_rules.0.expiration.*",
+					testAccCheckCosBucketExists("tencentcloudenterprise_cos_bucket.bucket_lifecycle"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_cos_bucket.bucket_lifecycle", "lifecycle_rules.#", "1"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_cos_bucket.bucket_lifecycle", "lifecycle_rules.0.id", "rule1"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_cos_bucket.bucket_lifecycle", "lifecycle_rules.0.filter_prefix", "test/"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_cos_bucket.bucket_lifecycle", "lifecycle_rules.0.expiration.#", "1"),
+					resource.TestCheckTypeSetElemNestedAttrs("tencentcloudenterprise_cos_bucket.bucket_lifecycle", "lifecycle_rules.0.expiration.*",
 						map[string]string{
 							"days": "365",
 						}),
-					resource.TestCheckResourceAttr("cloud_cos_bucket.bucket_lifecycle", "lifecycle_rules.0.transition.#", "2"),
-					resource.TestCheckTypeSetElemNestedAttrs("cloud_cos_bucket.bucket_lifecycle", "lifecycle_rules.0.transition.*",
+					resource.TestCheckResourceAttr("tencentcloudenterprise_cos_bucket.bucket_lifecycle", "lifecycle_rules.0.transition.#", "2"),
+					resource.TestCheckTypeSetElemNestedAttrs("tencentcloudenterprise_cos_bucket.bucket_lifecycle", "lifecycle_rules.0.transition.*",
 						map[string]string{
 							"days":          "30",
 							"storage_class": "STANDARD_IA",
 						}),
-					resource.TestCheckTypeSetElemNestedAttrs("cloud_cos_bucket.bucket_lifecycle", "lifecycle_rules.0.transition.*",
+					resource.TestCheckTypeSetElemNestedAttrs("tencentcloudenterprise_cos_bucket.bucket_lifecycle", "lifecycle_rules.0.transition.*",
 						map[string]string{
 							"days":          "60",
 							"storage_class": "ARCHIVE",
@@ -255,31 +255,31 @@ func TestAccTencentCloudCosBucketResource_lifecycle(t *testing.T) {
 			{
 				Config: testAccBucket_lifecycleUpdate(),
 				Check: resource.ComposeAggregateTestCheckFunc(
-					testAccCheckCosBucketExists("cloud_cos_bucket.bucket_lifecycle"),
-					resource.TestCheckResourceAttr("cloud_cos_bucket.bucket_lifecycle", "lifecycle_rules.#", "1"),
-					resource.TestCheckResourceAttr("cloud_cos_bucket.bucket_lifecycle", "lifecycle_rules.0.filter_prefix", "test/"),
-					resource.TestCheckResourceAttr("cloud_cos_bucket.bucket_lifecycle", "lifecycle_rules.0.expiration.#", "1"),
-					resource.TestCheckTypeSetElemNestedAttrs("cloud_cos_bucket.bucket_lifecycle", "lifecycle_rules.0.expiration.*",
+					testAccCheckCosBucketExists("tencentcloudenterprise_cos_bucket.bucket_lifecycle"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_cos_bucket.bucket_lifecycle", "lifecycle_rules.#", "1"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_cos_bucket.bucket_lifecycle", "lifecycle_rules.0.filter_prefix", "test/"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_cos_bucket.bucket_lifecycle", "lifecycle_rules.0.expiration.#", "1"),
+					resource.TestCheckTypeSetElemNestedAttrs("tencentcloudenterprise_cos_bucket.bucket_lifecycle", "lifecycle_rules.0.expiration.*",
 						map[string]string{
 							"days": "300",
 						}),
-					resource.TestCheckResourceAttr("cloud_cos_bucket.bucket_lifecycle", "lifecycle_rules.0.transition.#", "2"),
-					resource.TestCheckTypeSetElemNestedAttrs("cloud_cos_bucket.bucket_lifecycle", "lifecycle_rules.0.transition.*",
+					resource.TestCheckResourceAttr("tencentcloudenterprise_cos_bucket.bucket_lifecycle", "lifecycle_rules.0.transition.#", "2"),
+					resource.TestCheckTypeSetElemNestedAttrs("tencentcloudenterprise_cos_bucket.bucket_lifecycle", "lifecycle_rules.0.transition.*",
 						map[string]string{
 							"days":          "30",
 							"storage_class": "STANDARD_IA",
 						}),
-					resource.TestCheckTypeSetElemNestedAttrs("cloud_cos_bucket.bucket_lifecycle", "lifecycle_rules.0.transition.*",
+					resource.TestCheckTypeSetElemNestedAttrs("tencentcloudenterprise_cos_bucket.bucket_lifecycle", "lifecycle_rules.0.transition.*",
 						map[string]string{
 							"days":          "90",
 							"storage_class": "ARCHIVE",
 						}),
-					resource.TestCheckResourceAttr("cloud_cos_bucket.bucket_lifecycle", "lifecycle_rules.0.non_current_expiration.#", "1"),
-					resource.TestCheckResourceAttr("cloud_cos_bucket.bucket_lifecycle", "lifecycle_rules.0.non_current_transition.#", "2"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_cos_bucket.bucket_lifecycle", "lifecycle_rules.0.non_current_expiration.#", "1"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_cos_bucket.bucket_lifecycle", "lifecycle_rules.0.non_current_transition.#", "2"),
 				),
 			},
 			{
-				ResourceName:            "cloud_cos_bucket.bucket_lifecycle",
+				ResourceName:            "tencentcloudenterprise_cos_bucket.bucket_lifecycle",
 				ImportState:             true,
 				ImportStateVerify:       true,
 				ImportStateVerifyIgnore: []string{"acl"},
@@ -299,20 +299,20 @@ func TestAccTencentCloudCosBucketResource_lifecycleWithTags(t *testing.T) {
 			{
 				Config: testAccBucketLifecycleWithTags(),
 				Check: resource.ComposeAggregateTestCheckFunc(
-					testAccCheckCosBucketExists("cloud_cos_bucket.bucket_lifecycle_tags"),
-					resource.TestCheckResourceAttr("cloud_cos_bucket.bucket_lifecycle_tags", "lifecycle_rules.#", "1"),
-					resource.TestCheckResourceAttr("cloud_cos_bucket.bucket_lifecycle_tags", "lifecycle_rules.0.id", "rule_tags"),
-					resource.TestCheckResourceAttr("cloud_cos_bucket.bucket_lifecycle_tags", "lifecycle_rules.0.filter_tags.test-tag", "yyy"),
-					resource.TestCheckResourceAttr("cloud_cos_bucket.bucket_lifecycle_tags", "lifecycle_rules.0.filter_tags.env", "prod"),
-					resource.TestCheckResourceAttr("cloud_cos_bucket.bucket_lifecycle_tags", "lifecycle_rules.0.expiration.#", "1"),
-					resource.TestCheckTypeSetElemNestedAttrs("cloud_cos_bucket.bucket_lifecycle_tags", "lifecycle_rules.0.expiration.*",
+					testAccCheckCosBucketExists("tencentcloudenterprise_cos_bucket.bucket_lifecycle_tags"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_cos_bucket.bucket_lifecycle_tags", "lifecycle_rules.#", "1"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_cos_bucket.bucket_lifecycle_tags", "lifecycle_rules.0.id", "rule_tags"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_cos_bucket.bucket_lifecycle_tags", "lifecycle_rules.0.filter_tags.test-tag", "yyy"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_cos_bucket.bucket_lifecycle_tags", "lifecycle_rules.0.filter_tags.env", "prod"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_cos_bucket.bucket_lifecycle_tags", "lifecycle_rules.0.expiration.#", "1"),
+					resource.TestCheckTypeSetElemNestedAttrs("tencentcloudenterprise_cos_bucket.bucket_lifecycle_tags", "lifecycle_rules.0.expiration.*",
 						map[string]string{
 							"days": "180",
 						}),
 				),
 			},
 			{
-				ResourceName:            "cloud_cos_bucket.bucket_lifecycle_tags",
+				ResourceName:            "tencentcloudenterprise_cos_bucket.bucket_lifecycle_tags",
 				ImportState:             true,
 				ImportStateVerify:       true,
 				ImportStateVerifyIgnore: []string{"acl"},
@@ -332,26 +332,26 @@ func TestAccTencentCloudCosBucketResource_website(t *testing.T) {
 			{
 				Config: testAccBucket_website(),
 				Check: resource.ComposeAggregateTestCheckFunc(
-					testAccCheckCosBucketExists("cloud_cos_bucket.bucket_website"),
-					resource.TestCheckResourceAttr("cloud_cos_bucket.bucket_website", "website.#", "1"),
-					resource.TestCheckResourceAttr("cloud_cos_bucket.bucket_website", "website.0.index_document", "index.html"),
-					resource.TestCheckResourceAttr("cloud_cos_bucket.bucket_website", "website.0.error_document", "error.html"),
-					resource.TestCheckResourceAttrSet("cloud_cos_bucket.bucket_website", "website.0.endpoint"),
+					testAccCheckCosBucketExists("tencentcloudenterprise_cos_bucket.bucket_website"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_cos_bucket.bucket_website", "website.#", "1"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_cos_bucket.bucket_website", "website.0.index_document", "index.html"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_cos_bucket.bucket_website", "website.0.error_document", "error.html"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_cos_bucket.bucket_website", "website.0.endpoint"),
 				),
 			},
 			// test update bucket website
 			{
 				Config: testAccBucket_websiteUpdate(),
 				Check: resource.ComposeAggregateTestCheckFunc(
-					testAccCheckCosBucketExists("cloud_cos_bucket.bucket_website"),
-					resource.TestCheckResourceAttr("cloud_cos_bucket.bucket_website", "website.#", "1"),
-					resource.TestCheckResourceAttr("cloud_cos_bucket.bucket_website", "website.0.index_document", "testindex.html"),
-					resource.TestCheckResourceAttr("cloud_cos_bucket.bucket_website", "website.0.error_document", "testerror.html"),
-					resource.TestCheckResourceAttrSet("cloud_cos_bucket.bucket_website", "website.0.endpoint"),
+					testAccCheckCosBucketExists("tencentcloudenterprise_cos_bucket.bucket_website"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_cos_bucket.bucket_website", "website.#", "1"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_cos_bucket.bucket_website", "website.0.index_document", "testindex.html"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_cos_bucket.bucket_website", "website.0.error_document", "testerror.html"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_cos_bucket.bucket_website", "website.0.endpoint"),
 				),
 			},
 			{
-				ResourceName:            "cloud_cos_bucket.bucket_website",
+				ResourceName:            "tencentcloudenterprise_cos_bucket.bucket_website",
 				ImportState:             true,
 				ImportStateVerify:       true,
 				ImportStateVerifyIgnore: []string{"acl"},
@@ -371,12 +371,12 @@ func TestAccTencentCloudCosBucketResource_MAZ(t *testing.T) {
 			{
 				Config: testAccBucket_MAZ(),
 				Check: resource.ComposeAggregateTestCheckFunc(
-					testAccCheckCosBucketExists("cloud_cos_bucket.bucket_maz"),
-					resource.TestCheckResourceAttr("cloud_cos_bucket.bucket_maz", "multi_az", "true"),
+					testAccCheckCosBucketExists("tencentcloudenterprise_cos_bucket.bucket_maz"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_cos_bucket.bucket_maz", "multi_az", "true"),
 				),
 			},
 			{
-				ResourceName:            "cloud_cos_bucket.bucket_maz",
+				ResourceName:            "tencentcloudenterprise_cos_bucket.bucket_maz",
 				ImportState:             true,
 				ImportStateVerify:       true,
 				ImportStateVerifyIgnore: []string{"acl", "multi_az"},
@@ -396,39 +396,39 @@ func TestAccTencentCloudCosBucketResource_originPull(t *testing.T) {
 			{
 				Config: testAccBucket_originPull(),
 				Check: resource.ComposeAggregateTestCheckFunc(
-					testAccCheckCosBucketExists("cloud_cos_bucket.with_origin"),
-					resource.TestCheckResourceAttr("cloud_cos_bucket.with_origin", "origin_pull_rules.0.priority", "1"),
-					resource.TestCheckResourceAttr("cloud_cos_bucket.with_origin", "origin_pull_rules.0.sync_back_to_source", "false"),
-					resource.TestCheckResourceAttr("cloud_cos_bucket.with_origin", "origin_pull_rules.0.host", "abc.example.com"),
-					resource.TestCheckResourceAttr("cloud_cos_bucket.with_origin", "origin_pull_rules.0.prefix", "/"),
-					resource.TestCheckResourceAttr("cloud_cos_bucket.with_origin", "origin_pull_rules.0.protocol", "FOLLOW"),
-					resource.TestCheckResourceAttr("cloud_cos_bucket.with_origin", "origin_pull_rules.0.follow_query_string", "true"),
-					resource.TestCheckResourceAttr("cloud_cos_bucket.with_origin", "origin_pull_rules.0.follow_redirection", "true"),
-					resource.TestCheckTypeSetElemAttr("cloud_cos_bucket.with_origin", "origin_pull_rules.0.follow_http_headers.*", "origin"),
-					resource.TestCheckTypeSetElemAttr("cloud_cos_bucket.with_origin", "origin_pull_rules.0.follow_http_headers.*", "host"),
-					resource.TestCheckTypeSetElemAttr("cloud_cos_bucket.with_origin", "origin_pull_rules.0.follow_http_headers.*", "expires"),
-					resource.TestCheckResourceAttr("cloud_cos_bucket.with_origin", "origin_pull_rules.0.custom_http_headers.x-custom-header", "custom_value"),
+					testAccCheckCosBucketExists("tencentcloudenterprise_cos_bucket.with_origin"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_cos_bucket.with_origin", "origin_pull_rules.0.priority", "1"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_cos_bucket.with_origin", "origin_pull_rules.0.sync_back_to_source", "false"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_cos_bucket.with_origin", "origin_pull_rules.0.host", "abc.example.com"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_cos_bucket.with_origin", "origin_pull_rules.0.prefix", "/"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_cos_bucket.with_origin", "origin_pull_rules.0.protocol", "FOLLOW"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_cos_bucket.with_origin", "origin_pull_rules.0.follow_query_string", "true"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_cos_bucket.with_origin", "origin_pull_rules.0.follow_redirection", "true"),
+					resource.TestCheckTypeSetElemAttr("tencentcloudenterprise_cos_bucket.with_origin", "origin_pull_rules.0.follow_http_headers.*", "origin"),
+					resource.TestCheckTypeSetElemAttr("tencentcloudenterprise_cos_bucket.with_origin", "origin_pull_rules.0.follow_http_headers.*", "host"),
+					resource.TestCheckTypeSetElemAttr("tencentcloudenterprise_cos_bucket.with_origin", "origin_pull_rules.0.follow_http_headers.*", "expires"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_cos_bucket.with_origin", "origin_pull_rules.0.custom_http_headers.x-custom-header", "custom_value"),
 				),
 			},
 			{
 				Config: testAccBucket_originPullUpdate(),
 				Check: resource.ComposeAggregateTestCheckFunc(
-					testAccCheckCosBucketExists("cloud_cos_bucket.with_origin"),
-					resource.TestCheckResourceAttr("cloud_cos_bucket.with_origin", "origin_pull_rules.0.priority", "1"),
-					resource.TestCheckResourceAttr("cloud_cos_bucket.with_origin", "origin_pull_rules.0.sync_back_to_source", "false"),
-					resource.TestCheckResourceAttr("cloud_cos_bucket.with_origin", "origin_pull_rules.0.host", "test.abc.example.com"),
-					resource.TestCheckResourceAttr("cloud_cos_bucket.with_origin", "origin_pull_rules.0.prefix", "/test"),
-					resource.TestCheckResourceAttr("cloud_cos_bucket.with_origin", "origin_pull_rules.0.protocol", "FOLLOW"),
-					resource.TestCheckResourceAttr("cloud_cos_bucket.with_origin", "origin_pull_rules.0.follow_query_string", "true"),
-					resource.TestCheckResourceAttr("cloud_cos_bucket.with_origin", "origin_pull_rules.0.follow_redirection", "true"),
-					resource.TestCheckTypeSetElemAttr("cloud_cos_bucket.with_origin", "origin_pull_rules.0.follow_http_headers.*", "origin"),
-					resource.TestCheckTypeSetElemAttr("cloud_cos_bucket.with_origin", "origin_pull_rules.0.follow_http_headers.*", "host"),
-					resource.TestCheckTypeSetElemAttr("cloud_cos_bucket.with_origin", "origin_pull_rules.0.follow_http_headers.*", "expires"),
-					resource.TestCheckResourceAttr("cloud_cos_bucket.with_origin", "origin_pull_rules.0.custom_http_headers.x-custom-header", "test"),
+					testAccCheckCosBucketExists("tencentcloudenterprise_cos_bucket.with_origin"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_cos_bucket.with_origin", "origin_pull_rules.0.priority", "1"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_cos_bucket.with_origin", "origin_pull_rules.0.sync_back_to_source", "false"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_cos_bucket.with_origin", "origin_pull_rules.0.host", "test.abc.example.com"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_cos_bucket.with_origin", "origin_pull_rules.0.prefix", "/test"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_cos_bucket.with_origin", "origin_pull_rules.0.protocol", "FOLLOW"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_cos_bucket.with_origin", "origin_pull_rules.0.follow_query_string", "true"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_cos_bucket.with_origin", "origin_pull_rules.0.follow_redirection", "true"),
+					resource.TestCheckTypeSetElemAttr("tencentcloudenterprise_cos_bucket.with_origin", "origin_pull_rules.0.follow_http_headers.*", "origin"),
+					resource.TestCheckTypeSetElemAttr("tencentcloudenterprise_cos_bucket.with_origin", "origin_pull_rules.0.follow_http_headers.*", "host"),
+					resource.TestCheckTypeSetElemAttr("tencentcloudenterprise_cos_bucket.with_origin", "origin_pull_rules.0.follow_http_headers.*", "expires"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_cos_bucket.with_origin", "origin_pull_rules.0.custom_http_headers.x-custom-header", "test"),
 				),
 			},
 			{
-				ResourceName:            "cloud_cos_bucket.with_origin",
+				ResourceName:            "tencentcloudenterprise_cos_bucket.with_origin",
 				ImportState:             true,
 				ImportStateVerify:       true,
 				ImportStateVerifyIgnore: []string{"acl"},
@@ -453,23 +453,23 @@ func TestAccTencentCloudCosBucket_originDomain(t *testing.T) {
 			{
 				Config: testAccBucket_originDomain(appid, randomName),
 				Check: resource.ComposeAggregateTestCheckFunc(
-					testAccCheckCosBucketExists("cloud_cos_bucket.with_domain"),
-					resource.TestCheckResourceAttr("cloud_cos_bucket.with_domain", "origin_domain_rules.0.status", "ENABLED"),
-					resource.TestCheckResourceAttr("cloud_cos_bucket.with_domain", "origin_domain_rules.0.domain", "www.example.com"),
+					testAccCheckCosBucketExists("tencentcloudenterprise_cos_bucket.with_domain"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_cos_bucket.with_domain", "origin_domain_rules.0.status", "ENABLED"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_cos_bucket.with_domain", "origin_domain_rules.0.domain", "www.example.com"),
 				),
 			},
 			{
 				Config: testAccBucket_originDomainUpdate(appid, randomName),
 				Check: resource.ComposeAggregateTestCheckFunc(
-					testAccCheckCosBucketExists("cloud_cos_bucket.with_domain"),
-					resource.TestCheckResourceAttr("cloud_cos_bucket.with_domain", "origin_domain_rules.0.status", "DISABLED"),
-					resource.TestCheckResourceAttr("cloud_cos_bucket.with_domain", "origin_domain_rules.0.domain", "www.example.com"),
-					resource.TestCheckResourceAttr("cloud_cos_bucket.with_domain", "origin_domain_rules.1.status", "ENABLED"),
-					resource.TestCheckResourceAttr("cloud_cos_bucket.with_domain", "origin_domain_rules.1.domain", "test.example1.com"),
+					testAccCheckCosBucketExists("tencentcloudenterprise_cos_bucket.with_domain"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_cos_bucket.with_domain", "origin_domain_rules.0.status", "DISABLED"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_cos_bucket.with_domain", "origin_domain_rules.0.domain", "www.example.com"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_cos_bucket.with_domain", "origin_domain_rules.1.status", "ENABLED"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_cos_bucket.with_domain", "origin_domain_rules.1.domain", "test.example1.com"),
 				),
 			},
 			{
-				ResourceName:            "cloud_cos_bucket.with_domain",
+				ResourceName:            "tencentcloudenterprise_cos_bucket.with_domain",
 				ImportState:             true,
 				ImportStateVerify:       true,
 				ImportStateVerifyIgnore: []string{"acl"},
@@ -490,32 +490,32 @@ func TestAccTencentCloudCosBucketResource_replication(t *testing.T) {
 			{
 				Config: testAccBucketReplication(),
 				Check: resource.ComposeAggregateTestCheckFunc(
-					testAccCheckCosBucketExists("cloud_cos_bucket.with_replication"),
-					resource.TestMatchResourceAttr("cloud_cos_bucket.with_replication", "replica_role", regexp.MustCompile(`^qcs::cam::uin/\d+:uin/\d+$`)),
-					resource.TestCheckResourceAttr("cloud_cos_bucket.with_replication", "replica_rules.#", "1"),
-					resource.TestCheckResourceAttr("cloud_cos_bucket.with_replication", "replica_rules.0.id", "test-rep1"),
-					resource.TestCheckResourceAttr("cloud_cos_bucket.with_replication", "replica_rules.0.status", "Enabled"),
+					testAccCheckCosBucketExists("tencentcloudenterprise_cos_bucket.with_replication"),
+					resource.TestMatchResourceAttr("tencentcloudenterprise_cos_bucket.with_replication", "replica_role", regexp.MustCompile(`^qcs::cam::uin/\d+:uin/\d+$`)),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_cos_bucket.with_replication", "replica_rules.#", "1"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_cos_bucket.with_replication", "replica_rules.0.id", "test-rep1"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_cos_bucket.with_replication", "replica_rules.0.status", "Enabled"),
 				),
 			},
 			{
 				Config: testAccBucketReplicationUpdate(),
 				Check: resource.ComposeAggregateTestCheckFunc(
-					testAccCheckCosBucketExists("cloud_cos_bucket.with_replication"),
-					resource.TestCheckResourceAttr("cloud_cos_bucket.with_replication", "replica_rules.#", "1"),
-					resource.TestCheckResourceAttr("cloud_cos_bucket.with_replication", "replica_rules.0.status", "Disabled"),
-					resource.TestCheckResourceAttr("cloud_cos_bucket.with_replication", "replica_rules.0.prefix", "dist"),
+					testAccCheckCosBucketExists("tencentcloudenterprise_cos_bucket.with_replication"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_cos_bucket.with_replication", "replica_rules.#", "1"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_cos_bucket.with_replication", "replica_rules.0.status", "Disabled"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_cos_bucket.with_replication", "replica_rules.0.prefix", "dist"),
 				),
 			},
 			{
 				Config: testAccBucketReplicationRemove(),
 				Check: resource.ComposeAggregateTestCheckFunc(
-					testAccCheckCosBucketExists("cloud_cos_bucket.with_replication"),
-					resource.TestCheckResourceAttr("cloud_cos_bucket.with_replication", "replica_role", ""),
-					resource.TestCheckResourceAttr("cloud_cos_bucket.with_replication", "replica_rules.#", "0"),
+					testAccCheckCosBucketExists("tencentcloudenterprise_cos_bucket.with_replication"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_cos_bucket.with_replication", "replica_role", ""),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_cos_bucket.with_replication", "replica_rules.#", "0"),
 				),
 			},
 			{
-				ResourceName:            "cloud_cos_bucket.with_replication",
+				ResourceName:            "tencentcloudenterprise_cos_bucket.with_replication",
 				ImportState:             true,
 				ImportStateVerify:       true,
 				ImportStateVerifyIgnore: []string{"acl", "replica_role"},
@@ -553,7 +553,7 @@ func testAccCheckCosBucketDestroy(s *terraform.State) error {
 		client: testAccProvider.Meta().(*TencentCloudClient).apiV3Conn,
 	}
 	for _, rs := range s.RootModule().Resources {
-		if rs.Type != "cloud_cos_bucket" {
+		if rs.Type != "tencentcloudenterprise_cos_bucket" {
 			continue
 		}
 
@@ -569,7 +569,7 @@ func testAccCosBucket_basic() string {
 	return fmt.Sprintf(`
 %s
 
-resource "cloud_cos_bucket" "bucket_basic" {
+resource "tencentcloudenterprise_cos_bucket" "bucket_basic" {
   bucket = "tf-bucket-basic-${local.app_id}"
   acl    = "public-read"
 }
@@ -580,7 +580,7 @@ func testAccCosBucket_basicUpdate() string {
 	return fmt.Sprintf(`
 %s
 
-resource "cloud_cos_bucket" "bucket_basic" {
+resource "tencentcloudenterprise_cos_bucket" "bucket_basic" {
   bucket               = "tf-bucket-basic-${local.app_id}"
   acl                  = "private"
   encryption_algorithm = "AES256"
@@ -595,7 +595,7 @@ func testAccCosBucket_ACL() string {
 	return fmt.Sprintf(`
 %s
 
-resource "cloud_cos_bucket" "bucket_acl" {
+resource "tencentcloudenterprise_cos_bucket" "bucket_acl" {
   bucket	= "tf-bucket-acl-${local.app_id}"
   acl       = "public-read"
   acl_body 	= <<EOF
@@ -629,7 +629,7 @@ func testAccCosBucket_ACLUpdate() string {
 	return fmt.Sprintf(`
 %s
 
-resource "cloud_cos_bucket" "bucket_acl" {
+resource "tencentcloudenterprise_cos_bucket" "bucket_acl" {
   bucket	= "tf-bucket-acl-${local.app_id}"
   acl 		= "private"
   acl_body	= <<EOF
@@ -657,7 +657,7 @@ func testAccCosBucket_tags() string {
 	return fmt.Sprintf(`
 %s
 
-resource "cloud_cos_bucket" "bucket_tags" {
+resource "tencentcloudenterprise_cos_bucket" "bucket_tags" {
   bucket = "tf-bucket-tags-${local.app_id}"
   acl    = "public-read"
 
@@ -671,7 +671,7 @@ resource "cloud_cos_bucket" "bucket_tags" {
 func testAccCosBucket_tagsReplace() string {
 	return fmt.Sprintf(`
 %s
-resource "cloud_cos_bucket" "bucket_tags" {
+resource "tencentcloudenterprise_cos_bucket" "bucket_tags" {
   bucket = "tf-bucket-tags-${local.app_id}"
   acl    = "public-read"
 
@@ -686,7 +686,7 @@ func testAccCosBucket_tagsDelete() string {
 	return fmt.Sprintf(`
 %s
 
-resource "cloud_cos_bucket" "bucket_tags" {
+resource "tencentcloudenterprise_cos_bucket" "bucket_tags" {
   bucket = "tf-bucket-tags-${local.app_id}"
   acl    = "public-read"
 }
@@ -697,7 +697,7 @@ func testAccCosBucket_cors() string {
 	return fmt.Sprintf(`
 %s
 
-resource "cloud_cos_bucket" "bucket_cors" {
+resource "tencentcloudenterprise_cos_bucket" "bucket_cors" {
   bucket = "tf-bucket-cors-${local.app_id}"
   acl    = "public-read"
 
@@ -716,7 +716,7 @@ func testAccCosBucket_corsUpdate() string {
 	return fmt.Sprintf(`
 %s
 
-resource "cloud_cos_bucket" "bucket_cors" {
+resource "tencentcloudenterprise_cos_bucket" "bucket_cors" {
   bucket = "tf-bucket-cors-${local.app_id}"
   acl    = "public-read"
   cors_rules {
@@ -734,7 +734,7 @@ func testAccBucket_lifecycle() string {
 	return fmt.Sprintf(`
 %s
 
-resource "cloud_cos_bucket" "bucket_lifecycle" {
+resource "tencentcloudenterprise_cos_bucket" "bucket_lifecycle" {
   bucket = "tf-bucket-lifecycle-${local.app_id}"
   acl    = "public-read"
   versioning_enable = true
@@ -761,7 +761,7 @@ func testAccBucketLifecycleWithTags() string {
 	return fmt.Sprintf(`
 %s
 
-resource "cloud_cos_bucket" "bucket_lifecycle_tags" {
+resource "tencentcloudenterprise_cos_bucket" "bucket_lifecycle_tags" {
   bucket = "tf-bucket-lifecycle-tags-${local.app_id}"
   acl    = "public-read"
   versioning_enable = true
@@ -783,7 +783,7 @@ func testAccBucket_lifecycleUpdate() string {
 	return fmt.Sprintf(`
 %s
 
-resource "cloud_cos_bucket" "bucket_lifecycle" {
+resource "tencentcloudenterprise_cos_bucket" "bucket_lifecycle" {
   bucket = "tf-bucket-lifecycle-${local.app_id}"
   acl    = "public-read"
   versioning_enable = true
@@ -824,7 +824,7 @@ func testAccBucket_website() string {
 	return fmt.Sprintf(`
 %s
 
-resource "cloud_cos_bucket" "bucket_website" {
+resource "tencentcloudenterprise_cos_bucket" "bucket_website" {
   bucket = "tf-bucket-website-${local.app_id}"
   acl    = "public-read"
   website {
@@ -839,7 +839,7 @@ func testAccBucket_websiteUpdate() string {
 	return fmt.Sprintf(`
 %s
 
-resource "cloud_cos_bucket" "bucket_website" {
+resource "tencentcloudenterprise_cos_bucket" "bucket_website" {
   bucket = "tf-bucket-website-${local.app_id}"
   acl    = "public-read"
   website {
@@ -854,7 +854,7 @@ func testAccBucket_MAZ() string {
 	return fmt.Sprintf(`
 %s
 
-resource "cloud_cos_bucket" "bucket_maz" {
+resource "tencentcloudenterprise_cos_bucket" "bucket_maz" {
   bucket   = "tf-bucket-maz-${local.app_id}"
   acl      = "public-read"
   multi_az = true
@@ -867,7 +867,7 @@ func testAccBucket_originPull() string {
 	return fmt.Sprintf(`
 %s
 
-resource "cloud_cos_bucket" "with_origin" {
+resource "tencentcloudenterprise_cos_bucket" "with_origin" {
   bucket = "tf-bucket-origin-${local.app_id}"
   acl    = "private"
   origin_pull_rules {
@@ -891,7 +891,7 @@ func testAccBucket_originPullUpdate() string {
 	return fmt.Sprintf(`
 %s
 
-resource "cloud_cos_bucket" "with_origin" {
+resource "tencentcloudenterprise_cos_bucket" "with_origin" {
   bucket = "tf-bucket-origin-${local.app_id}"
   acl    = "private"
   origin_pull_rules {
@@ -915,13 +915,13 @@ func testAccBucketReplication() string {
 	return fmt.Sprintf(`
 %s
 
-resource "cloud_cos_bucket" "replica1" {
+resource "tencentcloudenterprise_cos_bucket" "replica1" {
   bucket = "tf-replica-foo-${local.app_id}"
   acl    = "private"
   versioning_enable = true
 }
 
-resource "cloud_cos_bucket" "with_replication" {
+resource "tencentcloudenterprise_cos_bucket" "with_replication" {
   bucket = "tf-bucket-replica-${local.app_id}"
   acl    = "private"
   versioning_enable = true
@@ -939,13 +939,13 @@ func testAccBucketReplicationUpdate() string {
 	return fmt.Sprintf(`
 %s
 
-resource "cloud_cos_bucket" "replica1" {
+resource "tencentcloudenterprise_cos_bucket" "replica1" {
   bucket = "tf-replica-foo-${local.app_id}"
   acl    = "private"
   versioning_enable = true
 }
 
-resource "cloud_cos_bucket" "with_replication" {
+resource "tencentcloudenterprise_cos_bucket" "with_replication" {
   bucket = "tf-bucket-replica-${local.app_id}"
   acl    = "private"
   versioning_enable = true
@@ -964,13 +964,13 @@ func testAccBucketReplicationRemove() string {
 	return fmt.Sprintf(`
 %s
 
-resource "cloud_cos_bucket" "replica1" {
+resource "tencentcloudenterprise_cos_bucket" "replica1" {
   bucket = "tf-replica-foo-${local.app_id}"
   acl    = "private"
   versioning_enable = true
 }
 
-resource "cloud_cos_bucket" "with_replication" {
+resource "tencentcloudenterprise_cos_bucket" "with_replication" {
   bucket = "tf-bucket-replica-${local.app_id}"
   acl    = "private"
   versioning_enable = true

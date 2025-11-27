@@ -101,39 +101,39 @@ func TestAccDataSourceTencentCloudSecurityGroups_searchByProjectId(t *testing.T)
 }
 
 const TestAccDataSourceTencentCloudSecurityGroupsConfig = `
-resource "cloud_vpc_security_group" "foo" {
+resource "tencentcloudenterprise_vpc_security_group" "foo" {
   name        = "ci-temp-security-groups-test"
   description = "ci-temp-security-groups-test"
 }
 
-data "cloud_vpc_security_groups" "foo" {
+data "tencentcloudenterprise_vpc_security_groups" "foo" {
   security_group_id = cloud_vpc_security_group.foo.id
 }
 `
 
 const TestAccDataSourceTencentCloudSecurityGroupsConfigSearchByName = `
-resource "cloud_vpc_security_group" "foo" {
+resource "tencentcloudenterprise_vpc_security_group" "foo" {
   name        = "ci-temp-security-groups-test"
   description = "ci-temp-security-groups-test"
 }
 
-data "cloud_vpc_security_groups" "foo" {
+data "tencentcloudenterprise_vpc_security_groups" "foo" {
   name = cloud_vpc_security_group.foo.name
 }
 `
 
 const TestAccDataSourceTencentCloudSecurityGroupsConfigEmptyResult = `
-data "cloud_vpc_security_groups" "foo" {
+data "tencentcloudenterprise_vpc_security_groups" "foo" {
   name = "lkagjlajtanvzvzmga"
 }
 
-data "cloud_vpc_security_groups" "bar" {
+data "tencentcloudenterprise_vpc_security_groups" "bar" {
   security_group_id = "sg-00000000"
 }
 `
 
 const TestAccDataSourceTencentCloudSecurityGroupsTags = `
-resource "cloud_vpc_security_group" "foo" {
+resource "tencentcloudenterprise_vpc_security_group" "foo" {
   name        = "ci-temp-security-groups-test"
   description = "ci-temp-security-groups-test"
 
@@ -142,19 +142,19 @@ resource "cloud_vpc_security_group" "foo" {
   }
 }
 
-data "cloud_vpc_security_groups" "foo" {
+data "tencentcloudenterprise_vpc_security_groups" "foo" {
   tags = cloud_vpc_security_group.foo.tags
 }
 `
 
 const TestAccDataSourceTencentCloudSecurityGroupsConfigSearchByProjectId = `
-resource "cloud_vpc_security_group" "foo" {
+resource "tencentcloudenterprise_vpc_security_group" "foo" {
   name        = "ci-temp-security-groups-test"
   description = "ci-temp-security-groups-test"
   project_id  = 0
 }
 
-data "cloud_vpc_security_groups" "foo" {
+data "tencentcloudenterprise_vpc_security_groups" "foo" {
   project_id = cloud_vpc_security_group.foo.project_id
 }
 `

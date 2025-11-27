@@ -22,19 +22,19 @@ func TestAccTencentCloudTsfApiGroupResource_basic(t *testing.T) {
 			{
 				Config: testAccTsfApiGroupTce,
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckTsfApiGroupExists("cloud_tsf_api_group.api_group"),
-					resource.TestCheckResourceAttrSet("cloud_tsf_api_group.api_group", "id"),
-					resource.TestCheckResourceAttr("cloud_tsf_api_group.api_group", "group_name", "terraform_test_group"),
-					resource.TestCheckResourceAttr("cloud_tsf_api_group.api_group", "group_context", "/terraform-test"),
-					resource.TestCheckResourceAttr("cloud_tsf_api_group.api_group", "auth_type", "none"),
-					resource.TestCheckResourceAttr("cloud_tsf_api_group.api_group", "description", "terraform-test"),
-					resource.TestCheckResourceAttr("cloud_tsf_api_group.api_group", "group_type", "ms"),
-					resource.TestCheckResourceAttr("cloud_tsf_api_group.api_group", "namespace_name_key_position", "path"),
-					resource.TestCheckResourceAttr("cloud_tsf_api_group.api_group", "service_name_key_position", "path"),
+					testAccCheckTsfApiGroupExists("tencentcloudenterprise_tsf_api_group.api_group"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_tsf_api_group.api_group", "id"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_tsf_api_group.api_group", "group_name", "terraform_test_group"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_tsf_api_group.api_group", "group_context", "/terraform-test"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_tsf_api_group.api_group", "auth_type", "none"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_tsf_api_group.api_group", "description", "terraform-test"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_tsf_api_group.api_group", "group_type", "ms"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_tsf_api_group.api_group", "namespace_name_key_position", "path"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_tsf_api_group.api_group", "service_name_key_position", "path"),
 				),
 			},
 			{
-				ResourceName: "cloud_tsf_api_group.api_group",
+				ResourceName: "tencentcloudenterprise_tsf_api_group.api_group",
 				ImportState:  true,
 				//ImportStateVerify: true,
 			},
@@ -47,7 +47,7 @@ func testAccCheckTsfApiGroupDestroy(s *terraform.State) error {
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
 	service := TsfService{client: testAccProvider.Meta().(*TencentCloudClient).apiV3Conn}
 	for _, rs := range s.RootModule().Resources {
-		if rs.Type != "cloud_tsf_api_group" {
+		if rs.Type != "tencentcloudenterprise_tsf_api_group" {
 			continue
 		}
 
@@ -99,7 +99,7 @@ variable "gateway_instance_id" {
 
 const testAccTsfApiGroup = testAccTsfApiGroupVar + `
 
-resource "cloud_tsf_api_group" "api_group" {
+resource "tencentcloudenterprise_tsf_api_group" "api_group" {
 	group_name = "terraform_test_group"
 	group_context = "/terraform-test"
 	auth_type = "none"
@@ -115,7 +115,7 @@ resource "cloud_tsf_api_group" "api_group" {
 `
 
 const testAccTsfApiGroupTce = `
-resource "cloud_tsf_api_group" "api_group" {
+resource "tencentcloudenterprise_tsf_api_group" "api_group" {
 	group_name = "terraform_test_group"
 	group_context = "/terraform-test"
 	auth_type = "none"

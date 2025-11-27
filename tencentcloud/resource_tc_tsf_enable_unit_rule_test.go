@@ -21,22 +21,22 @@ func TestAccTencentCloudTsfEnableUnitRuleResource_basic(t *testing.T) {
 			{
 				Config: testAccTsfEnableUnitRule,
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckTsfEnableUnitRuleExists("cloud_tsf_enable_unit_rule.enable_unit_rule"),
-					resource.TestCheckResourceAttrSet("cloud_tsf_enable_unit_rule.enable_unit_rule", "id"),
-					resource.TestCheckResourceAttr("cloud_tsf_enable_unit_rule.enable_unit_rule", "switch", "enabled"),
+					testAccCheckTsfEnableUnitRuleExists("tencentcloudenterprise_tsf_enable_unit_rule.enable_unit_rule"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_tsf_enable_unit_rule.enable_unit_rule", "id"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_tsf_enable_unit_rule.enable_unit_rule", "switch", "enabled"),
 				),
 			},
 			{
-				ResourceName:      "cloud_tsf_enable_unit_rule.enable_unit_rule",
+				ResourceName:      "tencentcloudenterprise_tsf_enable_unit_rule.enable_unit_rule",
 				ImportState:       true,
 				ImportStateVerify: true,
 			},
 			{
 				Config: testAccTsfEnableUnitRuleUp,
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckTsfEnableUnitRuleExists("cloud_tsf_enable_unit_rule.enable_unit_rule"),
-					resource.TestCheckResourceAttrSet("cloud_tsf_enable_unit_rule.enable_unit_rule", "id"),
-					resource.TestCheckResourceAttr("cloud_tsf_enable_unit_rule.enable_unit_rule", "switch", "disabled"),
+					testAccCheckTsfEnableUnitRuleExists("tencentcloudenterprise_tsf_enable_unit_rule.enable_unit_rule"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_tsf_enable_unit_rule.enable_unit_rule", "id"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_tsf_enable_unit_rule.enable_unit_rule", "switch", "disabled"),
 				),
 			},
 		},
@@ -48,7 +48,7 @@ func testAccCheckTsfEnableUnitRuleDestroy(s *terraform.State) error {
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
 	service := TsfService{client: testAccProvider.Meta().(*TencentCloudClient).apiV3Conn}
 	for _, rs := range s.RootModule().Resources {
-		if rs.Type != "cloud_tsf_enable_unit_rule" {
+		if rs.Type != "tencentcloudenterprise_tsf_enable_unit_rule" {
 			continue
 		}
 
@@ -90,7 +90,7 @@ func testAccCheckTsfEnableUnitRuleExists(r string) resource.TestCheckFunc {
 
 const testAccTsfEnableUnitRule = `
 
-resource "cloud_tsf_enable_unit_rule" "enable_unit_rule" {
+resource "tencentcloudenterprise_tsf_enable_unit_rule" "enable_unit_rule" {
 	rule_id = "unit-rl-za8fcg7b"
 	switch = "enabled"
 }
@@ -99,7 +99,7 @@ resource "cloud_tsf_enable_unit_rule" "enable_unit_rule" {
 
 const testAccTsfEnableUnitRuleUp = `
 
-resource "cloud_tsf_enable_unit_rule" "enable_unit_rule" {
+resource "tencentcloudenterprise_tsf_enable_unit_rule" "enable_unit_rule" {
 	rule_id = "unit-rl-za8fcg7b"
 	switch = "disabled"
 }

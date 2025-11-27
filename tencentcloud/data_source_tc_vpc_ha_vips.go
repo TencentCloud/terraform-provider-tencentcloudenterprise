@@ -5,7 +5,7 @@ Use this data source to query detailed information of HA VIPs.
 
 ```hcl
 
-	data "cloud_vpc_ha_vips" "havips" {
+	data "tencentcloudenterprise_vpc_ha_vips" "havips" {
 	  id         = "havip-kjqwe4ba"
 	  name       = "test"
 	  vpc_id     = "vpc-gzea3dd7"
@@ -28,7 +28,7 @@ import (
 )
 
 func init() {
-	registerDataDescriptionProvider("cloud_vpc_ha_vips", CNDescription{
+	registerDataDescriptionProvider("tencentcloudenterprise_vpc_ha_vips", CNDescription{
 		TerraformTypeCN: "高可用虚拟IP（HAVIP）列表",
 		DescriptionCN:   "提供HA VIP数据源，用于查询HA VIP的详细信息。",
 		AttributesCN: map[string]string{

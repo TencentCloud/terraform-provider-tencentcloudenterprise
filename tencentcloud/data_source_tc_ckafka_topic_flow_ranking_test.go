@@ -21,7 +21,7 @@ func TestAccTencentCloudCkafkaTopicFlowRankingDataSource_basic(t *testing.T) {
 }
 
 const testAccCkafkaTopicFlowRankingDataSource = `
-data "cloud_ckafka_topic_flow_ranking" "topic_flow_ranking" {
+data "tencentcloudenterprise_ckafka_topic_flow_ranking" "topic_flow_ranking" {
 	instance_id = "ckafka-vv7wpvae"
 	ranking_type = "PRO"
 	begin_date = "2023-05-29T00:00:00+08:00"

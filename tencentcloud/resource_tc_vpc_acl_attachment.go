@@ -4,10 +4,10 @@ Provide a resource to attach an existing subnet to Network ACL.
 # Example Usage
 
 ```hcl
-data "cloud_vpc_instances" "id_instances" {
+data "tencentcloudenterprise_vpc_instances" "id_instances" {
 }
 
-	resource "cloud_vpc_acl" "foo" {
+	resource "tencentcloudenterprise_vpc_acl" "foo" {
 	    vpc_id  = data.cloud_vpc_instances.id_instances.instance_list.0.vpc_id
 	    name  	= "test_acl"
 		ingress = [
@@ -20,7 +20,7 @@ data "cloud_vpc_instances" "id_instances" {
 		]
 	}
 
-	resource "cloud_vpc_acl_attachment" "attachment"{
+	resource "tencentcloudenterprise_vpc_acl_attachment" "attachment"{
 			acl_id = cloud_vpc_acl.foo.id
 			subnet_id = data.cloud_vpc_instances.id_instances.instance_list[0].subnet_ids[0]
 	}
@@ -46,7 +46,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_vpc_acl_attachment", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_vpc_acl_attachment", CNDescription{
 		TerraformTypeCN: "网络ACL关联",
 		DescriptionCN:   "提供网络ACL关联资源，用于将现有子网关联到网络ACL。",
 		AttributesCN: map[string]string{

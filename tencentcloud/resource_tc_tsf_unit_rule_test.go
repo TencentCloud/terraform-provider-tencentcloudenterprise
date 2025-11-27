@@ -22,25 +22,25 @@ func TestAccTencentCloudTsfUnitRuleResource_basic(t *testing.T) {
 			{
 				Config: testAccTsfUnitRuleTce,
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckTsfUnitRuleExists("cloud_tsf_unit_rule.unit_rule"),
-					resource.TestCheckResourceAttrSet("cloud_tsf_unit_rule.unit_rule", "id"),
-					//resource.TestCheckResourceAttr("cloud_tsf_unit_rule.unit_rule", "gateway_instance_id", defaultTsfGateway),
-					resource.TestCheckResourceAttr("cloud_tsf_unit_rule.unit_rule", "description", "terraform-desc"),
-					resource.TestCheckResourceAttr("cloud_tsf_unit_rule.unit_rule", "unit_rule_item_list.#", "1"),
-					resource.TestCheckResourceAttr("cloud_tsf_unit_rule.unit_rule", "unit_rule_item_list.0.relationship", "AND"),
-					//resource.TestCheckResourceAttr("cloud_tsf_unit_rule.unit_rule", "unit_rule_item_list.0.dest_namespace_id", defaultTsfDestNamespaceId),
-					resource.TestCheckResourceAttr("cloud_tsf_unit_rule.unit_rule", "unit_rule_item_list.0.dest_namespace_name", "KEEP-terraform-请勿删除_default"),
-					resource.TestCheckResourceAttr("cloud_tsf_unit_rule.unit_rule", "unit_rule_item_list.0.name", "Rule1"),
-					resource.TestCheckResourceAttr("cloud_tsf_unit_rule.unit_rule", "unit_rule_item_list.0.description", "rule1-desc"),
-					resource.TestCheckResourceAttr("cloud_tsf_unit_rule.unit_rule", "unit_rule_item_list.0.unit_rule_tag_list.#", "1"),
-					resource.TestCheckResourceAttr("cloud_tsf_unit_rule.unit_rule", "unit_rule_item_list.0.unit_rule_tag_list.0.tag_type", "U"),
-					resource.TestCheckResourceAttr("cloud_tsf_unit_rule.unit_rule", "unit_rule_item_list.0.unit_rule_tag_list.0.tag_field", "aaa"),
-					resource.TestCheckResourceAttr("cloud_tsf_unit_rule.unit_rule", "unit_rule_item_list.0.unit_rule_tag_list.0.tag_operator", "IN"),
-					resource.TestCheckResourceAttr("cloud_tsf_unit_rule.unit_rule", "unit_rule_item_list.0.unit_rule_tag_list.0.tag_value", "1"),
+					testAccCheckTsfUnitRuleExists("tencentcloudenterprise_tsf_unit_rule.unit_rule"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_tsf_unit_rule.unit_rule", "id"),
+					//resource.TestCheckResourceAttr("tencentcloudenterprise_tsf_unit_rule.unit_rule", "gateway_instance_id", defaultTsfGateway),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_tsf_unit_rule.unit_rule", "description", "terraform-desc"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_tsf_unit_rule.unit_rule", "unit_rule_item_list.#", "1"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_tsf_unit_rule.unit_rule", "unit_rule_item_list.0.relationship", "AND"),
+					//resource.TestCheckResourceAttr("tencentcloudenterprise_tsf_unit_rule.unit_rule", "unit_rule_item_list.0.dest_namespace_id", defaultTsfDestNamespaceId),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_tsf_unit_rule.unit_rule", "unit_rule_item_list.0.dest_namespace_name", "KEEP-terraform-请勿删除_default"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_tsf_unit_rule.unit_rule", "unit_rule_item_list.0.name", "Rule1"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_tsf_unit_rule.unit_rule", "unit_rule_item_list.0.description", "rule1-desc"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_tsf_unit_rule.unit_rule", "unit_rule_item_list.0.unit_rule_tag_list.#", "1"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_tsf_unit_rule.unit_rule", "unit_rule_item_list.0.unit_rule_tag_list.0.tag_type", "U"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_tsf_unit_rule.unit_rule", "unit_rule_item_list.0.unit_rule_tag_list.0.tag_field", "aaa"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_tsf_unit_rule.unit_rule", "unit_rule_item_list.0.unit_rule_tag_list.0.tag_operator", "IN"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_tsf_unit_rule.unit_rule", "unit_rule_item_list.0.unit_rule_tag_list.0.tag_value", "1"),
 				),
 			},
 			{
-				ResourceName:      "cloud_tsf_unit_rule.unit_rule",
+				ResourceName:      "tencentcloudenterprise_tsf_unit_rule.unit_rule",
 				ImportState:       true,
 				ImportStateVerify: true,
 			},
@@ -53,7 +53,7 @@ func testAccCheckTsfUnitRuleDestroy(s *terraform.State) error {
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
 	service := TsfService{client: testAccProvider.Meta().(*TencentCloudClient).apiV3Conn}
 	for _, rs := range s.RootModule().Resources {
-		if rs.Type != "cloud_tsf_unit_rule" {
+		if rs.Type != "tencentcloudenterprise_tsf_unit_rule" {
 			continue
 		}
 
@@ -108,7 +108,7 @@ variable "dest_namespace_id" {
 
 const testAccTsfUnitRule = testAccTsfUnitRuleVar + `
 
-resource "cloud_tsf_unit_rule" "unit_rule" {
+resource "tencentcloudenterprise_tsf_unit_rule" "unit_rule" {
 	gateway_instance_id = var.gateway_instance_id
 	name = "terraform-test"
 	description = "terraform-desc"
@@ -129,7 +129,7 @@ resource "cloud_tsf_unit_rule" "unit_rule" {
 
 `
 const testAccTsfUnitRuleTce = `
-resource "cloud_tsf_unit_rule" "unit_rule" {
+resource "tencentcloudenterprise_tsf_unit_rule" "unit_rule" {
 	gateway_instance_id = "gw-ins-rmrzdey8"
 	name = "terraform-test"
 	description = "terraform-desc"

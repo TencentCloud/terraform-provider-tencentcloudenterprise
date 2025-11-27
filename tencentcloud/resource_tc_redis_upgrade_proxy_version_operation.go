@@ -5,7 +5,7 @@
 //
 // ```hcl
 //
-//	resource "cloud_redis_upgrade_proxy_version_operation" "upgrade_proxy_version_operation" {
+//	resource "tencentcloudenterprise_redis_upgrade_proxy_version_operation" "upgrade_proxy_version_operation" {
 //	 instance_id = "crs-c1nl9rpv"
 //	 current_proxy_version = "5.0.0"
 //	 upgrade_proxy_version = "5.0.0"

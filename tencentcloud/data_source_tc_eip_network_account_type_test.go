@@ -24,6 +24,6 @@ func TestAccTencentCloudEipNetworkAccountTypeDataSource_basic(t *testing.T) {
 
 const testAccEipNetworkAccountTypeDataSource = `
 
-data "cloud_eip_network_account_type" "network_account_type" {}
+data "tencentcloudenterprise_eip_network_account_type" "network_account_type" {}
 
 `

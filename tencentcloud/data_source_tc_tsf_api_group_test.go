@@ -45,7 +45,7 @@ func TestAccTencentCloudTsfApiGroupDataSource_basic(t *testing.T) {
 
 const testAccTsfApiGroupDataSource = `
 
-data "cloud_tsf_api_group" "api_group" {
+data "tencentcloudenterprise_tsf_api_group" "api_group" {
 	group_type = "ms"
 	auth_type = "none"
 	status = "released"

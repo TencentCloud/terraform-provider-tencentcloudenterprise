@@ -5,7 +5,7 @@ Provides a resource to create a cvm reboot_instance
 
 ```hcl
 
-	resource "cloud_cvm_reboot_instance" "reboot_instance" {
+	resource "tencentcloudenterprise_cvm_reboot_instance" "reboot_instance" {
 	  instance_id = "ins-xxxxx"
 	  stop_type = "SOFT"
 	}
@@ -24,7 +24,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_cvm_reboot_instance", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_cvm_reboot_instance", CNDescription{
 		TerraformTypeCN: "重启实例",
 		DescriptionCN:   "提供云服务器重启实例资源，用于重启云服务器实例。",
 		AttributesCN: map[string]string{

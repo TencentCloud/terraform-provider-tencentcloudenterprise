@@ -16,10 +16,10 @@ func TestAccTencentCloudNeedFixVpcNotifyRoutesResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			{
 				Config: testAccVpcNotifyRoutes,
-				Check:  resource.ComposeTestCheckFunc(resource.TestCheckResourceAttrSet("cloud_vpc_notify_routes.notify_routes", "id")),
+				Check:  resource.ComposeTestCheckFunc(resource.TestCheckResourceAttrSet("tencentcloudenterprise_vpc_notify_routes.notify_routes", "id")),
 			},
 			{
-				ResourceName:      "cloud_vpc_notify_routes.notify_routes",
+				ResourceName:      "tencentcloudenterprise_vpc_notify_routes.notify_routes",
 				ImportState:       true,
 				ImportStateVerify: true,
 			},
@@ -29,7 +29,7 @@ func TestAccTencentCloudNeedFixVpcNotifyRoutesResource_basic(t *testing.T) {
 
 const testAccVpcNotifyRoutes = `
 
-resource "cloud_vpc_notify_routes" "notify_routes" {
+resource "tencentcloudenterprise_vpc_notify_routes" "notify_routes" {
   route_table_id = ""
   route_item_ids = []
 }

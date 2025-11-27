@@ -20,12 +20,12 @@ func TestAccTencentCloudKubernetesAttachResource(t *testing.T) {
 			{
 				Config: testAccTkeAttachCluster(),
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckTkeAttachExists("cloud_tke_kubernetes_cluster_attachment.test_attach"),
-					resource.TestCheckResourceAttrSet("cloud_tke_kubernetes_cluster_attachment.test_attach", "cluster_id"),
-					resource.TestCheckResourceAttrSet("cloud_tke_kubernetes_cluster_attachment.test_attach", "instance_id"),
-					resource.TestCheckResourceAttrSet("cloud_tke_kubernetes_cluster_attachment.test_attach", "unschedulable"),
-					resource.TestCheckResourceAttr("cloud_tke_kubernetes_cluster_attachment.test_attach", "labels.test1", "test1"),
-					resource.TestCheckResourceAttr("cloud_tke_kubernetes_cluster_attachment.test_attach", "labels.test2", "test2"),
+					testAccCheckTkeAttachExists("tencentcloudenterprise_tke_kubernetes_cluster_attachment.test_attach"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_tke_kubernetes_cluster_attachment.test_attach", "cluster_id"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_tke_kubernetes_cluster_attachment.test_attach", "instance_id"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_tke_kubernetes_cluster_attachment.test_attach", "unschedulable"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_tke_kubernetes_cluster_attachment.test_attach", "labels.test1", "test1"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_tke_kubernetes_cluster_attachment.test_attach", "labels.test2", "test2"),
 				),
 			},
 		},
@@ -41,7 +41,7 @@ func testAccCheckTkeAttachDestroy(s *terraform.State) error {
 	}
 
 	for _, rs := range s.RootModule().Resources {
-		if rs.Type != "cloud_tke_kubernetes_cluster_attachment" {
+		if rs.Type != "tencentcloudenterprise_tke_kubernetes_cluster_attachment" {
 			continue
 		}
 		instanceId := ""
@@ -139,7 +139,7 @@ func testAccCheckTkeAttachExists(n string) resource.TestCheckFunc {
 }
 
 const ClusterAttachmentInstanceType = `
-data "cloud_cvm_instance_types" "ins_type" {
+data "tencentcloudenterprise_cvm_instance_types" "ins_type" {
   availability_zone = "ap-guangzhou-3"
   cpu_core_count    = 2
   memory_size       = 2
@@ -159,15 +159,15 @@ variable "cluster_cidr" {
   default = "172.16.0.0/16"
 }
 
-data "cloud_vpc_instances" "vpcs" {
+data "tencentcloudenterprise_vpc_instances" "vpcs" {
   name = "keep_tke_exclusive_vpc"
 }
 
-data "cloud_vpc_subnets" "sub" {
+data "tencentcloudenterprise_vpc_subnets" "sub" {
   vpc_id        = data.cloud_vpc_instances.vpcs.instance_list.0.vpc_id
 }
 
-resource "cloud_cvm_instance" "foo_attachment" {
+resource "tencentcloudenterprise_cvm_instance" "foo_attachment" {
   instance_name     = "tf-auto-test-1-1"
   availability_zone = data.cloud_vpc_subnets.sub.instance_list.0.availability_zone
   image_id          = var.default_img_id
@@ -179,7 +179,7 @@ resource "cloud_cvm_instance" "foo_attachment" {
   tags = data.cloud_tke_kubernetes_clusters.tke.list.0.tags # new added node will passive add tag by cluster
 }
 
-resource "cloud_tke_kubernetes_cluster_attachment" "test_attach" {
+resource "tencentcloudenterprise_tke_kubernetes_cluster_attachment" "test_attach" {
   cluster_id  = local.cluster_id
   instance_id = cloud_cvm_instance.foo_attachment.id
   password    = "Lo4wbdit"

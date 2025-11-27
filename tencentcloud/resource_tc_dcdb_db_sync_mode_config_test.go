@@ -19,21 +19,21 @@ func TestAccTencentCloudDcdbDbSyncModeConfigResource_basic(t *testing.T) {
 			{
 				Config: fmt.Sprintf(testAccDcdbDbSyncModeConfig, defaultDcdbInstanceId),
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttrSet("cloud_dcdb_db_sync_mode_config.config", "id"),
-					resource.TestCheckResourceAttrSet("cloud_dcdb_db_sync_mode_config.config", "instance_id"),
-					resource.TestCheckResourceAttr("cloud_dcdb_db_sync_mode_config.config", "sync_mode", "2"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_dcdb_db_sync_mode_config.config", "id"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_dcdb_db_sync_mode_config.config", "instance_id"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_dcdb_db_sync_mode_config.config", "sync_mode", "2"),
 				),
 			},
 			{
 				Config: fmt.Sprintf(testAccDcdbDbSyncModeConfig_update, defaultDcdbInstanceId),
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttrSet("cloud_dcdb_db_sync_mode_config.config", "id"),
-					resource.TestCheckResourceAttrSet("cloud_dcdb_db_sync_mode_config.config", "instance_id"),
-					resource.TestCheckResourceAttr("cloud_dcdb_db_sync_mode_config.config", "sync_mode", "1"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_dcdb_db_sync_mode_config.config", "id"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_dcdb_db_sync_mode_config.config", "instance_id"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_dcdb_db_sync_mode_config.config", "sync_mode", "1"),
 				),
 			},
 			{
-				ResourceName:      "cloud_dcdb_db_sync_mode_config.config",
+				ResourceName:      "tencentcloudenterprise_dcdb_db_sync_mode_config.config",
 				ImportState:       true,
 				ImportStateVerify: true,
 			},
@@ -43,7 +43,7 @@ func TestAccTencentCloudDcdbDbSyncModeConfigResource_basic(t *testing.T) {
 
 const testAccDcdbDbSyncModeConfig = `
 
-resource "cloud_dcdb_db_sync_mode_config" "config" {
+resource "tencentcloudenterprise_dcdb_db_sync_mode_config" "config" {
   instance_id = "%s"
   sync_mode = 2
 }
@@ -52,7 +52,7 @@ resource "cloud_dcdb_db_sync_mode_config" "config" {
 
 const testAccDcdbDbSyncModeConfig_update = `
 
-resource "cloud_dcdb_db_sync_mode_config" "config" {
+resource "tencentcloudenterprise_dcdb_db_sync_mode_config" "config" {
   instance_id = "%s"
   sync_mode = 1
 }

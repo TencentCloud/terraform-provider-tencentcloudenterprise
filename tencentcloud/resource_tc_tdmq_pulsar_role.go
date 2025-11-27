@@ -9,7 +9,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_tdmq_pulsar_role", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_tdmq_pulsar_role", CNDescription{
 		TerraformTypeCN: "TDMQ Pulsar角色",
 		DescriptionCN:   "提供TDMQ Pulsar角色资源，用于创建和管理TDMQ Pulsar角色。",
 		AttributesCN: map[string]string{

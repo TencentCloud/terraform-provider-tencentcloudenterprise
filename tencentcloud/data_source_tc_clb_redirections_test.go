@@ -17,7 +17,7 @@ func TestAccTencentCloudClbRedirectionsDataSource(t *testing.T) {
 			{
 				Config: testAccClbRedirectionsDataSource,
 				Check: resource.ComposeAggregateTestCheckFunc(
-					testAccCheckClbRedirectionExists("cloud_clb_redirection.redirection_basic"),
+					testAccCheckClbRedirectionExists("tencentcloudenterprise_clb_redirection.redirection_basic"),
 					resource.TestCheckResourceAttr("data.cloud_clb_redirections.redirections", "redirection_list.#", "1"),
 					resource.TestCheckResourceAttrSet("data.cloud_clb_redirections.redirections", "redirection_list.0.clb_id"),
 					resource.TestCheckResourceAttrSet("data.cloud_clb_redirections.redirections", "redirection_list.0.source_listener_id"),
@@ -31,19 +31,19 @@ func TestAccTencentCloudClbRedirectionsDataSource(t *testing.T) {
 }
 
 const testAccClbRedirectionsDataSource = `
-resource "cloud_clb_instance" "clb" {
+resource "tencentcloudenterprise_clb_instance" "clb" {
   network_type = "OPEN"
   clb_name     = "tf-clb-redirections"
 }
 
-resource "cloud_clb_listener" "listener_basic" {
+resource "tencentcloudenterprise_clb_listener" "listener_basic" {
   clb_id        = cloud_clb_instance.clb.id
   port          = 1
   protocol      = "HTTP"
   listener_name = "listener_basic"
 }
 
-resource "cloud_clb_listener_rule" "rule_basic" {
+resource "tencentcloudenterprise_clb_listener_rule" "rule_basic" {
   clb_id              = cloud_clb_instance.clb.id
   listener_id         = cloud_clb_listener.listener_basic.listener_id
   domain              = "abc.com"
@@ -52,14 +52,14 @@ resource "cloud_clb_listener_rule" "rule_basic" {
   scheduler           = "WRR"
 }
 
-resource "cloud_clb_listener" "listener_target" {
+resource "tencentcloudenterprise_clb_listener" "listener_target" {
   clb_id        = cloud_clb_instance.clb.id
   port          = 44
   protocol      = "HTTP"
   listener_name = "listener_basic1"
 }
 
-resource "cloud_clb_listener_rule" "rule_target" {
+resource "tencentcloudenterprise_clb_listener_rule" "rule_target" {
   clb_id              = cloud_clb_instance.clb.id
   listener_id         = cloud_clb_listener.listener_target.listener_id
   domain              = "abcd.com"
@@ -68,7 +68,7 @@ resource "cloud_clb_listener_rule" "rule_target" {
   scheduler           = "WRR"
 }
 
-resource "cloud_clb_redirection" "redirection_basic" {
+resource "tencentcloudenterprise_clb_redirection" "redirection_basic" {
   clb_id             = cloud_clb_instance.clb.id
   source_listener_id = cloud_clb_listener.listener_basic.listener_id
   target_listener_id = cloud_clb_listener.listener_target.listener_id
@@ -76,7 +76,7 @@ resource "cloud_clb_redirection" "redirection_basic" {
   target_rule_id     = cloud_clb_listener_rule.rule_target.rule_id
 }
 
-data "cloud_clb_redirections" "redirections" {
+data "tencentcloudenterprise_clb_redirections" "redirections" {
   clb_id             = cloud_clb_instance.clb.id
   source_listener_id = cloud_clb_redirection.redirection_basic.source_listener_id
   source_rule_id     = cloud_clb_redirection.redirection_basic.source_rule_id

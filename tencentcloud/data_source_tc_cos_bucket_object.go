@@ -5,7 +5,7 @@ Use this data source to query the metadata of an object stored inside a bucket.
 
 ```hcl
 
-	data "cloud_cos_bucket_object" "mycos" {
+	data "tencentcloudenterprise_cos_bucket_object" "mycos" {
 	  bucket             = "mycos-test-1258798060"
 	  prefix                = "hello-world.py"
 	  result_output_file = "TfCosResults"
@@ -25,7 +25,7 @@ import (
 )
 
 func init() {
-	registerDataDescriptionProvider("cloud_cos_bucket_object", CNDescription{
+	registerDataDescriptionProvider("tencentcloudenterprise_cos_bucket_object", CNDescription{
 		TerraformTypeCN: "云对象存储（COS）",
 		DescriptionCN:   "提供COS存储桶对象数据源，用于查询存储桶对象的元数据。",
 		AttributesCN: map[string]string{

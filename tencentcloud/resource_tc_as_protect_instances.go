@@ -5,7 +5,7 @@ Provides a resource to create a as protect_instances
 
 ```hcl
 
-	resource "cloud_as_protect_instances" "protect_instances" {
+	resource "tencentcloudenterprise_as_protect_instances" "protect_instances" {
 	  auto_scaling_group_id = cloud_as_scaling_group.scaling_group.id
 	  instance_ids = ["ins-xxxxx"]
 	  protected_from_scale_in = true
@@ -25,7 +25,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_as_protect_instances", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_as_protect_instances", CNDescription{
 		TerraformTypeCN: "自动伸缩组保护实例",
 		DescriptionCN:   "提供自动伸缩保护实例资源，用于创建和管理AS保护实例。",
 		AttributesCN: map[string]string{

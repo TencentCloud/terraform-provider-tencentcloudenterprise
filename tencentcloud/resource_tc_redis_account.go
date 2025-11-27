@@ -5,7 +5,7 @@
 //
 // ```hcl
 //
-//	resource "cloud_redis_account" "account" {
+//	resource "tencentcloudenterprise_redis_account" "account" {
 //	 instance_id 	   = "crs-xxxxxx"
 //	 account_name 	   = "account_test"
 //	 account_password = "test1234"

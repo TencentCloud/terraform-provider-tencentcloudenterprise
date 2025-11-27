@@ -16,10 +16,10 @@ func TestAccTencentCloudNeedFixCvmImportImageResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			{
 				Config: testAccCvmImportImage,
-				Check:  resource.ComposeTestCheckFunc(resource.TestCheckResourceAttrSet("cloud_cvm_import_image.import_image", "id")),
+				Check:  resource.ComposeTestCheckFunc(resource.TestCheckResourceAttrSet("tencentcloudenterprise_cvm_import_image.import_image", "id")),
 			},
 			{
-				ResourceName:      "cloud_cvm_import_image.import_image",
+				ResourceName:      "tencentcloudenterprise_cvm_import_image.import_image",
 				ImportState:       true,
 				ImportStateVerify: true,
 			},
@@ -29,7 +29,7 @@ func TestAccTencentCloudNeedFixCvmImportImageResource_basic(t *testing.T) {
 
 const testAccCvmImportImage = `
 
-resource "cloud_cvm_import_image" "import_image" {
+resource "tencentcloudenterprise_cvm_import_image" "import_image" {
   architecture = "x86_64"
   os_type = "CentOS"
   os_version = "7"

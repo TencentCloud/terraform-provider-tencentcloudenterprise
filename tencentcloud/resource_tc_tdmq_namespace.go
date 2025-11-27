@@ -5,7 +5,7 @@ Provide a resource to create a tdmq namespace.
 
 ```hcl
 
-	resource "cloud_tdmq_instance" "foo" {
+	resource "tencentcloudenterprise_tdmq_instance" "foo" {
 	  cluster_name = "example111"
 	  remark = "this is description111."
 	  tags = {
@@ -16,7 +16,7 @@ Provide a resource to create a tdmq namespace.
 	  bind_cluster_name = "default"
 	}
 
-	resource "cloud_tdmq_namespace" "bar" {
+	resource "tencentcloudenterprise_tdmq_namespace" "bar" {
 	  environ_name = "example"
 	  msg_ttl = 200
 	  cluster_id = cloud_tdmq_instance.foo.id
@@ -46,7 +46,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_tdmq_namespace", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_tdmq_namespace", CNDescription{
 		TerraformTypeCN: "命名空间",
 		DescriptionCN:   "提供TDMQ命名空间资源，用于创建和管理TDMQ命名空间。",
 		AttributesCN: map[string]string{

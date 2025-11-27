@@ -20,30 +20,30 @@ func TestAccTencentCloudCbsSnapshotPolicy(t *testing.T) {
 			{
 				Config: testAccCbsSnapshotPolicy,
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckSnapshotPolicyExists("cloud_cbs_snapshot_policy.snapshot_policy"),
-					resource.TestCheckResourceAttr("cloud_cbs_snapshot_policy.snapshot_policy", "snapshot_policy_name", "tf-test-snapshot-policy"),
-					resource.TestCheckResourceAttr("cloud_cbs_snapshot_policy.snapshot_policy", "repeat_weekdays.#", "2"),
-					resource.TestCheckResourceAttr("cloud_cbs_snapshot_policy.snapshot_policy", "repeat_weekdays.0", "0"),
-					resource.TestCheckResourceAttr("cloud_cbs_snapshot_policy.snapshot_policy", "repeat_weekdays.1", "3"),
-					resource.TestCheckResourceAttr("cloud_cbs_snapshot_policy.snapshot_policy", "repeat_hours.#", "1"),
-					resource.TestCheckResourceAttr("cloud_cbs_snapshot_policy.snapshot_policy", "repeat_hours.0", "0"),
-					resource.TestCheckResourceAttr("cloud_cbs_snapshot_policy.snapshot_policy", "retention_days", "30"),
+					testAccCheckSnapshotPolicyExists("tencentcloudenterprise_cbs_snapshot_policy.snapshot_policy"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_cbs_snapshot_policy.snapshot_policy", "snapshot_policy_name", "tf-test-snapshot-policy"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_cbs_snapshot_policy.snapshot_policy", "repeat_weekdays.#", "2"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_cbs_snapshot_policy.snapshot_policy", "repeat_weekdays.0", "0"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_cbs_snapshot_policy.snapshot_policy", "repeat_weekdays.1", "3"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_cbs_snapshot_policy.snapshot_policy", "repeat_hours.#", "1"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_cbs_snapshot_policy.snapshot_policy", "repeat_hours.0", "0"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_cbs_snapshot_policy.snapshot_policy", "retention_days", "30"),
 				),
 			},
 			{
 				Config: testAccCbsSnapshotPolicy_update,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr("cloud_cbs_snapshot_policy.snapshot_policy", "snapshot_policy_name", "tf-snapshot-policy-update"),
-					resource.TestCheckResourceAttr("cloud_cbs_snapshot_policy.snapshot_policy", "repeat_weekdays.#", "2"),
-					resource.TestCheckResourceAttr("cloud_cbs_snapshot_policy.snapshot_policy", "repeat_weekdays.0", "1"),
-					resource.TestCheckResourceAttr("cloud_cbs_snapshot_policy.snapshot_policy", "repeat_weekdays.1", "4"),
-					resource.TestCheckResourceAttr("cloud_cbs_snapshot_policy.snapshot_policy", "repeat_hours.#", "1"),
-					resource.TestCheckResourceAttr("cloud_cbs_snapshot_policy.snapshot_policy", "repeat_hours.0", "1"),
-					resource.TestCheckResourceAttr("cloud_cbs_snapshot_policy.snapshot_policy", "retention_days", "7"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_cbs_snapshot_policy.snapshot_policy", "snapshot_policy_name", "tf-snapshot-policy-update"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_cbs_snapshot_policy.snapshot_policy", "repeat_weekdays.#", "2"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_cbs_snapshot_policy.snapshot_policy", "repeat_weekdays.0", "1"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_cbs_snapshot_policy.snapshot_policy", "repeat_weekdays.1", "4"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_cbs_snapshot_policy.snapshot_policy", "repeat_hours.#", "1"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_cbs_snapshot_policy.snapshot_policy", "repeat_hours.0", "1"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_cbs_snapshot_policy.snapshot_policy", "retention_days", "7"),
 				),
 			},
 			{
-				ResourceName:      "cloud_cbs_snapshot_policy.snapshot_policy",
+				ResourceName:      "tencentcloudenterprise_cbs_snapshot_policy.snapshot_policy",
 				ImportState:       true,
 				ImportStateVerify: true,
 			},
@@ -59,7 +59,7 @@ func testAccCheckCbsSnapshotPolicyDestroy(s *terraform.State) error {
 		client: testAccProvider.Meta().(*TencentCloudClient).apiV3Conn,
 	}
 	for _, rs := range s.RootModule().Resources {
-		if rs.Type != "cloud_cbs_snapshot_policy" {
+		if rs.Type != "tencentcloudenterprise_cbs_snapshot_policy" {
 			continue
 		}
 
@@ -101,7 +101,7 @@ func testAccCheckSnapshotPolicyExists(n string) resource.TestCheckFunc {
 }
 
 const testAccCbsSnapshotPolicy = `
-resource "cloud_cbs_snapshot_policy" "snapshot_policy" {
+resource "tencentcloudenterprise_cbs_snapshot_policy" "snapshot_policy" {
   snapshot_policy_name = "tf-test-snapshot-policy"
   repeat_weekdays      = [0, 3]
   repeat_hours         = [0]
@@ -110,7 +110,7 @@ resource "cloud_cbs_snapshot_policy" "snapshot_policy" {
 `
 
 const testAccCbsSnapshotPolicy_update = `
-resource "cloud_cbs_snapshot_policy" "snapshot_policy" {
+resource "tencentcloudenterprise_cbs_snapshot_policy" "snapshot_policy" {
   snapshot_policy_name = "tf-snapshot-policy-update"
   repeat_weekdays      = [1, 4]
   repeat_hours         = [1]

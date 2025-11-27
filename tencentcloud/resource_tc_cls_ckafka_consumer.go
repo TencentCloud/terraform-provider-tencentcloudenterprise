@@ -5,7 +5,7 @@ Provides a resource to create a cls ckafka_consumer
 
 ```hcl
 
-	resource "cloud_cls_ckafka_consumer" "ckafka_consumer" {
+	resource "tencentcloudenterprise_cls_ckafka_consumer" "ckafka_consumer" {
 	  compression  = 1
 	  need_content = true
 	  topic_id     = "7e34a3a7-635e-4da8-9005-88106c1fde69"
@@ -56,7 +56,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_cls_ckafka_consumer", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_cls_ckafka_consumer", CNDescription{
 		TerraformTypeCN: "CLS Ckafka消费者",
 		DescriptionCN:   "提供CLS Ckafka消费者资源，用于创建和管理日志服务Ckafka消费者。",
 		AttributesCN: map[string]string{

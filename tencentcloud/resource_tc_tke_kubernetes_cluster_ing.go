@@ -7,7 +7,7 @@ Provide a resource to increase instance to cluster
 
 ```hcl
 
-	resource "cloud_kubernetes_cluster_ing" "app-csp-sm" {
+	resource "tencentcloudenterprise_kubernetes_cluster_ing" "app-csp-sm" {
 	  cluster_id = cloud_tke_kubernetes_cluster.cluster.id
 	  namespace  = "app-csp-sm"
 	  path = "/apis/platform.tkestack.io/v1/clusters/cls-x8lxd2jx/apply"
@@ -27,7 +27,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_tke_kubernetes_cluster_ing", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_tke_kubernetes_cluster_ing", CNDescription{
 		TerraformTypeCN: "集群Ingress配置",
 		DescriptionCN:   "提供集群Ingress配置资源，用于配置集群的Ingress规则。",
 		AttributesCN: map[string]string{

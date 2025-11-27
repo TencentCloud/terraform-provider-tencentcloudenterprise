@@ -52,33 +52,33 @@ func TestAccTencentCloudDataSourceImagesBase(t *testing.T) {
 }
 
 const testAccTencentCloudDataSourceImagesBase = `
-data "cloud_cvm_images" "foo" {
+data "tencentcloudenterprise_cvm_images" "foo" {
 	result_output_file = "data_source_tc_images_test.txt"
 }
 `
 
 const testAccTencentCloudDataSourceImagesBaseWithFilter = `
-data "cloud_cvm_images" "foo" {
+data "tencentcloudenterprise_cvm_images" "foo" {
 	image_type = ["PRIVATE_IMAGE"]
 }
 `
 
 const testAccTencentCloudDataSourceImagesBaseWithOsName = `
-data "cloud_cvm_images" "foo" {
+data "tencentcloudenterprise_cvm_images" "foo" {
   image_type = ["PUBLIC_IMAGE"]
   os_name = "CentOS 7.5"
 }
 `
 
 const testAccTencentCloudDataSourceImagesBaseWithImageNameRegex = `
-data "cloud_cvm_images" "foo" {
+data "tencentcloudenterprise_cvm_images" "foo" {
   image_type = ["PUBLIC_IMAGE"]
   image_name_regex = "^CentOS\\s+7\\.5\\s+64\\w*"
 }
 `
 
 const testAccTencentCloudDataSourceImagesBaseWithInstanceType = `
-data "cloud_cvm_images" "foo" {
+data "tencentcloudenterprise_cvm_images" "foo" {
   //instance_type = "S1.SMALL1"
   instance_type = "S5l.SMALL1"
 }

@@ -5,7 +5,7 @@ Provides a resource to create a vpc bandwidth_package_attachment
 
 ```hcl
 
-	resource "cloud_vpc_bandwidth_package_attachment" "bandwidth_package_attachment" {
+	resource "tencentcloudenterprise_vpc_bandwidth_package_attachment" "bandwidth_package_attachment" {
 	  resource_id           = "lb-dv1ai6ma"
 	  bandwidth_package_id  = "bwp-atmf0p9g"
 	  network_type          = "BGP"
@@ -30,7 +30,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_vpc_bandwidth_package_attachment", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_vpc_bandwidth_package_attachment", CNDescription{
 		TerraformTypeCN: "共享带宽包关联资源",
 		AttributesCN: map[string]string{
 			"resource_id":          "资源ID",

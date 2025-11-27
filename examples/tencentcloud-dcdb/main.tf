@@ -3,43 +3,43 @@
 # ========== Data Sources ==========
 
 # Query DCDB instances
-data "cloud_dcdb_instances" "instances" {
+data "tencentcloudenterprise_dcdb_instances" "instances" {
   instance_id = "dcdb-xxxxx"
 }
 
 # Query DCDB accounts
-data "cloud_dcdb_accounts" "accounts" {
+data "tencentcloudenterprise_dcdb_accounts" "accounts" {
   instance_id = "dcdb-xxxxx"
 }
 
 # Query DCDB databases
-data "cloud_dcdb_databases" "databases" {
+data "tencentcloudenterprise_dcdb_databases" "databases" {
   instance_id = "dcdb-xxxxx"
 }
 
 # Query DCDB parameters
-data "cloud_dcdb_parameters" "parameters" {
+data "tencentcloudenterprise_dcdb_parameters" "parameters" {
   instance_id = "dcdb-xxxxx"
 }
 
 # Query DCDB shards
-data "cloud_dcdb_shards" "shards" {
+data "tencentcloudenterprise_dcdb_shards" "shards" {
   instance_id = "dcdb-xxxxx"
 }
 
 # Query DCDB security groups
-data "cloud_dcdb_security_groups" "sgs" {
+data "tencentcloudenterprise_dcdb_security_groups" "sgs" {
   instance_id = "dcdb-xxxxx"
 }
 
 # Query DCDB database objects
-data "cloud_dcdb_database_objects" "objects" {
+data "tencentcloudenterprise_dcdb_database_objects" "objects" {
   instance_id = "dcdb-xxxxx"
   db_name     = "example_db"
 }
 
 # Query DCDB database tables
-data "cloud_dcdb_database_tables" "tables" {
+data "tencentcloudenterprise_dcdb_database_tables" "tables" {
   instance_id = "dcdb-xxxxx"
   db_name     = "example_db"
 }
@@ -47,7 +47,7 @@ data "cloud_dcdb_database_tables" "tables" {
 # ========== Resources ==========
 
 # DCDB Instance
-resource "cloud_dcdb_instance" "instance" {
+resource "tencentcloudenterprise_dcdb_instance" "instance" {
   instance_name = "example-dcdb"
   zones         = ["ap-guangzhou-3", "ap-guangzhou-4"]
   period        = 1
@@ -66,7 +66,7 @@ resource "cloud_dcdb_instance" "instance" {
 }
 
 # DCDB Account
-resource "cloud_dcdb_account" "account" {
+resource "tencentcloudenterprise_dcdb_account" "account" {
   instance_id = cloud_dcdb_instance.instance.id
   user_name   = "example_user"
   host        = "%"
@@ -76,7 +76,7 @@ resource "cloud_dcdb_account" "account" {
 }
 
 # DCDB Account Privileges
-resource "cloud_dcdb_account_privileges" "privileges" {
+resource "tencentcloudenterprise_dcdb_account_privileges" "privileges" {
   instance_id = cloud_dcdb_instance.instance.id
   user_name   = cloud_dcdb_account.account.user_name
   host        = cloud_dcdb_account.account.host
@@ -89,13 +89,13 @@ resource "cloud_dcdb_account_privileges" "privileges" {
 }
 
 # DCDB Security Group Attachment
-resource "cloud_dcdb_security_group_attachment" "sg_attachment" {
+resource "tencentcloudenterprise_dcdb_security_group_attachment" "sg_attachment" {
   instance_id        = cloud_dcdb_instance.instance.id
   security_group_ids = ["sg-xxxxx"]
 }
 
 # DCDB DB Parameters
-resource "cloud_dcdb_db_parameters" "params" {
+resource "tencentcloudenterprise_dcdb_db_parameters" "params" {
   instance_id = cloud_dcdb_instance.instance.id
   params {
     param = "max_connections"
@@ -108,19 +108,19 @@ resource "cloud_dcdb_db_parameters" "params" {
 }
 
 # DCDB DB Sync Mode Config
-resource "cloud_dcdb_db_sync_mode_config" "sync_mode" {
+resource "tencentcloudenterprise_dcdb_db_sync_mode_config" "sync_mode" {
   instance_id = cloud_dcdb_instance.instance.id
   sync_mode   = 2  # Strong sync
 }
 
 # DCDB Encrypt Attributes Config
-resource "cloud_dcdb_encrypt_attributes_config" "encrypt" {
+resource "tencentcloudenterprise_dcdb_encrypt_attributes_config" "encrypt" {
   instance_id    = cloud_dcdb_instance.instance.id
   encrypt_enabled = 1
 }
 
 # DCDB Instance Config
-resource "cloud_dcdb_instance_config" "config" {
+resource "tencentcloudenterprise_dcdb_instance_config" "config" {
   instance_id = cloud_dcdb_instance.instance.id
   
   rs_access_strategy = 1
@@ -130,27 +130,27 @@ resource "cloud_dcdb_instance_config" "config" {
 }
 
 # DCDB Activate Hour Instance Operation
-resource "cloud_dcdb_activate_hour_instance_operation" "activate" {
+resource "tencentcloudenterprise_dcdb_activate_hour_instance_operation" "activate" {
   instance_id = cloud_dcdb_instance.instance.id
 }
 
 # DCDB Isolate Hour Instance Operation
-resource "cloud_dcdb_isolate_hour_instance_operation" "isolate" {
+resource "tencentcloudenterprise_dcdb_isolate_hour_instance_operation" "isolate" {
   instance_id = cloud_dcdb_instance.instance.id
 }
 
 # DCDB Flush Binlog Operation
-resource "cloud_dcdb_flush_binlog_operation" "flush_binlog" {
+resource "tencentcloudenterprise_dcdb_flush_binlog_operation" "flush_binlog" {
   instance_id = cloud_dcdb_instance.instance.id
 }
 
 # DCDB Switch DB Instance HA Operation
-resource "cloud_dcdb_switch_db_instance_ha_operation" "switch_ha" {
+resource "tencentcloudenterprise_dcdb_switch_db_instance_ha_operation" "switch_ha" {
   instance_id = cloud_dcdb_instance.instance.id
   zone        = "ap-guangzhou-4"
 }
 
 # DCDB Cancel DCN Job Operation
-resource "cloud_dcdb_cancel_dcn_job_operation" "cancel_dcn" {
+resource "tencentcloudenterprise_dcdb_cancel_dcn_job_operation" "cancel_dcn" {
   instance_id = cloud_dcdb_instance.instance.id
 }

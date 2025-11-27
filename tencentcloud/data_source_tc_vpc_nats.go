@@ -8,19 +8,19 @@ The NATs data source lists a number of NATs resource information owned by an Ten
 ```hcl
 # Query the NAT gateway by ID
 
-	data "cloud_nats" "anat" {
+	data "tencentcloudenterprise_nats" "anat" {
 	  id = "nat-k6ualnp2"
 	}
 
 # Query the list of normal NAT gateways
 
-	data "cloud_nats" "nat_state" {
+	data "tencentcloudenterprise_nats" "nat_state" {
 	  state = 0
 	}
 
 # Multi conditional query NAT gateway list
 
-	data "cloud_nats" "multi_nat" {
+	data "tencentcloudenterprise_nats" "multi_nat" {
 	  name           = "terraform test"
 	  vpc_id         = "vpc-ezij4ltv"
 	  max_concurrent = 3000000

@@ -16,10 +16,10 @@ func TestAccTencentCloudVpcSnapshotPolicyConfigResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			{
 				Config: testAccVpcSnapshotPolicyConfig,
-				Check:  resource.ComposeTestCheckFunc(resource.TestCheckResourceAttrSet("cloud_vpc_snapshot_policy_config.snapshot_policy_config", "id")),
+				Check:  resource.ComposeTestCheckFunc(resource.TestCheckResourceAttrSet("tencentcloudenterprise_vpc_snapshot_policy_config.snapshot_policy_config", "id")),
 			},
 			{
-				ResourceName:      "cloud_vpc_snapshot_policy_config.snapshot_policy_config",
+				ResourceName:      "tencentcloudenterprise_vpc_snapshot_policy_config.snapshot_policy_config",
 				ImportState:       true,
 				ImportStateVerify: true,
 			},
@@ -29,7 +29,7 @@ func TestAccTencentCloudVpcSnapshotPolicyConfigResource_basic(t *testing.T) {
 
 const testAccVpcSnapshotPolicyConfig = `
 
-resource "cloud_vpc_snapshot_policy_config" "snapshot_policy_config" {
+resource "tencentcloudenterprise_vpc_snapshot_policy_config" "snapshot_policy_config" {
   snapshot_policy_id = "sspolicy-1t6cobbv"
   enable             = false
 }

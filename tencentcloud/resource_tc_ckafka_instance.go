@@ -125,12 +125,12 @@ Basic Instance
 	  ]
 	}
 
-	data "cloud_availability_zones" "gz" {
+	data "tencentcloudenterprise_availability_zones" "gz" {
 	  name    = "ap-guangzhou-3"
 	  product = "ckafka"
 	}
 
-	resource "cloud_ckafka_instance" "kafka_instance" {
+	resource "tencentcloudenterprise_ckafka_instance" "kafka_instance" {
 	  instance_name      = "ckafka-instance-type-tf-test"
 	  zone_id            = data.cloud_availability_zones.gz.zones.0.id
 	  region_id          = 80000052
@@ -168,17 +168,17 @@ Multi zone Instance
 	  default = "subnet-ob6clqwk"
 	}
 
-	data "cloud_availability_zones" "gz3" {
+	data "tencentcloudenterprise_availability_zones" "gz3" {
 	  name    = "ap-guangzhou-3"
 	  product = "ckafka"
 	}
 
-	data "cloud_availability_zones" "gz6" {
+	data "tencentcloudenterprise_availability_zones" "gz6" {
 	  name    = "ap-guangzhou-6"
 	  product = "ckafka"
 	}
 
-	resource "cloud_ckafka_instance" "kafka_instance" {
+	resource "tencentcloudenterprise_ckafka_instance" "kafka_instance" {
 	  instance_name   = "ckafka-instance-maz-tf-test"
 	  zone_id         = data.cloud_availability_zones.gz3.zones.0.id
 	  multi_zone_flag = true
@@ -247,7 +247,7 @@ var (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_ckafka_instance", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_ckafka_instance", CNDescription{
 		TerraformTypeCN: "ckafka实例",
 		DescriptionCN:   "提供CKafka实例资源，用于创建和管理消息队列CKafka实例。",
 		AttributesCN: map[string]string{

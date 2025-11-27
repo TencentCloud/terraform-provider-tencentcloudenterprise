@@ -5,7 +5,7 @@ Provide a resource to query VPCDNS domain.
 
 ```hcl
 
-	data "cloud_vpcdns_forward_rules" "foo" {
+	data "tencentcloudenterprise_vpcdns_forward_rules" "foo" {
 	  result_output_file = "forward_rules.json"
 	}
 
@@ -32,7 +32,7 @@ import (
 )
 
 func init() {
-	registerDataDescriptionProvider("cloud_vpcdns_forward_rules", CNDescription{
+	registerDataDescriptionProvider("tencentcloudenterprise_vpcdns_forward_rules", CNDescription{
 		TerraformTypeCN: "VPCDNS转发规则",
 		DescriptionCN:   "提供VPCDNS转发规则数据源，用于查询VPCDNS转发规则的详细信息。",
 		AttributesCN: map[string]string{

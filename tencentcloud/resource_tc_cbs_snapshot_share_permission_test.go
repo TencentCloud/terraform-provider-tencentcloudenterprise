@@ -17,11 +17,11 @@ func TestAccTencentCloudCbsSnapshotSharePermissionResource_basic(t *testing.T) {
 			{
 				Config: testAccCbsSnapshotSharePermission,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttrSet("cloud_cbs_snapshot_share_permission.snapshot_share_permission", "id"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_cbs_snapshot_share_permission.snapshot_share_permission", "id"),
 				),
 			},
 			{
-				ResourceName:      "cloud_cbs_snapshot_share_permission.snapshot_share_permission",
+				ResourceName:      "tencentcloudenterprise_cbs_snapshot_share_permission.snapshot_share_permission",
 				ImportState:       true,
 				ImportStateVerify: true,
 			},
@@ -30,7 +30,7 @@ func TestAccTencentCloudCbsSnapshotSharePermissionResource_basic(t *testing.T) {
 }
 
 const testAccCbsSnapshotSharePermission = `
-resource "cloud_cbs_snapshot_share_permission" "snapshot_share_permission" {
+resource "tencentcloudenterprise_cbs_snapshot_share_permission" "snapshot_share_permission" {
 	account_ids = ["100004603073"]
 	snapshot_id = "snap-7o0uk1pt"
 }

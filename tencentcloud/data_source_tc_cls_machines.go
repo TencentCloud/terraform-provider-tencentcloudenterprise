@@ -5,7 +5,7 @@ Use this data source to query detailed information of cls machines
 
 ```hcl
 
-	resource "cloud_cls_machine_group" "group" {
+	resource "tencentcloudenterprise_cls_machine_group" "group" {
 	  group_name        = "tf-describe-mg-test"
 	  service_logging   = true
 	  auto_update       = true
@@ -21,7 +21,7 @@ Use this data source to query detailed information of cls machines
 	  }
 	}
 
-	data "cloud_cls_machines" "machines" {
+	data "tencentcloudenterprise_cls_machines" "machines" {
 	  group_id = cloud_cls_machine_group.group.id
 	}
 
@@ -39,7 +39,7 @@ import (
 )
 
 func init() {
-	registerDataDescriptionProvider("cloud_cls_machines", CNDescription{
+	registerDataDescriptionProvider("tencentcloudenterprise_cls_machines", CNDescription{
 		TerraformTypeCN: "CLS机器组机器列表",
 		DescriptionCN:   "提供CLS机器组机器列表数据源，用于查询指定机器组中的机器状态和详细信息。",
 		AttributesCN: map[string]string{

@@ -4,7 +4,7 @@ Use this data source to query detailed information of cvm disaster_recover_group
 # Example Usage
 
 ```hcl
-data "cloud_cvm_disaster_recover_group_quota" "disaster_recover_group_quota" {
+data "tencentcloudenterprise_cvm_disaster_recover_group_quota" "disaster_recover_group_quota" {
 }
 ```
 */
@@ -22,7 +22,7 @@ import (
 
 func init() {
 	// 注册资源中文描述提供者映射
-	registerDataDescriptionProvider("cloud_cvm_disaster_recover_group_quota", CNDescription{
+	registerDataDescriptionProvider("tencentcloudenterprise_cvm_disaster_recover_group_quota", CNDescription{
 		TerraformTypeCN: "CVM 置放群组配额",
 		DescriptionCN:   "提供CVM 置放群组配额数据源，用于查询CVM 置放群组配额信息。",
 		AttributesCN: map[string]string{

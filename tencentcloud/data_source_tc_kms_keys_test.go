@@ -40,13 +40,13 @@ func TestAccTencentCloudKmsKeyDataSource(t *testing.T) {
 
 func testAccDataSourceKmsKeyConfig(rName string) string {
 	return fmt.Sprintf(`
-resource "cloud_kms_key" "test" {
+resource "tencentcloudenterprise_kms_key" "test" {
   	alias = %[1]q
 	description = %[1]q
   	is_enabled = false
 	key_rotation_enabled = true
 }
-data "cloud_kms_keys" "test" {
+data "tencentcloudenterprise_kms_keys" "test" {
   search_key_alias = cloud_kms_key.test.alias
 }
 `, rName)

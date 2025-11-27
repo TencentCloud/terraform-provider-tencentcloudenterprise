@@ -5,7 +5,7 @@ Provides a resource to create a CBS.
 
 ```hcl
 
-	resource "cloud_cbs_storage" "storage" {
+	resource "tencentcloudenterprise_cbs_storage" "storage" {
 	  storage_name      = "mystorage"
 	  storage_type      = "CLOUD_SSD"
 	  storage_size      = 100
@@ -41,7 +41,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_cbs_storage", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_cbs_storage", CNDescription{
 		TerraformTypeCN: "云硬盘",
 		DescriptionCN:   "提供CBS云硬盘资源，用于创建和管理云硬盘。",
 		AttributesCN: map[string]string{
@@ -369,10 +369,10 @@ func resourceTencentCloudCbsStorageUpdate(d *schema.ResourceData, meta interface
 
 	//only support update prepaid_period when upgrade chargeType
 	if d.HasChange("prepaid_period") && (!d.HasChange("charge_type") && d.Get("charge_type").(string) == CBS_CHARGE_TYPE_PREPAID) {
-		return fmt.Errorf("cloud_cbs_storage renew is not support yet")
+		return fmt.Errorf("tencentcloudenterprise_cbs_storage renew is not support yet")
 	}
 	if d.HasChange("charge_type") && d.Get("charge_type").(string) != CBS_CHARGE_TYPE_PREPAID {
-		return fmt.Errorf("cloud_cbs_storage do not support downgrade instance")
+		return fmt.Errorf("tencentcloudenterprise_cbs_storage do not support downgrade instance")
 	}
 
 	cbsService := CbsService{
@@ -558,7 +558,7 @@ func resourceTencentCloudCbsStorageUpdate(d *schema.ResourceData, meta interface
 		//check
 
 		if chargeType != CBS_CHARGE_TYPE_PREPAID {
-			return fmt.Errorf("cloud_cbs_storage update on prepaid_period or prepaid_renew_flag is only supported with charge type PREPAID")
+			return fmt.Errorf("tencentcloudenterprise_cbs_storage update on prepaid_period or prepaid_renew_flag is only supported with charge type PREPAID")
 		}
 
 		//renew api

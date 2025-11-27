@@ -31,7 +31,7 @@ func TestAccTencentCloudDCDBDatabasesDataSource(t *testing.T) {
 }
 
 const testAccDataSourceDcdbDatabases = `
-data "cloud_dcdb_databases" "databases" {
+data "tencentcloudenterprise_dcdb_databases" "databases" {
 	instance_id = "%s" # use the hard code before the dcdb_instance resource is ready.
 }
 

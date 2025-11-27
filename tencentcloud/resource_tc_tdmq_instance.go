@@ -5,7 +5,7 @@ Provide a resource to create a TDMQ instance.
 
 ```hcl
 
-	resource "cloud_tdmq_instance" "foo" {
+	resource "tencentcloudenterprise_tdmq_instance" "foo" {
 	  cluster_name = "example111"
 	  remark = "this is description111."
 	  tags = {
@@ -40,7 +40,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_tdmq_instance", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_tdmq_instance", CNDescription{
 		TerraformTypeCN: "TDMQ 实例",
 		DescriptionCN:   "提供TDMQ实例资源，用于创建和管理TDMQ消息队列实例。",
 		AttributesCN: map[string]string{

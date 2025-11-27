@@ -24,7 +24,7 @@ func TestAccTencentCloudVpcNetworkInterfaceLimitDataSource_basic(t *testing.T) {
 
 const testAccVpcNetworkInterfaceLimitDataSource = `
 
-data "cloud_vpc_network_interface_limit" "network_interface_limit" {
+data "tencentcloudenterprise_vpc_network_interface_limit" "network_interface_limit" {
   instance_id = "ins-cr2rfq78"
 }
 

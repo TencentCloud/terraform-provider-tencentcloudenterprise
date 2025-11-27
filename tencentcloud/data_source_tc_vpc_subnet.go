@@ -11,17 +11,17 @@ This resource can prove useful when a module accepts a subnet id as an input var
 variable "subnet_id" {}
 variable "vpc_id" {}
 
-	data "cloud_vpc_subnet" "selected" {
+	data "tencentcloudenterprise_vpc_subnet" "selected" {
 	  vpc_id    = var.vpc_id
 	  subnet_id = var.subnet_id
 	}
 
-	resource "cloud_vpc_security_group" "default" {
+	resource "tencentcloudenterprise_vpc_security_group" "default" {
 	  name        = "test subnet data"
 	  description = "test subnet data description"
 	}
 
-	resource "cloud_vpc_security_group_rule" "subnet" {
+	resource "tencentcloudenterprise_vpc_security_group_rule" "subnet" {
 	  security_group_id = cloud_vpc_security_group.default.id
 	  type              = "ingress"
 	  cidr_ip           = data.cloud_vpc_subnet.selected.cidr_block

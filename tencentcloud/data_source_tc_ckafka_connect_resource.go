@@ -4,7 +4,7 @@
 // # Example Usage
 //
 // ```hcl
-// data "cloud_ckafka_connect_resource" "connect_resource" {
+// data "tencentcloudenterprise_ckafka_connect_resource" "connect_resource" {
 // }
 // ```
 // */
@@ -12,7 +12,7 @@ package tencentcloud
 
 //
 //func init() {
-//	registerDataDescriptionProvider("cloud_ckafka_connect_resource", CNDescription{
+//	registerDataDescriptionProvider("tencentcloudenterprise_ckafka_connect_resource", CNDescription{
 //		TerraformTypeCN: "ckafka连接资源",
 //		AttributesCN: map[string]string{
 //			"type":                      "连接源类型",

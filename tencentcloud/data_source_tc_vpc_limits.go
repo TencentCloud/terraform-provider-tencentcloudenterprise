@@ -5,7 +5,7 @@ Use this data source to query detailed information of vpc limits
 
 ```hcl
 
-	data "cloud_vpc_limits" "limits" {
+	data "tencentcloudenterprise_vpc_limits" "limits" {
 	  limit_types = ["appid-max-vpcs", "vpc-max-subnets"]
 	}
 
@@ -23,7 +23,7 @@ import (
 )
 
 func init() {
-	registerDataDescriptionProvider("cloud_vpc_limits", CNDescription{
+	registerDataDescriptionProvider("tencentcloudenterprise_vpc_limits", CNDescription{
 		TerraformTypeCN: "获取私有网络配额",
 		DescriptionCN:   "提供VPC限额数据源，用于查询VPC限额的详细信息。",
 		AttributesCN: map[string]string{

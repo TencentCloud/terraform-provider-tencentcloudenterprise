@@ -5,7 +5,7 @@ Provides a resource to create a cloud firewall (cfw) vpc policy.
 
 ```hcl
 
-	resource "cloud_cfw_vpc_policy" "example" {
+	resource "tencentcloudenterprise_cfw_vpc_policy" "example" {
 	  source_content = "0.0.0.0/0"
 	  source_type    = "net"
 	  dest_content   = "203.0.113.200"
@@ -42,7 +42,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_cfw_vpc_policy", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_cfw_vpc_policy", CNDescription{
 		TerraformTypeCN: "云防火墙VPC策略",
 		DescriptionCN:   "提供云防火墙VPC策略资源，用于创建和管理云防火墙VPC间访问控制策略。",
 		AttributesCN: map[string]string{

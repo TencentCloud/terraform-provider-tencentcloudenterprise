@@ -19,15 +19,15 @@ func TestAccTencentCloudRedisConnectionConfigResource_basic(t *testing.T) {
 			{
 				Config: testAccRedisConnectionConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
-					testAccTencentCloudRedisConnectionConfigExists("cloud_redis_connection_config.connection_config"),
-					resource.TestCheckResourceAttrSet("cloud_redis_connection_config.connection_config", "id"),
-					resource.TestCheckResourceAttr("cloud_redis_connection_config.connection_config", "instance_id", defaultCrsInstanceId),
-					resource.TestCheckResourceAttr("cloud_redis_connection_config.connection_config", "client_limit", "20000"),
-					resource.TestCheckResourceAttr("cloud_redis_connection_config.connection_config", "add_bandwidth", "20"),
+					testAccTencentCloudRedisConnectionConfigExists("tencentcloudenterprise_redis_connection_config.connection_config"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_redis_connection_config.connection_config", "id"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_redis_connection_config.connection_config", "instance_id", defaultCrsInstanceId),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_redis_connection_config.connection_config", "client_limit", "20000"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_redis_connection_config.connection_config", "add_bandwidth", "20"),
 				),
 			},
 			{
-				ResourceName:      "cloud_redis_connection_config.connection_config",
+				ResourceName:      "tencentcloudenterprise_redis_connection_config.connection_config",
 				ImportState:       true,
 				ImportStateVerify: true,
 			},
@@ -67,7 +67,7 @@ variable "instance_id" {
 
 const testAccRedisConnectionConfig = testAccRedisConnectionConfigVar + `
 
-resource "cloud_redis_connection_config" "connection_config" {
+resource "tencentcloudenterprise_redis_connection_config" "connection_config" {
    instance_id = var.instance_id
    client_limit = "20000"
    add_bandwidth = "20"

@@ -5,7 +5,7 @@ Use this data source to query images.
 
 ```hcl
 
-	data "cloud_cvm_images" "foo" {
+	data "tencentcloudenterprise_cvm_images" "foo" {
 	  image_type = ["PUBLIC_IMAGE"]
 	  os_name    = "centos 7.5"
 	}
@@ -29,7 +29,7 @@ import (
 
 func init() {
 	// 注册资源中文描述提供者映射
-	registerDataDescriptionProvider("cloud_cvm_images", CNDescription{
+	registerDataDescriptionProvider("tencentcloudenterprise_cvm_images", CNDescription{
 		TerraformTypeCN: "镜像列表",
 		DescriptionCN:   "提供镜像列表数据源，用于查询镜像信息。",
 		AttributesCN: map[string]string{

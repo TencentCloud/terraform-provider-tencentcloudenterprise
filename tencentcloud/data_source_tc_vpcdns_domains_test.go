@@ -26,7 +26,7 @@ func TestAccTencentCloudVpnDnsDomainDataSource(t *testing.T) {
 }
 
 const testAccTencentCloudVpnDnsDomainDataSourceConfig_basic = `
-data "cloud_vpcdns_domains" "foo" {
+data "tencentcloudenterprise_vpcdns_domains" "foo" {
   result_output_file = "foo.json"
   domain      = "brucezylin.cc"
 }

@@ -24,7 +24,7 @@ func TestAccTencentCloudClbExclusiveClustersDataSource_basic(t *testing.T) {
 
 const testAccClbExclusiveClustersDataSource = `
 
-data "cloud_clb_exclusive_clusters" "exclusive_clusters" {
+data "tencentcloudenterprise_clb_exclusive_clusters" "exclusive_clusters" {
   filters {
     name = "zone"
     values = ["ap-guangzhou-1"]

@@ -5,7 +5,7 @@ Provides a resource to create a tsf bind_api_group
 
 ```hcl
 
-	resource "cloud_tsf_bind_api_group" "bind_api_group" {
+	resource "tencentcloudenterprise_tsf_bind_api_group" "bind_api_group" {
 	  gateway_deploy_group_id = "group-vzd97zpy"
 	  group_id = "grp-qp0rj3zi"
 	}
@@ -34,7 +34,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_tsf_bind_api_group", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_tsf_bind_api_group", CNDescription{
 		TerraformTypeCN: "API 分组 绑定网关部署组",
 		DescriptionCN:   "提供TSF API分组 绑定网关部署组资源，用于创建和管理API分组 绑定网关部署组。",
 		AttributesCN: map[string]string{

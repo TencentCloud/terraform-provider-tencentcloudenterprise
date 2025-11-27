@@ -5,7 +5,7 @@ Use this data source to query detailed information of tdmq vip_instance
 
 ```hcl
 
-	data "cloud_tdmq_vip_instance" "vip_instance" {
+	data "tencentcloudenterprise_tdmq_vip_instance" "vip_instance" {
 	  cluster_id = "rocketmq-rd3545bkkj49"
 	}
 
@@ -23,7 +23,7 @@ import (
 )
 
 //func init() {
-//	registerDataDescriptionProvider("cloud_tdmq_vip_instance", CNDescription{
+//	registerDataDescriptionProvider("tencentcloudenterprise_tdmq_vip_instance", CNDescription{
 //		TerraformTypeCN: "TDMQ专享版实例",
 //		DescriptionCN:   "提供TDMQ专享版实例数据源，用于查询专享版实例的详细信息。",
 //		AttributesCN: map[string]string{

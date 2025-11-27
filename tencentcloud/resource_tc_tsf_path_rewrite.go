@@ -5,7 +5,7 @@ Provides a resource to create a tsf path_rewrite
 
 ```hcl
 
-	resource "cloud_tsf_path_rewrite" "path_rewrite" {
+	resource "tencentcloudenterprise_tsf_path_rewrite" "path_rewrite" {
 	  gateway_group_id = "group-a2j9zxpv"
 	  regex = "/test"
 	  replacement = "/tt"
@@ -37,7 +37,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_tsf_path_rewrite", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_tsf_path_rewrite", CNDescription{
 		TerraformTypeCN: "路径重写配置",
 		DescriptionCN:   "提供TSF路径重写配置资源，用于创建和管理路径重写规则。",
 		AttributesCN: map[string]string{

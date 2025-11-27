@@ -5,7 +5,7 @@ Use this data source to query detailed information of dcdb accounts.
 
 ```hcl
 
-	data "cloud_dcdb_accounts" "foo" {
+	data "tencentcloudenterprise_dcdb_accounts" "foo" {
 	  instance_id = cloud_dcdb_account.foo.instance_id
 	}
 
@@ -24,7 +24,7 @@ import (
 )
 
 func init() {
-	registerDataDescriptionProvider("cloud_dcdb_accounts", CNDescription{
+	registerDataDescriptionProvider("tencentcloudenterprise_dcdb_accounts", CNDescription{
 		TerraformTypeCN: "云数据库账号信息",
 		DescriptionCN:   "提供DCDB账户数据源，用于查询DCDB账户的详细信息。",
 		AttributesCN: map[string]string{

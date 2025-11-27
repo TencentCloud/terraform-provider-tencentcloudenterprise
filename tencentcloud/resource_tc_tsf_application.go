@@ -5,7 +5,7 @@ Provides a resource to create a tsf application
 
 ```hcl
 
-	resource "cloud_tsf_application" "application" {
+	resource "tencentcloudenterprise_tsf_application" "application" {
 		application_name = "terraform-test"
 		application_type = "V"
 		microservice_type = "N"
@@ -40,7 +40,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_tsf_application", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_tsf_application", CNDescription{
 		TerraformTypeCN: "应用管理",
 		DescriptionCN:   "提供TSF应用资源，用于创建和管理TSF应用。",
 		AttributesCN: map[string]string{

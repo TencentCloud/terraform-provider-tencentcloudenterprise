@@ -5,12 +5,12 @@ Provides a resource to create a tdmqRocketmq role
 
 ```hcl
 
-	resource "cloud_tdmq_rocketmq_cluster" "cluster" {
+	resource "tencentcloudenterprise_tdmq_rocketmq_cluster" "cluster" {
 		cluster_name = "test_rocketmq"
 		remark = "test recket mq"
 	}
 
-	resource "cloud_tdmq_rocketmq_role" "role" {
+	resource "tencentcloudenterprise_tdmq_rocketmq_role" "role" {
 	  role_name = "test_rocketmq_role"
 	  remark = "test rocketmq role"
 	  cluster_id = cloud_tdmq_rocketmq_cluster.cluster.cluster_id
@@ -40,7 +40,7 @@ import (
 
 func init() {
 	// 注册资源到资源中文描述提供者映射里
-	registerResourceDescriptionProvider("cloud_tdmq_rocketmq_role", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_tdmq_rocketmq_role", CNDescription{
 		TerraformTypeCN: "Rocketmq 角色管理",
 		DescriptionCN:   "提供Rocketmq角色资源，用于创建和管理Rocketmq角色。",
 		AttributesCN: map[string]string{

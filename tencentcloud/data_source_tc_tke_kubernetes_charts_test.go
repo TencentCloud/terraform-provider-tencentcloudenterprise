@@ -25,7 +25,7 @@ func TestAccTencentCloudKubernetesChartsDataSource(t *testing.T) {
 }
 
 const testAccDataSourceKubernetesCharts = `
-data "cloud_tke_kubernetes_charts" "test" {
+data "tencentcloudenterprise_tke_kubernetes_charts" "test" {
 	result_output_file = "222.json"
 }
 `

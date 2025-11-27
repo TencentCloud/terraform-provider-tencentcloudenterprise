@@ -11,7 +11,7 @@ import (
 )
 
 func init() {
-	registerDataDescriptionProvider("cloud_tdmq_rabbitmq_node_list", CNDescription{
+	registerDataDescriptionProvider("tencentcloudenterprise_tdmq_rabbitmq_node_list", CNDescription{
 		TerraformTypeCN: "TDMQ RabbitMQ节点列表",
 		DescriptionCN:   "提供TDMQ RabbitMQ节点列表数据源，用于查询RabbitMQ集群节点的详细信息。",
 		AttributesCN: map[string]string{

@@ -5,7 +5,7 @@ Use this data source to query bms placement group.
 
 ```hcl
 
-	data "cloud_bms_placement_groups" "bms" {
+	data "tencentcloudenterprise_bms_placement_groups" "bms" {
 	  result_output_file = "bms.json"
 	}
 
@@ -21,7 +21,7 @@ import (
 )
 
 func init() {
-	registerDataDescriptionProvider("cloud_bms_placement_groups", CNDescription{
+	registerDataDescriptionProvider("tencentcloudenterprise_bms_placement_groups", CNDescription{
 		TerraformTypeCN: "置放群组信息列表",
 		DescriptionCN:   "提供BMS置放群组信息列表数据源，用于查询BMS置放群组信息。",
 		AttributesCN: map[string]string{

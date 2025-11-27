@@ -14,7 +14,7 @@ import (
 func TestAccTencentCloudDcgV3InstancesBasic(t *testing.T) {
 	t.Parallel()
 
-	var rKey = "cloud_vpc_dc_gateway.ccn_main"
+	var rKey = "tencentcloudenterprise_vpc_dc_gateway.ccn_main"
 
 	resource.Test(t, resource.TestCase{
 		PreCheck:     func() { testAccPreCheck(t) },
@@ -94,7 +94,7 @@ func testAccTencentCloudCdgInstanceDestroy(s *terraform.State) error {
 
 	service := VpcService{client: testAccProvider.Meta().(*TencentCloudClient).apiV3Conn}
 	for _, rs := range s.RootModule().Resources {
-		if rs.Type != "cloud_vpc_dc_gateway" {
+		if rs.Type != "tencentcloudenterprise_vpc_dc_gateway" {
 			continue
 		}
 		_, has, err := service.DescribeDirectConnectGateway(ctx, rs.Primary.ID)
@@ -123,13 +123,13 @@ func testAccTencentCloudCdgInstanceDestroy(s *terraform.State) error {
 }
 
 const TestAccencentCloudDcgInstancesBasic = `
-resource "cloud_ccn" "main" {
+resource "tencentcloudenterprise_ccn" "main" {
   name        = "ci-temp-test-ccn"
   description = "ci-temp-test-ccn-des"
   qos         = "AG"
 }
 
-resource "cloud_vpc_dc_gateway" "ccn_main" {
+resource "tencentcloudenterprise_vpc_dc_gateway" "ccn_main" {
   name                = "ci-cdg-ccn-test"
   network_instance_id = cloud_ccn.main.id
   network_type        = "CCN"
@@ -137,13 +137,13 @@ resource "cloud_vpc_dc_gateway" "ccn_main" {
 }
 `
 const TestAccencentCloudDcgInstancesUpdate = `
-resource "cloud_ccn" "main" {
+resource "tencentcloudenterprise_ccn" "main" {
   name        = "ci-temp-test-ccn"
   description = "ci-temp-test-ccn-des"
   qos         = "AG"
 }
 
-resource "cloud_vpc_dc_gateway" "ccn_main" {
+resource "tencentcloudenterprise_vpc_dc_gateway" "ccn_main" {
   name                = "ci-cdg-ccn-test-update"
   network_instance_id = cloud_ccn.main.id
   network_type        = "CCN"

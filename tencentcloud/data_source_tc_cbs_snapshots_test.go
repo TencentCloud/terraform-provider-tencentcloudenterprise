@@ -17,7 +17,7 @@ func TestAccTencentCloudCbsSnapshotsDataSource(t *testing.T) {
 			{
 				Config: testAccCbsSnapshotsDataSource,
 				Check: resource.ComposeAggregateTestCheckFunc(
-					testAccCheckSnapshotExists("cloud_cbs_snapshot.snapshot"),
+					testAccCheckSnapshotExists("tencentcloudenterprise_cbs_snapshot.snapshot"),
 					resource.TestCheckResourceAttr("data.cloud_cbs_snapshots.snapshots", "snapshot_list.#", "1"),
 					resource.TestCheckResourceAttrSet("data.cloud_cbs_snapshots.snapshots", "snapshot_list.0.snapshot_id"),
 					resource.TestCheckResourceAttr("data.cloud_cbs_snapshots.snapshots", "snapshot_list.0.snapshot_name", "tf-test-snapshot"),
@@ -34,19 +34,19 @@ func TestAccTencentCloudCbsSnapshotsDataSource(t *testing.T) {
 }
 
 const testAccCbsSnapshotsDataSource = `
-resource "cloud_cbs_storage" "storage" {
+resource "tencentcloudenterprise_cbs_storage" "storage" {
   availability_zone = "ap-guangzhou-3"
   storage_size      = 50
   storage_type      = "CLOUD_PREMIUM"
   storage_name      = "tf-test-storage"
 }
 
-resource "cloud_cbs_snapshot" "snapshot" {
+resource "tencentcloudenterprise_cbs_snapshot" "snapshot" {
   storage_id    = cloud_cbs_storage.storage.id
   snapshot_name = "tf-test-snapshot"
 }
 
-data "cloud_cbs_snapshots" "snapshots" {
+data "tencentcloudenterprise_cbs_snapshots" "snapshots" {
   snapshot_id = cloud_cbs_snapshot.snapshot.id
 }
 `

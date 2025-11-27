@@ -5,7 +5,7 @@
 //
 // ```hcl
 //
-//	resource "cloud_ckafka_renew_instance" "renew_ckafka_instance" {
+//	resource "tencentcloudenterprise_ckafka_renew_instance" "renew_ckafka_instance" {
 //	 instance_id = "InstanceId"
 //	 time_span = 1
 //	}

@@ -29,7 +29,7 @@ func TestAccTencentCloudTsfApplicationAttributeDataSource_basic(t *testing.T) {
 
 const testAccTsfApplicationAttributeDataSource = `
 
-data "cloud_tsf_application_attribute" "application_attribute" {
+data "tencentcloudenterprise_tsf_application_attribute" "application_attribute" {
   application_id = "application-a24x29xv"
 }
 

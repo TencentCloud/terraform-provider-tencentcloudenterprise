@@ -1,4 +1,4 @@
-resource "cloud_ckafka_acl" "terraform_acl" {
+resource "tencentcloudenterprise_ckafka_acl" "terraform_acl" {
   instance_id = "ckafka-agl7fgoz"
   resource_type = "TOPIC"
   resource_name = "terraform_create_third_times"

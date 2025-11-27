@@ -44,13 +44,13 @@ func TestAccDataSourceRedisZoneConfig_basic(t *testing.T) {
 }
 
 func testAccDataSourceRedisZoneConfig() string {
-	return `data "cloud_redis_zone_config" "test" {
+	return `data "tencentcloudenterprise_redis_zone_config" "test" {
 		
 	}`
 }
 
 func testAccDataSourceRedisZoneConfigWithRegion() string {
-	return `data "cloud_redis_zone_config" "testWithRegion" {
+	return `data "tencentcloudenterprise_redis_zone_config" "testWithRegion" {
        region = "ap-guangzhou"
     }`
 }

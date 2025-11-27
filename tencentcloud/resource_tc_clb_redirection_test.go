@@ -20,12 +20,12 @@ func TestAccTencentCloudClbRedirection_basic(t *testing.T) {
 			{
 				Config: testAccClbRedirection_basic,
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckClbRedirectionExists("cloud_clb_redirection.redirection_basic"),
-					resource.TestCheckResourceAttrSet("cloud_clb_redirection.redirection_basic", "clb_id"),
-					resource.TestCheckResourceAttrSet("cloud_clb_redirection.redirection_basic", "source_listener_id"),
-					resource.TestCheckResourceAttrSet("cloud_clb_redirection.redirection_basic", "target_listener_id"),
-					resource.TestCheckResourceAttrSet("cloud_clb_redirection.redirection_basic", "source_rule_id"),
-					resource.TestCheckResourceAttrSet("cloud_clb_redirection.redirection_basic", "target_rule_id"),
+					testAccCheckClbRedirectionExists("tencentcloudenterprise_clb_redirection.redirection_basic"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_clb_redirection.redirection_basic", "clb_id"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_clb_redirection.redirection_basic", "source_listener_id"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_clb_redirection.redirection_basic", "target_listener_id"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_clb_redirection.redirection_basic", "source_rule_id"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_clb_redirection.redirection_basic", "target_rule_id"),
 				),
 			},
 		},
@@ -42,11 +42,11 @@ func TestAccTencentCloudClbRedirection_auto(t *testing.T) {
 			{
 				Config: fmt.Sprintf(testAccClbRedirection_auto, defaultSshCertificate),
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckClbRedirectionExists("cloud_clb_redirection.redirection_basic"),
-					resource.TestCheckResourceAttrSet("cloud_clb_redirection.redirection_basic", "clb_id"),
-					resource.TestCheckResourceAttrSet("cloud_clb_redirection.redirection_basic", "source_listener_id"),
-					resource.TestCheckResourceAttrSet("cloud_clb_redirection.redirection_basic", "source_rule_id"),
-					resource.TestCheckResourceAttr("cloud_clb_redirection.redirection_basic", "is_auto_rewrite", "true"),
+					testAccCheckClbRedirectionExists("tencentcloudenterprise_clb_redirection.redirection_basic"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_clb_redirection.redirection_basic", "clb_id"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_clb_redirection.redirection_basic", "source_listener_id"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_clb_redirection.redirection_basic", "source_rule_id"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_clb_redirection.redirection_basic", "is_auto_rewrite", "true"),
 				),
 			},
 		},
@@ -61,7 +61,7 @@ func testAccCheckClbRedirectionDestroy(s *terraform.State) error {
 		client: testAccProvider.Meta().(*TencentCloudClient).apiV3Conn,
 	}
 	for _, rs := range s.RootModule().Resources {
-		if rs.Type != "cloud_clb_redirection" {
+		if rs.Type != "tencentcloudenterprise_clb_redirection" {
 			continue
 		}
 		time.Sleep(5 * time.Second)
@@ -100,19 +100,19 @@ func testAccCheckClbRedirectionExists(n string) resource.TestCheckFunc {
 }
 
 const testAccClbRedirection_basic = `
-resource "cloud_clb_instance" "clb_basic_redirection" {
+resource "tencentcloudenterprise_clb_instance" "clb_basic_redirection" {
   network_type = "OPEN"
   clb_name     = "tf-clb-redirection-basic"
 }
 
-resource "cloud_clb_listener" "listener_basic" {
+resource "tencentcloudenterprise_clb_listener" "listener_basic" {
   clb_id        = cloud_clb_instance.clb_basic_redirection.id
   port          = 1
   protocol      = "HTTP"
   listener_name = "listener_basic"
 }
 
-resource "cloud_clb_listener_rule" "rule_basic" {
+resource "tencentcloudenterprise_clb_listener_rule" "rule_basic" {
   clb_id              = cloud_clb_instance.clb_basic_redirection.id
   listener_id         = cloud_clb_listener.listener_basic.listener_id
   domain              = "abc.com"
@@ -121,14 +121,14 @@ resource "cloud_clb_listener_rule" "rule_basic" {
   scheduler           = "WRR"
 }
 
-resource "cloud_clb_listener" "listener_target" {
+resource "tencentcloudenterprise_clb_listener" "listener_target" {
   clb_id        = cloud_clb_instance.clb_basic_redirection.id
   port          = 44
   protocol      = "HTTP"
   listener_name = "listener_basic1"
 }
 
-resource "cloud_clb_listener_rule" "rule_target" {
+resource "tencentcloudenterprise_clb_listener_rule" "rule_target" {
   clb_id              = cloud_clb_instance.clb_basic_redirection.id
   listener_id         = cloud_clb_listener.listener_target.listener_id
   domain              = "abcd.com"
@@ -137,7 +137,7 @@ resource "cloud_clb_listener_rule" "rule_target" {
   scheduler           = "WRR"
 }
 
-resource "cloud_clb_redirection" "redirection_basic" {
+resource "tencentcloudenterprise_clb_redirection" "redirection_basic" {
   clb_id             = cloud_clb_instance.clb_basic_redirection.id
   source_listener_id = cloud_clb_listener.listener_basic.listener_id
   target_listener_id = cloud_clb_listener.listener_target.listener_id
@@ -148,12 +148,12 @@ resource "cloud_clb_redirection" "redirection_basic" {
 `
 
 const testAccClbRedirection_auto = `
-resource "cloud_clb_instance" "clb_basic" {
+resource "tencentcloudenterprise_clb_instance" "clb_basic" {
   network_type = "OPEN"
   clb_name     = "tf-clb-redirection-auto"
 }
 
-resource "cloud_clb_listener" "listener_basic" {
+resource "tencentcloudenterprise_clb_listener" "listener_basic" {
   clb_id        = cloud_clb_instance.clb_basic.id
   port          = 443
   protocol      = "HTTPS"
@@ -162,7 +162,7 @@ resource "cloud_clb_listener" "listener_basic" {
   certificate_id       = "%s"
 }
 
-resource "cloud_clb_listener_rule" "rule_basic" {
+resource "tencentcloudenterprise_clb_listener_rule" "rule_basic" {
   clb_id              = cloud_clb_instance.clb_basic.id
   listener_id         = cloud_clb_listener.listener_basic.listener_id
   domain              = "abc.com"
@@ -172,7 +172,7 @@ resource "cloud_clb_listener_rule" "rule_basic" {
 }
 
 
-resource "cloud_clb_redirection" "redirection_basic" {
+resource "tencentcloudenterprise_clb_redirection" "redirection_basic" {
   clb_id             = cloud_clb_instance.clb_basic.id
   target_listener_id = cloud_clb_listener.listener_basic.listener_id
   target_rule_id     = cloud_clb_listener_rule.rule_basic.rule_id

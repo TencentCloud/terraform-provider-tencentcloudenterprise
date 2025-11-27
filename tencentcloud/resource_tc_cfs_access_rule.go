@@ -5,7 +5,7 @@ Provides a resource to create a CFS access rule.
 
 ```hcl
 
-	resource "cloud_cfs_access_rule" "foo" {
+	resource "tencentcloudenterprise_cfs_access_rule" "foo" {
 	  access_group_id = "pgroup-7nx89k7l"
 	  auth_client_ip  = "10.10.1.0/24"
 	  priority        = 1
@@ -31,7 +31,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_cfs_access_rule", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_cfs_access_rule", CNDescription{
 		TerraformTypeCN: "权限规则",
 		DescriptionCN:   "提供CFS访问规则资源，用于创建和管理CFS访问规则。",
 		AttributesCN: map[string]string{

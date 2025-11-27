@@ -24,7 +24,7 @@ func TestAccTencentCloudNeedFixVpcSnapshotFilesDataSource_basic(t *testing.T) {
 
 const testAccVpcSnapshotFilesDataSource = `
 
-data "cloud_vpc_snapshot_files" "snapshot_files" {
+data "tencentcloudenterprise_vpc_snapshot_files" "snapshot_files" {
   business_type = "securitygroup"
   instance_id   = "sg-902tl7t7"
   start_date    = "2022-10-10 00:00:00"

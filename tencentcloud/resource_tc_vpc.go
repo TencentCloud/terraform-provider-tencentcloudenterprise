@@ -5,7 +5,7 @@ Provide a resource to create a VPC.
 
 ```hcl
 
-	resource "cloud_vpc" "foo" {
+	resource "tencentcloudenterprise_vpc" "foo" {
 	  name         = "ci-temp-test-updated"
 	  cidr_block   = "10.0.0.0/16"
 	  dns_servers  = ["203.0.113.29", "8.8.8.8"]
@@ -21,7 +21,7 @@ Provide a resource to create a VPC.
 Using Assistant CIDR
 ```hcl
 
-	resource "cloud_vpc" "foo" {
+	resource "tencentcloudenterprise_vpc" "foo" {
 	  name            = "ci-temp-test-updated"
 	  cidr_block      = "10.0.0.0/16"
 	  is_multicast    = false
@@ -59,7 +59,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_vpc", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_vpc", CNDescription{
 		TerraformTypeCN: "私有网络",
 		DescriptionCN:   "提供私有网络VPC资源，用于创建和管理腾讯云私有网络。",
 		AttributesCN: map[string]string{

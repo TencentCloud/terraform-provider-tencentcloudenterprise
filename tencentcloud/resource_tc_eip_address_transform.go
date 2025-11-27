@@ -5,7 +5,7 @@ Provides a resource to create a eip address_transform
 
 ```hcl
 
-	resource "cloud_eip_address_transform" "address_transform" {
+	resource "tencentcloudenterprise_eip_address_transform" "address_transform" {
 	  instance_id = ""
 	}
 
@@ -32,7 +32,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_eip_address_transform", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_eip_address_transform", CNDescription{
 		TerraformTypeCN: "普通公网转换为弹性公网",
 		DescriptionCN:   "提供普通公网IP转换为弹性公网IP资源，用于将普通公网IP转换为弹性公网IP。",
 		AttributesCN: map[string]string{

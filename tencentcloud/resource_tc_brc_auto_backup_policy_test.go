@@ -16,18 +16,18 @@ func TestAccTencentCloudBrcAutoBackupPolicy_basic(t *testing.T) {
 			{
 				Config: testAccBrcAutoBackupPolicy_basic,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttrSet("cloud_brc_autobackup_policy.example", "id"),
-					resource.TestCheckResourceAttr("cloud_brc_autobackup_policy.example", "resource_type", "INSTANCE"),
-					resource.TestCheckResourceAttr("cloud_brc_autobackup_policy.example", "auto_backup_policy_name", "test-policy"),
-					resource.TestCheckResourceAttr("cloud_brc_autobackup_policy.example", "is_permanent", "false"),
-					resource.TestCheckResourceAttr("cloud_brc_autobackup_policy.example", "full_backup_interval", "1"),
-					resource.TestCheckResourceAttr("cloud_brc_autobackup_policy.example", "retention_amount", "5"),
-					resource.TestCheckResourceAttr("cloud_brc_autobackup_policy.example", "is_activated", "true"),
-					resource.TestCheckResourceAttr("cloud_brc_autobackup_policy.example", "dry_run", "false"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_brc_autobackup_policy.example", "id"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_brc_autobackup_policy.example", "resource_type", "INSTANCE"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_brc_autobackup_policy.example", "auto_backup_policy_name", "test-policy"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_brc_autobackup_policy.example", "is_permanent", "false"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_brc_autobackup_policy.example", "full_backup_interval", "1"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_brc_autobackup_policy.example", "retention_amount", "5"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_brc_autobackup_policy.example", "is_activated", "true"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_brc_autobackup_policy.example", "dry_run", "false"),
 				),
 			},
 			{
-				ResourceName:      "cloud_brc_autobackup_policy.example",
+				ResourceName:      "tencentcloudenterprise_brc_autobackup_policy.example",
 				ImportState:       true,
 				ImportStateVerify: true,
 			},
@@ -36,7 +36,7 @@ func TestAccTencentCloudBrcAutoBackupPolicy_basic(t *testing.T) {
 }
 
 const testAccBrcAutoBackupPolicy_basic = `
-resource "cloud_brc_autobackup_policy" "example" {
+resource "tencentcloudenterprise_brc_autobackup_policy" "example" {
   resource_type = "INSTANCE"
   auto_backup_policy_name = "test-policy"
   

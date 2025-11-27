@@ -24,7 +24,7 @@ func TestAccTencentCloudClbCrossTargetsDataSource_basic(t *testing.T) {
 
 const testAccClbCrossTargetsDataSource = `
 
-data "cloud_clb_cross_targets" "cross_targets" {
+data "tencentcloudenterprise_clb_cross_targets" "cross_targets" {
   filters {
     name = "vpc-id"
     values = ["vpc-4owdpnwr"]

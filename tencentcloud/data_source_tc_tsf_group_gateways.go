@@ -5,7 +5,7 @@ Use this data source to query detailed information of tsf group_gateways
 
 ```hcl
 
-	data "cloud_tsf_group_gateways" "group_gateways" {
+	data "tencentcloudenterprise_tsf_group_gateways" "group_gateways" {
 	  gateway_deploy_group_id = "group-aeoej4qy"
 	  search_word = "test"
 	}
@@ -24,7 +24,7 @@ import (
 )
 
 func init() {
-	registerDataDescriptionProvider("cloud_tsf_group_gateways", CNDescription{
+	registerDataDescriptionProvider("tencentcloudenterprise_tsf_group_gateways", CNDescription{
 		TerraformTypeCN: "TSF网关分组",
 		DescriptionCN:   "提供TSF分组网关数据源，用于查询TSF分组网关的详细信息。",
 		AttributesCN: map[string]string{

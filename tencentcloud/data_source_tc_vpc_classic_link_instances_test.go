@@ -24,7 +24,7 @@ func TestAccTencentCloudVpcClassicLinkInstancesDataSource_basic(t *testing.T) {
 
 const testAccVpcClassicLinkInstancesDataSource = `
 
-data "cloud_vpc_classic_link_instances" "classic_link_instances" {
+data "tencentcloudenterprise_vpc_classic_link_instances" "classic_link_instances" {
   filters {
     name   = "vpc-id"
     values = ["vpc-lh4nqig9"]

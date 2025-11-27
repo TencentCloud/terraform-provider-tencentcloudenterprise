@@ -20,16 +20,16 @@ func TestAccTencentCloudDCDBAccountPrivilegesResource_basic(t *testing.T) {
 			{
 				Config: fmt.Sprintf(testAccDCDBAccountPrivileges_basic, defaultDcdbInstanceId, "%"),
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckDCDBAccountPrivilegesExists("cloud_dcdb_account_privileges.account_privileges"),
-					resource.TestCheckResourceAttrSet("cloud_dcdb_account_privileges.account_privileges", "account.#"),
-					resource.TestCheckResourceAttr("cloud_dcdb_account_privileges.account_privileges", "account.0.user", "tf_test"),
-					resource.TestCheckResourceAttr("cloud_dcdb_account_privileges.account_privileges", "account.0.host", "%"),
-					resource.TestCheckResourceAttrSet("cloud_dcdb_account_privileges.account_privileges", "global_privileges.#"),
-					resource.TestCheckResourceAttrSet("cloud_dcdb_account_privileges.account_privileges", "table_privileges.#"),
+					testAccCheckDCDBAccountPrivilegesExists("tencentcloudenterprise_dcdb_account_privileges.account_privileges"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_dcdb_account_privileges.account_privileges", "account.#"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_dcdb_account_privileges.account_privileges", "account.0.user", "tf_test"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_dcdb_account_privileges.account_privileges", "account.0.host", "%"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_dcdb_account_privileges.account_privileges", "global_privileges.#"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_dcdb_account_privileges.account_privileges", "table_privileges.#"),
 				),
 			},
 			{
-				ResourceName:      "cloud_dcdb_account_privileges.account_privileges",
+				ResourceName:      "tencentcloudenterprise_dcdb_account_privileges.account_privileges",
 				ImportState:       true,
 				ImportStateVerify: true,
 			},
@@ -67,7 +67,7 @@ func testAccCheckDCDBAccountPrivilegesExists(re string) resource.TestCheckFunc {
 
 const testAccDCDBAccountPrivileges_basic = `
 
-resource "cloud_dcdb_account_privileges" "account_privileges" {
+resource "tencentcloudenterprise_dcdb_account_privileges" "account_privileges" {
   instance_id = "%s"
   account {
 		user = "tf_test"

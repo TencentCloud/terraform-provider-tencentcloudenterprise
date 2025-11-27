@@ -12,7 +12,7 @@ import (
 )
 
 func init() {
-	registerDataDescriptionProvider("cloud_tdmq_rabbitmq_vip_instance", CNDescription{
+	registerDataDescriptionProvider("tencentcloudenterprise_tdmq_rabbitmq_vip_instance", CNDescription{
 		TerraformTypeCN: "TDMQ RabbitMQ专享版实例列表",
 		DescriptionCN:   "提供TDMQ RabbitMQ专享版实例列表数据源，用于查询RabbitMQ专享版实例的详细信息。",
 		AttributesCN: map[string]string{

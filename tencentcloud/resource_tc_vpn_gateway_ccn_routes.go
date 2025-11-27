@@ -5,7 +5,7 @@ Provides a resource to create a vpn_gateway_ccn_routes
 
 ```hcl
 
-	resource "cloud_vpn_gateway_ccn_routes" "vpn_gateway_ccn_routes" {
+	resource "tencentcloudenterprise_vpn_gateway_ccn_routes" "vpn_gateway_ccn_routes" {
 	  destination_cidr_block = "192.168.1.0/24"
 	  route_id               = "vpnr-akdy0757"
 	  status                 = "DISABLE"
@@ -37,7 +37,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_vpn_gateway_ccn_routes", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_vpn_gateway_ccn_routes", CNDescription{
 		TerraformTypeCN: "创建VPN网关云联网路由",
 		AttributesCN: map[string]string{
 			"vpn_gateway_id":         "VPN网关实例ID",

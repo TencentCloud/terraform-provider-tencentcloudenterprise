@@ -17,19 +17,19 @@ func TestAccTencentCloudDcdbInstanceConfigResource_basic(t *testing.T) {
 			{
 				Config: testAccDcdbInstanceConfig,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttrSet("cloud_dcdb_instance_config.instance_config", "id"),
-					resource.TestCheckResourceAttr("cloud_dcdb_instance_config.instance_config", "rs_access_strategy", "0"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_dcdb_instance_config.instance_config", "id"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_dcdb_instance_config.instance_config", "rs_access_strategy", "0"),
 				),
 			},
 			{
 				Config: testAccDcdbInstanceConfig_update,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttrSet("cloud_dcdb_instance_config.instance_config", "id"),
-					resource.TestCheckResourceAttr("cloud_dcdb_instance_config.instance_config", "rs_access_strategy", "1"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_dcdb_instance_config.instance_config", "id"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_dcdb_instance_config.instance_config", "rs_access_strategy", "1"),
 				),
 			},
 			{
-				ResourceName:      "cloud_dcdb_instance_config.instance_config",
+				ResourceName:      "tencentcloudenterprise_dcdb_instance_config.instance_config",
 				ImportState:       true,
 				ImportStateVerify: true,
 			},
@@ -39,7 +39,7 @@ func TestAccTencentCloudDcdbInstanceConfigResource_basic(t *testing.T) {
 
 const testAccDcdbInstanceConfig = CommonPresetDcdb + `
 
-resource "cloud_dcdb_instance_config" "instance_config" {
+resource "tencentcloudenterprise_dcdb_instance_config" "instance_config" {
   instance_id = local.dcdb_id
   rs_access_strategy = 0
 }
@@ -48,7 +48,7 @@ resource "cloud_dcdb_instance_config" "instance_config" {
 
 const testAccDcdbInstanceConfig_update = CommonPresetDcdb + `
 
-resource "cloud_dcdb_instance_config" "instance_config" {
+resource "tencentcloudenterprise_dcdb_instance_config" "instance_config" {
   instance_id = local.dcdb_id
   rs_access_strategy = 1
 }

@@ -17,8 +17,8 @@ func TestAccTencentCloudDcdbFlushBinlogOperationResource_basic(t *testing.T) {
 			{
 				Config: testAccDcdbFlushBinlogOperation,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttrSet("cloud_dcdb_flush_binlog_operation.flush_operation", "id"),
-					resource.TestCheckResourceAttrSet("cloud_dcdb_flush_binlog_operation.flush_operation", "instance_id"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_dcdb_flush_binlog_operation.flush_operation", "id"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_dcdb_flush_binlog_operation.flush_operation", "instance_id"),
 				),
 			},
 		},
@@ -27,7 +27,7 @@ func TestAccTencentCloudDcdbFlushBinlogOperationResource_basic(t *testing.T) {
 
 const testAccDcdbFlushBinlogOperation = CommonPresetDcdb + `
 
-resource "cloud_dcdb_flush_binlog_operation" "flush_operation" {
+resource "tencentcloudenterprise_dcdb_flush_binlog_operation" "flush_operation" {
   instance_id = local.dcdb_id
 }
 

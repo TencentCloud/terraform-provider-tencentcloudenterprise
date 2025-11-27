@@ -5,18 +5,18 @@ Provides a resource to create a tdmqRocketmq environment_role
 
 ```hcl
 
-	resource "cloud_tdmq_rocketmq_cluster" "cluster" {
+	resource "tencentcloudenterprise_tdmq_rocketmq_cluster" "cluster" {
 		cluster_name = "test_rocketmq"
 		remark = "test recket mq"
 	}
 
-	resource "cloud_tdmq_rocketmq_role" "role" {
+	resource "tencentcloudenterprise_tdmq_rocketmq_role" "role" {
 	  role_name = "test_rocketmq_role"
 	  remark = "test rocketmq role"
 	  cluster_id = cloud_tdmq_rocketmq_cluster.cluster.cluster_id
 	}
 
-	resource "cloud_tdmq_rocketmq_namespace" "namespace" {
+	resource "tencentcloudenterprise_tdmq_rocketmq_namespace" "namespace" {
 	  cluster_id = cloud_tdmq_rocketmq_cluster.cluster.cluster_id
 	  namespace_name = "test_namespace"
 	  ttl = 65000
@@ -24,7 +24,7 @@ Provides a resource to create a tdmqRocketmq environment_role
 	  remark = "test namespace"
 	}
 
-	resource "cloud_tdmq_rocketmq_environment_role" "environment_role" {
+	resource "tencentcloudenterprise_tdmq_rocketmq_environment_role" "environment_role" {
 	  environment_name = cloud_tdmq_rocketmq_namespace.namespace.namespace_name
 	  role_name = cloud_tdmq_rocketmq_role.role.role_name
 	  permissions = ["produce", "consume"]
@@ -54,7 +54,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_tdmq_rocketmq_environment_role", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_tdmq_rocketmq_environment_role", CNDescription{
 		TerraformTypeCN: "Rocketmq环境角色授权",
 		DescriptionCN:   "提供Rocketmq环境角色授权资源，用于为Rocketmq角色授权访问指定环境的权限。",
 		AttributesCN: map[string]string{

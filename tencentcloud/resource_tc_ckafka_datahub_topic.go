@@ -4,9 +4,9 @@ Provides a resource to create a ckafka datahub_topic
 # Example Usage
 
 ```hcl
-data "cloud_user_info" "user" {}
+data "tencentcloudenterprise_user_info" "user" {}
 
-	resource "cloud_ckafka_datahub_topic" "datahub_topic" {
+	resource "tencentcloudenterprise_ckafka_datahub_topic" "datahub_topic" {
 	  name = format("%s-tf", data.cloud_user_info.user.app_id)
 	  partition_num = 20
 	  retention_ms = 60000

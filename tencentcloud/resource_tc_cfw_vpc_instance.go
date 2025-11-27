@@ -7,7 +7,7 @@ Provides a resource to create a cloud firewall (cfw) vpc instance.
 
 ```hcl
 
-	resource "cloud_cfw_vpc_instance" "example" {
+	resource "tencentcloudenterprise_cfw_vpc_instance" "example" {
 	  name = "tf_example"
 	  mode = 0
 
@@ -34,7 +34,7 @@ Provides a resource to create a cloud firewall (cfw) vpc instance.
 
 ```hcl
 
-	resource "cloud_cfw_vpc_instance" "example" {
+	resource "tencentcloudenterprise_cfw_vpc_instance" "example" {
 	  name = "tf_example"
 	  mode = 1
 
@@ -75,7 +75,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_cfw_vpc_instance", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_cfw_vpc_instance", CNDescription{
 		TerraformTypeCN: "云防火墙VPC实例",
 		DescriptionCN:   "提供云防火墙VPC实例资源，用于创建和管理云防火墙VPC间防护实例。",
 		AttributesCN: map[string]string{

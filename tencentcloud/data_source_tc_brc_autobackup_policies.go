@@ -5,7 +5,7 @@ Use this data source to query detailed information of brc auto backup policies
 
 ```hcl
 
-	data "cloud_brc_autobackup_policies" "instance_policies" {
+	data "tencentcloudenterprise_brc_autobackup_policies" "instance_policies" {
 	  resource_type = "INSTANCE"
 	  result_output_file = "cvm_policies.json"
 	}
@@ -25,7 +25,7 @@ import (
 )
 
 func init() {
-	registerDataDescriptionProvider("cloud_brc_autobackup_policies", CNDescription{
+	registerDataDescriptionProvider("tencentcloudenterprise_brc_autobackup_policies", CNDescription{
 		TerraformTypeCN: "BRC自动备份策略列表",
 		DescriptionCN:   "提供BRC自动备份策略列表数据源，用于查询自动备份策略的详细信息。",
 		AttributesCN: map[string]string{

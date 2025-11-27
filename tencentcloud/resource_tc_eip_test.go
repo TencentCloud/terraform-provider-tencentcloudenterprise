@@ -14,8 +14,8 @@ import (
 )
 
 func init() {
-	resource.AddTestSweepers("cloud_eip", &resource.Sweeper{
-		Name: "cloud_eip",
+	resource.AddTestSweepers("tencentcloudenterprise_eip", &resource.Sweeper{
+		Name: "tencentcloudenterprise_eip",
 		F:    testSweepEipInstance,
 	})
 }
@@ -76,50 +76,50 @@ func TestAccTencentCloudEipResource_basic(t *testing.T) {
 			{
 				Config: testAccEipBasicWithName,
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckEipExists("cloud_eip.foo"),
-					resource.TestCheckResourceAttr("cloud_eip.foo", "name", "gateway_eip"),
-					resource.TestCheckResourceAttr("cloud_eip.foo", "status", "UNBIND"),
-					resource.TestCheckResourceAttrSet("cloud_eip.foo", "public_ip"),
+					testAccCheckEipExists("tencentcloudenterprise_eip.foo"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_eip.foo", "name", "gateway_eip"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_eip.foo", "status", "UNBIND"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_eip.foo", "public_ip"),
 				),
 			},
 			{
 				Config: testAccEipBasicWithNewName,
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckEipExists("cloud_eip.foo"),
-					resource.TestCheckResourceAttr("cloud_eip.foo", "name", "new_name"),
-					resource.TestCheckResourceAttr("cloud_eip.foo", "status", "UNBIND"),
-					resource.TestCheckResourceAttrSet("cloud_eip.foo", "public_ip"),
+					testAccCheckEipExists("tencentcloudenterprise_eip.foo"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_eip.foo", "name", "new_name"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_eip.foo", "status", "UNBIND"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_eip.foo", "public_ip"),
 				),
 			},
 			{
 				Config: testAccEipBasicWithTags,
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckEipExists("cloud_eip.foo"),
-					resource.TestCheckResourceAttr("cloud_eip.foo", "tags.test", "test"),
-					resource.TestCheckResourceAttr("cloud_eip.foo", "status", "UNBIND"),
-					resource.TestCheckResourceAttrSet("cloud_eip.foo", "public_ip"),
+					testAccCheckEipExists("tencentcloudenterprise_eip.foo"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_eip.foo", "tags.test", "test"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_eip.foo", "status", "UNBIND"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_eip.foo", "public_ip"),
 				),
 			},
 			{
 				Config: testAccEipBasicWithNewTags,
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckEipExists("cloud_eip.foo"),
-					resource.TestCheckNoResourceAttr("cloud_eip.foo", "tags.test"),
-					resource.TestCheckResourceAttr("cloud_eip.foo", "tags.abc", "abc"),
-					resource.TestCheckResourceAttr("cloud_eip.foo", "status", "UNBIND"),
-					resource.TestCheckResourceAttrSet("cloud_eip.foo", "public_ip"),
+					testAccCheckEipExists("tencentcloudenterprise_eip.foo"),
+					resource.TestCheckNoResourceAttr("tencentcloudenterprise_eip.foo", "tags.test"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_eip.foo", "tags.abc", "abc"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_eip.foo", "status", "UNBIND"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_eip.foo", "public_ip"),
 				),
 			},
 			{
 				Config: testAccEipBasicWithoutName,
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckEipExists("cloud_eip.bar"),
-					resource.TestCheckResourceAttr("cloud_eip.bar", "status", "UNBIND"),
-					resource.TestCheckResourceAttrSet("cloud_eip.bar", "public_ip"),
+					testAccCheckEipExists("tencentcloudenterprise_eip.bar"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_eip.bar", "status", "UNBIND"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_eip.bar", "public_ip"),
 				),
 			},
 			{
-				ResourceName:      "cloud_eip.bar",
+				ResourceName:      "tencentcloudenterprise_eip.bar",
 				ImportState:       true,
 				ImportStateVerify: true,
 			},
@@ -140,9 +140,9 @@ func TestAccTencentCloudEipResource_anycast(t *testing.T) {
 			{
 				Config: testAccEipAnycast,
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckEipExists("cloud_eip.foo"),
-					resource.TestCheckResourceAttr("cloud_eip.foo", "name", "eip_anycast"),
-					resource.TestCheckResourceAttr("cloud_eip.foo", "type", "AnycastEIP"),
+					testAccCheckEipExists("tencentcloudenterprise_eip.foo"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_eip.foo", "name", "eip_anycast"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_eip.foo", "type", "AnycastEIP"),
 				),
 			},
 		},
@@ -159,9 +159,9 @@ func TestAccTencentCloudEipResource_provider(t *testing.T) {
 			{
 				Config: testAccEipProvider,
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckEipExists("cloud_eip.foo"),
-					resource.TestCheckResourceAttr("cloud_eip.foo", "name", "eip_provider"),
-					resource.TestCheckResourceAttr("cloud_eip.foo", "type", "EIP"),
+					testAccCheckEipExists("tencentcloudenterprise_eip.foo"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_eip.foo", "name", "eip_provider"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_eip.foo", "type", "EIP"),
 				),
 			},
 		},
@@ -178,9 +178,9 @@ func TestAccTencentCloudEipResource_bandwidth(t *testing.T) {
 			{
 				Config: testAccEipBandwidth,
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckEipExists("cloud_eip.foo"),
-					resource.TestCheckResourceAttr("cloud_eip.foo", "name", "eip_bandwidth"),
-					resource.TestCheckResourceAttr("cloud_eip.foo", "type", "EIP"),
+					testAccCheckEipExists("tencentcloudenterprise_eip.foo"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_eip.foo", "name", "eip_bandwidth"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_eip.foo", "type", "EIP"),
 				),
 			},
 		},
@@ -197,12 +197,12 @@ func TestAccTencentCloudEipResource_chargetype(t *testing.T) {
 			{
 				Config: testAccEipChargeType,
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckEipExists("cloud_eip.foo"),
-					resource.TestCheckResourceAttr("cloud_eip.foo", "internet_charge_type", "TRAFFIC_POSTPAID_BY_HOUR"),
+					testAccCheckEipExists("tencentcloudenterprise_eip.foo"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_eip.foo", "internet_charge_type", "TRAFFIC_POSTPAID_BY_HOUR"),
 				),
 			},
 			{
-				ResourceName:      "cloud_eip.foo",
+				ResourceName:      "tencentcloudenterprise_eip.foo",
 				ImportState:       true,
 				ImportStateVerify: true,
 			},
@@ -220,15 +220,15 @@ func TestAccTencentCloudEipResource_prepaid(t *testing.T) {
 			{
 				Config: testAccEipPrepaid,
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckEipExists("cloud_eip.foo"),
-					resource.TestCheckResourceAttr("cloud_eip.foo", "internet_charge_type", "BANDWIDTH_PREPAID_BY_MONTH"),
+					testAccCheckEipExists("tencentcloudenterprise_eip.foo"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_eip.foo", "internet_charge_type", "BANDWIDTH_PREPAID_BY_MONTH"),
 				),
 			},
 			{
 				PreConfig: func() { //sleep 1 min after update
 					time.Sleep(10 * time.Second)
 				},
-				ResourceName:            "cloud_eip.foo",
+				ResourceName:            "tencentcloudenterprise_eip.foo",
 				ImportState:             true,
 				ImportStateVerify:       true,
 				ImportStateVerifyIgnore: []string{"prepaid_period", "auto_renew_flag"},
@@ -280,7 +280,7 @@ func testAccCheckEipDestroy(s *terraform.State) error {
 		client: testAccProvider.Meta().(*TencentCloudClient).apiV3Conn,
 	}
 	for _, rs := range s.RootModule().Resources {
-		if rs.Type != "cloud_eip" {
+		if rs.Type != "tencentcloudenterprise_eip" {
 			continue
 		}
 
@@ -305,18 +305,18 @@ func testAccCheckEipDestroy(s *terraform.State) error {
 }
 
 const testAccEipBasicWithName = `
-resource "cloud_eip" "foo" {
+resource "tencentcloudenterprise_eip" "foo" {
   name = "gateway_eip"
 }
 `
 const testAccEipBasicWithNewName = `
-resource "cloud_eip" "foo" {
+resource "tencentcloudenterprise_eip" "foo" {
   name = "new_name"
 }
 `
 
 const testAccEipBasicWithTags = `
-resource "cloud_eip" "foo" {
+resource "tencentcloudenterprise_eip" "foo" {
   name = "new_name"
 
   tags = {
@@ -326,7 +326,7 @@ resource "cloud_eip" "foo" {
 `
 
 const testAccEipBasicWithNewTags = `
-resource "cloud_eip" "foo" {
+resource "tencentcloudenterprise_eip" "foo" {
   name = "new_name"
 
   tags = {
@@ -336,12 +336,12 @@ resource "cloud_eip" "foo" {
 `
 
 const testAccEipBasicWithoutName = `
-resource "cloud_eip" "bar" {
+resource "tencentcloudenterprise_eip" "bar" {
 }
 `
 
 const testAccEipAnycast = `
-resource "cloud_eip" "foo" {
+resource "tencentcloudenterprise_eip" "foo" {
   name = "eip_anycast"
   type = "AnycastEIP"
   anycast_zone = "ANYCAST_ZONE_OVERSEAS"
@@ -349,14 +349,14 @@ resource "cloud_eip" "foo" {
 `
 
 const testAccEipProvider = `
-resource "cloud_eip" "foo" {
+resource "tencentcloudenterprise_eip" "foo" {
   name = "eip_provider"
   internet_service_provider = "CMCC"
 }
 `
 
 const testAccEipBandwidth = `
-resource "cloud_eip" "foo" {
+resource "tencentcloudenterprise_eip" "foo" {
 	name = "eip_bandwidth"
 	internet_charge_type = "TRAFFIC_POSTPAID_BY_HOUR"
 	internet_max_bandwidth_out = 2
@@ -364,14 +364,14 @@ resource "cloud_eip" "foo" {
 `
 
 const testAccEipChargeType = `
-resource "cloud_eip" "foo" {
+resource "tencentcloudenterprise_eip" "foo" {
 	name = "eip_charge_type"
 	internet_charge_type = "TRAFFIC_POSTPAID_BY_HOUR"
   }
 `
 
 const testAccEipPrepaid = `
-resource "cloud_eip" "foo" {
+resource "tencentcloudenterprise_eip" "foo" {
   name = "eip_prepaid"
   internet_charge_type = "BANDWIDTH_PREPAID_BY_MONTH"
   prepaid_period = 6

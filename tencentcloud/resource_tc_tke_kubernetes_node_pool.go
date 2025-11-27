@@ -19,7 +19,7 @@ Provide a resource to create an auto scaling group for kubernetes cluster.
 	  default = "172.31.0.0/16"
 	}
 
-	data "cloud_vpc_subnets" "vpc" {
+	data "tencentcloudenterprise_vpc_subnets" "vpc" {
 	    is_default        = true
 	    availability_zone = var.availability_zone
 	}
@@ -30,7 +30,7 @@ Provide a resource to create an auto scaling group for kubernetes cluster.
 
 //this is the cluster with empty worker config
 
-	resource "cloud_tke_kubernetes_cluster" "managed_cluster" {
+	resource "tencentcloudenterprise_tke_kubernetes_cluster" "managed_cluster" {
 	  vpc_id                  = data.cloud_vpc_subnets.vpc.instance_list.0.vpc_id
 	  cluster_cidr            = var.cluster_cidr
 	  cluster_max_pod_num     = 32
@@ -43,7 +43,7 @@ Provide a resource to create an auto scaling group for kubernetes cluster.
 
 //this is one example of managing node using node pool
 
-	resource "cloud_kubernetes_node_pool" "mynodepool" {
+	resource "tencentcloudenterprise_kubernetes_node_pool" "mynodepool" {
 	  name = "mynodepool"
 	  cluster_id = cloud_tke_kubernetes_cluster.managed_cluster.id
 	  max_size = 6
@@ -105,7 +105,7 @@ Provide a resource to create an auto scaling group for kubernetes cluster.
 Using Spot CVM Instance
 ```hcl
 
-	resource "cloud_kubernetes_node_pool" "mynodepool" {
+	resource "tencentcloudenterprise_kubernetes_node_pool" "mynodepool" {
 	  name = "mynodepool"
 	  cluster_id = cloud_tke_kubernetes_cluster.managed_cluster.id
 	  max_size = 6
@@ -164,7 +164,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_tke_kubernetes_node_pool", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_tke_kubernetes_node_pool", CNDescription{
 		TerraformTypeCN: "虚拟节点池",
 		DescriptionCN:   "提供Kubernetes集群自动伸缩组资源，用于创建和管理集群的节点池。",
 		AttributesCN: map[string]string{

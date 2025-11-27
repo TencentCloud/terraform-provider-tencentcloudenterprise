@@ -5,7 +5,7 @@ Provides a resource to create a dcdb flush_binlog_operation
 
 ```hcl
 
-	resource "cloud_dcdb_flush_binlog_operation" "flush_operation" {
+	resource "tencentcloudenterprise_dcdb_flush_binlog_operation" "flush_operation" {
 	  instance_id = local.dcdb_id
 	}
 
@@ -23,7 +23,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_dcdb_flush_binlog_operation", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_dcdb_flush_binlog_operation", CNDescription{
 		TerraformTypeCN: "刷新binlog",
 		DescriptionCN:   "提供DCDB刷新binlog操作资源，用于刷新DCDB实例的binlog。",
 		AttributesCN: map[string]string{

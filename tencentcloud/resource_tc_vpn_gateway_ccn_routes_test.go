@@ -16,10 +16,10 @@ func TestAccTencentCloudNeedFixVpnGatewayCcnRoutesResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			{
 				Config: testAccVpcVpnGatewayCcnRoutes,
-				Check:  resource.ComposeTestCheckFunc(resource.TestCheckResourceAttrSet("cloud_vpn_gateway_ccn_routes.vpn_gateway_ccn_routes", "id")),
+				Check:  resource.ComposeTestCheckFunc(resource.TestCheckResourceAttrSet("tencentcloudenterprise_vpn_gateway_ccn_routes.vpn_gateway_ccn_routes", "id")),
 			},
 			{
-				ResourceName:      "cloud_vpn_gateway_ccn_routes.vpn_gateway_ccn_routes",
+				ResourceName:      "tencentcloudenterprise_vpn_gateway_ccn_routes.vpn_gateway_ccn_routes",
 				ImportState:       true,
 				ImportStateVerify: true,
 			},
@@ -29,7 +29,7 @@ func TestAccTencentCloudNeedFixVpnGatewayCcnRoutesResource_basic(t *testing.T) {
 
 const testAccVpcVpnGatewayCcnRoutes = `
 
-resource "cloud_vpn_gateway_ccn_routes" "vpn_gateway_ccn_routes" {
+resource "tencentcloudenterprise_vpn_gateway_ccn_routes" "vpn_gateway_ccn_routes" {
   destination_cidr_block = "192.168.1.0/24"
   route_id               = "vpnr-akdy0757"
   status                 = "DISABLE"

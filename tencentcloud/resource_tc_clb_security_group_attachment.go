@@ -4,7 +4,7 @@ Provides a resource to create a clb security_group_attachment
 Example Usage
 ```hcl
 
-	resource "cloud_clb_security_group_attachment" "security_group_attachment" {
+	resource "tencentcloudenterprise_clb_security_group_attachment" "security_group_attachment" {
 	  security_group = "sg-ijato2x1"
 	  load_balancer_ids = ["lb-5dnrkgry"]
 	}
@@ -33,7 +33,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_clb_security_group_attachment", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_clb_security_group_attachment", CNDescription{
 		TerraformTypeCN: "绑定安全组",
 		DescriptionCN:   "提供绑定安全组资源，用于将安全组绑定到CLB实例。",
 		AttributesCN: map[string]string{

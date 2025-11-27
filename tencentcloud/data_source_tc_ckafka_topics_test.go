@@ -16,7 +16,7 @@ func TestAccTencentCloudCkafkaTopicDataSource(t *testing.T) {
 			{
 				Config: testAccTencentCloudCkafkaTopicDataSourceConfig,
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckKafkaTopicInstanceExists("cloud_ckafka_topic.kafka_topic"),
+					testAccCheckKafkaTopicInstanceExists("tencentcloudenterprise_ckafka_topic.kafka_topic"),
 					resource.TestCheckResourceAttr("data.cloud_ckafka_topics.kafka_topics", "instance_id", "ckafka-vv7wpvae"),
 					resource.TestCheckResourceAttr("data.cloud_ckafka_topics.kafka_topics", "instance_list.#", "1"),
 					resource.TestCheckResourceAttr("data.cloud_ckafka_topics.kafka_topics", "instance_list.0.topic_name", "ckafkaTopic-tf-test"),
@@ -41,7 +41,7 @@ func TestAccTencentCloudCkafkaTopicDataSource(t *testing.T) {
 }
 
 const testAccTencentCloudCkafkaTopicDataSourceConfig = defaultKafkaVariable + `
-resource "cloud_ckafka_topic" "kafka_topic" {
+resource "tencentcloudenterprise_ckafka_topic" "kafka_topic" {
 	instance_id                     = var.instance_id
 	topic_name                      = "ckafkaTopic-tf-test"
 	replica_num                     = 2
@@ -57,12 +57,12 @@ resource "cloud_ckafka_topic" "kafka_topic" {
 	max_message_bytes               = 8388608
 }
 
-data "cloud_ckafka_topics" "kafka_topics" {
+data "tencentcloudenterprise_ckafka_topics" "kafka_topics" {
 	instance_id						= cloud_ckafka_topic.kafka_topic.instance_id
 	topic_name						= cloud_ckafka_topic.kafka_topic.topic_name
 }
 
-data "cloud_ckafka_topics" "foo" {
+data "tencentcloudenterprise_ckafka_topics" "foo" {
 	instance_id						= cloud_ckafka_topic.kafka_topic.instance_id
 }
 `

@@ -21,17 +21,17 @@ func TestAccTencentCloudTsfApplicationConfigResource_basic(t *testing.T) {
 			{
 				Config: testAccTsfApplicationConfig2,
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckTsfApplicationConfigExists("cloud_tsf_application_config.application_config"),
-					resource.TestCheckResourceAttrSet("cloud_tsf_application_config.application_config", "id"),
-					resource.TestCheckResourceAttr("cloud_tsf_application_config.application_config", "config_name", "tf-test-config"),
-					resource.TestCheckResourceAttr("cloud_tsf_application_config.application_config", "config_version", "1.0"),
-					resource.TestCheckResourceAttr("cloud_tsf_application_config.application_config", "config_value", "name: \"name\""),
-					resource.TestCheckResourceAttr("cloud_tsf_application_config.application_config", "config_version_desc", "version desc"),
-					// resource.TestCheckResourceAttr("cloud_tsf_application_config.application_config", "encode_with_base64", "false"),
+					testAccCheckTsfApplicationConfigExists("tencentcloudenterprise_tsf_application_config.application_config"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_tsf_application_config.application_config", "id"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_tsf_application_config.application_config", "config_name", "tf-test-config"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_tsf_application_config.application_config", "config_version", "1.0"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_tsf_application_config.application_config", "config_value", "name: \"name\""),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_tsf_application_config.application_config", "config_version_desc", "version desc"),
+					// resource.TestCheckResourceAttr("tencentcloudenterprise_tsf_application_config.application_config", "encode_with_base64", "false"),
 				),
 			},
 			// {
-			// 	ResourceName:      "cloud_tsf_application_config.application_config",
+			// 	ResourceName:      "tencentcloudenterprise_tsf_application_config.application_config",
 			// 	ImportState:       true,
 			// 	ImportStateVerify: true,
 			// },
@@ -44,7 +44,7 @@ func testAccCheckTsfApplicationConfigDestroy(s *terraform.State) error {
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
 	service := TsfService{client: testAccProvider.Meta().(*TencentCloudClient).apiV3Conn}
 	for _, rs := range s.RootModule().Resources {
-		if rs.Type != "cloud_tsf_application_config" {
+		if rs.Type != "tencentcloudenterprise_tsf_application_config" {
 			continue
 		}
 
@@ -92,7 +92,7 @@ variable "application_id" {
 
 const testAccTsfApplicationConfig = testAccTsfApplicationConfigVar + `
 
-resource "cloud_tsf_application_config" "application_config" {
+resource "tencentcloudenterprise_tsf_application_config" "application_config" {
 	config_name = "tf-test-config"
 	config_version = "1.0"
 	config_value = "name: \"name\""
@@ -106,7 +106,7 @@ resource "cloud_tsf_application_config" "application_config" {
 `
 
 const testAccTsfApplicationConfig2 = `
-resource "cloud_tsf_application_config" "application_config" {
+resource "tencentcloudenterprise_tsf_application_config" "application_config" {
 	config_name = "tf-test-config"
 	config_version = "1.0"
 	config_value = "name: \"name\""

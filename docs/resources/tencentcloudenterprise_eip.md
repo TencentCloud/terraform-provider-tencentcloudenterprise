@@ -1,0 +1,58 @@
+---
+subcategory: "Cloud Elastic IP(EIP)"
+layout: "tencentcloudenterprise"
+page_title: "TencentCloudEnterprise: tencentcloudenterprise_eip"
+sidebar_current: "docs-tencentcloudenterprise-resources-eip"
+description: |-
+  Provides an EIP resource.
+---
+
+# tencentcloudenterprise_eip
+
+Provides an EIP resource.
+
+## Example Usage
+
+```hcl
+resource "tencentcloudenterprise_eip" "foo" {
+  name                 = "awesome_gateway_ip"
+  bandwidth_package_id = "bwp-jtvzuky6"
+  internet_charge_type = "BANDWIDTH_PACKAGE"
+  type                 = "EIP"
+}
+```
+
+## Argument Reference
+
+The following arguments are supported:
+
+* `address_count` - (Optional, Int) The number of eip. Valid value: 1.
+* `anycast_zone` - (Optional, String, ForceNew) The zone of anycast. Valid value: `ANYCAST_ZONE_GLOBAL` and `ANYCAST_ZONE_OVERSEAS`.
+* `applicable_for_clb` - (Optional, Bool, **Deprecated**) It has been deprecated from version 1.27.0. Indicates whether the anycast eip can be associated to a CLB.
+* `auto_renew_flag` - (Optional, Int) Auto renew flag.  0 - default state (manual renew); 1 - automatic renew; 2 - explicit no automatic renew. NOTES: Only supported prepaid EIP.
+* `bandwidth_package_id` - (Optional, String) ID of bandwidth package, it will set when `internet_charge_type` is `BANDWIDTH_PACKAGE`.
+* `internet_charge_type` - (Optional, String) The charge type of eip. Valid values: `BANDWIDTH_PACKAGE`, `BANDWIDTH_POSTPAID_BY_HOUR`  and `TRAFFIC_POSTPAID_BY_HOUR`.
+* `internet_max_bandwidth_out` - (Optional, Int) The bandwidth limit of EIP, unit is Mbps.
+* `internet_service_provider` - (Optional, String, ForceNew) Internet service provider of eip. Valid value: `BGP`, `CMCC`, `CTCC` and `CUCC`.
+* `name` - (Optional, String) The name of eip.
+* `prepaid_period` - (Optional, Int) Period of instance. Default value: `1`. Valid value: `1`, `2`, `3`, `4`, `6`, `7`, `8`, `9`, `12`, `24`, `36`. NOTES: must set when `internet_charge_type` is `BANDWIDTH_PREPAID_BY_MONTH`.
+* `tags` - (Optional, Map) The tags of eip.
+* `type` - (Optional, String, ForceNew) The type of eip. Valid value:  `EIP`.
+
+## Attributes Reference
+
+In addition to all arguments above, the following attributes are exported:
+
+* `id` - ID of the resource.
+* `public_ip` - The elastic IP address.
+* `status` - The EIP current status.
+
+
+## Import
+
+EIP can be imported using the id, e.g.
+
+```
+$ terraform import tencentcloudenterprise_eip.foo eip-nyvf60va
+```
+

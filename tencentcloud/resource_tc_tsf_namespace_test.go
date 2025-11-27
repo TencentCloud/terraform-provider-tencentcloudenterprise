@@ -21,16 +21,16 @@ func TestAccTencentCloudTsfNamespaceResource_basic(t *testing.T) {
 			{
 				Config: testAccTsfNamespace,
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckTsfNamespaceExists("cloud_tsf_namespace.namespace"),
-					resource.TestCheckResourceAttrSet("cloud_tsf_namespace.namespace", "id"),
-					resource.TestCheckResourceAttr("cloud_tsf_namespace.namespace", "namespace_name", "terraform-namespace-name"),
-					resource.TestCheckResourceAttr("cloud_tsf_namespace.namespace", "namespace_desc", "terraform-test"),
-					resource.TestCheckResourceAttr("cloud_tsf_namespace.namespace", "namespace_type", "DEF"),
-					resource.TestCheckResourceAttr("cloud_tsf_namespace.namespace", "is_ha_enable", "0"),
+					testAccCheckTsfNamespaceExists("tencentcloudenterprise_tsf_namespace.namespace"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_tsf_namespace.namespace", "id"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_tsf_namespace.namespace", "namespace_name", "terraform-namespace-name"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_tsf_namespace.namespace", "namespace_desc", "terraform-test"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_tsf_namespace.namespace", "namespace_type", "DEF"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_tsf_namespace.namespace", "is_ha_enable", "0"),
 				),
 			},
 			// {
-			// 	ResourceName:      "cloud_tsf_namespace.namespace",
+			// 	ResourceName:      "tencentcloudenterprise_tsf_namespace.namespace",
 			// 	ImportState:       true,
 			// 	ImportStateVerify: true,
 			// },
@@ -43,7 +43,7 @@ func testAccCheckTsfNamespaceDestroy(s *terraform.State) error {
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
 	service := TsfService{client: testAccProvider.Meta().(*TencentCloudClient).apiV3Conn}
 	for _, rs := range s.RootModule().Resources {
-		if rs.Type != "cloud_tsf_namespace" {
+		if rs.Type != "tencentcloudenterprise_tsf_namespace" {
 			continue
 		}
 
@@ -85,7 +85,7 @@ func testAccCheckTsfNamespaceExists(r string) resource.TestCheckFunc {
 
 const testAccTsfNamespace = `
 
-resource "cloud_tsf_namespace" "namespace" {
+resource "tencentcloudenterprise_tsf_namespace" "namespace" {
 	namespace_name = "terraform-namespace-name"
 	namespace_desc = "terraform-test"
 	namespace_type = "DEF"

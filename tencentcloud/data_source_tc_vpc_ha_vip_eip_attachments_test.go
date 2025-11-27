@@ -16,7 +16,7 @@ func TestAccTencentCloudHaVipEipAttachmentsDataSource_basic(t *testing.T) {
 			{
 				Config: testAccHaVipEipAttachmentsDataSource_basic,
 				Check: resource.ComposeAggregateTestCheckFunc(
-					testAccCheckHaVipEipAttachmentExists("cloud_vpc_ha_vip_eip_attachment.ha_vip_eip_attachment"),
+					testAccCheckHaVipEipAttachmentExists("tencentcloudenterprise_vpc_ha_vip_eip_attachment.ha_vip_eip_attachment"),
 					resource.TestCheckResourceAttr("data.cloud_vpc_ha_vip_eip_attachments.ha_vip_eip_attachments", "ha_vip_eip_attachment_list.#", "1"),
 					resource.TestCheckResourceAttrSet("data.cloud_vpc_ha_vip_eip_attachments.ha_vip_eip_attachments", "ha_vip_eip_attachment_list.0.havip_id"),
 				),
@@ -27,20 +27,20 @@ func TestAccTencentCloudHaVipEipAttachmentsDataSource_basic(t *testing.T) {
 
 const testAccHaVipEipAttachmentsDataSource_basic = defaultVpcVariable + `
 #Create EIP
-resource "cloud_eip" "eip" {
+resource "tencentcloudenterprise_eip" "eip" {
   name = "havip_eip"
 }
-resource "cloud_vpc_ha_vip" "havip" {
+resource "tencentcloudenterprise_vpc_ha_vip" "havip" {
   name       = "terraform_test"
   vpc_id     = var.vpc_id
   subnet_id  = var.subnet_id
 }
-resource "cloud_vpc_ha_vip_eip_attachment" "ha_vip_eip_attachment" {
+resource "tencentcloudenterprise_vpc_ha_vip_eip_attachment" "ha_vip_eip_attachment" {
   havip_id   = cloud_vpc_ha_vip.havip.id
   address_ip = cloud_eip.eip.public_ip
 }
 
-data "cloud_vpc_ha_vip_eip_attachments" "ha_vip_eip_attachments" {
+data "tencentcloudenterprise_vpc_ha_vip_eip_attachments" "ha_vip_eip_attachments" {
   havip_id = cloud_vpc_ha_vip_eip_attachment.ha_vip_eip_attachment.havip_id
 }
 `

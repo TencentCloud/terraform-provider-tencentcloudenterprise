@@ -4,7 +4,7 @@
 // # Example Usage
 //
 // ```hcl
-// data "cloud_ckafka_datahub_topic" "datahub_topic" {
+// data "tencentcloudenterprise_ckafka_datahub_topic" "datahub_topic" {
 // }
 // ```
 // */
@@ -21,7 +21,7 @@ package tencentcloud
 //)
 //
 //func init() {
-//	registerDataDescriptionProvider("cloud_ckafka_datahub_topic", CNDescription{
+//	registerDataDescriptionProvider("tencentcloudenterprise_ckafka_datahub_topic", CNDescription{
 //		TerraformTypeCN: "ckafka datahub_topic",
 //		AttributesCN: map[string]string{
 //			"search_word":        "查询关键字",

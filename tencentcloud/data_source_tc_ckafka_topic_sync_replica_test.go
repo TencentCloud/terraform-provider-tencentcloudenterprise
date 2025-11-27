@@ -21,7 +21,7 @@ func TestAccTencentCloudCkafkaTopicSyncReplicaDataSource_basic(t *testing.T) {
 }
 
 const testAccCkafkaTopicSyncReplicaDataSource = `
-data "cloud_ckafka_topic_sync_replica" "topic_sync_replica" {
+data "tencentcloudenterprise_ckafka_topic_sync_replica" "topic_sync_replica" {
 	instance_id = "ckafka-vv7wpvae"
 	topic_name = "keep-topic"
 }

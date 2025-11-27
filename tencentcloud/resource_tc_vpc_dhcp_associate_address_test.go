@@ -16,10 +16,10 @@ func TestAccTencentCloudNeedFixVpcDhcpAssociateAddressResource_basic(t *testing.
 		Steps: []resource.TestStep{
 			{
 				Config: testAccVpcDhcpAssociateAddress,
-				Check:  resource.ComposeTestCheckFunc(resource.TestCheckResourceAttrSet("cloud_vpc_dhcp_associate_address.dhcp_associate_address", "id")),
+				Check:  resource.ComposeTestCheckFunc(resource.TestCheckResourceAttrSet("tencentcloudenterprise_vpc_dhcp_associate_address.dhcp_associate_address", "id")),
 			},
 			{
-				ResourceName:      "cloud_vpc_dhcp_associate_address.dhcp_associate_address",
+				ResourceName:      "tencentcloudenterprise_vpc_dhcp_associate_address.dhcp_associate_address",
 				ImportState:       true,
 				ImportStateVerify: true,
 			},
@@ -29,7 +29,7 @@ func TestAccTencentCloudNeedFixVpcDhcpAssociateAddressResource_basic(t *testing.
 
 const testAccVpcDhcpAssociateAddress = `
 
-resource "cloud_vpc_dhcp_associate_address" "dhcp_associate_address" {
+resource "tencentcloudenterprise_vpc_dhcp_associate_address" "dhcp_associate_address" {
   dhcp_ip_id = ""
   address_ip = ""
 }

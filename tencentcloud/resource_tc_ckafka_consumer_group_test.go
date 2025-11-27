@@ -14,10 +14,10 @@ func TestAccTencentCloudCkafkaConsumerGroupResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			{
 				Config: testAccCkafkaConsumerGroup,
-				Check:  resource.ComposeTestCheckFunc(resource.TestCheckResourceAttrSet("cloud_ckafka_consumer_group.consumer_group", "id")),
+				Check:  resource.ComposeTestCheckFunc(resource.TestCheckResourceAttrSet("tencentcloudenterprise_ckafka_consumer_group.consumer_group", "id")),
 			},
 			{
-				ResourceName:      "cloud_ckafka_consumer_group.consumer_group",
+				ResourceName:      "tencentcloudenterprise_ckafka_consumer_group.consumer_group",
 				ImportState:       true,
 				ImportStateVerify: true,
 			},
@@ -26,7 +26,7 @@ func TestAccTencentCloudCkafkaConsumerGroupResource_basic(t *testing.T) {
 }
 
 const testAccCkafkaConsumerGroup = `
-resource "cloud_ckafka_consumer_group" "consumer_group" {
+resource "tencentcloudenterprise_ckafka_consumer_group" "consumer_group" {
 	instance_id = "ckafka-vv7wpvae"
 	group_name = "tmp-group-name"
 	topic_name_list = ["keep-topic"]

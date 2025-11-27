@@ -26,7 +26,7 @@ func TestAccTencentCloudNeedFixTdmqRabbitmqVipInstanceDataSource_basic(t *testin
 
 const testAccTdmqRabbitmqVipInstanceDataSource = `
 
-data "cloud_tdmq_rabbitmq_vip_instance" "rabbitmq_vip_instance" {
+data "tencentcloudenterprise_tdmq_rabbitmq_vip_instance" "rabbitmq_vip_instance" {
   filters {
 		name = ""
 		values = 

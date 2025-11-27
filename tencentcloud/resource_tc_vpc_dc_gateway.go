@@ -5,12 +5,12 @@ Provides a resource to creating direct connect gateway instance.
 
 ```hcl
 
-	resource "cloud_vpc" "main" {
+	resource "tencentcloudenterprise_vpc" "main" {
 	  name       = "ci-vpc-instance-test"
 	  cidr_block = "10.0.0.0/16"
 	}
 
-	resource "cloud_vpc_dc_gateway" "vpc_main" {
+	resource "tencentcloudenterprise_vpc_dc_gateway" "vpc_main" {
 	  name                = "ci-cdg-vpc-test"
 	  network_instance_id = cloud_vpc.main.id
 	  network_type        = "VPC"
@@ -40,7 +40,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_vpc_dc_gateway", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_vpc_dc_gateway", CNDescription{
 		TerraformTypeCN: "专线网关",
 		DescriptionCN:   "提供专线网关资源，用于创建专线网关实例。",
 		AttributesCN: map[string]string{

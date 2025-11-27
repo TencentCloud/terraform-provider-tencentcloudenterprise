@@ -5,7 +5,7 @@ Provides a resource to create and manage a VPC peering connection with extended 
 
 ```hcl
 
-	resource "cloud_vpc_peer_connect_ex_manager" "example" {
+	resource "tencentcloudenterprise_vpc_peer_connect_ex_manager" "example" {
 	  vpc_id                  = "vpc-45dvaaw9"
 	  peering_connection_name = "test-peer-connection-ex"
 	  peer_vpc_id             = "vpc-44fnavba"
@@ -39,7 +39,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_vpc_peer_connect_ex_manager", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_vpc_peer_connect_ex_manager", CNDescription{
 		TerraformTypeCN: "VPC对等连接跨地域管理",
 		DescriptionCN:   "提供VPC对等连接扩展管理资源，用于创建和管理跨地域的VPC对等连接。",
 		AttributesCN: map[string]string{

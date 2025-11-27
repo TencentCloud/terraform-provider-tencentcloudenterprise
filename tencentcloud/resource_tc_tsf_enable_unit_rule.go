@@ -5,7 +5,7 @@ Provides a resource to create a tsf enable_unit_rule
 
 ```hcl
 
-	resource "cloud_tsf_enable_unit_rule" "enable_unit_rule" {
+	resource "tencentcloudenterprise_tsf_enable_unit_rule" "enable_unit_rule" {
 	  rule_id = "unit-rl-is9m4nxz"
 	  switch = "enabled"
 	}
@@ -32,7 +32,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_tsf_enable_unit_rule", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_tsf_enable_unit_rule", CNDescription{
 		TerraformTypeCN: "启用单元化规则",
 		DescriptionCN:   "提供TSF启用单元化规则资源，用于创建和管理启用单元化规则。",
 		AttributesCN: map[string]string{

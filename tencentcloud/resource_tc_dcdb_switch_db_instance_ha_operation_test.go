@@ -17,17 +17,17 @@ func TestAccTencentCloudDcdbSwitchDbInstanceHaOperationResource_basic(t *testing
 			{
 				Config: testAccDcdbSwitchDbInstanceHaOperation,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttrSet("cloud_dcdb_switch_db_instance_ha_operation.switch_operation", "id"),
-					resource.TestCheckResourceAttrSet("cloud_dcdb_switch_db_instance_ha_operation.switch_operation", "instance_id"),
-					resource.TestCheckResourceAttrSet("cloud_dcdb_switch_db_instance_ha_operation.switch_operation", "zone"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_dcdb_switch_db_instance_ha_operation.switch_operation", "id"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_dcdb_switch_db_instance_ha_operation.switch_operation", "instance_id"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_dcdb_switch_db_instance_ha_operation.switch_operation", "zone"),
 				),
 			},
 			{
 				Config: testAccDcdbSwitchDbInstanceHaOperation_update,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttrSet("cloud_dcdb_switch_db_instance_ha_operation.switch_operation", "id"),
-					resource.TestCheckResourceAttrSet("cloud_dcdb_switch_db_instance_ha_operation.switch_operation", "instance_id"),
-					resource.TestCheckResourceAttr("cloud_dcdb_switch_db_instance_ha_operation.switch_operation", "zone", "ap-guangzhou-3"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_dcdb_switch_db_instance_ha_operation.switch_operation", "id"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_dcdb_switch_db_instance_ha_operation.switch_operation", "instance_id"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_dcdb_switch_db_instance_ha_operation.switch_operation", "zone", "ap-guangzhou-3"),
 				),
 			},
 		},
@@ -36,7 +36,7 @@ func TestAccTencentCloudDcdbSwitchDbInstanceHaOperationResource_basic(t *testing
 
 const testAccDcdbSwitchDbInstanceHaOperation = CommonPresetDcdb + `
 
-resource "cloud_dcdb_switch_db_instance_ha_operation" "switch_operation" {
+resource "tencentcloudenterprise_dcdb_switch_db_instance_ha_operation" "switch_operation" {
   instance_id = local.dcdb_id
   zone = "ap-guangzhou-4" //3 to 4
 }
@@ -45,7 +45,7 @@ resource "cloud_dcdb_switch_db_instance_ha_operation" "switch_operation" {
 
 const testAccDcdbSwitchDbInstanceHaOperation_update = CommonPresetDcdb + `
 
-resource "cloud_dcdb_switch_db_instance_ha_operation" "switch_operation" {
+resource "tencentcloudenterprise_dcdb_switch_db_instance_ha_operation" "switch_operation" {
   instance_id = local.dcdb_id
   zone = "ap-guangzhou-3" //4 to 3
 }

@@ -5,7 +5,7 @@
 //
 // ```hcl
 //
-//	data "cloud_redis_instance_zone_info" "instance_zone_info" {
+//	data "tencentcloudenterprise_redis_instance_zone_info" "instance_zone_info" {
 //	 instance_id = "crs-c1nl9rpv"
 //	}
 //

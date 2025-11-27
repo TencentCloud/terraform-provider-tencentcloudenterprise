@@ -17,19 +17,19 @@ func TestAccTencentCloudCvmChcConfigResource_basic(t *testing.T) {
 			{
 				Config: testAccCvmChcConfig,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttrSet("cloud_cvm_chc_config.chc_config", "id"),
-					resource.TestCheckResourceAttr("cloud_cvm_chc_config.chc_config", "instance_name", "test"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_cvm_chc_config.chc_config", "id"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_cvm_chc_config.chc_config", "instance_name", "test"),
 				),
 			},
 			{
 				Config: testAccCvmChcConfig_update,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttrSet("cloud_cvm_chc_config.chc_config", "id"),
-					resource.TestCheckResourceAttr("cloud_cvm_chc_config.chc_config", "instance_name", "test_update"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_cvm_chc_config.chc_config", "id"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_cvm_chc_config.chc_config", "instance_name", "test_update"),
 				),
 			},
 			{
-				ResourceName:            "cloud_cvm_chc_config.chc_config",
+				ResourceName:            "tencentcloudenterprise_cvm_chc_config.chc_config",
 				ImportState:             true,
 				ImportStateVerify:       true,
 				ImportStateVerifyIgnore: []string{"bmc_user", "password"},
@@ -39,7 +39,7 @@ func TestAccTencentCloudCvmChcConfigResource_basic(t *testing.T) {
 }
 
 const testAccCvmChcConfig = `
-resource "cloud_cvm_chc_config" "chc_config" {
+resource "tencentcloudenterprise_cvm_chc_config" "chc_config" {
 	chc_id = "chc-0brmw3wl"
 	instance_name = "test"
 	bmc_user = "admin"
@@ -59,7 +59,7 @@ resource "cloud_cvm_chc_config" "chc_config" {
 `
 
 const testAccCvmChcConfig_update = `
-resource "cloud_cvm_chc_config" "chc_config" {
+resource "tencentcloudenterprise_cvm_chc_config" "chc_config" {
 	chc_id = "chc-0brmw3wl"
 	instance_name = "test_update"
 	bmc_user = "admin"

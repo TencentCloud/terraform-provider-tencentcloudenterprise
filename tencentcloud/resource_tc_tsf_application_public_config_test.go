@@ -21,18 +21,18 @@ func TestAccTencentCloudTsfApplicationPublicConfigResource_basic(t *testing.T) {
 			{
 				Config: testAccTsfApplicationPublicConfig,
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckTsfApplicationPublicConfigExists("cloud_tsf_application_public_config.application_public_config"),
-					resource.TestCheckResourceAttrSet("cloud_tsf_application_public_config.application_public_config", "id"),
-					resource.TestCheckResourceAttr("cloud_tsf_application_public_config.application_public_config", "config_name", "terraform-test"),
-					resource.TestCheckResourceAttr("cloud_tsf_application_public_config.application_public_config", "config_type", "P"),
-					resource.TestCheckResourceAttr("cloud_tsf_application_public_config.application_public_config", "config_value", "test: 1"),
-					resource.TestCheckResourceAttr("cloud_tsf_application_public_config.application_public_config", "config_version", "1.0"),
-					resource.TestCheckResourceAttr("cloud_tsf_application_public_config.application_public_config", "config_version_desc", "product version"),
-					resource.TestCheckResourceAttr("cloud_tsf_application_public_config.application_public_config", "encode_with_base64", "true"),
+					testAccCheckTsfApplicationPublicConfigExists("tencentcloudenterprise_tsf_application_public_config.application_public_config"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_tsf_application_public_config.application_public_config", "id"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_tsf_application_public_config.application_public_config", "config_name", "terraform-test"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_tsf_application_public_config.application_public_config", "config_type", "P"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_tsf_application_public_config.application_public_config", "config_value", "test: 1"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_tsf_application_public_config.application_public_config", "config_version", "1.0"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_tsf_application_public_config.application_public_config", "config_version_desc", "product version"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_tsf_application_public_config.application_public_config", "encode_with_base64", "true"),
 				),
 			},
 			// {
-			// 	ResourceName:      "cloud_tsf_application_public_config.application_public_config",
+			// 	ResourceName:      "tencentcloudenterprise_tsf_application_public_config.application_public_config",
 			// 	ImportState:       true,
 			// 	ImportStateVerify: true,
 			// },
@@ -45,7 +45,7 @@ func testAccCheckTsfApplicationPublicConfigDestroy(s *terraform.State) error {
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
 	service := TsfService{client: testAccProvider.Meta().(*TencentCloudClient).apiV3Conn}
 	for _, rs := range s.RootModule().Resources {
-		if rs.Type != "cloud_tsf_application_release_config" {
+		if rs.Type != "tencentcloudenterprise_tsf_application_release_config" {
 			continue
 		}
 
@@ -87,7 +87,7 @@ func testAccCheckTsfApplicationPublicConfigExists(r string) resource.TestCheckFu
 
 const testAccTsfApplicationPublicConfig = `
 
-resource "cloud_tsf_application_public_config" "application_public_config" {
+resource "tencentcloudenterprise_tsf_application_public_config" "application_public_config" {
 	config_name = "terraform-test"
 	config_version = "1.0"
 	config_value = "test: 1"

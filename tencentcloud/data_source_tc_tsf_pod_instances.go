@@ -5,7 +5,7 @@ Use this data source to query detailed information of tsf pod_instances
 
 ```hcl
 
-	data "cloud_tsf_pod_instances" "pod_instances" {
+	data "tencentcloudenterprise_tsf_pod_instances" "pod_instances" {
 	  group_id = "group-ynd95rea"
 	  pod_name_list = ["keep-terraform-6f8f977688-zvphm"]
 	}
@@ -24,7 +24,7 @@ import (
 )
 
 func init() {
-	registerDataDescriptionProvider("cloud_tsf_pod_instances", CNDescription{
+	registerDataDescriptionProvider("tencentcloudenterprise_tsf_pod_instances", CNDescription{
 		TerraformTypeCN: "TSF实例列表",
 		DescriptionCN:   "提供TSF Pod实例数据源，用于查询TSF Pod实例的详细信息。",
 		AttributesCN: map[string]string{

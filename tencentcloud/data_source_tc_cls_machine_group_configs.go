@@ -5,7 +5,7 @@ Use this data source to query detailed information of cls machine_group_configs
 
 ```hcl
 
-	resource "cloud_cls_machine_group" "group" {
+	resource "tencentcloudenterprise_cls_machine_group" "group" {
 	  group_name        = "tf-describe-mg-config-test"
 	  service_logging   = true
 	  auto_update       = true
@@ -21,7 +21,7 @@ Use this data source to query detailed information of cls machine_group_configs
 	  }
 	}
 
-	data "cloud_cls_machine_group_configs" "machine_group_configs" {
+	data "tencentcloudenterprise_cls_machine_group_configs" "machine_group_configs" {
 	  group_id = cloud_cls_machine_group.group.id
 	}
 
@@ -39,7 +39,7 @@ import (
 )
 
 func init() {
-	registerDataDescriptionProvider("cloud_cls_machine_group_configs", CNDescription{
+	registerDataDescriptionProvider("tencentcloudenterprise_cls_machine_group_configs", CNDescription{
 		TerraformTypeCN: "CLS机器组配置列表",
 		DescriptionCN:   "提供CLS机器组配置列表数据源，用于查询指定机器组关联的采集配置信息。",
 		AttributesCN: map[string]string{

@@ -4,7 +4,7 @@ Use this data source to query the detail information of Turbofs permission group
 Example Usage
 ```hcl
 
-	data "cloud_turbofs_p_groups" "pgroup" {
+	data "tencentcloudenterprise_turbofs_p_groups" "pgroup" {
 	  p_group_id = "pgroup-7nx89k7l"
 	}
 
@@ -23,7 +23,7 @@ import (
 )
 
 func init() {
-	registerDataDescriptionProvider("cloud_turbofs_p_groups", CNDescription{
+	registerDataDescriptionProvider("tencentcloudenterprise_turbofs_p_groups", CNDescription{
 		TerraformTypeCN: "权限组",
 		DescriptionCN:   "提供TurboFS权限组数据源，用于查询TurboFS权限组的详细信息。",
 		AttributesCN: map[string]string{

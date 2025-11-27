@@ -22,9 +22,9 @@ func TestAccTencentCloudVpcV2RouteEntryBasic(t *testing.T) {
 			{
 				Config: testAccVpcRouteEntryV2Config,
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckRouteEntryExists("cloud_route_entry.foo", &reId),
-					resource.TestCheckResourceAttr("cloud_route_entry.foo", "cidr_block", "10.0.0.0/24"),
-					resource.TestCheckResourceAttr("cloud_route_entry.foo", "next_type", "eip"),
+					testAccCheckRouteEntryExists("tencentcloudenterprise_route_entry.foo", &reId),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_route_entry.foo", "cidr_block", "10.0.0.0/24"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_route_entry.foo", "next_type", "eip"),
 				),
 			},
 		},
@@ -39,7 +39,7 @@ func testAccCheckRouteEntryDestroy(id *string) resource.TestCheckFunc {
 
 		route, ok := routeIdDecode(*id)
 		if !ok {
-			return fmt.Errorf("cloud_route_entry read error, id decode faild, id:%v", id)
+			return fmt.Errorf("tencentcloudenterprise_route_entry read error, id decode faild, id:%v", id)
 		}
 
 		err := resource.Retry(readRetryTimeout, func() *resource.RetryError {
@@ -96,7 +96,7 @@ func testAccCheckRouteEntryExists(n string, id *string) resource.TestCheckFunc {
 
 		route, ok := routeIdDecode(rs.Primary.ID)
 		if !ok {
-			return fmt.Errorf("cloud_route_entry read error, id decode faild, id:%v", rs.Primary.ID)
+			return fmt.Errorf("tencentcloudenterprise_route_entry read error, id decode faild, id:%v", rs.Primary.ID)
 		}
 
 		err := resource.Retry(readRetryTimeout, func() *resource.RetryError {
@@ -142,17 +142,17 @@ func testAccCheckRouteEntryExists(n string, id *string) resource.TestCheckFunc {
 }
 
 const testAccVpcRouteEntryV2Config = defaultVpcVariable + `
-resource "cloud_vpc" "foo" {
+resource "tencentcloudenterprise_vpc" "foo" {
   name       = var.instance_name
   cidr_block = var.vpc_cidr
 }
 
-resource "cloud_route_table" "foo" {
+resource "tencentcloudenterprise_route_table" "foo" {
   name   = var.instance_name
   vpc_id = cloud_vpc.foo.id
 }
 
-resource "cloud_vpc_subnet" "foo" {
+resource "tencentcloudenterprise_vpc_subnet" "foo" {
   name              = var.instance_name
   vpc_id            = cloud_vpc.foo.id
   availability_zone = var.availability_zone
@@ -161,7 +161,7 @@ resource "cloud_vpc_subnet" "foo" {
   route_table_id    = cloud_route_table.foo.id
 }
 
-resource "cloud_route_entry" "foo" {
+resource "tencentcloudenterprise_route_entry" "foo" {
   vpc_id        	= cloud_vpc.foo.id
   route_table_id 	= cloud_route_table.foo.id
   cidr_block 		= "10.0.0.0/24"

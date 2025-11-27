@@ -33,7 +33,7 @@ func TestAccTencentCloudTsfRepositoryDataSource_basic(t *testing.T) {
 
 const testAccTsfRepositoryDataSource = `
 
-data "cloud_tsf_repository" "repository" {
+data "tencentcloudenterprise_tsf_repository" "repository" {
 	search_word = "test"
 	repository_type = "default"
 }

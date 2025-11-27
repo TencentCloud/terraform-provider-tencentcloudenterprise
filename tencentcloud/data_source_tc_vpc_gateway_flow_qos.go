@@ -5,7 +5,7 @@ Use this data source to query detailed information of vpc gateway_flow_qos
 
 ```hcl
 
-	data "cloud_vpc_gateway_flow_qos" "gateway_flow_qos" {
+	data "tencentcloudenterprise_vpc_gateway_flow_qos" "gateway_flow_qos" {
 	  gateway_id = "vpngw-gt8bianl"
 	}
 
@@ -23,7 +23,7 @@ import (
 )
 
 func init() {
-	registerDataDescriptionProvider("cloud_vpc_gateway_flow_qos", CNDescription{
+	registerDataDescriptionProvider("tencentcloudenterprise_vpc_gateway_flow_qos", CNDescription{
 		TerraformTypeCN: "vpc网关流量限制",
 		DescriptionCN:   "提供VPC网关流量QoS数据源，用于查询VPC网关流量QoS的详细信息。",
 		AttributesCN: map[string]string{

@@ -21,26 +21,26 @@ func TestAccTencentCloudTsfApplicationResource_basic(t *testing.T) {
 			{
 				Config: testAccTsfApplication,
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckTsfApplicationExists("cloud_tsf_application.application"),
-					resource.TestCheckResourceAttrSet("cloud_tsf_application.application", "id"),
-					resource.TestCheckResourceAttr("cloud_tsf_application.application", "application_desc", "This is my application"),
-					resource.TestCheckResourceAttr("cloud_tsf_application.application", "application_name", "terraform-test"),
-					resource.TestCheckResourceAttr("cloud_tsf_application.application", "application_resource_type", "DEF"),
-					resource.TestCheckResourceAttr("cloud_tsf_application.application", "application_runtime_type", "Java"),
-					resource.TestCheckResourceAttr("cloud_tsf_application.application", "application_type", "V"),
-					//resource.TestCheckResourceAttr("cloud_tsf_application.application", "ignore_create_image_repository", "true"),
-					resource.TestCheckResourceAttr("cloud_tsf_application.application", "microservice_type", "N"),
-					resource.TestCheckResourceAttr("cloud_tsf_application.application", "service_config_list.#", "1"),
-					resource.TestCheckResourceAttr("cloud_tsf_application.application", "service_config_list.0.name", "my-service"),
-					resource.TestCheckResourceAttr("cloud_tsf_application.application", "service_config_list.0.health_check.#", "1"),
-					resource.TestCheckResourceAttr("cloud_tsf_application.application", "service_config_list.0.health_check.0.path", "/health"),
-					resource.TestCheckResourceAttr("cloud_tsf_application.application", "service_config_list.0.ports.#", "1"),
-					resource.TestCheckResourceAttr("cloud_tsf_application.application", "service_config_list.0.ports.0.protocol", "HTTP"),
-					resource.TestCheckResourceAttr("cloud_tsf_application.application", "service_config_list.0.ports.0.target_port", "8080"),
+					testAccCheckTsfApplicationExists("tencentcloudenterprise_tsf_application.application"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_tsf_application.application", "id"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_tsf_application.application", "application_desc", "This is my application"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_tsf_application.application", "application_name", "terraform-test"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_tsf_application.application", "application_resource_type", "DEF"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_tsf_application.application", "application_runtime_type", "Java"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_tsf_application.application", "application_type", "V"),
+					//resource.TestCheckResourceAttr("tencentcloudenterprise_tsf_application.application", "ignore_create_image_repository", "true"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_tsf_application.application", "microservice_type", "N"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_tsf_application.application", "service_config_list.#", "1"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_tsf_application.application", "service_config_list.0.name", "my-service"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_tsf_application.application", "service_config_list.0.health_check.#", "1"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_tsf_application.application", "service_config_list.0.health_check.0.path", "/health"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_tsf_application.application", "service_config_list.0.ports.#", "1"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_tsf_application.application", "service_config_list.0.ports.0.protocol", "HTTP"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_tsf_application.application", "service_config_list.0.ports.0.target_port", "8080"),
 				),
 			},
 			// {
-			// 	ResourceName:      "cloud_tsf_application.application",
+			// 	ResourceName:      "tencentcloudenterprise_tsf_application.application",
 			// 	ImportState:       true,
 			// 	ImportStateVerify: true,
 			// },
@@ -53,7 +53,7 @@ func testAccCheckTsfApplicationDestroy(s *terraform.State) error {
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
 	service := TsfService{client: testAccProvider.Meta().(*TencentCloudClient).apiV3Conn}
 	for _, rs := range s.RootModule().Resources {
-		if rs.Type != "cloud_tsf_application_release_config" {
+		if rs.Type != "tencentcloudenterprise_tsf_application_release_config" {
 			continue
 		}
 
@@ -95,7 +95,7 @@ func testAccCheckTsfApplicationExists(r string) resource.TestCheckFunc {
 
 const testAccTsfApplication = `
 
-resource "cloud_tsf_application" "application" {
+resource "tencentcloudenterprise_tsf_application" "application" {
 	application_name = "terraform-test"
 	application_type = "V"
 	microservice_type = "N"

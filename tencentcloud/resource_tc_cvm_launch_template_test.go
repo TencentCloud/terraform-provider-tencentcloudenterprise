@@ -16,8 +16,8 @@ func TestAccTencentCloudCvmLaunchTemplateResource_basic(t *testing.T) {
 			{
 				Config: testAccCvmLaunchTemplate,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttrSet("cloud_cvm_launch_template.launch_template", "id"),
-					resource.TestCheckResourceAttr("cloud_cvm_launch_template.launch_template", "image_id", "img-9qrfy1xt"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_cvm_launch_template.launch_template", "id"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_cvm_launch_template.launch_template", "image_id", "img-9qrfy1xt"),
 				),
 			},
 		},
@@ -25,7 +25,7 @@ func TestAccTencentCloudCvmLaunchTemplateResource_basic(t *testing.T) {
 }
 
 const testAccCvmLaunchTemplate = `
-resource "cloud_cvm_launch_template" "demo" {
+resource "tencentcloudenterprise_cvm_launch_template" "demo" {
 launch_template_name = "test"
 placement {
 zone = "yfm18"

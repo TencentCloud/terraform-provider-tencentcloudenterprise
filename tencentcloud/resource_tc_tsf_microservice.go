@@ -5,7 +5,7 @@ Provides a resource to create a tsf microservice
 
 ```hcl
 
-	resource "cloud_tsf_microservice" "microservice" {
+	resource "tencentcloudenterprise_tsf_microservice" "microservice" {
 	  namespace_id = "namespace-vjlkzkgy"
 	  microservice_name = "test-microservice"
 	  microservice_desc = "desc-microservice"
@@ -39,7 +39,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_tsf_microservice", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_tsf_microservice", CNDescription{
 		TerraformTypeCN: "微服务",
 		DescriptionCN:   "提供TSF微服务资源，用于创建和管理微服务。",
 		AttributesCN: map[string]string{

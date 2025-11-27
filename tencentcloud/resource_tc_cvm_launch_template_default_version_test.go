@@ -16,10 +16,10 @@ func TestAccTencentCloudCvmLaunchTemplateDefaultVersionResource_basic(t *testing
 		Steps: []resource.TestStep{
 			{
 				Config: testAccCvmLaunchTemplateDefaultVersion,
-				Check:  resource.ComposeTestCheckFunc(resource.TestCheckResourceAttrSet("cloud_cvm_launch_template_default_version.launch_template_default_version", "id")),
+				Check:  resource.ComposeTestCheckFunc(resource.TestCheckResourceAttrSet("tencentcloudenterprise_cvm_launch_template_default_version.launch_template_default_version", "id")),
 			},
 			{
-				ResourceName:      "cloud_cvm_launch_template_default_version.launch_template_default_version",
+				ResourceName:      "tencentcloudenterprise_cvm_launch_template_default_version.launch_template_default_version",
 				ImportState:       true,
 				ImportStateVerify: true,
 			},
@@ -29,7 +29,7 @@ func TestAccTencentCloudCvmLaunchTemplateDefaultVersionResource_basic(t *testing
 
 const testAccCvmLaunchTemplateDefaultVersion = `
 
-resource "cloud_cvm_launch_template_default_version" "launch_template_default_version" {
+resource "tencentcloudenterprise_cvm_launch_template_default_version" "launch_template_default_version" {
   launch_template_id = "lt-9e1znnsa"
   default_version = 4
 }

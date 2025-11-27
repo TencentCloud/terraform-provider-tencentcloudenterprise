@@ -5,7 +5,7 @@ Use this resource to create ckafka topic.
 
 ```hcl
 
-	resource "cloud_ckafka_topic" "foo" {
+	resource "tencentcloudenterprise_ckafka_topic" "foo" {
 		instance_id                     = "ckafka-f9ife4zz"
 		topic_name                      = "example"
 		note                            = "topic note"
@@ -45,7 +45,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_ckafka_topic", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_ckafka_topic", CNDescription{
 		TerraformTypeCN: "ckafka topic",
 		DescriptionCN:   "提供CKafka主题资源，用于创建和管理CKafka主题。",
 		AttributesCN: map[string]string{

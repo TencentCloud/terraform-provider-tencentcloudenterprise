@@ -4,7 +4,7 @@ Provide a resource to create a bms instance
 Example Usage
 ```hcl
 
-	resource "cloud_bms_instance" "cloud_bms_instance-wuua" {
+	resource "tencentcloudenterprise_bms_instance" "tencentcloudenterprise_bms_instance-wuua" {
 	  operating_system      = "your operating system name"
 	  operating_system_type = "Linux"
 	  password              = "your password"
@@ -46,7 +46,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_bms_instance", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_bms_instance", CNDescription{
 		TerraformTypeCN: "裸金属服务器",
 		DescriptionCN:   "提供裸金属服务器实例资源，用于创建和管理裸金属服务器实例。",
 		AttributesCN: map[string]string{

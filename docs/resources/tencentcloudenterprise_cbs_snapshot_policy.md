@@ -1,0 +1,49 @@
+---
+subcategory: "Cloud Block Storage(CBS)"
+layout: "tencentcloudenterprise"
+page_title: "TencentCloudEnterprise: tencentcloudenterprise_cbs_snapshot_policy"
+sidebar_current: "docs-tencentcloudenterprise-resources-cbs_snapshot_policy"
+description: |-
+  Provides a snapshot policy resource.
+---
+
+# tencentcloudenterprise_cbs_snapshot_policy
+
+Provides a snapshot policy resource.
+
+## Example Usage
+
+```hcl
+resource "tencentcloudenterprise_cbs_snapshot_policy" "snapshot_policy" {
+  snapshot_policy_name = "mysnapshotpolicyname"
+  repeat_weekdays      = [1, 4]
+  repeat_hours         = [1]
+  retention_days       = 7
+}
+```
+
+## Argument Reference
+
+The following arguments are supported:
+
+* `repeat_hours` - (Required, List: [`Int`]) Trigger times of periodic snapshot. Valid value ranges: (0~23). The 0 means 00:00, and so on.
+* `repeat_weekdays` - (Required, List: [`Int`]) Periodic snapshot is enabled. Valid values: [0, 1, 2, 3, 4, 5, 6]. 0 means Sunday, 1-6 means Monday to Saturday.
+* `snapshot_policy_name` - (Required, String) Name of snapshot policy. The maximum length can not exceed 60 bytes.
+* `retention_days` - (Optional, Int) Retention days of the snapshot, and the default value is 7.
+
+## Attributes Reference
+
+In addition to all arguments above, the following attributes are exported:
+
+* `id` - ID of the resource.
+
+
+
+## Import
+
+CBS snapshot policy can be imported using the id, e.g.
+
+```
+$ terraform import tencentcloudenterprise_cbs_snapshot_policy.snapshot_policy asp-jliex1tn
+```
+

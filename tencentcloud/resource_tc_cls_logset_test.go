@@ -13,8 +13,8 @@ import (
 )
 
 func init() {
-	resource.AddTestSweepers("cloud_cls_logset", &resource.Sweeper{
-		Name: "cloud_cls_logset",
+	resource.AddTestSweepers("tencentcloudenterprise_cls_logset", &resource.Sweeper{
+		Name: "tencentcloudenterprise_cls_logset",
 		F:    testSweepClsLogset,
 	})
 }
@@ -72,13 +72,13 @@ func TestAccTencentCloudClsLogset_basic(t *testing.T) {
 			{
 				Config: testAccClsLogset_basic,
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckClsLogsetExists("cloud_cls_logset.logset"),
-					resource.TestCheckResourceAttrSet("cloud_cls_logset.logset", "create_time"),
-					resource.TestCheckResourceAttr("cloud_cls_logset.logset", "logset_name", "tf-logset-test"),
+					testAccCheckClsLogsetExists("tencentcloudenterprise_cls_logset.logset"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_cls_logset.logset", "create_time"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_cls_logset.logset", "logset_name", "tf-logset-test"),
 				),
 			},
 			{
-				ResourceName:      "cloud_cls_logset.logset",
+				ResourceName:      "tencentcloudenterprise_cls_logset.logset",
 				ImportState:       true,
 				ImportStateVerify: true,
 			},
@@ -114,7 +114,7 @@ func testAccCheckClsLogsetExists(n string) resource.TestCheckFunc {
 }
 
 const testAccClsLogset_basic = `
-resource "cloud_cls_logset" "logset" {
+resource "tencentcloudenterprise_cls_logset" "logset" {
   logset_name = "tf-logset-test"
   tags        = {
     "test" = "test"

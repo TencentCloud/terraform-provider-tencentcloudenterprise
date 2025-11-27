@@ -5,7 +5,7 @@ Use this data source to query detailed information of dc access_points
 
 ```hcl
 
-	data "cloud_dc_access_points" "access_points" {
+	data "tencentcloudenterprise_dc_access_points" "access_points" {
 	  region_id = "ap-guangzhou"
 	}
 
@@ -24,7 +24,7 @@ import (
 )
 
 func init() {
-	registerDataDescriptionProvider("cloud_dc_access_points", CNDescription{
+	registerDataDescriptionProvider("tencentcloudenterprise_dc_access_points", CNDescription{
 		TerraformTypeCN: "云物理服务器接入点",
 		AttributesCN: map[string]string{
 			"region_id":           "接入点区域，可以通过`DescribeRegions`查询，可以调用`DescribeRegions`获取区域ID",
@@ -208,7 +208,7 @@ func dataSourceTencentCloudDcAccessPointsRead(d *schema.ResourceData, meta inter
 			}
 
 			if accessPoint.CloudPortType != nil {
-				accessPointMap["cloud_port_type"] = accessPoint.CloudPortType
+				accessPointMap["tencentcloudenterprise_port_type"] = accessPoint.CloudPortType
 			}
 
 			if accessPoint.City != nil {

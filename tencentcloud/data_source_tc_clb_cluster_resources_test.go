@@ -24,7 +24,7 @@ func TestAccTencentCloudClbClusterResourcesDataSource_basic(t *testing.T) {
 
 const testAccClbClusterResourcesDataSource = `
 
-data "cloud_clb_cluster_resources" "cluster_resources" {
+data "tencentcloudenterprise_clb_cluster_resources" "cluster_resources" {
   filters {
     name = "idle"
     values = ["True"]

@@ -5,7 +5,7 @@ Use this data source to query detailed information of param records
 
 ```hcl
 
-	data "cloud_redis_param_records" "param_records" {
+	data "tencentcloudenterprise_redis_param_records" "param_records" {
 		instance_id = "crs-c1nl9rpv"
 	}
 
@@ -23,7 +23,7 @@ import (
 )
 
 func init() {
-	registerDataDescriptionProvider("cloud_redis_param_records", CNDescription{
+	registerDataDescriptionProvider("tencentcloudenterprise_redis_param_records", CNDescription{
 		TerraformTypeCN: "redis®参数历史",
 		DescriptionCN:   "提供Redis参数记录数据源，用于查询Redis参数记录的详细信息。",
 		AttributesCN: map[string]string{

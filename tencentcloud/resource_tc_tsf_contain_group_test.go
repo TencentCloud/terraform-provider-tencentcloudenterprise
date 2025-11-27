@@ -20,14 +20,14 @@ func TestAccTencentCloudNeedFixTsfContainGroupResource_basic(t *testing.T) {
 			{
 				Config: testAccTsfContainGroup,
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckTsfContainGroupExists("cloud_tsf_contain_group.contain_group"),
-					resource.TestCheckResourceAttrSet("cloud_tsf_contain_group.contain_group", "id"),
-					resource.TestCheckResourceAttr("cloud_tsf_contain_group.contain_group", "application_id", ""),
-					resource.TestCheckResourceAttr("cloud_tsf_contain_group.contain_group", "namespace_id", ""),
+					testAccCheckTsfContainGroupExists("tencentcloudenterprise_tsf_contain_group.contain_group"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_tsf_contain_group.contain_group", "id"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_tsf_contain_group.contain_group", "application_id", ""),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_tsf_contain_group.contain_group", "namespace_id", ""),
 				),
 			},
 			{
-				ResourceName:      "cloud_tsf_contain_group.contain_group",
+				ResourceName:      "tencentcloudenterprise_tsf_contain_group.contain_group",
 				ImportState:       true,
 				ImportStateVerify: true,
 			},
@@ -40,7 +40,7 @@ func testAccCheckTsfContainGroupDestroy(s *terraform.State) error {
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
 	service := TsfService{client: testAccProvider.Meta().(*TencentCloudClient).apiV3Conn}
 	for _, rs := range s.RootModule().Resources {
-		if rs.Type != "cloud_tsf_contain_group" {
+		if rs.Type != "tencentcloudenterprise_tsf_contain_group" {
 			continue
 		}
 
@@ -82,7 +82,7 @@ func testAccCheckTsfContainGroupExists(r string) resource.TestCheckFunc {
 
 const testAccTsfContainGroup = `
 
-resource "cloud_tsf_contain_group" "contain_group" {
+resource "tencentcloudenterprise_tsf_contain_group" "contain_group" {
   application_id = ""
   namespace_id = ""
   group_name = ""

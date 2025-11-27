@@ -14,10 +14,10 @@ func TestAccTencentCloudNeedFixTsfRepositoryResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			{
 				Config: testAccTsfRepository,
-				Check:  resource.ComposeTestCheckFunc(resource.TestCheckResourceAttrSet("cloud_tsf_repository.repository", "id")),
+				Check:  resource.ComposeTestCheckFunc(resource.TestCheckResourceAttrSet("tencentcloudenterprise_tsf_repository.repository", "id")),
 			},
 			{
-				ResourceName:      "cloud_tsf_repository.repository",
+				ResourceName:      "tencentcloudenterprise_tsf_repository.repository",
 				ImportState:       true,
 				ImportStateVerify: true,
 			},
@@ -27,7 +27,7 @@ func TestAccTencentCloudNeedFixTsfRepositoryResource_basic(t *testing.T) {
 
 const testAccTsfRepository = `
 
-resource "cloud_tsf_repository" "repository" {
+resource "tencentcloudenterprise_tsf_repository" "repository" {
     repository_name = ""
   repository_type = ""
   bucket_name = ""

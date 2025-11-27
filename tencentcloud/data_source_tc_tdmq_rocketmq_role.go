@@ -5,18 +5,18 @@ Use this data source to query detailed information of tdmqRocketmq role
 
 ```hcl
 
-	resource "cloud_tdmq_rocketmq_cluster" "cluster" {
+	resource "tencentcloudenterprise_tdmq_rocketmq_cluster" "cluster" {
 		cluster_name = "test_rocketmq_datasource_role"
 		remark = "test recket mq"
 	}
 
-	resource "cloud_tdmq_rocketmq_role" "role" {
+	resource "tencentcloudenterprise_tdmq_rocketmq_role" "role" {
 	  role_name = "test_rocketmq_role"
 	  remark = "test rocketmq role"
 	  cluster_id = cloud_tdmq_rocketmq_cluster.cluster.cluster_id
 	}
 
-	data "cloud_tdmq_rocketmq_role" "role" {
+	data "tencentcloudenterprise_tdmq_rocketmq_role" "role" {
 	  role_name = cloud_tdmq_rocketmq_role.role.role_name
 	  cluster_id = cloud_tdmq_rocketmq_cluster.cluster.cluster_id
 	}
@@ -36,7 +36,7 @@ import (
 )
 
 func init() {
-	registerDataDescriptionProvider("cloud_tdmq_rocketmq_role", CNDescription{
+	registerDataDescriptionProvider("tencentcloudenterprise_tdmq_rocketmq_role", CNDescription{
 		TerraformTypeCN: "RocketMQ 角色",
 		DescriptionCN:   "提供TDMQ RocketMQ角色数据源，用于查询TDMQ RocketMQ角色的详细信息。",
 		AttributesCN: map[string]string{

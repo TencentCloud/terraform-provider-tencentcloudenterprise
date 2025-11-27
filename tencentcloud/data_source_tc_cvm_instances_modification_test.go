@@ -26,7 +26,7 @@ func TestAccTencentCloudCvmInstancesModificationDataSource_basic(t *testing.T) {
 }
 
 const testAccCvmInstancesModificationDataSource = defaultCvmModificationVariable + `
-data "cloud_cvm_instances_modification" "foo" {
+data "tencentcloudenterprise_cvm_instances_modification" "foo" {
 	instance_ids = [var.cvm_id]
 }
 `

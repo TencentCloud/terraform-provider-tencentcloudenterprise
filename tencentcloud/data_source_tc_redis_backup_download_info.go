@@ -5,7 +5,7 @@ Use this data source to query detailed information of backup_download_info
 
 ```hcl
 
-	data "cloud_redis_backup_download_info" "backup_download_info" {
+	data "tencentcloudenterprise_redis_backup_download_info" "backup_download_info" {
 	  instance_id = "crs-iw7d9wdd"
 	  backup_id = "641186639-8362913-1516672770"
 	  # limit_type = "NoLimit"
@@ -33,7 +33,7 @@ import (
 )
 
 func init() {
-	registerDataDescriptionProvider("cloud_redis_backup_download_info", CNDescription{
+	registerDataDescriptionProvider("tencentcloudenterprise_redis_backup_download_info", CNDescription{
 		TerraformTypeCN: "Redis®备份下载信息",
 		DescriptionCN:   "提供Redis备份下载信息数据源，用于查询Redis备份下载信息的详细信息。",
 		AttributesCN: map[string]string{

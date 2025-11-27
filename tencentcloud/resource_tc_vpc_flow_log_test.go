@@ -59,28 +59,28 @@ func TestAccTencentCloudVpcFlowLogResource_basic(t *testing.T) {
 			{
 				Config: testAccVpcFlowLog,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttrSet("cloud_vpc_flow_log.flow_log", "id"),
-					resource.TestCheckResourceAttr("cloud_vpc_flow_log.flow_log", "flow_log_name", "foo"),
-					resource.TestCheckResourceAttr("cloud_vpc_flow_log.flow_log", "flow_log_description", "this is a testing flow log"),
-					resource.TestCheckResourceAttr("cloud_vpc_flow_log.flow_log", "tags.createdBy", "terraform"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_vpc_flow_log.flow_log", "id"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_vpc_flow_log.flow_log", "flow_log_name", "foo"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_vpc_flow_log.flow_log", "flow_log_description", "this is a testing flow log"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_vpc_flow_log.flow_log", "tags.createdBy", "terraform"),
 				),
 			},
 			{
-				ResourceName:      "cloud_vpc_flow_log.flow_log",
+				ResourceName:      "tencentcloudenterprise_vpc_flow_log.flow_log",
 				ImportState:       true,
 				ImportStateVerify: true,
 				ImportStateVerifyIgnore: []string{
-					"cloud_log_region",
+					"tencentcloudenterprise_log_region",
 					"flow_log_storage",
 				},
 			},
 			{
 				Config: testAccVpcFlowLogUpdate,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttrSet("cloud_vpc_flow_log.flow_log", "id"),
-					resource.TestCheckResourceAttr("cloud_vpc_flow_log.flow_log", "flow_log_name", "foo2"),
-					resource.TestCheckResourceAttr("cloud_vpc_flow_log.flow_log", "flow_log_description", "updated"),
-					resource.TestCheckResourceAttr("cloud_vpc_flow_log.flow_log", "tags.createdBy", "terraform2"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_vpc_flow_log.flow_log", "id"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_vpc_flow_log.flow_log", "flow_log_name", "foo2"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_vpc_flow_log.flow_log", "flow_log_description", "updated"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_vpc_flow_log.flow_log", "tags.createdBy", "terraform2"),
 				),
 			},
 		},
@@ -88,11 +88,11 @@ func TestAccTencentCloudVpcFlowLogResource_basic(t *testing.T) {
 }
 
 const testAccVpcFlowLog = defaultVpcSubnets + `
-data "cloud_vpc_enis" "eni" {
+data "tencentcloudenterprise_vpc_enis" "eni" {
   name      = "keep-fl-eni"
 }
 
-resource "cloud_vpc_flow_log" "flow_log" {
+resource "tencentcloudenterprise_vpc_flow_log" "flow_log" {
   flow_log_name = "foo"
   resource_type = "NETWORKINTERFACE"
   resource_id = data.cloud_vpc_enis.eni.enis.0.id
@@ -108,11 +108,11 @@ resource "cloud_vpc_flow_log" "flow_log" {
 `
 
 const testAccVpcFlowLogUpdate = defaultVpcSubnets + `
-data "cloud_vpc_enis" "eni" {
+data "tencentcloudenterprise_vpc_enis" "eni" {
   name      = "keep-fl-eni"
 }
 
-resource "cloud_vpc_flow_log" "flow_log" {
+resource "tencentcloudenterprise_vpc_flow_log" "flow_log" {
   flow_log_name = "foo2"
   resource_type = "NETWORKINTERFACE"
   resource_id = data.cloud_vpc_enis.eni.enis.0.id

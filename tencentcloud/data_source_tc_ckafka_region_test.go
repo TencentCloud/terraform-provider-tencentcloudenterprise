@@ -22,6 +22,6 @@ func TestAccTencentCloudCkafkaRegionDataSource_basic(t *testing.T) {
 
 const testAccCkafkaRegionDataSource = `
 
-data "cloud_ckafka_region" "region" {
+data "tencentcloudenterprise_ckafka_region" "region" {
 }
 `

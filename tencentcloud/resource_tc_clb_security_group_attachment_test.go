@@ -16,10 +16,10 @@ func TestAccTencentCloudClbSecurityGroupAttachmentResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			{
 				Config: testAccClbSecurityGroupAttachment,
-				Check:  resource.ComposeTestCheckFunc(resource.TestCheckResourceAttrSet("cloud_clb_security_group_attachment.security_group_attachment", "id")),
+				Check:  resource.ComposeTestCheckFunc(resource.TestCheckResourceAttrSet("tencentcloudenterprise_clb_security_group_attachment.security_group_attachment", "id")),
 			},
 			{
-				ResourceName:      "cloud_clb_security_group_attachment.security_group_attachment",
+				ResourceName:      "tencentcloudenterprise_clb_security_group_attachment.security_group_attachment",
 				ImportState:       true,
 				ImportStateVerify: true,
 			},
@@ -29,7 +29,7 @@ func TestAccTencentCloudClbSecurityGroupAttachmentResource_basic(t *testing.T) {
 
 const testAccClbSecurityGroupAttachment = `
 
-resource "cloud_clb_security_group_attachment" "security_group_attachment" {
+resource "tencentcloudenterprise_clb_security_group_attachment" "security_group_attachment" {
   security_group = "sg-ijato2x1"
   load_balancer_ids = ["lb-5dnrkgry"]
 }

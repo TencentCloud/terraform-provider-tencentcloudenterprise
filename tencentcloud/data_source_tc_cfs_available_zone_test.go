@@ -24,6 +24,6 @@ func TestAccTencentCloudCfsAvailableZoneDataSource_basic(t *testing.T) {
 
 const testAccCfsAvailableZoneDataSource = `
 
-data "cloud_cfs_available_zone" "available_zone" {}
+data "tencentcloudenterprise_cfs_available_zone" "available_zone" {}
 
 `

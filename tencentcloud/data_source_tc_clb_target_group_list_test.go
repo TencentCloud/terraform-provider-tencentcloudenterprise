@@ -24,7 +24,7 @@ func TestAccTencentCloudClbTargetGroupListDataSource_basic(t *testing.T) {
 
 const testAccClbTargetGroupListDataSource = `
 
-data "cloud_clb_target_group_list" "target_group_list" {
+data "tencentcloudenterprise_clb_target_group_list" "target_group_list" {
   filters {
     name = "TargetGroupName"
     values = ["keep-tgg"]

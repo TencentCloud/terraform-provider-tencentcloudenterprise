@@ -5,7 +5,7 @@ Use this data source to query detailed information of cvm image_share_permission
 
 ```hcl
 
-	data "cloud_cvm_image_share_permission" "image_share_permission" {
+	data "tencentcloudenterprise_cvm_image_share_permission" "image_share_permission" {
 	  image_id = "img-xxxxxx"
 	}
 
@@ -24,7 +24,7 @@ import (
 
 func init() {
 	// 注册资源中文描述提供者映射
-	registerDataDescriptionProvider("cloud_cvm_image_share_permission", CNDescription{
+	registerDataDescriptionProvider("tencentcloudenterprise_cvm_image_share_permission", CNDescription{
 		TerraformTypeCN: "CVM 镜像共享权限",
 		DescriptionCN:   "提供CVM镜像共享权限数据源，用于查询镜像共享权限的详细信息。",
 		AttributesCN: map[string]string{

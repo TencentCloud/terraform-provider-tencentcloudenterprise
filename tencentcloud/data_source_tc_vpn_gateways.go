@@ -5,7 +5,7 @@ Use this data source to query detailed information of VPN gateways.
 
 ```hcl
 
-	data "cloud_vpn_gateways" "foo" {
+	data "tencentcloudenterprise_vpn_gateways" "foo" {
 	  name              = "main"
 	  id                = "vpngw-8ccsnclt"
 	  public_ip_address = "1.1.1.1"
@@ -32,7 +32,7 @@ import (
 )
 
 func init() {
-	registerDataDescriptionProvider("cloud_vpn_gateways", CNDescription{
+	registerDataDescriptionProvider("tencentcloudenterprise_vpn_gateways", CNDescription{
 		TerraformTypeCN: "VPN网关",
 		AttributesCN: map[string]string{
 			"name":               "VPN网关的名称字符长度限制为1-60",

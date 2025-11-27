@@ -13,7 +13,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_tdmq_pulsar_route", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_tdmq_pulsar_route", CNDescription{
 		TerraformTypeCN: "TDMQ 路由",
 		DescriptionCN:   "提供TDMQ路由资源，用于创建和管理TDMQ路由。",
 		AttributesCN: map[string]string{

@@ -3,34 +3,34 @@
 # ========== Data Sources ==========
 
 # Query RocketMQ clusters
-data "cloud_tdmq_rocketmq_cluster" "clusters" {
+data "tencentcloudenterprise_tdmq_rocketmq_cluster" "clusters" {
   cluster_id = "rocketmq-xxxxx"
 }
 
 # Query RocketMQ namespaces
-data "cloud_tdmq_rocketmq_namespace" "namespaces" {
+data "tencentcloudenterprise_tdmq_rocketmq_namespace" "namespaces" {
   cluster_id = "rocketmq-xxxxx"
 }
 
 # Query RocketMQ topics
-data "cloud_tdmq_rocketmq_topic" "topics" {
+data "tencentcloudenterprise_tdmq_rocketmq_topic" "topics" {
   cluster_id = "rocketmq-xxxxx"
   namespace_id = "namespace-xxxxx"
 }
 
 # Query RocketMQ roles
-data "cloud_tdmq_rocketmq_role" "roles" {
+data "tencentcloudenterprise_tdmq_rocketmq_role" "roles" {
   cluster_id = "rocketmq-xxxxx"
 }
 
 # Query RocketMQ groups
-data "cloud_tdmq_rocketmq_group" "groups" {
+data "tencentcloudenterprise_tdmq_rocketmq_group" "groups" {
   cluster_id   = "rocketmq-xxxxx"
   namespace_id = "namespace-xxxxx"
 }
 
 # Query RocketMQ messages
-data "cloud_tdmq_rocketmq_messages" "messages" {
+data "tencentcloudenterprise_tdmq_rocketmq_messages" "messages" {
   cluster_id = "rocketmq-xxxxx"
   environment_id = "namespace-xxxxx"
   topic_name = "example-topic"
@@ -40,13 +40,13 @@ data "cloud_tdmq_rocketmq_messages" "messages" {
 # ========== Resources ==========
 
 # RocketMQ Cluster
-resource "cloud_tdmq_rocketmq_cluster" "cluster" {
+resource "tencentcloudenterprise_tdmq_rocketmq_cluster" "cluster" {
   cluster_name = "example-rocketmq"
   remark       = "Example RocketMQ cluster"
 }
 
 # RocketMQ Namespace
-resource "cloud_tdmq_rocketmq_namespace" "namespace" {
+resource "tencentcloudenterprise_tdmq_rocketmq_namespace" "namespace" {
   cluster_id = cloud_tdmq_rocketmq_cluster.cluster.cluster_id
   namespace_name = "example-namespace"
   ttl            = 3600
@@ -55,14 +55,14 @@ resource "cloud_tdmq_rocketmq_namespace" "namespace" {
 }
 
 # RocketMQ Role
-resource "cloud_tdmq_rocketmq_role" "role" {
+resource "tencentcloudenterprise_tdmq_rocketmq_role" "role" {
   role_name  = "example-role"
   cluster_id = cloud_tdmq_rocketmq_cluster.cluster.cluster_id
   remark     = "Example role"
 }
 
 # RocketMQ Topic
-resource "cloud_tdmq_rocketmq_topic" "topic" {
+resource "tencentcloudenterprise_tdmq_rocketmq_topic" "topic" {
   topic_name   = "example-topic"
   namespace    = cloud_tdmq_rocketmq_namespace.namespace.namespace_name
   type         = "Normal"
@@ -72,7 +72,7 @@ resource "cloud_tdmq_rocketmq_topic" "topic" {
 }
 
 # RocketMQ Group
-resource "cloud_tdmq_rocketmq_group" "group" {
+resource "tencentcloudenterprise_tdmq_rocketmq_group" "group" {
   group_name     = "example-group"
   namespace      = cloud_tdmq_rocketmq_namespace.namespace.namespace_name
   read_enable    = true
@@ -82,7 +82,7 @@ resource "cloud_tdmq_rocketmq_group" "group" {
 }
 
 # RocketMQ Environment Role
-resource "cloud_tdmq_rocketmq_environment_role" "env_role" {
+resource "tencentcloudenterprise_tdmq_rocketmq_environment_role" "env_role" {
   environment_id = cloud_tdmq_rocketmq_namespace.namespace.namespace_name
   role_name      = cloud_tdmq_rocketmq_role.role.role_name
   permissions    = ["produce", "consume"]
@@ -90,7 +90,7 @@ resource "cloud_tdmq_rocketmq_environment_role" "env_role" {
 }
 
 # Send RocketMQ Message
-resource "cloud_tdmq_send_rocketmq_message" "message" {
+resource "tencentcloudenterprise_tdmq_send_rocketmq_message" "message" {
   cluster_id = cloud_tdmq_rocketmq_cluster.cluster.cluster_id
   namespace_id = cloud_tdmq_rocketmq_namespace.namespace.namespace_name
   topic_name = cloud_tdmq_rocketmq_topic.topic.topic_name

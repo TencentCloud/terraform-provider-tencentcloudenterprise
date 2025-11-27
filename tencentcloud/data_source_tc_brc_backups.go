@@ -5,7 +5,7 @@ Use this data source to query detailed information of brc backups
 
 ```hcl
 
-	data "cloud_brc_backups" "all_backups" {
+	data "tencentcloudenterprise_brc_backups" "all_backups" {
 	  result_output_file = "all_backups.json"
 	}
 
@@ -24,7 +24,7 @@ import (
 )
 
 func init() {
-	registerDataDescriptionProvider("cloud_brc_backups", CNDescription{
+	registerDataDescriptionProvider("tencentcloudenterprise_brc_backups", CNDescription{
 		TerraformTypeCN: "BRC备份列表",
 		DescriptionCN:   "提供BRC备份列表数据源，用于查询备份的详细信息。",
 		AttributesCN: map[string]string{

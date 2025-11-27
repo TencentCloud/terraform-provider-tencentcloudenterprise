@@ -16,7 +16,7 @@ func TestAccTencentCloudVpnCustomerGatewayConfigurationDownloadResource_basic(t 
 		Steps: []resource.TestStep{
 			{
 				Config: testAccVpcVpnCustomerGatewayConfigurationDownload,
-				Check:  resource.ComposeTestCheckFunc(resource.TestCheckResourceAttrSet("cloud_vpn_customer_gateway_configuration_download.vpn_customer_gateway_configuration_download", "id")),
+				Check:  resource.ComposeTestCheckFunc(resource.TestCheckResourceAttrSet("tencentcloudenterprise_vpn_customer_gateway_configuration_download.vpn_customer_gateway_configuration_download", "id")),
 			},
 		},
 	})
@@ -24,7 +24,7 @@ func TestAccTencentCloudVpnCustomerGatewayConfigurationDownloadResource_basic(t 
 
 const testAccVpcVpnCustomerGatewayConfigurationDownload = `
 
-resource "cloud_vpn_customer_gateway_configuration_download" "vpn_customer_gateway_configuration_download" {
+resource "tencentcloudenterprise_vpn_customer_gateway_configuration_download" "vpn_customer_gateway_configuration_download" {
   vpn_gateway_id    = "vpngw-gt8bianl"
   vpn_connection_id = "vpnx-kme2tx8m"
   customer_gateway_vendor {

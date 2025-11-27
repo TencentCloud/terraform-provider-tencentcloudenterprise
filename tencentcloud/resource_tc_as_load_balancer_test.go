@@ -16,10 +16,10 @@ func TestAccTencentCloudAsLoadBalancerResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			{
 				Config: testAccAsLoadBalancer,
-				Check:  resource.ComposeTestCheckFunc(resource.TestCheckResourceAttrSet("cloud_as_load_balancer.load_balancer", "id")),
+				Check:  resource.ComposeTestCheckFunc(resource.TestCheckResourceAttrSet("tencentcloudenterprise_as_load_balancer.load_balancer", "id")),
 			},
 			{
-				ResourceName:      "cloud_as_load_balancer.load_balancer",
+				ResourceName:      "tencentcloudenterprise_as_load_balancer.load_balancer",
 				ImportState:       true,
 				ImportStateVerify: true,
 			},
@@ -29,7 +29,7 @@ func TestAccTencentCloudAsLoadBalancerResource_basic(t *testing.T) {
 
 const testAccAsLoadBalancer = `
 
-resource "cloud_as_load_balancer" "load_balancer" {
+resource "tencentcloudenterprise_as_load_balancer" "load_balancer" {
   auto_scaling_group_id = "asg-12wjuh0s"
   forward_load_balancers {
     load_balancer_id = "lb-d8u76te5"

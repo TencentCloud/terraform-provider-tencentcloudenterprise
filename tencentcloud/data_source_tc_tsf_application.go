@@ -5,7 +5,7 @@ Use this data source to query detailed information of tsf application
 
 ```hcl
 
-	data "cloud_tsf_application" "application" {
+	data "tencentcloudenterprise_tsf_application" "application" {
 	  application_type = "V"
 	  microservice_type = "N"
 	  # application_resource_type_list = [""]
@@ -26,7 +26,7 @@ import (
 )
 
 func init() {
-	registerDataDescriptionProvider("cloud_tsf_application", CNDescription{
+	registerDataDescriptionProvider("tencentcloudenterprise_tsf_application", CNDescription{
 		TerraformTypeCN: "TSF应用",
 		DescriptionCN:   "提供TSF应用数据源，用于查询TSF应用的详细信息。",
 		AttributesCN: map[string]string{

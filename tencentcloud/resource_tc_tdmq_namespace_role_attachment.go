@@ -5,19 +5,19 @@ Provide a resource to create a TDMQ role.
 
 ```hcl
 
-	resource "cloud_tdmq_instance" "foo" {
+	resource "tencentcloudenterprise_tdmq_instance" "foo" {
 	  cluster_name = "example"
 	  remark = "this is description."
 	}
 
-	resource "cloud_tdmq_namespace" "bar" {
+	resource "tencentcloudenterprise_tdmq_namespace" "bar" {
 	  environ_name = "example"
 	  msg_ttl = 300
 	  cluster_id = cloud_tdmq_instance.foo.id
 	  remark = "this is description."
 	}
 
-	resource "cloud_tdmq_topic" "bar" {
+	resource "tencentcloudenterprise_tdmq_topic" "bar" {
 	  environ_id = cloud_tdmq_namespace.bar.id
 	  topic_name = "example"
 	  partitions = 6
@@ -26,13 +26,13 @@ Provide a resource to create a TDMQ role.
 	  remark = "this is description."
 	}
 
-	resource "cloud_tdmq_role" "bar" {
+	resource "tencentcloudenterprise_tdmq_role" "bar" {
 	  role_name = "example"
 	  cluster_id = cloud_tdmq_instance.foo.id
 	  remark = "this is description world"
 	}
 
-	resource "cloud_tdmq_namespace_role_attachment" "bar" {
+	resource "tencentcloudenterprise_tdmq_namespace_role_attachment" "bar" {
 	  environ_id = cloud_tdmq_namespace.bar.id
 	  role_name = cloud_tdmq_role.bar.role_name
 	  permissions = ["produce", "consume"]
@@ -55,7 +55,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_tdmq_namespace_role_attachment", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_tdmq_namespace_role_attachment", CNDescription{
 		TerraformTypeCN: "环境角色授权",
 		DescriptionCN:   "提供TDMQ环境角色授权资源，用于为TDMQ角色授权访问指定环境的权限。",
 		AttributesCN: map[string]string{

@@ -5,7 +5,7 @@ Provides a resource to create a dcdb db_sync_mode_config
 
 ```hcl
 
-	resource "cloud_dcdb_db_sync_mode_config" "config" {
+	resource "tencentcloudenterprise_dcdb_db_sync_mode_config" "config" {
 	  instance_id = "%s"
 	  sync_mode = 2
 	}
@@ -34,7 +34,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_dcdb_db_sync_mode_config", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_dcdb_db_sync_mode_config", CNDescription{
 		TerraformTypeCN: "数据库同步模式配置",
 		DescriptionCN:   "提供DCDB数据库同步模式配置资源，用于配置DCDB实例的数据同步模式。",
 		AttributesCN: map[string]string{

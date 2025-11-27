@@ -50,7 +50,7 @@ func TestAccTencentCloudTsfUnitRulesDataSource_basic(t *testing.T) {
 
 const testAccTsfUnitRulesDataSource = testAccTsfUnitRule + `
 
-data "cloud_tsf_unit_rules" "unit_rules" {
+data "tencentcloudenterprise_tsf_unit_rules" "unit_rules" {
 	gateway_instance_id = var.gateway_instance_id
 	status = "disabled"
 

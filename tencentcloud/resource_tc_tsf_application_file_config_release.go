@@ -5,7 +5,7 @@ Provides a resource to create a tsf application_file_config_release
 
 ```hcl
 
-	resource "cloud_tsf_application_file_config_release" "application_file_config_release" {
+	resource "tencentcloudenterprise_tsf_application_file_config_release" "application_file_config_release" {
 	  config_id = "dcfg-f-123456"
 	  group_id = "group-123456"
 	  release_desc = "product release"
@@ -36,7 +36,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_tsf_application_file_config_release", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_tsf_application_file_config_release", CNDescription{
 		TerraformTypeCN: "文件配置发布",
 		DescriptionCN:   "提供TSF文件配置发布资源，用于创建和管理文件配置发布。",
 		AttributesCN: map[string]string{

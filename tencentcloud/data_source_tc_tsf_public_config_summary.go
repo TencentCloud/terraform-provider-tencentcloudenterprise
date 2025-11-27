@@ -5,7 +5,7 @@ Use this data source to query detailed information of tsf public_config_summary
 
 ```hcl
 
-	data "cloud_tsf_describe_public_config_summary" "describe_public_config_summary" {
+	data "tencentcloudenterprise_tsf_describe_public_config_summary" "describe_public_config_summary" {
 	  search_word = "test"
 	  order_by = "last_update_time"
 	  order_type = 0
@@ -28,7 +28,7 @@ import (
 )
 
 func init() {
-	registerDataDescriptionProvider("cloud_tsf_public_config_summary", CNDescription{
+	registerDataDescriptionProvider("tencentcloudenterprise_tsf_public_config_summary", CNDescription{
 		TerraformTypeCN: "TSF公共配置",
 		DescriptionCN:   "提供TSF公共配置概要数据源，用于查询TSF公共配置概要的详细信息。",
 		AttributesCN: map[string]string{

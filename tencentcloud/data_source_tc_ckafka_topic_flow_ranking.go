@@ -5,7 +5,7 @@
 //
 // ```hcl
 //
-//	data "cloud_ckafka_topic_flow_ranking" "topic_flow_ranking" {
+//	data "tencentcloudenterprise_ckafka_topic_flow_ranking" "topic_flow_ranking" {
 //	  instance_id = "ckafka-xxxxxx"
 //	  ranking_type = "PRO"
 //	  begin_date = "2023-05-29T00:00:00+08:00"
@@ -27,7 +27,7 @@ package tencentcloud
 //)
 //
 //func init() {
-//	registerDataDescriptionProvider("cloud_ckafka_topic_flow_ranking", CNDescription{
+//	registerDataDescriptionProvider("tencentcloudenterprise_ckafka_topic_flow_ranking", CNDescription{
 //		TerraformTypeCN: "ckafka主题消费计划",
 //		AttributesCN: map[string]string{
 //			"instance_id":         "实例Id",

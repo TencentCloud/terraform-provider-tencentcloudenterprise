@@ -24,7 +24,7 @@ func TestAccTencentCloudClsMachinesDataSource_basic(t *testing.T) {
 
 const testAccClsMachinesDataSource = `
 
-resource "cloud_cls_machine_group" "group" {
+resource "tencentcloudenterprise_cls_machine_group" "group" {
   group_name        = "tf-describe-mg-test"
   service_logging   = true
   auto_update       = true
@@ -40,7 +40,7 @@ resource "cloud_cls_machine_group" "group" {
   }
 }
 
-data "cloud_cls_machines" "machines" {
+data "tencentcloudenterprise_cls_machines" "machines" {
   group_id = cloud_cls_machine_group.group.id
 }
 

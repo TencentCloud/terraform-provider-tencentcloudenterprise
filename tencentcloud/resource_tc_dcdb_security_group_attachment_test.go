@@ -21,13 +21,13 @@ func TestAccTencentCloudDCDBSecurityGroupAttachmentResource(t *testing.T) {
 			{
 				Config: fmt.Sprintf(testAccDcdbSecurityGroupAttachment, defaultDcdbSGName, defaultDcdbInstanceId),
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckDcdbSecurityGroupAttachmentExists("cloud_dcdb_security_group_attachment.security_group_attachment"),
-					resource.TestCheckResourceAttrSet("cloud_dcdb_security_group_attachment.security_group_attachment", "security_group_id"),
-					resource.TestCheckResourceAttrSet("cloud_dcdb_security_group_attachment.security_group_attachment", "instance_id"),
+					testAccCheckDcdbSecurityGroupAttachmentExists("tencentcloudenterprise_dcdb_security_group_attachment.security_group_attachment"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_dcdb_security_group_attachment.security_group_attachment", "security_group_id"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_dcdb_security_group_attachment.security_group_attachment", "instance_id"),
 				),
 			},
 			{
-				ResourceName:      "cloud_dcdb_security_group_attachment.security_group_attachment",
+				ResourceName:      "tencentcloudenterprise_dcdb_security_group_attachment.security_group_attachment",
 				ImportState:       true,
 				ImportStateVerify: true,
 			},
@@ -41,7 +41,7 @@ func testAccCheckDcdbSecurityGroupAttachmentDestroy(s *terraform.State) error {
 
 	dcdbService := DcdbService{client: testAccProvider.Meta().(*TencentCloudClient).apiV3Conn}
 	for _, rs := range s.RootModule().Resources {
-		if rs.Type != "cloud_dcdb_security_group_attachment" {
+		if rs.Type != "tencentcloudenterprise_dcdb_security_group_attachment" {
 			continue
 		}
 
@@ -98,7 +98,7 @@ func testAccCheckDcdbSecurityGroupAttachmentExists(re string) resource.TestCheck
 }
 
 const testAcc_sg_vpc_config = `
-data "cloud_vpc_security_groups" "internal" {
+data "tencentcloudenterprise_vpc_security_groups" "internal" {
 	name = "%s"
 }
 	
@@ -109,7 +109,7 @@ locals {
 
 const testAccDcdbSecurityGroupAttachment = testAcc_sg_vpc_config + `
 
-resource "cloud_dcdb_security_group_attachment" "security_group_attachment" {
+resource "tencentcloudenterprise_dcdb_security_group_attachment" "security_group_attachment" {
   security_group_id = local.sg_id
   instance_id = "%s"
 }

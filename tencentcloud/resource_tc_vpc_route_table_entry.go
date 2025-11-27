@@ -9,12 +9,12 @@ Provides a resource to create an entry of a routing table.
 	  default = "na-siliconvalley-1"
 	}
 
-	resource "cloud_vpc" "foo" {
+	resource "tencentcloudenterprise_vpc" "foo" {
 	  name       = "ci-temp-test"
 	  cidr_block = "10.0.0.0/16"
 	}
 
-	resource "cloud_vpc_subnet" "foo" {
+	resource "tencentcloudenterprise_vpc_subnet" "foo" {
 	  vpc_id            = cloud_vpc.foo.id
 	  name              = "terraform test subnet"
 	  cidr_block        = "10.0.12.0/24"
@@ -22,12 +22,12 @@ Provides a resource to create an entry of a routing table.
 	  route_table_id    = cloud_route_table.foo.id
 	}
 
-	resource "cloud_route_table" "foo" {
+	resource "tencentcloudenterprise_route_table" "foo" {
 	  vpc_id = cloud_vpc.foo.id
 	  name   = "ci-temp-test-rt"
 	}
 
-	resource "cloud_vpc_route_table_entry" "instance" {
+	resource "tencentcloudenterprise_vpc_route_table_entry" "instance" {
 	  route_table_id         = cloud_route_table.foo.id
 	  destination_cidr_block = "10.4.4.0/24"
 	  next_type              = "EIP"
@@ -62,7 +62,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_vpc_route_table_entry", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_vpc_route_table_entry", CNDescription{
 		TerraformTypeCN: "创建路由表条目",
 		DescriptionCN:   "提供路由表条目资源，用于创建路由表条目。",
 		AttributesCN: map[string]string{

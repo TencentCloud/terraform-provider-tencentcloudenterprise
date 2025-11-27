@@ -1,14 +1,14 @@
-resource "cloud_vpc_security_group" "default" {
+resource "tencentcloudenterprise_vpc_security_group" "default" {
   name        = var.security_group_name
   description = "New security group"
 }
 
-resource "cloud_vpc_security_group" "default2" {
+resource "tencentcloudenterprise_vpc_security_group" "default2" {
   name        = var.security_group_name
   description = "Anthor security group"
 }
 
-resource "cloud_security_group_rule" "http-in" {
+resource "tencentcloudenterprise_security_group_rule" "http-in" {
   security_group_id = cloud_vpc_security_group.default.id
   type              = "ingress"
   cidr_ip           = "0.0.0.0/0"
@@ -17,7 +17,7 @@ resource "cloud_security_group_rule" "http-in" {
   policy            = "accept"
 }
 
-resource "cloud_security_group_rule" "ssh-in" {
+resource "tencentcloudenterprise_security_group_rule" "ssh-in" {
   security_group_id = cloud_vpc_security_group.default.id
   type              = "ingress"
   cidr_ip           = "0.0.0.0/0"
@@ -26,7 +26,7 @@ resource "cloud_security_group_rule" "ssh-in" {
   policy            = "accept"
 }
 
-resource "cloud_security_group_rule" "egress-drop" {
+resource "tencentcloudenterprise_security_group_rule" "egress-drop" {
   security_group_id = cloud_vpc_security_group.default.id
   type              = "egress"
   cidr_ip           = "203.0.113.0/24"
@@ -35,7 +35,7 @@ resource "cloud_security_group_rule" "egress-drop" {
   policy            = "drop"
 }
 
-resource "cloud_security_group_rule" "sourcesgid-in" {
+resource "tencentcloudenterprise_security_group_rule" "sourcesgid-in" {
   security_group_id = cloud_vpc_security_group.default.id
   type              = "ingress"
   source_sgid       = cloud_vpc_security_group.default2.id

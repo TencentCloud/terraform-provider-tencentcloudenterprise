@@ -26,7 +26,7 @@ func TestAccTencentCloudTdmqPulsarEnvironmentsDataSource_basic(t *testing.T) {
 }
 
 const testAccTdmqPulsarEnvironmentsDataSource = `
-data "cloud_tdmq_pulsar_environments" "example" {
+data "tencentcloudenterprise_tdmq_pulsar_environments" "example" {
     environment_id = "keep-ns"
     cluster_id     = "pulsar-9n95ax58b9vn"
 }

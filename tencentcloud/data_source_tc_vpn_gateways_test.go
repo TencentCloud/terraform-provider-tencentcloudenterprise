@@ -28,11 +28,11 @@ func TestAccTencentCloudVpnGatewaysDataSource(t *testing.T) {
 
 const testAccTencentCloudVpnGatewaysDataSourceConfig_basic = `
 # Create VPC
-data "cloud_vpc_instances" "foo" {
+data "tencentcloudenterprise_vpc_instances" "foo" {
   name = "Default-VPC"
 }
 
-resource "cloud_vpn_gateway" "my_cgw" {
+resource "tencentcloudenterprise_vpn_gateway" "my_cgw" {
   name      = "terraform_test"
   vpc_id    = data.cloud_vpc_instances.foo.instance_list.0.vpc_id
   bandwidth = 10
@@ -43,7 +43,7 @@ resource "cloud_vpn_gateway" "my_cgw" {
   }
 }
 
-data "cloud_vpn_gateways" "cgws" {
+data "tencentcloudenterprise_vpn_gateways" "cgws" {
   id = cloud_vpn_gateway.my_cgw.id
 }
 `

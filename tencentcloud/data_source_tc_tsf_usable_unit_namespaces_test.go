@@ -30,7 +30,7 @@ func TestAccTencentCloudTsfUsableUnitNamespacesDataSource_basic(t *testing.T) {
 
 const testAccTsfUsableUnitNamespacesDataSource = `
 
-data "cloud_tsf_usable_unit_namespaces" "usable_unit_namespaces" {
+data "tencentcloudenterprise_tsf_usable_unit_namespaces" "usable_unit_namespaces" {
   search_word = "test"
 }
 

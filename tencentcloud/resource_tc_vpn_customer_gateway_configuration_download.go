@@ -5,7 +5,7 @@ Provides a resource to create a vpc vpn_customer_gateway_configuration_download
 
 ```hcl
 
-	resource "cloud_vpn_customer_gateway_configuration_download" "vpn_customer_gateway_configuration_download" {
+	resource "tencentcloudenterprise_vpn_customer_gateway_configuration_download" "vpn_customer_gateway_configuration_download" {
 	  vpn_gateway_id    = "vpngw-gt8bianl"
 	  vpn_connection_id = "vpnx-kme2tx8m"
 	  customer_gateway_vendor {
@@ -30,7 +30,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_vpn_customer_gateway_configuration_download", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_vpn_customer_gateway_configuration_download", CNDescription{
 		TerraformTypeCN: "创建VPN客户网关配置下载",
 		AttributesCN: map[string]string{
 			"vpn_gateway_id":                 "VPN网关实例ID",

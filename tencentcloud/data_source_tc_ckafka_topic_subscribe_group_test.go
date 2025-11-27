@@ -21,7 +21,7 @@ func TestAccTencentCloudCkafkaTopicSubscribeGroupDataSource_basic(t *testing.T) 
 }
 
 const testAccCkafkaTopicSubscribeGroupDataSource = `
-data "cloud_ckafka_topic_subscribe_group" "topic_subscribe_group" {
+data "tencentcloudenterprise_ckafka_topic_subscribe_group" "topic_subscribe_group" {
 	instance_id = "ckafka-vv7wpvae"
 	topic_name = "keep-topic"
 }

@@ -1,4 +1,4 @@
-resource "cloud_cvm_launch_template" "launch_template" {
+resource "tencentcloudenterprise_cvm_launch_template" "launch_template" {
   launch_template_name = "test_launch_template"
   placement {
     project_id = 0

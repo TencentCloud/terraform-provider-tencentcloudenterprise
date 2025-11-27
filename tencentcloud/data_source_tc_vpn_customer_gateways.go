@@ -5,7 +5,7 @@ Use this data source to query detailed information of VPN customer gateways.
 
 ```hcl
 
-	data "cloud_customer_gateways" "foo" {
+	data "tencentcloudenterprise_customer_gateways" "foo" {
 	  name              = "main"
 	  id                = "cgw-xfqag"
 	  public_ip_address = "1.1.1.1"
@@ -30,7 +30,7 @@ import (
 )
 
 func init() {
-	registerDataDescriptionProvider("cloud_vpn_customer_gateways", CNDescription{
+	registerDataDescriptionProvider("tencentcloudenterprise_vpn_customer_gateways", CNDescription{
 		TerraformTypeCN: "VPN客户网关",
 		AttributesCN: map[string]string{
 			"name":               "客户网关的名称字符长度限制为1-60",
@@ -44,7 +44,7 @@ func init() {
 	})
 }
 func init() {
-	registerDataDescriptionProvider("cloud_vpn_customer_gateways", CNDescription{
+	registerDataDescriptionProvider("tencentcloudenterprise_vpn_customer_gateways", CNDescription{
 		TerraformTypeCN: "VPN客户网关",
 		AttributesCN: map[string]string{
 			"name":               "客户网关的名称字符长度限制为1-60",

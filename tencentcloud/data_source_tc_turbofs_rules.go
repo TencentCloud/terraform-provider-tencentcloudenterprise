@@ -5,7 +5,7 @@ Use this data source to query the detail information of Turbofs permission rule.
 
 ```hcl
 
-	data "cloud_turbofs_rules" "rules" {
+	data "tencentcloudenterprise_turbofs_rules" "rules" {
 	  p_group_id = "pgroup-7nx89k7l"
 	  rule_id  = "rule-qcndbqzj"
 	}
@@ -25,7 +25,7 @@ import (
 )
 
 func init() {
-	registerDataDescriptionProvider("cloud_turbofs_rules", CNDescription{
+	registerDataDescriptionProvider("tencentcloudenterprise_turbofs_rules", CNDescription{
 		TerraformTypeCN: "权限组规则",
 		DescriptionCN:   "提供TurboFS权限组规则数据源，用于查询TurboFS权限组规则的详细信息。",
 		AttributesCN: map[string]string{

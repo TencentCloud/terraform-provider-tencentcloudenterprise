@@ -33,7 +33,7 @@ func TestAccTencentCloudRedisBackupDownloadInfoDataSource_basic(t *testing.T) {
 
 const testAccRedisBackupDownloadInfoDataSource = testAccRedisBackupDataSource + `
 
-data "cloud_redis_backup_download_info" "backup_download_info" {
+data "tencentcloudenterprise_redis_backup_download_info" "backup_download_info" {
 	instance_id = var.instance_id
 	backup_id = data.cloud_redis_backup.backup.backup_set.0.backup_id
 	# limit_type = "NoLimit"

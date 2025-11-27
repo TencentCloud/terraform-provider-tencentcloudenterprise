@@ -19,21 +19,21 @@ func TestAccTencentCloudAddressTemplateGroup_basic_and_update(t *testing.T) {
 			{
 				Config: testAccAddressTemplateGroup_basic,
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr("cloud_vpc_address_template_group.group", "name", "test"),
-					resource.TestCheckResourceAttr("cloud_vpc_address_template_group.group", "template_ids.#", "1"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_vpc_address_template_group.group", "name", "test"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_vpc_address_template_group.group", "template_ids.#", "1"),
 				),
 			},
 			{
-				ResourceName:      "cloud_vpc_address_template_group.group",
+				ResourceName:      "tencentcloudenterprise_vpc_address_template_group.group",
 				ImportState:       true,
 				ImportStateVerify: true,
 			},
 			{
 				Config: testAccAddressTemplateGroup_basic_update_remark,
 				Check: resource.ComposeAggregateTestCheckFunc(
-					testAccCheckAddressTemplateGroupExists("cloud_vpc_address_template_group.group"),
-					resource.TestCheckResourceAttr("cloud_vpc_address_template_group.group", "name", "test_update"),
-					resource.TestCheckResourceAttr("cloud_vpc_address_template_group.group", "template_ids.#", "1"),
+					testAccCheckAddressTemplateGroupExists("tencentcloudenterprise_vpc_address_template_group.group"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_vpc_address_template_group.group", "name", "test_update"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_vpc_address_template_group.group", "template_ids.#", "1"),
 				),
 			},
 		},
@@ -45,7 +45,7 @@ func testAccCheckAddressTemplateGroupDestroy(s *terraform.State) error {
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
 	vpcService := VpcService{client: testAccProvider.Meta().(*TencentCloudClient).apiV3Conn}
 	for _, rs := range s.RootModule().Resources {
-		if rs.Type != "cloud_vpc_address_template_group" {
+		if rs.Type != "tencentcloudenterprise_vpc_address_template_group" {
 			continue
 		}
 
@@ -84,29 +84,29 @@ func testAccCheckAddressTemplateGroupExists(n string) resource.TestCheckFunc {
 }
 
 const testAccAddressTemplateGroup_basic = `
-resource "cloud_vpc_address_template" "template" {
+resource "tencentcloudenterprise_vpc_address_template" "template" {
   name = "test"
   addresses = ["1.1.1.1"]
 }
 
-resource "cloud_vpc_address_template_group" "group"{
+resource "tencentcloudenterprise_vpc_address_template_group" "group"{
 	name = "test"
 	template_ids = [cloud_vpc_address_template.template.id]
 }
 `
 
 const testAccAddressTemplateGroup_basic_update_remark = `
-resource "cloud_vpc_address_template" "template" {
+resource "tencentcloudenterprise_vpc_address_template" "template" {
   name = "test"
   addresses = ["1.1.1.1"]
 }
 
-resource "cloud_vpc_address_template" "templateB" {
+resource "tencentcloudenterprise_vpc_address_template" "templateB" {
   name = "testB"
   addresses = ["1.1.1.1/24", "1.1.1.0-1.1.1.1"]
 }
 
-resource "cloud_vpc_address_template_group" "group"{
+resource "tencentcloudenterprise_vpc_address_template_group" "group"{
 	name = "test_update"
 	template_ids = [cloud_vpc_address_template.templateB.id]
 }

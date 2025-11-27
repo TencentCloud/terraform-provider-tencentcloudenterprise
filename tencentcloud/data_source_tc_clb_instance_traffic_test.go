@@ -24,7 +24,7 @@ func TestAccTencentCloudClbInstanceTrafficDataSource_basic(t *testing.T) {
 
 const testAccClbInstanceTrafficDataSource = `
 
-data "cloud_clb_instance_traffic" "instance_traffic" {
+data "tencentcloudenterprise_clb_instance_traffic" "instance_traffic" {
   load_balancer_region = "ap-guangzhou"
 }
 `

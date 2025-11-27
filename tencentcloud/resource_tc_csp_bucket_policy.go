@@ -5,7 +5,7 @@ Provides a csp resource to create a Csp bucket policy and set its attributes.
 
 ```hcl
 
-	resource "cloud_csp_bucket_policy" "csp_policy" {
+	resource "tencentcloudenterprise_csp_bucket_policy" "csp_policy" {
 	  bucket = "mycsp-1258798060"
 
 	  policy = <<EOF
@@ -58,7 +58,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_csp_bucket_policy", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_csp_bucket_policy", CNDescription{
 		TerraformTypeCN: "添加policy策略",
 		DescriptionCN:   "提供CSP存储桶策略资源，用于创建和管理CSP存储桶的访问策略。",
 		AttributesCN: map[string]string{

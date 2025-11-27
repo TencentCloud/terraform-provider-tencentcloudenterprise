@@ -5,7 +5,7 @@
 //
 // ```hcl
 //
-//	resource "cloud_ckafka_consumer_group" "consumer_group" {
+//	resource "tencentcloudenterprise_ckafka_consumer_group" "consumer_group" {
 //	 instance_id = "InstanceId"
 //	 group_name = "GroupName"
 //	 topic_name_list = ["xxxxxx"]

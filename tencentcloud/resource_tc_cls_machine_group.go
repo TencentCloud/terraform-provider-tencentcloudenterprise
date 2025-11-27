@@ -5,7 +5,7 @@ Provides a resource to create a cls machine group.
 
 ```hcl
 
-	resource "cloud_cls_machine_group" "group" {
+	resource "tencentcloudenterprise_cls_machine_group" "group" {
 	  group_name        = "group"
 	  service_logging   = true
 	  tags              = {
@@ -47,7 +47,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_cls_machine_group", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_cls_machine_group", CNDescription{
 		TerraformTypeCN: "CLS机器组",
 		DescriptionCN:   "提供CLS机器组资源，用于创建和管理日志服务机器组。",
 		AttributesCN: map[string]string{

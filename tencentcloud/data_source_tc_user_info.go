@@ -4,7 +4,7 @@ Use this data source to query user appid, uin and ownerUin.
 # Example Usage
 
 ```hcl
-data "cloud_user_info" "foo" {}
+data "tencentcloudenterprise_user_info" "foo" {}
 ```
 */
 package tencentcloud

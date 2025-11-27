@@ -5,7 +5,7 @@ Use this data source to query detailed information of CBS storages in parallel.
 
 ```hcl
 
-	data "cloud_cbs_storages_set" "storages" {
+	data "tencentcloudenterprise_cbs_storages_set" "storages" {
 	  availability_zone = "ap-guangzhou-3"
 	}
 
@@ -23,7 +23,7 @@ import (
 )
 
 func init() {
-	registerDataDescriptionProvider("cloud_cbs_storages_set", CNDescription{
+	registerDataDescriptionProvider("tencentcloudenterprise_cbs_storages_set", CNDescription{
 		TerraformTypeCN: "云硬盘列表",
 		DescriptionCN:   "提供云硬盘列表数据源，支持并行查询CBS云硬盘的详细信息。",
 		AttributesCN: map[string]string{

@@ -16,10 +16,10 @@ func TestAccTencentCloudVpcEndPointResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			{
 				Config: testAccVpcEndPoint,
-				Check:  resource.ComposeTestCheckFunc(resource.TestCheckResourceAttrSet("cloud_vpc_end_point.end_point", "id")),
+				Check:  resource.ComposeTestCheckFunc(resource.TestCheckResourceAttrSet("tencentcloudenterprise_vpc_end_point.end_point", "id")),
 			},
 			{
-				ResourceName:      "cloud_vpc_end_point.end_point",
+				ResourceName:      "tencentcloudenterprise_vpc_end_point.end_point",
 				ImportState:       true,
 				ImportStateVerify: true,
 			},
@@ -29,7 +29,7 @@ func TestAccTencentCloudVpcEndPointResource_basic(t *testing.T) {
 
 const testAccVpcEndPoint = `
 
-resource "cloud_vpc_end_point" "end_point" {
+resource "tencentcloudenterprise_vpc_end_point" "end_point" {
   vpc_id = "vpc-391sv4w3"
   subnet_id = "subnet-ljyn7h30"
   end_point_name = "terraform-test"

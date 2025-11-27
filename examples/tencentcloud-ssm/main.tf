@@ -3,19 +3,19 @@
 # ========== Data Sources ==========
 
 # Query SSM secrets
-data "cloud_ssm_secrets" "secrets" {
+data "tencentcloudenterprise_ssm_secrets" "secrets" {
   secret_name = "example-secret"
 }
 
 # Query SSM secret versions
-data "cloud_ssm_secret_versions" "versions" {
+data "tencentcloudenterprise_ssm_secret_versions" "versions" {
   secret_name = "example-secret"
 }
 
 # ========== Resources ==========
 
 # SSM Secret
-resource "cloud_ssm_secret" "secret" {
+resource "tencentcloudenterprise_ssm_secret" "secret" {
   secret_name = "example-secret"
   description = "Example secret"
   
@@ -25,7 +25,7 @@ resource "cloud_ssm_secret" "secret" {
 }
 
 # SSM Secret Version
-resource "cloud_ssm_secret_version" "version" {
+resource "tencentcloudenterprise_ssm_secret_version" "version" {
   secret_name   = cloud_ssm_secret.secret.secret_name
   version_id    = "v1"
   secret_string = jsonencode({

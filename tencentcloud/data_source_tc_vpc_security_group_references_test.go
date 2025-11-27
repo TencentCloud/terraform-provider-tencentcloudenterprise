@@ -24,7 +24,7 @@ func TestAccTencentCloudVpcSecurityGroupReferencesDataSource_basic(t *testing.T)
 
 const testAccVpcSecurityGroupReferencesDataSource = `
 
-data "cloud_vpc_security_group_references" "security_group_references" {
+data "tencentcloudenterprise_vpc_security_group_references" "security_group_references" {
   security_group_ids = ["sg-edmur627"]
 }
 `

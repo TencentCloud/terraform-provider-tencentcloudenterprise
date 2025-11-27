@@ -19,12 +19,12 @@ func TestAccTencentCloudClsCosShipper_basic(t *testing.T) {
 			{
 				Config: testAccClsCosShipper,
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckClsCosShipperExists("cloud_cls_cos_shipper.shipper"),
-					resource.TestCheckResourceAttr("cloud_cls_cos_shipper.shipper", "shipper_name", "tf-shipper-test"),
+					testAccCheckClsCosShipperExists("tencentcloudenterprise_cls_cos_shipper.shipper"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_cls_cos_shipper.shipper", "shipper_name", "tf-shipper-test"),
 				),
 			},
 			{
-				ResourceName:      "cloud_cls_cos_shipper.shipper",
+				ResourceName:      "tencentcloudenterprise_cls_cos_shipper.shipper",
 				ImportState:       true,
 				ImportStateVerify: true,
 			},
@@ -60,14 +60,14 @@ func testAccCheckClsCosShipperExists(n string) resource.TestCheckFunc {
 }
 
 const testAccClsCosShipper = `
-resource "cloud_cls_logset" "logset" {
+resource "tencentcloudenterprise_cls_logset" "logset" {
   logset_name = "tf-shipper-test"
   tags        = {
     "test" = "test"
   }
 }
 
-resource "cloud_cls_topic" "topic" {
+resource "tencentcloudenterprise_cls_topic" "topic" {
   auto_split           = true
   logset_id            = cloud_cls_logset.logset.id
   max_split_partitions = 20
@@ -80,7 +80,7 @@ resource "cloud_cls_topic" "topic" {
   topic_name           = "tf-shipper-test"
 }
 
-resource "cloud_cls_cos_shipper" "shipper" {
+resource "tencentcloudenterprise_cls_cos_shipper" "shipper" {
   bucket       = "keep-bucket-1308919341"
   interval     = 300
   max_size     = 200

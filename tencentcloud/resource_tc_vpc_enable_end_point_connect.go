@@ -5,7 +5,7 @@ Provides a resource to create a vpc enable_end_point_connect
 
 ```hcl
 
-	resource "cloud_vpc_enable_end_point_connect" "enable_end_point_connect" {
+	resource "tencentcloudenterprise_vpc_enable_end_point_connect" "enable_end_point_connect" {
 	  end_point_service_id = "vpcsvc-98jddhcz"
 	  end_point_id         = ["vpce-6q0ftmke"]
 	  accept_flag          = true
@@ -25,7 +25,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_vpc_enable_end_point_connect", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_vpc_enable_end_point_connect", CNDescription{
 		TerraformTypeCN: "终端节点连接",
 		DescriptionCN:   "提供VPC终端节点连接资源，用于启用终端节点连接。",
 		AttributesCN: map[string]string{

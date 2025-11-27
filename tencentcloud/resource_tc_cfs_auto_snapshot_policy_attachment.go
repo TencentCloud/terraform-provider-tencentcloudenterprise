@@ -5,7 +5,7 @@ Provides a resource to create a cfs auto_snapshot_policy_attachment
 
 ```hcl
 
-	resource "cloud_cfs_auto_snapshot_policy_attachment" "auto_snapshot_policy_attachment" {
+	resource "tencentcloudenterprise_cfs_auto_snapshot_policy_attachment" "auto_snapshot_policy_attachment" {
 	  auto_snapshot_policy_id = "asp-basic"
 	  file_system_ids         = "cfs-4xzkct19,cfs-iobiaxtj"
 	}
@@ -35,7 +35,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_cfs_auto_snapshot_policy_attachment", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_cfs_auto_snapshot_policy_attachment", CNDescription{
 		TerraformTypeCN: "自动快照策略绑定",
 		DescriptionCN:   "提供CFS自动快照策略绑定资源，用于将自动快照策略绑定到文件系统。",
 		AttributesCN: map[string]string{

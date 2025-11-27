@@ -5,7 +5,7 @@ Provides a resource to create a param
 
 ```hcl
 
-	resource "cloud_redis_param" "param" {
+	resource "tencentcloudenterprise_redis_param" "param" {
 	    instance_id     = "crs-c1nl9rpv"
 	    instance_params = {
 	        "cluster-node-timeout"          = "15000"
@@ -54,7 +54,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_redis_param", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_redis_param", CNDescription{
 		TerraformTypeCN: "redis®参数",
 		DescriptionCN:   "提供Redis®参数资源，用于修改Redis®实例的配置参数。",
 		AttributesCN: map[string]string{

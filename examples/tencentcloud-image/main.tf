@@ -2,7 +2,7 @@ provider "tencentcloud" {
   region = "ap-guangzhou"
 }
 
-resource "cloud_cvm_image" "image_instance" {
+resource "tencentcloudenterprise_cvm_image" "image_instance" {
    image_name         = var.image_imstance_name
    instance_id        = "ins-2ju245xg"
    data_disk_ids      = ["disk-gii0vtwi"]

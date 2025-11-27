@@ -5,19 +5,19 @@ Provide a resource to create a TDMQ topic.
 
 ```hcl
 
-	resource "cloud_tdmq_instance" "foo" {
+	resource "tencentcloudenterprise_tdmq_instance" "foo" {
 	  cluster_name = "example"
 	  remark = "this is description."
 	}
 
-	resource "cloud_tdmq_namespace" "bar" {
+	resource "tencentcloudenterprise_tdmq_namespace" "bar" {
 	  environ_name = "example"
 	  msg_ttl = 300
-	  cluster_id = "cloud_tdmq_instance.foo.id"
+	  cluster_id = "tencentcloudenterprise_tdmq_instance.foo.id"
 	  remark = "this is description."
 	}
 
-	resource "cloud_tdmq_topic" "bar" {
+	resource "tencentcloudenterprise_tdmq_topic" "bar" {
 	  environ_id = cloud_tdmq_namespace.bar.id
 	  topic_name = "example"
 	  partitions = 6
@@ -48,7 +48,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_tdmq_topic", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_tdmq_topic", CNDescription{
 		TerraformTypeCN: "TDMQ Topic",
 		DescriptionCN:   "提供TDMQ Topic资源，用于创建和管理TDMQ Topic。",
 		AttributesCN: map[string]string{

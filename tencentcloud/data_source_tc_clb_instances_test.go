@@ -17,7 +17,7 @@ func TestAccTencentCloudClbInstancesDataSource_internal(t *testing.T) {
 			{
 				Config: testAccClbInstancesDataSource_internal,
 				Check: resource.ComposeAggregateTestCheckFunc(
-					testAccCheckClbInstanceExists("cloud_clb_instance.clb"),
+					testAccCheckClbInstanceExists("tencentcloudenterprise_clb_instance.clb"),
 					resource.TestCheckResourceAttr("data.cloud_clb_instances.clbs", "clb_list.#", "1"),
 					resource.TestCheckResourceAttrSet("data.cloud_clb_instances.clbs", "clb_list.0.clb_id"),
 					resource.TestCheckResourceAttr("data.cloud_clb_instances.clbs", "clb_list.0.clb_name", "tf-clb-data-internal"),
@@ -47,7 +47,7 @@ func TestAccTencentCloudClbInstancesDataSource_open(t *testing.T) {
 			{
 				Config: testAccClbInstancesDataSource_open,
 				Check: resource.ComposeAggregateTestCheckFunc(
-					testAccCheckClbInstanceExists("cloud_clb_instance.clb"),
+					testAccCheckClbInstanceExists("tencentcloudenterprise_clb_instance.clb"),
 					resource.TestCheckResourceAttr("data.cloud_clb_instances.clbs", "clb_list.#", "1"),
 					resource.TestCheckResourceAttrSet("data.cloud_clb_instances.clbs", "clb_list.0.clb_id"),
 					resource.TestCheckResourceAttrSet("data.cloud_clb_instances.clbs", "clb_list.0.clb_name"),
@@ -73,12 +73,12 @@ variable "availability_zone" {
   default = "ap-guangzhou-3"
 }
 
-resource "cloud_vpc" "foo" {
+resource "tencentcloudenterprise_vpc" "foo" {
   name       = "guagua-ci-temp-test"
   cidr_block = "10.0.0.0/16"
 }
 
-resource "cloud_vpc_subnet" "subnet" {
+resource "tencentcloudenterprise_vpc_subnet" "subnet" {
   availability_zone = var.availability_zone
   name              = "guagua-ci-temp-test"
   vpc_id            = cloud_vpc.foo.id
@@ -86,7 +86,7 @@ resource "cloud_vpc_subnet" "subnet" {
   is_multicast      = false
 }
 
-resource "cloud_clb_instance" "clb" {
+resource "tencentcloudenterprise_clb_instance" "clb" {
   network_type = "INTERNAL"
   clb_name     = "tf-clb-data-internal"
   vpc_id       = cloud_vpc.foo.id
@@ -98,13 +98,13 @@ resource "cloud_clb_instance" "clb" {
   }
 }
 
-data "cloud_clb_instances" "clbs" {
+data "tencentcloudenterprise_clb_instances" "clbs" {
   clb_id = cloud_clb_instance.clb.id
 }
 `
 
 const testAccClbInstancesDataSource_open = `
-resource "cloud_vpc_security_group" "foo" {
+resource "tencentcloudenterprise_vpc_security_group" "foo" {
   name = "clb-instance-datasource-sg"
 }
 
@@ -112,12 +112,12 @@ variable "availability_zone" {
   default = "ap-guangzhou-3"
 }
 
-resource "cloud_vpc" "foo" {
+resource "tencentcloudenterprise_vpc" "foo" {
   name       = "guagua-ci-temp-test"
   cidr_block = "10.0.0.0/16"
 }
 
-resource "cloud_clb_instance" "clb" {
+resource "tencentcloudenterprise_clb_instance" "clb" {
   network_type              = "OPEN"
   clb_name                  = "tf-clb-data-open"
   project_id                = 0
@@ -131,7 +131,7 @@ resource "cloud_clb_instance" "clb" {
   }
 }
 
-data "cloud_clb_instances" "clbs" {
+data "tencentcloudenterprise_clb_instances" "clbs" {
   clb_id = cloud_clb_instance.clb.id
 }
 `

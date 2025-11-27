@@ -23,25 +23,25 @@ func TestAccTencentCloudVpnGatewayRoute_basic(t *testing.T) {
 			{
 				Config: testVpnGatewayRouteCreate,
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckVpnGatewayRouteExists("cloud_vpn_gateway_route.route1"),
-					resource.TestCheckResourceAttr("cloud_vpn_gateway_route.route1", "destination_cidr_block", "10.0.0.0/16"),
-					resource.TestCheckResourceAttr("cloud_vpn_gateway_route.route1", "instance_type", "VPNCONN"),
-					resource.TestCheckResourceAttr("cloud_vpn_gateway_route.route1", "priority", "100"),
-					resource.TestCheckResourceAttr("cloud_vpn_gateway_route.route1", "status", "ENABLE"),
-					resource.TestCheckResourceAttrSet("cloud_vpn_gateway_route.route1", "type"),
-					resource.TestCheckResourceAttrSet("cloud_vpn_gateway_route.route1", "route_id"),
+					testAccCheckVpnGatewayRouteExists("tencentcloudenterprise_vpn_gateway_route.route1"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_vpn_gateway_route.route1", "destination_cidr_block", "10.0.0.0/16"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_vpn_gateway_route.route1", "instance_type", "VPNCONN"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_vpn_gateway_route.route1", "priority", "100"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_vpn_gateway_route.route1", "status", "ENABLE"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_vpn_gateway_route.route1", "type"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_vpn_gateway_route.route1", "route_id"),
 				),
 			},
 			{
 				Config: testVpnGatewayRouteUpdate,
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckVpnGatewayRouteExists("cloud_vpn_gateway_route.route1"),
-					resource.TestCheckResourceAttr("cloud_vpn_gateway_route.route1", "destination_cidr_block", "10.0.0.0/16"),
-					resource.TestCheckResourceAttr("cloud_vpn_gateway_route.route1", "instance_type", "VPNCONN"),
-					resource.TestCheckResourceAttr("cloud_vpn_gateway_route.route1", "priority", "100"),
-					resource.TestCheckResourceAttr("cloud_vpn_gateway_route.route1", "status", "DISABLE"),
-					resource.TestCheckResourceAttrSet("cloud_vpn_gateway_route.route1", "type"),
-					resource.TestCheckResourceAttrSet("cloud_vpn_gateway_route.route1", "route_id"),
+					testAccCheckVpnGatewayRouteExists("tencentcloudenterprise_vpn_gateway_route.route1"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_vpn_gateway_route.route1", "destination_cidr_block", "10.0.0.0/16"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_vpn_gateway_route.route1", "instance_type", "VPNCONN"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_vpn_gateway_route.route1", "priority", "100"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_vpn_gateway_route.route1", "status", "DISABLE"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_vpn_gateway_route.route1", "type"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_vpn_gateway_route.route1", "route_id"),
 				),
 			},
 		},
@@ -54,7 +54,7 @@ func testAccCheckVpnGatewayRouteDestroy(s *terraform.State) error {
 	vpcService := VpcService{client: testAccProvider.Meta().(*TencentCloudClient).apiV3Conn}
 
 	for _, rs := range s.RootModule().Resources {
-		if rs.Type != "cloud_vpn_gateway_route" {
+		if rs.Type != "tencentcloudenterprise_vpn_gateway_route" {
 			continue
 		}
 		ids := strings.Split(rs.Primary.ID, FILED_SP)
@@ -107,11 +107,11 @@ func testAccCheckVpnGatewayRouteExists(n string) resource.TestCheckFunc {
 
 const testVpnGatewayRouteCreate = defaultVpnDataSource + `
 # Create VPC
-data "cloud_vpc_instances" "foo" {
+data "tencentcloudenterprise_vpc_instances" "foo" {
   name = "Default-VPC"
 }
 
-resource "cloud_vpn_gateway_route" "route1" {
+resource "tencentcloudenterprise_vpn_gateway_route" "route1" {
   vpn_gateway_id = data.cloud_vpn_gateways.foo.gateway_list.0.id
   destination_cidr_block = "10.0.0.0/16"
   instance_type = "VPNCONN"
@@ -122,11 +122,11 @@ resource "cloud_vpn_gateway_route" "route1" {
 `
 const testVpnGatewayRouteUpdate = defaultVpnDataSource + `
 # Create VPC
-data "cloud_vpc_instances" "foo" {
+data "tencentcloudenterprise_vpc_instances" "foo" {
   name = "Default-VPC"
 }
 
-resource "cloud_vpn_gateway_route" "route1" {
+resource "tencentcloudenterprise_vpn_gateway_route" "route1" {
   vpn_gateway_id = data.cloud_vpn_gateways.foo.gateway_list.0.id
   destination_cidr_block = "10.0.0.0/16"
   instance_type = "VPNCONN"

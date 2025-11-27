@@ -4,7 +4,7 @@
 // # Example Usage
 //
 // ```hcl
-// data "cloud_ckafka_datahub_group_offsets" "datahub_group_offsets" {
+// data "tencentcloudenterprise_ckafka_datahub_group_offsets" "datahub_group_offsets" {
 // }
 // ```
 // */
@@ -21,7 +21,7 @@ package tencentcloud
 //)
 //
 //func init() {
-//	registerDataDescriptionProvider("cloud_ckafka_datahub_group_offsets", CNDescription{
+//	registerDataDescriptionProvider("tencentcloudenterprise_ckafka_datahub_group_offsets", CNDescription{
 //		TerraformTypeCN: "ckafka_datahub_group_offsets",
 //		AttributesCN: map[string]string{
 //			"name":               "任务订阅的主题名称",

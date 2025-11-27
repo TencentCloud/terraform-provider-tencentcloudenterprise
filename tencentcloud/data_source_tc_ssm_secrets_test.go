@@ -31,7 +31,7 @@ func TestAccTencentCloudSsmSecretsDataSource(t *testing.T) {
 }
 
 const TestAccTencentCloudSsmSecretsDataSourceConfig = `
-resource "cloud_ssm_secret" "secret" {
+resource "tencentcloudenterprise_ssm_secret" "secret" {
   secret_name = "unit-test-for-data"
   description = "test secret"
 
@@ -40,7 +40,7 @@ resource "cloud_ssm_secret" "secret" {
   }
 }
 
-data "cloud_ssm_secrets" "secret" {
+data "tencentcloudenterprise_ssm_secrets" "secret" {
   secret_name = cloud_ssm_secret.secret.secret_name
   state = 1
   

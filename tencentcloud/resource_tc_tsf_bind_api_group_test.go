@@ -22,14 +22,14 @@ func TestAccTencentCloudTsfBindApiGroupResource_basic(t *testing.T) {
 			{
 				Config: testAccTsfBindApiGroup,
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckTsfBindApiGroupExists("cloud_tsf_bind_api_group.bind_api_group"),
-					resource.TestCheckResourceAttrSet("cloud_tsf_bind_api_group.bind_api_group", "id"),
-					resource.TestCheckResourceAttr("cloud_tsf_bind_api_group.bind_api_group", "gateway_deploy_group_id", "group-6a7eg6y5"),
-					resource.TestCheckResourceAttr("cloud_tsf_bind_api_group.bind_api_group", "group_id", "grp-ury8azgk"),
+					testAccCheckTsfBindApiGroupExists("tencentcloudenterprise_tsf_bind_api_group.bind_api_group"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_tsf_bind_api_group.bind_api_group", "id"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_tsf_bind_api_group.bind_api_group", "gateway_deploy_group_id", "group-6a7eg6y5"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_tsf_bind_api_group.bind_api_group", "group_id", "grp-ury8azgk"),
 				),
 			},
 			{
-				ResourceName:      "cloud_tsf_bind_api_group.bind_api_group",
+				ResourceName:      "tencentcloudenterprise_tsf_bind_api_group.bind_api_group",
 				ImportState:       true,
 				ImportStateVerify: true,
 			},
@@ -42,7 +42,7 @@ func testAccCheckTsfBindApiGroupDestroy(s *terraform.State) error {
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
 	service := TsfService{client: testAccProvider.Meta().(*TencentCloudClient).apiV3Conn}
 	for _, rs := range s.RootModule().Resources {
-		if rs.Type != "cloud_tsf_bind_api_group" {
+		if rs.Type != "tencentcloudenterprise_tsf_bind_api_group" {
 			continue
 		}
 		idSplit := strings.Split(rs.Primary.ID, FILED_SP)
@@ -96,7 +96,7 @@ func testAccCheckTsfBindApiGroupExists(r string) resource.TestCheckFunc {
 
 const testAccTsfBindApiGroup = `
 
-resource "cloud_tsf_bind_api_group" "bind_api_group" {
+resource "tencentcloudenterprise_tsf_bind_api_group" "bind_api_group" {
   gateway_deploy_group_id = "group-6a7eg6y5"
   group_id = "grp-ury8azgk"
 }

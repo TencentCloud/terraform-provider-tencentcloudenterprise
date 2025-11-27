@@ -5,7 +5,7 @@ Provides a resource to create a parallel file system(TurboFS).
 
 ```hcl
 
-	resource "cloud_turbofs_file_system" "example" {
+	resource "tencentcloudenterprise_turbofs_file_system" "example" {
 	  fs_name      = "tf-test"
 	  zone         = "az"
 	  p_group_id   = "pgroupbasic"
@@ -41,7 +41,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_turbofs_file_system", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_turbofs_file_system", CNDescription{
 		TerraformTypeCN: "文件系统",
 		DescriptionCN:   "提供TurboFS文件系统资源，用于创建和管理TurboFS文件系统。",
 		AttributesCN: map[string]string{

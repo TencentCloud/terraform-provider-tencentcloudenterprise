@@ -47,7 +47,7 @@ func TestAccTencentCloudRedisInstancesDataSource(t *testing.T) {
 
 func testAccTencentCloudRedisInstancesDataSourceConfig() string {
 	return defaultVpcSubnets + `
-resource "cloud_redis_instance" "redis_instance_test" {
+resource "tencentcloudenterprise_redis_instance" "redis_instance_test" {
   availability_zone = "ap-guangzhou-3"
   type_id           = 2
   password          = "test12345789"
@@ -61,12 +61,12 @@ resource "cloud_redis_instance" "redis_instance_test" {
   }
 }
 
-data "cloud_redis_instances" "redis" {
+data "tencentcloudenterprise_redis_instances" "redis" {
   zone       = "ap-guangzhou-3"
   search_key = cloud_redis_instance.redis_instance_test.id
 }
 
-data "cloud_redis_instances" "redis-tags" {
+data "tencentcloudenterprise_redis_instances" "redis-tags" {
   zone = "ap-guangzhou-3"
   tags = cloud_redis_instance.redis_instance_test.tags
 }

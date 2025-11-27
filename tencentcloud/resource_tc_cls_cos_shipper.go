@@ -5,7 +5,7 @@ Provides a resource to create a cls cos shipper.
 
 ```hcl
 
-	resource "cloud_cls_cos_shipper" "shipper" {
+	resource "tencentcloudenterprise_cls_cos_shipper" "shipper" {
 	  bucket       = "preset-scf-bucket-1308919341"
 	  interval     = 300
 	  max_size     = 200
@@ -56,7 +56,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_cls_cos_shipper", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_cls_cos_shipper", CNDescription{
 		TerraformTypeCN: "CLS COS投递",
 		DescriptionCN:   "提供CLS COS投递资源，用于将日志数据投递到COS存储桶。",
 		AttributesCN: map[string]string{

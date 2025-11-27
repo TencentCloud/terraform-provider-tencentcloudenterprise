@@ -24,7 +24,7 @@ func TestAccTencentCloudVpcLimitsDataSource_basic(t *testing.T) {
 
 const testAccVpcLimitsDataSource = `
 
-data "cloud_vpc_limits" "limits" {
+data "tencentcloudenterprise_vpc_limits" "limits" {
   limit_types = ["appid-max-vpcs", "vpc-max-subnets"]
 }
 `

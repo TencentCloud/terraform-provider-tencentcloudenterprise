@@ -17,10 +17,10 @@ func TestAccTencentCloudVpcDnsDomainResource_basic(t *testing.T) {
 			{
 				Config: testAccVpcDnsDomain,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttrSet("cloud_vpc_traffic_package.traffic_package", "id")),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_vpc_traffic_package.traffic_package", "id")),
 			},
 			{
-				ResourceName:      "cloud_vpc_traffic_package.traffic_package",
+				ResourceName:      "tencentcloudenterprise_vpc_traffic_package.traffic_package",
 				ImportState:       true,
 				ImportStateVerify: true,
 			},
@@ -30,7 +30,7 @@ func TestAccTencentCloudVpcDnsDomainResource_basic(t *testing.T) {
 
 const testAccVpcDnsDomain = `
 
-resource "cloud_vpc_traffic_package" "traffic_package" {
+resource "tencentcloudenterprise_vpc_traffic_package" "traffic_package" {
   traffic_amount = 10
 }
 `

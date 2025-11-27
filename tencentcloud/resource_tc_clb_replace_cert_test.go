@@ -17,7 +17,7 @@ func TestAccTencentCloudNeedFixClbReplaceCertForLbsResource_basic(t *testing.T) 
 		Steps: []resource.TestStep{
 			{
 				Config: testAccClbReplaceCertForLbs,
-				Check:  resource.ComposeTestCheckFunc(resource.TestCheckResourceAttrSet("cloud_clb_replace_cert_for_lbs.replace_cert_for_lbs", "id")),
+				Check:  resource.ComposeTestCheckFunc(resource.TestCheckResourceAttrSet("tencentcloudenterprise_clb_replace_cert_for_lbs.replace_cert_for_lbs", "id")),
 			},
 		},
 	})
@@ -25,7 +25,7 @@ func TestAccTencentCloudNeedFixClbReplaceCertForLbsResource_basic(t *testing.T) 
 
 var testAccClbReplaceCertForLbs = fmt.Sprintf(`
 
-resource "cloud_clb_replace_cert_for_lbs" "replace_cert_for_lbs" {
+resource "tencentcloudenterprise_clb_replace_cert_for_lbs" "replace_cert_for_lbs" {
   old_certificate_id = "zjUMifFK"
   certificate {
     cert_ca_name = "test"

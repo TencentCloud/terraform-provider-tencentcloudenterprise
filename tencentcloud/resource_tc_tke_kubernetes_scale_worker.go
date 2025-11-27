@@ -123,7 +123,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_tke_kubernetes_scale_worker", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_tke_kubernetes_scale_worker", CNDescription{
 		TerraformTypeCN: "扩展集群节点",
 		DescriptionCN:   "提供向集群增加实例的资源，用于扩展Kubernetes集群节点。",
 		AttributesCN: map[string]string{

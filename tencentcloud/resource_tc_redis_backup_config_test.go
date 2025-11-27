@@ -20,27 +20,27 @@ func TestAccTencentCloudRedisBackupConfig(t *testing.T) {
 			{
 				Config: testAccRedisBackupConfig(),
 				Check: resource.ComposeAggregateTestCheckFunc(
-					testAccTencentCloudRedisBackupConfigExists("cloud_redis_backup_config.redis_backup_config"),
-					resource.TestCheckResourceAttrSet("cloud_redis_backup_config.redis_backup_config", "redis_id"),
-					resource.TestCheckResourceAttr("cloud_redis_backup_config.redis_backup_config", "backup_time", "06:00-07:00"),
+					testAccTencentCloudRedisBackupConfigExists("tencentcloudenterprise_redis_backup_config.redis_backup_config"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_redis_backup_config.redis_backup_config", "redis_id"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_redis_backup_config.redis_backup_config", "backup_time", "06:00-07:00"),
 					// backup_period doesn't work right now by design, skipped1
-					//resource.TestCheckResourceAttr("cloud_redis_backup_config.redis_backup_config", "backup_period.#", "1"),
-					//resource.TestCheckResourceAttr("cloud_redis_backup_config.redis_backup_config", "backup_period.1970423419", "Wednesday"),
+					//resource.TestCheckResourceAttr("tencentcloudenterprise_redis_backup_config.redis_backup_config", "backup_period.#", "1"),
+					//resource.TestCheckResourceAttr("tencentcloudenterprise_redis_backup_config.redis_backup_config", "backup_period.1970423419", "Wednesday"),
 				),
 			},
 			{
 				Config: testAccRedisBackupConfigUpdate(),
 				Check: resource.ComposeAggregateTestCheckFunc(
-					testAccTencentCloudRedisBackupConfigExists("cloud_redis_backup_config.redis_backup_config"),
-					resource.TestCheckResourceAttrSet("cloud_redis_backup_config.redis_backup_config", "redis_id"),
-					resource.TestCheckResourceAttr("cloud_redis_backup_config.redis_backup_config", "backup_time", "01:00-02:00"),
-					//resource.TestCheckResourceAttr("cloud_redis_backup_config.redis_backup_config", "backup_period.#", "2"),
-					//resource.TestCheckResourceAttr("cloud_redis_backup_config.redis_backup_config", "backup_period.1075549138", "Sunday"),
-					//resource.TestCheckResourceAttr("cloud_redis_backup_config.redis_backup_config", "backup_period.3286956037", "Saturday"),
+					testAccTencentCloudRedisBackupConfigExists("tencentcloudenterprise_redis_backup_config.redis_backup_config"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_redis_backup_config.redis_backup_config", "redis_id"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_redis_backup_config.redis_backup_config", "backup_time", "01:00-02:00"),
+					//resource.TestCheckResourceAttr("tencentcloudenterprise_redis_backup_config.redis_backup_config", "backup_period.#", "2"),
+					//resource.TestCheckResourceAttr("tencentcloudenterprise_redis_backup_config.redis_backup_config", "backup_period.1075549138", "Sunday"),
+					//resource.TestCheckResourceAttr("tencentcloudenterprise_redis_backup_config.redis_backup_config", "backup_period.3286956037", "Saturday"),
 				),
 			},
 			{
-				ResourceName:      "cloud_redis_backup_config.redis_backup_config",
+				ResourceName:      "tencentcloudenterprise_redis_backup_config.redis_backup_config",
 				ImportState:       true,
 				ImportStateVerify: true,
 			},
@@ -74,7 +74,7 @@ func testAccTencentCloudRedisBackupConfigDestroy(s *terraform.State) error {
 
 	service := RedisService{client: testAccProvider.Meta().(*TencentCloudClient).apiV3Conn}
 	for _, rs := range s.RootModule().Resources {
-		if rs.Type != "cloud_redis_backup_config" {
+		if rs.Type != "tencentcloudenterprise_redis_backup_config" {
 			continue
 		}
 		time.Sleep(5 * time.Second)
@@ -92,7 +92,7 @@ func testAccTencentCloudRedisBackupConfigDestroy(s *terraform.State) error {
 
 func testAccRedisBackupConfigUpdate() string {
 	return defaultVpcSubnets + `
-resource "cloud_redis_instance" "redis_instance_test" {
+resource "tencentcloudenterprise_redis_instance" "redis_instance_test" {
   availability_zone = "ap-guangzhou-3"
   type_id           = 2 
   password          = "test12345789"
@@ -101,7 +101,7 @@ resource "cloud_redis_instance" "redis_instance_test" {
   vpc_id 			 = local.vpc_id
   subnet_id			 = local.subnet_id
 }
-resource "cloud_redis_backup_config" "redis_backup_config" {
+resource "tencentcloudenterprise_redis_backup_config" "redis_backup_config" {
   redis_id      = cloud_redis_instance.redis_instance_test.id
   backup_time   = "01:00-02:00"
 }`
@@ -109,7 +109,7 @@ resource "cloud_redis_backup_config" "redis_backup_config" {
 
 func testAccRedisBackupConfig() string {
 	return defaultVpcSubnets + `
-resource "cloud_redis_instance" "redis_instance_test" {
+resource "tencentcloudenterprise_redis_instance" "redis_instance_test" {
   availability_zone = "ap-guangzhou-3"
   type_id           = 2 
   password          = "test12345789"
@@ -118,7 +118,7 @@ resource "cloud_redis_instance" "redis_instance_test" {
   vpc_id 			 = local.vpc_id
   subnet_id			 = local.subnet_id
 }
-resource "cloud_redis_backup_config" "redis_backup_config" {
+resource "tencentcloudenterprise_redis_backup_config" "redis_backup_config" {
   redis_id      = cloud_redis_instance.redis_instance_test.id
   backup_time   = "06:00-07:00"
 }`

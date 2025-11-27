@@ -50,12 +50,12 @@ func TestAccTencentCloudDataSourceImageBase(t *testing.T) {
 }
 
 const testAccTencentCloudDataSourceImageBase = `
-data "cloud_cvm_image" "public_image" {
+data "tencentcloudenterprise_cvm_image" "public_image" {
 }
 `
 
 const testAccTencentCloudDataSourceImageBaseWithFilter = `
-data "cloud_cvm_image" "public_image" {
+data "tencentcloudenterprise_cvm_image" "public_image" {
   filter {
     name   = "image-type"
     values = ["PUBLIC_IMAGE"]
@@ -64,7 +64,7 @@ data "cloud_cvm_image" "public_image" {
 `
 
 const testAccTencentCloudDataSourceImageBaseWithOsName = `
-data "cloud_cvm_image" "public_image" {
+data "tencentcloudenterprise_cvm_image" "public_image" {
   # os_name = "TencentOS Server 3.2"
   os_name = "centos"
 
@@ -76,7 +76,7 @@ data "cloud_cvm_image" "public_image" {
 `
 
 const testAccTencentCloudDataSourceImageBaseWithImageNameRegex = `
-data "cloud_cvm_image" "public_image" {
+data "tencentcloudenterprise_cvm_image" "public_image" {
   image_name_regex = "^Windows\\s.*$"
 
   filter {

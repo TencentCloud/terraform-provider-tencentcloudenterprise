@@ -4,7 +4,7 @@ Use this data source to query detailed information of kubernetes available_clust
 Example Usage
 ```hcl
 
-	data "cloud_tke_kubernetes_available_cluster_versions" "query_by_id" {
+	data "tencentcloudenterprise_tke_kubernetes_available_cluster_versions" "query_by_id" {
 	  cluster_id = "xxx"
 	}
 
@@ -13,7 +13,7 @@ Example Usage
 	  value = data.cloud_tke_kubernetes_available_cluster_versions.query_by_id.versions
 	}
 
-	data "cloud_tke_kubernetes_available_cluster_versions" "query_by_ids" {
+	data "tencentcloudenterprise_tke_kubernetes_available_cluster_versions" "query_by_ids" {
 	  cluster_ids = ["xxx"]
 	}
 
@@ -36,7 +36,7 @@ import (
 )
 
 func init() {
-	registerDataDescriptionProvider("cloud_tke_kubernetes_available_cluster_versions", CNDescription{
+	registerDataDescriptionProvider("tencentcloudenterprise_tke_kubernetes_available_cluster_versions", CNDescription{
 		TerraformTypeCN: "集群可用版本",
 		DescriptionCN:   "提供TKE集群可用版本数据源，用于查询TKE集群可用版本的详细信息。",
 		AttributesCN: map[string]string{

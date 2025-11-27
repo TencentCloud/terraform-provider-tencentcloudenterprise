@@ -5,7 +5,7 @@ Use this data source to query detailed information of tsf application_attribute
 
 ```hcl
 
-	data "cloud_tsf_application_attribute" "application_attribute" {
+	data "tencentcloudenterprise_tsf_application_attribute" "application_attribute" {
 	  application_id = "application-a24x29xv"
 	}
 
@@ -23,7 +23,7 @@ import (
 )
 
 func init() {
-	registerDataDescriptionProvider("cloud_tsf_application_attribute", CNDescription{
+	registerDataDescriptionProvider("tencentcloudenterprise_tsf_application_attribute", CNDescription{
 		TerraformTypeCN: "TSF应用属性",
 		DescriptionCN:   "提供TSF应用属性数据源，用于查询TSF应用属性的详细信息。",
 		AttributesCN: map[string]string{

@@ -5,7 +5,7 @@
 //
 // ```hcl
 //
-//	resource "cloud_redis_backup_download_restriction" "backup_download_restriction" {
+//	resource "tencentcloudenterprise_redis_backup_download_restriction" "backup_download_restriction" {
 //		limit_type = "Customize"
 //		vpc_comparison_symbol = "In"
 //		ip_comparison_symbol = "In"

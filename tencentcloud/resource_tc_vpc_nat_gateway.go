@@ -5,7 +5,7 @@ Provides a resource to create a NAT gateway.
 
 ```hcl
 
-	resource "cloud_vpc_nat_gateway" "foo" {
+	resource "tencentcloudenterprise_vpc_nat_gateway" "foo" {
 	  name             = "test_nat_gateway"
 	  vpc_id           = "vpc-4xxr2cy7"
 	  bandwidth        = 100
@@ -42,7 +42,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_vpc_nat_gateway", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_vpc_nat_gateway", CNDescription{
 		TerraformTypeCN: "NAT网关",
 		DescriptionCN:   "提供NAT网关资源，用于创建NAT网关。",
 		AttributesCN: map[string]string{

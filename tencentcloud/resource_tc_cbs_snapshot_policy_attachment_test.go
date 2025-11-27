@@ -22,9 +22,9 @@ func TestAccTencentCloudCbsSnapshotPolicyAttachment(t *testing.T) {
 			{
 				Config: testAccCbsSnapshotPolicyAttachmentConfig,
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckCbsSnapshotPolicyAttachmentExists("cloud_cbs_snapshot_policy_attachment.foo"),
-					resource.TestCheckResourceAttrSet("cloud_cbs_snapshot_policy_attachment.foo", "storage_id"),
-					resource.TestCheckResourceAttrSet("cloud_cbs_snapshot_policy_attachment.foo", "snapshot_policy_id"),
+					testAccCheckCbsSnapshotPolicyAttachmentExists("tencentcloudenterprise_cbs_snapshot_policy_attachment.foo"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_cbs_snapshot_policy_attachment.foo", "storage_id"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_cbs_snapshot_policy_attachment.foo", "snapshot_policy_id"),
 				),
 			},
 		},
@@ -39,13 +39,13 @@ func testAccCheckCbsSnapshotPolicyAttachmentDestroy(s *terraform.State) error {
 		client: testAccProvider.Meta().(*TencentCloudClient).apiV3Conn,
 	}
 	for _, rs := range s.RootModule().Resources {
-		if rs.Type != "cloud_cbs_snapshot_policy_attachment" {
+		if rs.Type != "tencentcloudenterprise_cbs_snapshot_policy_attachment" {
 			continue
 		}
 		id := rs.Primary.ID
 		idSplit := strings.Split(id, FILED_SP)
 		if len(idSplit) != 2 {
-			return fmt.Errorf("cloud_cbs_snapshot_policy_attachment id is illegal: %s", id)
+			return fmt.Errorf("tencentcloudenterprise_cbs_snapshot_policy_attachment id is illegal: %s", id)
 		}
 		storageId := idSplit[0]
 		policyId := idSplit[1]
@@ -76,7 +76,7 @@ func testAccCheckCbsSnapshotPolicyAttachmentExists(n string) resource.TestCheckF
 		id := rs.Primary.ID
 		idSplit := strings.Split(id, FILED_SP)
 		if len(idSplit) != 2 {
-			return fmt.Errorf("cloud_cbs_snapshot_policy_attachment id is illegal: %s", id)
+			return fmt.Errorf("tencentcloudenterprise_cbs_snapshot_policy_attachment id is illegal: %s", id)
 		}
 		storageId := idSplit[0]
 		policyId := idSplit[1]
@@ -95,21 +95,21 @@ func testAccCheckCbsSnapshotPolicyAttachmentExists(n string) resource.TestCheckF
 }
 
 const testAccCbsSnapshotPolicyAttachmentConfig = defaultVpcVariable + `
-resource "cloud_cbs_storage" "foo" {
+resource "tencentcloudenterprise_cbs_storage" "foo" {
   availability_zone = var.availability_zone
   storage_size      = 100
   storage_type      = "CLOUD_PREMIUM"
   storage_name      = var.instance_name
 }
 
-resource "cloud_cbs_snapshot_policy" "policy" {
+resource "tencentcloudenterprise_cbs_snapshot_policy" "policy" {
   snapshot_policy_name = "tf-test-snapshot-policy"
   repeat_weekdays      = [0, 3]
   repeat_hours         = [0]
   retention_days       = 30
 }
 
-resource "cloud_cbs_snapshot_policy_attachment" "foo" {
+resource "tencentcloudenterprise_cbs_snapshot_policy_attachment" "foo" {
   storage_id = cloud_cbs_storage.foo.id 
   snapshot_policy_id = cloud_cbs_snapshot_policy.policy.id
 }

@@ -5,7 +5,7 @@ Provides a resource to create a dc instance
 
 ```hcl
 
-	resource "cloud_dc_instance" "instance" {
+	resource "tencentcloudenterprise_dc_instance" "instance" {
 	  access_point_id         = "ap-shenzhen-b-ft"
 	  bandwidth               = 10
 	  customer_contact_number = "0"
@@ -40,7 +40,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_dc_instance", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_dc_instance", CNDescription{
 		TerraformTypeCN: "专线接入实例",
 		AttributesCN: map[string]string{
 			"access_point_id":         "接入点ID",
@@ -192,7 +192,7 @@ func resourceTencentCloudDcInstanceCreate(d *schema.ResourceData, meta interface
 		request.LineOperator = helper.String(v.(string))
 	}
 
-	if v, ok := d.GetOk("cloud_port_type"); ok {
+	if v, ok := d.GetOk("tencentcloudenterprise_port_type"); ok {
 		request.CloudPortType = helper.String(v.(string))
 	}
 

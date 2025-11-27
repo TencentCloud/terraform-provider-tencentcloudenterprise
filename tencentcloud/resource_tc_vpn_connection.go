@@ -5,7 +5,7 @@ Provides a resource to create a VPN connection.
 
 ```hcl
 
-	resource "cloud_vpn_connection" "foo" {
+	resource "tencentcloudenterprise_vpn_connection" "foo" {
 	  name                       = "vpn_connection_test"
 	  vpc_id                     = "vpc-dk8zmwuf"
 	  vpn_gateway_id             = "vpngw-8ccsnclt"
@@ -62,7 +62,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_vpn_connection", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_vpn_connection", CNDescription{
 		TerraformTypeCN: "VPN通道",
 		AttributesCN: map[string]string{
 			"name":                       "VPN通道名称",

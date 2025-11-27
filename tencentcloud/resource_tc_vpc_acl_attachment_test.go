@@ -19,12 +19,12 @@ func TestAccTencentCloudVpcAclAttachment_basic(t *testing.T) {
 			{
 				Config: testAclAttachment_basic,
 				Check: resource.ComposeTestCheckFunc(
-					testVpcAclAttachmentExists("cloud_vpc_acl_attachment.attachment"),
-					resource.TestCheckResourceAttrSet("cloud_vpc_acl_attachment.attachment", "acl_id"),
+					testVpcAclAttachmentExists("tencentcloudenterprise_vpc_acl_attachment.attachment"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_vpc_acl_attachment.attachment", "acl_id"),
 				),
 			},
 			{
-				ResourceName:      "cloud_vpc_acl_attachment.attachment",
+				ResourceName:      "tencentcloudenterprise_vpc_acl_attachment.attachment",
 				ImportState:       true,
 				ImportStateVerify: true,
 			},
@@ -38,7 +38,7 @@ func testVpcAclAttachmentDestroy(s *terraform.State) error {
 	service := VpcService{client: testAccProvider.Meta().(*TencentCloudClient).apiV3Conn}
 
 	for _, rs := range s.RootModule().Resources {
-		if rs.Type != "cloud_vpc_acl_attachment" {
+		if rs.Type != "tencentcloudenterprise_vpc_acl_attachment" {
 			continue
 		}
 		has, err := service.DescribeByAclId(ctx, rs.Primary.ID)
@@ -79,10 +79,10 @@ func testVpcAclAttachmentExists(n string) resource.TestCheckFunc {
 }
 
 const testAclAttachment_basic = `
-data "cloud_vpc_instances" "id_instances" {
+data "tencentcloudenterprise_vpc_instances" "id_instances" {
 	is_default = true
 }
-resource "cloud_vpc_acl" "foo" {  
+resource "tencentcloudenterprise_vpc_acl" "foo" {  
     vpc_id  = data.cloud_vpc_instances.id_instances.instance_list.0.vpc_id
     name  	= "test_acl"
 	ingress = [
@@ -94,7 +94,7 @@ resource "cloud_vpc_acl" "foo" {
     	"ACCEPT#192.168.1.0/24#800-900#TCP",
 	]
 }
-resource "cloud_vpc_acl_attachment" "attachment"{
+resource "tencentcloudenterprise_vpc_acl_attachment" "attachment"{
 		acl_id = cloud_vpc_acl.foo.id
 		subnet_id = data.cloud_vpc_instances.id_instances.instance_list[0].subnet_ids[0]
 }

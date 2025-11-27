@@ -18,22 +18,22 @@ func TestAccTencentCloudRedisSslResource_basic(t *testing.T) {
 			{
 				Config: testAccRedisSsl,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttrSet("cloud_redis_ssl.ssl", "id"),
-					resource.TestCheckResourceAttr("cloud_redis_ssl.ssl", "instance_id", defaultCrsInstanceId),
-					resource.TestCheckResourceAttr("cloud_redis_ssl.ssl", "ssl_config", "enabled"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_redis_ssl.ssl", "id"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_redis_ssl.ssl", "instance_id", defaultCrsInstanceId),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_redis_ssl.ssl", "ssl_config", "enabled"),
 				),
 			},
 			{
-				ResourceName:      "cloud_redis_ssl.ssl",
+				ResourceName:      "tencentcloudenterprise_redis_ssl.ssl",
 				ImportState:       true,
 				ImportStateVerify: true,
 			},
 			{
 				Config: testAccRedisSslUpdate,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttrSet("cloud_redis_ssl.ssl", "id"),
-					resource.TestCheckResourceAttr("cloud_redis_ssl.ssl", "instance_id", defaultCrsInstanceId),
-					resource.TestCheckResourceAttr("cloud_redis_ssl.ssl", "ssl_config", "disabled"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_redis_ssl.ssl", "id"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_redis_ssl.ssl", "instance_id", defaultCrsInstanceId),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_redis_ssl.ssl", "ssl_config", "disabled"),
 				),
 			},
 		},
@@ -48,7 +48,7 @@ variable "instance_id" {
 
 const testAccRedisSsl = testAccRedisSslVar + `
 
-resource "cloud_redis_ssl" "ssl" {
+resource "tencentcloudenterprise_redis_ssl" "ssl" {
 	instance_id = var.instance_id
 	ssl_config = "enabled"
   }
@@ -57,7 +57,7 @@ resource "cloud_redis_ssl" "ssl" {
 
 const testAccRedisSslUpdate = testAccRedisSslVar + `
 
-resource "cloud_redis_ssl" "ssl" {
+resource "tencentcloudenterprise_redis_ssl" "ssl" {
 	instance_id = var.instance_id
 	ssl_config = "disabled"
   }

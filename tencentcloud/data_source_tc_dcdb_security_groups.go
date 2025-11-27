@@ -5,7 +5,7 @@ Use this data source to query detailed information of dcdb securityGroups
 
 ```hcl
 
-	data "cloud_dcdb_security_groups" "securityGroups" {
+	data "tencentcloudenterprise_dcdb_security_groups" "securityGroups" {
 	  instance_id = "your_instance_id"
 	}
 
@@ -24,7 +24,7 @@ import (
 )
 
 func init() {
-	registerDataDescriptionProvider("cloud_dcdb_security_groups", CNDescription{
+	registerDataDescriptionProvider("tencentcloudenterprise_dcdb_security_groups", CNDescription{
 		TerraformTypeCN: "数据库安全组",
 		DescriptionCN:   "提供DCDB安全组数据源，用于查询DCDB安全组的详细信息。",
 		AttributesCN: map[string]string{

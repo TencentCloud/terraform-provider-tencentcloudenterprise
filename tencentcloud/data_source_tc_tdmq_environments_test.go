@@ -26,7 +26,7 @@ func TestAccTencentCloudTdmqEnvironmentAttributesDataSource_basic(t *testing.T) 
 }
 
 const testAccTdmqEnvironmentAttributesDataSource = `
-data "cloud_tdmq_environment_attributes" "environment_attributes" {
+data "tencentcloudenterprise_tdmq_environment_attributes" "environment_attributes" {
     environment_id = "keep-ns"
     cluster_id     = "pulsar-9n95ax58b9vn"
 }

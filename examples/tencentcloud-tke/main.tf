@@ -3,29 +3,29 @@
 # ========== Data Sources ==========
 
 # Query TKE clusters
-data "cloud_tke_kubernetes_clusters" "clusters" {
+data "tencentcloudenterprise_tke_kubernetes_clusters" "clusters" {
   cluster_id = "cls-xxxxx"
 }
 
 # Query TKE available cluster versions
-data "cloud_tke_kubernetes_available_cluster_versions" "versions" {
+data "tencentcloudenterprise_tke_kubernetes_available_cluster_versions" "versions" {
   cluster_ids = ["cls-xxxxx"]
 }
 
 # Query TKE charts
-data "cloud_tke_kubernetes_charts" "charts" {
+data "tencentcloudenterprise_tke_kubernetes_charts" "charts" {
   kind = "log"
 }
 
 # Query TKE cluster common names
-data "cloud_tke_kubernetes_cluster_common_names" "names" {
+data "tencentcloudenterprise_tke_kubernetes_cluster_common_names" "names" {
   cluster_id = "cls-xxxxx"
 }
 
 # ========== Resources ==========
 
 # TKE Cluster
-resource "cloud_tke_kubernetes_cluster" "cluster" {
+resource "tencentcloudenterprise_tke_kubernetes_cluster" "cluster" {
   cluster_name              = "example-tke"
   cluster_version           = "1.24.4"
   cluster_cidr              = "172.16.0.0/16"
@@ -63,7 +63,7 @@ resource "cloud_tke_kubernetes_cluster" "cluster" {
 }
 
 # TKE Cluster Attachment (Add existing nodes)
-resource "cloud_tke_kubernetes_cluster_attachment" "attachment" {
+resource "tencentcloudenterprise_tke_kubernetes_cluster_attachment" "attachment" {
   cluster_id  = cloud_tke_kubernetes_cluster.cluster.id
   instance_id = "ins-xxxxx"
   hostname    = "node-1"
@@ -74,7 +74,7 @@ resource "cloud_tke_kubernetes_cluster_attachment" "attachment" {
 }
 
 # TKE Scale Worker (Add nodes)
-resource "cloud_tke_kubernetes_scale_worker" "scale" {
+resource "tencentcloudenterprise_tke_kubernetes_scale_worker" "scale" {
   cluster_id = cloud_tke_kubernetes_cluster.cluster.id
   
   worker_config {
@@ -90,14 +90,14 @@ resource "cloud_tke_kubernetes_scale_worker" "scale" {
 }
 
 # TKE Cluster Endpoint (Public access)
-resource "cloud_tke_kubernetes_cluster_endpoint" "endpoint" {
+resource "tencentcloudenterprise_tke_kubernetes_cluster_endpoint" "endpoint" {
   cluster_id                 = cloud_tke_kubernetes_cluster.cluster.id
   cluster_internet           = true
   cluster_internet_security_group = "sg-xxxxx"
 }
 
 # TKE Cluster Namespace
-resource "cloud_tke_kubernetes_cluster_namespace" "namespace" {
+resource "tencentcloudenterprise_tke_kubernetes_cluster_namespace" "namespace" {
   cluster_id = cloud_tke_kubernetes_cluster.cluster.id
   name       = "example-namespace"
   
@@ -107,7 +107,7 @@ resource "cloud_tke_kubernetes_cluster_namespace" "namespace" {
 }
 
 # TKE Cluster Secret
-resource "cloud_tke_kubernetes_cluster_secret" "secret" {
+resource "tencentcloudenterprise_tke_kubernetes_cluster_secret" "secret" {
   cluster_id = cloud_tke_kubernetes_cluster.cluster.id
   name       = "example-secret"
   namespace  = "default"
@@ -120,7 +120,7 @@ resource "cloud_tke_kubernetes_cluster_secret" "secret" {
 }
 
 # TKE Cluster PV (Persistent Volume)
-resource "cloud_tke_kubernetes_cluster_pv" "pv" {
+resource "tencentcloudenterprise_tke_kubernetes_cluster_pv" "pv" {
   cluster_id = cloud_tke_kubernetes_cluster.cluster.id
   name       = "example-pv"
   
@@ -141,7 +141,7 @@ resource "cloud_tke_kubernetes_cluster_pv" "pv" {
 }
 
 # TKE Cluster PVC (Persistent Volume Claim)
-resource "cloud_tke_kubernetes_cluster_pvc" "pvc" {
+resource "tencentcloudenterprise_tke_kubernetes_cluster_pvc" "pvc" {
   cluster_id = cloud_tke_kubernetes_cluster.cluster.id
   name       = "example-pvc"
   namespace  = "default"
@@ -158,7 +158,7 @@ resource "cloud_tke_kubernetes_cluster_pvc" "pvc" {
 }
 
 # TKE Cluster Deploy (Deployment)
-resource "cloud_tke_kubernetes_cluster_deploy" "deploy" {
+resource "tencentcloudenterprise_tke_kubernetes_cluster_deploy" "deploy" {
   cluster_id = cloud_tke_kubernetes_cluster.cluster.id
   name       = "example-deploy"
   namespace  = "default"
@@ -192,7 +192,7 @@ resource "cloud_tke_kubernetes_cluster_deploy" "deploy" {
 }
 
 # TKE Cluster Affinity
-resource "cloud_tke_kubernetes_cluster_affinity" "affinity" {
+resource "tencentcloudenterprise_tke_kubernetes_cluster_affinity" "affinity" {
   cluster_id = cloud_tke_kubernetes_cluster.cluster.id
   namespace  = "default"
   name       = "example-affinity"
@@ -213,7 +213,7 @@ resource "cloud_tke_kubernetes_cluster_affinity" "affinity" {
 }
 
 # TKE Cluster Ingress
-resource "cloud_tke_kubernetes_cluster_ing" "ingress" {
+resource "tencentcloudenterprise_tke_kubernetes_cluster_ing" "ingress" {
   cluster_id = cloud_tke_kubernetes_cluster.cluster.id
   name       = "example-ingress"
   namespace  = "default"
@@ -233,7 +233,7 @@ resource "cloud_tke_kubernetes_cluster_ing" "ingress" {
 }
 
 # TKE Cluster Plugin
-resource "cloud_tke_kubernetes_cluster_plugin" "plugin" {
+resource "tencentcloudenterprise_tke_kubernetes_cluster_plugin" "plugin" {
   cluster_id = cloud_tke_kubernetes_cluster.cluster.id
   plugin     = "cos"
   version    = "1.0.0"

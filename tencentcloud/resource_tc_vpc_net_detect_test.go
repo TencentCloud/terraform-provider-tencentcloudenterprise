@@ -16,16 +16,16 @@ func TestAccTencentCloudVpcNetDetectResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			{
 				Config: testAccVpcNetDetect,
-				Check:  resource.ComposeTestCheckFunc(resource.TestCheckResourceAttrSet("cloud_vpc_net_detect.net_detect", "id")),
+				Check:  resource.ComposeTestCheckFunc(resource.TestCheckResourceAttrSet("tencentcloudenterprise_vpc_net_detect.net_detect", "id")),
 			},
 			{
 				Config: testAccVpcNetDetectUpdate,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr("cloud_vpc_net_detect.net_detect", "net_detect_name", "terraform-for-test"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_vpc_net_detect.net_detect", "net_detect_name", "terraform-for-test"),
 				),
 			},
 			{
-				ResourceName:      "cloud_vpc_net_detect.net_detect",
+				ResourceName:      "tencentcloudenterprise_vpc_net_detect.net_detect",
 				ImportState:       true,
 				ImportStateVerify: true,
 			},
@@ -35,7 +35,7 @@ func TestAccTencentCloudVpcNetDetectResource_basic(t *testing.T) {
 
 const testAccVpcNetDetect = `
 
-resource "cloud_vpc_net_detect" "net_detect" {
+resource "tencentcloudenterprise_vpc_net_detect" "net_detect" {
   net_detect_name       = "terrform-test"
   vpc_id                = "vpc-4owdpnwr"
   subnet_id             = "subnet-c1l35990"
@@ -51,7 +51,7 @@ resource "cloud_vpc_net_detect" "net_detect" {
 
 const testAccVpcNetDetectUpdate = `
 
-resource "cloud_vpc_net_detect" "net_detect" {
+resource "tencentcloudenterprise_vpc_net_detect" "net_detect" {
   net_detect_name       = "terraform-for-test"
   vpc_id                = "vpc-4owdpnwr"
   subnet_id             = "subnet-c1l35990"

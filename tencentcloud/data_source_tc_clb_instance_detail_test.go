@@ -24,7 +24,7 @@ func TestAccTencentCloudClbInstanceDetailDataSource_basic(t *testing.T) {
 
 const testAccClbInstanceDetailDataSource = `
 
-data "cloud_clb_instance_detail" "instance_detail" {
+data "tencentcloudenterprise_clb_instance_detail" "instance_detail" {
   target_type = "NODE"
 }
 

@@ -17,7 +17,7 @@ func TestAccTencentCloudClbListenersDataSource(t *testing.T) {
 			{
 				Config: testAccClbListenersDataSource,
 				Check: resource.ComposeAggregateTestCheckFunc(
-					testAccCheckClbListenerExists("cloud_clb_listener.listener"),
+					testAccCheckClbListenerExists("tencentcloudenterprise_clb_listener.listener"),
 					resource.TestCheckResourceAttr("data.cloud_clb_listeners.listeners", "listener_list.#", "1"),
 					resource.TestCheckResourceAttrSet("data.cloud_clb_listeners.listeners", "listener_list.0.clb_id"),
 					resource.TestCheckResourceAttrSet("data.cloud_clb_listeners.listeners", "listener_list.0.listener_id"),
@@ -40,12 +40,12 @@ func TestAccTencentCloudClbListenersDataSource(t *testing.T) {
 }
 
 const testAccClbListenersDataSource = `
-resource "cloud_clb_instance" "clb" {
+resource "tencentcloudenterprise_clb_instance" "clb" {
     network_type = "OPEN"
     clb_name     = "tf-clb-listeners"
 }
 
-resource "cloud_clb_listener" "listener" {
+resource "tencentcloudenterprise_clb_listener" "listener" {
     clb_id                     = cloud_clb_instance.clb.id
     port                       = 1
     protocol                   = "TCP"
@@ -60,7 +60,7 @@ resource "cloud_clb_listener" "listener" {
     health_check_http_path     = "/"
 }
 
-data "cloud_clb_listeners" "listeners" {
+data "tencentcloudenterprise_clb_listeners" "listeners" {
     clb_id      = cloud_clb_instance.clb.id
     listener_id = cloud_clb_listener.listener.listener_id
 }

@@ -16,10 +16,10 @@ func TestAccTencentCloudClsExportResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			{
 				Config: testAccClsExport,
-				Check:  resource.ComposeTestCheckFunc(resource.TestCheckResourceAttrSet("cloud_cls_export.export", "id")),
+				Check:  resource.ComposeTestCheckFunc(resource.TestCheckResourceAttrSet("tencentcloudenterprise_cls_export.export", "id")),
 			},
 			{
-				ResourceName:      "cloud_cls_export.export",
+				ResourceName:      "tencentcloudenterprise_cls_export.export",
 				ImportState:       true,
 				ImportStateVerify: true,
 			},
@@ -29,7 +29,7 @@ func TestAccTencentCloudClsExportResource_basic(t *testing.T) {
 
 const testAccClsExport = `
 
-resource "cloud_cls_export" "export" {
+resource "tencentcloudenterprise_cls_export" "export" {
   topic_id  = "7e34a3a7-635e-4da8-9005-88106c1fde69"
   log_count = 2
   query     = "select count(*) as count"

@@ -5,7 +5,7 @@ Use this data source to query detailed information of vpc net_detect_state_check
 
 ```hcl
 
-	data "cloud_vpc_net_detect_state_check" "net_detect_state_check" {
+	data "tencentcloudenterprise_vpc_net_detect_state_check" "net_detect_state_check" {
 	  net_detect_id         = "netd-12345678"
 	  detect_destination_ip = [
 	    "203.0.113.3",
@@ -29,7 +29,7 @@ import (
 )
 
 func init() {
-	registerDataDescriptionProvider("cloud_vpc_net_detect_state_check", CNDescription{
+	registerDataDescriptionProvider("tencentcloudenterprise_vpc_net_detect_state_check", CNDescription{
 		TerraformTypeCN: "VPC网络探测状态检查",
 		DescriptionCN:   "提供VPC网络探测状态检查数据源，用于查询VPC网络探测状态检查的详细信息。",
 		AttributesCN: map[string]string{

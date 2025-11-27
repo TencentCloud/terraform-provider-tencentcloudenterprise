@@ -5,7 +5,7 @@ Provides an EIP resource.
 
 ```hcl
 
-	resource "cloud_eip" "foo" {
+	resource "tencentcloudenterprise_eip" "foo" {
 	  name                 = "awesome_gateway_ip"
 	  bandwidth_package_id = "bwp-jtvzuky6"
 	  internet_charge_type = "BANDWIDTH_PACKAGE"
@@ -37,7 +37,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_eip", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_eip", CNDescription{
 		TerraformTypeCN: "弹性公网IP",
 		DescriptionCN:   "提供弹性公网IP资源，用于创建和管理弹性公网IP。",
 		AttributesCN: map[string]string{
@@ -363,7 +363,7 @@ func resourceTencentCloudEipUpdate(d *schema.ResourceData, meta interface{}) err
 	}
 	for _, field := range unsupportedUpdateFields {
 		if d.HasChange(field) {
-			return fmt.Errorf("cloud_eip update on %s is not support yet", field)
+			return fmt.Errorf("tencentcloudenterprise_eip update on %s is not support yet", field)
 		}
 	}
 

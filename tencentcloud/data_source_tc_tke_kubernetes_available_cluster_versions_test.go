@@ -37,7 +37,7 @@ func TestAccTencentCloudKubernetesAvailableClusterVersionsDataSource_basic(t *te
 
 const testAccKubernetesAvailableClusterVersionsDataSource_basic = `
 
-data "cloud_tke_kubernetes_available_cluster_versions" "id" {
+data "tencentcloudenterprise_tke_kubernetes_available_cluster_versions" "id" {
   result_output_file = "versions.json"
   cluster_id = "%s"
 }
@@ -50,7 +50,7 @@ output "versions"{
 
 const testAccKubernetesAvailableClusterVersionsDataSource_multiple = `
 
-data "cloud_tke_kubernetes_available_cluster_versions" "ids" {
+data "tencentcloudenterprise_tke_kubernetes_available_cluster_versions" "ids" {
   cluster_ids = ["%s"]
 }
 

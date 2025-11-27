@@ -24,6 +24,6 @@ func TestAccTencentCloudVpcAccountAttributesDataSource_basic(t *testing.T) {
 
 const testAccVpcAccountAttributesDataSource = `
 
-data "cloud_vpc_account_attributes" "account_attributes" {}
+data "tencentcloudenterprise_vpc_account_attributes" "account_attributes" {}
 
 `

@@ -17,12 +17,12 @@ func TestAccTencentCloudTsfApplicationPublicConfigReleaseResource_basic(t *testi
 			{
 				Config: testAccTsfApplicationPublicConfigRelease2,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttrSet("cloud_tsf_application_public_config_release.application_public_config_release", "id"),
-					resource.TestCheckResourceAttr("cloud_tsf_application_public_config_release.application_public_config_release", "release_desc", "v1"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_tsf_application_public_config_release.application_public_config_release", "id"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_tsf_application_public_config_release.application_public_config_release", "release_desc", "v1"),
 				),
 			},
 			{
-				ResourceName:      "cloud_tsf_application_public_config_release.application_public_config_release",
+				ResourceName:      "tencentcloudenterprise_tsf_application_public_config_release.application_public_config_release",
 				ImportState:       true,
 				ImportStateVerify: true,
 			},
@@ -32,7 +32,7 @@ func TestAccTencentCloudTsfApplicationPublicConfigReleaseResource_basic(t *testi
 
 const testAccTsfApplicationPublicConfigRelease = testAccTsfApplicationPublicConfig + testAccTsfNamespace + `
 
-resource "cloud_tsf_application_public_config_release" "application_public_config_release" {
+resource "tencentcloudenterprise_tsf_application_public_config_release" "application_public_config_release" {
   config_id = cloud_tsf_application_public_config.application_public_config.id
   namespace_id = cloud_tsf_namespace.namespace.id
   release_desc = "v1"
@@ -41,7 +41,7 @@ resource "cloud_tsf_application_public_config_release" "application_public_confi
 `
 
 const testAccTsfApplicationPublicConfigRelease2 = `
-resource "cloud_tsf_application_public_config_release" "application_public_config_release" {
+resource "tencentcloudenterprise_tsf_application_public_config_release" "application_public_config_release" {
   config_id = "dcfg-p-ldap93vo"
   namespace_id = "namespace-jqv3pga7"
   release_desc = "v1"

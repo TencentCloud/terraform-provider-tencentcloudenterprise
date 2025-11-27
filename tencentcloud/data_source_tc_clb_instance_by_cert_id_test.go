@@ -24,7 +24,7 @@ func TestAccTencentCloudClbInstanceByCertIdDataSource_basic(t *testing.T) {
 
 const testAccClbInstanceByCertIdDataSource = `
 
-data "cloud_clb_instance_by_cert_id" "instance_by_cert_id" {
+data "tencentcloudenterprise_clb_instance_by_cert_id" "instance_by_cert_id" {
   cert_ids = ["3a6B5y8v"]
 }
 

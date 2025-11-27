@@ -5,7 +5,7 @@ Use this data source to query detailed acl information of Ckafka
 
 ```hcl
 
-	data "cloud_ckafka_acls" "foo" {
+	data "tencentcloudenterprise_ckafka_acls" "foo" {
 	  instance_id   = "ckafka-f9ife4zz"
 	  resource_type = "TOPIC"
 	  resource_name = "topic-tf-test"
@@ -25,7 +25,7 @@ import (
 )
 
 func init() {
-	registerDataDescriptionProvider("cloud_ckafka_acls", CNDescription{
+	registerDataDescriptionProvider("tencentcloudenterprise_ckafka_acls", CNDescription{
 		TerraformTypeCN: "ckafka acl列表",
 		DescriptionCN:   "提供Ckafka ACL数据源，用于查询Ckafka ACL的详细信息。",
 		AttributesCN: map[string]string{

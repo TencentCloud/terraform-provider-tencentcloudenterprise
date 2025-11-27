@@ -5,7 +5,7 @@ Use this data source to query detailed information of vpc resource_dashboard
 
 ```hcl
 
-	data "cloud_vpc_resource_dashboard" "resource_dashboard" {
+	data "tencentcloudenterprise_vpc_resource_dashboard" "resource_dashboard" {
 	  vpc_ids = ["vpc-4owdpnwr"]
 	}
 
@@ -23,7 +23,7 @@ import (
 )
 
 func init() {
-	registerDataDescriptionProvider("cloud_vpc_resource_dashboard", CNDescription{
+	registerDataDescriptionProvider("tencentcloudenterprise_vpc_resource_dashboard", CNDescription{
 		TerraformTypeCN: "VPC资源监控",
 		DescriptionCN:   "提供VPC资源仪表盘数据源，用于查询VPC资源仪表盘的详细信息。",
 		AttributesCN: map[string]string{

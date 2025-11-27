@@ -5,7 +5,7 @@ Provides a resource to create a vpc end_point
 
 ```hcl
 
-	resource "cloud_vpc_end_point" "end_point" {
+	resource "tencentcloudenterprise_vpc_end_point" "end_point" {
 	  vpc_id = "vpc-391sv4w3"
 	  subnet_id = "subnet-ljyn7h30"
 	  end_point_name = "terraform-test"
@@ -37,7 +37,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_vpc_end_point", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_vpc_end_point", CNDescription{
 		TerraformTypeCN: "终端节点",
 		DescriptionCN:   "提供VPC终端节点资源，用于创建VPC终端节点。",
 		AttributesCN: map[string]string{
@@ -243,7 +243,7 @@ func resourceTencentCloudVpcEndPointUpdate(d *schema.ResourceData, meta interfac
 	}
 	for _, field := range unsupportedUpdateFields {
 		if d.HasChange(field) {
-			return fmt.Errorf("cloud_vpc_end_point update on %s is not support yet", field)
+			return fmt.Errorf("tencentcloudenterprise_vpc_end_point update on %s is not support yet", field)
 		}
 	}
 

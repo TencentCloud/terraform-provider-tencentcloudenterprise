@@ -26,7 +26,7 @@ func TestAccTencentCloudBmsFlavorsDataSource(t *testing.T) {
 }
 
 const testAccTencentCloudBmsFlavorsDataSourceConfig_basic = `
-data "cloud_bms_flavors" "flavors" {
+data "tencentcloudenterprise_bms_flavors" "flavors" {
   result_output_file = "flavors.json"
 }
 `

@@ -11,7 +11,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_tdmq_pulsar_environment_role_attachment", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_tdmq_pulsar_environment_role_attachment", CNDescription{
 		TerraformTypeCN: "TDMQ Pulsar环境",
 		DescriptionCN:   "提供TDMQ Pulsar环境角色授权资源，用于为Pulsar角色授权访问指定环境的权限。",
 		AttributesCN: map[string]string{

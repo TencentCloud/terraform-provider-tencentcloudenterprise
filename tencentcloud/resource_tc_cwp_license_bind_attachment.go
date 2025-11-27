@@ -14,7 +14,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_cwp_license_bind_attachment", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_cwp_license_bind_attachment", CNDescription{
 		TerraformTypeCN: "主机安全许可证绑定",
 		DescriptionCN:   "提供主机安全许可证绑定资源，用于将许可证绑定到主机。",
 		AttributesCN: map[string]string{

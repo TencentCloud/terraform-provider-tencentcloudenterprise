@@ -7,17 +7,17 @@ Provides a resource to create a routing entry in a VPC routing table.
 
 ```hcl
 
-	resource "cloud_vpc" "main" {
+	resource "tencentcloudenterprise_vpc" "main" {
 	  name       = "Used to test the routing entry"
 	  cidr_block = "10.4.0.0/16"
 	}
 
-	resource "cloud_route_table" "r" {
+	resource "tencentcloudenterprise_route_table" "r" {
 	  name   = "Used to test the routing entry"
 	  vpc_id = cloud_vpc.main.id
 	}
 
-	resource "cloud_route_entry" "rtb_entry_instance" {
+	resource "tencentcloudenterprise_route_entry" "rtb_entry_instance" {
 	  vpc_id         = cloud_route_table.main.vpc_id
 	  route_table_id = cloud_route_table.r.id
 	  cidr_block     = "10.4.8.0/24"
@@ -25,7 +25,7 @@ Provides a resource to create a routing entry in a VPC routing table.
 	  next_hub       = "10.16.1.7"
 	}
 
-	resource "cloud_route_entry" "rtb_entry_instance" {
+	resource "tencentcloudenterprise_route_entry" "rtb_entry_instance" {
 	  vpc_id         = cloud_route_table.main.vpc_id
 	  route_table_id = cloud_route_table.r.id
 	  cidr_block     = "10.4.5.0/24"
@@ -74,7 +74,7 @@ var routeTypeNewMap = map[string]string{
 }
 
 func init() {
-	registerResourceDescriptionProvider("cloud_vpc_route_entry", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_vpc_route_entry", CNDescription{
 		TerraformTypeCN: "路由表条目",
 		AttributesCN: map[string]string{
 			"vpc_id":           "VPC实例ID",
@@ -198,7 +198,7 @@ func resourceTencentCloudRouteEntryRead(d *schema.ResourceData, meta interface{}
 
 	route, ok := routeIdDecode(d.Id())
 	if !ok {
-		return fmt.Errorf("cloud_route_entry read error, id decode faild, id:%v", d.Id())
+		return fmt.Errorf("tencentcloudenterprise_route_entry read error, id decode faild, id:%v", d.Id())
 	}
 
 	err := resource.Retry(readRetryTimeout, func() *resource.RetryError {
@@ -257,7 +257,7 @@ func resourceTencentCloudRouteEntryDelete(d *schema.ResourceData, meta interface
 
 	route, ok := routeIdDecode(d.Id())
 	if !ok {
-		return fmt.Errorf("cloud_route_entry read error, id decode faild, id:%v", d.Id())
+		return fmt.Errorf("tencentcloudenterprise_route_entry read error, id decode faild, id:%v", d.Id())
 	}
 
 	var routeEntryId int64

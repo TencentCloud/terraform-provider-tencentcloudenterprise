@@ -16,10 +16,10 @@ func TestAccTencentCloudNeedFixVpcClassicLinkAttachmentResource_basic(t *testing
 		Steps: []resource.TestStep{
 			{
 				Config: testAccVpcClassicLinkAttachment,
-				Check:  resource.ComposeTestCheckFunc(resource.TestCheckResourceAttrSet("cloud_vpc_classic_link_attachment.classic_link_attachment", "id")),
+				Check:  resource.ComposeTestCheckFunc(resource.TestCheckResourceAttrSet("tencentcloudenterprise_vpc_classic_link_attachment.classic_link_attachment", "id")),
 			},
 			{
-				ResourceName:      "cloud_vpc_classic_link_attachment.classic_link_attachment",
+				ResourceName:      "tencentcloudenterprise_vpc_classic_link_attachment.classic_link_attachment",
 				ImportState:       true,
 				ImportStateVerify: true,
 			},
@@ -29,7 +29,7 @@ func TestAccTencentCloudNeedFixVpcClassicLinkAttachmentResource_basic(t *testing
 
 const testAccVpcClassicLinkAttachment = `
 
-resource "cloud_vpc_classic_link_attachment" "classic_link_attachment" {
+resource "tencentcloudenterprise_vpc_classic_link_attachment" "classic_link_attachment" {
   vpc_id       = "vpc-hdvfe0g1"
   instance_ids = ["ins-ceynqvnu"]
 }

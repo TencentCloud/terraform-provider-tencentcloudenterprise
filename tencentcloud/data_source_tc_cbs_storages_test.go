@@ -17,7 +17,7 @@ func TestAccTencentCloudCbsStoragesDataSourceId(t *testing.T) {
 			{
 				Config: testAccCbsStoragesDataSource,
 				Check: resource.ComposeAggregateTestCheckFunc(
-					testAccCheckStorageExists("cloud_cbs_storage.storage"),
+					testAccCheckStorageExists("tencentcloudenterprise_cbs_storage.storage"),
 					resource.TestCheckResourceAttr("data.cloud_cbs_storages.storages", "storage_list.#", "1"),
 					resource.TestCheckResourceAttrSet("data.cloud_cbs_storages.storages", "storage_list.0.storage_id"),
 					resource.TestCheckResourceAttr("data.cloud_cbs_storages.storages", "storage_list.0.storage_name", "tf-test-storage"),
@@ -55,7 +55,7 @@ func TestAccTencentCloudCbsStoragesDataSourceNewParams(t *testing.T) {
 }
 
 const testAccCbsStoragesDataSource = `
-resource "cloud_cbs_storage" "storage" {
+resource "tencentcloudenterprise_cbs_storage" "storage" {
   storage_type      = "CLOUD_PREMIUM"
   storage_name      = "tf-test-storage"
   storage_size      = 50
@@ -64,13 +64,13 @@ resource "cloud_cbs_storage" "storage" {
   encrypt           = false
 }
 
-data "cloud_cbs_storages" "storages" {
+data "tencentcloudenterprise_cbs_storages" "storages" {
   storage_id = cloud_cbs_storage.storage.id
 }
 `
 
 const testAccCbsStoragesDataSourceNewParams = `
-data "cloud_cbs_storages" "storages" {
+data "tencentcloudenterprise_cbs_storages" "storages" {
   storage_name = "disk-foo"
   charge_type = ["POSTPAID_BY_HOUR", "PREPAID"]
   portable = true

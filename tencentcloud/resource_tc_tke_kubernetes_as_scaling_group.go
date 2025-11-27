@@ -8,7 +8,7 @@ Auto scaling group for kubernetes cluster (offlined).
 ```hcl
 # Use cloud_kubernetes_node_pool instead
 
-	resource "cloud_kubernetes_node_pool" "mynodepool" {
+	resource "tencentcloudenterprise_kubernetes_node_pool" "mynodepool" {
 	  name = "mynodepool"
 	  cluster_id = "cls-xxxxxxxx"
 	  max_size = 6
@@ -65,7 +65,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_tke_kubernetes_as_scaling_group", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_tke_kubernetes_as_scaling_group", CNDescription{
 		TerraformTypeCN: "Kubernetes集群伸缩组",
 		AttributesCN: map[string]string{
 			"cluster_id":                "集群ID",

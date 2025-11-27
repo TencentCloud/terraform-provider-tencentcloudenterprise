@@ -16,7 +16,7 @@ import (
 )
 
 var (
-	testTkeServerlessNodePoolResourceKey = "cloud_kubernetes_serverless_node_pool.pool_example"
+	testTkeServerlessNodePoolResourceKey = "tencentcloudenterprise_kubernetes_serverless_node_pool.pool_example"
 )
 
 const (
@@ -25,8 +25,8 @@ const (
 
 func init() {
 	// go test -v ./tencentcloud -sweep=ap-guangzhou -sweep-run=cloud_serverless_node_pool
-	resource.AddTestSweepers("cloud_serverless_node_pool", &resource.Sweeper{
-		Name: "cloud_serverless_node_pool",
+	resource.AddTestSweepers("tencentcloudenterprise_serverless_node_pool", &resource.Sweeper{
+		Name: "tencentcloudenterprise_serverless_node_pool",
 		F:    testServerlessNodePoolSweep,
 	})
 }
@@ -139,7 +139,7 @@ func testAccCheckServerlessNodePoolDestroy(s *terraform.State) error {
 	}
 
 	for _, rs := range s.RootModule().Resources {
-		if rs.Type != "cloud_kubernetes_serverless_node_pool" {
+		if rs.Type != "tencentcloudenterprise_kubernetes_serverless_node_pool" {
 			continue
 		}
 		respNodePool, has, err := tkeService.DescribeServerlessNodePoolByClusterIdAndNodePoolId(ctx, tkeClusterId, rs.Primary.ID)
@@ -176,19 +176,19 @@ func getTestAccTkeServerlessNodePoolUpdateConfig(clusterId string) string {
 
 const (
 	testAccTkeServerlessNodePoolTemplate = `
-data "cloud_tke_kubernetes_clusters" "existed_cluster" {
+data "tencentcloudenterprise_tke_kubernetes_clusters" "existed_cluster" {
   cluster_id = "%s"
 }
 
-data "cloud_vpc_security_groups" "sg" {
+data "tencentcloudenterprise_vpc_security_groups" "sg" {
   name = "default"
 }
 
-data "cloud_vpc_instances" "vpc_cluster" {
+data "tencentcloudenterprise_vpc_instances" "vpc_cluster" {
   vpc_id = data.cloud_tke_kubernetes_clusters.existed_cluster.list.0.vpc_id
 }
 
-resource "cloud_kubernetes_serverless_node_pool" "pool_example" {
+resource "tencentcloudenterprise_kubernetes_serverless_node_pool" "pool_example" {
   cluster_id = data.cloud_tke_kubernetes_clusters.existed_cluster.list.0.cluster_id
   name = "hello-world"
   serverless_nodes {
@@ -208,19 +208,19 @@ resource "cloud_kubernetes_serverless_node_pool" "pool_example" {
 `
 
 	testAccTkeServerlessNodePoolUpdateTemplate = `
-data "cloud_tke_kubernetes_clusters" "existed_cluster" {
+data "tencentcloudenterprise_tke_kubernetes_clusters" "existed_cluster" {
   cluster_id = "%s"
 }
 
-data "cloud_vpc_security_groups" "sg" {
+data "tencentcloudenterprise_vpc_security_groups" "sg" {
   name = "default"
 }
 
-data "cloud_vpc_instances" "vpc_cluster" {
+data "tencentcloudenterprise_vpc_instances" "vpc_cluster" {
   vpc_id = data.cloud_tke_kubernetes_clusters.existed_cluster.list.0.vpc_id
 }
 
-resource "cloud_kubernetes_serverless_node_pool" "pool_example" {
+resource "tencentcloudenterprise_kubernetes_serverless_node_pool" "pool_example" {
   cluster_id = data.cloud_tke_kubernetes_clusters.existed_cluster.list.0.cluster_id
   name = "hello-world-2"
   serverless_nodes {

@@ -7,7 +7,7 @@ Use this data source to query detailed information of security group.
 
 ```hcl
 
-	data "cloud_vpc_security_group" "sglab" {
+	data "tencentcloudenterprise_vpc_security_group" "sglab" {
 	  security_group_id = cloud_vpc_security_group.sglab.id
 	}
 

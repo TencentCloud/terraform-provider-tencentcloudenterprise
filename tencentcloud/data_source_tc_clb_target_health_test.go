@@ -24,7 +24,7 @@ func TestAccTencentCloudClbTargetHealthDataSource_basic(t *testing.T) {
 
 const testAccClbTargetHealthDataSource = `
 
-data "cloud_clb_target_health" "target_health" {
+data "tencentcloudenterprise_clb_target_health" "target_health" {
   load_balancer_ids = ["lb-5dnrkgry"]
 }
 `

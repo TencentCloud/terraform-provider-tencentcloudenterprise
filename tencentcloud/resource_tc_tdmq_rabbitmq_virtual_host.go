@@ -14,7 +14,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_tdmq_rabbitmq_virtual_host", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_tdmq_rabbitmq_virtual_host", CNDescription{
 		TerraformTypeCN: "TDMQ RabbitMQ虚拟主机",
 		DescriptionCN:   "提供TDMQ RabbitMQ虚拟主机资源，用于创建和管理TDMQ RabbitMQ虚拟主机。",
 		AttributesCN: map[string]string{

@@ -7,7 +7,7 @@ Provides a resource to create a tbase instance.
 
 ```hcl
 
-	resource "cloud_tbase_pg_instance_vip" "foo" {
+	resource "tencentcloudenterprise_tbase_pg_instance_vip" "foo" {
 	  instance_id = cloud_tbase_pg_instance.example.id
 	  uniq_subnet_id = "subnet-38oi34ta"
 	  uniq_vpc_id = "vpc-cs6ffr73"
@@ -34,7 +34,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_tbase_pg_instance_vip", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_tbase_pg_instance_vip", CNDescription{
 		TerraformTypeCN: "PGSQL实例只读vip",
 		DescriptionCN:   "提供TBase PostgreSQL实例只读VIP资源，用于创建和管理PostgreSQL实例的只读VIP。",
 		AttributesCN: map[string]string{

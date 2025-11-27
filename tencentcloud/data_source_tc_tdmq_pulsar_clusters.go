@@ -11,7 +11,7 @@ import (
 )
 
 func init() {
-	registerDataDescriptionProvider("cloud_tdmq_pulsar_clusters", CNDescription{
+	registerDataDescriptionProvider("tencentcloudenterprise_tdmq_pulsar_clusters", CNDescription{
 		TerraformTypeCN: "pulsar集群",
 		DescriptionCN:   "提供TDMQ Pulsar集群数据源，用于查询TDMQ Pulsar集群的详细信息。",
 		AttributesCN: map[string]string{

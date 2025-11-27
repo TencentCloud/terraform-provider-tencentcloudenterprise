@@ -24,7 +24,7 @@ func TestAccTencentCloudVpcResourceDashboardDataSource_basic(t *testing.T) {
 
 const testAccVpcResourceDashboardDataSource = `
 
-data "cloud_vpc_resource_dashboard" "resource_dashboard" {
+data "tencentcloudenterprise_vpc_resource_dashboard" "resource_dashboard" {
   vpc_ids = ["vpc-4owdpnwr"]
 }
 

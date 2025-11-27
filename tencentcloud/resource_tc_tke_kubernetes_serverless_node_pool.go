@@ -4,7 +4,7 @@ Provide a resource to create serverless node pool of cluster.
 Example Usage
 ```
 
-	resource "cloud_kubernetes_serverless_node_pool" "example_serverless_node_pool" {
+	resource "tencentcloudenterprise_kubernetes_serverless_node_pool" "example_serverless_node_pool" {
 	  cluster_id = cloud_tke_kubernetes_cluster.example.id
 	  name               = "example_node_pool"
 	  serverless_nodes {
@@ -47,7 +47,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_tke_kubernetes_serverless_node_pool", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_tke_kubernetes_serverless_node_pool", CNDescription{
 		TerraformTypeCN: "serverless虚拟节点池",
 		DescriptionCN:   "提供Serverless虚拟节点池资源，用于创建和管理无服务器节点池。",
 		AttributesCN: map[string]string{

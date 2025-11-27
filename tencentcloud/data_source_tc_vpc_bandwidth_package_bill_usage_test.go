@@ -24,7 +24,7 @@ func TestAccTencentCloudVpcBandwidthPackageBillUsageDataSource_basic(t *testing.
 
 const testAccVpcBandwidthPackageBillUsageDataSource = `
 
-resource "cloud_vpc_bandwidth_package" "bandwidth_package" {
+resource "tencentcloudenterprise_vpc_bandwidth_package" "bandwidth_package" {
   network_type            = "BGP"
   charge_type             = "TOP5_POSTPAID_BY_MONTH"
   bandwidth_package_name  = "iac-test-data"
@@ -33,7 +33,7 @@ resource "cloud_vpc_bandwidth_package" "bandwidth_package" {
   }
 }
 
-data "cloud_vpc_bandwidth_package_bill_usage" "bandwidth_package_bill_usage" {
+data "tencentcloudenterprise_vpc_bandwidth_package_bill_usage" "bandwidth_package_bill_usage" {
   bandwidth_package_id =  cloud_vpc_bandwidth_package.bandwidth_package.id
 }
 

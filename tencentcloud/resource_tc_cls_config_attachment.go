@@ -5,7 +5,7 @@ Provides a resource to create a cls config attachment
 
 ```hcl
 
-	resource "cloud_cls_config_attachment" "attach" {
+	resource "tencentcloudenterprise_cls_config_attachment" "attach" {
 	  config_id = cloud_cls_config.config.id
 	  group_id = "27752a9b-9918-440a-8ee7-9c84a14a47ed"
 	}
@@ -35,7 +35,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_cls_config_attachment", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_cls_config_attachment", CNDescription{
 		TerraformTypeCN: "CLS采集配置绑定",
 		DescriptionCN:   "提供CLS采集配置绑定资源，用于将采集配置绑定到机器组。",
 		AttributesCN: map[string]string{

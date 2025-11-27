@@ -5,7 +5,7 @@ Use this data source to query cvm instances modification.
 
 ```hcl
 
-	data "cloud_cvm_instances_modification" "foo" {
+	data "tencentcloudenterprise_cvm_instances_modification" "foo" {
 	  instance_ids = ["ins-xxxxxxx"]
 	}
 
@@ -23,7 +23,7 @@ import (
 )
 
 func init() {
-	registerDataDescriptionProvider("cloud_cvm_instances_modification", CNDescription{
+	registerDataDescriptionProvider("tencentcloudenterprise_cvm_instances_modification", CNDescription{
 		TerraformTypeCN: "可调整配置机型的信息",
 		DescriptionCN:   "提供CVM实例可调整配置机型信息数据源，用于查询实例可调整的配置信息。",
 		AttributesCN: map[string]string{

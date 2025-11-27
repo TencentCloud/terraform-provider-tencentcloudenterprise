@@ -16,10 +16,10 @@ func TestAccTencentCloudVpcEniSgAttachmentResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			{
 				Config: testAccVpcEniSgAttachment,
-				Check:  resource.ComposeTestCheckFunc(resource.TestCheckResourceAttrSet("cloud_vpc_eni_sg_attachment.eni_sg_attachment", "id")),
+				Check:  resource.ComposeTestCheckFunc(resource.TestCheckResourceAttrSet("tencentcloudenterprise_vpc_eni_sg_attachment.eni_sg_attachment", "id")),
 			},
 			{
-				ResourceName:      "cloud_vpc_eni_sg_attachment.eni_sg_attachment",
+				ResourceName:      "tencentcloudenterprise_vpc_eni_sg_attachment.eni_sg_attachment",
 				ImportState:       true,
 				ImportStateVerify: true,
 			},
@@ -29,7 +29,7 @@ func TestAccTencentCloudVpcEniSgAttachmentResource_basic(t *testing.T) {
 
 const testAccVpcEniSgAttachment = `
 
-resource "cloud_vpc_eni_sg_attachment" "eni_sg_attachment" {
+resource "tencentcloudenterprise_vpc_eni_sg_attachment" "eni_sg_attachment" {
   network_interface_ids = ["eni-p0hkgx8p"]
   security_group_ids    = ["sg-902tl7t7", "sg-edmur627"]
 }

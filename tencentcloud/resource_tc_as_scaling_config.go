@@ -7,7 +7,7 @@ Provides a resource to create a configuration for an AS (Auto scaling) instance.
 
 ```hcl
 
-	resource "cloud_as_scaling_config" "launch_configuration" {
+	resource "tencentcloudenterprise_as_scaling_config" "launch_configuration" {
 	  configuration_name = "launch-configuration"
 	  image_id           = "img-9qabwvbn"
 	  instance_types     = ["SA1.SMALL1"]
@@ -38,7 +38,7 @@ Provides a resource to create a configuration for an AS (Auto scaling) instance.
 Using SPOT charge type
 ```
 
-	resource "cloud_as_scaling_config" "launch_configuration" {
+	resource "tencentcloudenterprise_as_scaling_config" "launch_configuration" {
 	  configuration_name = "launch-configuration"
 	  image_id           = "img-9qabwvbn"
 	  instance_types     = ["SA1.SMALL1"]
@@ -71,7 +71,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_as_scaling_config", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_as_scaling_config", CNDescription{
 		TerraformTypeCN: "as启动配置",
 		DescriptionCN:   "提供自动伸缩启动配置资源，用于创建和管理AS实例的启动配置。",
 		AttributesCN: map[string]string{

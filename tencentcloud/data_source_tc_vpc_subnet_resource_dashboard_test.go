@@ -24,7 +24,7 @@ func TestAccTencentCloudVpcSubnetResourceDashboardDataSource_basic(t *testing.T)
 
 const testAccVpcSubnetResourceDashboardDataSource = `
 
-data "cloud_vpc_subnet_resource_dashboard" "subnet_resource_dashboard" {
+data "tencentcloudenterprise_vpc_subnet_resource_dashboard" "subnet_resource_dashboard" {
   subnet_ids = ["subnet-i9tpf6hq"]
 }
 

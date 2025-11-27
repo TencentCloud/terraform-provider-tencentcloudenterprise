@@ -26,12 +26,12 @@ func TestAccTencentCloudTdmqRocketmqTopicDataSource(t *testing.T) {
 
 const testAccDataSourceTdmqRocketmqTopic = `
 
-resource "cloud_tdmq_rocketmq_cluster" "cluster" {
+resource "tencentcloudenterprise_tdmq_rocketmq_cluster" "cluster" {
 	cluster_name = "test_rocketmq_datasource_topic"
 	remark = "test recket mq"
 }
 
-resource "cloud_tdmq_rocketmq_namespace" "namespace" {
+resource "tencentcloudenterprise_tdmq_rocketmq_namespace" "namespace" {
 	cluster_id = cloud_tdmq_rocketmq_cluster.cluster.cluster_id
 	namespace_name = "test_namespace_datasource_topic"
 	ttl = 65000
@@ -39,7 +39,7 @@ resource "cloud_tdmq_rocketmq_namespace" "namespace" {
 	remark = "test namespace"
   }
   
-  resource "cloud_tdmq_rocketmq_topic" "topic" {
+  resource "tencentcloudenterprise_tdmq_rocketmq_topic" "topic" {
 	topic_name = "test_rocketmq_topic"
 	namespace_name = cloud_tdmq_rocketmq_namespace.namespace.namespace_name
 	type = "Normal"
@@ -47,7 +47,7 @@ resource "cloud_tdmq_rocketmq_namespace" "namespace" {
 	remark = "test rocketmq topic"
   }
   
-  data "cloud_tdmq_rocketmq_topic" "topic" {
+  data "tencentcloudenterprise_tdmq_rocketmq_topic" "topic" {
 	cluster_id = cloud_tdmq_rocketmq_cluster.cluster.cluster_id
 	namespace_id = cloud_tdmq_rocketmq_namespace.namespace.namespace_name
 	filter_name = cloud_tdmq_rocketmq_topic.topic.topic_name

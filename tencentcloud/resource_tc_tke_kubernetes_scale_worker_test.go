@@ -12,13 +12,13 @@ import (
 	"terraform-provider-tencentcloudenterprise/sdk/common/errors"
 )
 
-var testTkeScaleWorkerResourceName = "cloud_tke_kubernetes_scale_worker"
+var testTkeScaleWorkerResourceName = "tencentcloudenterprise_tke_kubernetes_scale_worker"
 var testTkeScaleWorkerResourceKey = testTkeScaleWorkerResourceName + ".test_scale"
 
 func init() {
 	// go test -v ./tencentcloud -sweep=ap-guangzhou -sweep-run=cloud_tke_kubernetes_scale_worker
-	resource.AddTestSweepers("cloud_tke_kubernetes_scale_worker", &resource.Sweeper{
-		Name: "cloud_tke_kubernetes_scale_worker",
+	resource.AddTestSweepers("tencentcloudenterprise_tke_kubernetes_scale_worker", &resource.Sweeper{
+		Name: "tencentcloudenterprise_tke_kubernetes_scale_worker",
 		F: func(r string) error {
 			logId := getLogId(contextNil)
 			ctx := context.WithValue(context.TODO(), logIdKey, logId)

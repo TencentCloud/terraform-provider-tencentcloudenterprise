@@ -4,7 +4,7 @@ Provides a resource to create a cfs sign_up_cfs_service
 # Example Usage
 
 ```hcl
-resource "cloud_cfs_sign_up_cfs_service" "sign_up_cfs_service" {}
+resource "tencentcloudenterprise_cfs_sign_up_cfs_service" "sign_up_cfs_service" {}
 ```
 */
 package tencentcloud
@@ -18,7 +18,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_cfs_sign_up_cfs_service", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_cfs_sign_up_cfs_service", CNDescription{
 		TerraformTypeCN: "开通CFS服务",
 		DescriptionCN:   "提供CFS服务开通资源，用于开通CFS服务。",
 		AttributesCN: map[string]string{

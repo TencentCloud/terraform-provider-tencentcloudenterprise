@@ -16,8 +16,8 @@ import (
 )
 
 func init() {
-	resource.AddTestSweepers("cloud_vpc_ha_vip", &resource.Sweeper{
-		Name: "cloud_vpc_ha_vip",
+	resource.AddTestSweepers("tencentcloudenterprise_vpc_ha_vip", &resource.Sweeper{
+		Name: "tencentcloudenterprise_vpc_ha_vip",
 		F:    testSweepHaVipInstance,
 	})
 }
@@ -75,25 +75,25 @@ func TestAccTencentCloudHaVip_basic(t *testing.T) {
 			{
 				Config: testAccHaVipConfig,
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckHaVipExists("cloud_vpc_ha_vip.havip"),
-					resource.TestCheckResourceAttr("cloud_vpc_ha_vip.havip", "name", "terraform_test"),
-					resource.TestCheckResourceAttrSet("cloud_vpc_ha_vip.havip", "vpc_id"),
-					resource.TestCheckResourceAttrSet("cloud_vpc_ha_vip.havip", "subnet_id"),
-					resource.TestCheckResourceAttrSet("cloud_vpc_ha_vip.havip", "vip"),
-					resource.TestCheckResourceAttrSet("cloud_vpc_ha_vip.havip", "state"),
-					resource.TestCheckResourceAttrSet("cloud_vpc_ha_vip.havip", "create_time"),
+					testAccCheckHaVipExists("tencentcloudenterprise_vpc_ha_vip.havip"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_vpc_ha_vip.havip", "name", "terraform_test"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_vpc_ha_vip.havip", "vpc_id"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_vpc_ha_vip.havip", "subnet_id"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_vpc_ha_vip.havip", "vip"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_vpc_ha_vip.havip", "state"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_vpc_ha_vip.havip", "create_time"),
 				),
 			},
 			{
 				Config: testAccHaVipConfigUpdate,
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckHaVipExists("cloud_vpc_ha_vip.havip"),
-					resource.TestCheckResourceAttr("cloud_vpc_ha_vip.havip", "name", "terraform_update"),
-					resource.TestCheckResourceAttrSet("cloud_vpc_ha_vip.havip", "vpc_id"),
-					resource.TestCheckResourceAttrSet("cloud_vpc_ha_vip.havip", "subnet_id"),
-					resource.TestCheckResourceAttrSet("cloud_vpc_ha_vip.havip", "vip"),
-					resource.TestCheckResourceAttrSet("cloud_vpc_ha_vip.havip", "state"),
-					resource.TestCheckResourceAttrSet("cloud_vpc_ha_vip.havip", "create_time"),
+					testAccCheckHaVipExists("tencentcloudenterprise_vpc_ha_vip.havip"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_vpc_ha_vip.havip", "name", "terraform_update"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_vpc_ha_vip.havip", "vpc_id"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_vpc_ha_vip.havip", "subnet_id"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_vpc_ha_vip.havip", "vip"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_vpc_ha_vip.havip", "state"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_vpc_ha_vip.havip", "create_time"),
 				),
 			},
 		},
@@ -110,13 +110,13 @@ func TestAccTencentCloudHaVip_assigned(t *testing.T) {
 			{
 				Config: testAccHaVipConfigAssigned,
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckHaVipExists("cloud_vpc_ha_vip.havip"),
-					resource.TestCheckResourceAttr("cloud_vpc_ha_vip.havip", "name", "terraform_test"),
-					resource.TestCheckResourceAttrSet("cloud_vpc_ha_vip.havip", "vpc_id"),
-					resource.TestCheckResourceAttrSet("cloud_vpc_ha_vip.havip", "subnet_id"),
-					resource.TestCheckResourceAttrSet("cloud_vpc_ha_vip.havip", "vip"),
-					resource.TestCheckResourceAttrSet("cloud_vpc_ha_vip.havip", "state"),
-					resource.TestCheckResourceAttrSet("cloud_vpc_ha_vip.havip", "create_time"),
+					testAccCheckHaVipExists("tencentcloudenterprise_vpc_ha_vip.havip"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_vpc_ha_vip.havip", "name", "terraform_test"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_vpc_ha_vip.havip", "vpc_id"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_vpc_ha_vip.havip", "subnet_id"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_vpc_ha_vip.havip", "vip"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_vpc_ha_vip.havip", "state"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_vpc_ha_vip.havip", "create_time"),
 				),
 			},
 		},
@@ -128,7 +128,7 @@ func testAccCheckHaVipDestroy(s *terraform.State) error {
 
 	conn := testAccProvider.Meta().(*TencentCloudClient).apiV3Conn
 	for _, rs := range s.RootModule().Resources {
-		if rs.Type != "cloud_vpc_ha_vip" {
+		if rs.Type != "tencentcloudenterprise_vpc_ha_vip" {
 			continue
 		}
 		request := vpc.NewDescribeHaVipsRequest()
@@ -207,14 +207,14 @@ func testAccCheckHaVipExists(n string) resource.TestCheckFunc {
 }
 
 const testAccHaVipConfig = defaultVpcVariable + `
-resource "cloud_vpc_ha_vip" "havip" {
+resource "tencentcloudenterprise_vpc_ha_vip" "havip" {
   name      = "terraform_test"
   vpc_id    = var.vpc_id
   subnet_id = var.subnet_id
 }
 `
 const testAccHaVipConfigUpdate = defaultVpcVariable + `
-resource "cloud_vpc_ha_vip" "havip" {
+resource "tencentcloudenterprise_vpc_ha_vip" "havip" {
   name      = "terraform_update"
   vpc_id    = var.vpc_id
   subnet_id = var.subnet_id
@@ -222,7 +222,7 @@ resource "cloud_vpc_ha_vip" "havip" {
 `
 
 const testAccHaVipConfigAssigned = defaultVpcVariable + `
-resource "cloud_vpc_ha_vip" "havip" {
+resource "tencentcloudenterprise_vpc_ha_vip" "havip" {
   name      = "terraform_test"
   vpc_id    = var.vpc_id
   subnet_id = var.subnet_id

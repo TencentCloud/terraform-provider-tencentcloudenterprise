@@ -4,7 +4,7 @@ Use this data source to query detailed information of kubernetes cluster addons.
 # Example Usage
 
 ```hcl
-data "cloud_tke_kubernetes_charts" "name" {}
+data "tencentcloudenterprise_tke_kubernetes_charts" "name" {}
 ```
 */
 package tencentcloud
@@ -16,7 +16,7 @@ import (
 )
 
 func init() {
-	registerDataDescriptionProvider("cloud_tke_kubernetes_charts", CNDescription{
+	registerDataDescriptionProvider("tencentcloudenterprise_tke_kubernetes_charts", CNDescription{
 		TerraformTypeCN: "集群chart列表",
 		DescriptionCN:   "提供TKE集群Charts数据源，用于查询TKE集群Charts的详细信息。",
 		AttributesCN: map[string]string{

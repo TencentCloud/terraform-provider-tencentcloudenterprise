@@ -4,7 +4,7 @@ Use this data source to query detailed information of vpc account_attributes
 # Example Usage
 
 ```hcl
-data "cloud_vpc_account_attributes" "account_attributes" {}
+data "tencentcloudenterprise_vpc_account_attributes" "account_attributes" {}
 ```
 */
 package tencentcloud
@@ -19,7 +19,7 @@ import (
 )
 
 func init() {
-	registerDataDescriptionProvider("cloud_vpc_account_attributes", CNDescription{
+	registerDataDescriptionProvider("tencentcloudenterprise_vpc_account_attributes", CNDescription{
 		TerraformTypeCN: "用户账号私有属性",
 		DescriptionCN:   "提供VPC账户属性数据源，用于查询VPC账户属性的详细信息。",
 		AttributesCN: map[string]string{

@@ -9,12 +9,12 @@ Provide a resource to create a VPC subnet.
 	  default = "ap-guangzhou-3"
 	}
 
-	resource "cloud_vpc" "foo" {
+	resource "tencentcloudenterprise_vpc" "foo" {
 	  name       = "guagua-ci-temp-test"
 	  cidr_block = "10.0.0.0/16"
 	}
 
-	resource "cloud_vpc_subnet" "subnet" {
+	resource "tencentcloudenterprise_vpc_subnet" "subnet" {
 	  availability_zone = var.availability_zone
 	  name              = "guagua-ci-temp-test"
 	  vpc_id            = cloud_vpc.foo.id
@@ -45,7 +45,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_vpc_subnet", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_vpc_subnet", CNDescription{
 		TerraformTypeCN: "私有网络子网",
 		DescriptionCN:   "提供VPC子网资源，用于创建和管理VPC子网。",
 		AttributesCN: map[string]string{

@@ -5,7 +5,7 @@ Provides a resource to create a dcdb switch_db_instance_ha_operation
 
 ```hcl
 
-	resource "cloud_dcdb_switch_db_instance_ha_operation" "switch_operation" {
+	resource "tencentcloudenterprise_dcdb_switch_db_instance_ha_operation" "switch_operation" {
 	  instance_id = local.dcdb_id
 	  zone = "ap-guangzhou-4" //3 to 4
 	}
@@ -25,7 +25,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_dcdb_switch_db_instance_ha_operation", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_dcdb_switch_db_instance_ha_operation", CNDescription{
 		TerraformTypeCN: "DCN容灾主备切换",
 		DescriptionCN:   "提供DCDB容灾主备切换操作资源，用于执行DCDB实例的主备切换操作。",
 		AttributesCN: map[string]string{

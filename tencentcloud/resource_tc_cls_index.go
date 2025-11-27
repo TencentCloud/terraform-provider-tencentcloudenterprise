@@ -4,7 +4,7 @@ Provides a resource to create a cls index.
 # Example Usage
 
 ```hcl
-resource "cloud_cls_index" "complete_index" {
+resource "tencentcloudenterprise_cls_index" "complete_index" {
 
 	  topic_id       = "a22f98e2-7331-44af-adc3-e21abcac1ae3"
 	  coverage_field = "parse_error_field"
@@ -111,7 +111,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_cls_index", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_cls_index", CNDescription{
 		TerraformTypeCN: "CLS索引配置",
 		DescriptionCN:   "提供CLS索引配置资源，用于创建和管理日志服务索引配置。",
 		AttributesCN: map[string]string{

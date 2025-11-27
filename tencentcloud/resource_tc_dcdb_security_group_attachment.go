@@ -5,7 +5,7 @@ Provides a resource to create a dcdb security_group_attachment
 
 ```hcl
 
-	resource "cloud_dcdb_security_group_attachment" "security_group_attachment" {
+	resource "tencentcloudenterprise_dcdb_security_group_attachment" "security_group_attachment" {
 	  security_group_id = "sg-9s7k6qgw"
 	  instance_id = "tdsqlshard-973xatu3"
 	}
@@ -33,7 +33,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_dcdb_security_group_attachment", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_dcdb_security_group_attachment", CNDescription{
 		TerraformTypeCN: "绑定安全组",
 		DescriptionCN:   "提供DCDB安全组绑定资源，用于将安全组绑定到DCDB实例。",
 		AttributesCN: map[string]string{

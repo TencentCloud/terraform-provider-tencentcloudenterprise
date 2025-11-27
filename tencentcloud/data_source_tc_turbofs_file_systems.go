@@ -5,7 +5,7 @@ Use this data source to query the detail information of TurboFS file systems.
 
 ```hcl
 
-	data "cloud_turbofs_file_systems" "file_systems" {
+	data "tencentcloudenterprise_turbofs_file_systems" "file_systems" {
 	  file_system_id    = "turbofs-6hgquxmj"
 	}
 
@@ -24,7 +24,7 @@ import (
 )
 
 func init() {
-	registerDataDescriptionProvider("cloud_turbofs_file_systems", CNDescription{
+	registerDataDescriptionProvider("tencentcloudenterprise_turbofs_file_systems", CNDescription{
 		TerraformTypeCN: "文件系统信息",
 		DescriptionCN:   "提供TurboFS信息数据源，用于查询TurboFS的详细信息。",
 		AttributesCN: map[string]string{

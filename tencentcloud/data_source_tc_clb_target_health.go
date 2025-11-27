@@ -5,7 +5,7 @@ Use this data source to query detailed information of clb target_health
 
 ```hcl
 
-	data "cloud_clb_target_health" "target_health" {
+	data "tencentcloudenterprise_clb_target_health" "target_health" {
 	  load_balancer_ids = ["lb-5dnrkgry"]
 	}
 
@@ -23,7 +23,7 @@ import (
 )
 
 func init() {
-	registerDataDescriptionProvider("cloud_clb_target_health", CNDescription{
+	registerDataDescriptionProvider("tencentcloudenterprise_clb_target_health", CNDescription{
 		TerraformTypeCN: "负载均衡后端服务的健康检查",
 		DescriptionCN:   "提供负载均衡后端服务健康检查数据源，用于查询CLB后端服务的健康状态信息。",
 		AttributesCN: map[string]string{

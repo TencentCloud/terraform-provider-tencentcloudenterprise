@@ -1,4 +1,4 @@
-resource "cloud_ckafka_instance" "ckafka" {
+resource "tencentcloudenterprise_ckafka_instance" "ckafka" {
   instance_name = "test_create_ckafka"
   zone_id  = 50010001
   cluster_id = 1

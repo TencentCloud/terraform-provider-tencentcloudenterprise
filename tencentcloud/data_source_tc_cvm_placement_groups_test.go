@@ -16,7 +16,7 @@ func TestAccTencentCloudPlacementGroupsDataSource(t *testing.T) {
 			{
 				Config: testAccPlacementGroupDataSource,
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckPlacementGroupExists("cloud_bms_placement_group.placement"),
+					testAccCheckPlacementGroupExists("tencentcloudenterprise_bms_placement_group.placement"),
 					resource.TestCheckResourceAttr("data.cloud_cvm_placement_groups.data_placement", "placement_group_list.#", "1"),
 					resource.TestCheckResourceAttrSet("data.cloud_cvm_placement_groups.data_placement", "placement_group_list.0.placement_group_id"),
 					resource.TestCheckResourceAttr("data.cloud_cvm_placement_groups.data_placement", "placement_group_list.0.name", "tf-test-placement"),
@@ -28,12 +28,12 @@ func TestAccTencentCloudPlacementGroupsDataSource(t *testing.T) {
 }
 
 const testAccPlacementGroupDataSource = `
-resource "cloud_bms_placement_group" "placement" {
+resource "tencentcloudenterprise_bms_placement_group" "placement" {
   name = "tf-test-placement"
   type = "HOST"
 }
 
-data "cloud_cvm_placement_groups" "data_placement" {
+data "tencentcloudenterprise_cvm_placement_groups" "data_placement" {
   placement_group_id = cloud_bms_placement_group.placement.id
 }
 `

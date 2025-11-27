@@ -5,7 +5,7 @@ Use this data source to query placement groups.
 
 ```hcl
 
-	data "cloud_cvm_placement_groups" "foo" {
+	data "tencentcloudenterprise_cvm_placement_groups" "foo" {
 	  placement_group_id = "ps-21q9ibvr"
 	  name               = "test"
 	}
@@ -26,7 +26,7 @@ import (
 
 func init() {
 	// 注册资源中文描述提供者映射
-	registerDataDescriptionProvider("cloud_cvm_placement_groups", CNDescription{
+	registerDataDescriptionProvider("tencentcloudenterprise_cvm_placement_groups", CNDescription{
 		TerraformTypeCN: "分散置放群组列表",
 		DescriptionCN:   "提供分散置放群组列表数据源，用于查询置放群组信息。",
 		AttributesCN: map[string]string{

@@ -5,7 +5,7 @@ Provides a resource to create a as remove_instances
 
 ```hcl
 
-	resource "cloud_as_remove_instances" "remove_instances" {
+	resource "tencentcloudenterprise_as_remove_instances" "remove_instances" {
 	  auto_scaling_group_id = cloud_as_scaling_group.scaling_group.id
 	  instance_ids = ["ins-xxxxxx"]
 	}
@@ -24,7 +24,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_as_remove_instances", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_as_remove_instances", CNDescription{
 		TerraformTypeCN: "自动伸缩组移除实例",
 		DescriptionCN:   "提供自动伸缩移除实例资源，用于创建和管理AS移除实例。",
 		AttributesCN: map[string]string{

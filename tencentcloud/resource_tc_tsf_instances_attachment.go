@@ -5,7 +5,7 @@ Provides a resource to create a tsf instances_attachment
 
 ```hcl
 
-	resource "cloud_tsf_instances_attachment" "instances_attachment" {
+	resource "tencentcloudenterprise_tsf_instances_attachment" "instances_attachment" {
 		cluster_id = "cluster-zvw7jwy8"
 		instance_id = "ins-j7za7rwo"
 		image_id = "img-3y126h0t"
@@ -30,7 +30,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_tsf_instances_attachment", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_tsf_instances_attachment", CNDescription{
 		TerraformTypeCN: "导入云主机",
 		DescriptionCN:   "提供TSF导入云主机资源，用于导入云主机。",
 		AttributesCN: map[string]string{

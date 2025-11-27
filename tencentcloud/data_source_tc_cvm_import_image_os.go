@@ -4,7 +4,7 @@ Use this data source to query detailed information of cvm import_image_os
 # Example Usage
 
 ```hcl
-data "cloud_cvm_import_image_os" "import_image_os" {
+data "tencentcloudenterprise_cvm_import_image_os" "import_image_os" {
 }
 ```
 */
@@ -21,7 +21,7 @@ import (
 
 func init() {
 	// 注册资源中文描述提供者映射
-	registerDataDescriptionProvider("cloud_cvm_import_image_os", CNDescription{
+	registerDataDescriptionProvider("tencentcloudenterprise_cvm_import_image_os", CNDescription{
 		TerraformTypeCN: "CVM 导入镜像支持的操作系统",
 		AttributesCN: map[string]string{
 			"import_image_os_list_supported": "导入镜像支持的操作系统类型",

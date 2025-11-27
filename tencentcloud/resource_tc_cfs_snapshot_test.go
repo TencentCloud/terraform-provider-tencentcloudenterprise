@@ -16,10 +16,10 @@ func TestAccTencentCloudCfsSnapshotResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			{
 				Config: testAccCfsSnapshot,
-				Check:  resource.ComposeTestCheckFunc(resource.TestCheckResourceAttrSet("cloud_cfs_snapshot.snapshot", "id")),
+				Check:  resource.ComposeTestCheckFunc(resource.TestCheckResourceAttrSet("tencentcloudenterprise_cfs_snapshot.snapshot", "id")),
 			},
 			{
-				ResourceName:      "cloud_cfs_snapshot.snapshot",
+				ResourceName:      "tencentcloudenterprise_cfs_snapshot.snapshot",
 				ImportState:       true,
 				ImportStateVerify: true,
 			},
@@ -29,7 +29,7 @@ func TestAccTencentCloudCfsSnapshotResource_basic(t *testing.T) {
 
 const testAccCfsSnapshot = `
 
-resource "cloud_cfs_snapshot" "snapshot" {
+resource "tencentcloudenterprise_cfs_snapshot" "snapshot" {
   file_system_id = "cfs-iobiaxtj"
   snapshot_name = "test"
   tags = {

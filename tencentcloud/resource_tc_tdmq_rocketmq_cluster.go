@@ -5,7 +5,7 @@ Provides a resource to create a tdmqRocketmq cluster
 
 ```hcl
 
-	resource "cloud_tdmq_rocketmq_cluster" "cluster" {
+	resource "tencentcloudenterprise_tdmq_rocketmq_cluster" "cluster" {
 		cluster_name = "test_rocketmq"
 		remark = "test rocket mq"
 	}
@@ -32,7 +32,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_tdmq_rocketmq_cluster", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_tdmq_rocketmq_cluster", CNDescription{
 		TerraformTypeCN: "Rocketmq 集群",
 		DescriptionCN:   "提供Rocketmq集群资源，用于创建和管理Rocketmq集群。",
 		AttributesCN: map[string]string{

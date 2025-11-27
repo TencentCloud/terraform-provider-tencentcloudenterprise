@@ -13,7 +13,7 @@ import (
 
 func TestAccTencentCloudTdmqRocketmqClusterResource_basic(t *testing.T) {
 	t.Parallel()
-	terraformId := "cloud_tdmq_rocketmq_cluster.cluster"
+	terraformId := "tencentcloudenterprise_tdmq_rocketmq_cluster.cluster"
 	resource.Test(t, resource.TestCase{
 		PreCheck:     func() { testAccPreCheck(t) },
 		Providers:    testAccProviders,
@@ -38,7 +38,7 @@ func TestAccTencentCloudTdmqRocketmqClusterResource_basic(t *testing.T) {
 				),
 			},
 			{
-				ResourceName:      "cloud_tdmq_rocketmq_cluster.cluster",
+				ResourceName:      "tencentcloudenterprise_tdmq_rocketmq_cluster.cluster",
 				ImportState:       true,
 				ImportStateVerify: true,
 			},
@@ -52,7 +52,7 @@ func testAccCheckTdmqRocketmqClusterDestroy(s *terraform.State) error {
 
 	service := TdmqRocketmqService{client: testAccProvider.Meta().(*TencentCloudClient).apiV3Conn}
 	for _, rs := range s.RootModule().Resources {
-		if rs.Type != "cloud_tdmq_rocketmq_cluster" {
+		if rs.Type != "tencentcloudenterprise_tdmq_rocketmq_cluster" {
 			continue
 		}
 		log.Printf("destroy id: %v", rs.Primary.ID)
@@ -104,13 +104,13 @@ func testAccCheckTdmqRocketmqClusterExists(re string) resource.TestCheckFunc {
 }
 
 const testAccTdmqRocketmqCluster = `
-resource "cloud_tdmq_rocketmq_cluster" "cluster" {
+resource "tencentcloudenterprise_tdmq_rocketmq_cluster" "cluster" {
 	cluster_name = "test_rocketmq"
 	remark = "test rocket mq"
 }
 `
 const testAccTdmqRocketmqClusterUpdate = `
-resource "cloud_tdmq_rocketmq_cluster" "cluster" {
+resource "tencentcloudenterprise_tdmq_rocketmq_cluster" "cluster" {
 	cluster_name = "test_rocketmq_update"
 	remark = "test rocket update"
 }

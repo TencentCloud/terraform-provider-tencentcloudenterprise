@@ -5,7 +5,7 @@ Provides a CBS storage set attachment resource.
 
 ```hcl
 
-	resource "cloud_cbs_storage_set_attachment" "attachment" {
+	resource "tencentcloudenterprise_cbs_storage_set_attachment" "attachment" {
 	  storage_id  = "disk-kdt0sq6m"
 	  instance_id = "ins-jqlegd42"
 	}
@@ -28,7 +28,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_cbs_storage_set_attachment", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_cbs_storage_set_attachment", CNDescription{
 		TerraformTypeCN: "批量云硬盘挂载",
 		AttributesCN: map[string]string{
 			"storage_id":  "云硬盘ID",

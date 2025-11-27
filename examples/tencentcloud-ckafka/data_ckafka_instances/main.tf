@@ -1,4 +1,4 @@
-data "cloud_ckafka_instances" "get_instances" {
+data "tencentcloudenterprise_ckafka_instances" "get_instances" {
   search_word = "test"
   tag_key = "ckafka"
   status = [1]

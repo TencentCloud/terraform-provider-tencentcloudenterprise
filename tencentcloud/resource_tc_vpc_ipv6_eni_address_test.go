@@ -16,10 +16,10 @@ func TestAccTencentCloudVpcIpv6EniAddressResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			{
 				Config: testAccVpcIpv6EniAddress,
-				Check:  resource.ComposeTestCheckFunc(resource.TestCheckResourceAttrSet("cloud_vpc_ipv6_eni_address.ipv6_eni_address", "id")),
+				Check:  resource.ComposeTestCheckFunc(resource.TestCheckResourceAttrSet("tencentcloudenterprise_vpc_ipv6_eni_address.ipv6_eni_address", "id")),
 			},
 			{
-				ResourceName:      "cloud_vpc_ipv6_eni_address.ipv6_eni_address",
+				ResourceName:      "tencentcloudenterprise_vpc_ipv6_eni_address.ipv6_eni_address",
 				ImportState:       true,
 				ImportStateVerify: true,
 			},
@@ -29,7 +29,7 @@ func TestAccTencentCloudVpcIpv6EniAddressResource_basic(t *testing.T) {
 
 const testAccVpcIpv6EniAddress = `
 
-resource "cloud_vpc_ipv6_eni_address" "ipv6_eni_address" {
+resource "tencentcloudenterprise_vpc_ipv6_eni_address" "ipv6_eni_address" {
   vpc_id = ""
   network_interface_id = ""
   ipv6_addresses {

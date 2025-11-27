@@ -24,7 +24,7 @@ func TestAccTencentCloudNeedFixVpcNetDetectStatesDataSource_basic(t *testing.T) 
 
 const testAccVpcNetDetectStatesDataSource = `
 
-data "cloud_vpc_net_detect_states" "net_detect_states" {
+data "tencentcloudenterprise_vpc_net_detect_states" "net_detect_states" {
   net_detect_ids = ["netd-12345678"]
 }
 

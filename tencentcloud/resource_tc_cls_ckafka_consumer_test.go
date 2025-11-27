@@ -16,10 +16,10 @@ func TestAccTencentCloudNeedFixClsCkafkaConsumerResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			{
 				Config: testAccClsCkafkaConsumer,
-				Check:  resource.ComposeTestCheckFunc(resource.TestCheckResourceAttrSet("cloud_cls_ckafka_consumer.ckafka_consumer", "id")),
+				Check:  resource.ComposeTestCheckFunc(resource.TestCheckResourceAttrSet("tencentcloudenterprise_cls_ckafka_consumer.ckafka_consumer", "id")),
 			},
 			{
-				ResourceName:      "cloud_cls_ckafka_consumer.ckafka_consumer",
+				ResourceName:      "tencentcloudenterprise_cls_ckafka_consumer.ckafka_consumer",
 				ImportState:       true,
 				ImportStateVerify: true,
 			},
@@ -29,7 +29,7 @@ func TestAccTencentCloudNeedFixClsCkafkaConsumerResource_basic(t *testing.T) {
 
 const testAccClsCkafkaConsumer = `
 
-resource "cloud_cls_ckafka_consumer" "ckafka_consumer" {
+resource "tencentcloudenterprise_cls_ckafka_consumer" "ckafka_consumer" {
   compression  = 1
   need_content = true
   topic_id     = "7e34a3a7-635e-4da8-9005-88106c1fde69"

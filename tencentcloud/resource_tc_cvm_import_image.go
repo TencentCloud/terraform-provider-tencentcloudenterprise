@@ -5,7 +5,7 @@ Provides a resource to create a cvm import_image
 
 ```hcl
 
-	resource "cloud_cvm_import_image" "import_image" {
+	resource "tencentcloudenterprise_cvm_import_image" "import_image" {
 	  architecture = "x86_64"
 	  os_type = "CentOS"
 	  os_version = "7"

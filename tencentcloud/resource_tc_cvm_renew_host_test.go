@@ -16,10 +16,10 @@ func TestAccTencentCloudNeedFixCvmRenewHostResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			{
 				Config: testAccCvmRenewHost,
-				Check:  resource.ComposeTestCheckFunc(resource.TestCheckResourceAttrSet("cloud_cvm_renew_host.renew_host", "id")),
+				Check:  resource.ComposeTestCheckFunc(resource.TestCheckResourceAttrSet("tencentcloudenterprise_cvm_renew_host.renew_host", "id")),
 			},
 			{
-				ResourceName:      "cloud_cvm_renew_host.renew_host",
+				ResourceName:      "tencentcloudenterprise_cvm_renew_host.renew_host",
 				ImportState:       true,
 				ImportStateVerify: true,
 			},
@@ -29,7 +29,7 @@ func TestAccTencentCloudNeedFixCvmRenewHostResource_basic(t *testing.T) {
 
 const testAccCvmRenewHost = `
 
-resource "cloud_cvm_renew_host" "renew_host" {
+resource "tencentcloudenterprise_cvm_renew_host" "renew_host" {
   host_ids = 
   host_charge_prepaid {
 		period = 1

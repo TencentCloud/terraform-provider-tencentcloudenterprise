@@ -52,7 +52,7 @@ variable "internet_service_provider" {
 # -------------------------------------------------------------------
 # Datasource Query
 # -------------------------------------------------------------------
-data "cloud_cvm_instance_types" "instance_type" {
+data "tencentcloudenterprise_cvm_instance_types" "instance_type" {
   filter {
     name = "instance-family"
     values = [var.instance_family]
@@ -60,7 +60,7 @@ data "cloud_cvm_instance_types" "instance_type" {
   exclude_sold_out = true
 }
 
-data "cloud_cvm_images" "foo" {
+data "tencentcloudenterprise_cvm_images" "foo" {
   instance_type = data.cloud_cvm_instance_types.instance_type.instance_types[0].instance_type
   image_type = ["PUBLIC_IMAGE"]
   image_name_regex = var.image_name_regex_centos
@@ -70,12 +70,12 @@ data "cloud_cvm_images" "foo" {
 # -------------------------------------------------------------------
 # VPC & Subnet
 # -------------------------------------------------------------------
-resource "cloud_vpc" "vpc" {
+resource "tencentcloudenterprise_vpc" "vpc" {
   cidr_block = "172.16.0.0/16"
   name       = var.terraform-instance-name
 }
 
-resource "cloud_vpc_subnet" "subnet" {
+resource "tencentcloudenterprise_vpc_subnet" "subnet" {
   vpc_id            = cloud_vpc.vpc.id
   cidr_block        = "172.16.0.0/24"
   availability_zone = data.cloud_cvm_instance_types.instance_type.instance_types[0].availability_zone
@@ -86,13 +86,13 @@ resource "cloud_vpc_subnet" "subnet" {
 # -------------------------------------------------------------------
 # Security Group
 # -------------------------------------------------------------------
-resource "cloud_vpc_security_group" "group" {
+resource "tencentcloudenterprise_vpc_security_group" "group" {
   name        = var.terraform-instance-name
   description = "New security group"
   project_id  = 0
 }
 
-resource "cloud_vpc_security_group_rule_set" "group_rule" {
+resource "tencentcloudenterprise_vpc_security_group_rule_set" "group_rule" {
   security_group_id = cloud_vpc_security_group.group.id
 
   ingress {
@@ -136,7 +136,7 @@ resource "cloud_vpc_security_group_rule_set" "group_rule" {
 # -------------------------------------------------------------------
 # CBS Data Disk
 # -------------------------------------------------------------------
-resource "cloud_cbs_storage" "disk" {
+resource "tencentcloudenterprise_cbs_storage" "disk" {
   availability_zone = data.cloud_cvm_instance_types.instance_type.instance_types[0].availability_zone
   storage_type      = var.disk_type
   storage_size      = var.disk_size
@@ -146,7 +146,7 @@ resource "cloud_cbs_storage" "disk" {
 # -------------------------------------------------------------------
 # Elastic IP(EIP)
 # -------------------------------------------------------------------
-resource "cloud_eip" "eip" {
+resource "tencentcloudenterprise_eip" "eip" {
   count                      = var.number
   name                       = "eip-${format(var.count_format, count.index + 1)}"
   internet_charge_type       = var.internet_charge_type
@@ -162,7 +162,7 @@ resource "cloud_eip" "eip" {
 # -------------------------------------------------------------------
 # CVM Instance
 # -------------------------------------------------------------------
-resource "cloud_cvm_instance" "instance" {
+resource "tencentcloudenterprise_cvm_instance" "instance" {
   instance_name   = "${var.terraform-instance-name}-instance-${format(var.count_format, count.index + 1)}"
   hostname        = "${var.terraform-instance-name}-host-${format(var.count_format, count.index + 1)}"
   image_id        = data.cloud_cvm_images.foo.images[0].image_id
@@ -189,7 +189,7 @@ resource "cloud_cvm_instance" "instance" {
 # -------------------------------------------------------------------
 # Attach EIP to CVM
 # -------------------------------------------------------------------
-resource "cloud_eip_association" "eip_attachment" {
+resource "tencentcloudenterprise_eip_association" "eip_attachment" {
   count       = var.number
   eip_id      = cloud_eip.eip[count.index].id
   instance_id = cloud_cvm_instance.instance[count.index].id
@@ -198,7 +198,7 @@ resource "cloud_eip_association" "eip_attachment" {
 # -------------------------------------------------------------------
 # Attach Disk to CVM
 # -------------------------------------------------------------------
-resource "cloud_cbs_storage_attachment" "instance_attachment" {
+resource "tencentcloudenterprise_cbs_storage_attachment" "instance_attachment" {
   count       = var.number
   storage_id  = cloud_cbs_storage.disk.*.id[count.index]
   instance_id = cloud_cvm_instance.instance.*.id[count.index]

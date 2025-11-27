@@ -36,7 +36,7 @@ func TestAccTencentCloudTsfDeliveryConfigsDataSource_basic(t *testing.T) {
 
 const testAccTsfDeliveryConfigsDataSource = `
 
-data "cloud_tsf_delivery_configs" "delivery_configs" {
+data "tencentcloudenterprise_tsf_delivery_configs" "delivery_configs" {
   search_word = "test"
 }
 

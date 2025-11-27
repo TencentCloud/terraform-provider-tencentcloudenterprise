@@ -5,7 +5,7 @@ Use this data source to query detailed information of tsf api_group
 
 ```hcl
 
-	data "cloud_tsf_api_group" "api_group" {
+	data "tencentcloudenterprise_tsf_api_group" "api_group" {
 	  search_word = "xxx01"
 	  group_type = "ms"
 	  auth_type = "none"
@@ -29,7 +29,7 @@ import (
 )
 
 func init() {
-	registerDataDescriptionProvider("cloud_tsf_api_group", CNDescription{
+	registerDataDescriptionProvider("tencentcloudenterprise_tsf_api_group", CNDescription{
 		TerraformTypeCN: "TSF API组",
 		DescriptionCN:   "提供TSF API组数据源，用于查询TSF API组的详细信息。",
 		AttributesCN: map[string]string{

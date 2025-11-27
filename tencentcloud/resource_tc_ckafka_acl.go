@@ -7,7 +7,7 @@ Provides a resource to create a Ckafka Acl.
 
 ```hcl
 
-	resource "cloud_ckafka_acl" "foo" {
+	resource "tencentcloudenterprise_ckafka_acl" "foo" {
 	  instance_id     = "ckafka-f9ife4zz"
 	  resource_type   = "TOPIC"
 	  resource_type_name   = "topic-tf-test"
@@ -38,7 +38,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_ckafka_acl", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_ckafka_acl", CNDescription{
 		TerraformTypeCN: "Ckafka ACL",
 		DescriptionCN:   "提供CKafka ACL资源，用于创建和管理CKafka访问控制列表。",
 		AttributesCN: map[string]string{

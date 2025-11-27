@@ -24,7 +24,7 @@ func TestAccTencentCloudCvmChcDeniedActionsDataSource_basic(t *testing.T) {
 
 const testAccCvmChcDeniedActionsDataSource = `
 
-data "cloud_cvm_chc_denied_actions" "chc_denied_actions" {
+data "tencentcloudenterprise_cvm_chc_denied_actions" "chc_denied_actions" {
   chc_ids = ["chc-0brmw3wl"]
 }
 `

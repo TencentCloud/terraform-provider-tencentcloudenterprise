@@ -23,6 +23,6 @@ func TestAccTencentCloudCvmImportImageOsDataSource_basic(t *testing.T) {
 }
 
 const testAccCvmImportImageOsDataSource = `
-data "cloud_cvm_import_image_os" "import_image_os" {
+data "tencentcloudenterprise_cvm_import_image_os" "import_image_os" {
 }
 `

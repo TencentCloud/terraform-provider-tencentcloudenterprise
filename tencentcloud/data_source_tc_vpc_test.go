@@ -24,12 +24,12 @@ func TestAccDataSourceTencentCloudVpc_basic(t *testing.T) {
 }
 
 const TestAccDataSourceTencentCloudVpcConfig_id = `
-resource "cloud_vpc" "foo" {
+resource "tencentcloudenterprise_vpc" "foo" {
   name       = "tf-ci-test"
   cidr_block = "10.0.0.0/16"
 }
 
-data "cloud_vpc" "id" {
+data "tencentcloudenterprise_vpc" "id" {
   id = cloud_vpc.foo.id
 }
 `

@@ -10,8 +10,8 @@ import (
 )
 
 const (
-	ImageSnap     = "cloud_cvm_image.image_snap"
-	ImageInstance = "cloud_cvm_image.image_instance"
+	ImageSnap     = "tencentcloudenterprise_cvm_image.image_snap"
+	ImageInstance = "tencentcloudenterprise_cvm_image.image_instance"
 )
 
 func TestAccTencentCloudImageResource(t *testing.T) {
@@ -79,7 +79,7 @@ func testAccCheckImageDestroy(s *terraform.State) error {
 		client: testAccProvider.Meta().(*TencentCloudClient).apiV3Conn,
 	}
 	for _, rs := range s.RootModule().Resources {
-		if rs.Type != "cloud_cvm_image" {
+		if rs.Type != "tencentcloudenterprise_cvm_image" {
 			continue
 		}
 
@@ -135,7 +135,7 @@ func testAccCheckImageExists(n string) resource.TestCheckFunc {
 
 const (
 	testAccImageWithSnapShot = defaultCvmImageVariable + `
-		resource "cloud_cvm_image" "image_snap" {
+		resource "tencentcloudenterprise_cvm_image" "image_snap" {
   			image_name   		= "image-snapshot-keep"
   			snapshot_ids 		= [var.snap_id]
 			force_poweroff 		= true
@@ -143,7 +143,7 @@ const (
 		}`
 
 	testAccImageWithSnapShotUpdate = defaultCvmImageVariable + `
-		resource "cloud_cvm_image" "image_snap" {
+		resource "tencentcloudenterprise_cvm_image" "image_snap" {
   			image_name   		= "image-snapshot-update-keep"
   			snapshot_ids 		= [var.snap_id]
   			force_poweroff   	= false
@@ -151,7 +151,7 @@ const (
 		}`
 
 	testAccImageWithInstance = defaultCvmImageVariable + `
-		resource "cloud_cvm_image" "image_instance" {
+		resource "tencentcloudenterprise_cvm_image" "image_instance" {
   			image_name   		= "image-instance-keep"
   			instance_id  		= var.cvm_id
   			data_disk_ids 		= [var.disk_id]
@@ -159,7 +159,7 @@ const (
 		}`
 
 	testAccImageWithInstanceUpdate = defaultCvmImageVariable + `
-		resource "cloud_cvm_image" "image_instance" {
+		resource "tencentcloudenterprise_cvm_image" "image_instance" {
   			image_name   		= "image-instance-update-keep"
   			instance_id  		= var.cvm_id
   			data_disk_ids 		= [var.disk_id]

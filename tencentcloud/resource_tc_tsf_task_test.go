@@ -21,27 +21,27 @@ func TestAccTencentCloudTsfTaskResource_basic(t *testing.T) {
 			{
 				Config: testAccTsfTask,
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckTsfTaskExists("cloud_tsf_task.task"),
-					resource.TestCheckResourceAttrSet("cloud_tsf_task.task", "id"),
-					resource.TestCheckResourceAttr("cloud_tsf_task.task", "task_name", "terraform-test"),
-					resource.TestCheckResourceAttr("cloud_tsf_task.task", "task_content", "/test"),
-					resource.TestCheckResourceAttr("cloud_tsf_task.task", "execute_type", "unicast"),
-					resource.TestCheckResourceAttr("cloud_tsf_task.task", "task_type", "java"),
-					resource.TestCheckResourceAttr("cloud_tsf_task.task", "time_out", "60000"),
-					resource.TestCheckResourceAttr("cloud_tsf_task.task", "group_id", defaultTsfGWGroupId),
-					resource.TestCheckResourceAttr("cloud_tsf_task.task", "task_rule.#", "1"),
-					resource.TestCheckResourceAttr("cloud_tsf_task.task", "task_rule.0.rule_type", "Cron"),
-					resource.TestCheckResourceAttr("cloud_tsf_task.task", "task_rule.0.expression", "0 * 1 * * ? "),
-					resource.TestCheckResourceAttr("cloud_tsf_task.task", "retry_count", "0"),
-					resource.TestCheckResourceAttr("cloud_tsf_task.task", "retry_interval", "0"),
-					resource.TestCheckResourceAttr("cloud_tsf_task.task", "success_operator", "GTE"),
-					resource.TestCheckResourceAttr("cloud_tsf_task.task", "advance_settings.#", "1"),
-					resource.TestCheckResourceAttr("cloud_tsf_task.task", "advance_settings.0.sub_task_concurrency", "2"),
-					resource.TestCheckResourceAttr("cloud_tsf_task.task", "task_argument", "a=c"),
+					testAccCheckTsfTaskExists("tencentcloudenterprise_tsf_task.task"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_tsf_task.task", "id"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_tsf_task.task", "task_name", "terraform-test"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_tsf_task.task", "task_content", "/test"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_tsf_task.task", "execute_type", "unicast"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_tsf_task.task", "task_type", "java"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_tsf_task.task", "time_out", "60000"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_tsf_task.task", "group_id", defaultTsfGWGroupId),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_tsf_task.task", "task_rule.#", "1"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_tsf_task.task", "task_rule.0.rule_type", "Cron"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_tsf_task.task", "task_rule.0.expression", "0 * 1 * * ? "),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_tsf_task.task", "retry_count", "0"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_tsf_task.task", "retry_interval", "0"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_tsf_task.task", "success_operator", "GTE"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_tsf_task.task", "advance_settings.#", "1"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_tsf_task.task", "advance_settings.0.sub_task_concurrency", "2"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_tsf_task.task", "task_argument", "a=c"),
 				),
 			},
 			// {
-			// 	ResourceName:      "cloud_tsf_task.task",
+			// 	ResourceName:      "tencentcloudenterprise_tsf_task.task",
 			// 	ImportState:       true,
 			// 	ImportStateVerify: true,
 			// },
@@ -54,7 +54,7 @@ func testAccCheckTsfTaskDestroy(s *terraform.State) error {
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
 	service := TsfService{client: testAccProvider.Meta().(*TencentCloudClient).apiV3Conn}
 	for _, rs := range s.RootModule().Resources {
-		if rs.Type != "cloud_tsf_task" {
+		if rs.Type != "tencentcloudenterprise_tsf_task" {
 			continue
 		}
 
@@ -105,7 +105,7 @@ variable "group_id" {
 
 const testAccTsfTask = testAccTsfTaskVar + `
 
-resource "cloud_tsf_task" "task" {
+resource "tencentcloudenterprise_tsf_task" "task" {
 	task_name = "terraform-test"
 	task_content = "/test"
 	execute_type = "unicast"

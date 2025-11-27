@@ -29,7 +29,7 @@ func TestAccTencentCloudDCDBParametersDataSource(t *testing.T) {
 
 const testAccDataSourceDcdbParameters_basic = `
 
-data "cloud_dcdb_parameters" "parameters" {
+data "tencentcloudenterprise_dcdb_parameters" "parameters" {
   instance_id = "%s"
   }
 

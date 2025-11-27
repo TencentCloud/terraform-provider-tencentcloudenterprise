@@ -17,7 +17,7 @@ func TestAccTencentCloudClsConfigAttachment_basic(t *testing.T) {
 				Config: testAccClsConfigAttachment,
 			},
 			{
-				ResourceName:      "cloud_cls_config_attachment.attach",
+				ResourceName:      "tencentcloudenterprise_cls_config_attachment.attach",
 				ImportState:       true,
 				ImportStateVerify: true,
 			},
@@ -26,14 +26,14 @@ func TestAccTencentCloudClsConfigAttachment_basic(t *testing.T) {
 }
 
 const testAccClsConfigAttachment = `
-resource "cloud_cls_logset" "logset" {
+resource "tencentcloudenterprise_cls_logset" "logset" {
   logset_name = "tf-attach-test"
   tags        = {
     "test" = "test"
   }
 }
 
-resource "cloud_cls_topic" "topic" {
+resource "tencentcloudenterprise_cls_topic" "topic" {
   auto_split           = true
   logset_id            = cloud_cls_logset.logset.id
   max_split_partitions = 20
@@ -46,7 +46,7 @@ resource "cloud_cls_topic" "topic" {
   topic_name           = "tf-attach-test"
 }
 
-resource "cloud_cls_config" "config" {
+resource "tencentcloudenterprise_cls_config" "config" {
   name             = "attach"
   output           = cloud_cls_topic.topic.id
   path             = "/var/log/kubernetes/**/kubernetes.audit"
@@ -74,7 +74,7 @@ resource "cloud_cls_config" "config" {
   }
 }
 
-resource "cloud_cls_machine_group" "group" {
+resource "tencentcloudenterprise_cls_machine_group" "group" {
   group_name        = "tf-attach-group"
   service_logging   = true
   auto_update       = true
@@ -90,7 +90,7 @@ resource "cloud_cls_machine_group" "group" {
   }
 }
 
-resource "cloud_cls_config_attachment" "attach" {
+resource "tencentcloudenterprise_cls_config_attachment" "attach" {
   config_id = cloud_cls_config.config.id
   group_id = cloud_cls_machine_group.group.id
 }

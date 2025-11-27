@@ -16,10 +16,10 @@ func TestAccTencentCloudNeedFixVpcLocalGatewayResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			{
 				Config: testAccVpcLocalGateway,
-				Check:  resource.ComposeTestCheckFunc(resource.TestCheckResourceAttrSet("cloud_vpc_local_gateway.local_gateway", "id")),
+				Check:  resource.ComposeTestCheckFunc(resource.TestCheckResourceAttrSet("tencentcloudenterprise_vpc_local_gateway.local_gateway", "id")),
 			},
 			{
-				ResourceName:      "cloud_vpc_local_gateway.local_gateway",
+				ResourceName:      "tencentcloudenterprise_vpc_local_gateway.local_gateway",
 				ImportState:       true,
 				ImportStateVerify: true,
 			},
@@ -29,7 +29,7 @@ func TestAccTencentCloudNeedFixVpcLocalGatewayResource_basic(t *testing.T) {
 
 const testAccVpcLocalGateway = `
 
-resource "cloud_vpc_local_gateway" "local_gateway" {
+resource "tencentcloudenterprise_vpc_local_gateway" "local_gateway" {
   local_gateway_name = "local-gw-test"
   vpc_id             = "vpc-lh4nqig9"
   cdc_id             = "cluster-j9gyu1iy"

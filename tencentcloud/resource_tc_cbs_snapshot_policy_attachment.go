@@ -5,7 +5,7 @@ Provides a CBS snapshot policy attachment resource.
 
 ```hcl
 
-	resource "cloud_cbs_snapshot_policy_attachment" "foo" {
+	resource "tencentcloudenterprise_cbs_snapshot_policy_attachment" "foo" {
 	  storage_id         = cloud_cbs_storage.foo.id
 	  snapshot_policy_id = cloud_cbs_snapshot_policy.policy.id
 	}
@@ -26,7 +26,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_cbs_snapshot_policy_attachment", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_cbs_snapshot_policy_attachment", CNDescription{
 		TerraformTypeCN: "定期快照策略关联云硬盘",
 		DescriptionCN:   "提供CBS快照策略关联资源，用于将快照策略关联到云硬盘。",
 		AttributesCN: map[string]string{
@@ -96,7 +96,7 @@ func resourceTencentCloudCbsSnapshotPolicyAttachmentRead(d *schema.ResourceData,
 	id := d.Id()
 	idSplit := strings.Split(id, FILED_SP)
 	if len(idSplit) != 2 {
-		return fmt.Errorf("cloud_cbs_snapshot_policy_attachment id is illegal: %s", id)
+		return fmt.Errorf("tencentcloudenterprise_cbs_snapshot_policy_attachment id is illegal: %s", id)
 	}
 	storageId := idSplit[0]
 	policyId := idSplit[1]
@@ -134,7 +134,7 @@ func resourceTencentCloudCbsSnapshotPolicyAttachmentDelete(d *schema.ResourceDat
 	id := d.Id()
 	idSplit := strings.Split(id, FILED_SP)
 	if len(idSplit) != 2 {
-		return fmt.Errorf("cloud_cbs_snapshot_policy_attachment id is illegal: %s", id)
+		return fmt.Errorf("tencentcloudenterprise_cbs_snapshot_policy_attachment id is illegal: %s", id)
 	}
 	storageId := idSplit[0]
 	policyId := idSplit[1]

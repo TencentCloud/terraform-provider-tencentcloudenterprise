@@ -16,10 +16,10 @@ func TestAccTencentCloudCfsSignUpCfsServiceResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			{
 				Config: testAccCfsSignUpCfsService,
-				Check:  resource.ComposeTestCheckFunc(resource.TestCheckResourceAttrSet("cloud_cfs_sign_up_cfs_service.sign_up_cfs_service", "id")),
+				Check:  resource.ComposeTestCheckFunc(resource.TestCheckResourceAttrSet("tencentcloudenterprise_cfs_sign_up_cfs_service.sign_up_cfs_service", "id")),
 			},
 			{
-				ResourceName:      "cloud_cfs_sign_up_cfs_service.sign_up_cfs_service",
+				ResourceName:      "tencentcloudenterprise_cfs_sign_up_cfs_service.sign_up_cfs_service",
 				ImportState:       true,
 				ImportStateVerify: true,
 			},
@@ -29,7 +29,7 @@ func TestAccTencentCloudCfsSignUpCfsServiceResource_basic(t *testing.T) {
 
 const testAccCfsSignUpCfsService = `
 
-resource "cloud_cfs_sign_up_cfs_service" "sign_up_cfs_service" {
+resource "tencentcloudenterprise_cfs_sign_up_cfs_service" "sign_up_cfs_service" {
   }
 
 `

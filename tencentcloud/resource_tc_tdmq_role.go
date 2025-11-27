@@ -5,28 +5,28 @@ Provide a resource to create a TDMQ role.
 
 ```hcl
 
-	resource "cloud_tdmq_instance" "foo" {
+	resource "tencentcloudenterprise_tdmq_instance" "foo" {
 	  cluster_name = "example"
 	  remark = "this is description."
 	}
 
-	resource "cloud_tdmq_namespace" "bar" {
+	resource "tencentcloudenterprise_tdmq_namespace" "bar" {
 	  environ_name = "example"
 	  msg_ttl = 300
-	  cluster_id = "cloud_tdmq_instance.foo.id"
+	  cluster_id = "tencentcloudenterprise_tdmq_instance.foo.id"
 	  remark = "this is description."
 	}
 
-	resource "cloud_tdmq_topic" "bar" {
-	  environ_id = "cloud_tdmq_namespace.bar.id"
+	resource "tencentcloudenterprise_tdmq_topic" "bar" {
+	  environ_id = "tencentcloudenterprise_tdmq_namespace.bar.id"
 	  topic_name = "example"
 	  partitions = 6
 	  topic_type = 0
-	  cluster_id = "cloud_tdmq_instance.foo.id"
+	  cluster_id = "tencentcloudenterprise_tdmq_instance.foo.id"
 	  remark = "this is description."
 	}
 
-	resource "cloud_tdmq_role" "bar" {
+	resource "tencentcloudenterprise_tdmq_role" "bar" {
 	  role_name = "example"
 	  cluster_id = cloud_tdmq_instance.foo.id
 	  remark = "this is description world"
@@ -54,7 +54,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_tdmq_role", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_tdmq_role", CNDescription{
 		TerraformTypeCN: "TDMQ 角色",
 		DescriptionCN:   "提供TDMQ角色资源，用于创建和管理TDMQ角色。",
 		AttributesCN: map[string]string{

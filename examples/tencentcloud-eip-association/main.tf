@@ -1,9 +1,9 @@
-data "cloud_cvm_images" "my_favorate_image" {
+data "tencentcloudenterprise_cvm_images" "my_favorate_image" {
   image_type = ["PUBLIC_IMAGE"]
   os_name    = "centos"
 }
 
-data "cloud_cvm_instance_types" "my_favorate_instance_types" {
+data "tencentcloudenterprise_cvm_instance_types" "my_favorate_instance_types" {
   filter {
     name   = "instance-family"
     values = ["S2"]
@@ -13,9 +13,9 @@ data "cloud_cvm_instance_types" "my_favorate_instance_types" {
   memory_size    = 2
 }
 
-data "cloud_availability_zones" "my_favorate_zones" {}
+data "tencentcloudenterprise_availability_zones" "my_favorate_zones" {}
 
-resource "cloud_cvm_instance" "my_instance" {
+resource "tencentcloudenterprise_cvm_instance" "my_instance" {
   instance_name     = "terraform_automation_test_kuruk"
   availability_zone = data.cloud_availability_zones.my_favorate_zones.zones.0.name
   image_id          = data.cloud_cvm_images.my_favorate_image.images.0.image_id
@@ -32,11 +32,11 @@ resource "cloud_cvm_instance" "my_instance" {
   disable_monitor_service  = true
 }
 
-resource "cloud_eip_instance" "my_eip" {
+resource "tencentcloudenterprise_eip_instance" "my_eip" {
   name = "tf_auto_test"
 }
 
-resource "cloud_eip_association" "foo" {
+resource "tencentcloudenterprise_eip_association" "foo" {
   eip_id      = cloud_eip_instance.my_eip.id
   instance_id = cloud_cvm_instance.my_instance.id
 }

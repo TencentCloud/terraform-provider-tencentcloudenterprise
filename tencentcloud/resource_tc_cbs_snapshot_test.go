@@ -20,19 +20,19 @@ func TestAccTencentCloudCbsSnapshot(t *testing.T) {
 			{
 				Config: testAccCbsSnapshot,
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckSnapshotExists("cloud_cbs_snapshot.snapshot"),
-					resource.TestCheckResourceAttrSet("cloud_cbs_snapshot.snapshot", "storage_id"),
-					resource.TestCheckResourceAttr("cloud_cbs_snapshot.snapshot", "snapshot_name", "tf-test-snapshot"),
+					testAccCheckSnapshotExists("tencentcloudenterprise_cbs_snapshot.snapshot"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_cbs_snapshot.snapshot", "storage_id"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_cbs_snapshot.snapshot", "snapshot_name", "tf-test-snapshot"),
 				),
 			},
 			{
 				Config: testAccCbsSnapshot_update,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr("cloud_cbs_snapshot.snapshot", "snapshot_name", "tf-test-snapshot-update"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_cbs_snapshot.snapshot", "snapshot_name", "tf-test-snapshot-update"),
 				),
 			},
 			{
-				ResourceName:      "cloud_cbs_snapshot.snapshot",
+				ResourceName:      "tencentcloudenterprise_cbs_snapshot.snapshot",
 				ImportState:       true,
 				ImportStateVerify: true,
 			},
@@ -48,7 +48,7 @@ func testAccCheckCbsSnapshotDestroy(s *terraform.State) error {
 		client: testAccProvider.Meta().(*TencentCloudClient).apiV3Conn,
 	}
 	for _, rs := range s.RootModule().Resources {
-		if rs.Type != "cloud_cbs_snapshot" {
+		if rs.Type != "tencentcloudenterprise_cbs_snapshot" {
 			continue
 		}
 
@@ -90,28 +90,28 @@ func testAccCheckSnapshotExists(n string) resource.TestCheckFunc {
 }
 
 const testAccCbsSnapshot = `
-resource "cloud_cbs_storage" "storage" {
+resource "tencentcloudenterprise_cbs_storage" "storage" {
 	availability_zone = "ap-guangzhou-3"
 	storage_size      = 50
 	storage_type      = "CLOUD_PREMIUM"
 	storage_name      = "tf-test-storage"
 }
 
-resource "cloud_cbs_snapshot" "snapshot" {
+resource "tencentcloudenterprise_cbs_snapshot" "snapshot" {
 	storage_id    = cloud_cbs_storage.storage.id
 	snapshot_name = "tf-test-snapshot"
 }
 `
 
 const testAccCbsSnapshot_update = `
-resource "cloud_cbs_storage" "storage" {
+resource "tencentcloudenterprise_cbs_storage" "storage" {
 	availability_zone = "ap-guangzhou-3"
 	storage_size      = 50
 	storage_type      = "CLOUD_PREMIUM"
 	storage_name      = "tf-test-storage"
 }
 
-resource "cloud_cbs_snapshot" "snapshot" {
+resource "tencentcloudenterprise_cbs_snapshot" "snapshot" {
 	storage_id    = cloud_cbs_storage.storage.id
 	snapshot_name = "tf-test-snapshot-update"
 }

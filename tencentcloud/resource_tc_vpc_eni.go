@@ -5,12 +5,12 @@ Provides a resource to create an ENI.
 
 ```hcl
 
-	resource "cloud_vpc" "foo" {
+	resource "tencentcloudenterprise_vpc" "foo" {
 	  name       = "ci-test-eni-vpc"
 	  cidr_block = "10.0.0.0/16"
 	}
 
-	resource "cloud_vpc_subnet" "foo" {
+	resource "tencentcloudenterprise_vpc_subnet" "foo" {
 	  availability_zone = "ap-guangzhou-3"
 	  name              = "ci-test-eni-subnet"
 	  vpc_id            = cloud_vpc.foo.id
@@ -18,7 +18,7 @@ Provides a resource to create an ENI.
 	  is_multicast      = false
 	}
 
-	resource "cloud_vpc_eni" "foo" {
+	resource "tencentcloudenterprise_vpc_eni" "foo" {
 	  name        = "ci-test-eni"
 	  vpc_id      = cloud_vpc.foo.id
 	  subnet_id   = cloud_vpc_subnet.foo.id
@@ -52,7 +52,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_vpc_eni", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_vpc_eni", CNDescription{
 		TerraformTypeCN: "弹性网卡",
 		DescriptionCN:   "提供弹性网卡资源，用于创建弹性网卡。",
 		AttributesCN: map[string]string{

@@ -19,7 +19,7 @@ Provides a resource to creating dedicated tunnels instances.
 	  default = "vpc-4h9v4mo3"
 	}
 
-	resource "cloud_dcx" "bgp_main" {
+	resource "tencentcloudenterprise_dcx" "bgp_main" {
 	  bandwidth    = 900
 	  dc_id        = var.dc_id
 	  dcg_id       = var.dcg_id
@@ -30,7 +30,7 @@ Provides a resource to creating dedicated tunnels instances.
 	  vpc_id       = var.vpc_id
 	}
 
-	resource "cloud_dcx" "static_main" {
+	resource "tencentcloudenterprise_dcx" "static_main" {
 	  bandwidth             = 900
 	  dc_id                 = var.dc_id
 	  dcg_id                = var.dcg_id
@@ -59,7 +59,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_dc_dcx", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_dc_dcx", CNDescription{
 		TerraformTypeCN: "专线通道",
 		AttributesCN: map[string]string{
 			"dc_id":                 "专线实例ID",

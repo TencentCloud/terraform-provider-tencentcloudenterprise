@@ -5,7 +5,7 @@ Use this data source to query detailed information of dcdb instances
 
 ```hcl
 
-	data "cloud_dcdb_instances" "instances1" {
+	data "tencentcloudenterprise_dcdb_instances" "instances1" {
 	  instance_ids = ["your_dcdb_instance1_id"]
 	  search_name = "instancename"
 	  search_key = "search_key"
@@ -18,11 +18,11 @@ Use this data source to query detailed information of dcdb instances
 	  subnet_id = "your_subnet_id"
 	}
 
-	data "cloud_dcdb_instances" "instances2" {
+	data "tencentcloudenterprise_dcdb_instances" "instances2" {
 	  instance_ids = ["your_dcdb_instance2_id"]
 	}
 
-	data "cloud_dcdb_instances" "instances3" {
+	data "tencentcloudenterprise_dcdb_instances" "instances3" {
 	  search_name = "instancename"
 	  search_key = "instances3"
 	  is_filter_excluster = false
@@ -44,7 +44,7 @@ import (
 )
 
 func init() {
-	registerDataDescriptionProvider("cloud_dcdb_instances", CNDescription{
+	registerDataDescriptionProvider("tencentcloudenterprise_dcdb_instances", CNDescription{
 		TerraformTypeCN: "数据库实例",
 		DescriptionCN:   "提供DCDB实例数据源，用于查询DCDB实例的详细信息。",
 		AttributesCN: map[string]string{

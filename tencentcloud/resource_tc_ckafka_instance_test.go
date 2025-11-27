@@ -19,37 +19,37 @@ func TestAccTencentCloudCkafkaInstanceResource(t *testing.T) {
 			{
 				Config: testAccKafkaInstance,
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckKafkaInstanceExists("cloud_ckafka_instance.kafka_instance"),
-					resource.TestCheckResourceAttr("cloud_ckafka_instance.kafka_instance", "instance_name", "ckafka-instance-tf-test"),
-					resource.TestCheckResourceAttr("cloud_ckafka_instance.kafka_instance", "zone_id", "100003"),
-					resource.TestCheckResourceAttr("cloud_ckafka_instance.kafka_instance", "period", "1"),
-					resource.TestCheckResourceAttr("cloud_ckafka_instance.kafka_instance", "msg_retention_time", "1300"),
-					resource.TestCheckResourceAttr("cloud_ckafka_instance.kafka_instance", "max_message_byte", "1024"),
-					resource.TestCheckResourceAttr("cloud_ckafka_instance.kafka_instance", "renew_flag", "0"),
-					resource.TestCheckResourceAttr("cloud_ckafka_instance.kafka_instance", "kafka_version", "1.1.1"),
-					resource.TestCheckResourceAttr("cloud_ckafka_instance.kafka_instance", "disk_size", "500"),
-					resource.TestCheckResourceAttr("cloud_ckafka_instance.kafka_instance", "disk_type", "CLOUD_BASIC"),
-					resource.TestCheckResourceAttrSet("cloud_ckafka_instance.kafka_instance", "vip"),
-					resource.TestCheckResourceAttrSet("cloud_ckafka_instance.kafka_instance", "vport"),
+					testAccCheckKafkaInstanceExists("tencentcloudenterprise_ckafka_instance.kafka_instance"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_ckafka_instance.kafka_instance", "instance_name", "ckafka-instance-tf-test"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_ckafka_instance.kafka_instance", "zone_id", "100003"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_ckafka_instance.kafka_instance", "period", "1"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_ckafka_instance.kafka_instance", "msg_retention_time", "1300"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_ckafka_instance.kafka_instance", "max_message_byte", "1024"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_ckafka_instance.kafka_instance", "renew_flag", "0"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_ckafka_instance.kafka_instance", "kafka_version", "1.1.1"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_ckafka_instance.kafka_instance", "disk_size", "500"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_ckafka_instance.kafka_instance", "disk_type", "CLOUD_BASIC"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_ckafka_instance.kafka_instance", "vip"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_ckafka_instance.kafka_instance", "vport"),
 				),
 			},
 			{
 				Config: testAccKafkaInstanceUpdate,
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckKafkaInstanceExists("cloud_ckafka_instance.kafka_instance"),
-					resource.TestCheckResourceAttr("cloud_ckafka_instance.kafka_instance", "instance_name", "ckafka-instance-tf-test"),
-					resource.TestCheckResourceAttr("cloud_ckafka_instance.kafka_instance", "zone_id", "100003"),
-					resource.TestCheckResourceAttr("cloud_ckafka_instance.kafka_instance", "period", "1"),
-					resource.TestCheckResourceAttr("cloud_ckafka_instance.kafka_instance", "msg_retention_time", "1200"),
-					resource.TestCheckResourceAttr("cloud_ckafka_instance.kafka_instance", "max_message_byte", "1025"),
-					resource.TestCheckResourceAttr("cloud_ckafka_instance.kafka_instance", "renew_flag", "0"),
-					resource.TestCheckResourceAttr("cloud_ckafka_instance.kafka_instance", "kafka_version", "1.1.1"),
-					resource.TestCheckResourceAttr("cloud_ckafka_instance.kafka_instance", "disk_size", "500"),
-					resource.TestCheckResourceAttr("cloud_ckafka_instance.kafka_instance", "disk_type", "CLOUD_BASIC"),
+					testAccCheckKafkaInstanceExists("tencentcloudenterprise_ckafka_instance.kafka_instance"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_ckafka_instance.kafka_instance", "instance_name", "ckafka-instance-tf-test"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_ckafka_instance.kafka_instance", "zone_id", "100003"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_ckafka_instance.kafka_instance", "period", "1"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_ckafka_instance.kafka_instance", "msg_retention_time", "1200"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_ckafka_instance.kafka_instance", "max_message_byte", "1025"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_ckafka_instance.kafka_instance", "renew_flag", "0"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_ckafka_instance.kafka_instance", "kafka_version", "1.1.1"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_ckafka_instance.kafka_instance", "disk_size", "500"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_ckafka_instance.kafka_instance", "disk_type", "CLOUD_BASIC"),
 				),
 			},
 			{
-				ResourceName:            "cloud_ckafka_instance.kafka_instance",
+				ResourceName:            "tencentcloudenterprise_ckafka_instance.kafka_instance",
 				ImportState:             true,
 				ImportStateVerify:       true,
 				ImportStateVerifyIgnore: []string{"period", "max_message_byte"},
@@ -68,14 +68,14 @@ func TestAccTencentCloudCkafkaInstanceMAZResource(t *testing.T) {
 			{
 				Config: testAccKafkaInstanceMAZ,
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckKafkaInstanceExists("cloud_ckafka_instance.kafka_instance"),
-					resource.TestCheckResourceAttr("cloud_ckafka_instance.kafka_instance", "instance_name", "ckafka-instance-maz-tf-test"),
-					resource.TestCheckResourceAttr("cloud_ckafka_instance.kafka_instance", "zone_id", "100003"),
-					resource.TestCheckResourceAttr("cloud_ckafka_instance.kafka_instance", "zone_ids.#", "2"),
+					testAccCheckKafkaInstanceExists("tencentcloudenterprise_ckafka_instance.kafka_instance"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_ckafka_instance.kafka_instance", "instance_name", "ckafka-instance-maz-tf-test"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_ckafka_instance.kafka_instance", "zone_id", "100003"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_ckafka_instance.kafka_instance", "zone_ids.#", "2"),
 				),
 			},
 			{
-				ResourceName:            "cloud_ckafka_instance.kafka_instance",
+				ResourceName:            "tencentcloudenterprise_ckafka_instance.kafka_instance",
 				ImportState:             true,
 				ImportStateVerify:       true,
 				ImportStateVerifyIgnore: []string{"period", "max_message_byte"},
@@ -94,14 +94,14 @@ func TestAccTencentCloudCkafkaInstanceTypeResource(t *testing.T) {
 			{
 				Config: testAccKafkaInstanceType,
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckKafkaInstanceExists("cloud_ckafka_instance.kafka_instance"),
-					resource.TestCheckResourceAttr("cloud_ckafka_instance.kafka_instance", "instance_name", "ckafka-instance-type-tf-test"),
-					resource.TestCheckResourceAttr("cloud_ckafka_instance.kafka_instance", "specifications_type", "standard"),
-					resource.TestCheckResourceAttr("cloud_ckafka_instance.kafka_instance", "instance_type", "2"),
+					testAccCheckKafkaInstanceExists("tencentcloudenterprise_ckafka_instance.kafka_instance"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_ckafka_instance.kafka_instance", "instance_name", "ckafka-instance-type-tf-test"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_ckafka_instance.kafka_instance", "specifications_type", "standard"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_ckafka_instance.kafka_instance", "instance_type", "2"),
 				),
 			},
 			{
-				ResourceName:            "cloud_ckafka_instance.kafka_instance",
+				ResourceName:            "tencentcloudenterprise_ckafka_instance.kafka_instance",
 				ImportState:             true,
 				ImportStateVerify:       true,
 				ImportStateVerifyIgnore: []string{"period", "max_message_byte"},
@@ -117,7 +117,7 @@ func testAccTencentCloudKafkaInstanceDestroy(s *terraform.State) error {
 		client: testAccProvider.Meta().(*TencentCloudClient).apiV3Conn,
 	}
 	for _, r := range s.RootModule().Resources {
-		if r.Type != "cloud_ckafka_instance" {
+		if r.Type != "tencentcloudenterprise_ckafka_instance" {
 			continue
 		}
 		_, has, error := ckafkcService.DescribeInstanceById(ctx, r.Primary.ID)
@@ -168,7 +168,7 @@ func testAccCheckKafkaInstanceExists(n string) resource.TestCheckFunc {
 }
 
 const testAccKafkaInstance = defaultKafkaVariable + `
-resource "cloud_ckafka_instance" "kafka_instance" {
+resource "tencentcloudenterprise_ckafka_instance" "kafka_instance" {
   instance_name      = "ckafka-instance-tf-test"
   zone_id            = 100003
   period             = 1
@@ -195,7 +195,7 @@ resource "cloud_ckafka_instance" "kafka_instance" {
 `
 
 const testAccKafkaInstanceUpdate = defaultKafkaVariable + `
-resource "cloud_ckafka_instance" "kafka_instance" {
+resource "tencentcloudenterprise_ckafka_instance" "kafka_instance" {
   instance_name      = "ckafka-instance-tf-test"
   zone_id            = 100003
   period             = 1
@@ -226,7 +226,7 @@ resource "cloud_ckafka_instance" "kafka_instance" {
 `
 
 const testAccKafkaInstanceMAZ = defaultKafkaVariable + `
-resource "cloud_ckafka_instance" "kafka_instance" {
+resource "tencentcloudenterprise_ckafka_instance" "kafka_instance" {
   instance_name      = "ckafka-instance-maz-tf-test"
   zone_id            = 100003
   multi_zone_flag    = true
@@ -254,7 +254,7 @@ resource "cloud_ckafka_instance" "kafka_instance" {
 `
 
 const testAccKafkaInstanceType = defaultKafkaVariable + `
-resource "cloud_ckafka_instance" "kafka_instance" {
+resource "tencentcloudenterprise_ckafka_instance" "kafka_instance" {
   instance_name      = "ckafka-instance-type-tf-test"
   zone_id            = 100003
   period             = 1

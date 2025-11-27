@@ -5,7 +5,7 @@ Provides a resource to create a CLB customized config.
 
 ```hcl
 
-	resource "cloud_clb_customized_config" "foo" {
+	resource "tencentcloudenterprise_clb_customized_config" "foo" {
 	  config_content = "client_max_body_size 224M;\r\nclient_body_timeout 60s;"
 	  config_name    = "helloWorld"
 	  load_balancer_ids = [
@@ -37,7 +37,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_clb_customized_config", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_clb_customized_config", CNDescription{
 		TerraformTypeCN: "CLB自定义配置",
 		DescriptionCN:   "提供CLB自定义配置资源，用于创建和管理CLB个性化配置。",
 		AttributesCN: map[string]string{

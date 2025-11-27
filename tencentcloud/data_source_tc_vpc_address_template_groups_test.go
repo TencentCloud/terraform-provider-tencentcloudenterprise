@@ -18,7 +18,7 @@ func TestAccTencentCloudDataAddressTemplateGroups(t *testing.T) {
 			{
 				Config: testAccTencentCloudDataAddressTemplateGroupsBasic,
 				Check: resource.ComposeAggregateTestCheckFunc(
-					testAccCheckAddressTemplateGroupExists("cloud_vpc_address_template_group.mygroup"),
+					testAccCheckAddressTemplateGroupExists("tencentcloudenterprise_vpc_address_template_group.mygroup"),
 					resource.TestCheckResourceAttrSet(testDataAddressTemplateGroupsNameAll, "group_list.0.id"),
 					resource.TestCheckResourceAttr(testDataAddressTemplateGroupsNameAll, "group_list.0.name", "mygroup"),
 					resource.TestCheckResourceAttr(testDataAddressTemplateGroupsNameAll, "group_list.0.template_ids.#", "1"),
@@ -29,17 +29,17 @@ func TestAccTencentCloudDataAddressTemplateGroups(t *testing.T) {
 }
 
 const testAccTencentCloudDataAddressTemplateGroupsBasic = `
-resource "cloud_vpc_address_template" "myaddress_template" {
+resource "tencentcloudenterprise_vpc_address_template" "myaddress_template" {
   name        = "testacctcrtemplate"
   addresses = ["1.1.1.1"]
 }
 
-resource "cloud_vpc_address_template_group" "mygroup" {
+resource "tencentcloudenterprise_vpc_address_template_group" "mygroup" {
   name        = "mygroup"
   template_ids = [cloud_vpc_address_template.myaddress_template.id]
 }
 
-data "cloud_vpc_address_template_groups" "all_test" {
+data "tencentcloudenterprise_vpc_address_template_groups" "all_test" {
   name = cloud_vpc_address_template_group.mygroup.name
   id = cloud_vpc_address_template_group.mygroup.id
 }

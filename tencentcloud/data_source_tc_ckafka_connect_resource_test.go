@@ -22,6 +22,6 @@ func TestAccTencentCloudCkafkaConnectResourceDataSource_basic(t *testing.T) {
 
 const testAccCkafkaConnectResourceDataSource = `
 
-data "cloud_ckafka_connect_resource" "connect_resource" {
+data "tencentcloudenterprise_ckafka_connect_resource" "connect_resource" {
 }
 `

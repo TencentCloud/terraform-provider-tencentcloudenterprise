@@ -7,7 +7,7 @@ Provides a resource to create a CLB redirection.
 
 ```hcl
 
-	resource "cloud_clb_redirection" "foo" {
+	resource "tencentcloudenterprise_clb_redirection" "foo" {
 	  clb_id             = "lb-p7olt9e5"
 	  source_listener_id = "lbl-jc1dx6ju"
 	  target_listener_id = "lbl-asj1hzuo"
@@ -21,7 +21,7 @@ Provides a resource to create a CLB redirection.
 
 ```hcl
 
-	resource "cloud_clb_redirection" "foo" {
+	resource "tencentcloudenterprise_clb_redirection" "foo" {
 	  clb_id             = "lb-p7olt9e5"
 	  target_listener_id = "lbl-asj1hzuo"
 	  target_rule_id     = "loc-4xxr2cy7"
@@ -53,7 +53,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_clb_redirection", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_clb_redirection", CNDescription{
 		TerraformTypeCN: "CLB重定向",
 		DescriptionCN:   "提供CLB重定向资源，用于创建CLB监听器重定向关系。",
 		AttributesCN: map[string]string{

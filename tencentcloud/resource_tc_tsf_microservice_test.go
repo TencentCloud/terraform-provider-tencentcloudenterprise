@@ -22,15 +22,15 @@ func TestAccTencentCloudTsfMicroserviceResource_basic(t *testing.T) {
 			{
 				Config: testAccTsfMicroservice,
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckTsfMicroserviceExists("cloud_tsf_microservice.microservice"),
-					resource.TestCheckResourceAttrSet("cloud_tsf_microservice.microservice", "id"),
-					resource.TestCheckResourceAttr("cloud_tsf_microservice.microservice", "microservice_name", "test-microservice"),
-					resource.TestCheckResourceAttr("cloud_tsf_microservice.microservice", "microservice_desc", "desc-microservice"),
-					resource.TestCheckResourceAttr("cloud_tsf_microservice.microservice", "tags.createdBy", "terraform"),
+					testAccCheckTsfMicroserviceExists("tencentcloudenterprise_tsf_microservice.microservice"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_tsf_microservice.microservice", "id"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_tsf_microservice.microservice", "microservice_name", "test-microservice"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_tsf_microservice.microservice", "microservice_desc", "desc-microservice"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_tsf_microservice.microservice", "tags.createdBy", "terraform"),
 				),
 			},
 			{
-				ResourceName:      "cloud_tsf_microservice.microservice",
+				ResourceName:      "tencentcloudenterprise_tsf_microservice.microservice",
 				ImportState:       true,
 				ImportStateVerify: true,
 			},
@@ -43,7 +43,7 @@ func testAccCheckTsfMicroserviceDestroy(s *terraform.State) error {
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
 	service := TsfService{client: testAccProvider.Meta().(*TencentCloudClient).apiV3Conn}
 	for _, rs := range s.RootModule().Resources {
-		if rs.Type != "cloud_tsf_microservice" {
+		if rs.Type != "tencentcloudenterprise_tsf_microservice" {
 			continue
 		}
 
@@ -104,7 +104,7 @@ variable "namespace_id" {
 
 const testAccTsfMicroservice = testAccTsfMicroserviceVar + `
 
-resource "cloud_tsf_microservice" "microservice" {
+resource "tencentcloudenterprise_tsf_microservice" "microservice" {
 	namespace_id = "namespace-6ymb2bvg"
 	microservice_name = "test-microservice"
 	microservice_desc = "desc-microservice"

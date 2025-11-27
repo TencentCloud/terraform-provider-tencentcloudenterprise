@@ -5,7 +5,7 @@ Provides a resource to create a dcdb activate_hour_instance_operation
 
 ```hcl
 
-	resource "cloud_dcdb_activate_hour_instance_operation" "activate_hour_instance_operation" {
+	resource "tencentcloudenterprise_dcdb_activate_hour_instance_operation" "activate_hour_instance_operation" {
 	  instance_id = local.dcdb_id
 	}
 
@@ -23,7 +23,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_dcdb_activate_hour_instance_operation", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_dcdb_activate_hour_instance_operation", CNDescription{
 		TerraformTypeCN: "数据库实例操作",
 		DescriptionCN:   "提供DCDB实例激活操作资源，用于激活按小时计费的DCDB实例。",
 		AttributesCN: map[string]string{

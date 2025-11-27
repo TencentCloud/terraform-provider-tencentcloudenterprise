@@ -5,7 +5,7 @@ Use this data source to query detailed information of as instances
 
 ```hcl
 
-	resource "cloud_as_scaling_group" "scaling_group" {
+	resource "tencentcloudenterprise_as_scaling_group" "scaling_group" {
 	  scaling_group_name = "tf-as-group-ds-ins-basic"
 	  configuration_id   = "your_launch_configuration_id"
 	  max_size           = 1
@@ -18,7 +18,7 @@ Use this data source to query detailed information of as instances
 	  }
 	}
 
-	data "cloud_as_instances" "instances" {
+	data "tencentcloudenterprise_as_instances" "instances" {
 	  filters {
 		name = "auto-scaling-group-id"
 		values = [cloud_as_scaling_group.scaling_group.id]
@@ -39,7 +39,7 @@ import (
 )
 
 func init() {
-	registerDataDescriptionProvider("cloud_as_instances", CNDescription{
+	registerDataDescriptionProvider("tencentcloudenterprise_as_instances", CNDescription{
 		TerraformTypeCN: "弹性伸缩实例",
 		DescriptionCN:   "提供弹性伸缩实例数据源，用于查询弹性伸缩实例的详细信息。",
 		AttributesCN: map[string]string{

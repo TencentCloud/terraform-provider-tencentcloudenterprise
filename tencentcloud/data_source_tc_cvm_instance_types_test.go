@@ -44,7 +44,7 @@ func TestAccTencentCloudInstanceTypesDataSource_sell(t *testing.T) {
 }
 
 const testAccTencentCloudInstanceTypesDataSourceConfigBasic = `
-data "cloud_cvm_instance_types" "t4c8g" {
+data "tencentcloudenterprise_cvm_instance_types" "t4c8g" {
   availability_zone = "yfm18"
   cpu_core_count = 4
   memory_size    = 8
@@ -52,7 +52,7 @@ data "cloud_cvm_instance_types" "t4c8g" {
 `
 
 const testAccTencentCloudInstanceTypesDataSourceConfigSell = `
-data "cloud_cvm_instance_types" "t4c8g" {
+data "tencentcloudenterprise_cvm_instance_types" "t4c8g" {
   cpu_core_count = 2
   memory_size    = 2
   exclude_sold_out = true

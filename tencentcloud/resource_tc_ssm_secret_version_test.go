@@ -13,7 +13,7 @@ import (
 
 func TestAccTencentCloudSsmSecretVersion_basic(t *testing.T) {
 	t.Parallel()
-	resourceName := "cloud_ssm_secret_version.v1"
+	resourceName := "tencentcloudenterprise_ssm_secret_version.v1"
 
 	resource.Test(t, resource.TestCase{
 		PreCheck:     func() { testAccPreCheck(t) },
@@ -55,7 +55,7 @@ func testAccCheckSsmSecretVersionDestroy(s *terraform.State) error {
 		client: testAccProvider.Meta().(*TencentCloudClient).apiV3Conn,
 	}
 	for _, rs := range s.RootModule().Resources {
-		if rs.Type != "cloud_ssm_secret_version" {
+		if rs.Type != "tencentcloudenterprise_ssm_secret_version" {
 			continue
 		}
 
@@ -117,7 +117,7 @@ func testAccCheckSsmSecretVersionExists(name string) resource.TestCheckFunc {
 }
 
 const TestAccTencentCloudSsmSecretVersion_basicConfig = `
-resource "cloud_ssm_secret" "secret" {
+resource "tencentcloudenterprise_ssm_secret" "secret" {
   secret_name = "unit-test-for-version"
   description = "test secret"
 
@@ -126,7 +126,7 @@ resource "cloud_ssm_secret" "secret" {
   }
 }
 
-resource "cloud_ssm_secret_version" "v1" {
+resource "tencentcloudenterprise_ssm_secret_version" "v1" {
   secret_name = cloud_ssm_secret.secret.secret_name
   version_id = "v1"
   secret_binary = "MTIzMTIzMTIzMTIzMTIzQQ=="
@@ -134,7 +134,7 @@ resource "cloud_ssm_secret_version" "v1" {
 `
 
 const TestAccTencentCloudSsmSecretVersion_secretStringConfig = `
-resource "cloud_ssm_secret" "secret" {
+resource "tencentcloudenterprise_ssm_secret" "secret" {
   secret_name = "unit-test-for-version"
   description = "test secret"
 
@@ -143,7 +143,7 @@ resource "cloud_ssm_secret" "secret" {
   }
 }
 
-resource "cloud_ssm_secret_version" "v1" {
+resource "tencentcloudenterprise_ssm_secret_version" "v1" {
   secret_name = cloud_ssm_secret.secret.secret_name
   version_id = "v1"
   secret_string = "123456"

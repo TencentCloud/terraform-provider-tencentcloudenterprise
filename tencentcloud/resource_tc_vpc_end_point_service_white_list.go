@@ -5,7 +5,7 @@ Provides a resource to create a vpc end_point_service_white_list
 
 ```hcl
 
-	resource "cloud_vpc_end_point_service_white_list" "end_point_service_white_list" {
+	resource "tencentcloudenterprise_vpc_end_point_service_white_list" "end_point_service_white_list" {
 	  user_uin = "100020512675"
 	  end_point_service_id = "vpcsvc-69y13tdb"
 	  description = "terraform for test"
@@ -36,7 +36,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_vpc_end_point_service_white_list", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_vpc_end_point_service_white_list", CNDescription{
 		TerraformTypeCN: "云联网终端服务白名单",
 		AttributesCN: map[string]string{
 			"user_uin":             "UIN",
@@ -209,7 +209,7 @@ func resourceTencentCloudVpcEndPointServiceWhiteListUpdate(d *schema.ResourceDat
 	}
 	for _, field := range unsupportedUpdateFields {
 		if d.HasChange(field) {
-			return fmt.Errorf("cloud_vpc_end_point_service_white_list update on %s is not support yet", field)
+			return fmt.Errorf("tencentcloudenterprise_vpc_end_point_service_white_list update on %s is not support yet", field)
 		}
 	}
 

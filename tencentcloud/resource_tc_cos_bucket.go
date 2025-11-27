@@ -6,7 +6,7 @@ Example Usage
 
 ```hcl
 
-	resource "cloud_cos_bucket" "mycos" {
+	resource "tencentcloudenterprise_cos_bucket" "mycos" {
 	  bucket = "mycos-1258798060"
 	  acl    = "private"
 	}
@@ -17,7 +17,7 @@ Example Usage
 
 ```hcl
 
-	resource "cloud_cos_bucket" "mycos" {
+	resource "tencentcloudenterprise_cos_bucket" "mycos" {
 	  bucket   = "mycos-1258798060"
 	  acl      = "private"
 	  versioning_enable = true
@@ -30,7 +30,7 @@ Example Usage
 
 ```hcl
 
-	resource "cloud_cos_bucket" "mycos" {
+	resource "tencentcloudenterprise_cos_bucket" "mycos" {
 	  bucket = "mycos-1258798060"
 
 	  website {
@@ -49,7 +49,7 @@ Example Usage
 
 ```hcl
 
-	resource "cloud_cos_bucket" "mycos" {
+	resource "tencentcloudenterprise_cos_bucket" "mycos" {
 	  bucket = "mycos-1258798060"
 	  acl    = "public-read-write"
 
@@ -68,7 +68,7 @@ Example Usage
 
 ```hcl
 
-	resource "cloud_cos_bucket" "mycos" {
+	resource "tencentcloudenterprise_cos_bucket" "mycos" {
 	  bucket = "mycos-1258798060"
 	  acl    = "public-read-write"
 
@@ -92,7 +92,7 @@ Example Usage
 
 ```hcl
 
-	resource "cloud_cos_bucket" "mycos" {
+	resource "tencentcloudenterprise_cos_bucket" "mycos" {
 	  bucket = "mycos-1258798060"
 	  acl    = "public-read-write"
 
@@ -114,7 +114,7 @@ Example Usage
 
 ```hcl
 
-	resource "cloud_cos_bucket" "with_origin" {
+	resource "tencentcloudenterprise_cos_bucket" "with_origin" {
 	  bucket = "mycos-1258798060"
 	  acl    = "private"
 	  origin_domain_rules {
@@ -129,7 +129,7 @@ Example Usage
 Using origin-pull settings
 ```hcl
 
-	resource "cloud_cos_bucket" "with_origin" {
+	resource "tencentcloudenterprise_cos_bucket" "with_origin" {
 	  bucket = "mycos-1258798060"
 	  acl    = "private"
 	  origin_pull_rules {
@@ -153,7 +153,7 @@ Using origin-pull settings
 
 ```hcl
 
-	resource "cloud_cam_role" "cosLogGrant" {
+	resource "tencentcloudenterprise_cam_role" "cosLogGrant" {
 	  name          = "CLS_QcsRole"
 	  document      = <<EOF
 
@@ -179,21 +179,21 @@ EOF
 	  description   = "cos log enable grant"
 	}
 
-	data "cloud_cam_policies" "cosAccess" {
+	data "tencentcloudenterprise_cam_policies" "cosAccess" {
 	  name      = "QcloudCOSAccessForCLSRole"
 	}
 
-	resource "cloud_cam_role_policy_attachment" "cosLogGrant" {
+	resource "tencentcloudenterprise_cam_role_policy_attachment" "cosLogGrant" {
 	  role_id   = cloud_cam_role.cosLogGrant.id
 	  policy_id = data.cloud_cam_policies.cosAccess.policy_list.0.policy_id
 	}
 
-	resource "cloud_cos_bucket" "mylog" {
+	resource "tencentcloudenterprise_cos_bucket" "mylog" {
 	  bucket = "mylog-1258798060"
 	  acl    = "private"
 	}
 
-	resource "cloud_cos_bucket" "mycos" {
+	resource "tencentcloudenterprise_cos_bucket" "mycos" {
 	  bucket = "mycos-1258798060"
 	  acl    = "private"
 	  log_enable = true
@@ -229,7 +229,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_cos_bucket", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_cos_bucket", CNDescription{
 		TerraformTypeCN: "云存储桶COS",
 		DescriptionCN:   "提供对象存储COS存储桶资源，用于创建和管理腾讯云对象存储桶。",
 		AttributesCN: map[string]string{

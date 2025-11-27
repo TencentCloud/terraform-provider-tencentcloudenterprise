@@ -5,7 +5,7 @@ Provides a resource to create a tsf application_public_config_release
 
 ```hcl
 
-	resource "cloud_tsf_application_public_config_release" "application_public_config_release" {
+	resource "tencentcloudenterprise_tsf_application_public_config_release" "application_public_config_release" {
 	  config_id = "dcfg-p-123456"
 	  namespace_id = "namespace-123456"
 	  release_desc = "product version"
@@ -36,7 +36,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_tsf_application_public_config_release", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_tsf_application_public_config_release", CNDescription{
 		TerraformTypeCN: "公共配置发布",
 		DescriptionCN:   "提供TSF公共配置发布资源，用于创建和管理公共配置发布。",
 		AttributesCN: map[string]string{

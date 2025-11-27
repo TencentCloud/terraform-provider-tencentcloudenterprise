@@ -5,7 +5,7 @@ Provides a resource to create a tdmq send_rocketmq_message
 
 ```hcl
 
-	resource "cloud_tdmq_send_rocketmq_message" "send_rocketmq_message" {
+	resource "tencentcloudenterprise_tdmq_send_rocketmq_message" "send_rocketmq_message" {
 	  cluster_id   = "rocketmq-7k45z9dkpnne"
 	  namespace_id = "test_ns"
 	  topic_name   = "test_topic"
@@ -29,7 +29,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_tdmq_send_rocketmq_message", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_tdmq_send_rocketmq_message", CNDescription{
 		TerraformTypeCN: "RocketMQ 发送消息",
 		DescriptionCN:   "提供RocketMQ发送消息资源，用于发送RocketMQ消息。",
 		AttributesCN: map[string]string{

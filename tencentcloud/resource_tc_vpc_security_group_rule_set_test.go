@@ -18,61 +18,61 @@ func TestAccTencentCloudSecurityGroupRuleSetResource_basic(t *testing.T) {
 			{
 				Config: testAccSecurityGroupRuleSetResource_basic,
 				Check: resource.ComposeAggregateTestCheckFunc(
-					testAccCheckSecurityGroupRuleSetResource_basicExists("cloud_vpc_security_group_rule_set.base"),
-					resource.TestCheckResourceAttr("cloud_vpc_security_group_rule_set.base", "ingress.#", "5"),
-					resource.TestCheckResourceAttr("cloud_vpc_security_group_rule_set.base", "ingress.0.cidr_block", "10.0.0.0/22"),
-					resource.TestCheckResourceAttr("cloud_vpc_security_group_rule_set.base", "ingress.0.action", "ACCEPT"),
-					resource.TestCheckResourceAttr("cloud_vpc_security_group_rule_set.base", "ingress.1.cidr_block", "203.0.113.21"),
-					resource.TestCheckResourceAttr("cloud_vpc_security_group_rule_set.base", "ingress.1.action", "ACCEPT"),
-					resource.TestCheckResourceAttr("cloud_vpc_security_group_rule_set.base", "ingress.2.cidr_block", "203.0.113.21"),
-					resource.TestCheckResourceAttr("cloud_vpc_security_group_rule_set.base", "ingress.2.action", "ACCEPT"),
-					resource.TestCheckResourceAttr("cloud_vpc_security_group_rule_set.base", "ingress.3.cidr_block", "203.0.113.182"),
-					resource.TestCheckResourceAttr("cloud_vpc_security_group_rule_set.base", "ingress.3.action", "ACCEPT"),
-					resource.TestCheckResourceAttr("cloud_vpc_security_group_rule_set.base", "ingress.4.description", "E:Block relative"),
-					resource.TestCheckResourceAttr("cloud_vpc_security_group_rule_set.base", "ingress.4.action", "DROP"),
-					resource.TestCheckResourceAttr("cloud_vpc_security_group_rule_set.base", "egress.#", "3"),
-					resource.TestCheckResourceAttrSet("cloud_vpc_security_group_rule_set.base", "version"),
+					testAccCheckSecurityGroupRuleSetResource_basicExists("tencentcloudenterprise_vpc_security_group_rule_set.base"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_vpc_security_group_rule_set.base", "ingress.#", "5"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_vpc_security_group_rule_set.base", "ingress.0.cidr_block", "10.0.0.0/22"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_vpc_security_group_rule_set.base", "ingress.0.action", "ACCEPT"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_vpc_security_group_rule_set.base", "ingress.1.cidr_block", "203.0.113.21"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_vpc_security_group_rule_set.base", "ingress.1.action", "ACCEPT"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_vpc_security_group_rule_set.base", "ingress.2.cidr_block", "203.0.113.21"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_vpc_security_group_rule_set.base", "ingress.2.action", "ACCEPT"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_vpc_security_group_rule_set.base", "ingress.3.cidr_block", "203.0.113.182"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_vpc_security_group_rule_set.base", "ingress.3.action", "ACCEPT"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_vpc_security_group_rule_set.base", "ingress.4.description", "E:Block relative"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_vpc_security_group_rule_set.base", "ingress.4.action", "DROP"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_vpc_security_group_rule_set.base", "egress.#", "3"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_vpc_security_group_rule_set.base", "version"),
 				),
 			},
 			{
-				ResourceName:      "cloud_vpc_security_group_rule_set.base",
+				ResourceName:      "tencentcloudenterprise_vpc_security_group_rule_set.base",
 				ImportState:       true,
 				ImportStateVerify: true,
 			},
 			{
 				Config: testAccSecurityGroupRuleSetResource_sort,
 				Check: resource.ComposeAggregateTestCheckFunc(
-					testAccCheckSecurityGroupRuleSetResource_basicExists("cloud_vpc_security_group_rule_set.base"),
-					resource.TestCheckResourceAttr("cloud_vpc_security_group_rule_set.base", "ingress.#", "5"),
-					resource.TestCheckResourceAttr("cloud_vpc_security_group_rule_set.base", "egress.#", "3"),
-					resource.TestCheckResourceAttr("cloud_vpc_security_group_rule_set.base", "ingress.0.action", "DROP"),
-					resource.TestCheckResourceAttr("cloud_vpc_security_group_rule_set.base", "ingress.0.protocol", "TCP"),
-					resource.TestCheckResourceAttr("cloud_vpc_security_group_rule_set.base", "ingress.0.port", "82"),
-					resource.TestCheckResourceAttrSet("cloud_vpc_security_group_rule_set.base", "ingress.0.source_security_id"),
-					resource.TestCheckResourceAttr("cloud_vpc_security_group_rule_set.base", "ingress.1.port", "80-90"),
-					resource.TestCheckResourceAttr("cloud_vpc_security_group_rule_set.base", "ingress.1.description", "A:Allow Ips and 80-90"),
-					resource.TestCheckResourceAttr("cloud_vpc_security_group_rule_set.base", "ingress.2.cidr_block", "203.0.113.21"),
-					resource.TestCheckResourceAttr("cloud_vpc_security_group_rule_set.base", "ingress.2.description", "B:Allow UDP 8080"),
-					resource.TestCheckResourceAttr("cloud_vpc_security_group_rule_set.base", "ingress.3.protocol", "ALL"),
-					resource.TestCheckResourceAttr("cloud_vpc_security_group_rule_set.base", "ingress.4.protocol", "UDP"),
+					testAccCheckSecurityGroupRuleSetResource_basicExists("tencentcloudenterprise_vpc_security_group_rule_set.base"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_vpc_security_group_rule_set.base", "ingress.#", "5"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_vpc_security_group_rule_set.base", "egress.#", "3"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_vpc_security_group_rule_set.base", "ingress.0.action", "DROP"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_vpc_security_group_rule_set.base", "ingress.0.protocol", "TCP"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_vpc_security_group_rule_set.base", "ingress.0.port", "82"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_vpc_security_group_rule_set.base", "ingress.0.source_security_id"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_vpc_security_group_rule_set.base", "ingress.1.port", "80-90"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_vpc_security_group_rule_set.base", "ingress.1.description", "A:Allow Ips and 80-90"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_vpc_security_group_rule_set.base", "ingress.2.cidr_block", "203.0.113.21"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_vpc_security_group_rule_set.base", "ingress.2.description", "B:Allow UDP 8080"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_vpc_security_group_rule_set.base", "ingress.3.protocol", "ALL"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_vpc_security_group_rule_set.base", "ingress.4.protocol", "UDP"),
 
-					resource.TestCheckResourceAttr("cloud_vpc_security_group_rule_set.base", "egress.0.cidr_block", "10.0.0.0/16"),
-					resource.TestCheckResourceAttr("cloud_vpc_security_group_rule_set.base", "egress.0.protocol", "ICMP"),
-					resource.TestCheckResourceAttrSet("cloud_vpc_security_group_rule_set.base", "egress.1.address_template_id"),
-					resource.TestCheckResourceAttr("cloud_vpc_security_group_rule_set.base", "egress.1.description", "B:Allow template"),
-					resource.TestCheckResourceAttr("cloud_vpc_security_group_rule_set.base", "egress.2.action", "ACCEPT"),
-					resource.TestCheckResourceAttrSet("cloud_vpc_security_group_rule_set.base", "egress.2.address_template_group"),
-					resource.TestCheckResourceAttrSet("cloud_vpc_security_group_rule_set.base", "version"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_vpc_security_group_rule_set.base", "egress.0.cidr_block", "10.0.0.0/16"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_vpc_security_group_rule_set.base", "egress.0.protocol", "ICMP"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_vpc_security_group_rule_set.base", "egress.1.address_template_id"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_vpc_security_group_rule_set.base", "egress.1.description", "B:Allow template"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_vpc_security_group_rule_set.base", "egress.2.action", "ACCEPT"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_vpc_security_group_rule_set.base", "egress.2.address_template_group"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_vpc_security_group_rule_set.base", "version"),
 				),
 			},
 			{
 				Config: testAccSecurityGroupRuleSetResource_modify,
 				Check: resource.ComposeAggregateTestCheckFunc(
-					testAccCheckSecurityGroupRuleSetResource_basicExists("cloud_vpc_security_group_rule_set.base"),
-					resource.TestCheckResourceAttr("cloud_vpc_security_group_rule_set.base", "ingress.#", "3"),
-					resource.TestCheckResourceAttr("cloud_vpc_security_group_rule_set.base", "egress.#", "4"),
-					resource.TestCheckResourceAttr("cloud_vpc_security_group_rule_set.base", "egress.1.description", "A:Block ping4"),
-					resource.TestCheckResourceAttrSet("cloud_vpc_security_group_rule_set.base", "version"),
+					testAccCheckSecurityGroupRuleSetResource_basicExists("tencentcloudenterprise_vpc_security_group_rule_set.base"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_vpc_security_group_rule_set.base", "ingress.#", "3"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_vpc_security_group_rule_set.base", "egress.#", "4"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_vpc_security_group_rule_set.base", "egress.1.description", "A:Block ping4"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_vpc_security_group_rule_set.base", "version"),
 				),
 			},
 		},
@@ -107,29 +107,29 @@ func testAccCheckSecurityGroupRuleSetResource_basicExists(n string) resource.Tes
 }
 
 const testAccSecurityGroupRuleSetDeps = `
-resource "cloud_vpc_security_group" "base" {
+resource "tencentcloudenterprise_vpc_security_group" "base" {
   name        = "test-set-sg"
   description = "Testing Rule Set Security"
 }
 
-resource "cloud_vpc_security_group" "relative" {
+resource "tencentcloudenterprise_vpc_security_group" "relative" {
   name        = "for-relative"
   description = "Used for attach security policy"
 }
 
-resource "cloud_vpc_address_template" "foo" {
+resource "tencentcloudenterprise_vpc_address_template" "foo" {
   name      = "test-set-aTemp"
   addresses = ["203.0.113.1", "10.0.1.0/24", "203.0.113.1-203.0.113.100"]
 }
 
-resource "cloud_vpc_address_template_group" "foo" {
+resource "tencentcloudenterprise_vpc_address_template_group" "foo" {
   name         = "test-set-atg"
   template_ids = [cloud_vpc_address_template.foo.id]
 }
 `
 
 const testAccSecurityGroupRuleSetResource_basic = testAccSecurityGroupRuleSetDeps + `
-resource "cloud_vpc_security_group_rule_set" "base" {
+resource "tencentcloudenterprise_vpc_security_group_rule_set" "base" {
   security_group_id = cloud_vpc_security_group.base.id
 
   ingress {
@@ -194,7 +194,7 @@ resource "cloud_vpc_security_group_rule_set" "base" {
 `
 
 const testAccSecurityGroupRuleSetResource_sort = testAccSecurityGroupRuleSetDeps + `
-resource "cloud_vpc_security_group_rule_set" "base" {
+resource "tencentcloudenterprise_vpc_security_group_rule_set" "base" {
   security_group_id = cloud_vpc_security_group.base.id
 
   ingress {
@@ -259,7 +259,7 @@ resource "cloud_vpc_security_group_rule_set" "base" {
 `
 
 const testAccSecurityGroupRuleSetResource_modify = testAccSecurityGroupRuleSetDeps + `
-resource "cloud_vpc_security_group_rule_set" "base" {
+resource "tencentcloudenterprise_vpc_security_group_rule_set" "base" {
   security_group_id = cloud_vpc_security_group.base.id
 
   ingress {

@@ -12,8 +12,8 @@ import (
 
 func init() {
 	// go test -v ./tencentcloud -sweep=ap-guangzhou -sweep-run=cloud_cfs_access_group
-	resource.AddTestSweepers("cloud_cfs_access_group", &resource.Sweeper{
-		Name: "cloud_cfs_access_group",
+	resource.AddTestSweepers("tencentcloudenterprise_cfs_access_group", &resource.Sweeper{
+		Name: "tencentcloudenterprise_cfs_access_group",
 		F: func(r string) error {
 			logId := getLogId(contextNil)
 			ctx := context.WithValue(context.TODO(), logIdKey, logId)
@@ -73,9 +73,9 @@ func TestAccTencentCloudCfsAccessGroup(t *testing.T) {
 			{
 				Config: testAccCfsAccessGroup,
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckCfsAccessGroupExists("cloud_cfs_access_group.foo"),
-					resource.TestCheckResourceAttr("cloud_cfs_access_group.foo", "name", "test_cfs_access_group"),
-					resource.TestCheckResourceAttr("cloud_cfs_access_group.foo", "description", "test"),
+					testAccCheckCfsAccessGroupExists("tencentcloudenterprise_cfs_access_group.foo"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_cfs_access_group.foo", "name", "test_cfs_access_group"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_cfs_access_group.foo", "description", "test"),
 				),
 			},
 		},
@@ -89,7 +89,7 @@ func testAccCheckCfsAccessGroupDestroy(s *terraform.State) error {
 		client: testAccProvider.Meta().(*TencentCloudClient).apiV3Conn,
 	}
 	for _, rs := range s.RootModule().Resources {
-		if rs.Type != "cloud_cfs_access_group" {
+		if rs.Type != "tencentcloudenterprise_cfs_access_group" {
 			continue
 		}
 
@@ -149,7 +149,7 @@ func testAccCheckCfsAccessGroupExists(n string) resource.TestCheckFunc {
 }
 
 const testAccCfsAccessGroup = `
-resource "cloud_cfs_access_group" "foo" {
+resource "tencentcloudenterprise_cfs_access_group" "foo" {
   name = "test_cfs_access_group"
   description = "test"
 }

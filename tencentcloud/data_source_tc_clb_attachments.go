@@ -4,7 +4,7 @@ Use this data source to query detailed information of CLB attachments
 Example Usage
 ```hcl
 
-	data "cloud_clb_attachments" "clblab" {
+	data "tencentcloudenterprise_clb_attachments" "clblab" {
 	  listener_id = "lbl-hh141sn9"
 	  clb_id      = "lb-k2zjp9lv"
 	  rule_id     = "loc-4xxr2cy7"
@@ -26,7 +26,7 @@ import (
 )
 
 func init() {
-	registerDataDescriptionProvider("cloud_clb_attachments", CNDescription{
+	registerDataDescriptionProvider("tencentcloudenterprise_clb_attachments", CNDescription{
 		TerraformTypeCN: "负载均衡接入",
 		DescriptionCN:   "提供负载均衡接入数据源，用于查询CLB接入的详细信息。",
 		AttributesCN: map[string]string{

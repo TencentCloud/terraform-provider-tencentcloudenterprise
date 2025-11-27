@@ -7,7 +7,7 @@ Provides a csp object resource to put an object(content or file) to the bucket.
 
 ```hcl
 
-	resource "cloud_csp_bucket_object" "myobject" {
+	resource "tencentcloudenterprise_csp_bucket_object" "myobject" {
 	  bucket = "mycsp-1258798060"
 	  key    = "new_object_key"
 	  acl    = "public-read"
@@ -20,12 +20,12 @@ Provides a csp object resource to put an object(content or file) to the bucket.
 
 ```hcl
 
-	resource "cloud_csp_bucket" "mycsp" {
+	resource "tencentcloudenterprise_csp_bucket" "mycsp" {
 	  bucket = "mycsp-1258798060"
 	  acl    = "public-read"
 	}
 
-	resource "cloud_csp_bucket_object" "myobject" {
+	resource "tencentcloudenterprise_csp_bucket_object" "myobject" {
 	  bucket  = cloud_csp_bucket.mycsp.bucket
 	  key     = "new_object_key"
 	  content = "the content that you want to upload."
@@ -51,7 +51,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_csp_bucket_object", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_csp_bucket_object", CNDescription{
 		TerraformTypeCN: "上传存储对象",
 		DescriptionCN:   "提供CSP对象资源，用于将对象（内容或文件）上传到存储桶。",
 		AttributesCN: map[string]string{

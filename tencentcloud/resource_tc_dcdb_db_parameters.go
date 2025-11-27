@@ -5,7 +5,7 @@ Provides a resource to create a dcdb db_parameters
 
 ```hcl
 
-	resource "cloud_dcdb_db_parameters" "db_parameters" {
+	resource "tencentcloudenterprise_dcdb_db_parameters" "db_parameters" {
 	  instance_id = "tdsqlshard-973xatu3"
 	  params {
 	    param = "audit_txsql_audit_mode"
@@ -42,7 +42,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_dcdb_db_parameters", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_dcdb_db_parameters", CNDescription{
 		TerraformTypeCN: "数据库实例参数",
 		DescriptionCN:   "提供DCDB数据库实例参数资源，用于修改DCDB实例的配置参数。",
 		AttributesCN: map[string]string{

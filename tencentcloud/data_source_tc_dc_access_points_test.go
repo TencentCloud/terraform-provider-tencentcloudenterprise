@@ -24,7 +24,7 @@ func TestAccTencentCloudDcAccessPointsDataSource_basic(t *testing.T) {
 
 const testAccDcAccessPointsDataSource = `
 
-data "cloud_dc_access_points" "access_points" {
+data "tencentcloudenterprise_dc_access_points" "access_points" {
   region_id = "ap-guangzhou"
 }
 

@@ -5,7 +5,7 @@
 //
 // ```hcl
 //
-//	resource "cloud_redis_switch_master" "switch_master" {
+//	resource "tencentcloudenterprise_redis_switch_master" "switch_master" {
 //	 instance_id = "crs-kfdkirid"
 //	 group_id = 29369
 //	}

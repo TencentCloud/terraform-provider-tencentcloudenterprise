@@ -5,7 +5,7 @@ Provides a resource to create a TurboFS permission group.
 
 ```hcl
 
-	resource "cloud_turbofs_p_group" "foo" {
+	resource "tencentcloudenterprise_turbofs_p_group" "foo" {
 	  name        = "test_p_group"
 	  desc_info = "test"
 	}
@@ -34,7 +34,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_turbofs_p_group", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_turbofs_p_group", CNDescription{
 		TerraformTypeCN: "权限组",
 		DescriptionCN:   "提供TurboFS权限组资源，用于创建和管理TurboFS权限组。",
 		AttributesCN: map[string]string{

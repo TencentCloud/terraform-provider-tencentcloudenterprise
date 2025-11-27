@@ -4,10 +4,10 @@ Provide a resource to create a VPC ACL instance.
 # Example Usage
 
 ```hcl
-data "cloud_vpc_instances" "default" {
+data "tencentcloudenterprise_vpc_instances" "default" {
 }
 
-	resource "cloud_vpc_acl" "foo" {
+	resource "tencentcloudenterprise_vpc_acl" "foo" {
 	    vpc_id  = data.cloud_vpc_instances.default.instance_list.0.vpc_id
 	    name  	= "test_acl_update"
 		ingress = [
@@ -43,7 +43,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_vpc_acl", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_vpc_acl", CNDescription{
 		TerraformTypeCN: "网络ACL",
 		DescriptionCN:   "提供VPC网络ACL资源，用于创建和管理VPC网络访问控制列表。",
 		AttributesCN: map[string]string{

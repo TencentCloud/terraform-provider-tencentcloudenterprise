@@ -16,7 +16,7 @@ func TestAccTencentCloudKeyPairsDataSource(t *testing.T) {
 			{
 				Config: testAccKeyPairDataSource,
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckKeyPairExists("cloud_cvm_key_pair.key"),
+					testAccCheckKeyPairExists("tencentcloudenterprise_cvm_key_pair.key"),
 					resource.TestCheckResourceAttr("data.cloud_cvm_key_pairs.data_key", "key_pair_list.#", "1"),
 					resource.TestCheckResourceAttrSet("data.cloud_cvm_key_pairs.data_key", "key_pair_list.0.key_id"),
 					resource.TestCheckResourceAttr("data.cloud_cvm_key_pairs.data_key", "key_pair_list.0.key_name", "tf_test_key"),
@@ -33,16 +33,16 @@ func TestAccTencentCloudKeyPairsDataSource(t *testing.T) {
 }
 
 const testAccKeyPairDataSource = `
-resource "cloud_cvm_key_pair" "key" {
+resource "tencentcloudenterprise_cvm_key_pair" "key" {
   key_name   = "tf_test_key"
   public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAAAgQDjd8fTnp7Dcuj4mLaQxf9Zs/ORgUL9fQxRCNKkPgP1paTy1I513maMX126i36Lxxl3+FUB52oVbo/FgwlIfX8hyCnv8MCxqnuSDozf1CD0/wRYHcTWAtgHQHBPCC2nJtod6cVC3kB18KeV4U7zsxmwFeBIxojMOOmcOBuh7+trRw=="
 }
 
-data "cloud_cvm_key_pairs" "data_key" {
+data "tencentcloudenterprise_cvm_key_pairs" "data_key" {
   key_id = cloud_cvm_key_pair.key.id
 }
 
-data "cloud_cvm_key_pairs" "key_name" {
+data "tencentcloudenterprise_cvm_key_pairs" "key_name" {
   key_name = "^${cloud_cvm_key_pair.key.key_name}$"
 }
 `

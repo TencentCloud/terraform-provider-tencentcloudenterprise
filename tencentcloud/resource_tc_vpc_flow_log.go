@@ -5,7 +5,7 @@ Provides a resource to create a vpc flow_log
 
 ```hcl
 
-	resource "cloud_vpc_flow_log" "flow_log" {
+	resource "tencentcloudenterprise_vpc_flow_log" "flow_log" {
 	  flow_log_name = "foo"
 	  resource_type = "NETWORKINTERFACE"
 	  resource_id = "eni-xxxxxxxx"
@@ -45,22 +45,22 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_vpc_flow_log", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_vpc_flow_log", CNDescription{
 		TerraformTypeCN: "云网络VPC流日志",
 		AttributesCN: map[string]string{
-			"flow_log_name":        "流日志名称",
-			"resource_type":        "资源类型",
-			"resource_id":          "资源ID",
-			"traffic_type":         "流日志采集类型",
-			"vpc_id":               "VPC ID",
-			"flow_log_description": "流日志描述",
-			"cloud_log_id":         "日志存储ID",
-			"storage_type":         "日志存储类型",
-			"flow_log_storage":     "日志存储详情",
-			"cloud_log_region":     "日志存储地域",
-			"tags":                 "标签",
-			"storage_id":           "指定存储实例id，当`storage_type `为`ckafka`时，这是必需的",
-			"storage_topic":        "指定存储主题id，当`storage_type `为`ckafka`时，这是必需的",
+			"flow_log_name":                     "流日志名称",
+			"resource_type":                     "资源类型",
+			"resource_id":                       "资源ID",
+			"traffic_type":                      "流日志采集类型",
+			"vpc_id":                            "VPC ID",
+			"flow_log_description":              "流日志描述",
+			"tencentcloudenterprise_log_id":     "日志存储ID",
+			"storage_type":                      "日志存储类型",
+			"flow_log_storage":                  "日志存储详情",
+			"tencentcloudenterprise_log_region": "日志存储地域",
+			"tags":                              "标签",
+			"storage_id":                        "指定存储实例id，当`storage_type `为`ckafka`时，这是必需的",
+			"storage_topic":                     "指定存储主题id，当`storage_type `为`ckafka`时，这是必需的",
 		},
 	})
 }
@@ -105,7 +105,7 @@ func resourceTencentCloudVpcFlowLog() *schema.Resource {
 				Type:        schema.TypeString,
 				Description: "Specify flow Log description.",
 			},
-			"cloud_log_id": {
+			"tencentcloudenterprise_log_id": {
 				Optional:    true,
 				Type:        schema.TypeString,
 				Description: "Specify flow log storage id.",
@@ -138,7 +138,7 @@ func resourceTencentCloudVpcFlowLog() *schema.Resource {
 					},
 				},
 			},
-			"cloud_log_region": {
+			"tencentcloudenterprise_log_region": {
 				Type:        schema.TypeString,
 				Optional:    true,
 				Computed:    true,
@@ -188,7 +188,7 @@ func resourceTencentCloudVpcFlowLogCreate(d *schema.ResourceData, meta interface
 		request.FlowLogDescription = helper.String(v.(string))
 	}
 
-	if v, ok := d.GetOk("cloud_log_id"); ok {
+	if v, ok := d.GetOk("tencentcloudenterprise_log_id"); ok {
 		request.CloudLogId = helper.String(v.(string))
 	}
 
@@ -214,7 +214,7 @@ func resourceTencentCloudVpcFlowLogCreate(d *schema.ResourceData, meta interface
 	*/
 
 	/*
-		if v, ok := d.GetOk("cloud_log_region"); ok {
+		if v, ok := d.GetOk("tencentcloudenterprise_log_region"); ok {
 			request.CloudLogRegion = helper.String(v.(string))
 		}
 
@@ -308,7 +308,7 @@ func resourceTencentCloudVpcFlowLogRead(d *schema.ResourceData, meta interface{}
 	}
 
 	if flowLog.CloudLogId != nil {
-		_ = d.Set("cloud_log_id", flowLog.CloudLogId)
+		_ = d.Set("tencentcloudenterprise_log_id", flowLog.CloudLogId)
 	}
 
 	/*
@@ -337,7 +337,7 @@ func resourceTencentCloudVpcFlowLogRead(d *schema.ResourceData, meta interface{}
 
 	/*
 		if flowLog.CloudLogRegion != nil {
-			_ = d.Set("cloud_log_region", flowLog.CloudLogRegion)
+			_ = d.Set("tencentcloudenterprise_log_region", flowLog.CloudLogRegion)
 		}
 
 	*/
@@ -376,10 +376,10 @@ func resourceTencentCloudVpcFlowLogUpdate(d *schema.ResourceData, meta interface
 		"resource_id",
 		"vpc_id", // VPC now used as ID, means it cannot be modified for now
 		"traffic_type",
-		"cloud_log_id",
+		"tencentcloudenterprise_log_id",
 		"storage_type",
 		"flow_log_storage",
-		"cloud_log_region",
+		"tencentcloudenterprise_log_region",
 	}
 
 	for _, v := range immutableArgs {

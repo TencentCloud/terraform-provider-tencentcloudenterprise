@@ -5,7 +5,7 @@ Provides a resource to create CBS set.
 
 ```hcl
 
-	resource "cloud_cbs_storage_set" "storage" {
+	resource "tencentcloudenterprise_cbs_storage_set" "storage" {
 	        disk_count 		  = 10
 	        storage_name      = "mystorage"
 	        storage_type      = "CLOUD_SSD"
@@ -35,7 +35,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_cbs_storage_set", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_cbs_storage_set", CNDescription{
 		TerraformTypeCN: "批量创建云硬盘",
 		DescriptionCN:   "提供CBS存储集合资源，用于批量创建云硬盘。",
 		AttributesCN: map[string]string{

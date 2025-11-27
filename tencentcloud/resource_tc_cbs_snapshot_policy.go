@@ -5,7 +5,7 @@ Provides a snapshot policy resource.
 
 ```hcl
 
-	resource "cloud_cbs_snapshot_policy" "snapshot_policy" {
+	resource "tencentcloudenterprise_cbs_snapshot_policy" "snapshot_policy" {
 	  snapshot_policy_name = "mysnapshotpolicyname"
 	  repeat_weekdays      = [1, 4]
 	  repeat_hours         = [1]
@@ -36,7 +36,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_cbs_snapshot_policy", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_cbs_snapshot_policy", CNDescription{
 		TerraformTypeCN: "定期快照策略",
 		DescriptionCN:   "提供快照策略资源，用于创建和管理定期快照策略。",
 		AttributesCN: map[string]string{

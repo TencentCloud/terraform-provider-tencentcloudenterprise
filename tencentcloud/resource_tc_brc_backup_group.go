@@ -5,7 +5,7 @@ Provides a resource to create a brc group(cvm instance disks) backup
 
 ```hcl
 
-	resource "cloud_brc_backup_group" "example" {
+	resource "tencentcloudenterprise_brc_backup_group" "example" {
 	  disk_ids          = ["disk-23h487qfj", "disk-da73ha9dj"]
 	  backup_group_name = "basic-backup-group"
 	  deadline          = "2024-12-31 23:59:59"
@@ -41,7 +41,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_brc_backup_group", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_brc_backup_group", CNDescription{
 		TerraformTypeCN: "CVM云服务器的硬盘备份组",
 		DescriptionCN:   "提供BRC备份组资源，用于创建CVM实例磁盘的备份组。",
 		AttributesCN: map[string]string{

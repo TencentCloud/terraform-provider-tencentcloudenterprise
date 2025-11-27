@@ -5,7 +5,7 @@ Provides a resource to create a cvm security_group_attachment
 
 ```hcl
 
-	resource "cloud_cvm_security_group_attachment" "security_group_attachment" {
+	resource "tencentcloudenterprise_cvm_security_group_attachment" "security_group_attachment" {
 	  security_group_id = "sg-xxxxxxx"
 	  instance_id = "ins-xxxxxxxx"
 	}
@@ -34,7 +34,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_cvm_security_group_attachment", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_cvm_security_group_attachment", CNDescription{
 		TerraformTypeCN: "云服务器安全组绑定",
 		DescriptionCN:   "提供云服务器安全组绑定资源，用于将安全组绑定到云服务器实例。",
 		AttributesCN: map[string]string{

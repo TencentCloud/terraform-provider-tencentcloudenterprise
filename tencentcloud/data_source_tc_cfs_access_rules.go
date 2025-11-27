@@ -5,7 +5,7 @@ Use this data source to query the detail information of CFS access rule.
 
 ```hcl
 
-	data "cloud_cfs_access_rules" "access_rules" {
+	data "tencentcloudenterprise_cfs_access_rules" "access_rules" {
 	  access_group_id = "pgroup-7nx89k7l"
 	  access_rule_id  = "rule-qcndbqzj"
 	}
@@ -25,7 +25,7 @@ import (
 )
 
 func init() {
-	registerDataDescriptionProvider("cloud_cfs_access_rules", CNDescription{
+	registerDataDescriptionProvider("tencentcloudenterprise_cfs_access_rules", CNDescription{
 		TerraformTypeCN: "CFS访问规则",
 		DescriptionCN:   "提供CFS文件系统访问规则数据源，用于查询文件系统访问规则的详细信息。",
 		AttributesCN: map[string]string{

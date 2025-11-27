@@ -4,7 +4,7 @@ Use this data source to query detailed information of vpc address_quota
 # Example Usage
 
 ```hcl
-data "cloud_eip_address_quota" "address_quota" {}
+data "tencentcloudenterprise_eip_address_quota" "address_quota" {}
 ```
 */
 package tencentcloud
@@ -19,7 +19,7 @@ import (
 )
 
 func init() {
-	registerDataDescriptionProvider("cloud_eip_address_quota", CNDescription{
+	registerDataDescriptionProvider("tencentcloudenterprise_eip_address_quota", CNDescription{
 		TerraformTypeCN: "EIP地址配额",
 		DescriptionCN:   "提供EIP地址配额数据源，用于查询EIP地址配额的详细信息。",
 		AttributesCN: map[string]string{

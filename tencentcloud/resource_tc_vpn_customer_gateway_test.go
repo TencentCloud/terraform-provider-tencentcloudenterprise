@@ -15,8 +15,8 @@ import (
 )
 
 func init() {
-	resource.AddTestSweepers("cloud_vpn_customer_gateway", &resource.Sweeper{
-		Name: "cloud_vpn_customer_gateway",
+	resource.AddTestSweepers("tencentcloudenterprise_vpn_customer_gateway", &resource.Sweeper{
+		Name: "tencentcloudenterprise_vpn_customer_gateway",
 		F:    testSweepVpnCustomerGateway,
 	})
 }
@@ -72,18 +72,18 @@ func TestAccTencentCloudVpnCustomerGateway_basic(t *testing.T) {
 			{
 				Config: testAccVpnCustomerGatewayConfig,
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckVpnCustomerGatewayExists("cloud_vpn_customer_gateway.my_cgw"),
-					resource.TestCheckResourceAttr("cloud_vpn_customer_gateway.my_cgw", "name", "terraform_test"),
-					resource.TestCheckResourceAttr("cloud_vpn_customer_gateway.my_cgw", "public_ip_address", "1.1.1.2"),
-					resource.TestCheckResourceAttr("cloud_vpn_customer_gateway.my_cgw", "tags.test", "tf"),
+					testAccCheckVpnCustomerGatewayExists("tencentcloudenterprise_vpn_customer_gateway.my_cgw"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_vpn_customer_gateway.my_cgw", "name", "terraform_test"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_vpn_customer_gateway.my_cgw", "public_ip_address", "1.1.1.2"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_vpn_customer_gateway.my_cgw", "tags.test", "tf"),
 				),
 			},
 			{
 				Config: testAccVpnCustomerGatewayConfigUpdate,
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckVpnCustomerGatewayExists("cloud_vpn_customer_gateway.my_cgw"),
-					resource.TestCheckResourceAttr("cloud_vpn_customer_gateway.my_cgw", "name", "terraform_update"),
-					resource.TestCheckResourceAttr("cloud_vpn_customer_gateway.my_cgw", "public_ip_address", "1.1.1.2"),
+					testAccCheckVpnCustomerGatewayExists("tencentcloudenterprise_vpn_customer_gateway.my_cgw"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_vpn_customer_gateway.my_cgw", "name", "terraform_update"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_vpn_customer_gateway.my_cgw", "public_ip_address", "1.1.1.2"),
 				),
 			},
 		},
@@ -95,7 +95,7 @@ func testAccCheckVpnCustomerGatewayDestroy(s *terraform.State) error {
 
 	conn := testAccProvider.Meta().(*TencentCloudClient).apiV3Conn
 	for _, rs := range s.RootModule().Resources {
-		if rs.Type != "cloud_vpn_customer_gateway" {
+		if rs.Type != "tencentcloudenterprise_vpn_customer_gateway" {
 			continue
 		}
 		request := vpc.NewDescribeCustomerGatewaysRequest()
@@ -179,7 +179,7 @@ func testAccCheckVpnCustomerGatewayExists(n string) resource.TestCheckFunc {
 }
 
 const testAccVpnCustomerGatewayConfig = `
-resource "cloud_vpn_customer_gateway" "my_cgw" {
+resource "tencentcloudenterprise_vpn_customer_gateway" "my_cgw" {
   name              = "terraform_test"
   public_ip_address = "1.1.1.2" 
 
@@ -189,7 +189,7 @@ resource "cloud_vpn_customer_gateway" "my_cgw" {
 }
 `
 const testAccVpnCustomerGatewayConfigUpdate = `
-resource "cloud_vpn_customer_gateway" "my_cgw" {
+resource "tencentcloudenterprise_vpn_customer_gateway" "my_cgw" {
   name              = "terraform_update"
   public_ip_address = "1.1.1.2"
 

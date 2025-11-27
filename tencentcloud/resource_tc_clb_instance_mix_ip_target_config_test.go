@@ -16,10 +16,10 @@ func TestAccTencentCloudNeedFixClbInstanceMixIpTargetConfigResource_basic(t *tes
 		Steps: []resource.TestStep{
 			{
 				Config: testAccClbInstanceMixIpTargetConfig,
-				Check:  resource.ComposeTestCheckFunc(resource.TestCheckResourceAttrSet("cloud_clb_instance_mix_ip_target_config.instance_mix_ip_target_config", "id")),
+				Check:  resource.ComposeTestCheckFunc(resource.TestCheckResourceAttrSet("tencentcloudenterprise_clb_instance_mix_ip_target_config.instance_mix_ip_target_config", "id")),
 			},
 			{
-				ResourceName:      "cloud_clb_instance_mix_ip_target_config.instance_mix_ip_target_config",
+				ResourceName:      "tencentcloudenterprise_clb_instance_mix_ip_target_config.instance_mix_ip_target_config",
 				ImportState:       true,
 				ImportStateVerify: true,
 			},
@@ -29,7 +29,7 @@ func TestAccTencentCloudNeedFixClbInstanceMixIpTargetConfigResource_basic(t *tes
 
 const testAccClbInstanceMixIpTargetConfig = `
 
-resource "cloud_clb_instance_mix_ip_target_config" "instance_mix_ip_target_config" {
+resource "tencentcloudenterprise_clb_instance_mix_ip_target_config" "instance_mix_ip_target_config" {
   load_balancer_id = "lb-5dnrkgry"
   mix_ip_target = false
 }

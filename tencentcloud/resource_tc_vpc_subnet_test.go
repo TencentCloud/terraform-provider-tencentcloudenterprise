@@ -13,8 +13,8 @@ import (
 )
 
 func init() {
-	resource.AddTestSweepers("cloud_vpc_subnet", &resource.Sweeper{
-		Name: "cloud_vpc_subnet",
+	resource.AddTestSweepers("tencentcloudenterprise_vpc_subnet", &resource.Sweeper{
+		Name: "tencentcloudenterprise_vpc_subnet",
 		F:    testSweepSubnet,
 	})
 }
@@ -73,14 +73,14 @@ func TestAccTencentCloudVpcV3SubnetBasic(t *testing.T) {
 			{
 				Config: testAccVpcSubnetConfig,
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckVpcSubnetExists("cloud_vpc_subnet.subnet"),
-					resource.TestCheckResourceAttr("cloud_vpc_subnet.subnet", "cidr_block", defaultSubnetCidr),
-					resource.TestCheckResourceAttr("cloud_vpc_subnet.subnet", "name", defaultInsName),
-					resource.TestCheckResourceAttr("cloud_vpc_subnet.subnet", "is_multicast", "false"),
+					testAccCheckVpcSubnetExists("tencentcloudenterprise_vpc_subnet.subnet"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_vpc_subnet.subnet", "cidr_block", defaultSubnetCidr),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_vpc_subnet.subnet", "name", defaultInsName),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_vpc_subnet.subnet", "is_multicast", "false"),
 				),
 			},
 			{
-				ResourceName:      "cloud_vpc_subnet.subnet",
+				ResourceName:      "tencentcloudenterprise_vpc_subnet.subnet",
 				ImportState:       true,
 				ImportStateVerify: true,
 			},
@@ -98,33 +98,33 @@ func TestAccTencentCloudVpcV3SubnetUpdate(t *testing.T) {
 			{
 				Config: testAccVpcSubnetConfig,
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckVpcSubnetExists("cloud_vpc_subnet.subnet"),
-					resource.TestCheckResourceAttr("cloud_vpc_subnet.subnet", "cidr_block", defaultSubnetCidr),
-					resource.TestCheckResourceAttr("cloud_vpc_subnet.subnet", "name", defaultInsName),
-					resource.TestCheckResourceAttr("cloud_vpc_subnet.subnet", "is_multicast", "false"),
+					testAccCheckVpcSubnetExists("tencentcloudenterprise_vpc_subnet.subnet"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_vpc_subnet.subnet", "cidr_block", defaultSubnetCidr),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_vpc_subnet.subnet", "name", defaultInsName),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_vpc_subnet.subnet", "is_multicast", "false"),
 
-					resource.TestCheckResourceAttrSet("cloud_vpc_subnet.subnet", "vpc_id"),
-					resource.TestCheckResourceAttrSet("cloud_vpc_subnet.subnet", "availability_zone"),
-					resource.TestCheckResourceAttrSet("cloud_vpc_subnet.subnet", "is_default"),
-					resource.TestCheckResourceAttrSet("cloud_vpc_subnet.subnet", "available_ip_count"),
-					resource.TestCheckResourceAttrSet("cloud_vpc_subnet.subnet", "route_table_id"),
-					resource.TestCheckResourceAttrSet("cloud_vpc_subnet.subnet", "create_time"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_vpc_subnet.subnet", "vpc_id"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_vpc_subnet.subnet", "availability_zone"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_vpc_subnet.subnet", "is_default"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_vpc_subnet.subnet", "available_ip_count"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_vpc_subnet.subnet", "route_table_id"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_vpc_subnet.subnet", "create_time"),
 				),
 			},
 			{
 				Config: testAccVpcSubnetConfigUpdate,
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckVpcSubnetExists("cloud_vpc_subnet.subnet"),
-					resource.TestCheckResourceAttr("cloud_vpc_subnet.subnet", "cidr_block", defaultSubnetCidrLess),
-					resource.TestCheckResourceAttr("cloud_vpc_subnet.subnet", "name", defaultInsNameUpdate),
-					resource.TestCheckResourceAttr("cloud_vpc_subnet.subnet", "is_multicast", "true"),
+					testAccCheckVpcSubnetExists("tencentcloudenterprise_vpc_subnet.subnet"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_vpc_subnet.subnet", "cidr_block", defaultSubnetCidrLess),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_vpc_subnet.subnet", "name", defaultInsNameUpdate),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_vpc_subnet.subnet", "is_multicast", "true"),
 
-					resource.TestCheckResourceAttrSet("cloud_vpc_subnet.subnet", "vpc_id"),
-					resource.TestCheckResourceAttrSet("cloud_vpc_subnet.subnet", "availability_zone"),
-					resource.TestCheckResourceAttrSet("cloud_vpc_subnet.subnet", "is_default"),
-					resource.TestCheckResourceAttrSet("cloud_vpc_subnet.subnet", "available_ip_count"),
-					resource.TestCheckResourceAttrSet("cloud_vpc_subnet.subnet", "route_table_id"),
-					resource.TestCheckResourceAttrSet("cloud_vpc_subnet.subnet", "create_time"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_vpc_subnet.subnet", "vpc_id"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_vpc_subnet.subnet", "availability_zone"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_vpc_subnet.subnet", "is_default"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_vpc_subnet.subnet", "available_ip_count"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_vpc_subnet.subnet", "route_table_id"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_vpc_subnet.subnet", "create_time"),
 				),
 			},
 		},
@@ -141,32 +141,32 @@ func TestAccTencentCloudVpcV3SubnetWithTags(t *testing.T) {
 			{
 				Config: testAccVpcSubnetConfigWithTags,
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckVpcSubnetExists("cloud_vpc_subnet.subnet"),
-					resource.TestCheckResourceAttr("cloud_vpc_subnet.subnet", "cidr_block", defaultSubnetCidr),
-					resource.TestCheckResourceAttr("cloud_vpc_subnet.subnet", "name", defaultInsName),
-					resource.TestCheckResourceAttr("cloud_vpc_subnet.subnet", "is_multicast", "false"),
+					testAccCheckVpcSubnetExists("tencentcloudenterprise_vpc_subnet.subnet"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_vpc_subnet.subnet", "cidr_block", defaultSubnetCidr),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_vpc_subnet.subnet", "name", defaultInsName),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_vpc_subnet.subnet", "is_multicast", "false"),
 
-					resource.TestCheckResourceAttrSet("cloud_vpc_subnet.subnet", "vpc_id"),
-					resource.TestCheckResourceAttrSet("cloud_vpc_subnet.subnet", "availability_zone"),
-					resource.TestCheckResourceAttrSet("cloud_vpc_subnet.subnet", "is_default"),
-					resource.TestCheckResourceAttrSet("cloud_vpc_subnet.subnet", "available_ip_count"),
-					resource.TestCheckResourceAttrSet("cloud_vpc_subnet.subnet", "route_table_id"),
-					resource.TestCheckResourceAttrSet("cloud_vpc_subnet.subnet", "create_time"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_vpc_subnet.subnet", "vpc_id"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_vpc_subnet.subnet", "availability_zone"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_vpc_subnet.subnet", "is_default"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_vpc_subnet.subnet", "available_ip_count"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_vpc_subnet.subnet", "route_table_id"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_vpc_subnet.subnet", "create_time"),
 
-					resource.TestCheckResourceAttr("cloud_vpc_subnet.subnet", "tags.test", "test"),
-					resource.TestCheckNoResourceAttr("cloud_vpc_subnet.subnet", "tags.abc"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_vpc_subnet.subnet", "tags.test", "test"),
+					resource.TestCheckNoResourceAttr("tencentcloudenterprise_vpc_subnet.subnet", "tags.abc"),
 				),
 			},
 			{
 				Config: testAccVpcSubnetConfigWithTagsUpdate,
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckVpcSubnetExists("cloud_vpc_subnet.subnet"),
-					resource.TestCheckResourceAttr("cloud_vpc_subnet.subnet", "cidr_block", defaultSubnetCidr),
-					resource.TestCheckResourceAttr("cloud_vpc_subnet.subnet", "name", defaultInsName),
-					resource.TestCheckResourceAttr("cloud_vpc_subnet.subnet", "is_multicast", "false"),
+					testAccCheckVpcSubnetExists("tencentcloudenterprise_vpc_subnet.subnet"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_vpc_subnet.subnet", "cidr_block", defaultSubnetCidr),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_vpc_subnet.subnet", "name", defaultInsName),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_vpc_subnet.subnet", "is_multicast", "false"),
 
-					resource.TestCheckResourceAttr("cloud_vpc_subnet.subnet", "tags.abc", "abc"),
-					resource.TestCheckNoResourceAttr("cloud_vpc_subnet.subnet", "tags.test"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_vpc_subnet.subnet", "tags.abc", "abc"),
+					resource.TestCheckNoResourceAttr("tencentcloudenterprise_vpc_subnet.subnet", "tags.test"),
 				),
 			},
 		},
@@ -202,7 +202,7 @@ func testAccCheckVpcSubnetDestroy(s *terraform.State) error {
 
 	service := VpcService{client: testAccProvider.Meta().(*TencentCloudClient).apiV3Conn}
 	for _, rs := range s.RootModule().Resources {
-		if rs.Type != "cloud_vpc_subnet" {
+		if rs.Type != "tencentcloudenterprise_vpc_subnet" {
 			continue
 		}
 		time.Sleep(5 * time.Second)
@@ -220,12 +220,12 @@ func testAccCheckVpcSubnetDestroy(s *terraform.State) error {
 }
 
 const testAccVpcSubnetConfig = defaultVpcVariable + `
-resource "cloud_vpc" "foo" {
+resource "tencentcloudenterprise_vpc" "foo" {
   name       = var.instance_name
   cidr_block = var.vpc_cidr
 }
 
-resource "cloud_vpc_subnet" "subnet" {
+resource "tencentcloudenterprise_vpc_subnet" "subnet" {
   name              = var.instance_name
   vpc_id            = cloud_vpc.foo.id
   availability_zone = var.availability_zone
@@ -235,17 +235,17 @@ resource "cloud_vpc_subnet" "subnet" {
 `
 
 const testAccVpcSubnetConfigUpdate = defaultVpcVariable + `
-resource "cloud_vpc" "foo" {
+resource "tencentcloudenterprise_vpc" "foo" {
   name       = var.instance_name
   cidr_block = var.vpc_cidr
 }
 
-resource "cloud_route_table" "route_table" {
+resource "tencentcloudenterprise_route_table" "route_table" {
   name   = var.instance_name
   vpc_id = cloud_vpc.foo.id
 }
 
-resource "cloud_vpc_subnet" "subnet" {
+resource "tencentcloudenterprise_vpc_subnet" "subnet" {
   name              = var.instance_name_update
   vpc_id            = cloud_vpc.foo.id
   availability_zone = var.availability_zone
@@ -256,12 +256,12 @@ resource "cloud_vpc_subnet" "subnet" {
 `
 
 const testAccVpcSubnetConfigWithTags = defaultVpcVariable + `
-resource "cloud_vpc" "foo" {
+resource "tencentcloudenterprise_vpc" "foo" {
   name       = var.instance_name
   cidr_block = var.vpc_cidr
 }
 
-resource "cloud_vpc_subnet" "subnet" {
+resource "tencentcloudenterprise_vpc_subnet" "subnet" {
   name              = var.instance_name
   vpc_id            = cloud_vpc.foo.id
   availability_zone = var.availability_zone
@@ -275,12 +275,12 @@ resource "cloud_vpc_subnet" "subnet" {
 `
 
 const testAccVpcSubnetConfigWithTagsUpdate = defaultVpcVariable + `
-resource "cloud_vpc" "foo" {
+resource "tencentcloudenterprise_vpc" "foo" {
   name       = var.instance_name
   cidr_block = var.vpc_cidr
 }
 
-resource "cloud_vpc_subnet" "subnet" {
+resource "tencentcloudenterprise_vpc_subnet" "subnet" {
   name              = var.instance_name
   vpc_id            = cloud_vpc.foo.id
   availability_zone = var.availability_zone

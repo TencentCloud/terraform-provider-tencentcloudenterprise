@@ -3,19 +3,19 @@
 # ========== Data Sources ==========
 
 # Query RabbitMQ node list
-data "cloud_tdmq_rabbitmq_node_list" "nodes" {
+data "tencentcloudenterprise_tdmq_rabbitmq_node_list" "nodes" {
   instance_id = "rabbitmq-xxxxx"
 }
 
 # Query RabbitMQ VIP instance
-data "cloud_tdmq_rabbitmq_vip_instance" "instance" {
+data "tencentcloudenterprise_tdmq_rabbitmq_vip_instance" "instance" {
   cluster_id = "rabbitmq-xxxxx"
 }
 
 # ========== Resources ==========
 
 # RabbitMQ VIP Instance
-resource "cloud_tdmq_rabbitmq_vip_instance" "instance" {
+resource "tencentcloudenterprise_tdmq_rabbitmq_vip_instance" "instance" {
   name              = "example-rabbitmq"
   spec_type         = "rabbit-vip-basic-1"
   node_num        = 3
@@ -31,7 +31,7 @@ resource "cloud_tdmq_rabbitmq_vip_instance" "instance" {
 }
 
 # RabbitMQ User
-resource "cloud_tdmq_rabbitmq_user" "user" {
+resource "tencentcloudenterprise_tdmq_rabbitmq_user" "user" {
   instance_id = cloud_tdmq_rabbitmq_vip_instance.instance.id
   user        = "example-user"
   password    = "Password123!"
@@ -40,7 +40,7 @@ resource "cloud_tdmq_rabbitmq_user" "user" {
 }
 
 # RabbitMQ Virtual Host
-resource "cloud_tdmq_rabbitmq_virtual_host" "vhost" {
+resource "tencentcloudenterprise_tdmq_rabbitmq_virtual_host" "vhost" {
   instance_id  = cloud_tdmq_rabbitmq_vip_instance.instance.id
   virtual_host = "example-vhost"
   description  = "Example virtual host"

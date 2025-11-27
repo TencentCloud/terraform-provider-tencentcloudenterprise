@@ -9,7 +9,7 @@ The Images data source fetch proper image, which could be one of the private ima
 
 ```hcl
 
-	data "cloud_cvm_image" "my_favorate_image" {
+	data "tencentcloudenterprise_cvm_image" "my_favorate_image" {
 	  os_name = "centos"
 
 	  filter {
@@ -37,7 +37,7 @@ import (
 
 func init() {
 	// 注册资源中文描述提供者映射
-	registerDataDescriptionProvider("cloud_cvm_image", CNDescription{
+	registerDataDescriptionProvider("tencentcloudenterprise_cvm_image", CNDescription{
 		TerraformTypeCN: "CVM 镜像",
 		DescriptionCN:   "提供CVM镜像数据源，用于为用户查询可用的镜像信息。",
 		AttributesCN: map[string]string{

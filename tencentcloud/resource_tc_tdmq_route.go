@@ -4,7 +4,7 @@ Provide a resource to create a TDMQ Route.
 Example Usage
 ```hcl
 
-	resource "cloud_tdmq_Route" "foo" {
+	resource "tencentcloudenterprise_tdmq_Route" "foo" {
 	  remark = "this is description111."
 	  cluster_id = 0
 	  net_type = 2
@@ -34,7 +34,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_tdmq_route", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_tdmq_route", CNDescription{
 		TerraformTypeCN: "TDMQ 路由",
 		DescriptionCN:   "提供TDMQ路由资源，用于创建和管理TDMQ路由。",
 		AttributesCN: map[string]string{

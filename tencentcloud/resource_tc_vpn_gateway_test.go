@@ -15,8 +15,8 @@ import (
 )
 
 func init() {
-	resource.AddTestSweepers("cloud_vpn_gateway", &resource.Sweeper{
-		Name: "cloud_vpn_gateway",
+	resource.AddTestSweepers("tencentcloudenterprise_vpn_gateway", &resource.Sweeper{
+		Name: "tencentcloudenterprise_vpn_gateway",
 		F:    testSweepVpnGateway,
 	})
 }
@@ -74,34 +74,34 @@ func TestAccTencentCloudVpnGateway_basic(t *testing.T) {
 			{
 				Config: testAccVpnGatewayConfig,
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckVpnGatewayExists("cloud_vpn_gateway.my_cgw"),
-					resource.TestCheckResourceAttr("cloud_vpn_gateway.my_cgw", "name", "terraform_test"),
-					resource.TestCheckResourceAttr("cloud_vpn_gateway.my_cgw", "bandwidth", "10"),
-					resource.TestCheckResourceAttr("cloud_vpn_gateway.my_cgw", "charge_type", "POSTPAID_BY_HOUR"),
-					resource.TestCheckResourceAttr("cloud_vpn_gateway.my_cgw", "tags.test", "tf"),
-					resource.TestCheckResourceAttrSet("cloud_vpn_gateway.my_cgw", "state"),
+					testAccCheckVpnGatewayExists("tencentcloudenterprise_vpn_gateway.my_cgw"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_vpn_gateway.my_cgw", "name", "terraform_test"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_vpn_gateway.my_cgw", "bandwidth", "10"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_vpn_gateway.my_cgw", "charge_type", "POSTPAID_BY_HOUR"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_vpn_gateway.my_cgw", "tags.test", "tf"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_vpn_gateway.my_cgw", "state"),
 				),
 			},
 			{
 				Config: testAccVpnGatewayConfigUpdate,
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckVpnGatewayExists("cloud_vpn_gateway.my_cgw"),
-					resource.TestCheckResourceAttr("cloud_vpn_gateway.my_cgw", "name", "terraform_update"),
-					resource.TestCheckResourceAttr("cloud_vpn_gateway.my_cgw", "bandwidth", "5"),
-					resource.TestCheckResourceAttr("cloud_vpn_gateway.my_cgw", "charge_type", "POSTPAID_BY_HOUR"),
-					resource.TestCheckResourceAttr("cloud_vpn_gateway.my_cgw", "tags.test", "test"),
-					resource.TestCheckResourceAttrSet("cloud_vpn_gateway.my_cgw", "state"),
+					testAccCheckVpnGatewayExists("tencentcloudenterprise_vpn_gateway.my_cgw"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_vpn_gateway.my_cgw", "name", "terraform_update"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_vpn_gateway.my_cgw", "bandwidth", "5"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_vpn_gateway.my_cgw", "charge_type", "POSTPAID_BY_HOUR"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_vpn_gateway.my_cgw", "tags.test", "test"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_vpn_gateway.my_cgw", "state"),
 				),
 			},
 			{
 				Config: testAccCcnVpnGatewayConfig,
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckVpnGatewayExists("cloud_vpn_gateway.my_ccn_cgw"),
-					resource.TestCheckResourceAttr("cloud_vpn_gateway.my_ccn_cgw", "name", "terraform_ccn_vpngw_test"),
-					resource.TestCheckResourceAttr("cloud_vpn_gateway.my_ccn_cgw", "bandwidth", "5"),
-					resource.TestCheckResourceAttr("cloud_vpn_gateway.my_ccn_cgw", "charge_type", "POSTPAID_BY_HOUR"),
-					resource.TestCheckResourceAttr("cloud_vpn_gateway.my_ccn_cgw", "tags.test", "tf-ccn-vpngw"),
-					resource.TestCheckResourceAttrSet("cloud_vpn_gateway.my_ccn_cgw", "state"),
+					testAccCheckVpnGatewayExists("tencentcloudenterprise_vpn_gateway.my_ccn_cgw"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_vpn_gateway.my_ccn_cgw", "name", "terraform_ccn_vpngw_test"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_vpn_gateway.my_ccn_cgw", "bandwidth", "5"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_vpn_gateway.my_ccn_cgw", "charge_type", "POSTPAID_BY_HOUR"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_vpn_gateway.my_ccn_cgw", "tags.test", "tf-ccn-vpngw"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_vpn_gateway.my_ccn_cgw", "state"),
 				),
 			},
 		},
@@ -113,7 +113,7 @@ func testAccCheckVpnGatewayDestroy(s *terraform.State) error {
 
 	conn := testAccProvider.Meta().(*TencentCloudClient).apiV3Conn
 	for _, rs := range s.RootModule().Resources {
-		if rs.Type != "cloud_vpn_gateway" {
+		if rs.Type != "tencentcloudenterprise_vpn_gateway" {
 			continue
 		}
 		request := vpc.NewDescribeVpnGatewaysRequest()
@@ -198,11 +198,11 @@ func testAccCheckVpnGatewayExists(n string) resource.TestCheckFunc {
 
 const testAccVpnGatewayConfig = `
 # Create VPC
-data "cloud_vpc_instances" "foo" {
+data "tencentcloudenterprise_vpc_instances" "foo" {
   name = "Default-VPC"
 }
 
-resource "cloud_vpn_gateway" "my_cgw" {
+resource "tencentcloudenterprise_vpn_gateway" "my_cgw" {
   name      = "terraform_test"
   vpc_id    = data.cloud_vpc_instances.foo.instance_list.0.vpc_id
   bandwidth = 10
@@ -215,10 +215,10 @@ resource "cloud_vpn_gateway" "my_cgw" {
 `
 const testAccVpnGatewayConfigUpdate = `
 # Create VPC and Subnet
-data "cloud_vpc_instances" "foo" {
+data "tencentcloudenterprise_vpc_instances" "foo" {
   name = "Default-VPC"
 }
-resource "cloud_vpn_gateway" "my_cgw" {
+resource "tencentcloudenterprise_vpn_gateway" "my_cgw" {
   name      = "terraform_update"
   vpc_id    = data.cloud_vpc_instances.foo.instance_list.0.vpc_id
   bandwidth = 5
@@ -232,7 +232,7 @@ resource "cloud_vpn_gateway" "my_cgw" {
 
 const testAccCcnVpnGatewayConfig = `
 # Create VPNGW of CCN type
-resource "cloud_vpn_gateway" "my_ccn_cgw" {
+resource "tencentcloudenterprise_vpn_gateway" "my_ccn_cgw" {
   name      = "terraform_ccn_vpngw_test"
   bandwidth = 5
   zone      = "ap-guangzhou-3"

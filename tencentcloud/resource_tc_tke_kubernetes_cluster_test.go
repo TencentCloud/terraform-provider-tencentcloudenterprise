@@ -14,13 +14,13 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 )
 
-var testTkeClusterName = "cloud_tke_kubernetes_cluster"
+var testTkeClusterName = "tencentcloudenterprise_tke_kubernetes_cluster"
 var testTkeClusterResourceKey = testTkeClusterName + ".managed_cluster"
 
 func init() {
 	// go test -v ./tencentcloud -sweep=ap-guangzhou -sweep-run=cloud_tke_kubernetes_cluster
-	resource.AddTestSweepers("cloud_tke_kubernetes_cluster", &resource.Sweeper{
-		Name: "cloud_tke_kubernetes_cluster",
+	resource.AddTestSweepers("tencentcloudenterprise_tke_kubernetes_cluster", &resource.Sweeper{
+		Name: "tencentcloudenterprise_tke_kubernetes_cluster",
 		F: func(r string) error {
 			logId := getLogId(contextNil)
 			ctx := context.WithValue(context.TODO(), logIdKey, logId)
@@ -351,7 +351,7 @@ variable "availability_zone" {
   default = "ap-guangzhou-3"
 }
 
-resource "cloud_tke_kubernetes_cluster" "managed_cluster" {
+resource "tencentcloudenterprise_tke_kubernetes_cluster" "managed_cluster" {
   vpc_id                                     = local.vpc_id
   cluster_cidr                               = var.tke_cidr_a.0
   cluster_max_pod_num                        = 32
@@ -420,7 +420,7 @@ variable "availability_zone" {
   default = "ap-guangzhou-3"
 }
 
-resource "cloud_tke_kubernetes_cluster" "managed_cluster" {
+resource "tencentcloudenterprise_tke_kubernetes_cluster" "managed_cluster" {
   vpc_id                                     = local.vpc_id
   cluster_cidr                               = var.tke_cidr_a.0
   cluster_max_pod_num                        = 32
@@ -491,7 +491,7 @@ variable "availability_zone" {
   default = "ap-guangzhou-3"
 }
 
-resource "cloud_tke_kubernetes_cluster" "managed_cluster" {
+resource "tencentcloudenterprise_tke_kubernetes_cluster" "managed_cluster" {
   vpc_id                                     = local.vpc_id
   cluster_cidr                               = var.tke_cidr_a.0
   cluster_max_pod_num                        = 32
@@ -555,7 +555,7 @@ variable "availability_zone" {
   default = "ap-guangzhou-3"
 }
 
-resource "cloud_tke_kubernetes_cluster" "managed_cluster" {
+resource "tencentcloudenterprise_tke_kubernetes_cluster" "managed_cluster" {
   vpc_id                                     = local.vpc_id
   cluster_cidr                               = var.tke_cidr_c.0
   cluster_max_pod_num                        = 32
@@ -612,7 +612,7 @@ variable "availability_zone" {
   default = "ap-guangzhou-3"
 }
 
-resource "cloud_tke_kubernetes_cluster" "managed_cluster" {
+resource "tencentcloudenterprise_tke_kubernetes_cluster" "managed_cluster" {
   vpc_id                                     = local.vpc_id
   cluster_cidr                               = var.tke_cidr_c.0
   cluster_max_pod_num                        = 32

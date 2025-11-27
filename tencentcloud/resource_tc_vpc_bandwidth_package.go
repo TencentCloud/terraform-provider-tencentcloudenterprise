@@ -5,7 +5,7 @@ Provides a resource to create a vpc bandwidth_package
 
 ```hcl
 
-	resource "cloud_vpc_bandwidth_package" "bandwidth_package" {
+	resource "tencentcloudenterprise_vpc_bandwidth_package" "bandwidth_package" {
 	  network_type            = "BGP"
 	  charge_type             = "TOP5_POSTPAID_BY_MONTH"
 	  bandwidth_package_name  = "test-001"
@@ -36,7 +36,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_vpc_bandwidth_package", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_vpc_bandwidth_package", CNDescription{
 		TerraformTypeCN: "共享带宽包",
 		AttributesCN: map[string]string{
 			"network_type":           "带宽包类型",

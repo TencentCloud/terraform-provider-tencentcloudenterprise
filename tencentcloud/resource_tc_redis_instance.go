@@ -8,10 +8,10 @@ Provides a resource to create a instance and set its attributes.
 # Example Usage
 
 ```hcl
-data "cloud_redis_zone_config" "zone" {
+data "tencentcloudenterprise_redis_zone_config" "zone" {
 }
 
-	resource "cloud_redis_instance" "redis_instance_test_2" {
+	resource "tencentcloudenterprise_redis_instance" "redis_instance_test_2" {
 	  availability_zone  = data.cloud_redis_zone_config.zone.list[0].zone
 	  type_id            = data.cloud_redis_zone_config.zone.list[0].type_id
 	  password           = "test12345789"
@@ -26,7 +26,7 @@ data "cloud_redis_zone_config" "zone" {
 
 Using multi replica zone set
 ```
-data "cloud_availability_zones" "az" {
+data "tencentcloudenterprise_availability_zones" "az" {
 
 }
 
@@ -34,7 +34,7 @@ data "cloud_availability_zones" "az" {
 	  default = 3
 	}
 
-	resource "cloud_redis_instance" "red1" {
+	resource "tencentcloudenterprise_redis_instance" "red1" {
 	  availability_zone  = data.cloud_availability_zones.az.zones[0].name
 	  charge_type        = "POSTPAID"
 	  mem_size           = 1024
@@ -83,7 +83,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_redis_instance", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_redis_instance", CNDescription{
 		TerraformTypeCN: "Redis®实例",
 		DescriptionCN:   "提供Redis®实例资源，用于创建和管理Redis®数据库实例。",
 		AttributesCN: map[string]string{
@@ -747,7 +747,7 @@ func resourceTencentCloudRedisInstanceUpdate(d *schema.ResourceData, meta interf
 	}
 	for _, field := range unsupportedUpdateFields {
 		if d.HasChange(field) {
-			return fmt.Errorf("cloud_redis_instance update on %s is not support yet", field)
+			return fmt.Errorf("tencentcloudenterprise_redis_instance update on %s is not support yet", field)
 		}
 	}
 

@@ -5,7 +5,7 @@ Use this data source to query detailed information of turbofs mount_targets
 
 ```hcl
 
-	data "cloud_turbofs_mount_targets" "mount_targets" {
+	data "tencentcloudenterprise_turbofs_mount_targets" "mount_targets" {
 	  file_system_id = "cfs-iobiaxtj"
 	}
 
@@ -21,7 +21,7 @@ import (
 )
 
 func init() {
-	registerDataDescriptionProvider("cloud_turbofs_mount_targets", CNDescription{
+	registerDataDescriptionProvider("tencentcloudenterprise_turbofs_mount_targets", CNDescription{
 		TerraformTypeCN: "TurboFS挂载点",
 		DescriptionCN:   "提供TurboFS挂载点数据源，用于查询TurboFS挂载点的详细信息。",
 		AttributesCN: map[string]string{

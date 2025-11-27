@@ -23,21 +23,21 @@ func TestAccTencentCloudClbTGAttachmentInstance_basic(t *testing.T) {
 			{
 				Config: testAccClbTGAttachmentInstance_basic,
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckClbTGAttachmentInstanceExists("cloud_clb_target_group_instance_attachment.test"),
-					resource.TestCheckResourceAttrSet("cloud_clb_target_group_instance_attachment.test", "target_group_id"),
-					resource.TestCheckResourceAttrSet("cloud_clb_target_group_instance_attachment.test", "bind_ip"),
-					resource.TestCheckResourceAttrSet("cloud_clb_target_group_instance_attachment.test", "port"),
-					resource.TestCheckResourceAttrSet("cloud_clb_target_group_instance_attachment.test", "weight"),
+					testAccCheckClbTGAttachmentInstanceExists("tencentcloudenterprise_clb_target_group_instance_attachment.test"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_clb_target_group_instance_attachment.test", "target_group_id"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_clb_target_group_instance_attachment.test", "bind_ip"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_clb_target_group_instance_attachment.test", "port"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_clb_target_group_instance_attachment.test", "weight"),
 				),
 			},
 			{
 				Config: testAccClbTGAttachmentInstance_update,
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckClbTGAttachmentInstanceExists("cloud_clb_target_group_instance_attachment.test"),
-					resource.TestCheckResourceAttrSet("cloud_clb_target_group_instance_attachment.test", "target_group_id"),
-					resource.TestCheckResourceAttrSet("cloud_clb_target_group_instance_attachment.test", "bind_ip"),
-					resource.TestCheckResourceAttrSet("cloud_clb_target_group_instance_attachment.test", "port"),
-					resource.TestCheckResourceAttrSet("cloud_clb_target_group_instance_attachment.test", "weight"),
+					testAccCheckClbTGAttachmentInstanceExists("tencentcloudenterprise_clb_target_group_instance_attachment.test"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_clb_target_group_instance_attachment.test", "target_group_id"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_clb_target_group_instance_attachment.test", "bind_ip"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_clb_target_group_instance_attachment.test", "port"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_clb_target_group_instance_attachment.test", "weight"),
 				),
 			},
 		},
@@ -52,7 +52,7 @@ func testAccCheckClbTGAttachmentInstanceDestroy(s *terraform.State) error {
 		client: testAccProvider.Meta().(*TencentCloudClient).apiV3Conn,
 	}
 	for _, rs := range s.RootModule().Resources {
-		if rs.Type != "cloud_clb_target_group_instance_attachment" {
+		if rs.Type != "tencentcloudenterprise_clb_target_group_instance_attachment" {
 			continue
 		}
 		time.Sleep(5 * time.Second)
@@ -127,16 +127,16 @@ func testAccCheckClbTGAttachmentInstanceExists(n string) resource.TestCheckFunc 
 
 const testAccClbTGAttachmentInstance_basic = instanceCommonTestCase + `
 
-data "cloud_cvm_instances" "foo" {
+data "tencentcloudenterprise_cvm_instances" "foo" {
   instance_id = cloud_cvm_instance.default.id
 }
 
-resource "cloud_clb_target_group" "test"{
+resource "tencentcloudenterprise_clb_target_group" "test"{
     target_group_name = "test"
     vpc_id            = var.cvm_vpc_id
 }
 
-resource "cloud_clb_target_group_instance_attachment" "test"{
+resource "tencentcloudenterprise_clb_target_group_instance_attachment" "test"{
     target_group_id = cloud_clb_target_group.test.id
     bind_ip         = data.cloud_cvm_instances.foo.instance_list[0].private_ip
     port            = 88
@@ -146,16 +146,16 @@ resource "cloud_clb_target_group_instance_attachment" "test"{
 
 const testAccClbTGAttachmentInstance_update = instanceCommonTestCase + `
 
-data "cloud_cvm_instances" "foo" {
+data "tencentcloudenterprise_cvm_instances" "foo" {
   instance_id = cloud_cvm_instance.default.id
 }
 
-resource "cloud_clb_target_group" "test"{
+resource "tencentcloudenterprise_clb_target_group" "test"{
     target_group_name = "test"
     vpc_id            = var.cvm_vpc_id
 }
 
-resource "cloud_clb_target_group_instance_attachment" "test"{
+resource "tencentcloudenterprise_clb_target_group_instance_attachment" "test"{
     target_group_id = cloud_clb_target_group.test.id
     bind_ip         = data.cloud_cvm_instances.foo.instance_list[0].private_ip
     port            = 88

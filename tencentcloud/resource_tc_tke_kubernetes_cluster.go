@@ -26,17 +26,17 @@ It's more flexible than managing worker config directly with `cloud_tke_kubernet
 	  default = "SA2.2XLARGE16"
 	}
 
-	data "cloud_vpc_subnets" "vpc_first" {
+	data "tencentcloudenterprise_vpc_subnets" "vpc_first" {
 	  is_default        = true
 	  availability_zone = var.availability_zone_first
 	}
 
-	data "cloud_vpc_subnets" "vpc_second" {
+	data "tencentcloudenterprise_vpc_subnets" "vpc_second" {
 	  is_default        = true
 	  availability_zone = var.availability_zone_second
 	}
 
-	resource "cloud_tke_kubernetes_cluster" "managed_cluster" {
+	resource "tencentcloudenterprise_tke_kubernetes_cluster" "managed_cluster" {
 	  vpc_id                                     = data.cloud_vpc_subnets.vpc_first.instance_list.0.vpc_id
 	  cluster_cidr                               = var.cluster_cidr
 	  cluster_max_pod_num                        = 32
@@ -124,17 +124,17 @@ It's more flexible than managing worker config directly with `cloud_tke_kubernet
 	  default = "SA2.2XLARGE16"
 	}
 
-	data "cloud_vpc_subnets" "vpc_first" {
+	data "tencentcloudenterprise_vpc_subnets" "vpc_first" {
 	  is_default        = true
 	  availability_zone = var.availability_zone_first
 	}
 
-	data "cloud_vpc_subnets" "vpc_second" {
+	data "tencentcloudenterprise_vpc_subnets" "vpc_second" {
 	  is_default        = true
 	  availability_zone = var.availability_zone_second
 	}
 
-	resource "cloud_tke_kubernetes_cluster" "managed_cluster" {
+	resource "tencentcloudenterprise_tke_kubernetes_cluster" "managed_cluster" {
 	  vpc_id                                     = data.cloud_vpc_subnets.vpc_first.instance_list.0.vpc_id
 	  cluster_cidr                               = var.cluster_cidr
 	  cluster_max_pod_num                        = 32
@@ -220,13 +220,13 @@ It's more flexible than managing worker config directly with `cloud_tke_kubernet
 	  default = "S5.SMALL1"
 	}
 
-	data "cloud_vpc_subnets" "vpc_first" {
+	data "tencentcloudenterprise_vpc_subnets" "vpc_first" {
 	  is_default        = true
 	  availability_zone = var.availability_zone_first
 	}
 
 # fetch latest addon(chart) versions
-data "cloud_tke_kubernetes_charts" "charts" {}
+data "tencentcloudenterprise_tke_kubernetes_charts" "charts" {}
 
 	locals {
 	  chartNames = data.cloud_tke_kubernetes_charts.charts.chart_list.*.name
@@ -234,7 +234,7 @@ data "cloud_tke_kubernetes_charts" "charts" {}
 	  chartMap = zipmap(local.chartNames, local.chartVersions)
 	}
 
-	resource "cloud_tke_kubernetes_cluster" "cluster_with_addon" {
+	resource "tencentcloudenterprise_tke_kubernetes_cluster" "cluster_with_addon" {
 	  vpc_id                                     = data.cloud_vpc_subnets.vpc_first.instance_list.0.vpc_id
 	  cluster_cidr                               = var.cluster_cidr
 	  cluster_max_pod_num                        = 32
@@ -314,7 +314,7 @@ data "cloud_tke_kubernetes_charts" "charts" {}
 	  default = "SA1.LARGE8"
 	}
 
-	resource "cloud_tke_kubernetes_cluster" "test_node_pool_global_config" {
+	resource "tencentcloudenterprise_tke_kubernetes_cluster" "test_node_pool_global_config" {
 	  vpc_id                                     = var.vpc
 	  cluster_cidr                               = "10.1.0.0/16"
 	  cluster_max_pod_num                        = 32
@@ -383,7 +383,7 @@ Using VPC-CNI network type
 	  default = "SA2.SMALL2"
 	}
 
-	resource "cloud_tke_kubernetes_cluster" "managed_cluster" {
+	resource "tencentcloudenterprise_tke_kubernetes_cluster" "managed_cluster" {
 	  vpc_id                                     = var.vpc
 	  cluster_max_pod_num                        = 32
 	  cluster_name                               = "test"
@@ -430,7 +430,7 @@ Using VPC-CNI network type
 Using ops options
 ```
 
-	resource "cloud_tke_kubernetes_cluster" "managed_cluster" {
+	resource "tencentcloudenterprise_tke_kubernetes_cluster" "managed_cluster" {
 	  # ...your basic fields
 
 	  log_agent {
@@ -474,7 +474,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_tke_kubernetes_cluster", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_tke_kubernetes_cluster", CNDescription{
 		TerraformTypeCN: "Tke集群",
 		DescriptionCN:   "提供Kubernetes集群资源，用于创建和管理TKE集群。",
 		AttributesCN: map[string]string{

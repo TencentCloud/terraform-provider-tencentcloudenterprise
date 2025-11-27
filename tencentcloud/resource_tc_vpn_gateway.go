@@ -8,7 +8,7 @@ Provides a resource to create a VPN gateway.
 POSTPAID_BY_HOUR VPN gateway
 ```hcl
 
-	resource "cloud_vpn_gateway" "my_cgw" {
+	resource "tencentcloudenterprise_vpn_gateway" "my_cgw" {
 	  name      = "test"
 	  vpc_id    = "vpc-dk8zmwuf"
 	  bandwidth = 5
@@ -24,7 +24,7 @@ POSTPAID_BY_HOUR VPN gateway
 PREPAID VPN gateway
 ```hcl
 
-	resource "cloud_vpn_gateway" "my_cgw" {
+	resource "tencentcloudenterprise_vpn_gateway" "my_cgw" {
 	  name           = "test"
 	  vpc_id         = "vpc-dk8zmwuf"
 	  bandwidth      = 5
@@ -63,7 +63,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_vpn_gateway", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_vpn_gateway", CNDescription{
 		TerraformTypeCN: "VPN网关",
 		AttributesCN: map[string]string{
 			"name":                "VPN网关名称",

@@ -24,7 +24,7 @@ func TestAccTencentCloudVpcBandwidthPackageQuotaDataSource_basic(t *testing.T) {
 
 const testAccVpcBandwidthPackageQuotaDataSource = `
 
-data "cloud_vpc_bandwidth_package_quota" "bandwidth_package_quota" {
+data "tencentcloudenterprise_vpc_bandwidth_package_quota" "bandwidth_package_quota" {
   }
 
 `

@@ -21,21 +21,21 @@ func TestAccTencentCloudTsfClusterResource_basic(t *testing.T) {
 			{
 				Config: testAccTsfCluster,
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckTsfClusterExists("cloud_tsf_cluster.cluster"),
-					resource.TestCheckResourceAttrSet("cloud_tsf_cluster.cluster", "id"),
-					resource.TestCheckResourceAttr("cloud_tsf_cluster.cluster", "cluster_name", "terraform-test"),
-					resource.TestCheckResourceAttr("cloud_tsf_cluster.cluster", "vpc_id", "vpc-kphn8u93"),
-					resource.TestCheckResourceAttr("cloud_tsf_cluster.cluster", "cluster_cidr", "9.165.120.0/24"),
-					resource.TestCheckResourceAttr("cloud_tsf_cluster.cluster", "cluster_desc", "test"),
-					resource.TestCheckResourceAttr("cloud_tsf_cluster.cluster", "tsf_region_id", "ap-guangzhou"),
-					resource.TestCheckResourceAttr("cloud_tsf_cluster.cluster", "cluster_version", "1.18.4"),
-					resource.TestCheckResourceAttr("cloud_tsf_cluster.cluster", "max_node_pod_num", "32"),
-					resource.TestCheckResourceAttr("cloud_tsf_cluster.cluster", "max_cluster_service_num", "128"),
-					resource.TestCheckResourceAttr("cloud_tsf_cluster.cluster", "tags.createdBy", "terraform"),
+					testAccCheckTsfClusterExists("tencentcloudenterprise_tsf_cluster.cluster"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_tsf_cluster.cluster", "id"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_tsf_cluster.cluster", "cluster_name", "terraform-test"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_tsf_cluster.cluster", "vpc_id", "vpc-kphn8u93"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_tsf_cluster.cluster", "cluster_cidr", "9.165.120.0/24"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_tsf_cluster.cluster", "cluster_desc", "test"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_tsf_cluster.cluster", "tsf_region_id", "ap-guangzhou"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_tsf_cluster.cluster", "cluster_version", "1.18.4"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_tsf_cluster.cluster", "max_node_pod_num", "32"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_tsf_cluster.cluster", "max_cluster_service_num", "128"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_tsf_cluster.cluster", "tags.createdBy", "terraform"),
 				),
 			},
 			// {
-			// 	ResourceName:      "cloud_tsf_cluster.cluster",
+			// 	ResourceName:      "tencentcloudenterprise_tsf_cluster.cluster",
 			// 	ImportState:       true,
 			// 	ImportStateVerify: true,
 			// },
@@ -55,17 +55,17 @@ func TestAccTencentCloudTsfClusterVResource_basic(t *testing.T) {
 			{
 				Config: testAccTsfClusterV,
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckTsfClusterExists("cloud_tsf_cluster.cluster"),
-					resource.TestCheckResourceAttrSet("cloud_tsf_cluster.cluster", "id"),
-					resource.TestCheckResourceAttr("cloud_tsf_cluster.cluster", "cluster_name", "terraform-test"),
-					resource.TestCheckResourceAttr("cloud_tsf_cluster.cluster", "vpc_id", "vpc-2l7uk2q1"),
-					resource.TestCheckResourceAttr("cloud_tsf_cluster.cluster", "cluster_desc", "test"),
-					resource.TestCheckResourceAttr("cloud_tsf_cluster.cluster", "tsf_region_id", "chongqing"),
-					resource.TestCheckResourceAttr("cloud_tsf_cluster.cluster", "tags.createdBy", "terraform"),
+					testAccCheckTsfClusterExists("tencentcloudenterprise_tsf_cluster.cluster"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_tsf_cluster.cluster", "id"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_tsf_cluster.cluster", "cluster_name", "terraform-test"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_tsf_cluster.cluster", "vpc_id", "vpc-2l7uk2q1"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_tsf_cluster.cluster", "cluster_desc", "test"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_tsf_cluster.cluster", "tsf_region_id", "chongqing"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_tsf_cluster.cluster", "tags.createdBy", "terraform"),
 				),
 			},
 			// {
-			// 	ResourceName:      "cloud_tsf_cluster.cluster",
+			// 	ResourceName:      "tencentcloudenterprise_tsf_cluster.cluster",
 			// 	ImportState:       true,
 			// 	ImportStateVerify: true,
 			// },
@@ -78,7 +78,7 @@ func testAccCheckTsfClusterDestroy(s *terraform.State) error {
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
 	service := TsfService{client: testAccProvider.Meta().(*TencentCloudClient).apiV3Conn}
 	for _, rs := range s.RootModule().Resources {
-		if rs.Type != "cloud_tsf_cluster" {
+		if rs.Type != "tencentcloudenterprise_tsf_cluster" {
 			continue
 		}
 
@@ -120,7 +120,7 @@ func testAccCheckTsfClusterExists(r string) resource.TestCheckFunc {
 
 const testAccTsfCluster = `
 
-resource "cloud_tsf_cluster" "cluster" {
+resource "tencentcloudenterprise_tsf_cluster" "cluster" {
 	cluster_name = "terraform-test"
 	cluster_type = "C"
 	vpc_id = "vpc-2l7uk2q1"
@@ -137,7 +137,7 @@ resource "cloud_tsf_cluster" "cluster" {
 `
 
 const testAccTsfClusterV = `
-resource "cloud_tsf_cluster" "cluster" {
+resource "tencentcloudenterprise_tsf_cluster" "cluster" {
 	cluster_name = "terraform-test"
 	cluster_type = "V"
 	vpc_id = "vpc-2l7uk2q1"

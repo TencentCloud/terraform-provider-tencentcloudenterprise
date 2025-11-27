@@ -14,10 +14,10 @@ func TestAccTencentCloudCkafkaDatahubTaskResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			{
 				Config: testAccCkafkaDatahubTask,
-				Check:  resource.ComposeTestCheckFunc(resource.TestCheckResourceAttrSet("cloud_ckafka_datahub_task.datahub_task", "id")),
+				Check:  resource.ComposeTestCheckFunc(resource.TestCheckResourceAttrSet("tencentcloudenterprise_ckafka_datahub_task.datahub_task", "id")),
 			},
 			{
-				ResourceName:      "cloud_ckafka_datahub_task.datahub_task",
+				ResourceName:      "tencentcloudenterprise_ckafka_datahub_task.datahub_task",
 				ImportState:       true,
 				ImportStateVerify: true,
 			},
@@ -27,7 +27,7 @@ func TestAccTencentCloudCkafkaDatahubTaskResource_basic(t *testing.T) {
 
 const testAccCkafkaDatahubTask = `
 
-resource "cloud_ckafka_datahub_task" "datahub_task" {
+resource "tencentcloudenterprise_ckafka_datahub_task" "datahub_task" {
 	task_name = "test-task123321"
 	task_type = "SOURCE"
 	source_resource {

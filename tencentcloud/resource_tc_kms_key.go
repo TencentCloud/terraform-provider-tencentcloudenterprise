@@ -5,7 +5,7 @@ Provide a resource to create a KMS key.
 
 ```hcl
 
-	resource "cloud_kms_key" "foo" {
+	resource "tencentcloudenterprise_kms_key" "foo" {
 		alias = "test"
 		description = "describe key test message."
 		key_rotation_enabled = true
@@ -41,7 +41,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_kms_key", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_kms_key", CNDescription{
 		TerraformTypeCN: "密钥管理系统密钥",
 		DescriptionCN:   "提供密钥管理系统密钥资源，用于创建和管理KMS密钥。",
 		AttributesCN: map[string]string{

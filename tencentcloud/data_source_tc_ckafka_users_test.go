@@ -16,7 +16,7 @@ func TestAccTencentCloudCkafkaUsersDataSource(t *testing.T) {
 			{
 				Config: testAccTencentCloudDataSourceCkafkaUser,
 				Check: resource.ComposeAggregateTestCheckFunc(
-					testAccCheckCkafkaUserExists("cloud_ckafka_user.foo"),
+					testAccCheckCkafkaUserExists("tencentcloudenterprise_ckafka_user.foo"),
 					resource.TestCheckResourceAttrSet("data.cloud_ckafka_users.foo", "instance_id"),
 					resource.TestCheckResourceAttr("data.cloud_ckafka_users.foo", "user_list.0.account_name", "test1"),
 					resource.TestCheckResourceAttrSet("data.cloud_ckafka_users.foo", "user_list.0.create_time"),
@@ -28,13 +28,13 @@ func TestAccTencentCloudCkafkaUsersDataSource(t *testing.T) {
 }
 
 const testAccTencentCloudDataSourceCkafkaUser = defaultKafkaVariable + `
-resource "cloud_ckafka_user" "foo" {
+resource "tencentcloudenterprise_ckafka_user" "foo" {
   instance_id  = var.instance_id
   account_name = "test1"
   password     = "test1234"
 }
 
-data "cloud_ckafka_users" "foo" {
+data "tencentcloudenterprise_ckafka_users" "foo" {
 	instance_id  = cloud_ckafka_user.foo.instance_id
 	account_name = cloud_ckafka_user.foo.account_name
 }

@@ -7,12 +7,12 @@ Provides a resource to create security group rule. This resource is similar with
 
 ```hcl
 
-	resource "cloud_vpc_security_group" "sglab_1" {
+	resource "tencentcloudenterprise_vpc_security_group" "sglab_1" {
 	  name        = "mysg_1"
 	  description = "favourite sg_1"
 	}
 
-	resource "cloud_vpc_security_group_rule_set" "sglab_1" {
+	resource "tencentcloudenterprise_vpc_security_group_rule_set" "sglab_1" {
 	  security_group_id = cloud_vpc_security_group.sglab_1.id
 	  ingress {
 	    cidr_block  = "10.0.0.0/16" # Accept IP or CIDR
@@ -74,7 +74,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_vpc_security_group_rule_set", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_vpc_security_group_rule_set", CNDescription{
 		TerraformTypeCN: "批量创建安全组规则",
 		DescriptionCN:   "提供批量创建安全组规则资源，用于创建和管理安全组规则。",
 		AttributesCN: map[string]string{
@@ -266,7 +266,7 @@ func resourceTencentCloudSecurityGroupRuleSetRead(d *schema.ResourceData, m inte
 }
 
 func resourceTencentCloudSecurityGroupRuleSetUpdate(d *schema.ResourceData, m interface{}) error {
-	defer logElapsed("cloud_vpc_security_group_rule_set.update")()
+	defer logElapsed("tencentcloudenterprise_vpc_security_group_rule_set.update")()
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
 	client := m.(*TencentCloudClient).apiV3Conn

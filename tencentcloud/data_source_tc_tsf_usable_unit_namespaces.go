@@ -5,7 +5,7 @@ Use this data source to query detailed information of tsf usable_unit_namespaces
 
 ```hcl
 
-	data "cloud_tsf_usable_unit_namespaces" "usable_unit_namespaces" {
+	data "tencentcloudenterprise_tsf_usable_unit_namespaces" "usable_unit_namespaces" {
 	  search_word = ""
 	}
 
@@ -23,7 +23,7 @@ import (
 )
 
 func init() {
-	registerDataDescriptionProvider("cloud_tsf_usable_unit_namespaces", CNDescription{
+	registerDataDescriptionProvider("tencentcloudenterprise_tsf_usable_unit_namespaces", CNDescription{
 		TerraformTypeCN: "TSF可用单元命名空间",
 		DescriptionCN:   "提供TSF可用单元命名空间数据源，用于查询TSF可用单元命名空间的详细信息。",
 		AttributesCN: map[string]string{

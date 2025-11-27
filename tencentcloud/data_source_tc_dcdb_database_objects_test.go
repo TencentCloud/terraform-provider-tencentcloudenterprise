@@ -32,7 +32,7 @@ func TestAccTencentCloudDCDBDatabaseObjectsDataSource_basic(t *testing.T) {
 
 const testAccDCDBDatabaseObjectsDataSource = `
 
-data "cloud_dcdb_database_objects" "database_objects" {
+data "tencentcloudenterprise_dcdb_database_objects" "database_objects" {
 	instance_id = "%s"
 	db_name = "SysDB"
 }

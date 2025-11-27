@@ -5,11 +5,11 @@ Use this data source to query detailed information of kubernetes clusters.
 
 ```hcl
 
-	data "cloud_tke_kubernetes_clusters" "name" {
+	data "tencentcloudenterprise_tke_kubernetes_clusters" "name" {
 	  cluster_name = "terraform"
 	}
 
-	data "cloud_tke_kubernetes_clusters" "id" {
+	data "tencentcloudenterprise_tke_kubernetes_clusters" "id" {
 	  cluster_id = "cls-godovr32"
 	}
 
@@ -211,7 +211,7 @@ func tkeClusterInfo() map[string]*schema.Schema {
 }
 
 func init() {
-	registerDataDescriptionProvider("cloud_tke_kubernetes_clusters", CNDescription{
+	registerDataDescriptionProvider("tencentcloudenterprise_tke_kubernetes_clusters", CNDescription{
 		TerraformTypeCN: "tke集群",
 		DescriptionCN:   "提供TKE Kubernetes集群数据源，用于查询TKE Kubernetes集群的详细信息。",
 		AttributesCN: map[string]string{

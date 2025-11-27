@@ -17,17 +17,17 @@ Provide a resource to attach an existing  cvm to kubernetes cluster.
 	  default = "S1.SMALL1"
 	}
 
-	data "cloud_cvm_images" "default" {
+	data "tencentcloudenterprise_cvm_images" "default" {
 	  image_type = ["PUBLIC_IMAGE"]
 	  os_name    = "centos"
 	}
 
-	data "cloud_vpc_subnets" "vpc" {
+	data "tencentcloudenterprise_vpc_subnets" "vpc" {
 	  is_default        = true
 	  availability_zone = var.availability_zone
 	}
 
-	data "cloud_cvm_instance_types" "default" {
+	data "tencentcloudenterprise_cvm_instance_types" "default" {
 	  filter {
 	    name   = "instance-family"
 	    values = ["SA2"]
@@ -37,7 +37,7 @@ Provide a resource to attach an existing  cvm to kubernetes cluster.
 	  memory_size    = 16
 	}
 
-	resource "cloud_cvm_instance" "foo" {
+	resource "tencentcloudenterprise_cvm_instance" "foo" {
 	  instance_name     = "tf-auto-test-1-1"
 	  availability_zone = var.availability_zone
 	  image_id          = data.cloud_cvm_images.default.images.0.image_id
@@ -46,7 +46,7 @@ Provide a resource to attach an existing  cvm to kubernetes cluster.
 	  system_disk_size  = 50
 	}
 
-	resource "cloud_tke_kubernetes_cluster" "managed_cluster" {
+	resource "tencentcloudenterprise_tke_kubernetes_cluster" "managed_cluster" {
 	  vpc_id                  = data.cloud_vpc_subnets.vpc.instance_list.0.vpc_id
 	  cluster_cidr            = "10.1.0.0/16"
 	  cluster_max_pod_num     = 32
@@ -79,7 +79,7 @@ Provide a resource to attach an existing  cvm to kubernetes cluster.
 	  cluster_deploy_type = "MANAGED_CLUSTER"
 	}
 
-	resource "cloud_tke_kubernetes_cluster_attachment" "test_attach" {
+	resource "tencentcloudenterprise_tke_kubernetes_cluster_attachment" "test_attach" {
 	  cluster_id  = cloud_tke_kubernetes_cluster.managed_cluster.id
 	  instance_id = cloud_cvm_instance.foo.id
 	  password    = "Lo4wbdit"
@@ -113,7 +113,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_tke_kubernetes_cluster_attachment", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_tke_kubernetes_cluster_attachment", CNDescription{
 		TerraformTypeCN: "添加已有节点到集群",
 		DescriptionCN:   "提供将现有CVM实例添加到Kubernetes集群的资源。",
 		AttributesCN: map[string]string{

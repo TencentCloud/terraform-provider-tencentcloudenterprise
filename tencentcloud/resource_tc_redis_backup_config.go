@@ -5,7 +5,7 @@ Use this resource to create a backup config.
 
 ```hcl
 
-	resource "cloud_redis_backup_config" "redislab" {
+	resource "tencentcloudenterprise_redis_backup_config" "redislab" {
 	  redis_id      = "crs-7yl0q0dd"
 	  backup_time   = "04:00-05:00"
 	  backup_period = ["Monday"]
@@ -33,7 +33,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_redis_backup_config", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_redis_backup_config", CNDescription{
 		TerraformTypeCN: "redis®备份配置",
 		DescriptionCN:   "提供Redis®备份配置资源，用于创建和管理Redis®实例的备份配置。",
 		AttributesCN: map[string]string{

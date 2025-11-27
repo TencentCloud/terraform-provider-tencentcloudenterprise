@@ -8,7 +8,7 @@ Example Usage
 If create ip rule
 
 ```hcl
-resource "cloud_cfw_block_ignore" "example" {
+resource "tencentcloudenterprise_cfw_block_ignore" "example" {
   ip         = "1.1.1.1"
   direction  = 0
   comment    = "remark."
@@ -21,7 +21,7 @@ resource "cloud_cfw_block_ignore" "example" {
 If create domain rule
 
 ```hcl
-resource "cloud_cfw_block_ignore" "example" {
+resource "tencentcloudenterprise_cfw_block_ignore" "example" {
   ip         = "1.1.1.1"
   direction  = 0
   comment    = "remark."
@@ -64,7 +64,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_cfw_block_ignore", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_cfw_block_ignore", CNDescription{
 		TerraformTypeCN: "云防火墙封禁忽略",
 		DescriptionCN:   "提供云防火墙封禁忽略资源，用于创建和管理云防火墙封禁忽略规则。",
 		AttributesCN: map[string]string{

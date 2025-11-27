@@ -5,7 +5,7 @@ Use this data source to query detailed information of tsf api_detail
 
 ```hcl
 
-	data "cloud_tsf_api_detail" "api_detail" {
+	data "tencentcloudenterprise_tsf_api_detail" "api_detail" {
 	  microservice_id = "ms-yq3jo6jd"
 	  path = "/printRequest"
 	  method = "GET"
@@ -28,7 +28,7 @@ import (
 )
 
 func init() {
-	registerDataDescriptionProvider("cloud_tsf_api_detail", CNDescription{
+	registerDataDescriptionProvider("tencentcloudenterprise_tsf_api_detail", CNDescription{
 		TerraformTypeCN: "TSF API详情",
 		DescriptionCN:   "提供TSF API详情数据源，用于查询TSF API详情的详细信息。",
 		AttributesCN: map[string]string{

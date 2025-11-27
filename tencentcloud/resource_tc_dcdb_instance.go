@@ -5,7 +5,7 @@ Provides a resource to create a dcdb hourdb_instance
 
 ```hcl
 
-	resource "cloud_dcdb_instance" "hourdb_instance" {
+	resource "tencentcloudenterprise_dcdb_instance" "hourdb_instance" {
 	  instance_name    = "111"
 	  zones            = ["yfm18", "yfm18"]
 	  cpu_arch         = "X86"
@@ -54,7 +54,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_dcdb_instance", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_dcdb_instance", CNDescription{
 		TerraformTypeCN: "云数据库DCDB实例",
 		DescriptionCN:   "提供云数据库DCDB实例资源，用于创建和管理分布式数据库DCDB实例。",
 		AttributesCN: map[string]string{

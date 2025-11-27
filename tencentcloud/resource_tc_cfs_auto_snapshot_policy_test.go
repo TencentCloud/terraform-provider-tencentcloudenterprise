@@ -16,10 +16,10 @@ func TestAccTencentCloudCfsAutoSnapshotPolicyResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			{
 				Config: testAccCfsAutoSnapshotPolicy,
-				Check:  resource.ComposeTestCheckFunc(resource.TestCheckResourceAttrSet("cloud_cfs_auto_snapshot_policy.auto_snapshot_policy", "id")),
+				Check:  resource.ComposeTestCheckFunc(resource.TestCheckResourceAttrSet("tencentcloudenterprise_cfs_auto_snapshot_policy.auto_snapshot_policy", "id")),
 			},
 			{
-				ResourceName:      "cloud_cfs_auto_snapshot_policy.auto_snapshot_policy",
+				ResourceName:      "tencentcloudenterprise_cfs_auto_snapshot_policy.auto_snapshot_policy",
 				ImportState:       true,
 				ImportStateVerify: true,
 			},
@@ -29,7 +29,7 @@ func TestAccTencentCloudCfsAutoSnapshotPolicyResource_basic(t *testing.T) {
 
 const testAccCfsAutoSnapshotPolicy = `
 
-resource "cloud_cfs_auto_snapshot_policy" "auto_snapshot_policy" {
+resource "tencentcloudenterprise_cfs_auto_snapshot_policy" "auto_snapshot_policy" {
   day_of_week = "1,2"
   hour = "2,3"
   policy_name = "policy_name"

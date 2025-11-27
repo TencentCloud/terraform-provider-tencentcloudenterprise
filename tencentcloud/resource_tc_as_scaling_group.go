@@ -5,7 +5,7 @@ Provides a resource to create a group of AS (Auto scaling) instances.
 
 ```hcl
 
-	resource "cloud_as_scaling_group" "scaling_group" {
+	resource "tencentcloudenterprise_as_scaling_group" "scaling_group" {
 	  scaling_group_name   = "tf-as-scaling-group"
 	  configuration_id     = "asc-oqio4yyj"
 	  max_size             = 1
@@ -56,7 +56,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_as_scaling_group", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_as_scaling_group", CNDescription{
 		TerraformTypeCN: "伸缩组实例",
 		DescriptionCN:   "提供自动伸缩组资源，用于创建和管理AS伸缩组实例。",
 		AttributesCN: map[string]string{

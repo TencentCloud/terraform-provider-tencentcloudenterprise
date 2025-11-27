@@ -30,7 +30,7 @@ func TestAccTencentCloudDCDBDatabaseTablesDataSource_basic(t *testing.T) {
 
 const testAccDCDBDatabaseTablesDataSource = `
 
-data "cloud_dcdb_database_tables" "database_tables" {
+data "tencentcloudenterprise_dcdb_database_tables" "database_tables" {
   instance_id = "%s"
   db_name = "tf_test_db"
   table = "tf_test_table"

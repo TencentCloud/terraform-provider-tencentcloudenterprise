@@ -5,7 +5,7 @@ Use this data source to query detailed information of CLB redirections
 
 ```hcl
 
-	data "cloud_clb_redirections" "foo" {
+	data "tencentcloudenterprise_clb_redirections" "foo" {
 	  clb_id             = "lb-p7olt9e5"
 	  source_listener_id = "lbl-jc1dx6ju"
 	  target_listener_id = "lbl-asj1hzuo"
@@ -28,7 +28,7 @@ import (
 )
 
 func init() {
-	registerDataDescriptionProvider("cloud_clb_redirections", CNDescription{
+	registerDataDescriptionProvider("tencentcloudenterprise_clb_redirections", CNDescription{
 		TerraformTypeCN: "负载均衡重定向",
 		DescriptionCN:   "提供负载均衡重定向数据源，用于查询CLB重定向配置的详细信息。",
 		AttributesCN: map[string]string{

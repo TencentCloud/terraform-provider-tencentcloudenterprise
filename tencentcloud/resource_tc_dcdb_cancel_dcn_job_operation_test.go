@@ -17,8 +17,8 @@ func TestAccTencentCloudDcdbCancelDcnJobOperationResource_basic(t *testing.T) {
 			{
 				Config: testAccDcdbCancelDcnJobOperation,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttrSet("cloud_dcdb_cancel_dcn_job_operation.cancel_operation", "id"),
-					resource.TestCheckResourceAttrSet("cloud_dcdb_cancel_dcn_job_operation.cancel_operation", "instance_id"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_dcdb_cancel_dcn_job_operation.cancel_operation", "id"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_dcdb_cancel_dcn_job_operation.cancel_operation", "instance_id"),
 				),
 			},
 		},
@@ -26,15 +26,15 @@ func TestAccTencentCloudDcdbCancelDcnJobOperationResource_basic(t *testing.T) {
 }
 
 const testAccDcdbHourInsOperation_dcn = defaultAzVariable + CommonPresetDcdb + `
-data "cloud_vpc_security_groups" "internal" {
+data "tencentcloudenterprise_vpc_security_groups" "internal" {
 	name = "default"
 }
 
-data "cloud_vpc_instances" "vpc" {
+data "tencentcloudenterprise_vpc_instances" "vpc" {
 	name ="Default-VPC"
 }
 	
-data "cloud_vpc_subnets" "subnet" {
+data "tencentcloudenterprise_vpc_subnets" "subnet" {
 	vpc_id = data.cloud_vpc_instances.vpc.instance_list.0.vpc_id
 }
 
@@ -44,7 +44,7 @@ locals {
 	sg_id = data.cloud_vpc_security_groups.internal.security_groups.0.security_group_id
 }
 
-resource "cloud_dcdb_instance" "hourdb_instance_dcn" {
+resource "tencentcloudenterprise_dcdb_instance" "hourdb_instance_dcn" {
 	instance_name     = "test_dcdb_db_hourdb_instance_dcn"
 	zones             = [var.default_az]
 	shard_memory      = "2"
@@ -63,7 +63,7 @@ resource "cloud_dcdb_instance" "hourdb_instance_dcn" {
 	}
 }
 
-// resource "cloud_dcdb_instance" "hourdb_instance_master" {
+// resource "tencentcloudenterprise_dcdb_instance" "hourdb_instance_master" {
 // 	instance_name = "test_dcdb_db_hourdb_instance_master"
 // 	zones = [var.default_az]
 // 	shard_memory = "2"
@@ -88,7 +88,7 @@ resource "cloud_dcdb_instance" "hourdb_instance_dcn" {
 
 const testAccDcdbCancelDcnJobOperation = testAccDcdbHourInsOperation_dcn + `
 
-resource "cloud_dcdb_cancel_dcn_job_operation" "cancel_operation" {
+resource "tencentcloudenterprise_dcdb_cancel_dcn_job_operation" "cancel_operation" {
   instance_id = local.dcn_dcdb_id
 }
 

@@ -40,7 +40,7 @@ func TestAccTencentCloudTsfApplicationFileConfigDataSource_basic(t *testing.T) {
 
 const testAccTsfApplicationFileConfigDataSource = `
 
-data "cloud_tsf_application_file_config" "application_file_config" {
+data "tencentcloudenterprise_tsf_application_file_config" "application_file_config" {
 	# config_id = "dcfg-f-4y4ekzqv"
 	# config_id_list = [""]
 	# config_name = "file-log1"

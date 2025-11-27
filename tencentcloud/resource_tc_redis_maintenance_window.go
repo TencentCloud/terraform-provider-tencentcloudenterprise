@@ -5,7 +5,7 @@
 //
 // ```hcl
 //
-//	resource "cloud_redis_maintenance_window" "maintenance_window" {
+//	resource "tencentcloudenterprise_redis_maintenance_window" "maintenance_window" {
 //	 instance_id = "crs-c1nl9rpv"
 //	 start_time = "17:00"
 //	 end_time = "19:00"

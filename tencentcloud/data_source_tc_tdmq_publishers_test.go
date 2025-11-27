@@ -26,7 +26,7 @@ func TestAccTencentCloudTdmqPublishersDataSource_basic(t *testing.T) {
 }
 
 const testAccTdmqPublishersDataSource = `
-data "cloud_tdmq_publishers" "publishers" {
+data "tencentcloudenterprise_tdmq_publishers" "publishers" {
   cluster_id = "pulsar-9n95ax58b9vn"
   namespace  = "keep-ns"
   topic      = "keep-topic"

@@ -19,12 +19,12 @@ func TestAccTencentCloudPlacementGroup(t *testing.T) {
 			{
 				Config: testAccPlacementGroup,
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckPlacementGroupExists("cloud_bms_placement_group.placement"),
-					resource.TestCheckResourceAttr("cloud_bms_placement_group.placement", "name", "tf-test-placement"),
-					resource.TestCheckResourceAttr("cloud_bms_placement_group.placement", "type", "HOST"),
-					resource.TestCheckResourceAttrSet("cloud_bms_placement_group.placement", "cvm_quota_total"),
-					resource.TestCheckResourceAttrSet("cloud_bms_placement_group.placement", "current_num"),
-					resource.TestCheckResourceAttrSet("cloud_bms_placement_group.placement", "create_time"),
+					testAccCheckPlacementGroupExists("tencentcloudenterprise_bms_placement_group.placement"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_bms_placement_group.placement", "name", "tf-test-placement"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_bms_placement_group.placement", "type", "HOST"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_bms_placement_group.placement", "cvm_quota_total"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_bms_placement_group.placement", "current_num"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_bms_placement_group.placement", "create_time"),
 				),
 			},
 		},
@@ -74,7 +74,7 @@ func testAccCheckPlacementGroupDestroy(s *terraform.State) error {
 		client: testAccProvider.Meta().(*TencentCloudClient).apiV3Conn,
 	}
 	for _, rs := range s.RootModule().Resources {
-		if rs.Type != "cloud_bms_placement_group" {
+		if rs.Type != "tencentcloudenterprise_bms_placement_group" {
 			continue
 		}
 
@@ -99,7 +99,7 @@ func testAccCheckPlacementGroupDestroy(s *terraform.State) error {
 }
 
 const testAccPlacementGroup = `
-resource "cloud_bms_placement_group" "placement" {
+resource "tencentcloudenterprise_bms_placement_group" "placement" {
 	name = "tf-test-placement"
 	type = "HOST"
 }

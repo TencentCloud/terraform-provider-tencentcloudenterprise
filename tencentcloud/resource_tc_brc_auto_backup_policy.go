@@ -5,7 +5,7 @@ Provides a resource to create a brc auto_backup_policy
 
 ```hcl
 
-	resource "cloud_brc_auto_backup_policy" "example" {
+	resource "tencentcloudenterprise_brc_auto_backup_policy" "example" {
 	  resource_type = "INSTANCE"
 	  auto_backup_policy_name = "example-policy"
 
@@ -50,7 +50,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_brc_auto_backup_policy", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_brc_auto_backup_policy", CNDescription{
 		TerraformTypeCN: "自动备份策略",
 		DescriptionCN:   "提供BRC自动备份策略资源，用于创建和管理自动备份策略。",
 		AttributesCN: map[string]string{

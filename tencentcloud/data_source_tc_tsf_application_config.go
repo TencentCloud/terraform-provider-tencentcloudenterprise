@@ -5,7 +5,7 @@ Use this data source to query detailed information of tsf application_config
 
 ```hcl
 
-	data "cloud_tsf_application_config" "application_config" {
+	data "tencentcloudenterprise_tsf_application_config" "application_config" {
 	  application_id = "app-123456"
 	  config_id = "config-123456"
 	  config_id_list =
@@ -27,7 +27,7 @@ import (
 )
 
 func init() {
-	registerDataDescriptionProvider("cloud_tsf_application_config", CNDescription{
+	registerDataDescriptionProvider("tencentcloudenterprise_tsf_application_config", CNDescription{
 		TerraformTypeCN: "TSF应用配置",
 		DescriptionCN:   "提供TSF应用配置数据源，用于查询TSF应用配置的详细信息。",
 		AttributesCN: map[string]string{

@@ -5,7 +5,7 @@ Use this data source to query detailed information of tsf repository
 
 ```hcl
 
-	data "cloud_tsf_repository" "repository" {
+	data "tencentcloudenterprise_tsf_repository" "repository" {
 	  search_word = "test"
 	  repository_type = "default"
 	}
@@ -24,7 +24,7 @@ import (
 )
 
 func init() {
-	registerDataDescriptionProvider("cloud_tsf_repository", CNDescription{
+	registerDataDescriptionProvider("tencentcloudenterprise_tsf_repository", CNDescription{
 		TerraformTypeCN: "TSF仓库",
 		DescriptionCN:   "提供TSF仓库数据源，用于查询TSF仓库的详细信息。",
 		AttributesCN: map[string]string{

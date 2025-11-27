@@ -5,7 +5,7 @@ Provides a resource to create a NAT forwarding.
 
 ```hcl
 
-	resource "cloud_vpc_dnat" "foo" {
+	resource "tencentcloudenterprise_vpc_dnat" "foo" {
 	  vpc_id       = "vpc-asg3sfa3"
 	  nat_id       = "nat-2515tdg"
 	  protocol     = "tcp"
@@ -44,7 +44,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_vpc_dnat", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_vpc_dnat", CNDescription{
 		TerraformTypeCN: "NAT端口转发",
 		DescriptionCN:   "提供NAT端口转发资源，用于创建NAT转发规则。",
 		AttributesCN: map[string]string{

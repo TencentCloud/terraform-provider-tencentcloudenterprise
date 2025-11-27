@@ -5,7 +5,7 @@
 //
 // ```hcl
 //
-//	resource "cloud_redis_upgrade_multi_zone_operation" "upgrade_multi_zone_operation" {
+//	resource "tencentcloudenterprise_redis_upgrade_multi_zone_operation" "upgrade_multi_zone_operation" {
 //	 instance_id = "crs-c1nl9rpv"
 //	 upgrade_proxy_and_redis_server =
 //	}

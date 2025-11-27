@@ -20,18 +20,18 @@ func TestAccTencentCloudVpcV3RouteTableBasic(t *testing.T) {
 			{
 				Config: testAccVpcRouteTableConfig,
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckVpcRouteTableExists("cloud_route_table.foo"),
-					resource.TestCheckResourceAttr("cloud_route_table.foo", "name", defaultInsName),
+					testAccCheckVpcRouteTableExists("tencentcloudenterprise_route_table.foo"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_route_table.foo", "name", defaultInsName),
 
-					resource.TestCheckResourceAttrSet("cloud_route_table.foo", "vpc_id"),
-					resource.TestCheckResourceAttrSet("cloud_route_table.foo", "subnet_ids.#"),
-					resource.TestCheckResourceAttrSet("cloud_route_table.foo", "route_entry_ids.#"),
-					resource.TestCheckResourceAttrSet("cloud_route_table.foo", "is_default"),
-					resource.TestCheckResourceAttrSet("cloud_route_table.foo", "create_time"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_route_table.foo", "vpc_id"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_route_table.foo", "subnet_ids.#"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_route_table.foo", "route_entry_ids.#"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_route_table.foo", "is_default"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_route_table.foo", "create_time"),
 				),
 			},
 			{
-				ResourceName:      "cloud_route_table.foo",
+				ResourceName:      "tencentcloudenterprise_route_table.foo",
 				ImportState:       true,
 				ImportStateVerify: true,
 			},
@@ -49,27 +49,27 @@ func TestAccTencentCloudVpcV3RouteTableUpdate(t *testing.T) {
 			{
 				Config: testAccVpcRouteTableConfig,
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckVpcRouteTableExists("cloud_route_table.foo"),
-					resource.TestCheckResourceAttr("cloud_route_table.foo", "name", defaultInsName),
+					testAccCheckVpcRouteTableExists("tencentcloudenterprise_route_table.foo"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_route_table.foo", "name", defaultInsName),
 
-					resource.TestCheckResourceAttrSet("cloud_route_table.foo", "vpc_id"),
-					resource.TestCheckResourceAttrSet("cloud_route_table.foo", "subnet_ids.#"),
-					resource.TestCheckResourceAttrSet("cloud_route_table.foo", "route_entry_ids.#"),
-					resource.TestCheckResourceAttrSet("cloud_route_table.foo", "is_default"),
-					resource.TestCheckResourceAttrSet("cloud_route_table.foo", "create_time"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_route_table.foo", "vpc_id"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_route_table.foo", "subnet_ids.#"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_route_table.foo", "route_entry_ids.#"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_route_table.foo", "is_default"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_route_table.foo", "create_time"),
 				),
 			},
 			{
 				Config: testAccVpcRouteTableConfigUpdate,
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckVpcRouteTableExists("cloud_route_table.foo"),
-					resource.TestCheckResourceAttr("cloud_route_table.foo", "name", defaultInsNameUpdate),
+					testAccCheckVpcRouteTableExists("tencentcloudenterprise_route_table.foo"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_route_table.foo", "name", defaultInsNameUpdate),
 
-					resource.TestCheckResourceAttrSet("cloud_route_table.foo", "vpc_id"),
-					resource.TestCheckResourceAttrSet("cloud_route_table.foo", "subnet_ids.#"),
-					resource.TestCheckResourceAttrSet("cloud_route_table.foo", "route_entry_ids.#"),
-					resource.TestCheckResourceAttrSet("cloud_route_table.foo", "is_default"),
-					resource.TestCheckResourceAttrSet("cloud_route_table.foo", "create_time"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_route_table.foo", "vpc_id"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_route_table.foo", "subnet_ids.#"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_route_table.foo", "route_entry_ids.#"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_route_table.foo", "is_default"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_route_table.foo", "create_time"),
 				),
 			},
 		},
@@ -86,27 +86,27 @@ func TestAccTencentCloudVpcV3RouteTableWithTags(t *testing.T) {
 			{
 				Config: testAccVpcRouteTableConfigWithTags,
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckVpcRouteTableExists("cloud_route_table.foo"),
-					resource.TestCheckResourceAttr("cloud_route_table.foo", "name", defaultInsName),
+					testAccCheckVpcRouteTableExists("tencentcloudenterprise_route_table.foo"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_route_table.foo", "name", defaultInsName),
 
-					resource.TestCheckResourceAttrSet("cloud_route_table.foo", "vpc_id"),
-					resource.TestCheckResourceAttrSet("cloud_route_table.foo", "subnet_ids.#"),
-					resource.TestCheckResourceAttrSet("cloud_route_table.foo", "route_entry_ids.#"),
-					resource.TestCheckResourceAttrSet("cloud_route_table.foo", "is_default"),
-					resource.TestCheckResourceAttrSet("cloud_route_table.foo", "create_time"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_route_table.foo", "vpc_id"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_route_table.foo", "subnet_ids.#"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_route_table.foo", "route_entry_ids.#"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_route_table.foo", "is_default"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_route_table.foo", "create_time"),
 
-					resource.TestCheckResourceAttr("cloud_route_table.foo", "tags.test", "test"),
-					resource.TestCheckNoResourceAttr("cloud_route_table.foo", "tags.abc"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_route_table.foo", "tags.test", "test"),
+					resource.TestCheckNoResourceAttr("tencentcloudenterprise_route_table.foo", "tags.abc"),
 				),
 			},
 			{
 				Config: testAccVpcRouteTableConfigWithTagsUpdate,
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckVpcRouteTableExists("cloud_route_table.foo"),
-					resource.TestCheckResourceAttr("cloud_route_table.foo", "name", defaultInsName),
+					testAccCheckVpcRouteTableExists("tencentcloudenterprise_route_table.foo"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_route_table.foo", "name", defaultInsName),
 
-					resource.TestCheckResourceAttr("cloud_route_table.foo", "tags.abc", "abc"),
-					resource.TestCheckNoResourceAttr("cloud_route_table.foo", "tags.test"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_route_table.foo", "tags.abc", "abc"),
+					resource.TestCheckNoResourceAttr("tencentcloudenterprise_route_table.foo", "tags.test"),
 				),
 			},
 		},
@@ -142,7 +142,7 @@ func testAccCheckVpcRouteTableDestroy(s *terraform.State) error {
 
 	service := VpcService{client: testAccProvider.Meta().(*TencentCloudClient).apiV3Conn}
 	for _, rs := range s.RootModule().Resources {
-		if rs.Type != "cloud_route_table" {
+		if rs.Type != "tencentcloudenterprise_route_table" {
 			continue
 		}
 		time.Sleep(5 * time.Second)
@@ -160,36 +160,36 @@ func testAccCheckVpcRouteTableDestroy(s *terraform.State) error {
 }
 
 const testAccVpcRouteTableConfig = defaultVpcVariable + `
-resource "cloud_vpc" "foo" {
+resource "tencentcloudenterprise_vpc" "foo" {
   name       = var.instance_name
   cidr_block = var.vpc_cidr
 }
 
-resource "cloud_route_table" "foo" {
+resource "tencentcloudenterprise_route_table" "foo" {
   name   = var.instance_name
   vpc_id = cloud_vpc.foo.id
 }
 `
 
 const testAccVpcRouteTableConfigUpdate = defaultVpcVariable + `
-resource "cloud_vpc" "foo" {
+resource "tencentcloudenterprise_vpc" "foo" {
   name       = var.instance_name
   cidr_block = var.vpc_cidr
 }
 
-resource "cloud_route_table" "foo" {
+resource "tencentcloudenterprise_route_table" "foo" {
   name   = var.instance_name_update
   vpc_id = cloud_vpc.foo.id
 }
 `
 
 const testAccVpcRouteTableConfigWithTags = defaultVpcVariable + `
-resource "cloud_vpc" "foo" {
+resource "tencentcloudenterprise_vpc" "foo" {
   name       = var.instance_name
   cidr_block = var.vpc_cidr
 }
 
-resource "cloud_route_table" "foo" {
+resource "tencentcloudenterprise_route_table" "foo" {
   name   = var.instance_name
   vpc_id = cloud_vpc.foo.id
 
@@ -200,12 +200,12 @@ resource "cloud_route_table" "foo" {
 `
 
 const testAccVpcRouteTableConfigWithTagsUpdate = defaultVpcVariable + `
-resource "cloud_vpc" "foo" {
+resource "tencentcloudenterprise_vpc" "foo" {
   name       = var.instance_name
   cidr_block = var.vpc_cidr
 }
 
-resource "cloud_route_table" "foo" {
+resource "tencentcloudenterprise_route_table" "foo" {
   name   = var.instance_name
   vpc_id = cloud_vpc.foo.id
 

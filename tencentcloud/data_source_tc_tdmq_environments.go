@@ -5,7 +5,7 @@ Use this data source to query detailed information of tdmq environment_attribute
 
 ```hcl
 
-	data "cloud_tdmq_environment_attributes" "environment_attributes" {
+	data "tencentcloudenterprise_tdmq_environment_attributes" "environment_attributes" {
 	    environment_id = "keep-ns"
 	    cluster_id     = "pulsar-9n95ax58b9vn"
 	}
@@ -24,7 +24,7 @@ import (
 )
 
 func init() {
-	registerDataDescriptionProvider("cloud_tdmq_environments", CNDescription{
+	registerDataDescriptionProvider("tencentcloudenterprise_tdmq_environments", CNDescription{
 		TerraformTypeCN: "命名空间列表",
 		DescriptionCN:   "提供TDMQ环境数据源，用于查询TDMQ环境的详细信息。",
 		AttributesCN: map[string]string{

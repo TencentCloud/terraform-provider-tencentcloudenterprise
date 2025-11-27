@@ -18,13 +18,13 @@ func TestAccTencentCloudNeedFixTdmqSendRocketmqMessageResource_basic(t *testing.
 			{
 				Config: testAccTdmqSendRocketmqMessage,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttrSet("cloud_tdmq_send_rocketmq_message.send_rocketmq_message", "id"),
-					resource.TestCheckResourceAttrSet("cloud_tdmq_send_rocketmq_message.send_rocketmq_message", "cluster_id"),
-					resource.TestCheckResourceAttrSet("cloud_tdmq_send_rocketmq_message.send_rocketmq_message", "namespace_id"),
-					resource.TestCheckResourceAttrSet("cloud_tdmq_send_rocketmq_message.send_rocketmq_message", "topic_name"),
-					resource.TestCheckResourceAttrSet("cloud_tdmq_send_rocketmq_message.send_rocketmq_message", "msg_body"),
-					resource.TestCheckResourceAttrSet("cloud_tdmq_send_rocketmq_message.send_rocketmq_message", "msg_key"),
-					resource.TestCheckResourceAttrSet("cloud_tdmq_send_rocketmq_message.send_rocketmq_message", "msg_tag"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_tdmq_send_rocketmq_message.send_rocketmq_message", "id"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_tdmq_send_rocketmq_message.send_rocketmq_message", "cluster_id"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_tdmq_send_rocketmq_message.send_rocketmq_message", "namespace_id"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_tdmq_send_rocketmq_message.send_rocketmq_message", "topic_name"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_tdmq_send_rocketmq_message.send_rocketmq_message", "msg_body"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_tdmq_send_rocketmq_message.send_rocketmq_message", "msg_key"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_tdmq_send_rocketmq_message.send_rocketmq_message", "msg_tag"),
 				),
 			},
 		},
@@ -32,7 +32,7 @@ func TestAccTencentCloudNeedFixTdmqSendRocketmqMessageResource_basic(t *testing.
 }
 
 const testAccTdmqSendRocketmqMessage = `
-resource "cloud_tdmq_send_rocketmq_message" "send_rocketmq_message" {
+resource "tencentcloudenterprise_tdmq_send_rocketmq_message" "send_rocketmq_message" {
 cluster_id     = "rocketmq-o4e5rnddo9r4"
   namespace_id = "test_namespace"
   topic_name     = "test_rocketmq_topic"

@@ -4,7 +4,7 @@ Use this data source to query detailed information of vpc template_limits
 # Example Usage
 
 ```hcl
-data "cloud_vpc_template_limits" "template_limits" {}
+data "tencentcloudenterprise_vpc_template_limits" "template_limits" {}
 ```
 */
 package tencentcloud
@@ -19,7 +19,7 @@ import (
 )
 
 func init() {
-	registerDataDescriptionProvider("cloud_vpc_template_limits", CNDescription{
+	registerDataDescriptionProvider("tencentcloudenterprise_vpc_template_limits", CNDescription{
 		TerraformTypeCN: "查询参数模板配额列表",
 		DescriptionCN:   "提供VPC模板限额数据源，用于查询VPC模板限额的详细信息。",
 		AttributesCN: map[string]string{

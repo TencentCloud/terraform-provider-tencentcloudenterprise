@@ -4,7 +4,7 @@ Provides a resource to create a turbofs sign up service
 # Example Usage
 
 ```hcl
-resource "cloud_turbofs_sign_up_service" "sign_up" {}
+resource "tencentcloudenterprise_turbofs_sign_up_service" "sign_up" {}
 ```
 */
 package tencentcloud
@@ -18,7 +18,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_turbofs_sign_up_service", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_turbofs_sign_up_service", CNDescription{
 		TerraformTypeCN: "开通TurboFS服务",
 		DescriptionCN:   "提供TurboFS服务开通资源，用于开通TurboFS服务。",
 		AttributesCN: map[string]string{

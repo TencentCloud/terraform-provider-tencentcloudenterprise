@@ -5,7 +5,7 @@ Provides a resource to create a eni_sg_attachment
 
 ```hcl
 
-	resource "cloud_vpc_eni_sg_attachment" "eni_sg_attachment" {
+	resource "tencentcloudenterprise_vpc_eni_sg_attachment" "eni_sg_attachment" {
 	  network_interface_ids = ["eni-p0hkgx8p"]
 	  security_group_ids    = ["sg-902tl7t7", "sg-edmur627"]
 	}
@@ -32,7 +32,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_vpc_eni_sg_attachment", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_vpc_eni_sg_attachment", CNDescription{
 		TerraformTypeCN: "创建弹性网卡安全组绑定",
 		DescriptionCN:   "提供弹性网卡安全组绑定资源，用于创建弹性网卡与安全组的绑定关系。",
 		AttributesCN: map[string]string{

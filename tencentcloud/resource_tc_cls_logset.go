@@ -5,7 +5,7 @@ Provides a resource to create a cls logset
 
 ```hcl
 
-	resource "cloud_cls_logset" "logset" {
+	resource "tencentcloudenterprise_cls_logset" "logset" {
 	  logset_name = "demo"
 	  tags = {
 	    "createdBy" = "terraform"
@@ -34,7 +34,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_cls_logset", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_cls_logset", CNDescription{
 		TerraformTypeCN: "CLS日志集",
 		DescriptionCN:   "提供CLS日志集资源，用于创建和管理日志服务日志集。",
 		AttributesCN: map[string]string{

@@ -3,12 +3,12 @@
 # ========== Data Sources ==========
 
 # Query COS buckets
-data "cloud_cos_buckets" "buckets" {
+data "tencentcloudenterprise_cos_buckets" "buckets" {
   bucket_prefix = "example"
 }
 
 # Query COS bucket object
-data "cloud_cos_bucket_object" "object" {
+data "tencentcloudenterprise_cos_bucket_object" "object" {
   bucket = "example-bucket-123456"
   key    = "path/to/object.txt"
 }
@@ -16,7 +16,7 @@ data "cloud_cos_bucket_object" "object" {
 # ========== Resources ==========
 
 # COS Bucket
-resource "cloud_cos_bucket" "bucket" {
+resource "tencentcloudenterprise_cos_bucket" "bucket" {
   bucket = "example-bucket-123456"
   acl    = "private"
   
@@ -50,7 +50,7 @@ resource "cloud_cos_bucket" "bucket" {
 }
 
 # COS Bucket Object
-resource "cloud_cos_bucket_object" "object" {
+resource "tencentcloudenterprise_cos_bucket_object" "object" {
   bucket  = cloud_cos_bucket.bucket.bucket
   key     = "example/object.txt"
   content = "Hello, COS!"
@@ -58,7 +58,7 @@ resource "cloud_cos_bucket_object" "object" {
 }
 
 # COS Bucket Policy
-resource "cloud_cos_bucket_policy" "policy" {
+resource "tencentcloudenterprise_cos_bucket_policy" "policy" {
   bucket = cloud_cos_bucket.bucket.bucket
   policy = jsonencode({
     version = "2.0"

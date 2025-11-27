@@ -39,7 +39,7 @@ func TestAccTencentCloudTsfBusinessLogConfigsDataSource_basic(t *testing.T) {
 
 const testAccTsfBusinessLogConfigsDataSource = `
 
-data "cloud_tsf_business_log_configs" "business_log_configs" {
+data "tencentcloudenterprise_tsf_business_log_configs" "business_log_configs" {
   config_id_list = ["apm-busi-log-cfg-qv3x3rdv"]
 }
 

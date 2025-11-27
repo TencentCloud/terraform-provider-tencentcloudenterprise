@@ -4,7 +4,7 @@ Use this data source to query detailed information of CLB listener rule
 Example Usage
 ```hcl
 
-	data "cloud_clb_listener_rules" "foo" {
+	data "tencentcloudenterprise_clb_listener_rules" "foo" {
 	  clb_id      = "lb-k2zjp9lv"
 	  listener_id = "lbl-mwr6vbtv"
 	  rule_id     = "loc-inem40hz"
@@ -29,7 +29,7 @@ import (
 )
 
 func init() {
-	registerDataDescriptionProvider("cloud_clb_listener_rules", CNDescription{
+	registerDataDescriptionProvider("tencentcloudenterprise_clb_listener_rules", CNDescription{
 		TerraformTypeCN: "CLB监听器规则",
 		DescriptionCN:   "提供CLB监听器规则数据源，用于查询CLB监听器规则的详细信息。",
 		AttributesCN: map[string]string{

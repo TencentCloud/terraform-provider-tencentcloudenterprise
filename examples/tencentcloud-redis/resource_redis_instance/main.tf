@@ -1,4 +1,4 @@
-resource "cloud_redis_instance" "redis_instance_test" {
+resource "tencentcloudenterprise_redis_instance" "redis_instance_test" {
   availability_zone = var.availability_zone
   type_id              = 8
   password          = "waw1111sda"
@@ -18,23 +18,23 @@ resource "cloud_redis_instance" "redis_instance_test" {
   }
 }
 
-#resource "cloud_redis_backup_config" "redis_backup_config" {
+#resource "tencentcloudenterprise_redis_backup_config" "redis_backup_config" {
 #  redis_id      = cloud_redis_instance.redis_instance_test.id
 #  backup_time   = "01:00-02:00"
 #  backup_period = ["Saturday", "Sunday"]
 #}
 #
-#data "cloud_redis_instances" "redis" {
+#data "tencentcloudenterprise_redis_instances" "redis" {
 #  zone       = var.availability_zone
 #  search_key = cloud_redis_instance.redis_instance_test.id
 #}
 #
-#data "cloud_redis_instances" "redis-tags" {
+#data "tencentcloudenterprise_redis_instances" "redis-tags" {
 #  zone = var.availability_zone
 #  tags = cloud_redis_instance.redis_instance_test.tags
 #}
 #
-#resource "cloud_redis_instance" "redis_instance_prepaid_test" {
+#resource "tencentcloudenterprise_redis_instance" "redis_instance_prepaid_test" {
 #  availability_zone                   = var.availability_zone
 #  type_id                             = 2
 #  password                            = "test12345789"

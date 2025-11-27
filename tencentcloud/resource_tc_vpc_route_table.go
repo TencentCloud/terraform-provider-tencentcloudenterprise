@@ -5,12 +5,12 @@ Provides a resource to create a VPC routing table.
 
 ```hcl
 
-	resource "cloud_vpc" "foo" {
+	resource "tencentcloudenterprise_vpc" "foo" {
 	  name       = "ci-temp-test"
 	  cidr_block = "10.0.0.0/16"
 	}
 
-	resource "cloud_vpc_route_table" "foo" {
+	resource "tencentcloudenterprise_vpc_route_table" "foo" {
 	  vpc_id = cloud_vpc.foo.id
 	  name   = "ci-temp-test-rt"
 	}
@@ -39,7 +39,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_vpc_route_table", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_vpc_route_table", CNDescription{
 		TerraformTypeCN: "路由表",
 		DescriptionCN:   "提供路由表资源，用于创建和管理VPC路由表。",
 		AttributesCN: map[string]string{

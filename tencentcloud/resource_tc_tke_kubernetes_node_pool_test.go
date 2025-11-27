@@ -16,13 +16,13 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 )
 
-var testTkeClusterNodePoolName = "cloud_kubernetes_node_pool"
+var testTkeClusterNodePoolName = "tencentcloudenterprise_kubernetes_node_pool"
 var testTkeClusterNodePoolResourceKey = testTkeClusterNodePoolName + ".np_test"
 
 func init() {
 	// go test -v ./tencentcloud -sweep=ap-guangzhou -sweep-run=cloud_node_pool
-	resource.AddTestSweepers("cloud_node_pool", &resource.Sweeper{
-		Name: "cloud_node_pool",
+	resource.AddTestSweepers("tencentcloudenterprise_node_pool", &resource.Sweeper{
+		Name: "tencentcloudenterprise_node_pool",
 		F:    testNodePoolSweep,
 	})
 }
@@ -264,22 +264,22 @@ variable "availability_zone" {
   default = "ap-guangzhou-3"
 }
 
-data "cloud_vpc_subnets" "vpc" {
+data "tencentcloudenterprise_vpc_subnets" "vpc" {
     is_default        = true
     availability_zone = var.availability_zone
 }
 
-data "cloud_vpc_security_groups" "sg" {
+data "tencentcloudenterprise_vpc_security_groups" "sg" {
   name = "default"
 }
 
-data "cloud_vpc_security_groups" "sg_as" {
+data "tencentcloudenterprise_vpc_security_groups" "sg_as" {
   name = "keep-for-as"
 }
 `
 
 const testAccTkeNodePoolCluster string = testAccTkeNodePoolClusterBasic + `
-resource "cloud_kubernetes_node_pool" "np_test" {
+resource "tencentcloudenterprise_kubernetes_node_pool" "np_test" {
   name = "mynodepool"
   cluster_id = local.cluster_id
   max_size = 6
@@ -342,7 +342,7 @@ resource "cloud_kubernetes_node_pool" "np_test" {
 `
 
 const testAccTkeNodePoolClusterUpdate string = testAccTkeNodePoolClusterBasic + `
-resource "cloud_kubernetes_node_pool" "np_test" {
+resource "tencentcloudenterprise_kubernetes_node_pool" "np_test" {
   name = "mynodepoolupdate"
   cluster_id = local.cluster_id
   max_size = 5
@@ -417,7 +417,7 @@ resource "cloud_kubernetes_node_pool" "np_test" {
 `
 
 const testAccTkeNodePoolClusterEncrypt = testAccTkeNodePoolClusterBasic + `
-resource "cloud_kubernetes_node_pool" "np_test" {
+resource "tencentcloudenterprise_kubernetes_node_pool" "np_test" {
   name = "np_with_disk_encrypt"
   cluster_id = local.cluster_id
   max_size = 3
@@ -457,7 +457,7 @@ resource "cloud_kubernetes_node_pool" "np_test" {
 `
 
 const testAccTkeNodePoolClusterGpu string = testAccTkeNodePoolClusterBasic + `
-resource "cloud_kubernetes_node_pool" "np_test" {
+resource "tencentcloudenterprise_kubernetes_node_pool" "np_test" {
   name = "gpu_args_node_pool"
   cluster_id = local.cluster_id
   max_size = 1

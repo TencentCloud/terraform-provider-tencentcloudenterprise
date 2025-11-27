@@ -5,7 +5,7 @@ Provides a resource to create a cvm sync_image
 
 ```hcl
 
-	resource "cloud_cvm_sync_image" "sync_image" {
+	resource "tencentcloudenterprise_cvm_sync_image" "sync_image" {
 	  image_id = "img-xxxxxx"
 	  destination_regions =["ap-guangzhou", "ap-shanghai"]
 	}
@@ -24,7 +24,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_cvm_sync_image", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_cvm_sync_image", CNDescription{
 		TerraformTypeCN: "同步镜像",
 		DescriptionCN:   "提供同步镜像资源，用于同步镜像到其他地域。",
 		AttributesCN: map[string]string{

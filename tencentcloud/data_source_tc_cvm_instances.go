@@ -5,7 +5,7 @@ Use this data source to query cvm instances.
 
 ```hcl
 
-	data "cloud_cvm_instances" "foo" {
+	data "tencentcloudenterprise_cvm_instances" "foo" {
 	  instance_id = "ins-da412f5a"
 	}
 
@@ -26,7 +26,7 @@ import (
 
 func init() {
 	// 注册资源到资源中文描述提供者映射里
-	registerDataDescriptionProvider("cloud_cvm_instances", CNDescription{
+	registerDataDescriptionProvider("tencentcloudenterprise_cvm_instances", CNDescription{
 		TerraformTypeCN: "云主机列表",
 		DescriptionCN:   "提供云主机列表数据源，用于查询CVM实例信息。",
 		AttributesCN: map[string]string{

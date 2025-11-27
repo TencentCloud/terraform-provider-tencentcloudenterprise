@@ -5,7 +5,7 @@ Use this data source to query detailed information of dcdb parameters
 
 ```hcl
 
-	data "cloud_dcdb_parameters" "parameters" {
+	data "tencentcloudenterprise_dcdb_parameters" "parameters" {
 	  instance_id = "your_instance_id"
 	  }
 
@@ -24,7 +24,7 @@ import (
 )
 
 func init() {
-	registerDataDescriptionProvider("cloud_dcdb_parameters", CNDescription{
+	registerDataDescriptionProvider("tencentcloudenterprise_dcdb_parameters", CNDescription{
 		TerraformTypeCN: "数据库参数",
 		DescriptionCN:   "提供DCDB参数数据源，用于查询DCDB参数的详细信息。",
 		AttributesCN: map[string]string{

@@ -5,7 +5,7 @@ Use this data source to query detailed information of instance_shards
 
 ```hcl
 
-	data "cloud_redis_instance_shards" "instance_shards" {
+	data "tencentcloudenterprise_redis_instance_shards" "instance_shards" {
 	  instance_id = "crs-c1nl9rpv"
 	  filter_slave = false
 	}
@@ -24,7 +24,7 @@ import (
 )
 
 func init() {
-	registerDataDescriptionProvider("cloud_redis_instance_shards", CNDescription{
+	registerDataDescriptionProvider("tencentcloudenterprise_redis_instance_shards", CNDescription{
 		TerraformTypeCN: "Redis®实例碎片",
 		DescriptionCN:   "提供Redis实例分片数据源，用于查询Redis实例分片的详细信息。",
 		AttributesCN: map[string]string{

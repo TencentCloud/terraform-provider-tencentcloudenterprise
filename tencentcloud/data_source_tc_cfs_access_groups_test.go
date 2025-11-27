@@ -28,7 +28,7 @@ func TestAccTencentCloudCfsAccessGroupsDataSource(t *testing.T) {
 }
 
 const defaultCfsAccessGroup = `
-data "cloud_cfs_access_groups" "access_groups" {
+data "tencentcloudenterprise_cfs_access_groups" "access_groups" {
   name = "keep_access_group"
 }
 
@@ -38,7 +38,7 @@ locals {
 `
 
 const testAccCfsAccessGroupsDataSource = `
-data "cloud_cfs_access_groups" "access_groups" {
+data "tencentcloudenterprise_cfs_access_groups" "access_groups" {
   name = "keep_access_group"
 }
 `

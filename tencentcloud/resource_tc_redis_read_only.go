@@ -5,7 +5,7 @@
 //
 // ```hcl
 //
-//	resource "cloud_redis_read_only" "read_only" {
+//	resource "tencentcloudenterprise_redis_read_only" "read_only" {
 //	 instance_id = "crs-c1nl9rpv"
 //	 input_mode = "0"
 //	}

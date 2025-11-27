@@ -5,7 +5,7 @@ Provides a resource to create a tsf repository
 
 ```hcl
 
-	resource "cloud_tsf_repository" "repository" {
+	resource "tencentcloudenterprise_tsf_repository" "repository" {
 	  repository_name = ""
 	  repository_type = ""
 	  bucket_name = ""

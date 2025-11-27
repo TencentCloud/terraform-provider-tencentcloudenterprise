@@ -5,7 +5,7 @@ Provides a resource to create a tdmq subscription_attachment
 
 ```hcl
 
-	resource "cloud_tdmq_subscription_attachment" "subscription_attachment" {
+	resource "tencentcloudenterprise_tdmq_subscription_attachment" "subscription_attachment" {
 	  environment_id           = "keep-ns"
 	  topic_name               = "keep-topic"
 	  subscription_name        = "test-subcription"
@@ -40,7 +40,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_tdmq_subscription_attachment", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_tdmq_subscription_attachment", CNDescription{
 		TerraformTypeCN: "TDMQ 订阅关系",
 		DescriptionCN:   "提供TDMQ订阅关系资源，用于创建和管理TDMQ订阅关系。",
 		AttributesCN: map[string]string{

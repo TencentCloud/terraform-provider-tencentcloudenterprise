@@ -5,7 +5,7 @@ Use this data source to query detailed information of tsf application_public_con
 
 ```hcl
 
-	data "cloud_tsf_application_public_config" "application_public_config" {
+	data "tencentcloudenterprise_tsf_application_public_config" "application_public_config" {
 	  config_id = "dcfg-p-evjrbgly"
 	  # config_id_list = [""]
 	  config_name = "dsadsa"
@@ -26,7 +26,7 @@ import (
 )
 
 func init() {
-	registerDataDescriptionProvider("cloud_tsf_application_public_config", CNDescription{
+	registerDataDescriptionProvider("tencentcloudenterprise_tsf_application_public_config", CNDescription{
 		TerraformTypeCN: "TSF应用公共配置",
 		DescriptionCN:   "提供TSF应用公共配置数据源，用于查询TSF应用公共配置的详细信息。",
 		AttributesCN: map[string]string{

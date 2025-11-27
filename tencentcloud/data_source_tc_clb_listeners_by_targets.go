@@ -4,7 +4,7 @@ Use this data source to query detailed information of clb listeners_by_targets
 Example Usage
 ```hcl
 
-	data "cloud_clb_listeners_by_targets" "listeners_by_targets" {
+	data "tencentcloudenterprise_clb_listeners_by_targets" "listeners_by_targets" {
 	  backends {
 	    vpc_id     = "vpc-4owdpnwr"
 	    private_ip = "203.0.113.10"
@@ -26,7 +26,7 @@ import (
 )
 
 func init() {
-	// registerDataDescriptionProvider("cloud_clb_listeners_by_targets", CNDescription{
+	// registerDataDescriptionProvider("tencentcloudenterprise_clb_listeners_by_targets", CNDescription{
 	// 	TerraformTypeCN: "过滤信息查询CLB监听器",
 	// 	AttributesCN: map[string]string{
 	// 		"backends":         "要查询的专用网络IP的列表",

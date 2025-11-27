@@ -5,7 +5,7 @@ Use this data source to query detailed information of dcdb database_tables
 
 ```hcl
 
-	data "cloud_dcdb_database_tables" "database_tables" {
+	data "tencentcloudenterprise_dcdb_database_tables" "database_tables" {
 	  instance_id = "tdsqlshard-973xatu3"
 	  db_name = "SysDB"
 	  table = "StatusTable"
@@ -27,7 +27,7 @@ import (
 )
 
 func init() {
-	registerDataDescriptionProvider("cloud_dcdb_database_tables", CNDescription{
+	registerDataDescriptionProvider("tencentcloudenterprise_dcdb_database_tables", CNDescription{
 		TerraformTypeCN: "实例表信息",
 		DescriptionCN:   "提供DCDB数据库表数据源，用于查询DCDB数据库表的详细信息。",
 		AttributesCN: map[string]string{

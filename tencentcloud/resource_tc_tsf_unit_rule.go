@@ -5,7 +5,7 @@ Provides a resource to create a tsf unit_rule
 
 ```hcl
 
-	resource "cloud_tsf_unit_rule" "unit_rule" {
+	resource "tencentcloudenterprise_tsf_unit_rule" "unit_rule" {
 	  gateway_instance_id = "gw-ins-rug79a70"
 	  name = "terraform-test"
 	  description = "terraform-desc"
@@ -49,7 +49,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_tsf_unit_rule", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_tsf_unit_rule", CNDescription{
 		TerraformTypeCN: "单元化规则",
 		DescriptionCN:   "提供TSF单元化规则资源，用于创建和管理单元化规则。",
 		AttributesCN: map[string]string{

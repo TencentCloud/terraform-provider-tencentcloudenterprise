@@ -5,7 +5,7 @@ Use this data source to query query ENIs.
 
 ```hcl
 
-	data "cloud_vpc_enis" "name" {
+	data "tencentcloudenterprise_vpc_enis" "name" {
 	  name = "test eni"
 	}
 
@@ -23,7 +23,7 @@ import (
 )
 
 func init() {
-	registerDataDescriptionProvider("cloud_vpc_enis", CNDescription{
+	registerDataDescriptionProvider("tencentcloudenterprise_vpc_enis", CNDescription{
 		TerraformTypeCN: "弹性网卡",
 		DescriptionCN:   "提供弹性网卡数据源，用于查询弹性网卡的详细信息。",
 		AttributesCN: map[string]string{

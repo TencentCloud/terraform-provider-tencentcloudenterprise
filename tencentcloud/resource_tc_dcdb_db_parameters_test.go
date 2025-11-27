@@ -21,25 +21,25 @@ func TestAccTencentCloudDCDBDbParametersResource_basic(t *testing.T) {
 			{
 				Config: fmt.Sprintf(testAccDCDBDbParameters_basic, defaultDcdbInstanceId),
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckDCDBDbParametersExists("cloud_dcdb_db_parameters.db_parameters"),
-					resource.TestCheckResourceAttrSet("cloud_dcdb_db_parameters.db_parameters", "instance_id"),
-					resource.TestCheckResourceAttrSet("cloud_dcdb_db_parameters.db_parameters", "params.#"),
-					resource.TestCheckResourceAttr("cloud_dcdb_db_parameters.db_parameters", "params.0.param", "max_connections"),
-					resource.TestCheckResourceAttr("cloud_dcdb_db_parameters.db_parameters", "params.0.value", "9999"),
+					testAccCheckDCDBDbParametersExists("tencentcloudenterprise_dcdb_db_parameters.db_parameters"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_dcdb_db_parameters.db_parameters", "instance_id"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_dcdb_db_parameters.db_parameters", "params.#"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_dcdb_db_parameters.db_parameters", "params.0.param", "max_connections"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_dcdb_db_parameters.db_parameters", "params.0.value", "9999"),
 				),
 			},
 			{
 				Config: fmt.Sprintf(testAccDCDBDbParameters_update, defaultDcdbInstanceId),
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckDCDBDbParametersExists("cloud_dcdb_db_parameters.db_parameters"),
-					resource.TestCheckResourceAttrSet("cloud_dcdb_db_parameters.db_parameters", "instance_id"),
-					resource.TestCheckResourceAttrSet("cloud_dcdb_db_parameters.db_parameters", "params.#"),
-					resource.TestCheckResourceAttr("cloud_dcdb_db_parameters.db_parameters", "params.0.param", "max_connections"),
-					resource.TestCheckResourceAttr("cloud_dcdb_db_parameters.db_parameters", "params.0.value", "10001"),
+					testAccCheckDCDBDbParametersExists("tencentcloudenterprise_dcdb_db_parameters.db_parameters"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_dcdb_db_parameters.db_parameters", "instance_id"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_dcdb_db_parameters.db_parameters", "params.#"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_dcdb_db_parameters.db_parameters", "params.0.param", "max_connections"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_dcdb_db_parameters.db_parameters", "params.0.value", "10001"),
 				),
 			},
 			{
-				ResourceName:      "cloud_dcdb_db_parameters.db_parameters",
+				ResourceName:      "tencentcloudenterprise_dcdb_db_parameters.db_parameters",
 				ImportState:       true,
 				ImportStateVerify: true,
 			},
@@ -84,7 +84,7 @@ func testAccCheckDCDBDbParametersExists(re string) resource.TestCheckFunc {
 
 const testAccDCDBDbParameters_basic = `
 
-resource "cloud_dcdb_db_parameters" "db_parameters" {
+resource "tencentcloudenterprise_dcdb_db_parameters" "db_parameters" {
   instance_id = "%s"
   params {
 	param = "max_connections"
@@ -96,7 +96,7 @@ resource "cloud_dcdb_db_parameters" "db_parameters" {
 
 const testAccDCDBDbParameters_update = `
 
-resource "cloud_dcdb_db_parameters" "db_parameters" {
+resource "tencentcloudenterprise_dcdb_db_parameters" "db_parameters" {
   instance_id = "%s"
   params {
 	param = "max_connections"

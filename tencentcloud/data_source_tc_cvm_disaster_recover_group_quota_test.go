@@ -24,7 +24,7 @@ func TestAccTencentCloudCvmDisasterRecoverGroupQuotaDataSource_basic(t *testing.
 
 const testAccCvmDisasterRecoverGroupQuotaDataSource = `
 
-data "cloud_cvm_disaster_recover_group_quota" "disaster_recover_group_quota" {
+data "tencentcloudenterprise_cvm_disaster_recover_group_quota" "disaster_recover_group_quota" {
 }
 
 `

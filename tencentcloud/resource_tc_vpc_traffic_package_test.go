@@ -16,10 +16,10 @@ func TestAccTencentCloudNeedFixVpcTrafficPackageResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			{
 				Config: testAccVpcTrafficPackage,
-				Check:  resource.ComposeTestCheckFunc(resource.TestCheckResourceAttrSet("cloud_vpc_traffic_package.traffic_package", "id")),
+				Check:  resource.ComposeTestCheckFunc(resource.TestCheckResourceAttrSet("tencentcloudenterprise_vpc_traffic_package.traffic_package", "id")),
 			},
 			{
-				ResourceName:      "cloud_vpc_traffic_package.traffic_package",
+				ResourceName:      "tencentcloudenterprise_vpc_traffic_package.traffic_package",
 				ImportState:       true,
 				ImportStateVerify: true,
 			},
@@ -29,7 +29,7 @@ func TestAccTencentCloudNeedFixVpcTrafficPackageResource_basic(t *testing.T) {
 
 const testAccVpcTrafficPackage = `
 
-resource "cloud_vpc_traffic_package" "traffic_package" {
+resource "tencentcloudenterprise_vpc_traffic_package" "traffic_package" {
   traffic_amount = 10
 }
 `

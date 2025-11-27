@@ -24,7 +24,7 @@ func TestAccTencentCloudVpcGatewayFlowMonitorDetailDataSource_basic(t *testing.T
 
 const testAccVpcGatewayFlowMonitorDetailDataSource = `
 
-data "cloud_vpc_gateway_flow_monitor_detail" "gateway_flow_monitor_detail" {
+data "tencentcloudenterprise_vpc_gateway_flow_monitor_detail" "gateway_flow_monitor_detail" {
   time_point      = "2023-06-02 12:15:20"
   vpn_id          = "vpngw-gt8bianl"
   order_field     = "OutTraffic"

@@ -24,6 +24,6 @@ func TestAccTencentCloudVpcSecurityGroupLimitsDataSource_basic(t *testing.T) {
 
 const testAccVpcSecurityGroupLimitsDataSource = `
 
-data "cloud_vpc_security_group_limits" "security_group_limits" {}
+data "tencentcloudenterprise_vpc_security_group_limits" "security_group_limits" {}
 
 `

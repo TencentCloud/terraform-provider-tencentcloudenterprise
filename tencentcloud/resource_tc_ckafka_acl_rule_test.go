@@ -15,19 +15,19 @@ func TestAccTencentCloudCkafkaAclRuleResource_basic(t *testing.T) {
 			{
 				Config: testAccCkafkaAclRule,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttrSet("cloud_ckafka_acl_rule.acl_rule", "id"),
-					resource.TestCheckResourceAttr("cloud_ckafka_acl_rule.acl_rule", "is_applied", "0"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_ckafka_acl_rule.acl_rule", "id"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_ckafka_acl_rule.acl_rule", "is_applied", "0"),
 				),
 			},
 			{
 				Config: testAccCkafkaAclRule_update,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttrSet("cloud_ckafka_acl_rule.acl_rule", "id"),
-					resource.TestCheckResourceAttr("cloud_ckafka_acl_rule.acl_rule", "is_applied", "1"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_ckafka_acl_rule.acl_rule", "id"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_ckafka_acl_rule.acl_rule", "is_applied", "1"),
 				),
 			},
 			{
-				ResourceName:      "cloud_ckafka_acl_rule.acl_rule",
+				ResourceName:      "tencentcloudenterprise_ckafka_acl_rule.acl_rule",
 				ImportState:       true,
 				ImportStateVerify: true,
 			},
@@ -36,7 +36,7 @@ func TestAccTencentCloudCkafkaAclRuleResource_basic(t *testing.T) {
 }
 
 const testAccCkafkaAclRule = `
-resource "cloud_ckafka_acl_rule" "acl_rule" {
+resource "tencentcloudenterprise_ckafka_acl_rule" "acl_rule" {
 	instance_id = "ckafka-vv7wpvae"
 	resource_type = "Topic"
 	pattern_type = "PRESET"
@@ -54,7 +54,7 @@ resource "cloud_ckafka_acl_rule" "acl_rule" {
 `
 
 const testAccCkafkaAclRule_update = `
-resource "cloud_ckafka_acl_rule" "acl_rule" {
+resource "tencentcloudenterprise_ckafka_acl_rule" "acl_rule" {
 	instance_id = "ckafka-vv7wpvae"
 	resource_type = "Topic"
 	pattern_type = "PRESET"

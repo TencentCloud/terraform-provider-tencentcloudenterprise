@@ -5,7 +5,7 @@ Provide a resource to query VPCDNS domain.
 
 ```hcl
 
-	data "cloud_vpcdns_domains" "foo" {
+	data "tencentcloudenterprise_vpcdns_domains" "foo" {
 	  domain      = "brucezylin.cc"
 	}
 
@@ -31,7 +31,7 @@ import (
 )
 
 func init() {
-	registerDataDescriptionProvider("cloud_vpcdns_domains", CNDescription{
+	registerDataDescriptionProvider("tencentcloudenterprise_vpcdns_domains", CNDescription{
 		TerraformTypeCN: "VPCDNS域名列表",
 		DescriptionCN:   "提供VPCDNS域名数据源，用于查询VPCDNS域名的详细信息。",
 		AttributesCN: map[string]string{

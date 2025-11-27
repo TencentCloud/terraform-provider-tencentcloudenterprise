@@ -24,7 +24,7 @@ func TestAccTencentCloudClsMachineGroupConfigsDataSource_basic(t *testing.T) {
 
 const testAccClsMachineGroupConfigsDataSource = `
 
-resource "cloud_cls_machine_group" "group" {
+resource "tencentcloudenterprise_cls_machine_group" "group" {
   group_name        = "tf-describe-mg-config-test"
   service_logging   = true
   auto_update       = true
@@ -40,7 +40,7 @@ resource "cloud_cls_machine_group" "group" {
   }
 }
 
-data "cloud_cls_machine_group_configs" "machine_group_configs" {
+data "tencentcloudenterprise_cls_machine_group_configs" "machine_group_configs" {
   group_id = cloud_cls_machine_group.group.id
 }
 

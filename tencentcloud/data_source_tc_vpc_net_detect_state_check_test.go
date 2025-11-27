@@ -24,7 +24,7 @@ func TestAccTencentCloudNeedFixVpcNetDetectStateCheckDataSource_basic(t *testing
 
 const testAccVpcNetDetectStateCheckDataSource = `
 
-data "cloud_vpc_net_detect_state_check" "net_detect_state_check" {
+data "tencentcloudenterprise_vpc_net_detect_state_check" "net_detect_state_check" {
   net_detect_id         = "netd-12345678"
   detect_destination_ip = [
     "203.0.113.3",

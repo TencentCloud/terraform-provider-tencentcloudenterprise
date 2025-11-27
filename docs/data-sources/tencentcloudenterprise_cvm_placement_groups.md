@@ -1,0 +1,46 @@
+---
+subcategory: "Cloud Virtual Machine(CVM)"
+layout: "tencentcloudenterprise"
+page_title: "TencentCloudEnterprise: tencentcloudenterprise_cvm_placement_groups"
+sidebar_current: "docs-tencentcloudenterprise-datasource-cvm_placement_groups"
+description: |-
+  Use this data source to query placement groups.
+---
+
+# tencentcloudenterprise_cvm_placement_groups
+
+Use this data source to query placement groups.
+
+## Example Usage
+
+```hcl
+data "tencentcloudenterprise_cvm_placement_groups" "foo" {
+  placement_group_id = "ps-21q9ibvr"
+  name               = "test"
+}
+```
+
+## Argument Reference
+
+The following arguments are supported:
+
+* `name` - (Optional, String) Name of the placement group to be queried.
+* `placement_group_id` - (Optional, String) ID of the placement group to be queried.
+* `result_output_file` - (Optional, String) Used to save results.
+* `strategies` - (Optional, List: [`String`]) Placement group strategies. Valid values: `SPREAD`, `WEAK_SPREAD`, `AFFINITY`, and `WEAK_AFFINITY`.
+
+## Attributes Reference
+
+In addition to all arguments above, the following attributes are exported:
+
+* `placement_group_list` - An information list of placement group. Each element contains the following attributes:
+  * `create_time` - Creation time of the placement group.
+  * `current_num` - Number of hosts in the placement group.
+  * `cvm_quota_total` - Maximum number of hosts in the placement group.
+  * `instance_ids` - Host IDs in the placement group.
+  * `name` - Name of the placement group.
+  * `placement_group_id` - ID of the placement group.
+  * `strategy` - Placement group strategy.
+  * `type` - Type of the placement group.
+
+

@@ -16,17 +16,17 @@ func TestAccTencentCloudVpnGatewaySslClientCertResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			{
 				Config: testAccVpnGatewaySslClientCert,
-				Check:  resource.ComposeTestCheckFunc(resource.TestCheckResourceAttrSet("cloud_vpn_gateway_ssl_client_cert.vpn_gateway_ssl_client_cert", "id")),
+				Check:  resource.ComposeTestCheckFunc(resource.TestCheckResourceAttrSet("tencentcloudenterprise_vpn_gateway_ssl_client_cert.vpn_gateway_ssl_client_cert", "id")),
 			},
 			{
 				Config: testAccVpnGatewaySslClientCertUpdate,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttrSet("cloud_vpn_gateway_ssl_client_cert.vpn_gateway_ssl_client_cert", "id"),
-					resource.TestCheckResourceAttr("cloud_vpn_gateway_ssl_client_cert.vpn_gateway_ssl_client_cert", "switch", "on"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_vpn_gateway_ssl_client_cert.vpn_gateway_ssl_client_cert", "id"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_vpn_gateway_ssl_client_cert.vpn_gateway_ssl_client_cert", "switch", "on"),
 				),
 			},
 			{
-				ResourceName:      "cloud_vpn_gateway_ssl_client_cert.vpn_gateway_ssl_client_cert",
+				ResourceName:      "tencentcloudenterprise_vpn_gateway_ssl_client_cert.vpn_gateway_ssl_client_cert",
 				ImportState:       true,
 				ImportStateVerify: true,
 			},
@@ -36,7 +36,7 @@ func TestAccTencentCloudVpnGatewaySslClientCertResource_basic(t *testing.T) {
 
 const testAccVpnGatewaySslClientCert = `
 
-resource "cloud_vpn_ssl_server" "server" {
+resource "tencentcloudenterprise_vpn_ssl_server" "server" {
   local_address       = [
     "172.16.0.0/17",
   ]
@@ -50,12 +50,12 @@ resource "cloud_vpn_ssl_server" "server" {
   compress = false
 }
 
-resource "cloud_vpn_ssl_client" "client" {
+resource "tencentcloudenterprise_vpn_ssl_client" "client" {
   ssl_vpn_server_id = cloud_vpn_ssl_server.server.id
   ssl_vpn_client_name = "tf-vpn-ssl-client"
 }
 
-resource "cloud_vpn_gateway_ssl_client_cert" "vpn_gateway_ssl_client_cert" {
+resource "tencentcloudenterprise_vpn_gateway_ssl_client_cert" "vpn_gateway_ssl_client_cert" {
   ssl_vpn_client_id = cloud_vpn_ssl_client.client.id
   switch = "off"
 }
@@ -64,7 +64,7 @@ resource "cloud_vpn_gateway_ssl_client_cert" "vpn_gateway_ssl_client_cert" {
 
 const testAccVpnGatewaySslClientCertUpdate = `
 
-resource "cloud_vpn_ssl_server" "server" {
+resource "tencentcloudenterprise_vpn_ssl_server" "server" {
   local_address       = [
     "172.16.0.0/17",
   ]
@@ -78,12 +78,12 @@ resource "cloud_vpn_ssl_server" "server" {
   compress = false
 }
 
-resource "cloud_vpn_ssl_client" "client" {
+resource "tencentcloudenterprise_vpn_ssl_client" "client" {
   ssl_vpn_server_id = cloud_vpn_ssl_server.server.id
   ssl_vpn_client_name = "tf-vpn-ssl-client"
 }
 
-resource "cloud_vpn_gateway_ssl_client_cert" "vpn_gateway_ssl_client_cert" {
+resource "tencentcloudenterprise_vpn_gateway_ssl_client_cert" "vpn_gateway_ssl_client_cert" {
   ssl_vpn_client_id = cloud_vpn_ssl_client.client.id
   switch = "on"
 }

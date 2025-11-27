@@ -18,13 +18,13 @@ func TestAccTencentCloudCvmHpcClusterResource_basic(t *testing.T) {
 				Config:    testAccCvmHpcCluster,
 				PreConfig: func() { testAccStepSetRegion(t, "ap-beijing") },
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttrSet("cloud_cvm_hpc_cluster.hpc_cluster", "id"),
-					resource.TestCheckResourceAttrSet("cloud_cvm_hpc_cluster.hpc_cluster", "name"),
-					resource.TestCheckResourceAttrSet("cloud_cvm_hpc_cluster.hpc_cluster", "remark"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_cvm_hpc_cluster.hpc_cluster", "id"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_cvm_hpc_cluster.hpc_cluster", "name"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_cvm_hpc_cluster.hpc_cluster", "remark"),
 				),
 			},
 			{
-				ResourceName:      "cloud_cvm_hpc_cluster.hpc_cluster",
+				ResourceName:      "tencentcloudenterprise_cvm_hpc_cluster.hpc_cluster",
 				ImportState:       true,
 				ImportStateVerify: true,
 			},
@@ -34,7 +34,7 @@ func TestAccTencentCloudCvmHpcClusterResource_basic(t *testing.T) {
 
 const testAccCvmHpcCluster = `
 
-resource "cloud_cvm_hpc_cluster" "hpc_cluster" {
+resource "tencentcloudenterprise_cvm_hpc_cluster" "hpc_cluster" {
   zone = "ap-beijing-6"
   name = "terraform-test"
   remark = "create for test"

@@ -37,7 +37,7 @@ func TestAccTencentCloudRedisInstanceTaskListDataSource_basic(t *testing.T) {
 
 const testAccRedisInstanceTaskListDataSource = `
 
-data "cloud_redis_instance_task_list" "instance_task_list" {
+data "tencentcloudenterprise_redis_instance_task_list" "instance_task_list" {
 	instance_id = "crs-jf4ico4v"
 	instance_name = "Keep-terraform"
 	project_ids = [0]

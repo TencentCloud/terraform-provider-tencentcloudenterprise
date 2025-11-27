@@ -5,7 +5,7 @@ Provides a resource to create a dcdb account_privileges
 
 ```hcl
 
-	resource "cloud_dcdb_account_privileges" "account_privileges" {
+	resource "tencentcloudenterprise_dcdb_account_privileges" "account_privileges" {
 	  instance_id = "tdsqlshard-973xatu3"
 	  account {
 			user = "brucelin"
@@ -52,7 +52,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_dcdb_account_privileges", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_dcdb_account_privileges", CNDescription{
 		TerraformTypeCN: "数据库账号权限",
 		DescriptionCN:   "提供DCDB数据库账号权限资源，用于设置和管理DCDB数据库账号的权限。",
 		AttributesCN: map[string]string{

@@ -23,13 +23,13 @@ func TestAccTencentCloudNatGatewayTransRule_basic(t *testing.T) {
 			{
 				Config: testAccDnatConfig,
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckDnatExists("cloud_vpc_dnat.dev_dnat", &dnatId),
+					testAccCheckDnatExists("tencentcloudenterprise_vpc_dnat.dev_dnat", &dnatId),
 				),
 			},
 			{
 				Config: testAccDnatConfigUpdate,
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckDnatExists("cloud_vpc_dnat.dev_dnat", &dnatId),
+					testAccCheckDnatExists("tencentcloudenterprise_vpc_dnat.dev_dnat", &dnatId),
 				),
 			},
 		},
@@ -87,7 +87,7 @@ func testAccCheckDnatDestroy(s *terraform.State) error {
 	logId := getLogId(contextNil)
 
 	for _, rs := range s.RootModule().Resources {
-		if rs.Type != "cloud_vpc_dnat" {
+		if rs.Type != "tencentcloudenterprise_vpc_dnat" {
 			continue
 		}
 		_, params, e := parseDnatId(rs.Primary.ID)
@@ -129,16 +129,16 @@ func testAccCheckDnatDestroy(s *terraform.State) error {
 
 const testAccDnatConfig = instanceCommonTestCase + `
 # Create EIP 
-resource "cloud_eip" "eip_dev_dnat" {
+resource "tencentcloudenterprise_eip" "eip_dev_dnat" {
   name = var.instance_name
 }
 
-resource "cloud_eip" "eip_test_dnat" {
+resource "tencentcloudenterprise_eip" "eip_test_dnat" {
   name = var.instance_name
 }
 
 # Create NAT Gateway
-resource "cloud_vpc_nat_gateway" "my_nat" {
+resource "tencentcloudenterprise_vpc_nat_gateway" "my_nat" {
   vpc_id         = var.cvm_vpc_id
   name           = var.instance_name
   max_concurrent = 3000000
@@ -151,7 +151,7 @@ resource "cloud_vpc_nat_gateway" "my_nat" {
 }
 
 # Add DNAT Entry
-resource "cloud_vpc_dnat" "dev_dnat" {
+resource "tencentcloudenterprise_vpc_dnat" "dev_dnat" {
   vpc_id       = cloud_vpc_nat_gateway.my_nat.vpc_id
   nat_id       = cloud_vpc_nat_gateway.my_nat.id
   protocol     = "TCP"
@@ -164,16 +164,16 @@ resource "cloud_vpc_dnat" "dev_dnat" {
 
 const testAccDnatConfigUpdate = instanceCommonTestCase + `
 # Create EIP 
-resource "cloud_eip" "eip_dev_dnat" {
+resource "tencentcloudenterprise_eip" "eip_dev_dnat" {
   name = var.instance_name
 }
 
-resource "cloud_eip" "eip_test_dnat" {
+resource "tencentcloudenterprise_eip" "eip_test_dnat" {
   name = var.instance_name
 }
 
 # Create NAT Gateway
-resource "cloud_vpc_nat_gateway" "my_nat" {
+resource "tencentcloudenterprise_vpc_nat_gateway" "my_nat" {
   vpc_id         = var.cvm_vpc_id
   name           = var.instance_name
   max_concurrent = 3000000
@@ -186,7 +186,7 @@ resource "cloud_vpc_nat_gateway" "my_nat" {
 }
 
 # Add DNAT Entry
-resource "cloud_vpc_dnat" "dev_dnat" {
+resource "tencentcloudenterprise_vpc_dnat" "dev_dnat" {
   vpc_id       = cloud_vpc_nat_gateway.my_nat.vpc_id
   nat_id       = cloud_vpc_nat_gateway.my_nat.id
   protocol     = "TCP"

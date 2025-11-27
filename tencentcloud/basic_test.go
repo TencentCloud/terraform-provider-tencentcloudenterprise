@@ -34,11 +34,11 @@ func isResourcePersist(name string, createdTime *time.Time) bool {
 
 // vpn
 const defaultVpnDataSource = `
-data "cloud_vpn_gateways" "foo" {
+data "tencentcloudenterprise_vpn_gateways" "foo" {
   name = "keep-vpn-gw"
 }
 
-data "cloud_vpn_connections" "conns" {
+data "tencentcloudenterprise_vpn_connections" "conns" {
   name = "keep-vpn-conn"
 }
 `
@@ -167,7 +167,7 @@ variable "availability_zone" {
   default = "` + defaultCvmAZone + `"
 }
 
-data "cloud_cvm_instance_types" "default" {
+data "tencentcloudenterprise_cvm_instance_types" "default" {
   filter {
     name   = "zone"
     values = [var.availability_zone]
@@ -293,15 +293,15 @@ variable "fixed_tags" {
 `
 
 const defaultInstanceVariable = defaultVpcVariable + `
-data "cloud_availability_zones" "default" {
+data "tencentcloudenterprise_availability_zones" "default" {
 }
 
-data "cloud_cvm_images" "default" {
+data "tencentcloudenterprise_cvm_images" "default" {
   image_type = ["PUBLIC_IMAGE"]
   image_name_regex = "Final"
 }
 
-data "cloud_cvm_instance_types" "default" {
+data "tencentcloudenterprise_cvm_instance_types" "default" {
   filter {
     name   = "zone"
     values = [var.availability_cvm_zone]
@@ -334,7 +334,7 @@ variable "default_img" {
 // default VPC/Subnet datasource
 const defaultVpcSubnets = defaultAzVariable + `
 
-data "cloud_vpc_subnets" "gz3" {
+data "tencentcloudenterprise_vpc_subnets" "gz3" {
   availability_zone = var.default_az
   is_default = true
 }
@@ -345,12 +345,12 @@ locals {
 }`
 
 const defaultSecurityGroupData = fixedTagVariable + `
-data "cloud_vpc_security_groups" "internal" {
+data "tencentcloudenterprise_vpc_security_groups" "internal" {
   name = "default"
   tags = var.fixed_tags
 }
 
-data "cloud_vpc_security_groups" "exclusive" {
+data "tencentcloudenterprise_vpc_security_groups" "exclusive" {
   name = "test_preset_sg"
 }
 
@@ -375,7 +375,7 @@ variable "region" {
   default = "` + defaultRegion + `"
 }
 
-data "cloud_mysql_instance" "mysql" {
+data "tencentcloudenterprise_mysql_instance" "mysql" {
   instance_name = "` + defaultMySQLName + `"
 }
 
@@ -393,7 +393,7 @@ const defaultSQLServerPubSubDB = "keep_pubsub_db"
 const defaultSQLServerAccount = "keep_sqlserver_account"
 
 const CommonPresetSQLServer = `
-data "cloud_sqlserver_instances" "sqlserver" {
+data "tencentcloudenterprise_sqlserver_instances" "sqlserver" {
   name = "` + defaultSQLServerName + `"
 }
 
@@ -405,7 +405,7 @@ locals {
 `
 
 const CommonPresetSQLServerAccount = CommonPresetSQLServer + `
-data "cloud_sqlserver_accounts" "test"{
+data "tencentcloudenterprise_sqlserver_accounts" "test"{
   instance_id = local.sqlserver_id
   name = "` + defaultSQLServerAccount + `"
 }
@@ -418,7 +418,7 @@ locals {
 `
 
 const testAccSqlserverAZ = `
-data "cloud_availability_zones" "zone" {
+data "tencentcloudenterprise_availability_zones" "zone" {
   product = "sqlserver"
 }
 
@@ -430,10 +430,10 @@ locals {
 `
 
 const CommonPubSubSQLServer = `
-data "cloud_sqlserver_instances" "pub_sqlserver" {
+data "tencentcloudenterprise_sqlserver_instances" "pub_sqlserver" {
   name = "` + defaultPubSQLServerName + `"
 }
-data "cloud_sqlserver_instances" "sub_sqlserver" {
+data "tencentcloudenterprise_sqlserver_instances" "sub_sqlserver" {
   name = "` + defaultSubSQLServerName + `"
 }
 
@@ -445,7 +445,7 @@ locals {
 `
 
 const instanceCommonTestCase = defaultInstanceVariable + `
-resource "cloud_cvm_instance" "default" {
+resource "tencentcloudenterprise_cvm_instance" "default" {
   instance_name              = var.instance_name
   availability_zone          = var.availability_cvm_zone
   image_id                   = data.cloud_cvm_images.default.images.0.image_id
@@ -464,11 +464,11 @@ resource "cloud_cvm_instance" "default" {
 // PostgreSQL
 const defaultPGOperationName = "keep-pg-operation"
 const OperationPresetPGSQL = `
-data "cloud_postgresql_instances" "foo" {
+data "tencentcloudenterprise_postgresql_instances" "foo" {
   name = "` + defaultPGOperationName + `"
 }
 
-data "cloud_postgresql_readonly_groups" "ro_groups" {
+data "tencentcloudenterprise_postgresql_readonly_groups" "ro_groups" {
   filters {
 	name = "db-master-instance-id"
 	values = [data.cloud_postgresql_instances.foo.instance_list.0.id]
@@ -484,7 +484,7 @@ locals {
 `
 const defaultPGSQLName = "keep-postgresql"
 const CommonPresetPGSQL = `
-data "cloud_postgresql_instances" "foo" {
+data "tencentcloudenterprise_postgresql_instances" "foo" {
   name = "` + defaultPGSQLName + `"
 }
 
@@ -497,7 +497,7 @@ locals {
 
 const defaultCVMName = "keep-cvm"
 const presetCVM = `
-data "cloud_cvm_instances" "instance" {
+data "tencentcloudenterprise_cvm_instances" "instance" {
   instance_name = "` + defaultCVMName + `"
 }
 
@@ -509,7 +509,7 @@ locals {
 `
 
 const userInfoData = `
-data "cloud_user_info" "info" {}
+data "tencentcloudenterprise_user_info" "info" {}
 
 locals {
   app_id = data.cloud_user_info.info.app_id
@@ -519,9 +519,9 @@ locals {
 `
 
 const defaultSCFCosBucket = `
-data "cloud_user_info" "info" {}
+data "tencentcloudenterprise_user_info" "info" {}
 
-data "cloud_cos_buckets" "buckets" {
+data "tencentcloudenterprise_cos_buckets" "buckets" {
   bucket_prefix = "preset-scf-bucket-${data.cloud_user_info.info.app_id}"
 }
 
@@ -536,7 +536,7 @@ const defaultScfNamespace = "preset-scf-namespace"
 const defaultFileSystemName = "keep_preset_cfs"
 
 const defaultFileSystem = `
-data "cloud_cfs_file_systems" "fs" {
+data "tencentcloudenterprise_cfs_file_systems" "fs" {
   name = "` + defaultFileSystemName + `"
 }
 
@@ -590,7 +590,7 @@ variable "tcr_repo" {
 `
 
 const defaultTCRInstanceData = defaultTCRInstanceVar + `
-data "cloud_tcr_instances" "tcr" {
+data "tencentcloudenterprise_tcr_instances" "tcr" {
   name = var.tcr_name
 }
 
@@ -630,20 +630,20 @@ variable "tcaplus_tcr_table_group" {
 }
 `
 const defaultTcaPlusData = defaultTcaPlusVar + `
-data "cloud_tcaplus_clusters" "tcaplus" {
+data "tencentcloudenterprise_tcaplus_clusters" "tcaplus" {
   cluster_name = var.tcaplus_cluster
 }
 
-data "cloud_tcaplus_tablegroups" "group" {
+data "tencentcloudenterprise_tcaplus_tablegroups" "group" {
   cluster_id = data.cloud_tcaplus_clusters.tcaplus.list.0.cluster_id
   tablegroup_name = var.tcaplus_table_group
 }
 
-data "cloud_tcaplus_clusters" "tdr_tcaplus" {
+data "tencentcloudenterprise_tcaplus_clusters" "tdr_tcaplus" {
   cluster_name = "keep_tdr_tcaplus_cluster"
 }
   
-data "cloud_tcaplus_tablegroups" "tdr_group" {
+data "tencentcloudenterprise_tcaplus_tablegroups" "tdr_group" {
   cluster_id = data.cloud_tcaplus_clusters.tdr_tcaplus.list.0.cluster_id
   tablegroup_name = "keep_tdr_table_group"
 }
@@ -703,7 +703,7 @@ variable "ins_type" {
 
 // @deprecated. Avoid using this because it may return diff results
 const TkeInstanceType = `
-data "cloud_cvm_instance_types" "ins_type" {
+data "tencentcloudenterprise_cvm_instance_types" "ins_type" {
   availability_zone = "` + defaultCvmAZone + `"
   cpu_core_count    = 2
   exclude_sold_out  = true
@@ -718,15 +718,15 @@ locals {
 `
 
 const TkeExclusiveNetwork = defaultAzVariable + `
-data "cloud_vpc_instances" "vpc" {
+data "tencentcloudenterprise_vpc_instances" "vpc" {
   name = "` + tkeExclusiveVpcName + `"
 }
 
-data "cloud_vpc_subnets" "subnet" {
+data "tencentcloudenterprise_vpc_subnets" "subnet" {
   vpc_id = data.cloud_vpc_instances.vpc.instance_list.0.vpc_id
 }
 
-data "cloud_cvm_instance_types" "default" {
+data "tencentcloudenterprise_cvm_instance_types" "default" {
 	filter {
 	  name   = "zone"
 	  values = [var.default_az]
@@ -747,7 +747,7 @@ locals {
 `
 
 const TkeDataSource = `
-data "cloud_tke_kubernetes_clusters" "tke" {
+data "tencentcloudenterprise_tke_kubernetes_clusters" "tke" {
   cluster_name = "` + defaultTkeClusterName + `"
 }
 
@@ -765,7 +765,7 @@ const (
 )
 const defaultMongoDBSecurityGroupId = "sg-if748odn"
 const DefaultMongoDBSpec = `
-data "cloud_mongodb_zone_config" "zone_config" {
+data "tencentcloudenterprise_mongodb_zone_config" "zone_config" {
   available_zone = "ap-guangzhou-6"
 }
 
@@ -849,7 +849,7 @@ variable "region" {
   default = "` + defaultRegion + `"
 }
 
-data "cloud_dcdb_instances" "dcdb" {
+data "tencentcloudenterprise_dcdb_instances" "dcdb" {
   search_name = "instancename"
   search_key = "` + defaultDcdbInstanceName + `"
 }

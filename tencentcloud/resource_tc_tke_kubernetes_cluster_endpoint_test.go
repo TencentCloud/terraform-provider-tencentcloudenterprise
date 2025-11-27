@@ -15,21 +15,21 @@ func TestAccTencentCloudKubernetesClusterEndpointResource(t *testing.T) {
 			{
 				Config: testAccTkeClusterEndpointBasic,
 				Check: resource.ComposeAggregateTestCheckFunc(
-					testAccCheckTkeExists("cloud_tke_kubernetes_cluster.managed_cluster"),
-					resource.TestCheckResourceAttrSet("cloud_tke_kubernetes_cluster_endpoint.foo", "cluster_id"),
-					resource.TestCheckResourceAttr("cloud_tke_kubernetes_cluster_endpoint.foo", "cluster_internet", "true"),
-					resource.TestCheckResourceAttr("cloud_tke_kubernetes_cluster_endpoint.foo", "cluster_intranet", "true"),
-					//resource.TestCheckResourceAttr("cloud_tke_kubernetes_cluster_endpoint.foo", "managed_cluster_internet_security_policies.#", "1"),
+					testAccCheckTkeExists("tencentcloudenterprise_tke_kubernetes_cluster.managed_cluster"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_tke_kubernetes_cluster_endpoint.foo", "cluster_id"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_tke_kubernetes_cluster_endpoint.foo", "cluster_internet", "true"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_tke_kubernetes_cluster_endpoint.foo", "cluster_intranet", "true"),
+					//resource.TestCheckResourceAttr("tencentcloudenterprise_tke_kubernetes_cluster_endpoint.foo", "managed_cluster_internet_security_policies.#", "1"),
 					//resource.TestCheckResourceAttr(
-					//	"cloud_tke_kubernetes_cluster_endpoint.foo",
+					//	"tencentcloudenterprise_tke_kubernetes_cluster_endpoint.foo",
 					//	"managed_cluster_internet_security_policies.0",
 					//	"192.168.0.0/24",
 					//),
-					resource.TestCheckResourceAttrSet("cloud_tke_kubernetes_cluster_endpoint.foo", "cluster_intranet_subnet_id"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_tke_kubernetes_cluster_endpoint.foo", "cluster_intranet_subnet_id"),
 				),
 			},
 			{
-				ResourceName:      "cloud_tke_kubernetes_cluster_endpoint.foo",
+				ResourceName:      "tencentcloudenterprise_tke_kubernetes_cluster_endpoint.foo",
 				ImportState:       true,
 				ImportStateVerify: true,
 				ImportStateVerifyIgnore: []string{
@@ -44,19 +44,19 @@ func TestAccTencentCloudKubernetesClusterEndpointResource(t *testing.T) {
 			{
 				Config: testAccTkeClusterEndpointBasicUpdate,
 				Check: resource.ComposeAggregateTestCheckFunc(
-					testAccCheckTkeExists("cloud_tke_kubernetes_cluster.managed_cluster"),
-					resource.TestCheckResourceAttrSet("cloud_tke_kubernetes_cluster_endpoint.foo", "cluster_id"),
-					resource.TestCheckResourceAttr("cloud_tke_kubernetes_cluster_endpoint.foo", "cluster_internet", "true"),
-					resource.TestCheckResourceAttrSet("cloud_tke_kubernetes_cluster_endpoint.foo", "extensive_parameters"),
+					testAccCheckTkeExists("tencentcloudenterprise_tke_kubernetes_cluster.managed_cluster"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_tke_kubernetes_cluster_endpoint.foo", "cluster_id"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_tke_kubernetes_cluster_endpoint.foo", "cluster_internet", "true"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_tke_kubernetes_cluster_endpoint.foo", "extensive_parameters"),
 				),
 			},
 			{
 				Config: testAccTkeClusterEndpointBasicUpdate2,
 				Check: resource.ComposeAggregateTestCheckFunc(
-					testAccCheckTkeExists("cloud_tke_kubernetes_cluster.managed_cluster"),
-					resource.TestCheckResourceAttrSet("cloud_tke_kubernetes_cluster_endpoint.foo", "cluster_id"),
-					resource.TestCheckResourceAttr("cloud_tke_kubernetes_cluster_endpoint.foo", "cluster_internet", "false"),
-					resource.TestCheckResourceAttr("cloud_tke_kubernetes_cluster_endpoint.foo", "cluster_intranet", "true"),
+					testAccCheckTkeExists("tencentcloudenterprise_tke_kubernetes_cluster.managed_cluster"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_tke_kubernetes_cluster_endpoint.foo", "cluster_id"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_tke_kubernetes_cluster_endpoint.foo", "cluster_internet", "false"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_tke_kubernetes_cluster_endpoint.foo", "cluster_intranet", "true"),
 				),
 			},
 		},
@@ -64,7 +64,7 @@ func TestAccTencentCloudKubernetesClusterEndpointResource(t *testing.T) {
 }
 
 const testAccTkeClusterEndpointNewSG = `
-data "cloud_vpc_security_groups" "new_sg" {
+data "tencentcloudenterprise_vpc_security_groups" "new_sg" {
   name = "keep-tke-ep-sg-fwf8zdkx"
 }
 
@@ -84,15 +84,15 @@ variable "availability_zone" {
   default = "ap-guangzhou-3"
 }
 
-data "cloud_vpc_instances" "vpcs" {
+data "tencentcloudenterprise_vpc_instances" "vpcs" {
   name = "keep_tke_exclusive_vpc"
 }
 
-data "cloud_vpc_subnets" "sub" {
+data "tencentcloudenterprise_vpc_subnets" "sub" {
   vpc_id        = data.cloud_vpc_instances.vpcs.instance_list.0.vpc_id
 }
 
-resource "cloud_tke_kubernetes_cluster" "managed_cluster" {
+resource "tencentcloudenterprise_tke_kubernetes_cluster" "managed_cluster" {
   vpc_id                  = data.cloud_vpc_subnets.sub.instance_list.0.vpc_id
   cluster_cidr            = var.tke_cidr_a.3
   cluster_max_pod_num     = 32
@@ -104,7 +104,7 @@ resource "cloud_tke_kubernetes_cluster" "managed_cluster" {
   cluster_deploy_type = "MANAGED_CLUSTER"
 }
 
-data "cloud_vpc_security_groups" "sg" {   
+data "tencentcloudenterprise_vpc_security_groups" "sg" {   
   name = "default"
 }
 
@@ -112,7 +112,7 @@ locals {
   new_cluster_id = cloud_tke_kubernetes_cluster.managed_cluster.id
 }
 
-resource "cloud_kubernetes_node_pool" "np_test" {
+resource "tencentcloudenterprise_kubernetes_node_pool" "np_test" {
   name = "test-endpoint-attachment"
   cluster_id = local.new_cluster_id
   max_size = 1
@@ -153,7 +153,7 @@ resource "cloud_kubernetes_node_pool" "np_test" {
 `
 
 const testAccTkeClusterEndpointBasic = testAccTkeClusterEndpointBasicDeps + `
-resource "cloud_tke_kubernetes_cluster_endpoint" "foo" {
+resource "tencentcloudenterprise_tke_kubernetes_cluster_endpoint" "foo" {
   cluster_id = local.new_cluster_id
   cluster_internet = true
   cluster_intranet = true
@@ -169,7 +169,7 @@ resource "cloud_tke_kubernetes_cluster_endpoint" "foo" {
 `
 
 const testAccTkeClusterEndpointBasicUpdate = testAccTkeClusterEndpointBasicDeps + `
-resource "cloud_tke_kubernetes_cluster_endpoint" "foo" {
+resource "tencentcloudenterprise_tke_kubernetes_cluster_endpoint" "foo" {
   cluster_id = local.new_cluster_id
   cluster_internet = true
   cluster_intranet = true
@@ -188,7 +188,7 @@ resource "cloud_tke_kubernetes_cluster_endpoint" "foo" {
 `
 
 const testAccTkeClusterEndpointBasicUpdate2 = testAccTkeClusterEndpointBasicDeps + `
-resource "cloud_tke_kubernetes_cluster_endpoint" "foo" {
+resource "tencentcloudenterprise_tke_kubernetes_cluster_endpoint" "foo" {
   cluster_id = local.new_cluster_id
   cluster_internet = false
   cluster_intranet = true

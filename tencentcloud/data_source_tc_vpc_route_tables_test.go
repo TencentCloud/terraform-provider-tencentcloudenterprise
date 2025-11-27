@@ -69,12 +69,12 @@ variable "availability_zone" {
   default = "ap-guangzhou-3"
 }
 
-resource "cloud_vpc" "foo" {
+resource "tencentcloudenterprise_vpc" "foo" {
   name       = "guagua-ci-temp-test"
   cidr_block = "10.0.0.0/16"
 }
 
-resource "cloud_route_table" "route_table" {
+resource "tencentcloudenterprise_route_table" "route_table" {
   vpc_id = cloud_vpc.foo.id
   name   = "ci-temp-test-rt"
 
@@ -83,24 +83,24 @@ resource "cloud_route_table" "route_table" {
   }
 }
 
-data "cloud_vpc_route_tables" "id_instances" {
+data "tencentcloudenterprise_vpc_route_tables" "id_instances" {
   route_table_id = cloud_route_table.route_table.id
 }
 
-data "cloud_vpc_route_tables" "name_instances" {
+data "tencentcloudenterprise_vpc_route_tables" "name_instances" {
   name = cloud_route_table.route_table.name
 }
 
-data "cloud_vpc_route_tables" "vpc_instances" {
+data "tencentcloudenterprise_vpc_route_tables" "vpc_instances" {
   vpc_id = cloud_vpc.foo.id
 }
 
-data "cloud_vpc_route_tables" "vpc_default_instance" {
+data "tencentcloudenterprise_vpc_route_tables" "vpc_default_instance" {
   vpc_id           = cloud_vpc.foo.id
   association_main = true
 }
 
-data "cloud_vpc_route_tables" "tags_instances" {
+data "tencentcloudenterprise_vpc_route_tables" "tags_instances" {
   tags = cloud_route_table.route_table.tags
 }
 `

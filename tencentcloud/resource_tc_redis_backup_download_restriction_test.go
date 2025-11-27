@@ -18,18 +18,18 @@ func TestAccTencentCloudRedisBackupDownloadRestrictionResource_basic(t *testing.
 			{
 				Config: testAccRedisBackupDownloadRestriction,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttrSet("cloud_redis_backup_download_restriction.backup_download_restriction", "id"),
-					resource.TestCheckResourceAttr("cloud_redis_backup_download_restriction.backup_download_restriction", "limit_type", "Customize"),
-					resource.TestCheckResourceAttr("cloud_redis_backup_download_restriction.backup_download_restriction", "vpc_comparison_symbol", "In"),
-					resource.TestCheckResourceAttr("cloud_redis_backup_download_restriction.backup_download_restriction", "ip_comparison_symbol", "In"),
-					resource.TestCheckResourceAttr("cloud_redis_backup_download_restriction.backup_download_restriction", "limit_vpc.#", "1"),
-					resource.TestCheckResourceAttr("cloud_redis_backup_download_restriction.backup_download_restriction", "limit_vpc.0.region", "ap-guangzhou"),
-					resource.TestCheckResourceAttr("cloud_redis_backup_download_restriction.backup_download_restriction", "limit_vpc.0.vpc_list.#", "1"),
-					resource.TestCheckResourceAttr("cloud_redis_backup_download_restriction.backup_download_restriction", "limit_ip.#", "2"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_redis_backup_download_restriction.backup_download_restriction", "id"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_redis_backup_download_restriction.backup_download_restriction", "limit_type", "Customize"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_redis_backup_download_restriction.backup_download_restriction", "vpc_comparison_symbol", "In"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_redis_backup_download_restriction.backup_download_restriction", "ip_comparison_symbol", "In"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_redis_backup_download_restriction.backup_download_restriction", "limit_vpc.#", "1"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_redis_backup_download_restriction.backup_download_restriction", "limit_vpc.0.region", "ap-guangzhou"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_redis_backup_download_restriction.backup_download_restriction", "limit_vpc.0.vpc_list.#", "1"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_redis_backup_download_restriction.backup_download_restriction", "limit_ip.#", "2"),
 				),
 			},
 			{
-				ResourceName:      "cloud_redis_backup_download_restriction.backup_download_restriction",
+				ResourceName:      "tencentcloudenterprise_redis_backup_download_restriction.backup_download_restriction",
 				ImportState:       true,
 				ImportStateVerify: true,
 			},
@@ -45,7 +45,7 @@ variable "vpc_id" {
 
 const testAccRedisBackupDownloadRestriction = testAccRedisBackupDownloadRestrictionVar + `
 
-resource "cloud_redis_backup_download_restriction" "backup_download_restriction" {
+resource "tencentcloudenterprise_redis_backup_download_restriction" "backup_download_restriction" {
 	limit_type = "Customize"
 	vpc_comparison_symbol = "In"
 	ip_comparison_symbol = "In"

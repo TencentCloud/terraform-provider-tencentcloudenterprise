@@ -9,7 +9,7 @@ The EIP data source fetch proper EIP from user's EIP pool.
 
 ```hcl
 
-	data "cloud_eip" "my_eip" {
+	data "tencentcloudenterprise_eip" "my_eip" {
 	  filter {
 	    name   = "address-status"
 	    values = ["UNBIND"]

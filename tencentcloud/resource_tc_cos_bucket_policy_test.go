@@ -19,20 +19,20 @@ func TestAccTencentCloudCosBucketPolicy(t *testing.T) {
 			{
 				Config: testAccCosBucketPolicyBasic(),
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckCosBucketPolicyExists("cloud_cos_bucket_policy.foo"),
-					resource.TestCheckResourceAttrSet("cloud_cos_bucket_policy.foo", "bucket"),
-					resource.TestCheckResourceAttrSet("cloud_cos_bucket_policy.foo", "policy"),
+					testAccCheckCosBucketPolicyExists("tencentcloudenterprise_cos_bucket_policy.foo"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_cos_bucket_policy.foo", "bucket"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_cos_bucket_policy.foo", "policy"),
 				),
 			}, {
 				Config: testAccCosBucketPolicyUpdate(),
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckCosBucketPolicyExists("cloud_cos_bucket_policy.foo"),
-					resource.TestCheckResourceAttrSet("cloud_cos_bucket_policy.foo", "bucket"),
-					resource.TestCheckResourceAttrSet("cloud_cos_bucket_policy.foo", "policy"),
+					testAccCheckCosBucketPolicyExists("tencentcloudenterprise_cos_bucket_policy.foo"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_cos_bucket_policy.foo", "bucket"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_cos_bucket_policy.foo", "policy"),
 				),
 			},
 			{
-				ResourceName:      "cloud_cos_bucket_policy.foo",
+				ResourceName:      "tencentcloudenterprise_cos_bucket_policy.foo",
 				ImportState:       true,
 				ImportStateVerify: true,
 			},
@@ -48,7 +48,7 @@ func testAccCheckCosBucketPolicyDestroy(s *terraform.State) error {
 		client: testAccProvider.Meta().(*TencentCloudClient).apiV3Conn,
 	}
 	for _, rs := range s.RootModule().Resources {
-		if rs.Type != "cloud_cos_bucket_policy" {
+		if rs.Type != "tencentcloudenterprise_cos_bucket_policy" {
 			continue
 		}
 
@@ -88,12 +88,12 @@ func testAccCheckCosBucketPolicyExists(n string) resource.TestCheckFunc {
 
 func testAccCosBucketPolicyBasic() string {
 	return userInfoData + `
-resource "cloud_cos_bucket" "bucket" {
+resource "tencentcloudenterprise_cos_bucket" "bucket" {
   bucket = "test-tf-policy-${local.app_id}"
   acl    = "private"
 }
 
-resource "cloud_cos_bucket_policy" "foo" {
+resource "tencentcloudenterprise_cos_bucket_policy" "foo" {
   bucket        = cloud_cos_bucket.bucket.bucket
   policy        = <<EOF
 {
@@ -126,12 +126,12 @@ EOF
 }
 func testAccCosBucketPolicyUpdate() string {
 	return userInfoData + `
-resource "cloud_cos_bucket" "bucket" {
+resource "tencentcloudenterprise_cos_bucket" "bucket" {
   bucket = "test-tf-policy-${local.app_id}"
   acl    = "private"
 }
 
-resource "cloud_cos_bucket_policy" "foo" {
+resource "tencentcloudenterprise_cos_bucket_policy" "foo" {
   bucket        = cloud_cos_bucket.bucket.bucket
   policy        = <<EOF
 {

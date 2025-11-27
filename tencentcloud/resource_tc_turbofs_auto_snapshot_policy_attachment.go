@@ -5,7 +5,7 @@ Provides a resource to create a turbofs auto_snapshot_policy_attachment
 
 ```hcl
 
-	resource "cloud_turbofs_auto_snapshot_policy_attachment" "auto_snapshot_policy_attachment" {
+	resource "tencentcloudenterprise_turbofs_auto_snapshot_policy_attachment" "auto_snapshot_policy_attachment" {
 	  auto_snapshot_policy_id = "asp-basic"
 	  file_system_id          = "turbofs-4xzkct19"
 	}
@@ -35,7 +35,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_turbofs_auto_snapshot_policy_attachment", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_turbofs_auto_snapshot_policy_attachment", CNDescription{
 		TerraformTypeCN: "自动快照策略绑定",
 		DescriptionCN:   "提供TurboFS自动快照策略绑定资源，用于将自动快照策略绑定到TurboFS。",
 		AttributesCN: map[string]string{

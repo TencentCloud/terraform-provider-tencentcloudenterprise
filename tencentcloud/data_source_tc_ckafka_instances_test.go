@@ -24,7 +24,7 @@ func TestAccTencentCloudCkafkaInstancesDataSource(t *testing.T) {
 }
 
 const testAccTencentCloudDataSourceCkafkaInstances = defaultKafkaVariable + `
-data "cloud_ckafka_instances" "foo" {
+data "tencentcloudenterprise_ckafka_instances" "foo" {
 	instance_ids=[var.instance_id]
 }
 `

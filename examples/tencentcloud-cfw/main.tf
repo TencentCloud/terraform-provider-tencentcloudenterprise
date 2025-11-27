@@ -3,7 +3,7 @@
 # ========== Resources ==========
 
 # CFW NAT Instance
-resource "cloud_cfw_nat_instance" "nat" {
+resource "tencentcloudenterprise_cfw_nat_instance" "nat" {
   name          = "example-nat-firewall"
   width         = 20
   mode          = 1
@@ -16,7 +16,7 @@ resource "cloud_cfw_nat_instance" "nat" {
 }
 
 # CFW VPC Instance
-resource "cloud_cfw_vpc_instance" "vpc" {
+resource "tencentcloudenterprise_cfw_vpc_instance" "vpc" {
   name  = "example-vpc-firewall"
   mode  = 1
   vpc_fw_instances {
@@ -27,7 +27,7 @@ resource "cloud_cfw_vpc_instance" "vpc" {
 }
 
 # CFW NAT Policy
-resource "cloud_cfw_nat_policy" "policy" {
+resource "tencentcloudenterprise_cfw_nat_policy" "policy" {
   source_content = "10.0.1.0/24"
   source_type    = "net"
   target_content = "0.0.0.0/0"
@@ -41,7 +41,7 @@ resource "cloud_cfw_nat_policy" "policy" {
 }
 
 # CFW VPC Policy
-resource "cloud_cfw_vpc_policy" "policy" {
+resource "tencentcloudenterprise_cfw_vpc_policy" "policy" {
   source_content = "10.0.1.0/24"
   source_type    = "net"
   dest_content   = "10.0.2.0/24"
@@ -54,7 +54,7 @@ resource "cloud_cfw_vpc_policy" "policy" {
 }
 
 # CFW Block Ignore
-resource "cloud_cfw_block_ignore" "ignore" {
+resource "tencentcloudenterprise_cfw_block_ignore" "ignore" {
   ip        = "1.1.1.1"
   direction = 1
   rule_type = 1

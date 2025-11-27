@@ -26,7 +26,7 @@ func TestAccTencentCloudTdmqPublisherSummaryDataSource_basic(t *testing.T) {
 }
 
 const testAccTdmqPublisherSummaryDataSource = `
-data "cloud_tdmq_publisher_summary" "publisher_summary" {
+data "tencentcloudenterprise_tdmq_publisher_summary" "publisher_summary" {
   cluster_id = "pulsar-9n95ax58b9vn"
   namespace  = "keep-ns"
   topic      = "keep-topic"

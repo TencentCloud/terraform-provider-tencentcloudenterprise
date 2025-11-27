@@ -1,4 +1,4 @@
-resource "cloud_as_scaling_group" "scaling_group" {
+resource "tencentcloudenterprise_as_scaling_group" "scaling_group" {
   scaling_group_name   = "tf-as-scaling-group"
   configuration_id     = "asc-d8rayj7t"
   max_size             = 1

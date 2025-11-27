@@ -11,7 +11,7 @@ import (
 )
 
 func init() {
-	registerDataDescriptionProvider("cloud_cwp_machines_simple", CNDescription{
+	registerDataDescriptionProvider("tencentcloudenterprise_cwp_machines_simple", CNDescription{
 		TerraformTypeCN: "CWP机器列表",
 		DescriptionCN:   "提供CWP机器列表数据源，用于查询CWP机器列表信息。",
 		AttributesCN: map[string]string{
@@ -234,7 +234,7 @@ func dataSourceTencentCloudCwpMachinesSimple() *schema.Resource {
 								},
 							},
 						},
-						"cloud_tags": {
+						"tencentcloudenterprise_tags": {
 							Type:        schema.TypeList,
 							Computed:    true,
 							Description: "Cloud tags detail.Note: This field may return null, indicating that a valid value cannot be obtained.",
@@ -487,7 +487,7 @@ func dataSourceTencentCloudCwpMachinesSimpleRead(d *schema.ResourceData, meta in
 					cloudTagsList = append(cloudTagsList, cloudTagsMap)
 				}
 
-				machineSimpleMap["cloud_tags"] = cloudTagsList
+				machineSimpleMap["tencentcloudenterprise_tags"] = cloudTagsList
 			}
 
 			if machineSimple.InstanceId != nil {

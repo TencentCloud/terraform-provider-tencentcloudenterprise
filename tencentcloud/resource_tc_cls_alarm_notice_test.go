@@ -16,16 +16,16 @@ func TestAccTencentCloudClsAlarmNoticeResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			{
 				Config: testAccClsAlarmNotice,
-				Check:  resource.ComposeTestCheckFunc(resource.TestCheckResourceAttrSet("cloud_cls_alarm_notice.alarm_notice", "id")),
+				Check:  resource.ComposeTestCheckFunc(resource.TestCheckResourceAttrSet("tencentcloudenterprise_cls_alarm_notice.alarm_notice", "id")),
 			},
 			{
 				Config: testAccClsAlarmNoticeUpdate,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr("cloud_cls_alarm_notice.alarm_notice", "name", "terraform-alarm-notice-for-test"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_cls_alarm_notice.alarm_notice", "name", "terraform-alarm-notice-for-test"),
 				),
 			},
 			{
-				ResourceName:      "cloud_cls_alarm_notice.alarm_notice",
+				ResourceName:      "tencentcloudenterprise_cls_alarm_notice.alarm_notice",
 				ImportState:       true,
 				ImportStateVerify: true,
 			},
@@ -35,7 +35,7 @@ func TestAccTencentCloudClsAlarmNoticeResource_basic(t *testing.T) {
 
 const testAccClsAlarmNotice = `
 
-resource "cloud_cls_alarm_notice" "alarm_notice" {
+resource "tencentcloudenterprise_cls_alarm_notice" "alarm_notice" {
   name = "terraform-alarm-notice-test"
   tags = {
     "createdBy" = "terraform"
@@ -61,7 +61,7 @@ resource "cloud_cls_alarm_notice" "alarm_notice" {
 
 const testAccClsAlarmNoticeUpdate = `
 
-resource "cloud_cls_alarm_notice" "alarm_notice" {
+resource "tencentcloudenterprise_cls_alarm_notice" "alarm_notice" {
   name = "terraform-alarm-notice-for-test"
   tags = {
     "createdBy" = "terraform"

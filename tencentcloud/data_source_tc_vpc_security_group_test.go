@@ -26,12 +26,12 @@ func TestAccDataSourceTencentCloudSecurityGroup_basic(t *testing.T) {
 }
 
 const TestAccDataSourceTencentCloudSecurityGroupConfig = `
-resource "cloud_vpc_security_group" "foo" {
+resource "tencentcloudenterprise_vpc_security_group" "foo" {
   name        = "tf-ci-test"
   description = "terraform-ci-test"
 }
 
-resource "cloud_vpc_security_group_lite_rule" "foo" {
+resource "tencentcloudenterprise_vpc_security_group_lite_rule" "foo" {
   security_group_id = cloud_vpc_security_group.foo.id
 
   ingress = [
@@ -43,7 +43,7 @@ resource "cloud_vpc_security_group_lite_rule" "foo" {
   ]
 }
 
-data "cloud_vpc_security_group" "foo" {
+data "tencentcloudenterprise_vpc_security_group" "foo" {
   security_group_id = cloud_vpc_security_group.foo.id
 }
 `

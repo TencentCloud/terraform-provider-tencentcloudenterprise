@@ -25,7 +25,7 @@ func TestAccTencentCloudNeedFixTdmqRabbitmqNodeListDataSource_basic(t *testing.T
 }
 
 const testAccTdmqRabbitmqNodeListDataSource = `
-data "cloud_tdmq_rabbitmq_node_list" "rabbitmq_node_list" {
+data "tencentcloudenterprise_tdmq_rabbitmq_node_list" "rabbitmq_node_list" {
   instance_id = "amqp-testtesttest"
   node_name   = "keep-node"
   filters {

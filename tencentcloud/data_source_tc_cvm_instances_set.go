@@ -5,7 +5,7 @@ Use this data source to query cvm instances in parallel.
 
 ```hcl
 
-	data "cloud_cvm_instances_set" "foo" {
+	data "tencentcloudenterprise_cvm_instances_set" "foo" {
 	  vpc_id = "vpc-4owdpnwr"
 	}
 
@@ -25,7 +25,7 @@ import (
 
 func init() {
 	// 注册资源中文描述提供者映射
-	registerDataDescriptionProvider("cloud_cvm_instances_set", CNDescription{
+	registerDataDescriptionProvider("tencentcloudenterprise_cvm_instances_set", CNDescription{
 		TerraformTypeCN: "云主机列表-并行查询",
 		DescriptionCN:   "提供云主机列表数据源，支持并行查询CVM实例的详细信息。",
 		AttributesCN: map[string]string{

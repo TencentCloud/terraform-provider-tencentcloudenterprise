@@ -5,7 +5,7 @@ Provides a resource to create a redis connection_config
 
 ```hcl
 
-	resource "cloud_redis_connection_config" "connection_config" {
+	resource "tencentcloudenterprise_redis_connection_config" "connection_config" {
 	  instance_id = "crs-c1nl9rpv"
 	  client_limit = "20000"
 	  bandwidth = "20"

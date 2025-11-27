@@ -5,7 +5,7 @@
 //
 // ```hcl
 //
-//	data "cloud_ckafka_topic_sync_replica" "topic_sync_replica" {
+//	data "tencentcloudenterprise_ckafka_topic_sync_replica" "topic_sync_replica" {
 //	  instance_id = "ckafka-xxxxxx"
 //	  topic_name = "xxxxxx"
 //	}
@@ -25,7 +25,7 @@ package tencentcloud
 //)
 //
 //func init() {
-//	registerDataDescriptionProvider("cloud_ckafka_topic_sync_replica", CNDescription{
+//	registerDataDescriptionProvider("tencentcloudenterprise_ckafka_topic_sync_replica", CNDescription{
 //		TerraformTypeCN: "ckafka主题同步副本",
 //		AttributesCN: map[string]string{
 //			"instance_id":                "实例Id",

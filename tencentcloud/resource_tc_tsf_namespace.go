@@ -5,7 +5,7 @@ Provides a resource to create a tsf namespace
 
 ```hcl
 
-	resource "cloud_tsf_namespace" "namespace" {
+	resource "tencentcloudenterprise_tsf_namespace" "namespace" {
 		namespace_name = "terraform-namespace-name"
 		namespace_desc = "terraform-test"
 		namespace_type = "DEF"
@@ -28,7 +28,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_tsf_namespace", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_tsf_namespace", CNDescription{
 		TerraformTypeCN: "命名空间",
 		DescriptionCN:   "提供TSF命名空间资源，用于创建和管理TSF命名空间。",
 		AttributesCN: map[string]string{

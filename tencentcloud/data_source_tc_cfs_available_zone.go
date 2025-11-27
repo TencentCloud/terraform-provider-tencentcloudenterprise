@@ -4,7 +4,7 @@ Use this data source to query detailed information of cfs available_zone
 # Example Usage
 
 ```hcl
-data "cloud_cfs_available_zone" "available_zone" {}
+data "tencentcloudenterprise_cfs_available_zone" "available_zone" {}
 ```
 */
 package tencentcloud
@@ -19,7 +19,7 @@ import (
 )
 
 func init() {
-	registerDataDescriptionProvider("cloud_cfs_available_zone", CNDescription{
+	registerDataDescriptionProvider("tencentcloudenterprise_cfs_available_zone", CNDescription{
 		TerraformTypeCN: "云文件存储可用区",
 		DescriptionCN:   "提供CFS文件存储可用区数据源，用于查询文件存储可用区的详细信息。",
 		AttributesCN: map[string]string{

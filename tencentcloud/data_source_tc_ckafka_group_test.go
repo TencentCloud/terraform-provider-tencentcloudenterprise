@@ -21,7 +21,7 @@ func TestAccTencentCloudCkafkaGroupDataSource_basic(t *testing.T) {
 }
 
 const testAccCkafkaGroupDataSource = `
-data "cloud_ckafka_group" "group" {
+data "tencentcloudenterprise_ckafka_group" "group" {
 	instance_id = "ckafka-vv7wpvae"
 	search_word = "keep-group"
 }

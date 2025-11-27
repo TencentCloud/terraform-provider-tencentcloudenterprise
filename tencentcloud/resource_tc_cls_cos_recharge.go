@@ -7,7 +7,7 @@ Provides a resource to create a cls cos_recharge
 
 ```hcl
 
-	resource "cloud_cls_cos_recharge" "cos_recharge" {
+	resource "tencentcloudenterprise_cls_cos_recharge" "cos_recharge" {
 	  bucket        = "cos-lock-1308919341"
 	  bucket_region = "ap-guangzhou"
 	  log_type      = "minimalist_log"
@@ -56,7 +56,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_cls_cos_recharge", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_cls_cos_recharge", CNDescription{
 		TerraformTypeCN: "CLS COS导入",
 		DescriptionCN:   "提供CLS COS导入资源，用于从COS导入日志数据到日志服务。",
 		AttributesCN: map[string]string{

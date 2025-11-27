@@ -5,7 +5,7 @@ Use this data source to query the COS buckets of the current Cloud user.
 
 ```hcl
 
-	data "cloud_cos_buckets" "cos_buckets" {
+	data "tencentcloudenterprise_cos_buckets" "cos_buckets" {
 	  result_output_file = "mytestpath"
 	}
 
@@ -22,7 +22,7 @@ import (
 )
 
 func init() {
-	registerDataDescriptionProvider("cloud_cos_buckets", CNDescription{
+	registerDataDescriptionProvider("tencentcloudenterprise_cos_buckets", CNDescription{
 		TerraformTypeCN: "获取存储桶列表（COS）",
 		DescriptionCN:   "提供COS存储桶数据源，用于查询当前云用户的COS存储桶。",
 		AttributesCN: map[string]string{

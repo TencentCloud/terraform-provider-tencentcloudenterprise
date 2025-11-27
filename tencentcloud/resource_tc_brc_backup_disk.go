@@ -5,7 +5,7 @@ Provides a resource to create a brc disk(cbs) backup action
 
 ```hcl
 
-	resource "cloud_brc_backup_disk" "example" {
+	resource "tencentcloudenterprise_brc_backup_disk" "example" {
 	  disk_id      = "disk-ewei0a2q"
 	  backup_name  = "my-backup"
 	  deadline     = "2025-07-05 19:03:29"
@@ -39,7 +39,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_brc_backup_disk", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_brc_backup_disk", CNDescription{
 		TerraformTypeCN: "CBS云硬盘备份",
 		DescriptionCN:   "提供BRC磁盘备份资源，用于创建CBS云硬盘备份。",
 		AttributesCN: map[string]string{

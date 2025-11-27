@@ -5,7 +5,7 @@ Provides a resource to create a tsf lane
 
 ```hcl
 
-	resource "cloud_tsf_lane" "lane" {
+	resource "tencentcloudenterprise_tsf_lane" "lane" {
 	  lane_name = "lane-name-1"
 	  remark = "lane desc1"
 	  lane_group_list {
@@ -30,7 +30,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_tsf_lane", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_tsf_lane", CNDescription{
 		TerraformTypeCN: "泳道配置",
 		DescriptionCN:   "提供TSF泳道资源，用于创建和管理TSF泳道。",
 		AttributesCN: map[string]string{

@@ -5,7 +5,7 @@ Use this data source to query detailed information of vpc bandwidth_package_quot
 
 ```hcl
 
-	data "cloud_vpc_bandwidth_package_quota" "bandwidth_package_quota" {
+	data "tencentcloudenterprise_vpc_bandwidth_package_quota" "bandwidth_package_quota" {
 	  }
 
 ```
@@ -22,7 +22,7 @@ import (
 )
 
 func init() {
-	registerDataDescriptionProvider("cloud_vpc_bandwidth_package_quota", CNDescription{
+	registerDataDescriptionProvider("tencentcloudenterprise_vpc_bandwidth_package_quota", CNDescription{
 		TerraformTypeCN: "带宽包配额详细信息",
 		AttributesCN: map[string]string{
 			"quota_set":          "带宽包配额详细信息",

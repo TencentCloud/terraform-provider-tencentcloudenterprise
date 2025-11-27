@@ -21,11 +21,11 @@ func TestAccTencentCloudCosBucketDomainCertificate_basic(t *testing.T) {
 			{
 				Config: testAccCosBucketDomainCertificate_basic,
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckCosBucketDoaminCertificateExists("cloud_cos_bucket_domain_certificate_attachment.basic", id),
-					resource.TestCheckResourceAttrSet("cloud_cos_bucket_domain_certificate_attachment.basic", "bucket"),
-					resource.TestCheckResourceAttrSet("cloud_cos_bucket_domain_certificate_attachment.basic", "domain_certificate.0.certificate.0.custom_cert.0.cert"),
-					resource.TestCheckResourceAttrSet("cloud_cos_bucket_domain_certificate_attachment.basic", "domain_certificate.0.certificate.0.custom_cert.0.private_key"),
-					resource.TestCheckResourceAttr("cloud_cos_bucket_domain_certificate_attachment.basic", "domain_certificate.0.certificate.0.cert_type", "CustomCert"),
+					testAccCheckCosBucketDoaminCertificateExists("tencentcloudenterprise_cos_bucket_domain_certificate_attachment.basic", id),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_cos_bucket_domain_certificate_attachment.basic", "bucket"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_cos_bucket_domain_certificate_attachment.basic", "domain_certificate.0.certificate.0.custom_cert.0.cert"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_cos_bucket_domain_certificate_attachment.basic", "domain_certificate.0.certificate.0.custom_cert.0.private_key"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_cos_bucket_domain_certificate_attachment.basic", "domain_certificate.0.certificate.0.cert_type", "CustomCert"),
 				),
 			},
 		},
@@ -100,7 +100,7 @@ provider "tencentcloud" {
 
 // name = "keep-c-ssl"keep-cos-domain-cert
 const testAccSSLCertificate = `
-data "cloud_ssl_certificates" "foo1" {
+data "tencentcloudenterprise_ssl_certificates" "foo1" {
   name = "` + defaultCosCertificateName + `"
 }
 
@@ -112,7 +112,7 @@ locals {
 `
 
 const testAccCosBucketDomainCertificate_basic = userInfoData + testAccCosDomain + testAccSSLCertificate + `
-resource "cloud_cos_bucket_domain_certificate_attachment" "basic" {
+resource "tencentcloudenterprise_cos_bucket_domain_certificate_attachment" "basic" {
   bucket = "` + defaultCosCertificateBucketPrefix + `-${local.app_id}"
   domain_certificate {
 	domain = "` + defaultCosCertDomainName + `"

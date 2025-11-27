@@ -5,7 +5,7 @@ Provides a resource to create a tsf config_template
 
 ```hcl
 
-	resource "cloud_tsf_config_template" "config_template" {
+	resource "tencentcloudenterprise_tsf_config_template" "config_template" {
 	  config_template_name = "terraform-template-name"
 	  config_template_type = "Ribbon"
 	  config_template_value = <<-EOT
@@ -34,7 +34,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_tsf_config_template", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_tsf_config_template", CNDescription{
 		TerraformTypeCN: "配置模板",
 		DescriptionCN:   "提供TSF配置模板资源，用于创建和管理TSF配置模板。",
 		AttributesCN: map[string]string{

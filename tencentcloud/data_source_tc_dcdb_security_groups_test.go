@@ -31,12 +31,12 @@ func TestAccTencentCloudDCDBSecurityGroupsDataSource(t *testing.T) {
 
 const testAccDataSourceDcdbSecurityGroups_basic = `
 
-resource "cloud_dcdb_security_group_attachment" "default" {
+resource "tencentcloudenterprise_dcdb_security_group_attachment" "default" {
   security_group_id = "%s"
   instance_id = "%s"
 }
 
-data "cloud_dcdb_security_groups" "security_groups" {
+data "tencentcloudenterprise_dcdb_security_groups" "security_groups" {
   instance_id = cloud_dcdb_security_group_attachment.default.instance_id
 }
 

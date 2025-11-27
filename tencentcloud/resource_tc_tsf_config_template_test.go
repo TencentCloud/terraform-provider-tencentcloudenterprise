@@ -22,28 +22,28 @@ func TestAccTencentCloudTsfConfigTemplateResource_basic(t *testing.T) {
 			{
 				Config: testAccTsfConfigTemplate,
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckTsfConfigTemplateExists("cloud_tsf_config_template.config_template"),
-					resource.TestCheckResourceAttrSet("cloud_tsf_config_template.config_template", "id"),
-					resource.TestCheckResourceAttr("cloud_tsf_config_template.config_template", "config_template_name", "terraform-template-name"),
-					resource.TestCheckResourceAttr("cloud_tsf_config_template.config_template", "config_template_type", "Ribbon"),
-					resource.TestCheckResourceAttrSet("cloud_tsf_config_template.config_template", "config_template_value"),
-					resource.TestCheckResourceAttr("cloud_tsf_config_template.config_template", "config_template_desc", "terraform-test"),
+					testAccCheckTsfConfigTemplateExists("tencentcloudenterprise_tsf_config_template.config_template"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_tsf_config_template.config_template", "id"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_tsf_config_template.config_template", "config_template_name", "terraform-template-name"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_tsf_config_template.config_template", "config_template_type", "Ribbon"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_tsf_config_template.config_template", "config_template_value"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_tsf_config_template.config_template", "config_template_desc", "terraform-test"),
 				),
 			},
 			// {
-			// 	ResourceName:      "cloud_tsf_config_template.config_template",
+			// 	ResourceName:      "tencentcloudenterprise_tsf_config_template.config_template",
 			// 	ImportState:       true,
 			// 	ImportStateVerify: true,
 			// },
 			{
 				Config: testAccTsfConfigTemplateUpdate,
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckTsfConfigTemplateExists("cloud_tsf_config_template.config_template"),
-					resource.TestCheckResourceAttrSet("cloud_tsf_config_template.config_template", "id"),
-					resource.TestCheckResourceAttr("cloud_tsf_config_template.config_template", "config_template_name", "terraform-template-name"),
-					resource.TestCheckResourceAttr("cloud_tsf_config_template.config_template", "config_template_type", "Ribbon"),
-					resource.TestCheckResourceAttrSet("cloud_tsf_config_template.config_template", "config_template_value"),
-					resource.TestCheckResourceAttr("cloud_tsf_config_template.config_template", "config_template_desc", "terraform-test"),
+					testAccCheckTsfConfigTemplateExists("tencentcloudenterprise_tsf_config_template.config_template"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_tsf_config_template.config_template", "id"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_tsf_config_template.config_template", "config_template_name", "terraform-template-name"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_tsf_config_template.config_template", "config_template_type", "Ribbon"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_tsf_config_template.config_template", "config_template_value"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_tsf_config_template.config_template", "config_template_desc", "terraform-test"),
 				),
 			},
 		},
@@ -55,7 +55,7 @@ func testAccCheckTsfConfigTemplateDestroy(s *terraform.State) error {
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
 	service := TsfService{client: testAccProvider.Meta().(*TencentCloudClient).apiV3Conn}
 	for _, rs := range s.RootModule().Resources {
-		if rs.Type != "cloud_tsf_config_template" {
+		if rs.Type != "tencentcloudenterprise_tsf_config_template" {
 			continue
 		}
 
@@ -101,7 +101,7 @@ func testAccCheckTsfConfigTemplateExists(r string) resource.TestCheckFunc {
 
 const testAccTsfConfigTemplate = `
 
-resource "cloud_tsf_config_template" "config_template" {
+resource "tencentcloudenterprise_tsf_config_template" "config_template" {
 	config_template_name = "terraform-template-name"
 	config_template_type = "Ribbon"
 	config_template_value = <<-EOT
@@ -118,7 +118,7 @@ resource "cloud_tsf_config_template" "config_template" {
 
 const testAccTsfConfigTemplateUpdate = `
 
-resource "cloud_tsf_config_template" "config_template" {
+resource "tencentcloudenterprise_tsf_config_template" "config_template" {
 	config_template_name = "terraform-template-name"
 	config_template_type = "Ribbon"
 	config_template_value = <<-EOT

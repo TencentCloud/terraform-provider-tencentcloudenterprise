@@ -5,7 +5,7 @@ Provides a resource to create a HA VIP.
 
 ```hcl
 
-	resource "cloud_vpc_ha_vip" "foo" {
+	resource "tencentcloudenterprise_vpc_ha_vip" "foo" {
 	  name      = "terraform_test"
 	  vpc_id    = "vpc-gzea3dd7"
 	  subnet_id = "subnet-4d4m4cd4s"
@@ -37,7 +37,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_vpc_ha_vip", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_vpc_ha_vip", CNDescription{
 		TerraformTypeCN: "HA VIP",
 		DescriptionCN:   "提供HA VIP资源，用于创建高可用虚拟IP。",
 		AttributesCN: map[string]string{

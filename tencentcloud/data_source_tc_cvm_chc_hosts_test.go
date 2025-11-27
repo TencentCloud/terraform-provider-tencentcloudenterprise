@@ -24,7 +24,7 @@ func TestAccTencentCloudCvmChcHostsDataSource_basic(t *testing.T) {
 
 const testAccCvmChcHostsDataSource = `
 
-data "cloud_cvm_chc_hosts" "chc_hosts" {
+data "tencentcloudenterprise_cvm_chc_hosts" "chc_hosts" {
 	chc_ids = ["chc-0brmw3wl"]
   filters {
     name = "zone"

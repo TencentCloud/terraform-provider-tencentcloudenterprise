@@ -5,7 +5,7 @@ Provides a resource to attach or detach CVM instances to a specified scaling gro
 
 ```hcl
 
-	resource "cloud_as_attachment" "attachment" {
+	resource "tencentcloudenterprise_as_attachment" "attachment" {
 	  scaling_group_id = "sg-afasfa"
 	  instance_ids     = ["ins-01", "ins-02"]
 	}
@@ -23,7 +23,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_as_attachment", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_as_attachment", CNDescription{
 		TerraformTypeCN: "添加CVM实例到伸缩组",
 		DescriptionCN:   "提供将CVM实例添加到指定伸缩组或从伸缩组中移除的资源。",
 		AttributesCN: map[string]string{

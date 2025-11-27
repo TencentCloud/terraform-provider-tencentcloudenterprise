@@ -16,10 +16,10 @@ func TestAccTencentCloudNeedFixEipAddressTransformResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			{
 				Config: testAccEipAddressTransform,
-				Check:  resource.ComposeTestCheckFunc(resource.TestCheckResourceAttrSet("cloud_eip_address_transform.address_transform", "id")),
+				Check:  resource.ComposeTestCheckFunc(resource.TestCheckResourceAttrSet("tencentcloudenterprise_eip_address_transform.address_transform", "id")),
 			},
 			{
-				ResourceName:      "cloud_eip_address_transform.address_transform",
+				ResourceName:      "tencentcloudenterprise_eip_address_transform.address_transform",
 				ImportState:       true,
 				ImportStateVerify: true,
 			},
@@ -29,7 +29,7 @@ func TestAccTencentCloudNeedFixEipAddressTransformResource_basic(t *testing.T) {
 
 const testAccEipAddressTransform = `
 
-resource "cloud_eip_address_transform" "address_transform" {
+resource "tencentcloudenterprise_eip_address_transform" "address_transform" {
   instance_id = "ins-2kcdugsq"
 }
 

@@ -4,7 +4,7 @@ Use this data source to query detailed information of ckafka zone
 # Example Usage
 
 ```hcl
-data "cloud_ckafka_zone" "ckafka_zone" {
+data "tencentcloudenterprise_ckafka_zone" "ckafka_zone" {
 }
 ```
 */
@@ -20,7 +20,7 @@ import (
 )
 
 func init() {
-	registerDataDescriptionProvider("cloud_ckafka_zone", CNDescription{
+	registerDataDescriptionProvider("tencentcloudenterprise_ckafka_zone", CNDescription{
 		TerraformTypeCN: "ckafka区域信息",
 		DescriptionCN:   "提供CKafka区域信息数据源，用于查询CKafka可用区域的详细信息。",
 		AttributesCN: map[string]string{

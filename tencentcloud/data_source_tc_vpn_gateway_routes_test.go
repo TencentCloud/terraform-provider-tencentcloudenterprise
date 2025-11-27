@@ -30,7 +30,7 @@ func TestAccTencentCloudNeedFixVpnGatewayRoutesDataSource(t *testing.T) {
 }
 
 const testAccTencentCloudVpnGatewayRoutesDataSourceConfig_basic = defaultVpnDataSource + `
-resource "cloud_vpn_gateway_route" "route1" {
+resource "tencentcloudenterprise_vpn_gateway_route" "route1" {
   vpn_gateway_id = data.cloud_vpn_gateways.foo.gateway_list.0.id
   destination_cidr_block = "10.0.0.0/18"
   instance_type = "VPNCONN"
@@ -39,7 +39,7 @@ resource "cloud_vpn_gateway_route" "route1" {
   status = "ENABLE"
 }
 
-data "cloud_vpn_gateway_routes" "routes" {
+data "tencentcloudenterprise_vpn_gateway_routes" "routes" {
   vpn_gateway_id = data.cloud_vpn_gateways.foo.gateway_list.0.id
 }
 `

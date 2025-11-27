@@ -12,8 +12,8 @@ import (
 )
 
 func init() {
-	resource.AddTestSweepers("cloud_as_scaling_group", &resource.Sweeper{
-		Name: "cloud_as_scaling_group",
+	resource.AddTestSweepers("tencentcloudenterprise_as_scaling_group", &resource.Sweeper{
+		Name: "tencentcloudenterprise_as_scaling_group",
 		F:    testSweepAsScalingGroups,
 	})
 }
@@ -60,19 +60,19 @@ func TestAccTencentCloudAsScalingGroup_basic(t *testing.T) {
 			{
 				Config: testAccAsScalingGroup_basic(),
 				Check: resource.ComposeAggregateTestCheckFunc(
-					testAccCheckAsScalingGroupExists("cloud_as_scaling_group.scaling_group"),
-					resource.TestCheckResourceAttr("cloud_as_scaling_group.scaling_group", "scaling_group_name", "tf-as-group-basic"),
-					resource.TestCheckResourceAttrSet("cloud_as_scaling_group.scaling_group", "configuration_id"),
-					resource.TestCheckResourceAttr("cloud_as_scaling_group.scaling_group", "max_size", "1"),
-					resource.TestCheckResourceAttr("cloud_as_scaling_group.scaling_group", "min_size", "0"),
-					resource.TestCheckResourceAttrSet("cloud_as_scaling_group.scaling_group", "vpc_id"),
-					resource.TestCheckResourceAttr("cloud_as_scaling_group.scaling_group", "subnet_ids.#", "1"),
-					resource.TestCheckResourceAttrSet("cloud_as_scaling_group.scaling_group", "status"),
-					resource.TestCheckResourceAttrSet("cloud_as_scaling_group.scaling_group", "create_time"),
+					testAccCheckAsScalingGroupExists("tencentcloudenterprise_as_scaling_group.scaling_group"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_as_scaling_group.scaling_group", "scaling_group_name", "tf-as-group-basic"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_as_scaling_group.scaling_group", "configuration_id"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_as_scaling_group.scaling_group", "max_size", "1"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_as_scaling_group.scaling_group", "min_size", "0"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_as_scaling_group.scaling_group", "vpc_id"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_as_scaling_group.scaling_group", "subnet_ids.#", "1"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_as_scaling_group.scaling_group", "status"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_as_scaling_group.scaling_group", "create_time"),
 				),
 			},
 			{
-				ResourceName:      "cloud_as_scaling_group.scaling_group",
+				ResourceName:      "tencentcloudenterprise_as_scaling_group.scaling_group",
 				ImportState:       true,
 				ImportStateVerify: true,
 			},
@@ -90,41 +90,41 @@ func TestAccTencentCloudAsScalingGroup_full(t *testing.T) {
 			{
 				Config: testAccAsScalingGroup_full(),
 				Check: resource.ComposeAggregateTestCheckFunc(
-					testAccCheckAsScalingGroupExists("cloud_as_scaling_group.scaling_group"),
-					resource.TestCheckResourceAttr("cloud_as_scaling_group.scaling_group", "scaling_group_name", "tf-as-group-full"),
-					resource.TestCheckResourceAttrSet("cloud_as_scaling_group.scaling_group", "configuration_id"),
-					resource.TestCheckResourceAttr("cloud_as_scaling_group.scaling_group", "max_size", "1"),
-					resource.TestCheckResourceAttr("cloud_as_scaling_group.scaling_group", "min_size", "0"),
-					resource.TestCheckResourceAttrSet("cloud_as_scaling_group.scaling_group", "vpc_id"),
-					resource.TestCheckResourceAttr("cloud_as_scaling_group.scaling_group", "subnet_ids.#", "1"),
-					resource.TestCheckResourceAttr("cloud_as_scaling_group.scaling_group", "project_id", "0"),
-					resource.TestCheckResourceAttr("cloud_as_scaling_group.scaling_group", "default_cooldown", "400"),
-					resource.TestCheckResourceAttr("cloud_as_scaling_group.scaling_group", "desired_capacity", "1"),
-					resource.TestCheckResourceAttr("cloud_as_scaling_group.scaling_group", "termination_policies.#", "1"),
-					resource.TestCheckResourceAttr("cloud_as_scaling_group.scaling_group", "termination_policies.0", "NEWEST_INSTANCE"),
-					resource.TestCheckResourceAttr("cloud_as_scaling_group.scaling_group", "retry_policy", "INCREMENTAL_INTERVALS"),
-					resource.TestCheckResourceAttrSet("cloud_as_scaling_group.scaling_group", "status"),
-					resource.TestCheckResourceAttrSet("cloud_as_scaling_group.scaling_group", "instance_count"),
-					resource.TestCheckResourceAttrSet("cloud_as_scaling_group.scaling_group", "create_time"),
-					resource.TestCheckResourceAttr("cloud_as_scaling_group.scaling_group", "tags.test", "test"),
+					testAccCheckAsScalingGroupExists("tencentcloudenterprise_as_scaling_group.scaling_group"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_as_scaling_group.scaling_group", "scaling_group_name", "tf-as-group-full"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_as_scaling_group.scaling_group", "configuration_id"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_as_scaling_group.scaling_group", "max_size", "1"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_as_scaling_group.scaling_group", "min_size", "0"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_as_scaling_group.scaling_group", "vpc_id"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_as_scaling_group.scaling_group", "subnet_ids.#", "1"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_as_scaling_group.scaling_group", "project_id", "0"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_as_scaling_group.scaling_group", "default_cooldown", "400"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_as_scaling_group.scaling_group", "desired_capacity", "1"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_as_scaling_group.scaling_group", "termination_policies.#", "1"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_as_scaling_group.scaling_group", "termination_policies.0", "NEWEST_INSTANCE"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_as_scaling_group.scaling_group", "retry_policy", "INCREMENTAL_INTERVALS"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_as_scaling_group.scaling_group", "status"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_as_scaling_group.scaling_group", "instance_count"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_as_scaling_group.scaling_group", "create_time"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_as_scaling_group.scaling_group", "tags.test", "test"),
 				),
 			},
 			{
 				Config: testAccAsScalingGroup_update(),
 				Check: resource.ComposeAggregateTestCheckFunc(
-					testAccCheckAsScalingGroupExists("cloud_as_scaling_group.scaling_group"),
-					resource.TestCheckResourceAttr("cloud_as_scaling_group.scaling_group", "scaling_group_name", "tf-as-group-update"),
-					resource.TestCheckResourceAttr("cloud_as_scaling_group.scaling_group", "max_size", "2"),
-					resource.TestCheckResourceAttr("cloud_as_scaling_group.scaling_group", "default_cooldown", "300"),
-					resource.TestCheckResourceAttr("cloud_as_scaling_group.scaling_group", "desired_capacity", "0"),
-					resource.TestCheckResourceAttr("cloud_as_scaling_group.scaling_group", "termination_policies.#", "1"),
-					resource.TestCheckResourceAttr("cloud_as_scaling_group.scaling_group", "termination_policies.0", "OLDEST_INSTANCE"),
-					resource.TestCheckResourceAttr("cloud_as_scaling_group.scaling_group", "retry_policy", "IMMEDIATE_RETRY"),
-					resource.TestCheckResourceAttr("cloud_as_scaling_group.scaling_group", "scaling_mode", "WAKE_UP_STOPPED_SCALING"),
-					resource.TestCheckResourceAttr("cloud_as_scaling_group.scaling_group", "replace_monitor_unhealthy", "true"),
-					resource.TestCheckResourceAttr("cloud_as_scaling_group.scaling_group", "replace_load_balancer_unhealthy", "true"),
-					resource.TestCheckNoResourceAttr("cloud_as_scaling_group.scaling_group", "tags.test"),
-					resource.TestCheckResourceAttr("cloud_as_scaling_group.scaling_group", "tags.abc", "abc"),
+					testAccCheckAsScalingGroupExists("tencentcloudenterprise_as_scaling_group.scaling_group"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_as_scaling_group.scaling_group", "scaling_group_name", "tf-as-group-update"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_as_scaling_group.scaling_group", "max_size", "2"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_as_scaling_group.scaling_group", "default_cooldown", "300"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_as_scaling_group.scaling_group", "desired_capacity", "0"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_as_scaling_group.scaling_group", "termination_policies.#", "1"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_as_scaling_group.scaling_group", "termination_policies.0", "OLDEST_INSTANCE"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_as_scaling_group.scaling_group", "retry_policy", "IMMEDIATE_RETRY"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_as_scaling_group.scaling_group", "scaling_mode", "WAKE_UP_STOPPED_SCALING"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_as_scaling_group.scaling_group", "replace_monitor_unhealthy", "true"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_as_scaling_group.scaling_group", "replace_load_balancer_unhealthy", "true"),
+					resource.TestCheckNoResourceAttr("tencentcloudenterprise_as_scaling_group.scaling_group", "tags.test"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_as_scaling_group.scaling_group", "tags.abc", "abc"),
 				),
 			},
 		},
@@ -163,7 +163,7 @@ func testAccCheckAsScalingGroupDestroy(s *terraform.State) error {
 		client: testAccProvider.Meta().(*TencentCloudClient).apiV3Conn,
 	}
 	for _, rs := range s.RootModule().Resources {
-		if rs.Type != "cloud_as_scaling_group" {
+		if rs.Type != "tencentcloudenterprise_as_scaling_group" {
 			continue
 		}
 
@@ -180,7 +180,7 @@ func testAccCheckAsScalingGroupDestroy(s *terraform.State) error {
 
 func testAccAsScalingGroup_basic() string {
 	return fmt.Sprintf(`
-resource "cloud_as_scaling_config" "launch_configuration" {
+resource "tencentcloudenterprise_as_scaling_config" "launch_configuration" {
   configuration_name = "tf-as-configuration-basic"
   image_id           = "img-2lr9q49h"
   instance_types     = ["SA1.SMALL1","SA2.SMALL1","SA2.SMALL2","SA2.SMALL4"]
@@ -190,7 +190,7 @@ resource "cloud_as_scaling_config" "launch_configuration" {
   }
 }
 
-resource "cloud_as_scaling_group" "scaling_group" {
+resource "tencentcloudenterprise_as_scaling_group" "scaling_group" {
   scaling_group_name = "tf-as-group-basic"
   configuration_id   = cloud_as_scaling_config.launch_configuration.id
   max_size           = 1
@@ -204,7 +204,7 @@ resource "cloud_as_scaling_group" "scaling_group" {
 func testAccAsScalingGroup_full() string {
 	return fmt.Sprintf(`
 
-resource "cloud_as_scaling_config" "launch_configuration" {
+resource "tencentcloudenterprise_as_scaling_config" "launch_configuration" {
   configuration_name = "tf-as-configuration-full"
   image_id           = "img-2lr9q49h"
   instance_types     = ["SA1.SMALL1","SA2.SMALL1","SA2.SMALL2","SA2.SMALL4"]
@@ -213,7 +213,7 @@ resource "cloud_as_scaling_config" "launch_configuration" {
   }
 }
 
-resource "cloud_as_scaling_group" "scaling_group" {
+resource "tencentcloudenterprise_as_scaling_group" "scaling_group" {
   scaling_group_name   = "tf-as-group-full"
   configuration_id     = cloud_as_scaling_config.launch_configuration.id
   max_size             = 1
@@ -236,7 +236,7 @@ resource "cloud_as_scaling_group" "scaling_group" {
 func testAccAsScalingGroup_update() string {
 	return fmt.Sprintf(`
 
-resource "cloud_as_scaling_config" "launch_configuration" {
+resource "tencentcloudenterprise_as_scaling_config" "launch_configuration" {
   configuration_name = "tf-as-configuration-full"
   image_id           = "img-2lr9q49h"
   instance_types     = ["SA1.SMALL1","SA2.SMALL1","SA2.SMALL2","SA2.SMALL4"]
@@ -245,7 +245,7 @@ resource "cloud_as_scaling_config" "launch_configuration" {
   }
 }
 
-resource "cloud_as_scaling_group" "scaling_group" {
+resource "tencentcloudenterprise_as_scaling_group" "scaling_group" {
   scaling_group_name   = "tf-as-group-update"
   configuration_id     = cloud_as_scaling_config.launch_configuration.id
   max_size             = 2

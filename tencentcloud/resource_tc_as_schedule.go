@@ -5,7 +5,7 @@ Provides a resource for an AS (Auto scaling) schedule.
 
 ```hcl
 
-	resource "cloud_as_schedule" "schedule" {
+	resource "tencentcloudenterprise_as_schedule" "schedule" {
 	  scaling_group_id     = "sg-12af45"
 	  schedule_action_name = "tf-as-schedule"
 	  max_size             = 10
@@ -32,7 +32,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_as_schedule", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_as_schedule", CNDescription{
 		TerraformTypeCN: "自动伸缩组定时任务",
 		DescriptionCN:   "提供自动伸缩定时任务资源，用于创建和管理AS定时任务。",
 		AttributesCN: map[string]string{

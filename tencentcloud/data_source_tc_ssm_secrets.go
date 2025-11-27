@@ -3,7 +3,7 @@ Use this data source to query detailed information of SSM secret
 Example Usage
 ```hcl
 
-	data "cloud_ssm_secrets" "foo" {
+	data "tencentcloudenterprise_ssm_secrets" "foo" {
 	  secret_name = "test"
 	  order_type = 1
 	  state = 1
@@ -24,7 +24,7 @@ import (
 )
 
 func init() {
-	registerDataDescriptionProvider("cloud_ssm_secrets", CNDescription{
+	registerDataDescriptionProvider("tencentcloudenterprise_ssm_secrets", CNDescription{
 		TerraformTypeCN: "SSM凭据",
 		DescriptionCN:   "用于查询SSM凭据的详细信息",
 		AttributesCN: map[string]string{

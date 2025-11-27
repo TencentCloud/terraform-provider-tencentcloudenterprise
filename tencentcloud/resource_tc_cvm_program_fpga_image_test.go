@@ -16,10 +16,10 @@ func TestAccTencentCloudNeedFixCvmProgramFpgaImageResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			{
 				Config: testAccCvmProgramFpgaImage,
-				Check:  resource.ComposeTestCheckFunc(resource.TestCheckResourceAttrSet("cloud_cvm_program_fpga_image.program_fpga_image", "id")),
+				Check:  resource.ComposeTestCheckFunc(resource.TestCheckResourceAttrSet("tencentcloudenterprise_cvm_program_fpga_image.program_fpga_image", "id")),
 			},
 			{
-				ResourceName:      "cloud_cvm_program_fpga_image.program_fpga_image",
+				ResourceName:      "tencentcloudenterprise_cvm_program_fpga_image.program_fpga_image",
 				ImportState:       true,
 				ImportStateVerify: true,
 			},
@@ -29,7 +29,7 @@ func TestAccTencentCloudNeedFixCvmProgramFpgaImageResource_basic(t *testing.T) {
 
 const testAccCvmProgramFpgaImage = `
 
-resource "cloud_cvm_program_fpga_image" "program_fpga_image" {
+resource "tencentcloudenterprise_cvm_program_fpga_image" "program_fpga_image" {
   instance_id = "ins-xxxxxx"
   fpga_url = ""
   dbd_fs = ""

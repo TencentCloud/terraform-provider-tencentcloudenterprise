@@ -3,46 +3,46 @@
 # ========== Data Sources ==========
 
 # Query CFS access groups
-data "cloud_cfs_access_groups" "groups" {
+data "tencentcloudenterprise_cfs_access_groups" "groups" {
   access_group_id = "pgroup-xxxxx"
 }
 
 # Query CFS access rules
-data "cloud_cfs_access_rules" "rules" {
+data "tencentcloudenterprise_cfs_access_rules" "rules" {
   access_group_id = "pgroup-xxxxx"
 }
 
 # Query CFS available zones
-data "cloud_cfs_available_zone" "zones" {}
+data "tencentcloudenterprise_cfs_available_zone" "zones" {}
 
 # Query CFS file systems
-data "cloud_cfs_file_systems" "fs" {
+data "tencentcloudenterprise_cfs_file_systems" "fs" {
   file_system_id = "cfs-xxxxx"
 }
 
 # Query CFS file system clients
-data "cloud_cfs_file_system_clients" "clients" {
+data "tencentcloudenterprise_cfs_file_system_clients" "clients" {
   file_system_id = "cfs-xxxxx"
 }
 
 # Query CFS mount targets
-data "cloud_cfs_mount_targets" "targets" {
+data "tencentcloudenterprise_cfs_mount_targets" "targets" {
   file_system_id = "cfs-xxxxx"
 }
 
 # ========== Resources ==========
 
 # CFS Sign Up Service
-resource "cloud_cfs_sign_up_cfs_service" "signup" {}
+resource "tencentcloudenterprise_cfs_sign_up_cfs_service" "signup" {}
 
 # CFS Access Group
-resource "cloud_cfs_access_group" "group" {
+resource "tencentcloudenterprise_cfs_access_group" "group" {
   access_group_name = "example-group"
   description       = "Example CFS access group"
 }
 
 # CFS Access Rule
-resource "cloud_cfs_access_rule" "rule" {
+resource "tencentcloudenterprise_cfs_access_rule" "rule" {
   access_group_id = cloud_cfs_access_group.group.id
   auth_client_ip  = "10.0.0.0/24"
   priority        = 1
@@ -51,7 +51,7 @@ resource "cloud_cfs_access_rule" "rule" {
 }
 
 # CFS File System
-resource "cloud_cfs_file_system" "fs" {
+resource "tencentcloudenterprise_cfs_file_system" "fs" {
   availability_zone = "ap-guangzhou-3"
   name              = "example-cfs"
   protocol          = "NFS"
@@ -66,7 +66,7 @@ resource "cloud_cfs_file_system" "fs" {
 }
 
 # CFS Auto Snapshot Policy
-resource "cloud_cfs_auto_snapshot_policy" "policy" {
+resource "tencentcloudenterprise_cfs_auto_snapshot_policy" "policy" {
   hour            = "2"
   policy_name     = "example-policy"
   day_of_week     = "1,3,5"
@@ -75,13 +75,13 @@ resource "cloud_cfs_auto_snapshot_policy" "policy" {
 }
 
 # CFS Auto Snapshot Policy Attachment
-resource "cloud_cfs_auto_snapshot_policy_attachment" "attachment" {
+resource "tencentcloudenterprise_cfs_auto_snapshot_policy_attachment" "attachment" {
   auto_snapshot_policy_id = cloud_cfs_auto_snapshot_policy.policy.id
   file_system_ids         = [cloud_cfs_file_system.fs.id]
 }
 
 # CFS Snapshot
-resource "cloud_cfs_snapshot" "snapshot" {
+resource "tencentcloudenterprise_cfs_snapshot" "snapshot" {
   file_system_id = cloud_cfs_file_system.fs.id
   snapshot_name  = "example-snapshot"
   tags = {

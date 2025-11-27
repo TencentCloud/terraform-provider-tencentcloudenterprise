@@ -5,7 +5,7 @@ Provides a resource to create a vpc vpn_connection_reset
 
 ```hcl
 
-	resource "cloud_vpn_connection_reset" "vpn_connection_reset" {
+	resource "tencentcloudenterprise_vpn_connection_reset" "vpn_connection_reset" {
 	  vpn_gateway_id    = "vpngw-gt8bianl"
 	  vpn_connection_id = "vpnx-kme2tx8m"
 	}
@@ -24,7 +24,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_vpn_connection_reset", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_vpn_connection_reset", CNDescription{
 		TerraformTypeCN: "创建VPN重置通道",
 		AttributesCN: map[string]string{
 			"vpn_gateway_id":    "VPN网关实例ID",

@@ -5,12 +5,12 @@ Provides a resource to create a tdmqRocketmq topic
 
 ```hcl
 
-	resource "cloud_tdmq_rocketmq_cluster" "cluster" {
+	resource "tencentcloudenterprise_tdmq_rocketmq_cluster" "cluster" {
 		cluster_name = "test_rocketmq"
 		remark = "test recket mq"
 	}
 
-	resource "cloud_tdmq_rocketmq_namespace" "namespace" {
+	resource "tencentcloudenterprise_tdmq_rocketmq_namespace" "namespace" {
 	  cluster_id = cloud_tdmq_rocketmq_cluster.cluster.cluster_id
 	  namespace_name = "test_namespace"
 	  ttl = 65000
@@ -18,7 +18,7 @@ Provides a resource to create a tdmqRocketmq topic
 	  remark = "test namespace"
 	}
 
-	resource "cloud_tdmq_rocketmq_topic" "topic" {
+	resource "tencentcloudenterprise_tdmq_rocketmq_topic" "topic" {
 	  topic_name = "test_rocketmq_topic"
 	  namespace_name = cloud_tdmq_rocketmq_namespace.namespace.namespace_name
 	  type = "Normal"
@@ -49,7 +49,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_tdmq_rocketmq_topic", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_tdmq_rocketmq_topic", CNDescription{
 		TerraformTypeCN: "Rocketmq topic",
 		DescriptionCN:   "提供Rocketmq topic资源，用于创建和管理Rocketmq topic。",
 		AttributesCN: map[string]string{

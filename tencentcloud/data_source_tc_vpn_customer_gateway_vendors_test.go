@@ -24,6 +24,6 @@ func TestAccTencentCloudVpnCustomerGatewayVendorsDataSource_basic(t *testing.T) 
 
 const testAccVpnCustomerGatewayVendorsDataSource = `
 
-data "cloud_vpn_customer_gateway_vendors" "vpn_customer_gateway_vendors" {}
+data "tencentcloudenterprise_vpn_customer_gateway_vendors" "vpn_customer_gateway_vendors" {}
 
 `

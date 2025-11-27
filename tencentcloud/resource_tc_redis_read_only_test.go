@@ -18,13 +18,13 @@ func TestAccTencentCloudRedisReadOnlyResource_basic(t *testing.T) {
 			{
 				Config: testAccRedisReadOnly,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttrSet("cloud_redis_read_only.read_only", "id"),
-					resource.TestCheckResourceAttr("cloud_redis_read_only.read_only", "instance_id", defaultCrsInstanceId),
-					resource.TestCheckResourceAttr("cloud_redis_read_only.read_only", "input_mode", "0"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_redis_read_only.read_only", "id"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_redis_read_only.read_only", "instance_id", defaultCrsInstanceId),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_redis_read_only.read_only", "input_mode", "0"),
 				),
 			},
 			{
-				ResourceName:      "cloud_redis_read_only.read_only",
+				ResourceName:      "tencentcloudenterprise_redis_read_only.read_only",
 				ImportState:       true,
 				ImportStateVerify: true,
 			},
@@ -40,7 +40,7 @@ variable "instance_id" {
 
 const testAccRedisReadOnly = testAccRedisReadOnlyVar + `
 
-resource "cloud_redis_read_only" "read_only" {
+resource "tencentcloudenterprise_redis_read_only" "read_only" {
 	instance_id = var.instance_id
 	input_mode = "0"
 }

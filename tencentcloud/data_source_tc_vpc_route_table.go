@@ -10,11 +10,11 @@ This resource can prove useful when a module accepts a Subnet id as an input var
 ```hcl
 variable "route_table_id" {}
 
-	data "cloud_route_table" "selected" {
+	data "tencentcloudenterprise_route_table" "selected" {
 	  route_table_id = var.route_table_id
 	}
 
-	resource "cloud_route_entry" "rtb_entry_instance" {
+	resource "tencentcloudenterprise_route_entry" "rtb_entry_instance" {
 	  vpc_id         = "{data.cloud_route_table.selected.vpc_id}"
 	  route_table_id = var.route_table_id
 	  cidr_block     = "10.4.8.0/24"

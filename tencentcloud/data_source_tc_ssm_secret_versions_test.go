@@ -27,7 +27,7 @@ func TestAccTencentCloudSsmSecretVersionsDataSource(t *testing.T) {
 }
 
 const TestAccTencentCloudSsmSecretVersionsDataSourceConfig = `
-resource "cloud_ssm_secret" "secret" {
+resource "tencentcloudenterprise_ssm_secret" "secret" {
   secret_name = "unit-test-ver-data"
   description = "test secret"
 
@@ -36,13 +36,13 @@ resource "cloud_ssm_secret" "secret" {
   }
 }
 
-resource "cloud_ssm_secret_version" "v1" {
+resource "tencentcloudenterprise_ssm_secret_version" "v1" {
   secret_name = cloud_ssm_secret.secret.secret_name
   version_id = "v1"
   secret_binary = "MTIzMTIzMTIzMTIzMTIzQQ=="
 }
 
-data "cloud_ssm_secret_versions" "secret_version" {
+data "tencentcloudenterprise_ssm_secret_versions" "secret_version" {
   secret_name = cloud_ssm_secret_version.v1.secret_name
   version_id = cloud_ssm_secret_version.v1.version_id
 }

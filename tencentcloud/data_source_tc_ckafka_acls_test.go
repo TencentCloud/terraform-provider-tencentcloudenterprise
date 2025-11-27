@@ -16,7 +16,7 @@ func TestAccTencentCloudCkafkaAclsDataSource(t *testing.T) {
 			{
 				Config: testAccTencentCloudDataSourceCkafkaAcl,
 				Check: resource.ComposeAggregateTestCheckFunc(
-					testAccCheckCkafkaAclExists("cloud_ckafka_acl.foo"),
+					testAccCheckCkafkaAclExists("tencentcloudenterprise_ckafka_acl.foo"),
 					resource.TestCheckResourceAttrSet("data.cloud_ckafka_acls.foo", "acl_list.0.operation_type"),
 					resource.TestCheckResourceAttrSet("data.cloud_ckafka_acls.foo", "acl_list.0.permission_type"),
 					resource.TestCheckResourceAttrSet("data.cloud_ckafka_acls.foo", "acl_list.0.resource_name"),
@@ -30,13 +30,13 @@ func TestAccTencentCloudCkafkaAclsDataSource(t *testing.T) {
 }
 
 const testAccTencentCloudDataSourceCkafkaAcl = defaultKafkaVariable + `
-resource "cloud_ckafka_user" "foo" {
+resource "tencentcloudenterprise_ckafka_user" "foo" {
 	instance_id  = var.instance_id
 	account_name = "tf-test-acl-data"
 	password     = "test1234"
 }
 
-resource "cloud_ckafka_topic" "kafka_topic_acl" {
+resource "tencentcloudenterprise_ckafka_topic" "kafka_topic_acl" {
 	instance_id                     = var.instance_id
 	topic_name                      = "ckafka-topic-acl-data-test"
 	replica_num                     = 2
@@ -52,7 +52,7 @@ resource "cloud_ckafka_topic" "kafka_topic_acl" {
 	max_message_bytes               = 8388608
 }
 
-resource "cloud_ckafka_acl" foo {
+resource "tencentcloudenterprise_ckafka_acl" foo {
   instance_id     = var.instance_id
   resource_type   = "TOPIC"
   resource_name   = cloud_ckafka_topic.kafka_topic_acl.topic_name
@@ -62,7 +62,7 @@ resource "cloud_ckafka_acl" foo {
   principal       = cloud_ckafka_user.foo.account_name
 }
 
-data "cloud_ckafka_acls" "foo" {
+data "tencentcloudenterprise_ckafka_acls" "foo" {
 	instance_id   = cloud_ckafka_acl.foo.instance_id
     resource_type = cloud_ckafka_acl.foo.resource_type
 	resource_name = cloud_ckafka_acl.foo.resource_name

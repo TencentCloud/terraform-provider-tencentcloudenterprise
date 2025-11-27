@@ -5,15 +5,15 @@ Provides a resource to create a dcdb cancel_dcn_job_operation
 
 ```hcl
 
-	data "cloud_vpc_security_groups" "internal" {
+	data "tencentcloudenterprise_vpc_security_groups" "internal" {
 		name = "default"
 	}
 
-	data "cloud_vpc_instances" "vpc" {
+	data "tencentcloudenterprise_vpc_instances" "vpc" {
 		name ="Default-VPC"
 	}
 
-	data "cloud_vpc_subnets" "subnet" {
+	data "tencentcloudenterprise_vpc_subnets" "subnet" {
 		vpc_id = data.cloud_vpc_instances.vpc.instance_list.0.vpc_id
 	}
 
@@ -23,7 +23,7 @@ Provides a resource to create a dcdb cancel_dcn_job_operation
 		sg_id = data.cloud_vpc_security_groups.internal.security_groups.0.security_group_id
 	}
 
-	resource "cloud_dcdb_instance" "hourdb_instance_dcn" {
+	resource "tencentcloudenterprise_dcdb_instance" "hourdb_instance_dcn" {
 		instance_name     = "test_dcdb_db_hourdb_instance_dcn"
 		zones             = [var.default_az]
 		shard_memory      = "2"
@@ -46,7 +46,7 @@ Provides a resource to create a dcdb cancel_dcn_job_operation
 		dcn_dcdb_id = cloud_dcdb_instance.hourdb_instance_dcn.id
 	}
 
-	resource "cloud_dcdb_cancel_dcn_job_operation" "cancel_operation" {
+	resource "tencentcloudenterprise_dcdb_cancel_dcn_job_operation" "cancel_operation" {
 		instance_id = local.dcn_dcdb_id // cancel the dcn/readonly instance
 	}
 
@@ -64,7 +64,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_dcdb_cancel_dcn_job_operation", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_dcdb_cancel_dcn_job_operation", CNDescription{
 		TerraformTypeCN: "数据库-取消Dcn/只读实例",
 		DescriptionCN:   "提供DCDB取消DCN任务操作资源，用于取消DCDB的DCN同步任务或只读实例创建任务。",
 		AttributesCN: map[string]string{

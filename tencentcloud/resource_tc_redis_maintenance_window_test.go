@@ -18,14 +18,14 @@ func TestAccTencentCloudRedisMaintenanceWindowResource_basic(t *testing.T) {
 			{
 				Config: testAccRedisMaintenanceWindow,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttrSet("cloud_redis_maintenance_window.maintenance_window", "id"),
-					resource.TestCheckResourceAttr("cloud_redis_maintenance_window.maintenance_window", "instance_id", defaultCrsInstanceId),
-					resource.TestCheckResourceAttr("cloud_redis_maintenance_window.maintenance_window", "start_time", "17:00"),
-					resource.TestCheckResourceAttr("cloud_redis_maintenance_window.maintenance_window", "end_time", "19:00"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_redis_maintenance_window.maintenance_window", "id"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_redis_maintenance_window.maintenance_window", "instance_id", defaultCrsInstanceId),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_redis_maintenance_window.maintenance_window", "start_time", "17:00"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_redis_maintenance_window.maintenance_window", "end_time", "19:00"),
 				),
 			},
 			{
-				ResourceName:      "cloud_redis_maintenance_window.maintenance_window",
+				ResourceName:      "tencentcloudenterprise_redis_maintenance_window.maintenance_window",
 				ImportState:       true,
 				ImportStateVerify: true,
 			},
@@ -41,7 +41,7 @@ variable "instance_id" {
 
 const testAccRedisMaintenanceWindow = testAccRedisMaintenanceWindowVar + `
 
-resource "cloud_redis_maintenance_window" "maintenance_window" {
+resource "tencentcloudenterprise_redis_maintenance_window" "maintenance_window" {
   instance_id = var.instance_id
   start_time = "17:00"
   end_time = "19:00"

@@ -14,8 +14,8 @@ import (
 
 func init() {
 	// go test -v ./tencentcloud -sweep=ap-guangzhou -sweep-run=cloud_clb_target_group
-	resource.AddTestSweepers("cloud_clb_target_group", &resource.Sweeper{
-		Name: "cloud_clb_target_group",
+	resource.AddTestSweepers("tencentcloudenterprise_clb_target_group", &resource.Sweeper{
+		Name: "tencentcloudenterprise_clb_target_group",
 		F: func(r string) error {
 			logId := getLogId(contextNil)
 			ctx := context.WithValue(context.TODO(), logIdKey, logId)
@@ -56,9 +56,9 @@ func TestAccTencentCloudClbTargetGroup_basic(t *testing.T) {
 			{
 				Config: testAccClbTargetGroup_basic,
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckClbTargetGroupExists("cloud_clb_target_group.test"),
-					resource.TestCheckResourceAttrSet("cloud_clb_target_group.test", "target_group_name"),
-					resource.TestCheckResourceAttrSet("cloud_clb_target_group.test", "vpc_id"),
+					testAccCheckClbTargetGroupExists("tencentcloudenterprise_clb_target_group.test"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_clb_target_group.test", "target_group_name"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_clb_target_group.test", "vpc_id"),
 				),
 			},
 		},
@@ -76,21 +76,21 @@ func TestAccTencentCloudClbInstanceTargetGroup(t *testing.T) {
 			{
 				Config: testAccClbInstanceTargetGroup,
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckClbTargetGroupExists("cloud_clb_target_group.target_group"),
-					resource.TestCheckResourceAttr("cloud_clb_target_group.target_group", "target_group_name", "tgt_grp_test"),
-					resource.TestCheckResourceAttr("cloud_clb_target_group.target_group", "port", "33"),
-					//resource.TestCheckResourceAttr("cloud_clb_target_group.target_group", "target_group_instances.bind_ip", "203.0.113.4"),
-					//resource.TestCheckResourceAttr("cloud_clb_target_group.target_group", "target_group_instances.port", "33"),
+					testAccCheckClbTargetGroupExists("tencentcloudenterprise_clb_target_group.target_group"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_clb_target_group.target_group", "target_group_name", "tgt_grp_test"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_clb_target_group.target_group", "port", "33"),
+					//resource.TestCheckResourceAttr("tencentcloudenterprise_clb_target_group.target_group", "target_group_instances.bind_ip", "203.0.113.4"),
+					//resource.TestCheckResourceAttr("tencentcloudenterprise_clb_target_group.target_group", "target_group_instances.port", "33"),
 				),
 			},
 			{
 				Config: testAccClbInstanceTargetGroupUpdate,
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckClbTargetGroupExists("cloud_clb_target_group.target_group"),
-					resource.TestCheckResourceAttr("cloud_clb_target_group.target_group", "target_group_name", "tgt_grp_test"),
-					resource.TestCheckResourceAttr("cloud_clb_target_group.target_group", "port", "44"),
-					//resource.TestCheckResourceAttr("cloud_clb_target_group.target_group", "target_group_instances.bind_ip", "203.0.113.4"),
-					//resource.TestCheckResourceAttr("cloud_clb_target_group.target_group", "target_group_instances.port", "44"),
+					testAccCheckClbTargetGroupExists("tencentcloudenterprise_clb_target_group.target_group"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_clb_target_group.target_group", "target_group_name", "tgt_grp_test"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_clb_target_group.target_group", "port", "44"),
+					//resource.TestCheckResourceAttr("tencentcloudenterprise_clb_target_group.target_group", "target_group_instances.bind_ip", "203.0.113.4"),
+					//resource.TestCheckResourceAttr("tencentcloudenterprise_clb_target_group.target_group", "target_group_instances.port", "44"),
 				),
 			},
 		},
@@ -105,7 +105,7 @@ func testAccCheckClbTargetGroupDestroy(s *terraform.State) error {
 		client: testAccProvider.Meta().(*TencentCloudClient).apiV3Conn,
 	}
 	for _, rs := range s.RootModule().Resources {
-		if rs.Type != "cloud_clb_target_group" {
+		if rs.Type != "tencentcloudenterprise_clb_target_group" {
 			continue
 		}
 		time.Sleep(5 * time.Second)
@@ -146,13 +146,13 @@ func testAccCheckClbTargetGroupExists(n string) resource.TestCheckFunc {
 }
 
 const testAccClbTargetGroup_basic = `
-resource "cloud_clb_target_group" "test"{
+resource "tencentcloudenterprise_clb_target_group" "test"{
     target_group_name = "qwe"
 }
 `
 
 const testAccClbInstanceTargetGroup = `
-resource "cloud_clb_target_group" "target_group" {
+resource "tencentcloudenterprise_clb_target_group" "target_group" {
     target_group_name = "tgt_grp_test"
     port              = 33
     vpc_id            = "vpc-4owdpnwr"
@@ -164,7 +164,7 @@ resource "cloud_clb_target_group" "target_group" {
 `
 
 const testAccClbInstanceTargetGroupUpdate = `
-resource "cloud_clb_target_group" "target_group" {
+resource "tencentcloudenterprise_clb_target_group" "target_group" {
     target_group_name = "tgt_grp_test"
     port              = 44
 	vpc_id            = "vpc-4owdpnwr"

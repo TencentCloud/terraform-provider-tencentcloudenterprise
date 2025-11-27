@@ -19,60 +19,60 @@ func TestAccTencentCloudRedisParamResource_basic(t *testing.T) {
 			{
 				Config: testAccRedisParam,
 				Check: resource.ComposeAggregateTestCheckFunc(
-					testAccTencentCloudRedisParamExists("cloud_redis_param.param"),
-					resource.TestCheckResourceAttrSet("cloud_redis_param.param", "id"),
-					resource.TestCheckResourceAttr("cloud_redis_param.param", "instance_id", defaultCrsInstanceId),
-					resource.TestCheckResourceAttr("cloud_redis_param.param", "instance_params.cluster-node-timeout", "15000"),
-					resource.TestCheckResourceAttr("cloud_redis_param.param", "instance_params.disable-command-list", "\"\""),
-					resource.TestCheckResourceAttr("cloud_redis_param.param", "instance_params.hash-max-ziplist-entries", "512"),
-					resource.TestCheckResourceAttr("cloud_redis_param.param", "instance_params.hash-max-ziplist-value", "64"),
-					resource.TestCheckResourceAttr("cloud_redis_param.param", "instance_params.hz", "20"),
-					resource.TestCheckResourceAttr("cloud_redis_param.param", "instance_params.lazyfree-lazy-eviction", "yes"),
-					resource.TestCheckResourceAttr("cloud_redis_param.param", "instance_params.lazyfree-lazy-expire", "yes"),
-					resource.TestCheckResourceAttr("cloud_redis_param.param", "instance_params.lazyfree-lazy-server-del", "yes"),
-					resource.TestCheckResourceAttr("cloud_redis_param.param", "instance_params.maxmemory-policy", "noeviction"),
-					resource.TestCheckResourceAttr("cloud_redis_param.param", "instance_params.notify-keyspace-events", "\"\""),
-					resource.TestCheckResourceAttr("cloud_redis_param.param", "instance_params.proxy-slowlog-log-slower-than", "500"),
-					resource.TestCheckResourceAttr("cloud_redis_param.param", "instance_params.replica-lazy-flush", "yes"),
-					resource.TestCheckResourceAttr("cloud_redis_param.param", "instance_params.sentineauth", "no"),
-					resource.TestCheckResourceAttr("cloud_redis_param.param", "instance_params.set-max-intset-entries", "512"),
-					resource.TestCheckResourceAttr("cloud_redis_param.param", "instance_params.slowlog-log-slower-than", "10"),
-					resource.TestCheckResourceAttr("cloud_redis_param.param", "instance_params.timeout", "31536000"),
-					resource.TestCheckResourceAttr("cloud_redis_param.param", "instance_params.zset-max-ziplist-entries", "128"),
-					resource.TestCheckResourceAttr("cloud_redis_param.param", "instance_params.zset-max-ziplist-value", "64"),
-					resource.TestCheckResourceAttr("cloud_redis_param.param", "instance_params.lazyfree-lazy-user-del", "yes"),
+					testAccTencentCloudRedisParamExists("tencentcloudenterprise_redis_param.param"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_redis_param.param", "id"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_redis_param.param", "instance_id", defaultCrsInstanceId),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_redis_param.param", "instance_params.cluster-node-timeout", "15000"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_redis_param.param", "instance_params.disable-command-list", "\"\""),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_redis_param.param", "instance_params.hash-max-ziplist-entries", "512"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_redis_param.param", "instance_params.hash-max-ziplist-value", "64"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_redis_param.param", "instance_params.hz", "20"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_redis_param.param", "instance_params.lazyfree-lazy-eviction", "yes"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_redis_param.param", "instance_params.lazyfree-lazy-expire", "yes"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_redis_param.param", "instance_params.lazyfree-lazy-server-del", "yes"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_redis_param.param", "instance_params.maxmemory-policy", "noeviction"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_redis_param.param", "instance_params.notify-keyspace-events", "\"\""),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_redis_param.param", "instance_params.proxy-slowlog-log-slower-than", "500"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_redis_param.param", "instance_params.replica-lazy-flush", "yes"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_redis_param.param", "instance_params.sentineauth", "no"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_redis_param.param", "instance_params.set-max-intset-entries", "512"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_redis_param.param", "instance_params.slowlog-log-slower-than", "10"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_redis_param.param", "instance_params.timeout", "31536000"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_redis_param.param", "instance_params.zset-max-ziplist-entries", "128"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_redis_param.param", "instance_params.zset-max-ziplist-value", "64"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_redis_param.param", "instance_params.lazyfree-lazy-user-del", "yes"),
 				),
 			},
 			{
-				ResourceName:      "cloud_redis_param.param",
+				ResourceName:      "tencentcloudenterprise_redis_param.param",
 				ImportState:       true,
 				ImportStateVerify: true,
 			},
 			{
 				Config: testAccRedisParamUpdate,
 				Check: resource.ComposeAggregateTestCheckFunc(
-					testAccTencentCloudRedisParamExists("cloud_redis_param.param"),
-					resource.TestCheckResourceAttrSet("cloud_redis_param.param", "id"),
-					resource.TestCheckResourceAttr("cloud_redis_param.param", "instance_id", defaultCrsInstanceId),
-					resource.TestCheckResourceAttr("cloud_redis_param.param", "instance_params.cluster-node-timeout", "15000"),
-					resource.TestCheckResourceAttr("cloud_redis_param.param", "instance_params.disable-command-list", "\"\""),
-					resource.TestCheckResourceAttr("cloud_redis_param.param", "instance_params.hash-max-ziplist-entries", "512"),
-					resource.TestCheckResourceAttr("cloud_redis_param.param", "instance_params.hash-max-ziplist-value", "64"),
-					resource.TestCheckResourceAttr("cloud_redis_param.param", "instance_params.hz", "10"),
-					resource.TestCheckResourceAttr("cloud_redis_param.param", "instance_params.lazyfree-lazy-eviction", "yes"),
-					resource.TestCheckResourceAttr("cloud_redis_param.param", "instance_params.lazyfree-lazy-expire", "yes"),
-					resource.TestCheckResourceAttr("cloud_redis_param.param", "instance_params.lazyfree-lazy-server-del", "yes"),
-					resource.TestCheckResourceAttr("cloud_redis_param.param", "instance_params.maxmemory-policy", "noeviction"),
-					resource.TestCheckResourceAttr("cloud_redis_param.param", "instance_params.notify-keyspace-events", "\"\""),
-					resource.TestCheckResourceAttr("cloud_redis_param.param", "instance_params.proxy-slowlog-log-slower-than", "500"),
-					resource.TestCheckResourceAttr("cloud_redis_param.param", "instance_params.replica-lazy-flush", "yes"),
-					resource.TestCheckResourceAttr("cloud_redis_param.param", "instance_params.sentineauth", "no"),
-					resource.TestCheckResourceAttr("cloud_redis_param.param", "instance_params.set-max-intset-entries", "512"),
-					resource.TestCheckResourceAttr("cloud_redis_param.param", "instance_params.slowlog-log-slower-than", "10"),
-					resource.TestCheckResourceAttr("cloud_redis_param.param", "instance_params.timeout", "31536000"),
-					resource.TestCheckResourceAttr("cloud_redis_param.param", "instance_params.zset-max-ziplist-entries", "128"),
-					resource.TestCheckResourceAttr("cloud_redis_param.param", "instance_params.zset-max-ziplist-value", "64"),
-					resource.TestCheckResourceAttr("cloud_redis_param.param", "instance_params.lazyfree-lazy-user-del", "yes"),
+					testAccTencentCloudRedisParamExists("tencentcloudenterprise_redis_param.param"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_redis_param.param", "id"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_redis_param.param", "instance_id", defaultCrsInstanceId),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_redis_param.param", "instance_params.cluster-node-timeout", "15000"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_redis_param.param", "instance_params.disable-command-list", "\"\""),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_redis_param.param", "instance_params.hash-max-ziplist-entries", "512"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_redis_param.param", "instance_params.hash-max-ziplist-value", "64"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_redis_param.param", "instance_params.hz", "10"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_redis_param.param", "instance_params.lazyfree-lazy-eviction", "yes"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_redis_param.param", "instance_params.lazyfree-lazy-expire", "yes"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_redis_param.param", "instance_params.lazyfree-lazy-server-del", "yes"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_redis_param.param", "instance_params.maxmemory-policy", "noeviction"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_redis_param.param", "instance_params.notify-keyspace-events", "\"\""),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_redis_param.param", "instance_params.proxy-slowlog-log-slower-than", "500"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_redis_param.param", "instance_params.replica-lazy-flush", "yes"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_redis_param.param", "instance_params.sentineauth", "no"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_redis_param.param", "instance_params.set-max-intset-entries", "512"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_redis_param.param", "instance_params.slowlog-log-slower-than", "10"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_redis_param.param", "instance_params.timeout", "31536000"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_redis_param.param", "instance_params.zset-max-ziplist-entries", "128"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_redis_param.param", "instance_params.zset-max-ziplist-value", "64"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_redis_param.param", "instance_params.lazyfree-lazy-user-del", "yes"),
 				),
 			},
 		},
@@ -111,7 +111,7 @@ variable "instance_id" {
 
 const testAccRedisParam = testAccRedisParamVar + `
 
-resource "cloud_redis_param" "param" {
+resource "tencentcloudenterprise_redis_param" "param" {
     instance_id     = var.instance_id
     instance_params = {
         "cluster-node-timeout"          = "15000"
@@ -140,7 +140,7 @@ resource "cloud_redis_param" "param" {
 
 const testAccRedisParamUpdate = testAccRedisParamVar + `
 
-resource "cloud_redis_param" "param" {
+resource "tencentcloudenterprise_redis_param" "param" {
     instance_id     = var.instance_id
     instance_params = {
         "cluster-node-timeout"          = "15000"

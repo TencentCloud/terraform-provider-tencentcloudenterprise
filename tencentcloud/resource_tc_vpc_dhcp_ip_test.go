@@ -16,10 +16,10 @@ func TestAccTencentCloudVpcDhcpIpResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			{
 				Config: testAccVpcDhcpIp,
-				Check:  resource.ComposeTestCheckFunc(resource.TestCheckResourceAttrSet("cloud_vpc_dhcp_ip.dhcp_ip", "id")),
+				Check:  resource.ComposeTestCheckFunc(resource.TestCheckResourceAttrSet("tencentcloudenterprise_vpc_dhcp_ip.dhcp_ip", "id")),
 			},
 			{
-				ResourceName:      "cloud_vpc_dhcp_ip.dhcp_ip",
+				ResourceName:      "tencentcloudenterprise_vpc_dhcp_ip.dhcp_ip",
 				ImportState:       true,
 				ImportStateVerify: true,
 			},
@@ -29,7 +29,7 @@ func TestAccTencentCloudVpcDhcpIpResource_basic(t *testing.T) {
 
 const testAccVpcDhcpIp = `
 
-resource "cloud_vpc_dhcp_ip" "dhcp_ip" {
+resource "tencentcloudenterprise_vpc_dhcp_ip" "dhcp_ip" {
   vpc_id       = "vpc-86v957zb"
   subnet_id    = "subnet-enm92y0m"
   dhcp_ip_name = "terraform-test"

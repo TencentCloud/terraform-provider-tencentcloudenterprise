@@ -24,11 +24,11 @@ func TestAccDataSourceTencentCloudVpcACL_Basic(t *testing.T) {
 }
 
 const TestAccDataSourceTencentCloudVpcACLInstances = `
-data "cloud_vpc_instances" "test" {
+data "tencentcloudenterprise_vpc_instances" "test" {
 	is_default = true
 }
 
-resource "cloud_vpc_acl" "foo" {  
+resource "tencentcloudenterprise_vpc_acl" "foo" {  
     vpc_id  = data.cloud_vpc_instances.test.instance_list.0.vpc_id
     name  	= "test_acl"
 	ingress = [
@@ -39,7 +39,7 @@ resource "cloud_vpc_acl" "foo" {
 	]
 }  
 
-data "cloud_vpc_acls" "default" {
+data "tencentcloudenterprise_vpc_acls" "default" {
 	name = "test_acl"
 }
 `

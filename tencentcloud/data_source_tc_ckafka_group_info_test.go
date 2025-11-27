@@ -22,7 +22,7 @@ func TestAccTencentCloudCkafkaGroupInfoDataSource_basic(t *testing.T) {
 
 const testAccCkafkaGroupInfoDataSource = `
 
-data "cloud_ckafka_group_info" "group_info" {
+data "tencentcloudenterprise_ckafka_group_info" "group_info" {
 	instance_id = "ckafka-vv7wpvae"
 	group_list = ["keep-group"]
 }

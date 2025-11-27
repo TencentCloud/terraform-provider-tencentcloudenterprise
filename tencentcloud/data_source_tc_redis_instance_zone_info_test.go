@@ -47,7 +47,7 @@ variable "subnet_id" {
 
 const testAccRedisInstanceZoneInfoDataSource = testAccRedisInstanceZoneInfoDataSourceVar + `
 
-resource "cloud_redis_instance" "redis_instance_test" {
+resource "tencentcloudenterprise_redis_instance" "redis_instance_test" {
     auto_renew_flag    = 0
     availability_zone  = "ap-guangzhou-6"
     charge_type        = "POSTPAID"
@@ -71,7 +71,7 @@ resource "cloud_redis_instance" "redis_instance_test" {
   	subnet_id		   = var.subnet_id
 }
 
-data "cloud_redis_instance_zone_info" "instance_zone_info" {
+data "tencentcloudenterprise_redis_instance_zone_info" "instance_zone_info" {
   instance_id = cloud_redis_instance.redis_instance_test.id
 }
 

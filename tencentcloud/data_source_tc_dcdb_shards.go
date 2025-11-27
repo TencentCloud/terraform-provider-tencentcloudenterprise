@@ -5,12 +5,12 @@ Use this data source to query detailed information of dcdb shards
 
 ```hcl
 
-	data "cloud_dcdb_shards" "shards" {
+	data "tencentcloudenterprise_dcdb_shards" "shards" {
 	  instance_id = "your_instance_id"
 	  shard_instance_ids = ["shard1_id"]
 	}
 
-	data "cloud_dcdb_shards" "shards" {
+	data "tencentcloudenterprise_dcdb_shards" "shards" {
 	  instance_id = "your_instance_id"
 	}
 
@@ -29,7 +29,7 @@ import (
 )
 
 func init() {
-	registerDataDescriptionProvider("cloud_dcdb_shards", CNDescription{
+	registerDataDescriptionProvider("tencentcloudenterprise_dcdb_shards", CNDescription{
 		TerraformTypeCN: "数据库实例的分片信息",
 		DescriptionCN:   "提供DCDB分片数据源，用于查询DCDB分片的详细信息。",
 		AttributesCN: map[string]string{

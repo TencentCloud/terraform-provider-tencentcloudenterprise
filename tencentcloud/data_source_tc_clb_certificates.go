@@ -5,7 +5,7 @@ Use this data source to query SSL certificate.
 
 ```hcl
 
-	data "cloud_clb_certificates" "foo" {
+	data "tencentcloudenterprise_clb_certificates" "foo" {
 	  result_output_file = "foo2.json"
 	  with_cert = true
 	  cert_ids = ["76cXqklW"]
@@ -27,7 +27,7 @@ import (
 )
 
 func init() {
-	registerDataDescriptionProvider("cloud_clb_certificates", CNDescription{
+	registerDataDescriptionProvider("tencentcloudenterprise_clb_certificates", CNDescription{
 		TerraformTypeCN: "负载均衡证书",
 		DescriptionCN:   "提供负载均衡证书数据源，用于查询SSL证书的详细信息。",
 		AttributesCN: map[string]string{

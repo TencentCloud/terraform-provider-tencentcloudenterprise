@@ -29,12 +29,12 @@ variable "availability_zone" {
   default = "ap-guangzhou-3"
 }
 
-resource "cloud_vpc" "foo" {
+resource "tencentcloudenterprise_vpc" "foo" {
   name       = "tf-ci-test"
   cidr_block = "10.0.0.0/16"
 }
 
-resource "cloud_vpc_subnet" "subnet" {
+resource "tencentcloudenterprise_vpc_subnet" "subnet" {
   availability_zone = var.availability_zone
   name              = "tf-ci-test"
   vpc_id            = cloud_vpc.foo.id
@@ -42,7 +42,7 @@ resource "cloud_vpc_subnet" "subnet" {
   is_multicast      = false
 }
 
-data "cloud_vpc_subnet" "foo" {
+data "tencentcloudenterprise_vpc_subnet" "foo" {
   vpc_id    = cloud_vpc.foo.id
   subnet_id = cloud_vpc_subnet.subnet.id
 }

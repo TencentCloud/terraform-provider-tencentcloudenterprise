@@ -19,21 +19,21 @@ func TestAccTencentCloudAddressTemplate_basic_and_update(t *testing.T) {
 			{
 				Config: testAccAddressTemplate_basic,
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr("cloud_vpc_address_template.template", "name", "test"),
-					resource.TestCheckResourceAttr("cloud_vpc_address_template.template", "addresses.#", "1"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_vpc_address_template.template", "name", "test"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_vpc_address_template.template", "addresses.#", "1"),
 				),
 			},
 			{
-				ResourceName:      "cloud_vpc_address_template.template",
+				ResourceName:      "tencentcloudenterprise_vpc_address_template.template",
 				ImportState:       true,
 				ImportStateVerify: true,
 			},
 			{
 				Config: testAccAddressTemplate_basic_update_remark,
 				Check: resource.ComposeAggregateTestCheckFunc(
-					testAccCheckAddressTemplateExists("cloud_vpc_address_template.template"),
-					resource.TestCheckResourceAttr("cloud_vpc_address_template.template", "name", "test_update"),
-					resource.TestCheckResourceAttr("cloud_vpc_address_template.template", "addresses.#", "2"),
+					testAccCheckAddressTemplateExists("tencentcloudenterprise_vpc_address_template.template"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_vpc_address_template.template", "name", "test_update"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_vpc_address_template.template", "addresses.#", "2"),
 				),
 			},
 		},
@@ -45,7 +45,7 @@ func testAccCheckAddressTemplateDestroy(s *terraform.State) error {
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
 	vpcService := VpcService{client: testAccProvider.Meta().(*TencentCloudClient).apiV3Conn}
 	for _, rs := range s.RootModule().Resources {
-		if rs.Type != "cloud_vpc_address_template" {
+		if rs.Type != "tencentcloudenterprise_vpc_address_template" {
 			continue
 		}
 
@@ -84,13 +84,13 @@ func testAccCheckAddressTemplateExists(n string) resource.TestCheckFunc {
 }
 
 const testAccAddressTemplate_basic = `
-resource "cloud_vpc_address_template" "template" {
+resource "tencentcloudenterprise_vpc_address_template" "template" {
   name = "test"
   addresses = ["1.1.1.1"]
 }`
 
 const testAccAddressTemplate_basic_update_remark = `
-resource "cloud_vpc_address_template" "template" {
+resource "tencentcloudenterprise_vpc_address_template" "template" {
   name = "test_update"
   addresses = ["1.1.1.1/24", "1.1.1.0-1.1.1.1"]
 }`

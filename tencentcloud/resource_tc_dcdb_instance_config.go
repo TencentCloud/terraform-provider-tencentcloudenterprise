@@ -5,7 +5,7 @@ Provides a resource to create a dcdb instance_config
 
 ```hcl
 
-	resource "cloud_dcdb_instance_config" "instance_config" {
+	resource "tencentcloudenterprise_dcdb_instance_config" "instance_config" {
 	  instance_id = local.dcdb_id
 	  rs_access_strategy = 0
 	}
@@ -30,7 +30,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_dcdb_instance_config", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_dcdb_instance_config", CNDescription{
 		TerraformTypeCN: "就近接入策略",
 		DescriptionCN:   "提供DCDB实例配置资源，用于配置DCDB实例的就近接入策略。",
 		AttributesCN: map[string]string{

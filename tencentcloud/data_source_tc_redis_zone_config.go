@@ -5,7 +5,7 @@ Use this data source to query which instance types of Redis® are available in a
 
 ```hcl
 
-	data "cloud_redis_zone_config" "redislab" {
+	data "tencentcloudenterprise_redis_zone_config" "redislab" {
 	  region             = "ap-hongkong"
 	  result_output_file = "/temp/mytestpath"
 	}
@@ -25,7 +25,7 @@ import (
 )
 
 func init() {
-	registerDataDescriptionProvider("cloud_redis_zone_config", CNDescription{
+	registerDataDescriptionProvider("tencentcloudenterprise_redis_zone_config", CNDescription{
 		TerraformTypeCN: "Redis®可用区配置",
 		DescriptionCN:   "提供Redis可用区配置数据源，用于查询Redis可用区配置的详细信息。",
 		AttributesCN: map[string]string{

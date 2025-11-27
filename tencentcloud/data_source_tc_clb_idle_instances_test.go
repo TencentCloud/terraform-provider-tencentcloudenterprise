@@ -24,7 +24,7 @@ func TestAccTencentCloudClbIdleInstancesDataSource_basic(t *testing.T) {
 
 const testAccClbIdleInstancesDataSource = `
 
-data "cloud_clb_idle_instances" "idle_instance" {
+data "tencentcloudenterprise_clb_idle_instances" "idle_instance" {
   load_balancer_region = "ap-guangzhou"
 }
 `

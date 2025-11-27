@@ -3,8 +3,8 @@ package tencentcloud
 /*
 func init() {
 	// go test -v ./tencentcloud -sweep=ap-guangzhou -sweep-run=cloud_cbs_disk_backup
-	resource.AddTestSweepers("cloud_cbs_disk_backup", &resource.Sweeper{
-		Name: "cloud_cbs_disk_backup",
+	resource.AddTestSweepers("tencentcloudenterprise_cbs_disk_backup", &resource.Sweeper{
+		Name: "tencentcloudenterprise_cbs_disk_backup",
 		F: func(r string) error {
 			logId := getLogId(contextNil)
 			cli, _ := sharedClientForRegion(r)
@@ -48,11 +48,11 @@ func TestAccTencentCloudCbsDiskBackupResource_basic(t *testing.T) {
 			{
 				Config: testAccCbsDiskBackup,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttrSet("cloud_cbs_disk_backup.disk_backup", "id"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_cbs_disk_backup.disk_backup", "id"),
 				),
 			},
 			{
-				ResourceName:      "cloud_cbs_disk_backup.disk_backup",
+				ResourceName:      "tencentcloudenterprise_cbs_disk_backup.disk_backup",
 				ImportState:       true,
 				ImportStateVerify: true,
 			},
@@ -61,7 +61,7 @@ func TestAccTencentCloudCbsDiskBackupResource_basic(t *testing.T) {
 }
 
 const testAccCbsDiskBackup = `
-resource "cloud_cbs_disk_backup" "disk_backup" {
+resource "tencentcloudenterprise_cbs_disk_backup" "disk_backup" {
   disk_id = "disk-r69pg9vw"
   disk_backup_name = "test-disk-backup"
 }

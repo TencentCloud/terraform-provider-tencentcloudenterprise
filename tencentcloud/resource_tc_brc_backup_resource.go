@@ -6,7 +6,7 @@ Provides a resource to create a brc resource backup
 ```hcl
 # cos backup
 
-	resource "cloud_brc_backup_resource" "cos_backup" {
+	resource "tencentcloudenterprise_brc_backup_resource" "cos_backup" {
 	  resource_type = "COS"
 	  backup_name   = "my-cos-backup"
 	  bucket_detail {
@@ -18,7 +18,7 @@ Provides a resource to create a brc resource backup
 
 # mysql backup
 
-	resource "cloud_brc_backup_resource" "mysql_backup" {
+	resource "tencentcloudenterprise_brc_backup_resource" "mysql_backup" {
 	  resource_type = "MySQL_MariaDB"
 	  backup_name   = "my-mysql-backup"
 	  resource_id = "tdsql-baxmqi05"
@@ -48,7 +48,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_brc_backup_resource", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_brc_backup_resource", CNDescription{
 		TerraformTypeCN: "资源备份",
 		DescriptionCN:   "提供BRC资源备份资源，用于创建和管理COS、CSP和数据库资源的备份。",
 		AttributesCN: map[string]string{

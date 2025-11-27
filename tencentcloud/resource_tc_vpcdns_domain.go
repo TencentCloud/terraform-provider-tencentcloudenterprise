@@ -5,7 +5,7 @@ Provide a resource to create a VPCDNS domain.
 
 ```hcl
 
-	resource "cloud_vpcdns_domain" "foo" {
+	resource "tencentcloudenterprise_vpcdns_domain" "foo" {
 	  domain      = "brucezylin.cc"
 	  dns_forward_status = "ENABLED"
 	  tags = {
@@ -39,7 +39,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_vpcdns_domain", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_vpcdns_domain", CNDescription{
 		TerraformTypeCN: "VPCDNS域名",
 		DescriptionCN:   "提供VPCDNS域名资源，用于创建和管理VPC内的私有域名。",
 		AttributesCN: map[string]string{

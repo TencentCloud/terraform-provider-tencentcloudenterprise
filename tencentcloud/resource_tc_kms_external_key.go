@@ -5,7 +5,7 @@ Provide a resource to create a KMS external key.
 
 ```hcl
 
-	resource "cloud_kms_external_key" "foo" {
+	resource "tencentcloudenterprise_kms_external_key" "foo" {
 		alias = "test"
 		description = "describe key test message."
 		wrapping_algorithm = "RSAES_PKCS1_V1_5"
@@ -38,7 +38,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_kms_external_key", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_kms_external_key", CNDescription{
 		TerraformTypeCN: "外部密钥",
 		DescriptionCN:   "提供外部密钥资源，用于创建和管理KMS外部密钥。",
 		AttributesCN: map[string]string{

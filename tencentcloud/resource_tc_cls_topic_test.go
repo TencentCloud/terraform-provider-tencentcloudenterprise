@@ -13,8 +13,8 @@ import (
 )
 
 func init() {
-	resource.AddTestSweepers("cloud_cls_topic", &resource.Sweeper{
-		Name: "cloud_cls_topic",
+	resource.AddTestSweepers("tencentcloudenterprise_cls_topic", &resource.Sweeper{
+		Name: "tencentcloudenterprise_cls_topic",
 		F:    testSweepClsTopic,
 	})
 }
@@ -71,12 +71,12 @@ func TestAccTencentCloudClsTopic_basic(t *testing.T) {
 			{
 				Config: testAccClsTopic,
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckClsTopicExists("cloud_cls_topic.topic"),
-					resource.TestCheckResourceAttr("cloud_cls_topic.topic", "topic_name", "tf-topic-test"),
+					testAccCheckClsTopicExists("tencentcloudenterprise_cls_topic.topic"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_cls_topic.topic", "topic_name", "tf-topic-test"),
 				),
 			},
 			{
-				ResourceName:      "cloud_cls_topic.topic",
+				ResourceName:      "tencentcloudenterprise_cls_topic.topic",
 				ImportState:       true,
 				ImportStateVerify: true,
 			},
@@ -112,14 +112,14 @@ func testAccCheckClsTopicExists(n string) resource.TestCheckFunc {
 }
 
 const testAccClsTopic = `
-resource "cloud_cls_logset" "logset" {
+resource "tencentcloudenterprise_cls_logset" "logset" {
   logset_name = "tf-topic-test"
   tags        = {
     "test" = "test"
   }
 }
 
-resource "cloud_cls_topic" "topic" {
+resource "tencentcloudenterprise_cls_topic" "topic" {
   auto_split           = true
   logset_id            = cloud_cls_logset.logset.id
   max_split_partitions = 20

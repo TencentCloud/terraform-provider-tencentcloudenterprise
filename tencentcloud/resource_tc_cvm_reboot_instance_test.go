@@ -16,7 +16,7 @@ func TestAccTencentCloudCvmRebootInstanceResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			{
 				Config: testAccCvmRebootInstance,
-				Check:  resource.ComposeTestCheckFunc(resource.TestCheckResourceAttrSet("cloud_cvm_reboot_instance.reboot_instance", "id")),
+				Check:  resource.ComposeTestCheckFunc(resource.TestCheckResourceAttrSet("tencentcloudenterprise_cvm_reboot_instance.reboot_instance", "id")),
 			},
 		},
 	})
@@ -24,7 +24,7 @@ func TestAccTencentCloudCvmRebootInstanceResource_basic(t *testing.T) {
 
 const testAccCvmRebootInstance = defaultRebootCvmVariable + `
 
-resource "cloud_cvm_reboot_instance" "reboot_instance" {
+resource "tencentcloudenterprise_cvm_reboot_instance" "reboot_instance" {
   instance_id = var.cvm_id
   force_reboot = false
 }

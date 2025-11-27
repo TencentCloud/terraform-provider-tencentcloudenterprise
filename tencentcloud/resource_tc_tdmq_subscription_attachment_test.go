@@ -23,11 +23,11 @@ func TestAccTencentCloudTdmqSubscriptionAttachmentResource_basic(t *testing.T) {
 			{
 				Config: testAccTdmqSubscriptionAttachment,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttrSet("cloud_tdmq_subscription_attachment.subscription_attachment", "id"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_tdmq_subscription_attachment.subscription_attachment", "id"),
 				),
 			},
 			{
-				ResourceName:      "cloud_tdmq_subscription_attachment.subscription_attachment",
+				ResourceName:      "tencentcloudenterprise_tdmq_subscription_attachment.subscription_attachment",
 				ImportState:       true,
 				ImportStateVerify: true,
 			},
@@ -41,7 +41,7 @@ func testAccCheckTdmqSubscriptionAttachmentDestroy(s *terraform.State) error {
 	service := TdmqService{client: testAccProvider.Meta().(*TencentCloudClient).apiV3Conn}
 
 	for _, rs := range s.RootModule().Resources {
-		if rs.Type != "cloud_tdmq_subscription_attachment" {
+		if rs.Type != "tencentcloudenterprise_tdmq_subscription_attachment" {
 			continue
 		}
 
@@ -70,7 +70,7 @@ func testAccCheckTdmqSubscriptionAttachmentDestroy(s *terraform.State) error {
 }
 
 const testAccTdmqSubscriptionAttachment = `
-resource "cloud_tdmq_subscription_attachment" "subscription_attachment" {
+resource "tencentcloudenterprise_tdmq_subscription_attachment" "subscription_attachment" {
   environment_id           = "keep-ns"
   topic_name               = "keep-topic"
   subscription_name        = "test-subcription"

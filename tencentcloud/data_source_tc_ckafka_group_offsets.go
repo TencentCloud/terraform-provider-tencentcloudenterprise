@@ -5,7 +5,7 @@ Use this data source to query detailed information of ckafka group_offsets
 
 ```hcl
 
-	data "cloud_ckafka_group_offsets" "group_offsets" {
+	data "tencentcloudenterprise_ckafka_group_offsets" "group_offsets" {
 	  instance_id = "ckafka-xxxxxx"
 	  group = "xxxxxx"
 	}
@@ -24,7 +24,7 @@ import (
 )
 
 func init() {
-	registerDataDescriptionProvider("cloud_ckafka_group_offsets", CNDescription{
+	registerDataDescriptionProvider("tencentcloudenterprise_ckafka_group_offsets", CNDescription{
 		TerraformTypeCN: "消费分组offset",
 		DescriptionCN:   "提供Ckafka消费组Offset数据源，用于查询Ckafka消费组Offset的详细信息。",
 		AttributesCN: map[string]string{

@@ -5,7 +5,7 @@ Provides a resource to create a dcdb isolate_hour_instance_operation
 
 ```hcl
 
-	resource "cloud_dcdb_isolate_hour_instance_operation" "isolate_hour_instance_operation" {
+	resource "tencentcloudenterprise_dcdb_isolate_hour_instance_operation" "isolate_hour_instance_operation" {
 	  instance_ids = local.dcdb_id
 	}
 
@@ -23,7 +23,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_dcdb_isolate_hour_instance_operation", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_dcdb_isolate_hour_instance_operation", CNDescription{
 		TerraformTypeCN: "数据库实例隔离时间操作",
 		DescriptionCN:   "提供DCDB实例隔离操作资源，用于隔离按小时计费的DCDB实例。",
 		AttributesCN: map[string]string{

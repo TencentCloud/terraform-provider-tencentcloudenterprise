@@ -16,11 +16,11 @@ func TestAccTencentCloudClsConfig_basic(t *testing.T) {
 			{
 				Config: testAccClsConfig,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr("cloud_cls_config.config", "name", "config"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_cls_config.config", "name", "config"),
 				),
 			},
 			{
-				ResourceName:      "cloud_cls_config.config",
+				ResourceName:      "tencentcloudenterprise_cls_config.config",
 				ImportState:       true,
 				ImportStateVerify: true,
 			},
@@ -38,11 +38,11 @@ func TestAccTencentCloudClsConfig_FullRegex(t *testing.T) {
 			{
 				Config: testAccClsFullRegexConfig,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr("cloud_cls_config.config", "name", "tf-full-regex-config-test"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_cls_config.config", "name", "tf-full-regex-config-test"),
 				),
 			},
 			{
-				ResourceName:      "cloud_cls_config.config",
+				ResourceName:      "tencentcloudenterprise_cls_config.config",
 				ImportState:       true,
 				ImportStateVerify: true,
 			},
@@ -51,14 +51,14 @@ func TestAccTencentCloudClsConfig_FullRegex(t *testing.T) {
 }
 
 const testAccClsConfig = `
-resource "cloud_cls_logset" "logset" {
+resource "tencentcloudenterprise_cls_logset" "logset" {
   logset_name = "tf-config-test"
   tags        = {
     "test" = "test"
   }
 }
 
-resource "cloud_cls_topic" "topic" {
+resource "tencentcloudenterprise_cls_topic" "topic" {
   auto_split           = true
   logset_id            = cloud_cls_logset.logset.id
   max_split_partitions = 20
@@ -71,7 +71,7 @@ resource "cloud_cls_topic" "topic" {
   topic_name           = "tf-config-test"
 }
 
-resource "cloud_cls_config" "config" {
+resource "tencentcloudenterprise_cls_config" "config" {
   name             = "config"
   output           = cloud_cls_topic.topic.id
   path             = "/var/log/kubernetes/**/kubernetes.audit"
@@ -100,14 +100,14 @@ resource "cloud_cls_config" "config" {
 }
 `
 const testAccClsFullRegexConfig = `
-resource "cloud_cls_logset" "logset" {
+resource "tencentcloudenterprise_cls_logset" "logset" {
   logset_name = "tf-full-regex-config-test"
   tags        = {
     "test" = "test"
   }
 }
 
-resource "cloud_cls_topic" "topic" {
+resource "tencentcloudenterprise_cls_topic" "topic" {
   auto_split           = true
   logset_id            = cloud_cls_logset.logset.id
   max_split_partitions = 20
@@ -120,7 +120,7 @@ resource "cloud_cls_topic" "topic" {
   topic_name           = "tf-full-regex-config-test"
 }
 
-resource "cloud_cls_config" "config" {
+resource "tencentcloudenterprise_cls_config" "config" {
   name     = "tf-full-regex-config-test"
   output   = cloud_cls_topic.topic.id
   path     = "/var/log/nginx/**/access.log"

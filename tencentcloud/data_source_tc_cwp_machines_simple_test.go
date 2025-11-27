@@ -26,7 +26,7 @@ func TestAccTencentCloudNeedFixCwpMachinesSimpleDataSource_basic(t *testing.T) {
 }
 
 const testAccCwpMachinesSimpleDataSource = `
-data "cloud_cwp_machines_simple" "example" {
+data "tencentcloudenterprise_cwp_machines_simple" "example" {
   machine_type   = "CVM"
   machine_region = "ap-guangzhou"
   project_ids    = [0]

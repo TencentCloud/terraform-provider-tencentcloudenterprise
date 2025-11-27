@@ -34,7 +34,7 @@ func TestAccTencentCloudEipsDataSource(t *testing.T) {
 }
 
 const testAccEipsDataSource = `
-resource "cloud_eip" "eip" {
+resource "tencentcloudenterprise_eip" "eip" {
   name = "tf-test-eip"
 
   tags = {
@@ -42,11 +42,11 @@ resource "cloud_eip" "eip" {
   }
 }
 
-data "cloud_eips" "data_eips" {
+data "tencentcloudenterprise_eips" "data_eips" {
   eip_id = cloud_eip.eip.id
 }
 
-data "cloud_eips" "tags" {
+data "tencentcloudenterprise_eips" "tags" {
   tags = cloud_eip.eip.tags
 }
 `

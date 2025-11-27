@@ -5,7 +5,7 @@ Use this data source to query detailed information of cvm instance_vnc_url
 
 ```hcl
 
-	data "cloud_cvm_instance_vnc_url" "instance_vnc_url" {
+	data "tencentcloudenterprise_cvm_instance_vnc_url" "instance_vnc_url" {
 	  instance_id = "ins-xxxxxxxx"
 	}
 
@@ -24,7 +24,7 @@ import (
 
 func init() {
 	// 注册资源中文描述提供者映射
-	registerDataDescriptionProvider("cloud_cvm_instance_vnc_url", CNDescription{
+	registerDataDescriptionProvider("tencentcloudenterprise_cvm_instance_vnc_url", CNDescription{
 		TerraformTypeCN: "CVM 实例 VNC 连接 URL",
 		DescriptionCN:   "提供CVM实例VNC连接URL数据源，用于查询CVM实例VNC连接URL的详细信息。",
 		AttributesCN: map[string]string{

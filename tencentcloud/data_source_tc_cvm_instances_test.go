@@ -17,7 +17,7 @@ func TestAccTencentCloudDataSourceInstancesBase(t *testing.T) {
 			{
 				Config: testAccTencentCloudDataSourceInstancesBase_1,
 				Check: resource.ComposeTestCheckFunc(
-					//testAccCheckTencentCloudInstanceExists("cloud_cvm_instance.default"),
+					//testAccCheckTencentCloudInstanceExists("tencentcloudenterprise_cvm_instance.default"),
 					resource.TestCheckResourceAttrSet("data.cloud_cvm_instances.foo", "instance_list.0.instance_id"),
 					//resource.TestCheckResourceAttr("data.cloud_cvm_instances.foo", "instance_list.0.instance_name", defaultInsName),
 					resource.TestCheckResourceAttrSet("data.cloud_cvm_instances.foo", "instance_list.0.instance_type"),
@@ -33,12 +33,12 @@ func TestAccTencentCloudDataSourceInstancesBase(t *testing.T) {
 }
 
 const testAccTencentCloudDataSourceInstancesBase = instanceCommonTestCase + `
-data "cloud_cvm_instances" "foo" {
+data "tencentcloudenterprise_cvm_instances" "foo" {
   instance_id = cloud_cvm_instance.default.id
   instance_name = cloud_cvm_instance.default.instance_name
 }
 `
 const testAccTencentCloudDataSourceInstancesBase_1 = `
-data "cloud_cvm_instances" "foo" {
+data "tencentcloudenterprise_cvm_instances" "foo" {
 }
 `

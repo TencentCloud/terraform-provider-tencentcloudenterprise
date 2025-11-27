@@ -13,8 +13,8 @@ import (
 )
 
 func init() {
-	resource.AddTestSweepers("cloud_cls_machine_group", &resource.Sweeper{
-		Name: "cloud_cls_machine_group",
+	resource.AddTestSweepers("tencentcloudenterprise_cls_machine_group", &resource.Sweeper{
+		Name: "tencentcloudenterprise_cls_machine_group",
 		F:    testSweepMachineGroup,
 	})
 }
@@ -72,12 +72,12 @@ func TestAccTencentCloudClsMachineGroup_basic(t *testing.T) {
 			{
 				Config: testAccClsMachineGroup,
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckClsMachineGroupExists("cloud_cls_machine_group.group"),
-					resource.TestCheckResourceAttr("cloud_cls_machine_group.group", "group_name", "tf-basic-group"),
+					testAccCheckClsMachineGroupExists("tencentcloudenterprise_cls_machine_group.group"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_cls_machine_group.group", "group_name", "tf-basic-group"),
 				),
 			},
 			{
-				ResourceName:      "cloud_cls_machine_group.group",
+				ResourceName:      "tencentcloudenterprise_cls_machine_group.group",
 				ImportState:       true,
 				ImportStateVerify: true,
 			},
@@ -113,7 +113,7 @@ func testAccCheckClsMachineGroupExists(n string) resource.TestCheckFunc {
 }
 
 const testAccClsMachineGroup = `
-resource "cloud_cls_machine_group" "group" {
+resource "tencentcloudenterprise_cls_machine_group" "group" {
   group_name        = "tf-basic-group"
   service_logging   = true
   auto_update       = true

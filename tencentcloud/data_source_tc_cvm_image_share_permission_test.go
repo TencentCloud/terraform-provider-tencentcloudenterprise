@@ -22,7 +22,7 @@ func TestAccTencentCloudCvmImageSharePermissionDataSource_basic(t *testing.T) {
 
 const testAccCvmImageSharePermissionDataSource = `
 
-data "cloud_cvm_image_share_permission" "image_share_permission" {
+data "tencentcloudenterprise_cvm_image_share_permission" "image_share_permission" {
   image_id = "img-k4h0m5la"
 }
 `

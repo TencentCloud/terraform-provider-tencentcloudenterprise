@@ -22,15 +22,15 @@ func TestAccTencentCloudTsfApiRateLimitRuleResource_basic(t *testing.T) {
 			{
 				Config: testAccTsfApiRateLimitRule,
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckTsfApiRateLimitRuleExists("cloud_tsf_api_rate_limit_rule.api_rate_limit_rule"),
-					resource.TestCheckResourceAttrSet("cloud_tsf_api_rate_limit_rule.api_rate_limit_rule", "id"),
-					resource.TestCheckResourceAttr("cloud_tsf_api_rate_limit_rule.api_rate_limit_rule", "api_id", defaultTsfApiId),
-					resource.TestCheckResourceAttr("cloud_tsf_api_rate_limit_rule.api_rate_limit_rule", "max_qps", "10"),
-					resource.TestCheckResourceAttr("cloud_tsf_api_rate_limit_rule.api_rate_limit_rule", "usable_status", "enabled"),
+					testAccCheckTsfApiRateLimitRuleExists("tencentcloudenterprise_tsf_api_rate_limit_rule.api_rate_limit_rule"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_tsf_api_rate_limit_rule.api_rate_limit_rule", "id"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_tsf_api_rate_limit_rule.api_rate_limit_rule", "api_id", defaultTsfApiId),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_tsf_api_rate_limit_rule.api_rate_limit_rule", "max_qps", "10"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_tsf_api_rate_limit_rule.api_rate_limit_rule", "usable_status", "enabled"),
 				),
 			},
 			{
-				ResourceName:      "cloud_tsf_api_rate_limit_rule.api_rate_limit_rule",
+				ResourceName:      "tencentcloudenterprise_tsf_api_rate_limit_rule.api_rate_limit_rule",
 				ImportState:       true,
 				ImportStateVerify: true,
 			},
@@ -43,7 +43,7 @@ func testAccCheckTsfApiRateLimitRuleDestroy(s *terraform.State) error {
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
 	service := TsfService{client: testAccProvider.Meta().(*TencentCloudClient).apiV3Conn}
 	for _, rs := range s.RootModule().Resources {
-		if rs.Type != "cloud_tsf_api_rate_limit_rule" {
+		if rs.Type != "tencentcloudenterprise_tsf_api_rate_limit_rule" {
 			continue
 		}
 
@@ -104,7 +104,7 @@ variable "api_id" {
 
 const testAccTsfApiRateLimitRule = testAccTsfApiRateLimitRuleVar + `
 
-resource "cloud_tsf_api_rate_limit_rule" "api_rate_limit_rule" {
+resource "tencentcloudenterprise_tsf_api_rate_limit_rule" "api_rate_limit_rule" {
 	api_id = var.api_id
 	max_qps = 10
 	usable_status = "enabled"

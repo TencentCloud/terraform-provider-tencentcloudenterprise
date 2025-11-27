@@ -5,7 +5,7 @@ Use this data source to query detailed information of tsf cluster
 
 ```hcl
 
-	data "cloud_tsf_cluster" "cluster" {
+	data "tencentcloudenterprise_tsf_cluster" "cluster" {
 	  cluster_id_list = ["cluster-vwgj5e6y"]
 	  cluster_type = "V"
 	  # search_word = ""
@@ -26,7 +26,7 @@ import (
 )
 
 func init() {
-	registerDataDescriptionProvider("cloud_tsf_cluster", CNDescription{
+	registerDataDescriptionProvider("tencentcloudenterprise_tsf_cluster", CNDescription{
 		TerraformTypeCN: "TSF集群",
 		DescriptionCN:   "提供TSF集群数据源，用于查询TSF集群的详细信息。",
 		AttributesCN: map[string]string{

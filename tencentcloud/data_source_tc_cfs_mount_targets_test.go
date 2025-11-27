@@ -24,7 +24,7 @@ func TestAccTencentCloudCfsMountTargetsDataSource_basic(t *testing.T) {
 
 const testAccCfsMountTargetsDataSource = `
 
-data "cloud_cfs_mount_targets" "mount_targets" {
+data "tencentcloudenterprise_cfs_mount_targets" "mount_targets" {
   file_system_id = "cfs-iobiaxtj"
 }
 

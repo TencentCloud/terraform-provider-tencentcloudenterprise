@@ -5,7 +5,7 @@ Provides a resource to create and manage a VPC peering connection.
 
 ```hcl
 
-	resource "cloud_vpc_peer_connect_manager" "foo" {
+	resource "tencentcloudenterprise_vpc_peer_connect_manager" "foo" {
 	  vpc_id                  = "vpc-4xxr2cy7"
 	  peering_connection_name = "test_peer_connection"
 	  peer_vpc_id             = "vpc-5ggr3dx8"
@@ -38,7 +38,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_vpc_peer_connect_manager", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_vpc_peer_connect_manager", CNDescription{
 		TerraformTypeCN: "VPC对等连接管理",
 		DescriptionCN:   "提供VPC对等连接管理资源，用于创建和管理VPC对等连接。",
 		AttributesCN: map[string]string{

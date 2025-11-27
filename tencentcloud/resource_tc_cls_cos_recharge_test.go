@@ -16,10 +16,10 @@ func TestAccTencentCloudNeedFixClsCosRechargeResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			{
 				Config: testAccClsCosRecharge,
-				Check:  resource.ComposeTestCheckFunc(resource.TestCheckResourceAttrSet("cloud_cls_cos_recharge.cos_recharge", "id")),
+				Check:  resource.ComposeTestCheckFunc(resource.TestCheckResourceAttrSet("tencentcloudenterprise_cls_cos_recharge.cos_recharge", "id")),
 			},
 			{
-				ResourceName:      "cloud_cls_cos_recharge.cos_recharge",
+				ResourceName:      "tencentcloudenterprise_cls_cos_recharge.cos_recharge",
 				ImportState:       true,
 				ImportStateVerify: true,
 			},
@@ -29,7 +29,7 @@ func TestAccTencentCloudNeedFixClsCosRechargeResource_basic(t *testing.T) {
 
 const testAccClsCosRecharge = `
 
-resource "cloud_cls_cos_recharge" "cos_recharge" {
+resource "tencentcloudenterprise_cls_cos_recharge" "cos_recharge" {
   bucket        = "cos-lock-1308919341"
   bucket_region = "ap-guangzhou"
   log_type      = "minimalist_log"

@@ -13,8 +13,8 @@ import (
 
 func init() {
 	// go test -v ./tencentcloud -sweep=ap-guangzhou -sweep-run=cloud_cfs_file_system
-	resource.AddTestSweepers("cloud_cfs_file_system", &resource.Sweeper{
-		Name: "cloud_cfs_file_system",
+	resource.AddTestSweepers("tencentcloudenterprise_cfs_file_system", &resource.Sweeper{
+		Name: "tencentcloudenterprise_cfs_file_system",
 		F: func(r string) error {
 			logId := getLogId(contextNil)
 			ctx := context.WithValue(context.TODO(), logIdKey, logId)
@@ -62,35 +62,35 @@ func TestAccTencentCloudCfsFileSystemResource_Basic(t *testing.T) {
 			{
 				Config: testAccCfsFileSystem,
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckCfsFileSystemExists("cloud_cfs_file_system.foo"),
-					resource.TestCheckResourceAttr("cloud_cfs_file_system.foo", "name", "test_cfs_file_system"),
-					resource.TestCheckResourceAttr("cloud_cfs_file_system.foo", "availability_zone", "ap-guangzhou-3"),
-					resource.TestCheckResourceAttrSet("cloud_cfs_file_system.foo", "access_group_id"),
-					resource.TestCheckResourceAttr("cloud_cfs_file_system.foo", "protocol", "NFS"),
+					testAccCheckCfsFileSystemExists("tencentcloudenterprise_cfs_file_system.foo"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_cfs_file_system.foo", "name", "test_cfs_file_system"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_cfs_file_system.foo", "availability_zone", "ap-guangzhou-3"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_cfs_file_system.foo", "access_group_id"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_cfs_file_system.foo", "protocol", "NFS"),
 				),
 			},
 			// add tag
 			{
 				Config: testAccCfsMasterInstance_multiTags("master"),
 				Check: resource.ComposeAggregateTestCheckFunc(
-					testAccCheckCfsFileSystemExists("cloud_cfs_file_system.foo"),
-					resource.TestCheckResourceAttr("cloud_cfs_file_system.foo", "tags.role", "master"),
+					testAccCheckCfsFileSystemExists("tencentcloudenterprise_cfs_file_system.foo"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_cfs_file_system.foo", "tags.role", "master"),
 				),
 			},
 			// update tag
 			{
 				Config: testAccCfsMasterInstance_multiTags("master-version2"),
 				Check: resource.ComposeAggregateTestCheckFunc(
-					testAccCheckCfsFileSystemExists("cloud_cfs_file_system.foo"),
-					resource.TestCheckResourceAttr("cloud_cfs_file_system.foo", "tags.role", "master-version2"),
+					testAccCheckCfsFileSystemExists("tencentcloudenterprise_cfs_file_system.foo"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_cfs_file_system.foo", "tags.role", "master-version2"),
 				),
 			},
 			// remove tag
 			{
 				Config: testAccCfsFileSystem,
 				Check: resource.ComposeAggregateTestCheckFunc(
-					testAccCheckCfsFileSystemExists("cloud_cfs_file_system.foo"),
-					resource.TestCheckNoResourceAttr("cloud_cfs_file_system.foo", "tags.role"),
+					testAccCheckCfsFileSystemExists("tencentcloudenterprise_cfs_file_system.foo"),
+					resource.TestCheckNoResourceAttr("tencentcloudenterprise_cfs_file_system.foo", "tags.role"),
 				),
 			},
 		},
@@ -104,7 +104,7 @@ func testAccCheckCfsFileSystemDestroy(s *terraform.State) error {
 		client: testAccProvider.Meta().(*TencentCloudClient).apiV3Conn,
 	}
 	for _, rs := range s.RootModule().Resources {
-		if rs.Type != "cloud_cfs_file_system" {
+		if rs.Type != "tencentcloudenterprise_cfs_file_system" {
 			continue
 		}
 
@@ -164,19 +164,19 @@ func testAccCheckCfsFileSystemExists(n string) resource.TestCheckFunc {
 }
 
 const testAccCfsFileSystem = defaultCfsAccessGroup + `
-resource "cloud_vpc" "vpc" {
+resource "tencentcloudenterprise_vpc" "vpc" {
   name       = "test-cfs-vpc"
   cidr_block = "10.2.0.0/16"
 }
 
-resource "cloud_vpc_subnet" "subnet" {
+resource "tencentcloudenterprise_vpc_subnet" "subnet" {
   vpc_id            = cloud_vpc.vpc.id
   name              = "test-cfs-subnet"
   cidr_block        = "10.2.11.0/24"
   availability_zone = "ap-guangzhou-3"
 }
 
-resource "cloud_cfs_file_system" "foo" {
+resource "tencentcloudenterprise_cfs_file_system" "foo" {
   name = "test_cfs_file_system"
   availability_zone = "ap-guangzhou-3"
   access_group_id = local.cfs_access_group_id
@@ -191,12 +191,12 @@ func testAccCfsMasterInstance_multiTags(value string) string {
 	return fmt.Sprintf(
 		`
 %s
-resource "cloud_vpc" "vpc" {
+resource "tencentcloudenterprise_vpc" "vpc" {
   name       = "test-cfs-vpc"
   cidr_block = "10.2.0.0/16"
 }
 
-resource "cloud_vpc_subnet" "subnet" {
+resource "tencentcloudenterprise_vpc_subnet" "subnet" {
   vpc_id            = cloud_vpc.vpc.id
   name              = "test-cfs-subnet"
   cidr_block        = "10.2.11.0/24"
@@ -204,7 +204,7 @@ resource "cloud_vpc_subnet" "subnet" {
 }
 
 
-resource "cloud_cfs_file_system" "foo" {
+resource "tencentcloudenterprise_cfs_file_system" "foo" {
   name = "test_cfs_file_system"
   availability_zone = "ap-guangzhou-3"
   access_group_id = local.cfs_access_group_id
@@ -231,11 +231,11 @@ func TestAccTencentCloudCfsFileSystemResource_Basic2(t *testing.T) {
 			{
 				Config: testAccCfsFileSystem2,
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckCfsFileSystemExists("cloud_cfs_file_system.foo"),
-					resource.TestCheckResourceAttr("cloud_cfs_file_system.foo", "name", "test_cfs_file_system"),
-					resource.TestCheckResourceAttr("cloud_cfs_file_system.foo", "availability_zone", "yfm18"),
-					resource.TestCheckResourceAttrSet("cloud_cfs_file_system.foo", "access_group_id"),
-					resource.TestCheckResourceAttr("cloud_cfs_file_system.foo", "protocol", "NFS"),
+					testAccCheckCfsFileSystemExists("tencentcloudenterprise_cfs_file_system.foo"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_cfs_file_system.foo", "name", "test_cfs_file_system"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_cfs_file_system.foo", "availability_zone", "yfm18"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_cfs_file_system.foo", "access_group_id"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_cfs_file_system.foo", "protocol", "NFS"),
 				),
 			},
 		},
@@ -243,7 +243,7 @@ func TestAccTencentCloudCfsFileSystemResource_Basic2(t *testing.T) {
 }
 
 const testAccCfsFileSystem2 = `
-resource "cloud_cfs_file_system" "foo" {
+resource "tencentcloudenterprise_cfs_file_system" "foo" {
   name              = "test_file_system"
   availability_zone = "yfm18"
   access_group_id   = "pgroupbasic"

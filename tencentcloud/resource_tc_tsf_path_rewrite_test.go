@@ -21,17 +21,17 @@ func TestAccTencentCloudTsfPathRewriteResource_basic(t *testing.T) {
 			{
 				Config: testAccTsfPathRewriteTce,
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckTsfPathRewritekExists("cloud_tsf_path_rewrite.path_rewrite"),
-					resource.TestCheckResourceAttrSet("cloud_tsf_path_rewrite.path_rewrite", "id"),
-					//resource.TestCheckResourceAttr("cloud_tsf_path_rewrite.path_rewrite", "gateway_group_id", defaultTsfGroupId),
-					resource.TestCheckResourceAttr("cloud_tsf_path_rewrite.path_rewrite", "regex", "/test"),
-					resource.TestCheckResourceAttr("cloud_tsf_path_rewrite.path_rewrite", "replacement", "/tt"),
-					//resource.TestCheckResourceAttr("cloud_tsf_path_rewrite.path_rewrite", "blocked", "N"),
-					resource.TestCheckResourceAttr("cloud_tsf_path_rewrite.path_rewrite", "order", "2"),
+					testAccCheckTsfPathRewritekExists("tencentcloudenterprise_tsf_path_rewrite.path_rewrite"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_tsf_path_rewrite.path_rewrite", "id"),
+					//resource.TestCheckResourceAttr("tencentcloudenterprise_tsf_path_rewrite.path_rewrite", "gateway_group_id", defaultTsfGroupId),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_tsf_path_rewrite.path_rewrite", "regex", "/test"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_tsf_path_rewrite.path_rewrite", "replacement", "/tt"),
+					//resource.TestCheckResourceAttr("tencentcloudenterprise_tsf_path_rewrite.path_rewrite", "blocked", "N"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_tsf_path_rewrite.path_rewrite", "order", "2"),
 				),
 			},
 			{
-				ResourceName:      "cloud_tsf_path_rewrite.path_rewrite",
+				ResourceName:      "tencentcloudenterprise_tsf_path_rewrite.path_rewrite",
 				ImportState:       true,
 				ImportStateVerify: true,
 			},
@@ -44,7 +44,7 @@ func testAccCheckTsfPathRewriteDestroy(s *terraform.State) error {
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
 	service := TsfService{client: testAccProvider.Meta().(*TencentCloudClient).apiV3Conn}
 	for _, rs := range s.RootModule().Resources {
-		if rs.Type != "cloud_tsf_path_rewrite" {
+		if rs.Type != "tencentcloudenterprise_tsf_path_rewrite" {
 			continue
 		}
 
@@ -92,7 +92,7 @@ variable "group_id" {
 
 const testAccTsfPathRewrite = testAccTsfPathRewriteVar + `
 
-resource "cloud_tsf_path_rewrite" "path_rewrite" {
+resource "tencentcloudenterprise_tsf_path_rewrite" "path_rewrite" {
 	gateway_group_id = var.group_id
 	regex = "/test"
 	replacement = "/tt"
@@ -103,7 +103,7 @@ resource "cloud_tsf_path_rewrite" "path_rewrite" {
 `
 
 const testAccTsfPathRewriteTce = `
-resource "cloud_tsf_path_rewrite" "path_rewrite" {
+resource "tencentcloudenterprise_tsf_path_rewrite" "path_rewrite" {
 	gateway_group_id = "group-6a7eg6y5"
 	regex = "/test"
 	replacement = "/tt"

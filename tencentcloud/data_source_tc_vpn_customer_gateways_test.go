@@ -27,7 +27,7 @@ func TestAccTencentCloudVpnCustomerGatewaysDataSource(t *testing.T) {
 }
 
 const testAccTencentCloudVpnCustomerGatewaysDataSourceConfig_basic = `
-resource "cloud_vpn_customer_gateway" "my_cgw" {
+resource "tencentcloudenterprise_vpn_customer_gateway" "my_cgw" {
   name              = "terraform_test"
   public_ip_address = "1.1.1.3"
   tags = {
@@ -35,7 +35,7 @@ resource "cloud_vpn_customer_gateway" "my_cgw" {
   }
 }
 
-data "cloud_vpn_customer_gateways" "cgws" {
+data "tencentcloudenterprise_vpn_customer_gateways" "cgws" {
   id = cloud_vpn_customer_gateway.my_cgw.id
 }
 `

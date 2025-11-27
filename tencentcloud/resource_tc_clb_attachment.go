@@ -4,7 +4,7 @@ Provides a resource to create a CLB attachment.
 Example Usage
 ```hcl
 
-	resource "cloud_clb_attachment" "foo" {
+	resource "tencentcloudenterprise_clb_attachment" "foo" {
 	  clb_id      = "lb-k2zjp9lv"
 	  listener_id = "lbl-hh141sn9"
 	  rule_id     = "loc-4xxr2cy7"
@@ -45,7 +45,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_clb_attachment", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_clb_attachment", CNDescription{
 		TerraformTypeCN: "CLB绑定",
 		DescriptionCN:   "提供CLB绑定资源，用于将后端服务器绑定到CLB监听器。",
 		AttributesCN: map[string]string{
@@ -247,7 +247,7 @@ func resourceTencentCloudClbServerAttachmentDelete(d *schema.ResourceData, meta 
 	// log.Printf("[WARN] inputTarget %#v", inputTarget)
 	insList := getRemoveCandidates(ctx, clbService, clbId, listenerId, locationId, inputTarget)
 	insLen := len(insList)
-	log.Printf("cloud_clb_attachment delete insLen:" + strconv.Itoa(insLen))
+	log.Printf("tencentcloudenterprise_clb_attachment delete insLen:" + strconv.Itoa(insLen))
 	for count := 0; count < insLen; count += 20 {
 		//this request only support 20 targets at most once time
 		request.Targets = make([]*clb.Target, 0, 20)

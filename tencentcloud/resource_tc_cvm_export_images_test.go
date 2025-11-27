@@ -14,14 +14,14 @@ func TestAccTencentCloudCvmExportImagesResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			{
 				Config: testAccCvmExportImages,
-				Check:  resource.ComposeTestCheckFunc(resource.TestCheckResourceAttrSet("cloud_cvm_export_images.export_images", "id")),
+				Check:  resource.ComposeTestCheckFunc(resource.TestCheckResourceAttrSet("tencentcloudenterprise_cvm_export_images.export_images", "id")),
 			},
 		},
 	})
 }
 
 const testAccCvmExportImages = `
-resource "cloud_cvm_export_images" "export_images" {
+resource "tencentcloudenterprise_cvm_export_images" "export_images" {
 	bucket_name = "keep-export-image-1308726196"
 	image_id = "img-e4l9lc5o"
 	file_name_prefix = "test-"

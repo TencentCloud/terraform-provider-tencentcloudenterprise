@@ -24,6 +24,6 @@ func TestAccTencentCloudVpcTemplateLimitsDataSource_basic(t *testing.T) {
 
 const testAccVpcTemplateLimitsDataSource = `
 
-data "cloud_vpc_template_limits" "template_limits" {}
+data "tencentcloudenterprise_vpc_template_limits" "template_limits" {}
 
 `

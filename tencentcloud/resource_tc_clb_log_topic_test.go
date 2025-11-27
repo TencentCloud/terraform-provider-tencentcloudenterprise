@@ -19,8 +19,8 @@ func TestAccTencentCloudClbInstanceTopic(t *testing.T) {
 			{
 				Config: testAccClbInstanceTopic,
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckClbInstanceTopicExists("cloud_clb_log_topic.topic"),
-					resource.TestCheckResourceAttr("cloud_clb_log_topic.topic", "topic_name", "clb-topic-test"),
+					testAccCheckClbInstanceTopicExists("tencentcloudenterprise_clb_log_topic.topic"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_clb_log_topic.topic", "topic_name", "clb-topic-test"),
 				),
 			},
 		},
@@ -55,11 +55,11 @@ func testAccCheckClbInstanceTopicExists(n string) resource.TestCheckFunc {
 }
 
 const testAccClbInstanceTopic = `
-resource "cloud_clb_log_set" "set1" {
+resource "tencentcloudenterprise_clb_log_set" "set1" {
     period = 7
 }
 
-resource "cloud_clb_log_topic" "topic" {
+resource "tencentcloudenterprise_clb_log_topic" "topic" {
     log_set_id = cloud_clb_log_set.set1.id
     topic_name="clb-topic-test"
 }

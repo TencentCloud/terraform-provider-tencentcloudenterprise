@@ -5,7 +5,7 @@ Provides a cos resource to create a COS bucket policy and set its attributes.
 
 ```hcl
 
-	resource "cloud_cos_bucket_policy" "cos_policy" {
+	resource "tencentcloudenterprise_cos_bucket_policy" "cos_policy" {
 	  bucket = "mycos-1258798060"
 
 	  policy = <<EOF
@@ -58,7 +58,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_cos_bucket_policy", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_cos_bucket_policy", CNDescription{
 		TerraformTypeCN: "云存储桶策略COS",
 		DescriptionCN:   "提供COS存储桶策略资源，用于创建和管理COS存储桶的访问策略。",
 		AttributesCN: map[string]string{

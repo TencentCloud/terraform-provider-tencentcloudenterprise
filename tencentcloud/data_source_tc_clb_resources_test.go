@@ -24,7 +24,7 @@ func TestAccTencentCloudClbResourcesDataSource_basic(t *testing.T) {
 
 const testAccClbResourcesDataSource = `
 
-data "cloud_clb_resources" "resources" {
+data "tencentcloudenterprise_clb_resources" "resources" {
   filters {
     name = "isp"
     values = ["BGP"]

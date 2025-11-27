@@ -16,7 +16,7 @@ func TestAccTencentCloudCfsAccessRulesDataSource(t *testing.T) {
 			{
 				Config: testAccCfsAccessRulesDataSource,
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckCfsAccessRuleExists("cloud_cfs_access_rule.foo"),
+					testAccCheckCfsAccessRuleExists("tencentcloudenterprise_cfs_access_rule.foo"),
 					resource.TestCheckResourceAttrSet("data.cloud_cfs_access_rules.access_rules", "access_rule_list.#"),
 					resource.TestCheckResourceAttrSet("data.cloud_cfs_access_rules.access_rules", "access_rule_list.0.access_rule_id"),
 					resource.TestCheckResourceAttr("data.cloud_cfs_access_rules.access_rules", "access_rule_list.0.auth_client_ip", "172.16.16.0/24"),
@@ -29,13 +29,13 @@ func TestAccTencentCloudCfsAccessRulesDataSource(t *testing.T) {
 
 const testAccCfsAccessRulesDataSource = defaultCfsAccessGroup + `
 
-resource "cloud_cfs_access_rule" "foo" {
+resource "tencentcloudenterprise_cfs_access_rule" "foo" {
   access_group_id = local.cfs_access_group_id
   auth_client_ip = "172.16.16.0/24"
   priority = 1
 }
 
-data "cloud_cfs_access_rules" "access_rules" {
+data "tencentcloudenterprise_cfs_access_rules" "access_rules" {
   access_group_id = local.cfs_access_group_id
   access_rule_id = cloud_cfs_access_rule.foo.id
 }

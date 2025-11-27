@@ -18,17 +18,17 @@ func TestAccTencentCloudRedisReplicaReadonlyResource_basic(t *testing.T) {
 			{
 				Config: testAccRedisReplicaReadonly,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttrSet("cloud_redis_replica_readonly.replica_readonly", "id"),
-					resource.TestCheckResourceAttrSet("cloud_redis_replica_readonly.replica_readonly", "instance_id"),
-					resource.TestCheckResourceAttr("cloud_redis_replica_readonly.replica_readonly", "operate", "enable"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_redis_replica_readonly.replica_readonly", "id"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_redis_replica_readonly.replica_readonly", "instance_id"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_redis_replica_readonly.replica_readonly", "operate", "enable"),
 				),
 			},
 			{
 				Config: testAccRedisReplicaReadonlyUpdate,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttrSet("cloud_redis_replica_readonly.replica_readonly", "id"),
-					resource.TestCheckResourceAttrSet("cloud_redis_replica_readonly.replica_readonly", "instance_id"),
-					resource.TestCheckResourceAttr("cloud_redis_replica_readonly.replica_readonly", "operate", "disable"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_redis_replica_readonly.replica_readonly", "id"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_redis_replica_readonly.replica_readonly", "instance_id"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_redis_replica_readonly.replica_readonly", "operate", "disable"),
 				),
 			},
 		},
@@ -37,7 +37,7 @@ func TestAccTencentCloudRedisReplicaReadonlyResource_basic(t *testing.T) {
 
 const testAccRedisReplicaReadonly = `
 
-resource "cloud_redis_replica_readonly" "replica_readonly" {
+resource "tencentcloudenterprise_redis_replica_readonly" "replica_readonly" {
 	instance_id = "crs-2yypjrnv"
 	readonly_policy = ["master"]
 	operate = "enable"
@@ -47,7 +47,7 @@ resource "cloud_redis_replica_readonly" "replica_readonly" {
 
 const testAccRedisReplicaReadonlyUpdate = `
 
-resource "cloud_redis_replica_readonly" "replica_readonly" {
+resource "tencentcloudenterprise_redis_replica_readonly" "replica_readonly" {
 	instance_id = "crs-2yypjrnv"
 	readonly_policy = ["master"]
 	operate = "disable"

@@ -24,7 +24,7 @@ func TestAccTencentCloudVpcUsedIpAddressDataSource_basic(t *testing.T) {
 
 const testAccVpcUsedIpAddressDataSource = `
 
-data "cloud_vpc_used_ip_address" "used_ip_address" {
+data "tencentcloudenterprise_vpc_used_ip_address" "used_ip_address" {
   vpc_id = "vpc-4owdpnwr"
 }
 

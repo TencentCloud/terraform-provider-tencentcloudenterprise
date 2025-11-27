@@ -89,7 +89,7 @@ func TestAccTencentCloudDCDBInstancesDataSource(t *testing.T) {
 }
 
 const testAccDataSourceDcdbInstances_basic = `
-data "cloud_dcdb_instances" "instances" {
+data "tencentcloudenterprise_dcdb_instances" "instances" {
   instance_ids = ["%s"]
   search_name = "instancename"
   search_key = "%s" 
@@ -103,20 +103,20 @@ data "cloud_dcdb_instances" "instances" {
 `
 
 const testAccDataSourceDcdbInstances_id = `
-data "cloud_dcdb_instances" "instances" {
+data "tencentcloudenterprise_dcdb_instances" "instances" {
   instance_ids = ["%s"]
 }
 `
 
 const testAccDataSourceDcdbInstances_name = `
-data "cloud_dcdb_instances" "instances" {
+data "tencentcloudenterprise_dcdb_instances" "instances" {
   search_name = "instancename"
   search_key = "%s" 
 }
 `
 
 const testAccDataSourceDcdbInstances_disable_excluster = `
-data "cloud_dcdb_instances" "instances" {
+data "tencentcloudenterprise_dcdb_instances" "instances" {
   search_name = "instancename"
   search_key = "%s" 
   is_filter_excluster = false
@@ -125,7 +125,7 @@ data "cloud_dcdb_instances" "instances" {
 `
 
 const testAccDataSourceDcdbInstances_disable_vpc_filter = `
-data "cloud_dcdb_instances" "instances" {
+data "tencentcloudenterprise_dcdb_instances" "instances" {
   instance_ids = ["%s"]
   is_filter_vpc = false
   vpc_id = "This is a invalid string to verify vpc filter was disabled."

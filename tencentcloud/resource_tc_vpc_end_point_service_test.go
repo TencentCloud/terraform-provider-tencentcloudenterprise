@@ -16,10 +16,10 @@ func TestAccTencentCloudVpcEndPointServiceResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			{
 				Config: testAccVpcEndPointService,
-				Check:  resource.ComposeTestCheckFunc(resource.TestCheckResourceAttrSet("cloud_vpc_end_point_service.end_point_service", "id")),
+				Check:  resource.ComposeTestCheckFunc(resource.TestCheckResourceAttrSet("tencentcloudenterprise_vpc_end_point_service.end_point_service", "id")),
 			},
 			{
-				ResourceName:      "cloud_vpc_end_point_service.end_point_service",
+				ResourceName:      "tencentcloudenterprise_vpc_end_point_service.end_point_service",
 				ImportState:       true,
 				ImportStateVerify: true,
 			},
@@ -29,7 +29,7 @@ func TestAccTencentCloudVpcEndPointServiceResource_basic(t *testing.T) {
 
 const testAccVpcEndPointService = `
 
-resource "cloud_vpc_end_point_service" "end_point_service" {
+resource "tencentcloudenterprise_vpc_end_point_service" "end_point_service" {
   vpc_id = "vpc-4owdpnwr"
   end_point_service_name = "terraform-endpoint-service"
   auto_accept_flag = false

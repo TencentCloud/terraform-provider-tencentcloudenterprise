@@ -16,7 +16,7 @@ func TestAccTencentCloudNeedFixVpcEnableEndPointConnectResource_basic(t *testing
 		Steps: []resource.TestStep{
 			{
 				Config: testAccVpcEnableEndPointConnect,
-				Check:  resource.ComposeTestCheckFunc(resource.TestCheckResourceAttrSet("cloud_vpc_enable_end_point_connect.enable_end_point_connect", "id")),
+				Check:  resource.ComposeTestCheckFunc(resource.TestCheckResourceAttrSet("tencentcloudenterprise_vpc_enable_end_point_connect.enable_end_point_connect", "id")),
 			},
 		},
 	})
@@ -24,7 +24,7 @@ func TestAccTencentCloudNeedFixVpcEnableEndPointConnectResource_basic(t *testing
 
 const testAccVpcEnableEndPointConnect = `
 
-resource "cloud_vpc_enable_end_point_connect" "enable_end_point_connect" {
+resource "tencentcloudenterprise_vpc_enable_end_point_connect" "enable_end_point_connect" {
   end_point_service_id = "vpcsvc-98jddhcz"
   end_point_id         = ["vpce-6q0ftmke"]
   accept_flag          = true

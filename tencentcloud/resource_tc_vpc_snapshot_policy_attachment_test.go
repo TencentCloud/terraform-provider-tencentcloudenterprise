@@ -16,10 +16,10 @@ func TestAccTencentCloudVpcSnapshotPolicyAttachmentResource_basic(t *testing.T) 
 		Steps: []resource.TestStep{
 			{
 				Config: testAccVpcSnapshotPolicyAttachment,
-				Check:  resource.ComposeTestCheckFunc(resource.TestCheckResourceAttrSet("cloud_vpc_snapshot_policy_attachment.snapshot_policy_attachment", "id")),
+				Check:  resource.ComposeTestCheckFunc(resource.TestCheckResourceAttrSet("tencentcloudenterprise_vpc_snapshot_policy_attachment.snapshot_policy_attachment", "id")),
 			},
 			{
-				ResourceName:      "cloud_vpc_snapshot_policy_attachment.snapshot_policy_attachment",
+				ResourceName:      "tencentcloudenterprise_vpc_snapshot_policy_attachment.snapshot_policy_attachment",
 				ImportState:       true,
 				ImportStateVerify: true,
 			},
@@ -29,7 +29,7 @@ func TestAccTencentCloudVpcSnapshotPolicyAttachmentResource_basic(t *testing.T) 
 
 const testAccVpcSnapshotPolicyAttachment = `
 
-resource "cloud_vpc_snapshot_policy" "snapshot_policy" {
+resource "tencentcloudenterprise_vpc_snapshot_policy" "snapshot_policy" {
   snapshot_policy_name = "terraform-attachment"
   backup_type          = "time"
   cos_bucket           = "cos-lock-1308919341"
@@ -51,7 +51,7 @@ resource "cloud_vpc_snapshot_policy" "snapshot_policy" {
   }
 }
 
-resource "cloud_vpc_snapshot_policy_attachment" "snapshot_policy_attachment" {
+resource "tencentcloudenterprise_vpc_snapshot_policy_attachment" "snapshot_policy_attachment" {
   snapshot_policy_id = cloud_vpc_snapshot_policy.snapshot_policy.id
 
   instances {

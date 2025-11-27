@@ -5,7 +5,7 @@ Provides a resource to create a tsf lane_rule
 
 ```hcl
 
-	resource "cloud_tsf_lane_rule" "lane_rule" {
+	resource "tencentcloudenterprise_tsf_lane_rule" "lane_rule" {
 	  rule_name = "terraform-rule-name"
 	  remark = "terraform-test"
 	  rule_tag_list {
@@ -34,7 +34,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_tsf_lane_rule", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_tsf_lane_rule", CNDescription{
 		TerraformTypeCN: "灰度规则",
 		DescriptionCN:   "提供TSF灰度规则资源，用于创建和管理灰度规则。",
 		AttributesCN: map[string]string{

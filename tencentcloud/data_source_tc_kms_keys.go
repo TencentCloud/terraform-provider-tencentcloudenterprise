@@ -5,7 +5,7 @@ Use this data source to query detailed information of KMS key
 
 ```hcl
 
-	data "cloud_kms_keys" "foo" {
+	data "tencentcloudenterprise_kms_keys" "foo" {
 		search_key_alias = "test"
 		key_state = 0
 		origin = "TENCENT_KMS"
@@ -27,7 +27,7 @@ import (
 )
 
 func init() {
-	registerDataDescriptionProvider("cloud_kms_keys", CNDescription{
+	registerDataDescriptionProvider("tencentcloudenterprise_kms_keys", CNDescription{
 		TerraformTypeCN: "KMS密钥列表",
 		DescriptionCN:   "提供KMS密钥列表数据源，用于查询密钥管理服务中的客户主密钥详细信息。",
 		AttributesCN: map[string]string{

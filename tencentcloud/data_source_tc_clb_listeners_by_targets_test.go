@@ -24,7 +24,7 @@ func TestAccTencentCloudClbListenersByTargetsDataSource_basic(t *testing.T) {
 
 const testAccClbListenersByTargetsDataSource = `
 
-data "cloud_clb_listeners_by_targets" "listeners_by_targets" {
+data "tencentcloudenterprise_clb_listeners_by_targets" "listeners_by_targets" {
   backends {
     vpc_id     = "vpc-4owdpnwr"
     private_ip = "203.0.113.10"

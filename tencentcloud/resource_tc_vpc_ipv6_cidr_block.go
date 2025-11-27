@@ -5,13 +5,13 @@ Provides a resource to create a vpc ipv6_cidr_block
 
 ```hcl
 
-	resource "cloud_vpc" "cidr-block" {
+	resource "tencentcloudenterprise_vpc" "cidr-block" {
 	  name         = "ipv6-cidr-block-for-test"
 	  cidr_block   = "10.0.0.0/16"
 	  is_multicast = false
 	}
 
-	resource "cloud_vpc_ipv6_cidr_block" "ipv6_cidr_block" {
+	resource "tencentcloudenterprise_vpc_ipv6_cidr_block" "ipv6_cidr_block" {
 	  vpc_id = cloud_vpc.cidr-block.id
 	}
 
@@ -38,7 +38,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_vpc_ipv6_cidr_block", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_vpc_ipv6_cidr_block", CNDescription{
 		TerraformTypeCN: "创建VPC IPv6网段",
 		DescriptionCN:   "提供VPC IPv6网段资源，用于创建VPC IPv6网段。",
 		AttributesCN: map[string]string{

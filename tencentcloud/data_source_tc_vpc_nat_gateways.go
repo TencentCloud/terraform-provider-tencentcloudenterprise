@@ -5,7 +5,7 @@ Use this data source to query detailed information of NAT gateways.
 
 ```hcl
 
-	data "cloud_vpc_nat_gateways" "foo" {
+	data "tencentcloudenterprise_vpc_nat_gateways" "foo" {
 	  name   = "main"
 	  vpc_id = "vpc-xfqag"
 	  id     = "nat-xfaq1"
@@ -25,7 +25,7 @@ import (
 )
 
 func init() {
-	registerDataDescriptionProvider("cloud_vpc_nat_gateways", CNDescription{
+	registerDataDescriptionProvider("tencentcloudenterprise_vpc_nat_gateways", CNDescription{
 		TerraformTypeCN: "NAT网关",
 		DescriptionCN:   "提供VPC NAT网关数据源，用于查询VPC NAT网关的详细信息。",
 		AttributesCN: map[string]string{

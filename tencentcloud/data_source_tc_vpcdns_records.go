@@ -5,7 +5,7 @@ Provide a resource to query VPCDNS records.
 
 ```hcl
 
-	data "cloud_vpcdns_records" "foo" {
+	data "tencentcloudenterprise_vpcdns_records" "foo" {
 	  domain_id      = "xxx"
 	}
 
@@ -31,7 +31,7 @@ import (
 )
 
 func init() {
-	registerDataDescriptionProvider("cloud_vpcdns_records", CNDescription{
+	registerDataDescriptionProvider("tencentcloudenterprise_vpcdns_records", CNDescription{
 		TerraformTypeCN: "VPCDNS记录列表",
 		DescriptionCN:   "提供VPCDNS记录数据源，用于查询VPCDNS记录的详细信息。",
 		AttributesCN: map[string]string{

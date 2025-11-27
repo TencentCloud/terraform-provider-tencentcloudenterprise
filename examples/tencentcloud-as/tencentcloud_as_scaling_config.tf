@@ -1,4 +1,4 @@
-resource "cloud_as_scaling_config" "launch_configuration" {
+resource "tencentcloudenterprise_as_scaling_config" "launch_configuration" {
   configuration_name = "launch-configuration"
   image_id           = "img-95xgn7er"
   instance_types     = ["S5l.SMALL1"]

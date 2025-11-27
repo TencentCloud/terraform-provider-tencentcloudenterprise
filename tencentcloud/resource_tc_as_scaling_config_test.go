@@ -13,8 +13,8 @@ import (
 
 func init() {
 	// go test -v ./tencentcloud -sweep=ap-guangzhou -sweep-run=cloud_as_scaling_config
-	resource.AddTestSweepers("cloud_as_scaling_config", &resource.Sweeper{
-		Name: "cloud_as_scaling_config",
+	resource.AddTestSweepers("tencentcloudenterprise_as_scaling_config", &resource.Sweeper{
+		Name: "tencentcloudenterprise_as_scaling_config",
 		F: func(r string) error {
 			logId := getLogId(contextNil)
 			ctx := context.WithValue(context.TODO(), logIdKey, logId)
@@ -64,15 +64,15 @@ func TestAccTencentCloudAsScalingConfig_basic(t *testing.T) {
 			{
 				Config: testAccAsScalingConfig_basic(),
 				Check: resource.ComposeAggregateTestCheckFunc(
-					testAccCheckAsScalingConfigExists("cloud_as_scaling_config.launch_configuration"),
-					resource.TestCheckResourceAttr("cloud_as_scaling_config.launch_configuration", "configuration_name", "tf-as-basic"),
-					resource.TestCheckResourceAttr("cloud_as_scaling_config.launch_configuration", "image_id", "img-2lr9q49h"),
-					resource.TestCheckResourceAttr("cloud_as_scaling_config.launch_configuration", "instance_types.#", "1"),
-					resource.TestCheckResourceAttr("cloud_as_scaling_config.launch_configuration", "instance_types.0", "SA1.SMALL1"),
+					testAccCheckAsScalingConfigExists("tencentcloudenterprise_as_scaling_config.launch_configuration"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_as_scaling_config.launch_configuration", "configuration_name", "tf-as-basic"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_as_scaling_config.launch_configuration", "image_id", "img-2lr9q49h"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_as_scaling_config.launch_configuration", "instance_types.#", "1"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_as_scaling_config.launch_configuration", "instance_types.0", "SA1.SMALL1"),
 				),
 			},
 			{
-				ResourceName:            "cloud_as_scaling_config.launch_configuration",
+				ResourceName:            "tencentcloudenterprise_as_scaling_config.launch_configuration",
 				ImportState:             true,
 				ImportStateVerify:       true,
 				ImportStateVerifyIgnore: []string{"password"},
@@ -91,46 +91,46 @@ func TestAccTencentCloudAsScalingConfig_full(t *testing.T) {
 			{
 				Config: testAccAsScalingConfig_full(),
 				Check: resource.ComposeAggregateTestCheckFunc(
-					testAccCheckAsScalingConfigExists("cloud_as_scaling_config.launch_configuration"),
-					resource.TestCheckResourceAttr("cloud_as_scaling_config.launch_configuration", "configuration_name", "tf-as-full"),
-					resource.TestCheckResourceAttr("cloud_as_scaling_config.launch_configuration", "image_id", "img-2lr9q49h"),
-					resource.TestCheckResourceAttr("cloud_as_scaling_config.launch_configuration", "instance_types.#", "1"),
-					resource.TestCheckResourceAttr("cloud_as_scaling_config.launch_configuration", "instance_types.0", "SA1.SMALL1"),
-					resource.TestCheckResourceAttr("cloud_as_scaling_config.launch_configuration", "project_id", "0"),
-					resource.TestCheckResourceAttr("cloud_as_scaling_config.launch_configuration", "system_disk_type", "CLOUD_PREMIUM"),
-					resource.TestCheckResourceAttr("cloud_as_scaling_config.launch_configuration", "system_disk_size", "50"),
-					resource.TestCheckResourceAttr("cloud_as_scaling_config.launch_configuration", "data_disk.#", "1"),
-					resource.TestCheckResourceAttr("cloud_as_scaling_config.launch_configuration", "data_disk.0.disk_type", "CLOUD_PREMIUM"),
-					resource.TestCheckResourceAttr("cloud_as_scaling_config.launch_configuration", "data_disk.0.disk_size", "50"),
-					resource.TestCheckResourceAttr("cloud_as_scaling_config.launch_configuration", "internet_charge_type", "TRAFFIC_POSTPAID_BY_HOUR"),
-					resource.TestCheckResourceAttr("cloud_as_scaling_config.launch_configuration", "internet_max_bandwidth_out", "10"),
-					resource.TestCheckResourceAttr("cloud_as_scaling_config.launch_configuration", "public_ip_assigned", "true"),
-					resource.TestCheckResourceAttr("cloud_as_scaling_config.launch_configuration", "enhanced_security_service", "false"),
-					resource.TestCheckResourceAttr("cloud_as_scaling_config.launch_configuration", "enhanced_monitor_service", "false"),
-					resource.TestCheckResourceAttr("cloud_as_scaling_config.launch_configuration", "user_data", "test"),
-					resource.TestCheckResourceAttr("cloud_as_scaling_config.launch_configuration", "instance_tags.tag", "as"),
+					testAccCheckAsScalingConfigExists("tencentcloudenterprise_as_scaling_config.launch_configuration"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_as_scaling_config.launch_configuration", "configuration_name", "tf-as-full"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_as_scaling_config.launch_configuration", "image_id", "img-2lr9q49h"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_as_scaling_config.launch_configuration", "instance_types.#", "1"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_as_scaling_config.launch_configuration", "instance_types.0", "SA1.SMALL1"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_as_scaling_config.launch_configuration", "project_id", "0"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_as_scaling_config.launch_configuration", "system_disk_type", "CLOUD_PREMIUM"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_as_scaling_config.launch_configuration", "system_disk_size", "50"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_as_scaling_config.launch_configuration", "data_disk.#", "1"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_as_scaling_config.launch_configuration", "data_disk.0.disk_type", "CLOUD_PREMIUM"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_as_scaling_config.launch_configuration", "data_disk.0.disk_size", "50"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_as_scaling_config.launch_configuration", "internet_charge_type", "TRAFFIC_POSTPAID_BY_HOUR"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_as_scaling_config.launch_configuration", "internet_max_bandwidth_out", "10"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_as_scaling_config.launch_configuration", "public_ip_assigned", "true"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_as_scaling_config.launch_configuration", "enhanced_security_service", "false"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_as_scaling_config.launch_configuration", "enhanced_monitor_service", "false"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_as_scaling_config.launch_configuration", "user_data", "test"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_as_scaling_config.launch_configuration", "instance_tags.tag", "as"),
 				),
 			},
 			// todo: update test
 			{
 				Config: testAccAsScalingConfig_update(),
 				Check: resource.ComposeAggregateTestCheckFunc(
-					testAccCheckAsScalingConfigExists("cloud_as_scaling_config.launch_configuration"),
-					resource.TestCheckResourceAttr("cloud_as_scaling_config.launch_configuration", "configuration_name", "tf-as-full-update"),
-					resource.TestCheckResourceAttr("cloud_as_scaling_config.launch_configuration", "instance_types.#", "1"),
-					resource.TestCheckResourceAttr("cloud_as_scaling_config.launch_configuration", "instance_types.0", "S4.SMALL2"),
-					resource.TestCheckResourceAttr("cloud_as_scaling_config.launch_configuration", "system_disk_type", "CLOUD_PREMIUM"),
-					resource.TestCheckResourceAttr("cloud_as_scaling_config.launch_configuration", "system_disk_size", "60"),
-					resource.TestCheckResourceAttr("cloud_as_scaling_config.launch_configuration", "data_disk.#", "1"),
-					resource.TestCheckResourceAttr("cloud_as_scaling_config.launch_configuration", "data_disk.0.disk_type", "CLOUD_SSD"),
-					resource.TestCheckResourceAttr("cloud_as_scaling_config.launch_configuration", "data_disk.0.disk_size", "100"),
-					resource.TestCheckResourceAttr("cloud_as_scaling_config.launch_configuration", "internet_max_bandwidth_out", "20"),
-					resource.TestCheckResourceAttr("cloud_as_scaling_config.launch_configuration", "public_ip_assigned", "true"),
-					resource.TestCheckResourceAttr("cloud_as_scaling_config.launch_configuration", "enhanced_security_service", "true"),
-					resource.TestCheckResourceAttr("cloud_as_scaling_config.launch_configuration", "enhanced_monitor_service", "true"),
-					resource.TestCheckResourceAttr("cloud_as_scaling_config.launch_configuration", "user_data", "dGVzdA=="),
-					resource.TestCheckResourceAttr("cloud_as_scaling_config.launch_configuration", "instance_tags.tag", "as"),
-					resource.TestCheckResourceAttr("cloud_as_scaling_config.launch_configuration", "instance_tags.test", "update"),
+					testAccCheckAsScalingConfigExists("tencentcloudenterprise_as_scaling_config.launch_configuration"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_as_scaling_config.launch_configuration", "configuration_name", "tf-as-full-update"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_as_scaling_config.launch_configuration", "instance_types.#", "1"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_as_scaling_config.launch_configuration", "instance_types.0", "S4.SMALL2"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_as_scaling_config.launch_configuration", "system_disk_type", "CLOUD_PREMIUM"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_as_scaling_config.launch_configuration", "system_disk_size", "60"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_as_scaling_config.launch_configuration", "data_disk.#", "1"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_as_scaling_config.launch_configuration", "data_disk.0.disk_type", "CLOUD_SSD"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_as_scaling_config.launch_configuration", "data_disk.0.disk_size", "100"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_as_scaling_config.launch_configuration", "internet_max_bandwidth_out", "20"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_as_scaling_config.launch_configuration", "public_ip_assigned", "true"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_as_scaling_config.launch_configuration", "enhanced_security_service", "true"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_as_scaling_config.launch_configuration", "enhanced_monitor_service", "true"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_as_scaling_config.launch_configuration", "user_data", "dGVzdA=="),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_as_scaling_config.launch_configuration", "instance_tags.tag", "as"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_as_scaling_config.launch_configuration", "instance_tags.test", "update"),
 				),
 			},
 		},
@@ -147,26 +147,26 @@ func TestAccTencentCloudAsScalingConfig_charge(t *testing.T) {
 			{
 				Config: testAccAsScalingConfig_charge(),
 				Check: resource.ComposeAggregateTestCheckFunc(
-					testAccCheckAsScalingConfigExists("cloud_as_scaling_config.launch_configuration"),
-					resource.TestCheckResourceAttr("cloud_as_scaling_config.launch_configuration", "instance_charge_type", "POSTPAID_BY_HOUR"),
+					testAccCheckAsScalingConfigExists("tencentcloudenterprise_as_scaling_config.launch_configuration"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_as_scaling_config.launch_configuration", "instance_charge_type", "POSTPAID_BY_HOUR"),
 				),
 			},
 			{
 				Config: testAccAsScalingConfig_charge_spot(),
 				Check: resource.ComposeAggregateTestCheckFunc(
-					testAccCheckAsScalingConfigExists("cloud_as_scaling_config.launch_configuration"),
-					resource.TestCheckResourceAttr("cloud_as_scaling_config.launch_configuration", "instance_charge_type", "SPOTPAID"),
-					resource.TestCheckResourceAttr("cloud_as_scaling_config.launch_configuration", "spot_instance_type", "one-time"),
-					resource.TestCheckResourceAttr("cloud_as_scaling_config.launch_configuration", "spot_max_price", "1000"),
+					testAccCheckAsScalingConfigExists("tencentcloudenterprise_as_scaling_config.launch_configuration"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_as_scaling_config.launch_configuration", "instance_charge_type", "SPOTPAID"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_as_scaling_config.launch_configuration", "spot_instance_type", "one-time"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_as_scaling_config.launch_configuration", "spot_max_price", "1000"),
 				),
 			},
 			{
 				Config: testAccAsScalingConfig_charge_prepaid(),
 				Check: resource.ComposeAggregateTestCheckFunc(
-					testAccCheckAsScalingConfigExists("cloud_as_scaling_config.launch_configuration"),
-					resource.TestCheckResourceAttr("cloud_as_scaling_config.launch_configuration", "instance_charge_type", "PREPAID"),
-					resource.TestCheckResourceAttr("cloud_as_scaling_config.launch_configuration", "instance_charge_type_prepaid_period", "1"),
-					resource.TestCheckResourceAttr("cloud_as_scaling_config.launch_configuration", "instance_charge_type_prepaid_renew_flag", "NOTIFY_AND_MANUAL_RENEW"),
+					testAccCheckAsScalingConfigExists("tencentcloudenterprise_as_scaling_config.launch_configuration"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_as_scaling_config.launch_configuration", "instance_charge_type", "PREPAID"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_as_scaling_config.launch_configuration", "instance_charge_type_prepaid_period", "1"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_as_scaling_config.launch_configuration", "instance_charge_type_prepaid_renew_flag", "NOTIFY_AND_MANUAL_RENEW"),
 				),
 			},
 		},
@@ -205,7 +205,7 @@ func testAccCheckAsScalingConfigDestroy(s *terraform.State) error {
 		client: testAccProvider.Meta().(*TencentCloudClient).apiV3Conn,
 	}
 	for _, rs := range s.RootModule().Resources {
-		if rs.Type != "cloud_as_scaling_config" {
+		if rs.Type != "tencentcloudenterprise_as_scaling_config" {
 			continue
 		}
 
@@ -222,7 +222,7 @@ func testAccCheckAsScalingConfigDestroy(s *terraform.State) error {
 
 func testAccAsScalingConfig_basic() string {
 	return `
-resource "cloud_as_scaling_config" "launch_configuration" {
+resource "tencentcloudenterprise_as_scaling_config" "launch_configuration" {
 	configuration_name = "tf-as-basic"
 	image_id = "img-2lr9q49h"
 	instance_types = ["SA1.SMALL1"]
@@ -232,7 +232,7 @@ resource "cloud_as_scaling_config" "launch_configuration" {
 
 func testAccAsScalingConfig_full() string {
 	return `
-resource "cloud_as_scaling_config" "launch_configuration" {
+resource "tencentcloudenterprise_as_scaling_config" "launch_configuration" {
   configuration_name = "tf-as-full"
   image_id           = "img-2lr9q49h"
   instance_types     = ["SA1.SMALL1"]
@@ -263,7 +263,7 @@ resource "cloud_as_scaling_config" "launch_configuration" {
 
 func testAccAsScalingConfig_update() string {
 	return `
-resource "cloud_as_scaling_config" "launch_configuration" {
+resource "tencentcloudenterprise_as_scaling_config" "launch_configuration" {
   configuration_name = "tf-as-full-update"
   image_id           = "img-2lr9q49h"
   instance_types     = ["S4.SMALL2"]
@@ -295,7 +295,7 @@ resource "cloud_as_scaling_config" "launch_configuration" {
 
 func testAccAsScalingConfig_charge() string {
 	return `
-resource "cloud_as_scaling_config" "launch_configuration" {
+resource "tencentcloudenterprise_as_scaling_config" "launch_configuration" {
 	configuration_name = "tf-as-basic-charge"
 	image_id = "img-2lr9q49h"
 	instance_types = ["SA1.SMALL1"]
@@ -306,7 +306,7 @@ resource "cloud_as_scaling_config" "launch_configuration" {
 
 func testAccAsScalingConfig_charge_spot() string {
 	return `
-resource "cloud_as_scaling_config" "launch_configuration" {
+resource "tencentcloudenterprise_as_scaling_config" "launch_configuration" {
 	configuration_name = "tf-as-basic-charge-spot"
 	image_id = "img-2lr9q49h"
 	instance_types = ["SA1.SMALL1"]
@@ -319,7 +319,7 @@ resource "cloud_as_scaling_config" "launch_configuration" {
 
 func testAccAsScalingConfig_charge_prepaid() string {
 	return `
-resource "cloud_as_scaling_config" "launch_configuration" {
+resource "tencentcloudenterprise_as_scaling_config" "launch_configuration" {
 	configuration_name = "tf-as-basic-charge-prepaid"
 	image_id = "img-2lr9q49h"
 	instance_types = ["SA1.SMALL1"]

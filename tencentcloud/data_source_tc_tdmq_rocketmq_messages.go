@@ -5,7 +5,7 @@ Use this data source to query detailed information of tdmq message
 
 ```hcl
 
-	data "cloud_tdmq_rocketmq_messages" "message" {
+	data "tencentcloudenterprise_tdmq_rocketmq_messages" "message" {
 	  cluster_id     = "rocketmq-rkrbm52djmro"
 	  environment_id = "keep_ns"
 	  topic_name     = "keep-topic"
@@ -27,7 +27,7 @@ import (
 )
 
 func init() {
-	registerDataDescriptionProvider("cloud_tdmq_rocketmq_messages", CNDescription{
+	registerDataDescriptionProvider("tencentcloudenterprise_tdmq_rocketmq_messages", CNDescription{
 		TerraformTypeCN: "rocketmq消息",
 		DescriptionCN:   "提供TDMQ RocketMQ消息数据源，用于查询TDMQ RocketMQ消息的详细信息。",
 		AttributesCN: map[string]string{

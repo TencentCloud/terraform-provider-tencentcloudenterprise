@@ -5,7 +5,7 @@ Provide a datasource to query cluster CommonNames.
 
 ```hcl
 
-	data "cloud_tke_kubernetes_cluster_common_names" "foo" {
+	data "tencentcloudenterprise_tke_kubernetes_cluster_common_names" "foo" {
 	  cluster_id = "cls-tddgs8fl"
 	  subaccount_uins = ["100004610790", "0987654321"]
 	}
@@ -23,7 +23,7 @@ import (
 )
 
 func init() {
-	registerDataDescriptionProvider("cloud_tke_kubernetes_cluster_common_names", CNDescription{
+	registerDataDescriptionProvider("tencentcloudenterprise_tke_kubernetes_cluster_common_names", CNDescription{
 		TerraformTypeCN: "集群CommonNames",
 		DescriptionCN:   "提供TKE集群CommonNames数据源，用于查询TKE集群CommonNames的详细信息。",
 		AttributesCN: map[string]string{

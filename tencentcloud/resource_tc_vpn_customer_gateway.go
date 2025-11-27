@@ -5,7 +5,7 @@ Provides a resource to create a VPN customer gateway.
 
 ```hcl
 
-	resource "cloud_vpn_customer_gateway" "foo" {
+	resource "tencentcloudenterprise_vpn_customer_gateway" "foo" {
 	  name              = "test_vpn_customer_gateway"
 	  public_ip_address = "1.1.1.1"
 
@@ -39,7 +39,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_vpn_customer_gateway", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_vpn_customer_gateway", CNDescription{
 		TerraformTypeCN: "创建VPN网关",
 		AttributesCN: map[string]string{
 			"name":              "VPN网关名称",

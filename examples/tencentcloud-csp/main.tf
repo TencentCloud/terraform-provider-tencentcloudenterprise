@@ -4,12 +4,12 @@
 # ========== Data Sources ==========
 
 # Query CSP buckets
-data "cloud_csp_buckets" "buckets" {
+data "tencentcloudenterprise_csp_buckets" "buckets" {
   bucket_prefix = "example"
 }
 
 # Query CSP bucket object
-data "cloud_csp_bucket_object" "object" {
+data "tencentcloudenterprise_csp_bucket_object" "object" {
   bucket = "example-bucket-123456"
   key    = "path/to/object.txt"
 }
@@ -17,7 +17,7 @@ data "cloud_csp_bucket_object" "object" {
 # ========== Resources ==========
 
 # CSP Bucket
-resource "cloud_csp_bucket" "bucket" {
+resource "tencentcloudenterprise_csp_bucket" "bucket" {
   bucket = "example-csp-bucket-123456"
   acl    = "private"
   
@@ -27,7 +27,7 @@ resource "cloud_csp_bucket" "bucket" {
 }
 
 # CSP Bucket Object
-resource "cloud_csp_bucket_object" "object" {
+resource "tencentcloudenterprise_csp_bucket_object" "object" {
   bucket  = cloud_csp_bucket.bucket.bucket
   key     = "example/data.json"
   content = jsonencode({
@@ -37,7 +37,7 @@ resource "cloud_csp_bucket_object" "object" {
 }
 
 # CSP Bucket Policy
-resource "cloud_csp_bucket_policy" "policy" {
+resource "tencentcloudenterprise_csp_bucket_policy" "policy" {
   bucket = cloud_csp_bucket.bucket.bucket
   policy = jsonencode({
     version = "2.0"

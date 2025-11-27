@@ -22,19 +22,19 @@ func TestAccTencentCloudTsfGroupResource_basic(t *testing.T) {
 			{
 				Config: testAccTsfGroup2,
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckTsfGroupExists("cloud_tsf_group.group"),
-					resource.TestCheckResourceAttrSet("cloud_tsf_group.group", "id"),
-					//resource.TestCheckResourceAttr("cloud_tsf_group.group", "application_id", defaultTsfApplicationId),
-					//resource.TestCheckResourceAttr("cloud_tsf_group.group", "namespace_id", defaultNamespaceId),
-					resource.TestCheckResourceAttr("cloud_tsf_group.group", "group_name", "terraform-test"),
-					//resource.TestCheckResourceAttr("cloud_tsf_group.group", "cluster_id", defaultTsfClustId),
-					resource.TestCheckResourceAttr("cloud_tsf_group.group", "group_desc", "terraform desc"),
-					resource.TestCheckResourceAttr("cloud_tsf_group.group", "alias", "terraform test"),
-					resource.TestCheckResourceAttr("cloud_tsf_group.group", "tags.createdBy", "terraform"),
+					testAccCheckTsfGroupExists("tencentcloudenterprise_tsf_group.group"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_tsf_group.group", "id"),
+					//resource.TestCheckResourceAttr("tencentcloudenterprise_tsf_group.group", "application_id", defaultTsfApplicationId),
+					//resource.TestCheckResourceAttr("tencentcloudenterprise_tsf_group.group", "namespace_id", defaultNamespaceId),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_tsf_group.group", "group_name", "terraform-test"),
+					//resource.TestCheckResourceAttr("tencentcloudenterprise_tsf_group.group", "cluster_id", defaultTsfClustId),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_tsf_group.group", "group_desc", "terraform desc"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_tsf_group.group", "alias", "terraform test"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_tsf_group.group", "tags.createdBy", "terraform"),
 				),
 			},
 			{
-				ResourceName:      "cloud_tsf_group.group",
+				ResourceName:      "tencentcloudenterprise_tsf_group.group",
 				ImportState:       true,
 				ImportStateVerify: true,
 			},
@@ -47,7 +47,7 @@ func testAccCheckTsfGroupDestroy(s *terraform.State) error {
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
 	service := TsfService{client: testAccProvider.Meta().(*TencentCloudClient).apiV3Conn}
 	for _, rs := range s.RootModule().Resources {
-		if rs.Type != "cloud_tsf_group" {
+		if rs.Type != "tencentcloudenterprise_tsf_group" {
 			continue
 		}
 
@@ -105,7 +105,7 @@ variable "cluster_id" {
 
 const testAccTsfGroup = testAccTsfGroupVar + `
 
-resource "cloud_tsf_group" "group" {
+resource "tencentcloudenterprise_tsf_group" "group" {
 	application_id = var.application_id
 	namespace_id = var.namespace_id
 	group_name = "terraform-test"
@@ -120,7 +120,7 @@ resource "cloud_tsf_group" "group" {
 `
 
 const testAccTsfGroup2 = `
-resource "cloud_tsf_group" "group" {
+resource "tencentcloudenterprise_tsf_group" "group" {
 	application_id = "application-dapbqkyo"
 	namespace_id = "namespace-nqab5eal"
 	group_name = "terraform-test"

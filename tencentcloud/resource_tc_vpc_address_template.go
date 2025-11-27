@@ -5,7 +5,7 @@ Provides a resource to manage address template.
 
 ```hcl
 
-	resource "cloud_vpc_address_template" "foo" {
+	resource "tencentcloudenterprise_vpc_address_template" "foo" {
 	  name                = "cam-user-test"
 	  addresses = ["203.0.113.1","10.0.1.0/24","203.0.113.1-203.0.113.100"]
 	}
@@ -31,7 +31,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_vpc_address_template", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_vpc_address_template", CNDescription{
 		TerraformTypeCN: "地址模板",
 		DescriptionCN:   "提供地址模板资源，用于管理IP地址模板。",
 		AttributesCN: map[string]string{

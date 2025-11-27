@@ -11,12 +11,12 @@ Provides a CVM instance set resource.
 
 ```hcl
 
-	data "cloud_cvm_images" "my_favorite_image" {
+	data "tencentcloudenterprise_cvm_images" "my_favorite_image" {
 	  image_type = ["PUBLIC_IMAGE"]
 	  os_name    = "Tencent Linux release 3.2 (Final)"
 	}
 
-	data "cloud_cvm_instance_types" "my_favorite_instance_types" {
+	data "tencentcloudenterprise_cvm_instance_types" "my_favorite_instance_types" {
 	  filter {
 	    name   = "instance-family"
 	    values = ["S3"]
@@ -26,17 +26,17 @@ Provides a CVM instance set resource.
 	  memory_size    = 1
 	}
 
-data "cloud_availability_zones" "my_favorite_zones" {
+data "tencentcloudenterprise_availability_zones" "my_favorite_zones" {
 }
 
 // Create VPC resource
 
-	resource "cloud_vpc" "app" {
+	resource "tencentcloudenterprise_vpc" "app" {
 	  cidr_block = "10.0.0.0/16"
 	  name       = "awesome_app_vpc"
 	}
 
-	resource "cloud_vpc_subnet" "app" {
+	resource "tencentcloudenterprise_vpc_subnet" "app" {
 	  vpc_id            = cloud_vpc.app.id
 	  availability_zone = data.cloud_availability_zones.my_favorite_zones.zones.0.name
 	  name              = "awesome_app_subnet"
@@ -45,7 +45,7 @@ data "cloud_availability_zones" "my_favorite_zones" {
 
 // Create 10 CVM instances to host awesome_app
 
-	resource "cloud_cvm_instance_set" "my_awesome_app" {
+	resource "tencentcloudenterprise_cvm_instance_set" "my_awesome_app" {
 	  timeouts {
 				create = "5m"
 				read   = "20s"
@@ -86,7 +86,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_cvm_instance_set", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_cvm_instance_set", CNDescription{
 		TerraformTypeCN: "批量CVM实例",
 		DescriptionCN:   "提供批量创建云服务器实例的资源，适用于大批量创建CVM实例的场景。",
 		AttributesCN: map[string]string{

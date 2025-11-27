@@ -5,7 +5,7 @@ Provide a resource to create a VPCDNS record.
 
 ```hcl
 
-	resource "cloud_vpcdns_record" "foo" {
+	resource "tencentcloudenterprise_vpcdns_record" "foo" {
 	  domain_id   = "745"
 	  mx          = 0
 	  record_type = "A"
@@ -39,7 +39,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_vpcdns_record", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_vpcdns_record", CNDescription{
 		TerraformTypeCN: "VPCDNS记录",
 		DescriptionCN:   "提供VPCDNS记录资源，用于创建和管理VPC内的DNS解析记录。",
 		AttributesCN: map[string]string{

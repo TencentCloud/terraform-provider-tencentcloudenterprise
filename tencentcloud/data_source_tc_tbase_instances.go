@@ -5,7 +5,7 @@ Use this data source to query detailed information of dcdb instances
 
 ```hcl
 
-	data "cloud_tbase_instances" "foo" {
+	data "tencentcloudenterprise_tbase_instances" "foo" {
 	  instance_ids = ["tdpg-8xg0uenw", "tdpg-4uq7ufzw"]
 	  result_output_file = "foo.json"
 	}
@@ -26,7 +26,7 @@ import (
 )
 
 func init() {
-	registerDataDescriptionProvider("cloud_tbase_instances", CNDescription{
+	registerDataDescriptionProvider("tencentcloudenterprise_tbase_instances", CNDescription{
 		TerraformTypeCN: "分布式PGSQL实例列表",
 		DescriptionCN:   "提供Tbase实例数据源，用于查询Tbase实例的详细信息。",
 		AttributesCN: map[string]string{

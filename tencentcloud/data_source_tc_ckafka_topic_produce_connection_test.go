@@ -21,7 +21,7 @@ func TestAccTencentCloudCkafkaTopicProduceConnectionDataSource_basic(t *testing.
 }
 
 const testAccCkafkaTopicProduceConnectionDataSource = `
-data "cloud_ckafka_topic_produce_connection" "topic_produce_connection" {
+data "tencentcloudenterprise_ckafka_topic_produce_connection" "topic_produce_connection" {
 	instance_id = "ckafka-vv7wpvae"
 	topic_name = "topic-f8lsrwz8"
 }

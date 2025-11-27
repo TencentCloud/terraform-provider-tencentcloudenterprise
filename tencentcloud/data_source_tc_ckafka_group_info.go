@@ -5,7 +5,7 @@ Use this data source to query detailed information of ckafka group_info
 
 ```hcl
 
-	data "cloud_ckafka_group_info" "group_info" {
+	data "tencentcloudenterprise_ckafka_group_info" "group_info" {
 	  instance_id = "ckafka-xxxxxx"
 	  group_list = ["xxxxxx"]
 	}
@@ -24,7 +24,7 @@ import (
 )
 
 func init() {
-	registerDataDescriptionProvider("cloud_ckafka_group_info", CNDescription{
+	registerDataDescriptionProvider("tencentcloudenterprise_ckafka_group_info", CNDescription{
 		TerraformTypeCN: "ckafka消费分组信息",
 		DescriptionCN:   "提供Ckafka消费组信息数据源，用于查询Ckafka消费组的详细信息。",
 		AttributesCN: map[string]string{

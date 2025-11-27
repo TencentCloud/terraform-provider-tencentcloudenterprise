@@ -7,7 +7,7 @@ Provides an eip resource associated with other resource like CVM, ENI and CLB.
 
 ```hcl
 
-	resource "cloud_eip_association" "foo" {
+	resource "tencentcloudenterprise_eip_association" "foo" {
 	  eip_id      = "eip-xxxxxx"
 	  instance_id = "ins-xxxxxx"
 	}
@@ -18,7 +18,7 @@ or
 
 ```hcl
 
-	resource "cloud_eip_association" "bar" {
+	resource "tencentcloudenterprise_eip_association" "bar" {
 	  eip_id               = "eip-xxxxxx"
 	  network_interface_id = "eni-xxxxxx"
 	  private_ip           = "10.0.1.22"
@@ -49,7 +49,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_eip_association", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_eip_association", CNDescription{
 		TerraformTypeCN: "弹性公网IP绑定到实例",
 		DescriptionCN:   "提供弹性公网IP绑定资源，用于将弹性公网IP绑定到CVM实例、ENI等资源。",
 		AttributesCN: map[string]string{

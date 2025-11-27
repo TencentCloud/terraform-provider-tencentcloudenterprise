@@ -7,15 +7,15 @@ Provides a resource to create a dcdb encrypt_attributes_config
 
 ```hcl
 
-	data "cloud_vpc_security_groups" "internal" {
+	data "tencentcloudenterprise_vpc_security_groups" "internal" {
 		name = "default"
 	}
 
-	data "cloud_vpc_instances" "vpc" {
+	data "tencentcloudenterprise_vpc_instances" "vpc" {
 		name ="Default-VPC"
 	}
 
-	data "cloud_vpc_subnets" "subnet" {
+	data "tencentcloudenterprise_vpc_subnets" "subnet" {
 		vpc_id = data.cloud_vpc_instances.vpc.instance_list.0.vpc_id
 	}
 
@@ -25,7 +25,7 @@ Provides a resource to create a dcdb encrypt_attributes_config
 		sg_id = data.cloud_vpc_security_groups.internal.security_groups.0.security_group_id
 	}
 
-	resource "cloud_dcdb_db_instance" "prepaid_instance" {
+	resource "tencentcloudenterprise_dcdb_db_instance" "prepaid_instance" {
 		instance_name = "test_dcdb_db_post_instance"
 		zones = [var.default_az]
 		period = 1
@@ -43,7 +43,7 @@ Provides a resource to create a dcdb encrypt_attributes_config
 		security_group_ids = [local.sg_id]
 	}
 
-	resource "cloud_dcdb_instance" "hourdb_instance" {
+	resource "tencentcloudenterprise_dcdb_instance" "hourdb_instance" {
 		instance_name = "test_dcdb_db_hourdb_instance"
 		zones = [var.default_az]
 		shard_memory = "2"
@@ -67,14 +67,14 @@ Provides a resource to create a dcdb encrypt_attributes_config
 
 // for postpaid instance
 
-	resource "cloud_dcdb_encrypt_attributes_config" "config_hourdb" {
+	resource "tencentcloudenterprise_dcdb_encrypt_attributes_config" "config_hourdb" {
 	  instance_id = local.hourdb_dcdb_id
 	  encrypt_enabled = 1
 	}
 
 // for prepaid instance
 
-	resource "cloud_dcdb_encrypt_attributes_config" "config_prepaid" {
+	resource "tencentcloudenterprise_dcdb_encrypt_attributes_config" "config_prepaid" {
 	  instance_id = local.prepaid_dcdb_id
 	  encrypt_enabled = 1
 	}
@@ -102,7 +102,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_dcdb_encrypt_attributes_config", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_dcdb_encrypt_attributes_config", CNDescription{
 		TerraformTypeCN: "修改实例数据加密",
 		DescriptionCN:   "提供DCDB实例数据加密配置资源，用于启用或配置DCDB实例的数据加密功能。",
 		AttributesCN: map[string]string{

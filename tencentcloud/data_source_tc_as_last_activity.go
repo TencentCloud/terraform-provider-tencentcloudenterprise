@@ -5,7 +5,7 @@ Use this data source to query detailed information of as last_activity
 
 ```hcl
 
-	data "cloud_as_last_activity" "last_activity" {
+	data "tencentcloudenterprise_as_last_activity" "last_activity" {
 	  auto_scaling_group_ids = ["asc-lo0b94oy"]
 	}
 
@@ -23,7 +23,7 @@ import (
 )
 
 func init() {
-	registerDataDescriptionProvider("cloud_as_last_activity", CNDescription{
+	registerDataDescriptionProvider("tencentcloudenterprise_as_last_activity", CNDescription{
 		TerraformTypeCN: "查询伸缩活动",
 		DescriptionCN:   "提供查询伸缩活动数据源，用于查询弹性伸缩活动的详细信息。",
 		AttributesCN: map[string]string{

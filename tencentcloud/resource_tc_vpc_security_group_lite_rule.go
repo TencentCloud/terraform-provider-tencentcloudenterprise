@@ -7,11 +7,11 @@ Provide a resource to create security group some lite rules quickly.
 
 ```hcl
 
-	resource "cloud_vpc_security_group" "foo" {
+	resource "tencentcloudenterprise_vpc_security_group" "foo" {
 	  name = "ci-temp-test-sg"
 	}
 
-	resource "cloud_vpc_security_group_lite_rule" "foo" {
+	resource "tencentcloudenterprise_vpc_security_group_lite_rule" "foo" {
 	  security_group_id = cloud_vpc_security_group.foo.id
 
 	  ingress = [
@@ -54,7 +54,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_vpc_security_group_lite_rule", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_vpc_security_group_lite_rule", CNDescription{
 		TerraformTypeCN: "简单安全组规则",
 		DescriptionCN:   "提供简单安全组规则资源，用于创建和管理安全组规则。",
 		AttributesCN: map[string]string{

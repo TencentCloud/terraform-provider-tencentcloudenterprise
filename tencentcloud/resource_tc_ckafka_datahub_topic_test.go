@@ -16,18 +16,18 @@ func TestAccTencentCloudCkafkaDatahubTopicResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			{
 				Config: testAccCkafkaDatahubTopic,
-				Check:  resource.ComposeTestCheckFunc(resource.TestCheckResourceAttrSet("cloud_ckafka_datahub_topic.datahub_topic", "id")),
+				Check:  resource.ComposeTestCheckFunc(resource.TestCheckResourceAttrSet("tencentcloudenterprise_ckafka_datahub_topic.datahub_topic", "id")),
 			},
 			{
 				Config: testAccCkafkaDatahubTopicUpdate,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttrSet("cloud_ckafka_datahub_topic.datahub_topic", "id"),
-					resource.TestCheckResourceAttr("cloud_ckafka_datahub_topic.datahub_topic", "retention_ms", "120000"),
-					resource.TestCheckResourceAttr("cloud_ckafka_datahub_topic.datahub_topic", "note", "for test 123"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_ckafka_datahub_topic.datahub_topic", "id"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_ckafka_datahub_topic.datahub_topic", "retention_ms", "120000"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_ckafka_datahub_topic.datahub_topic", "note", "for test 123"),
 				),
 			},
 			{
-				ResourceName:      "cloud_ckafka_datahub_topic.datahub_topic",
+				ResourceName:      "tencentcloudenterprise_ckafka_datahub_topic.datahub_topic",
 				ImportState:       true,
 				ImportStateVerify: true,
 			},
@@ -37,9 +37,9 @@ func TestAccTencentCloudCkafkaDatahubTopicResource_basic(t *testing.T) {
 
 const testAccCkafkaDatahubTopic = `
 
-data "cloud_user_info" "user" {}
+data "tencentcloudenterprise_user_info" "user" {}
 
-resource "cloud_ckafka_datahub_topic" "datahub_topic" {
+resource "tencentcloudenterprise_ckafka_datahub_topic" "datahub_topic" {
   name = format("%s-tf", data.cloud_user_info.user.app_id)
   partition_num = 20
   retention_ms = 60000
@@ -53,9 +53,9 @@ resource "cloud_ckafka_datahub_topic" "datahub_topic" {
 
 const testAccCkafkaDatahubTopicUpdate = `
 
-data "cloud_user_info" "user" {}
+data "tencentcloudenterprise_user_info" "user" {}
 
-resource "cloud_ckafka_datahub_topic" "datahub_topic" {
+resource "tencentcloudenterprise_ckafka_datahub_topic" "datahub_topic" {
   name = format("%s-tf", data.cloud_user_info.user.app_id)
   partition_num = 20
   retention_ms = 120000

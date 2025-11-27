@@ -16,10 +16,10 @@ func TestAccTencentCloudNeedFixClbInstanceSlaConfigResource_basic(t *testing.T) 
 		Steps: []resource.TestStep{
 			{
 				Config: testAccClbInstanceSlaConfig,
-				Check:  resource.ComposeTestCheckFunc(resource.TestCheckResourceAttrSet("cloud_clb_instance_sla_config.instance_sla_config", "id")),
+				Check:  resource.ComposeTestCheckFunc(resource.TestCheckResourceAttrSet("tencentcloudenterprise_clb_instance_sla_config.instance_sla_config", "id")),
 			},
 			{
-				ResourceName:      "cloud_clb_instance_sla_config.instance_sla_config",
+				ResourceName:      "tencentcloudenterprise_clb_instance_sla_config.instance_sla_config",
 				ImportState:       true,
 				ImportStateVerify: true,
 			},
@@ -30,7 +30,7 @@ func TestAccTencentCloudNeedFixClbInstanceSlaConfigResource_basic(t *testing.T) 
 const testAccClbInstanceSlaConfig = `
 
 
-resource "cloud_clb_instance_sla_config" "instance_sla_config" {
+resource "tencentcloudenterprise_clb_instance_sla_config" "instance_sla_config" {
   load_balancer_id = "lb-5dnrkgry"
   sla_type         = "SLA"
 }

@@ -36,7 +36,7 @@ func TestAccTencentCloudDCDBAccountsDataSource(t *testing.T) {
 }
 
 const testAccDataSourceDcdbAccounts = `
-resource "cloud_dcdb_account" "basic" {
+resource "tencentcloudenterprise_dcdb_account" "basic" {
 	instance_id = "%s"
 	user_name = "mysql_ds"
 	host = "127.0.0.1"
@@ -46,7 +46,7 @@ resource "cloud_dcdb_account" "basic" {
 	max_user_connections = 10
 }
 
-data "cloud_dcdb_accounts" "basic" {
+data "tencentcloudenterprise_dcdb_accounts" "basic" {
   instance_id = cloud_dcdb_account.basic.instance_id
 }
 

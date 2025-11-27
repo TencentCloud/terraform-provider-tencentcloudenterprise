@@ -12,8 +12,8 @@ import (
 )
 
 func init() {
-	resource.AddTestSweepers("cloud_kms_key", &resource.Sweeper{
-		Name: "cloud_kms_key",
+	resource.AddTestSweepers("tencentcloudenterprise_kms_key", &resource.Sweeper{
+		Name: "tencentcloudenterprise_kms_key",
 		F:    testSweepKmsKeys,
 	})
 }
@@ -60,7 +60,7 @@ func testSweepKmsKeys(region string) error {
 func TestAccKmsKey_basic(t *testing.T) {
 	t.Parallel()
 	rName := fmt.Sprintf("tf-testacc-kms-key-%s", acctest.RandString(13))
-	resourceName := "cloud_kms_key.test"
+	resourceName := "tencentcloudenterprise_kms_key.test"
 
 	resource.Test(t, resource.TestCase{
 		PreCheck:     func() { testAccPreCheck(t) },
@@ -99,7 +99,7 @@ func TestAccKmsKey_basic(t *testing.T) {
 func TestAccKmsKey_asymmetricKey(t *testing.T) {
 	t.Parallel()
 	rName := fmt.Sprintf("tf-testacc-kms-key-%s", acctest.RandString(13))
-	resourceName := "cloud_kms_key.test"
+	resourceName := "tencentcloudenterprise_kms_key.test"
 
 	resource.Test(t, resource.TestCase{
 		PreCheck:     func() { testAccPreCheck(t) },
@@ -126,7 +126,7 @@ func testAccCheckKmsKeyDestroy(s *terraform.State) error {
 		client: testAccProvider.Meta().(*TencentCloudClient).apiV3Conn,
 	}
 	for _, rs := range s.RootModule().Resources {
-		if rs.Type != "cloud_kms_key" {
+		if rs.Type != "tencentcloudenterprise_kms_key" {
 			continue
 		}
 
@@ -170,7 +170,7 @@ func testAccCheckKmsKeyExists(name string) resource.TestCheckFunc {
 
 func testAccKmsKey_basic(rName string) string {
 	return fmt.Sprintf(`
-resource "cloud_kms_key" "test" {
+resource "tencentcloudenterprise_kms_key" "test" {
 	alias = %[1]q
 	description = %[1]q
   	key_rotation_enabled = true
@@ -185,7 +185,7 @@ resource "cloud_kms_key" "test" {
 
 func testAccKmsKey_asymmetric(rName string) string {
 	return fmt.Sprintf(`
-resource "cloud_kms_key" "test" {
+resource "tencentcloudenterprise_kms_key" "test" {
 	alias = %[1]q
 	description = %[1]q
 	key_usage = "ASYMMETRIC_DECRYPT_RSA_2048"
@@ -196,7 +196,7 @@ resource "cloud_kms_key" "test" {
 
 func testAccKmsKey_disabled(rName string) string {
 	return fmt.Sprintf(`
-resource "cloud_kms_key" "test" {
+resource "tencentcloudenterprise_kms_key" "test" {
  	alias = %[1]q
 	description = %[1]q
 	key_rotation_enabled = false

@@ -5,7 +5,7 @@ Use this data source to query detailed information of address templates.
 
 ```hcl
 
-	data "cloud_vpc_address_templates" "name" {
+	data "tencentcloudenterprise_vpc_address_templates" "name" {
 	  name       = "test"
 	}
 
@@ -24,7 +24,7 @@ import (
 )
 
 func init() {
-	registerDataDescriptionProvider("cloud_vpc_address_templates", CNDescription{
+	registerDataDescriptionProvider("tencentcloudenterprise_vpc_address_templates", CNDescription{
 		TerraformTypeCN: "查询IP地址模板",
 		DescriptionCN:   "提供VPC地址模板数据源，用于查询VPC地址模板的详细信息。",
 		AttributesCN: map[string]string{

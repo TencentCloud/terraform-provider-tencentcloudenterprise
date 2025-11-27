@@ -16,10 +16,10 @@ func TestAccTencentCloudVpcIpv6CidrBlockResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			{
 				Config: testAccVpcIpv6CidrBlock,
-				Check:  resource.ComposeTestCheckFunc(resource.TestCheckResourceAttrSet("cloud_vpc_ipv6_cidr_block.ipv6_cidr_block", "id")),
+				Check:  resource.ComposeTestCheckFunc(resource.TestCheckResourceAttrSet("tencentcloudenterprise_vpc_ipv6_cidr_block.ipv6_cidr_block", "id")),
 			},
 			{
-				ResourceName:      "cloud_vpc_ipv6_cidr_block.ipv6_cidr_block",
+				ResourceName:      "tencentcloudenterprise_vpc_ipv6_cidr_block.ipv6_cidr_block",
 				ImportState:       true,
 				ImportStateVerify: true,
 			},
@@ -29,13 +29,13 @@ func TestAccTencentCloudVpcIpv6CidrBlockResource_basic(t *testing.T) {
 
 const testAccVpcIpv6CidrBlock = `
 
-resource "cloud_vpc" "cidr-block" {
+resource "tencentcloudenterprise_vpc" "cidr-block" {
   name         = "ipv6-cidr-block-for-test"
   cidr_block   = "10.0.0.0/16"
   is_multicast = false
 }
 
-resource "cloud_vpc_ipv6_cidr_block" "ipv6_cidr_block" {
+resource "tencentcloudenterprise_vpc_ipv6_cidr_block" "ipv6_cidr_block" {
   vpc_id = cloud_vpc.cidr-block.id
 }
 

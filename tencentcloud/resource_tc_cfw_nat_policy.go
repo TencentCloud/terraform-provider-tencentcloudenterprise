@@ -5,7 +5,7 @@ Provides a resource to create a cloud firewall (cfw) policy.
 
 ```hcl
 
-	resource "cloud_cfw_nat_policy" "example" {
+	resource "tencentcloudenterprise_cfw_nat_policy" "example" {
 	  source_content = "1.1.1.1/0"
 	  source_type    = "net"
 	  target_content = "0.0.0.0/0"
@@ -43,7 +43,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_cfw_nat_policy", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_cfw_nat_policy", CNDescription{
 		TerraformTypeCN: "云防火墙NAT策略",
 		DescriptionCN:   "提供云防火墙NAT策略资源，用于创建和管理云防火墙NAT边界访问控制策略。",
 		AttributesCN: map[string]string{

@@ -24,7 +24,7 @@ func TestAccTencentCloudAsLastActivityDataSource_basic(t *testing.T) {
 
 const testAccAsLastActivityDataSource = `
 
-data "cloud_as_last_activity" "last_activity" {
+data "tencentcloudenterprise_as_last_activity" "last_activity" {
   auto_scaling_group_ids = ["asc-lo0b94oy"]
 }
 

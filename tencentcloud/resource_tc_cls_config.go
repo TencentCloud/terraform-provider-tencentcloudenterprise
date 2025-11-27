@@ -5,7 +5,7 @@ Provides a resource to create a cls config
 
 ```hcl
 
-	resource "cloud_cls_config" "config" {
+	resource "tencentcloudenterprise_cls_config" "config" {
 	  name             = "config_hello"
 	  output           = "4d07fba0-b93e-4e0b-9a7f-d58542560bbb"
 	  path             = "/var/log/kubernetes"
@@ -58,7 +58,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_cls_config", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_cls_config", CNDescription{
 		TerraformTypeCN: "CLS采集配置",
 		DescriptionCN:   "提供CLS采集配置资源，用于创建和管理日志服务采集配置。",
 		AttributesCN: map[string]string{

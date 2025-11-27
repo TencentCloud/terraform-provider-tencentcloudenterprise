@@ -5,7 +5,7 @@ Use this data source to query instances type.
 
 ```hcl
 
-	data "cloud_cvm_instance_types" "foo" {
+	data "tencentcloudenterprise_cvm_instance_types" "foo" {
 	  availability_zone = "ap-guangzhou-2"
 	  cpu_core_count    = 2
 	  memory_size       = 4
@@ -41,7 +41,7 @@ import (
 
 func init() {
 	// 注册资源中文描述提供者映射
-	registerDataDescriptionProvider("cloud_cvm_instance_types", CNDescription{
+	registerDataDescriptionProvider("tencentcloudenterprise_cvm_instance_types", CNDescription{
 		TerraformTypeCN: "CVM 实例类型列表",
 		DescriptionCN:   "提供CVM实例类型列表数据源，用于查询实例类型信息。",
 		AttributesCN: map[string]string{

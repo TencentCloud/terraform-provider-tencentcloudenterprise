@@ -21,14 +21,14 @@ func TestAccTencentCloudVpcBandwidthPackage_basic(t *testing.T) {
 			{
 				Config: testAccVpcBandwidthPackage,
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckBandwidthPackageExists("cloud_vpc_bandwidth_package.bandwidth_package"),
-					resource.TestCheckResourceAttr("cloud_vpc_bandwidth_package.bandwidth_package", "bandwidth_package_name", "iac-test-001"),
-					resource.TestCheckResourceAttr("cloud_vpc_bandwidth_package.bandwidth_package", "charge_type", "TOP5_POSTPAID_BY_MONTH"),
-					resource.TestCheckResourceAttr("cloud_vpc_bandwidth_package.bandwidth_package", "network_type", "BGP"),
+					testAccCheckBandwidthPackageExists("tencentcloudenterprise_vpc_bandwidth_package.bandwidth_package"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_vpc_bandwidth_package.bandwidth_package", "bandwidth_package_name", "iac-test-001"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_vpc_bandwidth_package.bandwidth_package", "charge_type", "TOP5_POSTPAID_BY_MONTH"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_vpc_bandwidth_package.bandwidth_package", "network_type", "BGP"),
 				),
 			},
 			{
-				ResourceName:      "cloud_vpc_bandwidth_package.bandwidth_package",
+				ResourceName:      "tencentcloudenterprise_vpc_bandwidth_package.bandwidth_package",
 				ImportState:       true,
 				ImportStateVerify: true,
 			},
@@ -41,7 +41,7 @@ func testAccCheckBandwidthPackageDestroy(s *terraform.State) error {
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
 	service := VpcService{client: testAccProvider.Meta().(*TencentCloudClient).apiV3Conn}
 	for _, rs := range s.RootModule().Resources {
-		if rs.Type != "cloud_vpc_bandwidth_package" {
+		if rs.Type != "tencentcloudenterprise_vpc_bandwidth_package" {
 			continue
 		}
 
@@ -81,7 +81,7 @@ func testAccCheckBandwidthPackageExists(r string) resource.TestCheckFunc {
 
 const testAccVpcBandwidthPackage = `
 
-resource "cloud_vpc_bandwidth_package" "bandwidth_package" {
+resource "tencentcloudenterprise_vpc_bandwidth_package" "bandwidth_package" {
   network_type            = "BGP"
   charge_type             = "TOP5_POSTPAID_BY_MONTH"
   bandwidth_package_name  = "iac-test-001"

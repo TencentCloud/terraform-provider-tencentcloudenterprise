@@ -5,14 +5,14 @@ Provides a resource to create a cls config extra
 
 ```hcl
 
-	resource "cloud_cls_logset" "logset" {
+	resource "tencentcloudenterprise_cls_logset" "logset" {
 	  logset_name = "tf-config-extra-test"
 	  tags        = {
 	    "test" = "test"
 	  }
 	}
 
-	resource "cloud_cls_topic" "topic" {
+	resource "tencentcloudenterprise_cls_topic" "topic" {
 	  auto_split           = true
 	  logset_id            = cloud_cls_logset.logset.id
 	  max_split_partitions = 20
@@ -25,7 +25,7 @@ Provides a resource to create a cls config extra
 	  topic_name = "tf-config-extra-test"
 	}
 
-	resource "cloud_cls_machine_group" "group" {
+	resource "tencentcloudenterprise_cls_machine_group" "group" {
 	  group_name        = "tf-config-extra-test"
 	  service_logging   = true
 	  auto_update       = true
@@ -41,7 +41,7 @@ Provides a resource to create a cls config extra
 	  }
 	}
 
-	resource "cloud_cls_config_extra" "extra" {
+	resource "tencentcloudenterprise_cls_config_extra" "extra" {
 	  name        = "helloworld-test"
 	  topic_id    = cloud_cls_topic.topic.id
 	  type        = "container_file"
@@ -89,7 +89,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_cls_config_extra", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_cls_config_extra", CNDescription{
 		TerraformTypeCN: "CLS特殊采集配置",
 		DescriptionCN:   "提供CLS特殊采集配置资源，用于创建和管理日志服务特殊采集配置。",
 		AttributesCN: map[string]string{

@@ -5,7 +5,7 @@ Provides a resource to create a startup_instance_operation
 
 ```hcl
 
-	resource "cloud_redis_startup_instance_operation" "startup_instance_operation" {
+	resource "tencentcloudenterprise_redis_startup_instance_operation" "startup_instance_operation" {
 	  instance_id = "crs-c1nl9rpv"
 	}
 
@@ -26,7 +26,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_redis_startup_instance_operation", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_redis_startup_instance_operation", CNDescription{
 		TerraformTypeCN: "redis®启动实例",
 		DescriptionCN:   "提供Redis®启动实例资源，用于启动已停止的Redis®实例。",
 		AttributesCN: map[string]string{

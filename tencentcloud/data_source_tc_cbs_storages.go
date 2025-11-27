@@ -5,7 +5,7 @@ Use this data source to query detailed information of CBS storages.
 
 ```hcl
 
-	data "cloud_cbs_storages" "storages" {
+	data "tencentcloudenterprise_cbs_storages" "storages" {
 	  storage_id         = "disk-kdt0sq6m"
 	  result_output_file = "mytestpath"
 	}
@@ -16,7 +16,7 @@ Use this data source to query detailed information of CBS storages.
 
 ```hcl
 
-	data "cloud_cbs_storages" "whats_new" {
+	data "tencentcloudenterprise_cbs_storages" "whats_new" {
 	  charge_type = ["POSTPAID_BY_HOUR", "PREPAID"]
 	  portable = true
 	  storage_state = ["ATTACHED"]
@@ -41,7 +41,7 @@ import (
 )
 
 func init() {
-	registerDataDescriptionProvider("cloud_cbs_storages", CNDescription{
+	registerDataDescriptionProvider("tencentcloudenterprise_cbs_storages", CNDescription{
 		TerraformTypeCN: "云硬盘",
 		DescriptionCN:   "提供云硬盘数据源，用于查询CBS云硬盘的详细信息。",
 		AttributesCN: map[string]string{

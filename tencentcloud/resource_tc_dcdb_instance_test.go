@@ -11,8 +11,8 @@ import (
 )
 
 func init() {
-	resource.AddTestSweepers("cloud_dcdb_instance", &resource.Sweeper{
-		Name: "cloud_dcdb_instance",
+	resource.AddTestSweepers("tencentcloudenterprise_dcdb_instance", &resource.Sweeper{
+		Name: "tencentcloudenterprise_dcdb_instance",
 		F:    testSweepDcdbHourdbInstance,
 	})
 }
@@ -63,38 +63,38 @@ func TestAccTencentCloudDcdbHourdbInstanceResource_basic(t *testing.T) {
 			{
 				Config: testAccDcdbHourdbInstance_basic,
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckDcdbHourdbInstanceExists("cloud_dcdb_instance.hourdb_instance"),
-					resource.TestCheckResourceAttr("cloud_dcdb_instance.hourdb_instance", "zones.#", "1"),
-					resource.TestCheckResourceAttrSet("cloud_dcdb_instance.hourdb_instance", "vpc_id"),
-					resource.TestCheckResourceAttrSet("cloud_dcdb_instance.hourdb_instance", "subnet_id"),
-					resource.TestCheckResourceAttrSet("cloud_dcdb_instance.hourdb_instance", "security_group_id"),
-					resource.TestCheckResourceAttr("cloud_dcdb_instance.hourdb_instance", "instance_name", "test_dcdb_hourdb_instance"),
-					resource.TestCheckResourceAttr("cloud_dcdb_instance.hourdb_instance", "shard_memory", "2"),
-					resource.TestCheckResourceAttr("cloud_dcdb_instance.hourdb_instance", "shard_storage", "10"),
-					resource.TestCheckResourceAttr("cloud_dcdb_instance.hourdb_instance", "shard_node_count", "2"),
-					resource.TestCheckResourceAttr("cloud_dcdb_instance.hourdb_instance", "shard_count", "2"),
-					resource.TestCheckResourceAttr("cloud_dcdb_instance.hourdb_instance", "db_version_id", "8.0"),
-					resource.TestCheckResourceAttr("cloud_dcdb_instance.hourdb_instance", "project_id", "0"),
-					// resource.TestCheckResourceAttr("cloud_dcdb_instance.hourdb_instance", "extranet_access", "true"),
-					resource.TestCheckResourceAttr("cloud_dcdb_instance.hourdb_instance", "resource_tags.#", "1"),
-					resource.TestCheckResourceAttr("cloud_dcdb_instance.hourdb_instance", "resource_tags.0.tag_key", "aaa"),
-					resource.TestCheckResourceAttr("cloud_dcdb_instance.hourdb_instance", "resource_tags.0.tag_value", "bbb"),
+					testAccCheckDcdbHourdbInstanceExists("tencentcloudenterprise_dcdb_instance.hourdb_instance"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_dcdb_instance.hourdb_instance", "zones.#", "1"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_dcdb_instance.hourdb_instance", "vpc_id"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_dcdb_instance.hourdb_instance", "subnet_id"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_dcdb_instance.hourdb_instance", "security_group_id"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_dcdb_instance.hourdb_instance", "instance_name", "test_dcdb_hourdb_instance"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_dcdb_instance.hourdb_instance", "shard_memory", "2"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_dcdb_instance.hourdb_instance", "shard_storage", "10"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_dcdb_instance.hourdb_instance", "shard_node_count", "2"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_dcdb_instance.hourdb_instance", "shard_count", "2"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_dcdb_instance.hourdb_instance", "db_version_id", "8.0"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_dcdb_instance.hourdb_instance", "project_id", "0"),
+					// resource.TestCheckResourceAttr("tencentcloudenterprise_dcdb_instance.hourdb_instance", "extranet_access", "true"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_dcdb_instance.hourdb_instance", "resource_tags.#", "1"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_dcdb_instance.hourdb_instance", "resource_tags.0.tag_key", "aaa"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_dcdb_instance.hourdb_instance", "resource_tags.0.tag_value", "bbb"),
 				),
 			},
 			{
 				Config: testAccDcdbHourdbInstance_update,
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckDcdbHourdbInstanceExists("cloud_dcdb_instance.hourdb_instance"),
-					resource.TestCheckResourceAttrSet("cloud_dcdb_instance.hourdb_instance", "vpc_id"),
-					resource.TestCheckResourceAttrSet("cloud_dcdb_instance.hourdb_instance", "subnet_id"),
-					resource.TestCheckResourceAttr("cloud_dcdb_instance.hourdb_instance", "project_id", defaultProjectId),
-					// resource.TestCheckResourceAttr("cloud_dcdb_instance.hourdb_instance", "extranet_access", "false"),
-					resource.TestCheckResourceAttr("cloud_dcdb_instance.hourdb_instance", "vip", "203.0.113.110"),
-					resource.TestCheckResourceAttr("cloud_dcdb_instance.hourdb_instance", "instance_name", "test_dcdb_hourdb_instance_CHANGED"),
+					testAccCheckDcdbHourdbInstanceExists("tencentcloudenterprise_dcdb_instance.hourdb_instance"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_dcdb_instance.hourdb_instance", "vpc_id"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_dcdb_instance.hourdb_instance", "subnet_id"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_dcdb_instance.hourdb_instance", "project_id", defaultProjectId),
+					// resource.TestCheckResourceAttr("tencentcloudenterprise_dcdb_instance.hourdb_instance", "extranet_access", "false"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_dcdb_instance.hourdb_instance", "vip", "203.0.113.110"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_dcdb_instance.hourdb_instance", "instance_name", "test_dcdb_hourdb_instance_CHANGED"),
 				),
 			},
 			{
-				ResourceName:      "cloud_dcdb_instance.hourdb_instance",
+				ResourceName:      "tencentcloudenterprise_dcdb_instance.hourdb_instance",
 				ImportState:       true,
 				ImportStateVerify: true,
 			},
@@ -108,7 +108,7 @@ func testAccCheckDcdbHourdbInstanceDestroy(s *terraform.State) error {
 
 	dcdbService := DcdbService{client: testAccProvider.Meta().(*TencentCloudClient).apiV3Conn}
 	for _, rs := range s.RootModule().Resources {
-		if rs.Type != "cloud_dcdb_instance" {
+		if rs.Type != "tencentcloudenterprise_dcdb_instance" {
 			continue
 		}
 
@@ -152,24 +152,24 @@ func testAccCheckDcdbHourdbInstanceExists(re string) resource.TestCheckFunc {
 }
 
 const testAccDcdbHourdb_vpc_config = defaultAzVariable + `
-data "cloud_vpc_security_groups" "internal" {
+data "tencentcloudenterprise_vpc_security_groups" "internal" {
 	name = "default"
   }
   
-  data "cloud_vpc_instances" "vpc" {
+  data "tencentcloudenterprise_vpc_instances" "vpc" {
 	name = "Default-VPC"
   }
   
-  data "cloud_vpc_subnets" "subnet" {
+  data "tencentcloudenterprise_vpc_subnets" "subnet" {
 	vpc_id = data.cloud_vpc_instances.vpc.instance_list.0.vpc_id
   }
   
-  resource "cloud_vpc" "vpc" {
+  resource "tencentcloudenterprise_vpc" "vpc" {
 	cidr_block = "172.18.111.0/24"
 	name       = "test-pg-network-vpc"
   }
   
-  resource "cloud_vpc_subnet" "subnet" {
+  resource "tencentcloudenterprise_vpc_subnet" "subnet" {
 	availability_zone = var.default_az
 	cidr_block        = "172.18.111.0/24"
 	name              = "test-pg-network-sub1"
@@ -187,7 +187,7 @@ data "cloud_vpc_security_groups" "internal" {
 
 const testAccDcdbHourdbInstance_basic = testAccDcdbHourdb_vpc_config + `
 
-resource "cloud_dcdb_instance" "hourdb_instance" {
+resource "tencentcloudenterprise_dcdb_instance" "hourdb_instance" {
   instance_name = "test_dcdb_hourdb_instance"
   zones = [var.default_az]
   shard_memory = "2"
@@ -210,7 +210,7 @@ resource "cloud_dcdb_instance" "hourdb_instance" {
 
 const testAccDcdbHourdbInstance_update = testAccDcdbHourdb_vpc_config + defaultProjectVariable + `
 
-resource "cloud_dcdb_instance" "hourdb_instance" {
+resource "tencentcloudenterprise_dcdb_instance" "hourdb_instance" {
   instance_name = "test_dcdb_hourdb_instance_CHANGED"
   zones = [var.default_az]
   shard_memory = "2"

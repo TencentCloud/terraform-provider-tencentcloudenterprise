@@ -5,7 +5,7 @@ Use this data source to query scaling configuration information.
 
 ```hcl
 
-	data "cloud_as_scaling_configs" "as_configs" {
+	data "tencentcloudenterprise_as_scaling_configs" "as_configs" {
 	  configuration_id   = "asc-oqio4yyj"
 	  result_output_file = "my_test_path"
 	}
@@ -23,7 +23,7 @@ import (
 )
 
 func init() {
-	registerDataDescriptionProvider("cloud_as_scaling_configs", CNDescription{
+	registerDataDescriptionProvider("tencentcloudenterprise_as_scaling_configs", CNDescription{
 		TerraformTypeCN: "启动配置",
 		DescriptionCN:   "提供启动配置数据源，用于查询弹性伸缩启动配置信息。",
 		AttributesCN: map[string]string{

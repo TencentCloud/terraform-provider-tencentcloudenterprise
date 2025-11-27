@@ -23,27 +23,27 @@ func TestAccTencentCloudAsSchedule(t *testing.T) {
 			{
 				Config: testAccAsSchedule(startTime, endTime),
 				Check: resource.ComposeAggregateTestCheckFunc(
-					testAccCheckAsScheduleExists("cloud_as_schedule.schedule"),
-					resource.TestCheckResourceAttrSet("cloud_as_schedule.schedule", "scaling_group_id"),
-					resource.TestCheckResourceAttr("cloud_as_schedule.schedule", "schedule_action_name", "tf-as-schedule"),
-					resource.TestCheckResourceAttr("cloud_as_schedule.schedule", "max_size", "1"),
-					resource.TestCheckResourceAttr("cloud_as_schedule.schedule", "min_size", "0"),
-					resource.TestCheckResourceAttr("cloud_as_schedule.schedule", "desired_capacity", "0"),
-					resource.TestCheckResourceAttr("cloud_as_schedule.schedule", "start_time", startTime),
-					resource.TestCheckResourceAttr("cloud_as_schedule.schedule", "end_time", endTime),
-					resource.TestCheckResourceAttr("cloud_as_schedule.schedule", "recurrence", "0 0 */1 * *"),
+					testAccCheckAsScheduleExists("tencentcloudenterprise_as_schedule.schedule"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_as_schedule.schedule", "scaling_group_id"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_as_schedule.schedule", "schedule_action_name", "tf-as-schedule"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_as_schedule.schedule", "max_size", "1"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_as_schedule.schedule", "min_size", "0"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_as_schedule.schedule", "desired_capacity", "0"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_as_schedule.schedule", "start_time", startTime),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_as_schedule.schedule", "end_time", endTime),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_as_schedule.schedule", "recurrence", "0 0 */1 * *"),
 				),
 			},
 			// test update case
 			{
 				Config: testAccAsSchedule_update(startTime, endTime),
 				Check: resource.ComposeAggregateTestCheckFunc(
-					testAccCheckAsScheduleExists("cloud_as_schedule.schedule"),
-					resource.TestCheckResourceAttrSet("cloud_as_schedule.schedule", "scaling_group_id"),
-					resource.TestCheckResourceAttr("cloud_as_schedule.schedule", "schedule_action_name", "tf-as-schedule-update"),
-					resource.TestCheckResourceAttr("cloud_as_schedule.schedule", "max_size", "2"),
-					resource.TestCheckResourceAttr("cloud_as_schedule.schedule", "desired_capacity", "0"),
-					resource.TestCheckResourceAttr("cloud_as_schedule.schedule", "recurrence", "1 1 */1 * *"),
+					testAccCheckAsScheduleExists("tencentcloudenterprise_as_schedule.schedule"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_as_schedule.schedule", "scaling_group_id"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_as_schedule.schedule", "schedule_action_name", "tf-as-schedule-update"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_as_schedule.schedule", "max_size", "2"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_as_schedule.schedule", "desired_capacity", "0"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_as_schedule.schedule", "recurrence", "1 1 */1 * *"),
 				),
 			},
 		},
@@ -82,7 +82,7 @@ func testAccCheckAsScheduleDestroy(s *terraform.State) error {
 		client: testAccProvider.Meta().(*TencentCloudClient).apiV3Conn,
 	}
 	for _, rs := range s.RootModule().Resources {
-		if rs.Type != "cloud_as_schedule" {
+		if rs.Type != "tencentcloudenterprise_as_schedule" {
 			continue
 		}
 
@@ -99,25 +99,25 @@ func testAccCheckAsScheduleDestroy(s *terraform.State) error {
 
 func testAccAsSchedule(startTime, endTime string) string {
 	return fmt.Sprintf(`
-resource "cloud_vpc" "vpc" {
+resource "tencentcloudenterprise_vpc" "vpc" {
   name       = "tf-as-vpc"
   cidr_block = "10.2.0.0/16"
 }
 
-resource "cloud_vpc_subnet" "subnet" {
+resource "tencentcloudenterprise_vpc_subnet" "subnet" {
   vpc_id            = cloud_vpc.vpc.id
   name              = "tf-as-subnet"
   cidr_block        = "10.2.11.0/24"
   availability_zone = "ap-guangzhou-3"
 }
 
-resource "cloud_as_scaling_config" "launch_configuration" {
+resource "tencentcloudenterprise_as_scaling_config" "launch_configuration" {
   configuration_name = "tf-as-configuration-schedule"
   image_id           = "img-9qabwvbn"
   instance_types     = ["SA1.SMALL1"]
 }
 
-resource "cloud_as_scaling_group" "scaling_group" {
+resource "tencentcloudenterprise_as_scaling_group" "scaling_group" {
   scaling_group_name = "tf-as-scaling-group-schedule"
   configuration_id   = cloud_as_scaling_config.launch_configuration.id
   max_size           = 1
@@ -126,7 +126,7 @@ resource "cloud_as_scaling_group" "scaling_group" {
   subnet_ids         = [cloud_vpc_subnet.subnet.id]
 }
 
-resource "cloud_as_schedule" "schedule" {
+resource "tencentcloudenterprise_as_schedule" "schedule" {
   scaling_group_id     = cloud_as_scaling_group.scaling_group.id
   schedule_action_name = "tf-as-schedule"
   max_size             = 1
@@ -141,25 +141,25 @@ resource "cloud_as_schedule" "schedule" {
 
 func testAccAsSchedule_update(startTime, endTime string) string {
 	return fmt.Sprintf(`
-resource "cloud_vpc" "vpc" {
+resource "tencentcloudenterprise_vpc" "vpc" {
   name       = "tf-as-vpc"
   cidr_block = "10.2.0.0/16"
 }
 
-resource "cloud_vpc_subnet" "subnet" {
+resource "tencentcloudenterprise_vpc_subnet" "subnet" {
   vpc_id            = cloud_vpc.vpc.id
   name              = "tf-as-subnet"
   cidr_block        = "10.2.11.0/24"
   availability_zone = "ap-guangzhou-3"
 }
 
-resource "cloud_as_scaling_config" "launch_configuration" {
+resource "tencentcloudenterprise_as_scaling_config" "launch_configuration" {
   configuration_name = "tf-as-configuration-schedule"
   image_id           = "img-9qabwvbn"
   instance_types     = ["SA1.SMALL1"]
 }
 
-resource "cloud_as_scaling_group" "scaling_group" {
+resource "tencentcloudenterprise_as_scaling_group" "scaling_group" {
   scaling_group_name = "tf-as-scaling-group-schedule"
   configuration_id   = cloud_as_scaling_config.launch_configuration.id
   max_size           = 1
@@ -168,7 +168,7 @@ resource "cloud_as_scaling_group" "scaling_group" {
   subnet_ids         = [cloud_vpc_subnet.subnet.id]
 }
 
-resource "cloud_as_schedule" "schedule" {
+resource "tencentcloudenterprise_as_schedule" "schedule" {
   scaling_group_id     = cloud_as_scaling_group.scaling_group.id
   schedule_action_name = "tf-as-schedule-update"
   max_size             = 2

@@ -41,24 +41,24 @@ func TestAccDataSourceTencentCloudDcgV3InstancesBasic(t *testing.T) {
 }
 
 const TestAccDataSourceTencentCloudDcgInstances = `
-resource "cloud_ccn" "main" {
+resource "tencentcloudenterprise_ccn" "main" {
   name        = "ci-temp-test-ccn"
   description = "ci-temp-test-ccn-des"
   qos         = "AG"
 }
 
-resource "cloud_vpc_dc_gateway" "ccn_main" {
+resource "tencentcloudenterprise_vpc_dc_gateway" "ccn_main" {
   name                = "ci-cdg-ccn-test"
   network_instance_id = cloud_ccn.main.id
   network_type        = "CCN"
   gateway_type        = "NORMAL"
 }
 
-data "cloud_dc_gateway_instances" "name_select"{
+data "tencentcloudenterprise_dc_gateway_instances" "name_select"{
   name = cloud_vpc_dc_gateway.ccn_main.name
 }
 
-data "cloud_dc_gateway_instances"  "id_select" {
+data "tencentcloudenterprise_dc_gateway_instances"  "id_select" {
   dcg_id = cloud_vpc_dc_gateway.ccn_main.id
 }
 `

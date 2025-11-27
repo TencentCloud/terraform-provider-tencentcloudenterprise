@@ -5,7 +5,7 @@ Example Usage
 
 ```hcl
 
-resource "cloud_cfw_nat_instance" "example" {
+resource "tencentcloudenterprise_cfw_nat_instance" "example" {
   name  = "tf_example"
   width = 20
   mode  = 0
@@ -43,7 +43,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_cfw_nat_instance", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_cfw_nat_instance", CNDescription{
 		TerraformTypeCN: "云防火墙NAT实例",
 		DescriptionCN:   "提供云防火墙NAT实例资源，用于创建和管理云防火墙NAT边界防护实例。",
 		AttributesCN: map[string]string{

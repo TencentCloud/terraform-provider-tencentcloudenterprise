@@ -66,7 +66,7 @@ func TestAccDataSourceTencentCloudVpcV3Instances_basic(t *testing.T) {
 }
 
 const TestAccDataSourceTencentCloudVpcInstances = `
-resource "cloud_vpc" "foo" {
+resource "tencentcloudenterprise_vpc" "foo" {
   name       = "guagua_vpc_instance_test"
   cidr_block = "10.0.0.0/16"
 
@@ -75,19 +75,19 @@ resource "cloud_vpc" "foo" {
   }
 }
 
-data "cloud_vpc_instances" "id_instances" {
+data "tencentcloudenterprise_vpc_instances" "id_instances" {
   vpc_id = cloud_vpc.foo.id
 }
 
-data "cloud_vpc_instances" "cidr_instances" {
+data "tencentcloudenterprise_vpc_instances" "cidr_instances" {
   cidr_block = cloud_vpc.foo.cidr_block
 }
 
-data "cloud_vpc_instances" "name_instances" {
+data "tencentcloudenterprise_vpc_instances" "name_instances" {
   name = cloud_vpc.foo.name
 }
 
-data "cloud_vpc_instances" "tags_instances" {
+data "tencentcloudenterprise_vpc_instances" "tags_instances" {
   tags = cloud_vpc.foo.tags
 }
 `

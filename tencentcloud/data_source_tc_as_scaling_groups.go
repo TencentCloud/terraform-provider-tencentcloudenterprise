@@ -5,7 +5,7 @@ Use this data source to query the detail information of an existing autoscaling 
 
 ```hcl
 
-	data "cloud_as_scaling_groups" "as_scaling_groups" {
+	data "tencentcloudenterprise_as_scaling_groups" "as_scaling_groups" {
 	  scaling_group_name = "myasgroup"
 	  configuration_id   = "asc-oqio4yyj"
 	  result_output_file = "my_test_path"
@@ -24,7 +24,7 @@ import (
 )
 
 func init() {
-	registerDataDescriptionProvider("cloud_as_scaling_groups", CNDescription{
+	registerDataDescriptionProvider("tencentcloudenterprise_as_scaling_groups", CNDescription{
 		TerraformTypeCN: "弹性伸缩组",
 		DescriptionCN:   "提供弹性伸缩组数据源，用于查询现有弹性伸缩组的详细信息。",
 		AttributesCN: map[string]string{

@@ -5,7 +5,7 @@ Use this data source to query detailed user information of Ckafka
 
 ```hcl
 
-	data "cloud_ckafka_users" "foo" {
+	data "tencentcloudenterprise_ckafka_users" "foo" {
 	  instance_id  = "ckafka-f9ife4zz"
 	  account_name = "test"
 	}
@@ -22,7 +22,7 @@ import (
 )
 
 func init() {
-	registerDataDescriptionProvider("cloud_ckafka_users", CNDescription{
+	registerDataDescriptionProvider("tencentcloudenterprise_ckafka_users", CNDescription{
 		TerraformTypeCN: "ckafka用户实例",
 		DescriptionCN:   "提供CKafka用户实例数据源，用于查询CKafka用户的详细信息。",
 		AttributesCN: map[string]string{

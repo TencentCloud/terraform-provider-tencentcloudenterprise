@@ -5,7 +5,7 @@ Use this data source to query the detail information of CFS access group.
 
 ```hcl
 
-	data "cloud_cfs_access_groups" "access_groups" {
+	data "tencentcloudenterprise_cfs_access_groups" "access_groups" {
 	  access_group_id = "pgroup-7nx89k7l"
 	  name            = "test"
 	}
@@ -25,7 +25,7 @@ import (
 )
 
 func init() {
-	registerDataDescriptionProvider("cloud_cfs_access_groups", CNDescription{
+	registerDataDescriptionProvider("tencentcloudenterprise_cfs_access_groups", CNDescription{
 		TerraformTypeCN: "访问组ID",
 		DescriptionCN:   "提供CFS文件系统访问组数据源，用于查询文件系统访问组的详细信息。",
 		AttributesCN: map[string]string{

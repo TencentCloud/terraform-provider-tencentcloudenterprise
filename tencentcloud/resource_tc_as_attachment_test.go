@@ -13,8 +13,8 @@ import (
 )
 
 func init() {
-	resource.AddTestSweepers("cloud_as_attachment", &resource.Sweeper{
-		Name: "cloud_as_attachment",
+	resource.AddTestSweepers("tencentcloudenterprise_as_attachment", &resource.Sweeper{
+		Name: "tencentcloudenterprise_as_attachment",
 		F:    testSweepAsAttachment,
 	})
 }
@@ -71,18 +71,18 @@ func TestAccTencentCloudAsAttachment(t *testing.T) {
 			{
 				Config: testAccAsAttachment(),
 				Check: resource.ComposeAggregateTestCheckFunc(
-					testAccCheckAsAttachmentExists("cloud_as_attachment.attachment"),
-					resource.TestCheckResourceAttrSet("cloud_as_attachment.attachment", "scaling_group_id"),
-					resource.TestCheckResourceAttr("cloud_as_attachment.attachment", "instance_ids.#", "1"),
+					testAccCheckAsAttachmentExists("tencentcloudenterprise_as_attachment.attachment"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_as_attachment.attachment", "scaling_group_id"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_as_attachment.attachment", "instance_ids.#", "1"),
 				),
 			},
 			// test update case
 			{
 				Config: testAccAsAttachment_update(),
 				Check: resource.ComposeAggregateTestCheckFunc(
-					testAccCheckAsAttachmentExists("cloud_as_attachment.attachment"),
-					resource.TestCheckResourceAttrSet("cloud_as_attachment.attachment", "scaling_group_id"),
-					resource.TestCheckResourceAttr("cloud_as_attachment.attachment", "instance_ids.#", "2"),
+					testAccCheckAsAttachmentExists("tencentcloudenterprise_as_attachment.attachment"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_as_attachment.attachment", "scaling_group_id"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_as_attachment.attachment", "instance_ids.#", "2"),
 				),
 			},
 		},
@@ -121,7 +121,7 @@ func testAccCheckAsAttachmentDestroy(s *terraform.State) error {
 		client: testAccProvider.Meta().(*TencentCloudClient).apiV3Conn,
 	}
 	for _, rs := range s.RootModule().Resources {
-		if rs.Type != "cloud_as_attachment" {
+		if rs.Type != "tencentcloudenterprise_as_attachment" {
 			continue
 		}
 
@@ -143,25 +143,25 @@ func testAccCheckAsAttachmentDestroy(s *terraform.State) error {
 
 func testAccAsAttachment() string {
 	return defaultAsVariable + `
-resource "cloud_vpc" "vpc" {
+resource "tencentcloudenterprise_vpc" "vpc" {
   name       = "tf-as-vpc"
   cidr_block = "10.2.0.0/16"
 }
 
-resource "cloud_vpc_subnet" "subnet" {
+resource "tencentcloudenterprise_vpc_subnet" "subnet" {
   vpc_id            = cloud_vpc.vpc.id
   name              = "tf-as-subnet"
   cidr_block        = "10.2.11.0/24"
   availability_zone = var.availability_zone
 }
 
-resource "cloud_as_scaling_config" "launch_configuration" {
+resource "tencentcloudenterprise_as_scaling_config" "launch_configuration" {
   configuration_name = "tf-as-attachment-config"
   image_id           = "img-2lr9q49h"
   instance_types     = [data.cloud_cvm_instance_types.default.instance_types.0.instance_type]
 }
 
-resource "cloud_as_scaling_group" "scaling_group" {
+resource "tencentcloudenterprise_as_scaling_group" "scaling_group" {
   scaling_group_name = "tf-as-attachment-group"
   configuration_id   = cloud_as_scaling_config.launch_configuration.id
   max_size           = 5
@@ -170,7 +170,7 @@ resource "cloud_as_scaling_group" "scaling_group" {
   subnet_ids         = [cloud_vpc_subnet.subnet.id]
 }
 
-resource "cloud_cvm_instance" "cvm_instance" {
+resource "tencentcloudenterprise_cvm_instance" "cvm_instance" {
   instance_name     = "tf_as_instance"
   availability_zone = var.availability_zone
   image_id          = "img-2lr9q49h"
@@ -180,7 +180,7 @@ resource "cloud_cvm_instance" "cvm_instance" {
   subnet_id         = cloud_vpc_subnet.subnet.id
 }
 
-resource "cloud_as_attachment" "attachment" {
+resource "tencentcloudenterprise_as_attachment" "attachment" {
   scaling_group_id = cloud_as_scaling_group.scaling_group.id
   instance_ids     = [cloud_cvm_instance.cvm_instance.id]
 }
@@ -189,25 +189,25 @@ resource "cloud_as_attachment" "attachment" {
 
 func testAccAsAttachment_update() string {
 	return defaultAsVariable + `
-resource "cloud_vpc" "vpc" {
+resource "tencentcloudenterprise_vpc" "vpc" {
   name       = "tf-as-vpc"
   cidr_block = "10.2.0.0/16"
 }
 
-resource "cloud_vpc_subnet" "subnet" {
+resource "tencentcloudenterprise_vpc_subnet" "subnet" {
   vpc_id            = cloud_vpc.vpc.id
   name              = "tf-as-subnet"
   cidr_block        = "10.2.11.0/24"
   availability_zone = var.availability_zone
 }
 
-resource "cloud_as_scaling_config" "launch_configuration" {
+resource "tencentcloudenterprise_as_scaling_config" "launch_configuration" {
   configuration_name = "tf-as-attachment-config"
   image_id           = "img-2lr9q49h"
   instance_types     = [data.cloud_cvm_instance_types.default.instance_types.0.instance_type]
 }
 
-resource "cloud_as_scaling_group" "scaling_group" {
+resource "tencentcloudenterprise_as_scaling_group" "scaling_group" {
   scaling_group_name = "tf-as-attachment-group"
   configuration_id   = cloud_as_scaling_config.launch_configuration.id
   max_size           = 5
@@ -216,7 +216,7 @@ resource "cloud_as_scaling_group" "scaling_group" {
   subnet_ids         = [cloud_vpc_subnet.subnet.id]
 }
 
-resource "cloud_cvm_instance" "cvm_instance" {
+resource "tencentcloudenterprise_cvm_instance" "cvm_instance" {
   instance_name     = "tf_as_instance"
   availability_zone = var.availability_zone
   image_id          = "img-2lr9q49h"
@@ -226,7 +226,7 @@ resource "cloud_cvm_instance" "cvm_instance" {
   subnet_id         = cloud_vpc_subnet.subnet.id
 }
 
-resource "cloud_cvm_instance" "cvm_instance_1" {
+resource "tencentcloudenterprise_cvm_instance" "cvm_instance_1" {
   instance_name     = "tf_as_instance_1"
   availability_zone = var.availability_zone
   image_id          = "img-2lr9q49h"
@@ -236,7 +236,7 @@ resource "cloud_cvm_instance" "cvm_instance_1" {
   subnet_id         = cloud_vpc_subnet.subnet.id
 }
 
-resource "cloud_as_attachment" "attachment" {
+resource "tencentcloudenterprise_as_attachment" "attachment" {
   scaling_group_id = cloud_as_scaling_group.scaling_group.id
   instance_ids     = [cloud_cvm_instance.cvm_instance.id, cloud_cvm_instance.cvm_instance_1.id]
 }

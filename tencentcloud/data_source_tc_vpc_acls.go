@@ -4,14 +4,14 @@ Use this data source to query VPC Network ACL information.
 # Example Usage
 
 ```hcl
-data "cloud_vpc_instances" "foo" {
+data "tencentcloudenterprise_vpc_instances" "foo" {
 }
 
-	data "cloud_vpc_acls" "foo" {
+	data "tencentcloudenterprise_vpc_acls" "foo" {
 	  vpc_id            = data.cloud_vpc_instances.foo.instance_list.0.vpc_id
 	}
 
-	data "cloud_vpc_acls" "foo" {
+	data "tencentcloudenterprise_vpc_acls" "foo" {
 	  name            	= "test_acl"
 	}
 
@@ -28,7 +28,7 @@ import (
 )
 
 func init() {
-	registerDataDescriptionProvider("cloud_vpc_acls", CNDescription{
+	registerDataDescriptionProvider("tencentcloudenterprise_vpc_acls", CNDescription{
 		TerraformTypeCN: "私有网络ACL",
 		DescriptionCN:   "提供VPC网络ACL数据源，用于查询VPC网络ACL的详细信息。",
 		AttributesCN: map[string]string{

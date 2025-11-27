@@ -41,7 +41,7 @@ func TestAccTencentCloudTsfGroupGatewaysDataSource_basic(t *testing.T) {
 
 const testAccTsfGroupGatewaysDataSource = `
 
-data "cloud_tsf_group_gateways" "group_gateways" {
+data "tencentcloudenterprise_tsf_group_gateways" "group_gateways" {
 	gateway_deploy_group_id = "group-aeoej4qy"
 	search_word = "test"
 }

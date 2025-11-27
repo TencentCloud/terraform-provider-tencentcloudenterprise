@@ -5,7 +5,7 @@ Provides a resource to create a vpc net_detect
 
 ```hcl
 
-	resource "cloud_vpc_net_detect" "net_detect" {
+	resource "tencentcloudenterprise_vpc_net_detect" "net_detect" {
 	  net_detect_name       = "terrform-test"
 	  vpc_id                = "vpc-4owdpnwr"
 	  subnet_id             = "subnet-c1l35990"
@@ -40,7 +40,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_vpc_net_detect", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_vpc_net_detect", CNDescription{
 		TerraformTypeCN: "网络探测",
 		DescriptionCN:   "提供网络探测资源，用于创建网络探测实例。",
 		AttributesCN: map[string]string{

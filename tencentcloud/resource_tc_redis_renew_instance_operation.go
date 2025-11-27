@@ -5,7 +5,7 @@
 //
 // ```hcl
 //
-//	resource "cloud_redis_renew_instance_operation" "renew_instance_operation" {
+//	resource "tencentcloudenterprise_redis_renew_instance_operation" "renew_instance_operation" {
 //	 instance_id = "crs-c1nl9rpv"
 //	 period = 1
 //	 modify_pay_mode = "prepaid"

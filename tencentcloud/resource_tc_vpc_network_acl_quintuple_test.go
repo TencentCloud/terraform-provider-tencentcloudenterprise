@@ -16,10 +16,10 @@ func TestAccTencentCloudNeedFixVpcNetworkAclQuintupleResource_basic(t *testing.T
 		Steps: []resource.TestStep{
 			{
 				Config: testAccVpcNetworkAclQuintuple,
-				Check:  resource.ComposeTestCheckFunc(resource.TestCheckResourceAttrSet("cloud_vpc_network_acl_quintuple.network_acl_quintuple", "id")),
+				Check:  resource.ComposeTestCheckFunc(resource.TestCheckResourceAttrSet("tencentcloudenterprise_vpc_network_acl_quintuple.network_acl_quintuple", "id")),
 			},
 			{
-				ResourceName:      "cloud_vpc_network_acl_quintuple.network_acl_quintuple",
+				ResourceName:      "tencentcloudenterprise_vpc_network_acl_quintuple.network_acl_quintuple",
 				ImportState:       true,
 				ImportStateVerify: true,
 			},
@@ -29,7 +29,7 @@ func TestAccTencentCloudNeedFixVpcNetworkAclQuintupleResource_basic(t *testing.T
 
 const testAccVpcNetworkAclQuintuple = `
 
-resource "cloud_vpc_network_acl_quintuple" "network_acl_quintuple" {
+resource "tencentcloudenterprise_vpc_network_acl_quintuple" "network_acl_quintuple" {
   network_acl_id = ""
   network_acl_quintuple_set {
 		ingress {

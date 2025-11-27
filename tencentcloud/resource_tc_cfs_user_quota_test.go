@@ -16,10 +16,10 @@ func TestAccTencentCloudNeedFixCfsUserQuotaResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			{
 				Config: testAccCfsUserQuota,
-				Check:  resource.ComposeTestCheckFunc(resource.TestCheckResourceAttrSet("cloud_cfs_user_quota.user_quota", "id")),
+				Check:  resource.ComposeTestCheckFunc(resource.TestCheckResourceAttrSet("tencentcloudenterprise_cfs_user_quota.user_quota", "id")),
 			},
 			{
-				ResourceName:      "cloud_cfs_user_quota.user_quota",
+				ResourceName:      "tencentcloudenterprise_cfs_user_quota.user_quota",
 				ImportState:       true,
 				ImportStateVerify: true,
 			},
@@ -29,7 +29,7 @@ func TestAccTencentCloudNeedFixCfsUserQuotaResource_basic(t *testing.T) {
 
 const testAccCfsUserQuota = `
 
-resource "cloud_cfs_user_quota" "user_quota" {
+resource "tencentcloudenterprise_cfs_user_quota" "user_quota" {
   file_system_id = "cfs-4636029bc"
   user_type = "Uid"
   user_id = "2159973417"

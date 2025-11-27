@@ -162,12 +162,12 @@ variable "availability_zone" {
   default = "ap-guangzhou-3"
 }
 
-resource "cloud_vpc" "foo" {
+resource "tencentcloudenterprise_vpc" "foo" {
   name       = "ci-test-eni-vpc"
   cidr_block = "10.0.0.0/16"
 }
 
-resource "cloud_vpc_subnet" "foo" {
+resource "tencentcloudenterprise_vpc_subnet" "foo" {
   availability_zone = var.availability_zone
   name              = "ci-test-eni-subnet"
   vpc_id            = cloud_vpc.foo.id
@@ -178,11 +178,11 @@ resource "cloud_vpc_subnet" "foo" {
 
 const TestAccDataSourceTencentCloudEnisBasic = testAccEnisVpc + `
 
-resource "cloud_vpc_security_group" "foo" {
+resource "tencentcloudenterprise_vpc_security_group" "foo" {
   name = "test-ci-eni-sg1"
 }
 
-resource "cloud_vpc_eni" "foo" {
+resource "tencentcloudenterprise_vpc_eni" "foo" {
   name            = "ci-test-eni"
   vpc_id          = cloud_vpc.foo.id
   subnet_id       = cloud_vpc_subnet.foo.id
@@ -191,18 +191,18 @@ resource "cloud_vpc_eni" "foo" {
   ipv4_count      = 1
 }
 
-data "cloud_vpc_enis" "foo" {
+data "tencentcloudenterprise_vpc_enis" "foo" {
   ids = [cloud_vpc_eni.foo.id]
 }
 `
 
 const TestAccDataSourceTencentCloudEnisFilter = testAccEnisVpc + `
 
-resource "cloud_vpc_security_group" "foo" {
+resource "tencentcloudenterprise_vpc_security_group" "foo" {
   name = "test-ci-eni-sg1"
 }
 
-resource "cloud_vpc_eni" "foo" {
+resource "tencentcloudenterprise_vpc_eni" "foo" {
   name            = "ci-test-eni"
   vpc_id          = cloud_vpc.foo.id
   subnet_id       = cloud_vpc_subnet.foo.id
@@ -215,28 +215,28 @@ resource "cloud_vpc_eni" "foo" {
   }
 }
 
-data "cloud_vpc_enis" "vpc" {
+data "tencentcloudenterprise_vpc_enis" "vpc" {
   vpc_id = cloud_vpc_eni.foo.vpc_id
 }
 
-data "cloud_vpc_enis" "subnet" {
+data "tencentcloudenterprise_vpc_enis" "subnet" {
   subnet_id      = cloud_vpc_eni.foo.subnet_id
   security_group = cloud_vpc_security_group.foo.id
 }
 
-data "cloud_vpc_enis" "name" {
+data "tencentcloudenterprise_vpc_enis" "name" {
   name = cloud_vpc_eni.foo.name
 }
 
-data "cloud_vpc_enis" "description" {
+data "tencentcloudenterprise_vpc_enis" "description" {
   description = cloud_vpc_eni.foo.description
 }
 
-data "cloud_vpc_enis" "ipv4" {
+data "tencentcloudenterprise_vpc_enis" "ipv4" {
   ipv4 = cloud_vpc_eni.foo.ipv4_info.0.ip
 }
 
-data "cloud_vpc_enis" "tags" {
+data "tencentcloudenterprise_vpc_enis" "tags" {
   tags = cloud_vpc_eni.foo.tags
 }
 `

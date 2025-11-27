@@ -16,10 +16,10 @@ func TestAccTencentCloudDcGatewayAttachmentResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			{
 				Config: testAccDcGatewayAttachment,
-				Check:  resource.ComposeTestCheckFunc(resource.TestCheckResourceAttrSet("cloud_dc_gateway_attachment.dc_gateway_attachment", "id")),
+				Check:  resource.ComposeTestCheckFunc(resource.TestCheckResourceAttrSet("tencentcloudenterprise_dc_gateway_attachment.dc_gateway_attachment", "id")),
 			},
 			{
-				ResourceName:      "cloud_dc_gateway_attachment.dc_gateway_attachment",
+				ResourceName:      "tencentcloudenterprise_dc_gateway_attachment.dc_gateway_attachment",
 				ImportState:       true,
 				ImportStateVerify: true,
 			},
@@ -29,7 +29,7 @@ func TestAccTencentCloudDcGatewayAttachmentResource_basic(t *testing.T) {
 
 const testAccDcGatewayAttachment = `
 
-resource "cloud_dc_gateway_attachment" "dc_gateway_attachment" {
+resource "tencentcloudenterprise_dc_gateway_attachment" "dc_gateway_attachment" {
   vpc_id = "vpc-4h9v4mo3"
   nat_gateway_id = "nat-7kanjc6y"
   direct_connect_gateway_id = "dcg-dmbhf7jf"

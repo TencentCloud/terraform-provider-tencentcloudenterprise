@@ -5,7 +5,7 @@ Provides a resource to create a vpc normal_address_return
 
 ```hcl
 
-	resource "cloud_eip_normal_address_return" "normal_address_return" {
+	resource "tencentcloudenterprise_eip_normal_address_return" "normal_address_return" {
 	  address_ids = ["eip-8zei45vm"]
 	}
 
@@ -22,7 +22,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_eip_normal_address_return", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_eip_normal_address_return", CNDescription{
 		TerraformTypeCN: "退还普通公网 IP",
 		DescriptionCN:   "提供退还普通公网IP资源，用于退还普通公网IP。",
 		AttributesCN: map[string]string{

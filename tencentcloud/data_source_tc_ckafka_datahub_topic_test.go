@@ -22,6 +22,6 @@ func TestAccTencentCloudCkafkaDatahubTopicDataSource_basic(t *testing.T) {
 
 const testAccCkafkaDatahubTopicDataSource = `
 
-data "cloud_ckafka_datahub_topic" "datahub_topic" {
+data "tencentcloudenterprise_ckafka_datahub_topic" "datahub_topic" {
 }
 `

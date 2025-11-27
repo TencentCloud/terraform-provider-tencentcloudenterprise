@@ -5,7 +5,7 @@ Use this data source to query detailed information of clb instance_detail
 
 ```hcl
 
-	data "cloud_clb_instance_detail" "instance_detail" {
+	data "tencentcloudenterprise_clb_instance_detail" "instance_detail" {
 	  target_type = "NODE"
 	}
 
@@ -23,7 +23,7 @@ import (
 )
 
 func init() {
-	registerDataDescriptionProvider("cloud_clb_instance_detail", CNDescription{
+	registerDataDescriptionProvider("tencentcloudenterprise_clb_instance_detail", CNDescription{
 		TerraformTypeCN: "负载均衡实例详情",
 		DescriptionCN:   "提供负载均衡实例详情数据源，用于查询CLB实例的详细配置信息。",
 		AttributesCN: map[string]string{

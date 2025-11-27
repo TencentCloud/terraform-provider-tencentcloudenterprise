@@ -39,7 +39,7 @@ variable "cluster_id" {
 
 const testAccTsfClusterDataSource = testAccTsfClusterDataSourceVar + `
 
-data "cloud_tsf_cluster" "cluster" {
+data "tencentcloudenterprise_tsf_cluster" "cluster" {
 	cluster_id_list = [var.cluster_id]
 	cluster_type = "V"
 	# search_word = ""

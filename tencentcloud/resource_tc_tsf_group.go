@@ -5,7 +5,7 @@ Provides a resource to create a tsf group
 
 ```hcl
 
-	resource "cloud_tsf_group" "group" {
+	resource "tencentcloudenterprise_tsf_group" "group" {
 	  application_id = "application-xxx"
 	  namespace_id = "namespace-aemrxxx"
 	  group_name = "terraform-test"
@@ -40,7 +40,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_tsf_group", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_tsf_group", CNDescription{
 		TerraformTypeCN: "部署组",
 		DescriptionCN:   "提供TSF部署组资源，用于创建和管理TSF部署组。",
 		AttributesCN: map[string]string{

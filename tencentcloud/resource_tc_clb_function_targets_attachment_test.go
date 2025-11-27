@@ -17,18 +17,18 @@ func TestAccTencentCloudClbFunctionTargetsAttachmentResource_basic(t *testing.T)
 			{
 				Config: testAccClbFunctionTargetsAttachment,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttrSet("cloud_clb_function_targets_attachment.function_targets", "id"),
-					resource.TestCheckResourceAttr("cloud_clb_function_targets_attachment.function_targets", "function_targets.0.weight", "10"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_clb_function_targets_attachment.function_targets", "id"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_clb_function_targets_attachment.function_targets", "function_targets.0.weight", "10"),
 				),
 			},
 			{
 				Config: testAccClbFunctionTargetsAttachmentUpdate,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr("cloud_clb_function_targets_attachment.function_targets", "function_targets.0.weight", "20"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_clb_function_targets_attachment.function_targets", "function_targets.0.weight", "20"),
 				),
 			},
 			{
-				ResourceName:      "cloud_clb_function_targets_attachment.function_targets",
+				ResourceName:      "tencentcloudenterprise_clb_function_targets_attachment.function_targets",
 				ImportState:       true,
 				ImportStateVerify: true,
 			},
@@ -38,7 +38,7 @@ func TestAccTencentCloudClbFunctionTargetsAttachmentResource_basic(t *testing.T)
 
 const testAccClbFunctionTargetsAttachment = `
 
-resource "cloud_clb_function_targets_attachment" "function_targets" {
+resource "tencentcloudenterprise_clb_function_targets_attachment" "function_targets" {
   domain           = "xxx.com"
   listener_id      = "lbl-nonkgvc2"
   load_balancer_id = "lb-5dnrkgry"
@@ -60,7 +60,7 @@ resource "cloud_clb_function_targets_attachment" "function_targets" {
 
 const testAccClbFunctionTargetsAttachmentUpdate = `
 
-resource "cloud_clb_function_targets_attachment" "function_targets" {
+resource "tencentcloudenterprise_clb_function_targets_attachment" "function_targets" {
   domain           = "xxx.com"
   listener_id      = "lbl-nonkgvc2"
   load_balancer_id = "lb-5dnrkgry"

@@ -21,13 +21,13 @@ func TestAccTencentCloudClbLogset_basic(t *testing.T) {
 			{
 				Config: testAccClbLogset_basic,
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckClbLogsetExists("cloud_clb_log_set.test_logset"),
-					resource.TestCheckResourceAttrSet("cloud_clb_log_set.test_logset", "create_time"),
-					resource.TestCheckResourceAttr("cloud_clb_log_set.test_logset", "name", "clb_logset"),
+					testAccCheckClbLogsetExists("tencentcloudenterprise_clb_log_set.test_logset"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_clb_log_set.test_logset", "create_time"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_clb_log_set.test_logset", "name", "clb_logset"),
 				),
 			},
 			{
-				ResourceName:      "cloud_clb_log_set.test_logset",
+				ResourceName:      "tencentcloudenterprise_clb_log_set.test_logset",
 				ImportState:       true,
 				ImportStateVerify: true,
 			},
@@ -43,7 +43,7 @@ func testAccCheckClbLogsetDestroy(s *terraform.State) error {
 		client: testAccProvider.Meta().(*TencentCloudClient).apiV3Conn,
 	}
 	for _, rs := range s.RootModule().Resources {
-		if rs.Type != "cloud_clb_logset" {
+		if rs.Type != "tencentcloudenterprise_clb_logset" {
 			continue
 		}
 		time.Sleep(5 * time.Second)
@@ -84,6 +84,6 @@ func testAccCheckClbLogsetExists(n string) resource.TestCheckFunc {
 }
 
 const testAccClbLogset_basic = `
-resource "cloud_clb_log_set" "test_logset" {
+resource "tencentcloudenterprise_clb_log_set" "test_logset" {
 }
 `

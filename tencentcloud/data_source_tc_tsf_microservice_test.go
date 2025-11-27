@@ -38,7 +38,7 @@ variable "namespace_id" {
 
 const testAccTsfMicroserviceDataSource = testAccTsfMicroserviceDataSourceVar + `
 
-data "cloud_tsf_microservice" "microservice" {
+data "tencentcloudenterprise_tsf_microservice" "microservice" {
 	namespace_id = var.namespace_id
 	# status =
 	microservice_id_list = ["ms-yq3jo6jd"]

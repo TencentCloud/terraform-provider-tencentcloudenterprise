@@ -3,24 +3,24 @@
 # ========== Data Sources ==========
 
 # Query VPCDNS domains
-data "cloud_vpcdns_domains" "domains" {
+data "tencentcloudenterprise_vpcdns_domains" "domains" {
   zone_id = "zone-xxxxx"
 }
 
 # Query VPCDNS records
-data "cloud_vpcdns_records" "records" {
+data "tencentcloudenterprise_vpcdns_records" "records" {
   zone_id = "zone-xxxxx"
 }
 
 # Query VPCDNS forward rules
-data "cloud_vpcdns_forward_rules" "rules" {
+data "tencentcloudenterprise_vpcdns_forward_rules" "rules" {
   rule_id = "rule-xxxxx"
 }
 
 # ========== Resources ==========
 
 # VPCDNS Domain (Private Zone)
-resource "cloud_vpcdns_domain" "domain" {
+resource "tencentcloudenterprise_vpcdns_domain" "domain" {
   domain = "example.local"
   remark = "Example private domain"
   
@@ -37,7 +37,7 @@ resource "cloud_vpcdns_domain" "domain" {
 }
 
 # VPCDNS Record
-resource "cloud_vpcdns_record" "record" {
+resource "tencentcloudenterprise_vpcdns_record" "record" {
   zone_id = cloud_vpcdns_domain.domain.id
   
   sub_domain = "www"
@@ -48,7 +48,7 @@ resource "cloud_vpcdns_record" "record" {
 }
 
 # VPCDNS Record (CNAME)
-resource "cloud_vpcdns_record" "cname" {
+resource "tencentcloudenterprise_vpcdns_record" "cname" {
   zone_id = cloud_vpcdns_domain.domain.id
   
   sub_domain = "blog"
@@ -58,7 +58,7 @@ resource "cloud_vpcdns_record" "cname" {
 }
 
 # VPCDNS Record (MX)
-resource "cloud_vpcdns_record" "mx" {
+resource "tencentcloudenterprise_vpcdns_record" "mx" {
   zone_id = cloud_vpcdns_domain.domain.id
   
   sub_domain = "@"
@@ -69,7 +69,7 @@ resource "cloud_vpcdns_record" "mx" {
 }
 
 # VPCDNS Forward Rule
-resource "cloud_vpcdns_forward_rule" "rule" {
+resource "tencentcloudenterprise_vpcdns_forward_rule" "rule" {
   rule_name = "example-forward"
   rule_type = "DOWN"
   zone_id   = cloud_vpcdns_domain.domain.id

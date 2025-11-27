@@ -16,10 +16,10 @@ func TestAccTencentCloudNeedFixVpcIpv6SubnetCidrBlockResource_basic(t *testing.T
 		Steps: []resource.TestStep{
 			{
 				Config: testAccVpcIpv6SubnetCidrBlock,
-				Check:  resource.ComposeTestCheckFunc(resource.TestCheckResourceAttrSet("cloud_vpc_ipv6_subnet_cidr_block.ipv6_subnet_cidr_block", "id")),
+				Check:  resource.ComposeTestCheckFunc(resource.TestCheckResourceAttrSet("tencentcloudenterprise_vpc_ipv6_subnet_cidr_block.ipv6_subnet_cidr_block", "id")),
 			},
 			{
-				ResourceName:      "cloud_vpc_ipv6_subnet_cidr_block.ipv6_subnet_cidr_block",
+				ResourceName:      "tencentcloudenterprise_vpc_ipv6_subnet_cidr_block.ipv6_subnet_cidr_block",
 				ImportState:       true,
 				ImportStateVerify: true,
 			},
@@ -29,7 +29,7 @@ func TestAccTencentCloudNeedFixVpcIpv6SubnetCidrBlockResource_basic(t *testing.T
 
 const testAccVpcIpv6SubnetCidrBlock = `
 
-resource "cloud_vpc_ipv6_subnet_cidr_block" "ipv6_subnet_cidr_block" {
+resource "tencentcloudenterprise_vpc_ipv6_subnet_cidr_block" "ipv6_subnet_cidr_block" {
   vpc_id = "vpc-7w3kgnpl"
   ipv6_subnet_cidr_blocks {
     subnet_id = "subnet-plg028y8"

@@ -44,7 +44,7 @@ variable "application_id" {
 
 const testAccTsfApplicationDataSource = testAccTsfApplicationDataSourceVar + `
 
-data "cloud_tsf_application" "application" {
+data "tencentcloudenterprise_tsf_application" "application" {
 	application_type = "V"
 	microservice_type = "N"
 	# application_resource_type_list = [""]

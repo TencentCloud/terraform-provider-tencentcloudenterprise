@@ -16,10 +16,10 @@ func TestAccTencentCloudNeedFixCkafkaConnectResourceResource_basic(t *testing.T)
 		Steps: []resource.TestStep{
 			{
 				Config: testAccCkafkaConnectResource,
-				Check:  resource.ComposeTestCheckFunc(resource.TestCheckResourceAttrSet("cloud_ckafka_connect_resource.connect_resource", "id")),
+				Check:  resource.ComposeTestCheckFunc(resource.TestCheckResourceAttrSet("tencentcloudenterprise_ckafka_connect_resource.connect_resource", "id")),
 			},
 			{
-				ResourceName:            "cloud_ckafka_connect_resource.connect_resource",
+				ResourceName:            "tencentcloudenterprise_ckafka_connect_resource.connect_resource",
 				ImportState:             true,
 				ImportStateVerify:       true,
 				ImportStateVerifyIgnore: []string{"mysql_connect_param.0.password"},
@@ -30,7 +30,7 @@ func TestAccTencentCloudNeedFixCkafkaConnectResourceResource_basic(t *testing.T)
 
 const testAccCkafkaConnectResource = `
 
-resource "cloud_ckafka_connect_resource" "connect_resource" {
+resource "tencentcloudenterprise_ckafka_connect_resource" "connect_resource" {
   description   = "for terraform test"
   resource_name = "terraform-test"
   type          = "MYSQL"

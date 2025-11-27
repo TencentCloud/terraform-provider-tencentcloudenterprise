@@ -5,7 +5,7 @@ Provides a resource to create a CBS snapshot.
 
 ```hcl
 
-	resource "cloud_cbs_snapshot" "snapshot" {
+	resource "tencentcloudenterprise_cbs_snapshot" "snapshot" {
 	  snapshot_name = "unnamed"
 	  storage_id    = "disk-kdt0sq6m"
 	}
@@ -35,7 +35,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_cbs_snapshot", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_cbs_snapshot", CNDescription{
 		TerraformTypeCN: "快照",
 		DescriptionCN:   "提供云硬盘快照资源，用于创建和管理CBS快照。",
 		AttributesCN: map[string]string{

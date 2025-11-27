@@ -13,7 +13,7 @@ func TestAccTencentCloudCvmRenewInstanceResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			{
 				Config: testAccCvmRenewInstance,
-				Check:  resource.ComposeTestCheckFunc(resource.TestCheckResourceAttrSet("cloud_cvm_renew_instance.renew_instance", "id")),
+				Check:  resource.ComposeTestCheckFunc(resource.TestCheckResourceAttrSet("tencentcloudenterprise_cvm_renew_instance.renew_instance", "id")),
 			},
 		},
 	})
@@ -21,7 +21,7 @@ func TestAccTencentCloudCvmRenewInstanceResource_basic(t *testing.T) {
 
 const testAccCvmRenewInstance = testAccTencentCloudInstanceBasicToPrepaid + `
 
-resource "cloud_cvm_renew_instance" "renew_instance" {
+resource "tencentcloudenterprise_cvm_renew_instance" "renew_instance" {
   instance_id = cloud_cvm_instance.foo.id
   instance_charge_prepaid {
 	period = 1

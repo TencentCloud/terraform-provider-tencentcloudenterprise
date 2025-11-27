@@ -5,7 +5,7 @@ Provides a resource to create a vpc ipv6_eni_address
 
 ```hcl
 
-	resource "cloud_vpc_ipv6_eni_address" "ipv6_eni_address" {
+	resource "tencentcloudenterprise_vpc_ipv6_eni_address" "ipv6_eni_address" {
 	  vpc_id = "vpc-7w3kgnpl"
 	  network_interface_id = "eni-pzl7fz37"
 	  ipv6_addresses {
@@ -32,7 +32,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_vpc_ipv6_eni_address", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_vpc_ipv6_eni_address", CNDescription{
 		TerraformTypeCN: "创建IPv6地址",
 		DescriptionCN:   "提供IPv6地址资源，用于创建IPv6地址。",
 		AttributesCN: map[string]string{

@@ -5,7 +5,7 @@ Provides a resource to create a cloud file system(CFS).
 
 ```hcl
 
-	resource "cloud_cfs_file_system" "foo" {
+	resource "tencentcloudenterprise_cfs_file_system" "foo" {
 	  name              = "test_file_system"
 	  availability_zone = "ap-guangzhou-3"
 	  access_group_id   = "pgroup-7nx89k7l"
@@ -40,7 +40,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_cfs_file_system", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_cfs_file_system", CNDescription{
 		TerraformTypeCN: "CFS文件系统",
 		DescriptionCN:   "提供云文件存储CFS文件系统资源，用于创建和管理CFS文件系统。",
 		AttributesCN: map[string]string{

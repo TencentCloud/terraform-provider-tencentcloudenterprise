@@ -5,7 +5,7 @@ Provides a resource for an AS (Auto scaling) policy.
 
 ```hcl
 
-	resource "cloud_as_scaling_policy" "scaling_policy" {
+	resource "tencentcloudenterprise_as_scaling_policy" "scaling_policy" {
 	  scaling_group_id    = "asg-n32ymck2"
 	  policy_name         = "tf-as-scaling-policy"
 	  adjustment_type     = "EXACT_CAPACITY"
@@ -35,7 +35,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_as_scaling_policy", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_as_scaling_policy", CNDescription{
 		TerraformTypeCN: "自动伸缩组策略",
 		DescriptionCN:   "提供自动伸缩策略资源，用于创建和管理AS伸缩策略。",
 		AttributesCN: map[string]string{

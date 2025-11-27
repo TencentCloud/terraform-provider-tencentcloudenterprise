@@ -31,7 +31,7 @@ func TestAccTencentCloudTsfPublicConfigSummaryDataSource_basic(t *testing.T) {
 
 const testAccTsfPublicConfigSummaryDataSource = `
 
-data "cloud_tsf_public_config_summary" "public_config_summary" {
+data "tencentcloudenterprise_tsf_public_config_summary" "public_config_summary" {
 	search_word = "test"
 	order_by = "last_update_time"
 	order_type = 0

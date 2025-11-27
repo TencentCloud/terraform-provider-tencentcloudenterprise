@@ -5,7 +5,7 @@ Provides a resource to create a HA VIP EIP attachment.
 
 ```hcl
 
-	resource "cloud_vpc_ha_vip_eip_attachment" "foo" {
+	resource "tencentcloudenterprise_vpc_ha_vip_eip_attachment" "foo" {
 	  havip_id   = "havip-kjqwe4ba"
 	  address_ip = "1.1.1.1"
 	}
@@ -36,7 +36,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_vpc_ha_vip_eip_attachment", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_vpc_ha_vip_eip_attachment", CNDescription{
 		TerraformTypeCN: "创建HA VIP EIP关联",
 		DescriptionCN:   "提供HA VIP EIP关联资源，用于创建HA VIP与EIP的关联。",
 		AttributesCN: map[string]string{

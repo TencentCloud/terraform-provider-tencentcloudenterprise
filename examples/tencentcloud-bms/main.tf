@@ -3,30 +3,30 @@
 # ========== Data Sources ==========
 
 # Query BMS instances
-data "cloud_bms_instances" "instances" {
+data "tencentcloudenterprise_bms_instances" "instances" {
   instance_ids = ["bms-xxxxx"]
 }
 
 # Query BMS placement groups
-data "cloud_bms_placement_groups" "groups" {
+data "tencentcloudenterprise_bms_placement_groups" "groups" {
   placement_group_ids = ["pg-xxxxx"]
 }
 
 # Query BMS flavors
-data "cloud_bms_flavors" "flavors" {
+data "tencentcloudenterprise_bms_flavors" "flavors" {
   zone = "ap-guangzhou-3"
 }
 
 # ========== Resources ==========
 
 # BMS Placement Group
-resource "cloud_bms_placement_group" "group" {
+resource "tencentcloudenterprise_bms_placement_group" "group" {
   placement_group_name = "example-pg"
   placement_group_type = "HOST"
 }
 
 # BMS Instance
-resource "cloud_bms_instance" "instance" {
+resource "tencentcloudenterprise_bms_instance" "instance" {
   instance_name     = "example-bms"
   zone              = "ap-guangzhou-3"
   instance_type     = "BMS.S5.MEDIUM4"

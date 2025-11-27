@@ -98,37 +98,37 @@ func TestAccTencentCloudSslCertificatesDataSource_id(t *testing.T) {
 }
 
 var TestAccDataSourceTencentCloudSslCertificatesBasic = fmt.Sprintf(`
-resource "cloud_ssl_certificate" "foo" {
+resource "tencentcloudenterprise_ssl_certificate" "foo" {
   type = "CA"
   cert = "%s"
   name = "keep-ssl-ca"
 }
 
-data "cloud_ssl_certificates" "foo" {
+data "tencentcloudenterprise_ssl_certificates" "foo" {
   name = cloud_ssl_certificate.foo.name
 }
 `, testAccSslCertificateCA)
 
 var TestAccDataSourceTencentCloudSslCertificatesType = fmt.Sprintf(`
-resource "cloud_ssl_certificate" "foo" {
+resource "tencentcloudenterprise_ssl_certificate" "foo" {
   type = "CA"
   cert = "%s"
   name = "keep-ssl-ca"
 }
 
-data "cloud_ssl_certificates" "foo" {
+data "tencentcloudenterprise_ssl_certificates" "foo" {
   type = cloud_ssl_certificate.foo.type
 }
 `, testAccSslCertificateCA)
 
 var TestAccDataSourceTencentCloudSslCertificatesId = fmt.Sprintf(`
-resource "cloud_ssl_certificate" "foo" {
+resource "tencentcloudenterprise_ssl_certificate" "foo" {
   type = "CA"
   cert = "%s"
   name = "keep-ssl-ca"
 }
 
-data "cloud_ssl_certificates" "foo" {
+data "tencentcloudenterprise_ssl_certificates" "foo" {
   id = cloud_ssl_certificate.foo.id
 }
 `, testAccSslCertificateCA)

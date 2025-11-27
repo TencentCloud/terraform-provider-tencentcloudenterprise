@@ -45,7 +45,7 @@ variable "instance_id" {
 
 const testAccRedisBackupDataSource = testAccRedisBackupDataSourceVar + `
 
-data "cloud_redis_backup" "backup" {
+data "tencentcloudenterprise_redis_backup" "backup" {
 	instance_id = var.instance_id
 	# begin_time = "2023-04-07 19:50:40"
 	# end_time = "2023-04-07 19:50:50"

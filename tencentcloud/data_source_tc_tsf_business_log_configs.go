@@ -5,7 +5,7 @@ Use this data source to query detailed information of tsf business_log_configs
 
 ```hcl
 
-	data "cloud_tsf_business_log_configs" "business_log_configs" {
+	data "tencentcloudenterprise_tsf_business_log_configs" "business_log_configs" {
 	  search_word = "terraform"
 	  disable_program_auth_check = true
 	  config_id_list = ["apm-busi-log-cfg-qv3x3rdv"]
@@ -25,7 +25,7 @@ import (
 )
 
 func init() {
-	registerDataDescriptionProvider("cloud_tsf_business_log_configs", CNDescription{
+	registerDataDescriptionProvider("tencentcloudenterprise_tsf_business_log_configs", CNDescription{
 		TerraformTypeCN: "TSF业务日志配置",
 		DescriptionCN:   "提供TSF业务日志配置数据源，用于查询TSF业务日志配置的详细信息。",
 		AttributesCN: map[string]string{

@@ -47,7 +47,7 @@ variable "config_id" {
 
 const testAccTsfApplicationConfigDataSource = testAccTsfApplicationConfigDataSourceVar + `
 
-data "cloud_tsf_application_config" "application_config" {
+data "tencentcloudenterprise_tsf_application_config" "application_config" {
 	application_id = var.application_id
 	config_id = var.config_id
 	# config_id_list =

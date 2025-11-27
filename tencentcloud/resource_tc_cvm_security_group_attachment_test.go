@@ -16,10 +16,10 @@ func TestAccTencentCloudCvmSecurityGroupAttachmentResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			{
 				Config: testAccCvmSecurityGroupAttachment,
-				Check:  resource.ComposeTestCheckFunc(resource.TestCheckResourceAttrSet("cloud_cvm_security_group_attachment.security_group_attachment", "id")),
+				Check:  resource.ComposeTestCheckFunc(resource.TestCheckResourceAttrSet("tencentcloudenterprise_cvm_security_group_attachment.security_group_attachment", "id")),
 			},
 			{
-				ResourceName:      "cloud_cvm_security_group_attachment.security_group_attachment",
+				ResourceName:      "tencentcloudenterprise_cvm_security_group_attachment.security_group_attachment",
 				ImportState:       true,
 				ImportStateVerify: true,
 			},
@@ -28,7 +28,7 @@ func TestAccTencentCloudCvmSecurityGroupAttachmentResource_basic(t *testing.T) {
 }
 
 const testAccCvmSecurityGroupAttachment = `
-resource "cloud_cvm_security_group_attachment" "security_group_attachment" {
+resource "tencentcloudenterprise_cvm_security_group_attachment" "security_group_attachment" {
 	security_group_id = "sg-a0212ii1"
 	instance_id = "ins-cr2rfq78"
 }

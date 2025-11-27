@@ -45,8 +45,8 @@ func TestAccTencentCloudDataSourceUserInfoSubAccount(t *testing.T) {
 }
 
 const testAccDataUserInfoBasic = `
-data "cloud_user_info" "info" {}
+data "tencentcloudenterprise_user_info" "info" {}
 `
 const testAccDataUserInfoSubAccount = `
-data "cloud_user_info" "info_sub_account" {}
+data "tencentcloudenterprise_user_info" "info_sub_account" {}
 `

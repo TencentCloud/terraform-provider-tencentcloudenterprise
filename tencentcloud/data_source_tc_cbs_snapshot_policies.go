@@ -5,7 +5,7 @@ Use this data source to query detailed information of CBS snapshot policies.
 
 ```hcl
 
-	data "cloud_cbs_snapshot_policies" "policies" {
+	data "tencentcloudenterprise_cbs_snapshot_policies" "policies" {
 	  snapshot_policy_id   = "snap-f3io7adt"
 	  snapshot_policy_name = "test"
 	}
@@ -25,7 +25,7 @@ import (
 )
 
 func init() {
-	registerDataDescriptionProvider("cloud_cbs_snapshot_policies", CNDescription{
+	registerDataDescriptionProvider("tencentcloudenterprise_cbs_snapshot_policies", CNDescription{
 		TerraformTypeCN: "cbs快照策略",
 		DescriptionCN:   "提供CBS快照策略数据源，用于查询CBS快照策略的详细信息。",
 		AttributesCN: map[string]string{

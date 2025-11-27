@@ -5,7 +5,7 @@ Provides a resource to create a CFS access group.
 
 ```hcl
 
-	resource "cloud_cfs_access_group" "foo" {
+	resource "tencentcloudenterprise_cfs_access_group" "foo" {
 	  name        = "test_access_group"
 	  description = "test"
 	}
@@ -34,7 +34,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_cfs_access_group", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_cfs_access_group", CNDescription{
 		TerraformTypeCN: "权限组",
 		DescriptionCN:   "提供CFS访问权限组资源，用于创建和管理CFS访问权限组。",
 		AttributesCN: map[string]string{

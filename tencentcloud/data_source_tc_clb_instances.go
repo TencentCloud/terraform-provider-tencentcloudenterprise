@@ -5,7 +5,7 @@ Use this data source to query detailed information of CLB
 
 ```hcl
 
-	data "cloud_clb_instances" "foo" {
+	data "tencentcloudenterprise_clb_instances" "foo" {
 	  clb_id             = "lb-k2zjp9lv"
 	  network_type       = "OPEN"
 	  clb_name           = "myclb"
@@ -28,7 +28,7 @@ import (
 )
 
 func init() {
-	registerDataDescriptionProvider("cloud_clb_instances", CNDescription{
+	registerDataDescriptionProvider("tencentcloudenterprise_clb_instances", CNDescription{
 		TerraformTypeCN: "负载均衡实例列表",
 		DescriptionCN:   "提供负载均衡实例列表数据源，用于查询CLB实例的详细信息。",
 		AttributesCN: map[string]string{

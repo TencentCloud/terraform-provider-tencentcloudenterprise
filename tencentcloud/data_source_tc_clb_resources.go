@@ -4,7 +4,7 @@ Use this data source to query detailed information of clb resources
 Example Usage
 ```hcl
 
-	data "cloud_clb_resources" "resources" {
+	data "tencentcloudenterprise_clb_resources" "resources" {
 	  filters {
 	    name = "isp"
 	    values = ["BGP"]
@@ -26,7 +26,7 @@ import (
 )
 
 func init() {
-	registerDataDescriptionProvider("cloud_clb_resources", CNDescription{
+	registerDataDescriptionProvider("tencentcloudenterprise_clb_resources", CNDescription{
 		TerraformTypeCN: "负载均衡资源列表",
 		DescriptionCN:   "提供负载均衡资源列表数据源，用于查询CLB资源的详细信息。",
 		AttributesCN: map[string]string{

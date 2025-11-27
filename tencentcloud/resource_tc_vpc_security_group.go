@@ -5,7 +5,7 @@ Provides a resource to create security group.
 
 ```hcl
 
-	resource "cloud_vpc_security_group" "sglab" {
+	resource "tencentcloudenterprise_vpc_security_group" "sglab" {
 	  name        = "mysg"
 	  description = "favourite sg"
 	  project_id  = 0
@@ -38,7 +38,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_vpc_security_group", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_vpc_security_group", CNDescription{
 		TerraformTypeCN: "安全组",
 		DescriptionCN:   "提供安全组资源，用于创建和管理安全组。",
 		AttributesCN: map[string]string{
