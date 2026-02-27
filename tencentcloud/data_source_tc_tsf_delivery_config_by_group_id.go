@@ -78,7 +78,7 @@ func dataSourceTencentCloudTsfDeliveryConfigByGroupId() *schema.Resource {
 }
 
 func dataSourceTencentCloudTsfDeliveryConfigByGroupIdRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("data_source.cloud_tsf_delivery_config_by_group_id.read")()
+	defer logElapsed("data_source.tencentcloudenterprise_tsf_delivery_config_by_group_id.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)

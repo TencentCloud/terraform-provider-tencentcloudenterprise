@@ -91,7 +91,7 @@ func resourceTencentCloudTdmqSendRocketmqMessage() *schema.Resource {
 }
 
 func resourceTencentCloudTdmqSendRocketmqMessageCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_tdmq_send_rocketmq_message.create")()
+	defer logElapsed("resource.tencentcloudenterprise_tdmq_send_rocketmq_message.create")()
 	defer inconsistentCheck(d, meta)()
 
 	var (
@@ -157,14 +157,14 @@ func resourceTencentCloudTdmqSendRocketmqMessageCreate(d *schema.ResourceData, m
 }
 
 func resourceTencentCloudTdmqSendRocketmqMessageRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_tdmq_send_rocketmq_message.read")()
+	defer logElapsed("resource.tencentcloudenterprise_tdmq_send_rocketmq_message.read")()
 	defer inconsistentCheck(d, meta)()
 
 	return nil
 }
 
 func resourceTencentCloudTdmqSendRocketmqMessageDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_tdmq_send_rocketmq_message.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_tdmq_send_rocketmq_message.delete")()
 	defer inconsistentCheck(d, meta)()
 
 	return nil

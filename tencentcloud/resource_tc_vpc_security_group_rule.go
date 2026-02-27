@@ -16,7 +16,7 @@ Provides a resource to create security group rule.
 	}
 
 	resource "tencentcloudenterprise_vpc_security_group_rule" "sglab_1" {
-	  security_group_id = cloud_vpc_security_group.sglab_1.id
+	  security_group_id = tencentcloudenterprise_vpc_security_group.sglab_1.id
 	  type              = "ingress"
 	  cidr_ip           = "10.0.0.0/16"
 	  ip_protocol       = "TCP"
@@ -44,12 +44,12 @@ Provides a resource to create security group rule.
 	}
 
 	resource "tencentcloudenterprise_vpc_security_group_rule" "sglab_2" {
-	  security_group_id = cloud_vpc_security_group.sglab_2.id
+	  security_group_id = tencentcloudenterprise_vpc_security_group.sglab_2.id
 	  type              = "ingress"
 	  ip_protocol       = "TCP"
 	  port_range        = "80"
 	  policy            = "ACCEPT"
-	  source_sgid       = cloud_vpc_security_group.sglab_3.id
+	  source_sgid       = tencentcloudenterprise_vpc_security_group.sglab_3.id
 	  description       = "favourite sg rule_2"
 	}
 
@@ -251,7 +251,7 @@ func resourceTencentCloudSecurityGroupRule() *schema.Resource {
 }
 
 func resourceTencentCloudSecurityGroupRuleCreate(d *schema.ResourceData, m interface{}) error {
-	defer logElapsed("resource.cloud_vpc_security_group_rule.create")()
+	defer logElapsed("resource.tencentcloudenterprise_vpc_security_group_rule.create")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
@@ -374,7 +374,7 @@ func resourceTencentCloudSecurityGroupRuleCreate(d *schema.ResourceData, m inter
 }
 
 func resourceTencentCloudSecurityGroupRuleRead(d *schema.ResourceData, m interface{}) error {
-	defer logElapsed("resource.cloud_vpc_security_group_rule.read")()
+	defer logElapsed("resource.tencentcloudenterprise_vpc_security_group_rule.read")()
 	defer inconsistentCheck(d, m)()
 
 	logId := getLogId(contextNil)
@@ -463,7 +463,7 @@ func resourceTencentCloudSecurityGroupRuleRead(d *schema.ResourceData, m interfa
 }
 
 func resourceTencentCloudSecurityGroupRuleDelete(d *schema.ResourceData, m interface{}) error {
-	defer logElapsed("resource.cloud_vpc_security_group_rule.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_vpc_security_group_rule.delete")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)

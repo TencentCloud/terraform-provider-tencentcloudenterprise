@@ -8,7 +8,7 @@ import (
 
 func TestAccTencentCloudSsmSecretsDataSource(t *testing.T) {
 	t.Parallel()
-	dataSourceName := "data.cloud_ssm_secrets.secret"
+	dataSourceName := "data.tencentcloudenterprise_ssm_secrets.secret"
 
 	resource.Test(t, resource.TestCase{
 		PreCheck:  func() { testAccPreCheck(t) },
@@ -41,7 +41,7 @@ resource "tencentcloudenterprise_ssm_secret" "secret" {
 }
 
 data "tencentcloudenterprise_ssm_secrets" "secret" {
-  secret_name = cloud_ssm_secret.secret.secret_name
+  secret_name = tencentcloudenterprise_ssm_secret.secret.secret_name
   state = 1
   
   tags = {

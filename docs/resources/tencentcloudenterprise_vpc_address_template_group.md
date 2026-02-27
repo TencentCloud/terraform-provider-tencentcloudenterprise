@@ -2,7 +2,7 @@
 subcategory: "Virtual Private Cloud(VPC)"
 layout: "tencentcloudenterprise"
 page_title: "TencentCloudEnterprise: tencentcloudenterprise_vpc_address_template_group"
-sidebar_current: "docs-tencentcloudenterprise-resources-vpc_address_template_group"
+sidebar_current: "docs-tencentcloudenterprise-resource-vpc_address_template_group"
 description: |-
   Provides a resource to manage address template group.
 ---
@@ -34,12 +34,15 @@ In addition to all arguments above, the following attributes are exported:
 * `id` - ID of the resource.
 
 
-
 ## Import
 
+tencentcloudenterprise_vpc_address_template_group can be imported using the id, e.g.
+
+```
 Address template group can be imported using the id, e.g.
 
 ```
 $ terraform import tencentcloudenterprise_vpc_address_template_group.foo ipmg-0np3u974
+```
 ```
 

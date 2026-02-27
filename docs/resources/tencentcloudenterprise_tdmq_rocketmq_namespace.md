@@ -1,8 +1,8 @@
 ---
-subcategory: "Tencent Distributed Message Queue(TDMQ)"
+subcategory: "TDMQ for RocketMQ(trocket)"
 layout: "tencentcloudenterprise"
 page_title: "TencentCloudEnterprise: tencentcloudenterprise_tdmq_rocketmq_namespace"
-sidebar_current: "docs-tencentcloudenterprise-resources-tdmq_rocketmq_namespace"
+sidebar_current: "docs-tencentcloudenterprise-resource-tdmq_rocketmq_namespace"
 description: |-
   Provides a resource to create a tdmqRocketmq namespace
 ---
@@ -46,11 +46,14 @@ In addition to all arguments above, the following attributes are exported:
 * `public_endpoint` - Public network access point address.
 * `vpc_endpoint` - VPC access point address.
 
-
 ## Import
 
+tencentcloudenterprise_tdmq_rocketmq_namespace can be imported using the id, e.g.
+
+```
 tdmqRocketmq namespace can be imported using the id, e.g.
 ```
 $ terraform import tencentcloudenterprise_tdmq_rocketmq_namespace.namespace namespace_id
+```
 ```
 

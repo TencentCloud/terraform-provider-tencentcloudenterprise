@@ -2,7 +2,7 @@
 subcategory: "Cloud Elastic IP(EIP)"
 layout: "tencentcloudenterprise"
 page_title: "TencentCloudEnterprise: tencentcloudenterprise_eip"
-sidebar_current: "docs-tencentcloudenterprise-resources-eip"
+sidebar_current: "docs-tencentcloudenterprise-resource-eip"
 description: |-
   Provides an EIP resource.
 ---
@@ -47,12 +47,15 @@ In addition to all arguments above, the following attributes are exported:
 * `public_ip` - The elastic IP address.
 * `status` - The EIP current status.
 
-
 ## Import
 
+tencentcloudenterprise_eip can be imported using the id, e.g.
+
+```
 EIP can be imported using the id, e.g.
 
 ```
 $ terraform import tencentcloudenterprise_eip.foo eip-nyvf60va
+```
 ```
 

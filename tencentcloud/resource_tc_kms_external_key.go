@@ -21,7 +21,7 @@ Provide a resource to create a KMS external key.
 KMS external keys can be imported using the id, e.g.
 
 ```
-$ terraform import cloud_kms_external_key.foo 287e8f40-7cbb-11eb-9a3a-5254004f7f94
+$ terraform import tencentcloudenterprise_kms_external_key.foo 287e8f40-7cbb-11eb-9a3a-5254004f7f94
 ```
 */
 package tencentcloud
@@ -99,7 +99,7 @@ func resourceTencentCloudKmsExternalKey() *schema.Resource {
 }
 
 func resourceTencentCloudKmsExternalKeyCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_kms_external_key.create")()
+	defer logElapsed("resource.tencentcloudenterprise_kms_external_key.create")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
@@ -196,7 +196,7 @@ func resourceTencentCloudKmsExternalKeyCreate(d *schema.ResourceData, meta inter
 }
 
 func resourceTencentCloudKmsExternalKeyRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_kms_external_key.read")()
+	defer logElapsed("resource.tencentcloudenterprise_kms_external_key.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -242,7 +242,7 @@ func resourceTencentCloudKmsExternalKeyRead(d *schema.ResourceData, meta interfa
 }
 
 func resourceTencentCloudKmsExternalKeyUpdate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_kms_external_key.update")()
+	defer logElapsed("resource.tencentcloudenterprise_kms_external_key.update")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
@@ -348,7 +348,7 @@ func resourceTencentCloudKmsExternalKeyUpdate(d *schema.ResourceData, meta inter
 }
 
 func resourceTencentCloudKmsExternalKeyDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_kms_external_key.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_kms_external_key.delete")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)

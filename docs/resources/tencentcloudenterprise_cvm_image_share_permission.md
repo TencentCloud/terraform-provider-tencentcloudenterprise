@@ -2,7 +2,7 @@
 subcategory: "Cloud Virtual Machine(CVM)"
 layout: "tencentcloudenterprise"
 page_title: "TencentCloudEnterprise: tencentcloudenterprise_cvm_image_share_permission"
-sidebar_current: "docs-tencentcloudenterprise-resources-cvm_image_share_permission"
+sidebar_current: "docs-tencentcloudenterprise-resource-cvm_image_share_permission"
 description: |-
   Provides a resource to create a cvm image_share_permission
 ---
@@ -34,12 +34,15 @@ In addition to all arguments above, the following attributes are exported:
 * `id` - ID of the resource.
 
 
-
 ## Import
 
+tencentcloudenterprise_cvm_image_share_permission can be imported using the id, e.g.
+
+```
 cvm image_share_permission can be imported using the id, e.g.
 
 ```
 terraform import tencentcloudenterprise_cvm_image_share_permission.image_share_permission image_share_permission_id
+```
 ```
 

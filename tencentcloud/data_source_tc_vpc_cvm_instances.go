@@ -159,7 +159,7 @@ func dataSourceTencentCloudVpcCvmInstances() *schema.Resource {
 }
 
 func dataSourceTencentCloudVpcCvmInstancesRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("data_source.cloud_vpc_cvm_instances.read")()
+	defer logElapsed("data_source.tencentcloudenterprise_vpc_cvm_instances.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)

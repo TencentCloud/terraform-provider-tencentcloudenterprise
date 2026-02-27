@@ -18,7 +18,7 @@ func TestAccTencentCloudNeedFixTdmqRocketmqMessagesDataSource_basic(t *testing.T
 			{
 				Config: testAccTdmqMessageDataSource,
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckTencentCloudDataSourceID("data.cloud_tdmq_rocketmq_messages.message"),
+					testAccCheckTencentCloudDataSourceID("data.tencentcloudenterprise_tdmq_rocketmq_messages.message"),
 				),
 			},
 		},

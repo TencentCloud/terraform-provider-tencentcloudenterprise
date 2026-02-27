@@ -19,7 +19,7 @@ Provide a resource to create a tdmq namespace.
 	resource "tencentcloudenterprise_tdmq_namespace" "bar" {
 	  environ_name = "example"
 	  msg_ttl = 200
-	  cluster_id = cloud_tdmq_instance.foo.id
+	  cluster_id = tencentcloudenterprise_tdmq_instance.foo.id
 	  remark = "this is description.22222222"
 	}
 
@@ -30,7 +30,7 @@ Provide a resource to create a tdmq namespace.
 Tdmq namespace can be imported, e.g.
 
 ```
-$ terraform import cloud_tdmq_instance.test namespace_id
+$ terraform import tencentcloudenterprise_tdmq_instance.test namespace_id
 ```
 */
 package tencentcloud
@@ -119,7 +119,7 @@ func resourceTencentCloudTdmqNamespace() *schema.Resource {
 }
 
 func resourceTencentCloudTdmqNamespaceCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	defer logElapsed("resource.cloud_tdmq_namespace.create")()
+	defer logElapsed("resource.tencentcloudenterprise_tdmq_namespace.create")()
 
 	tdmqService := TdmqService{client: meta.(*TencentCloudClient).apiV3Conn}
 
@@ -167,7 +167,7 @@ func resourceTencentCloudTdmqNamespaceCreate(ctx context.Context, d *schema.Reso
 }
 
 func resourceTencentCloudTdmqNamespaceRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	defer logElapsed("resource.cloud_tdmq_namespace.read")()
+	defer logElapsed("resource.tencentcloudenterprise_tdmq_namespace.read")()
 	defer inconsistentCheck(d, meta)()
 
 	environId := d.Id()
@@ -203,7 +203,7 @@ func resourceTencentCloudTdmqNamespaceRead(ctx context.Context, d *schema.Resour
 
 func resourceTencentCloudTdmqNamespaceUpdate(ctx context.Context, d *schema.ResourceData,
 	meta interface{}) diag.Diagnostics {
-	defer logElapsed("resource.cloud_tdmq_instance.update")()
+	defer logElapsed("resource.tencentcloudenterprise_tdmq_instance.update")()
 
 	environId := d.Id()
 	clusterId := d.Get("cluster_id").(string)
@@ -263,7 +263,7 @@ func resourceTencentCloudTdmqNamespaceUpdate(ctx context.Context, d *schema.Reso
 }
 
 func resourceTencentCloudTdmqNamespaceDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	defer logElapsed("resource.cloud_tdmq_instance.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_tdmq_instance.delete")()
 
 	environId := d.Id()
 	clusterId := d.Get("cluster_id").(string)

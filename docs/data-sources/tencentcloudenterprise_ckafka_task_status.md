@@ -1,5 +1,5 @@
 ---
-subcategory: "Cloud Kafka(CKafka)"
+subcategory: "Cloud Kafka(ckafka)"
 layout: "tencentcloudenterprise"
 page_title: "TencentCloudEnterprise: tencentcloudenterprise_ckafka_task_status"
 sidebar_current: "docs-tencentcloudenterprise-datasource-ckafka_task_status"
@@ -33,5 +33,4 @@ In addition to all arguments above, the following attributes are exported:
 * `result` - Result.
   * `output` - OutPut Info.
   * `status` - Status.
-
 

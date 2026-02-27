@@ -20,7 +20,7 @@ data "tencentcloudenterprise_cvm_instance_types" "foo" {
   memory_size       = 4
 }
 
-data tencentcloudenterprise_cvm_instance_types "t1c1g" {
+data cloud_cvm_instance_types "t1c1g" {
   cpu_core_count   = 1
   memory_size      = 1
   exclude_sold_out = true
@@ -65,5 +65,4 @@ In addition to all arguments above, the following attributes are exported:
   * `instance_type` - Type of the instance.
   * `memory_size` - Instance memory capacity, unit in GB.
   * `status` - Sell status of the instance.
-
 

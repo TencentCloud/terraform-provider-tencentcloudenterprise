@@ -1,7 +1,7 @@
 /*
 The NATs data source lists a number of NATs resource information owned by an TencentCloud account.
 
-~> **NOTE:** It has been deprecated and replaced by cloud_vpc_nat_gateways.
+~> **NOTE:** It has been deprecated and replaced by tencentcloudenterprise_vpc_nat_gateways.
 
 # Example Usage
 
@@ -138,7 +138,7 @@ func dataSourceTencentCloudNats() *schema.Resource {
 }
 
 func dataSourceTencentCloudNatsRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("data_source.cloud_nats.read")()
+	defer logElapsed("data_source.tencentcloudenterprise_nats.read")()
 
 	logId := getLogId(contextNil)
 	request := vpc.NewDescribeNatGatewaysRequest()

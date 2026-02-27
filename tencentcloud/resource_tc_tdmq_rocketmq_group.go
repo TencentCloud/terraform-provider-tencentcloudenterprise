@@ -11,7 +11,7 @@ Provides a resource to create a tdmqRocketmq group
 	}
 
 	resource "tencentcloudenterprise_tdmq_rocketmq_namespace" "namespace" {
-	  cluster_id = cloud_tdmq_rocketmq_cluster.cluster.cluster_id
+	  cluster_id = tencentcloudenterprise_tdmq_rocketmq_cluster.cluster.cluster_id
 	  namespace_name = "test_namespace"
 	  ttl = 65000
 	  retention_time = 65000
@@ -20,10 +20,10 @@ Provides a resource to create a tdmqRocketmq group
 
 	resource "tencentcloudenterprise_tdmq_rocketmq_group" "group" {
 	  group_name = "test_rocketmq_group"
-	  namespace = cloud_tdmq_rocketmq_namespace.namespace.namespace_name
+	  namespace = tencentcloudenterprise_tdmq_rocketmq_namespace.namespace.namespace_name
 	  read_enable = true
 	  broadcast_enable = true
-	  cluster_id = cloud_tdmq_rocketmq_cluster.cluster.cluster_id
+	  cluster_id = tencentcloudenterprise_tdmq_rocketmq_cluster.cluster.cluster_id
 	  remark = "test rocketmq group"
 	}
 
@@ -32,7 +32,7 @@ Import
 
 tdmqRocketmq group can be imported using the id, e.g.
 ```
-$ terraform import cloud_tdmq_rocketmq_group.group group_id
+$ terraform import tencentcloudenterprise_tdmq_rocketmq_group.group group_id
 ```
 */
 package tencentcloud
@@ -187,7 +187,7 @@ func resourceTencentCloudTdmqRocketmqGroup() *schema.Resource {
 }
 
 func resourceTencentCloudTdmqRocketmqGroupCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_tdmqRocketmq_group.create")()
+	defer logElapsed("resource.tencentcloudenterprise_tdmqRocketmq_group.create")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -248,7 +248,7 @@ func resourceTencentCloudTdmqRocketmqGroupCreate(d *schema.ResourceData, meta in
 }
 
 func resourceTencentCloudTdmqRocketmqGroupRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_tdmqRocketmq_group.read")()
+	defer logElapsed("resource.tencentcloudenterprise_tdmqRocketmq_group.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -295,7 +295,7 @@ func resourceTencentCloudTdmqRocketmqGroupRead(d *schema.ResourceData, meta inte
 }
 
 func resourceTencentCloudTdmqRocketmqGroupUpdate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_tdmqRocketmq_group.update")()
+	defer logElapsed("resource.tencentcloudenterprise_tdmqRocketmq_group.update")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -373,7 +373,7 @@ func resourceTencentCloudTdmqRocketmqGroupUpdate(d *schema.ResourceData, meta in
 }
 
 func resourceTencentCloudTdmqRocketmqGroupDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_tdmqRocketmq_group.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_tdmqRocketmq_group.delete")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)

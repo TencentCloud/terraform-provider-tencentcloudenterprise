@@ -33,8 +33,8 @@ func TestAccTencentCloudTsfApplicationPublicConfigReleaseResource_basic(t *testi
 const testAccTsfApplicationPublicConfigRelease = testAccTsfApplicationPublicConfig + testAccTsfNamespace + `
 
 resource "tencentcloudenterprise_tsf_application_public_config_release" "application_public_config_release" {
-  config_id = cloud_tsf_application_public_config.application_public_config.id
-  namespace_id = cloud_tsf_namespace.namespace.id
+  config_id = tencentcloudenterprise_tsf_application_public_config.application_public_config.id
+  namespace_id = tencentcloudenterprise_tsf_namespace.namespace.id
   release_desc = "v1"
 }
 

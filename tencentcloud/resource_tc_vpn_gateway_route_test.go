@@ -112,10 +112,10 @@ data "tencentcloudenterprise_vpc_instances" "foo" {
 }
 
 resource "tencentcloudenterprise_vpn_gateway_route" "route1" {
-  vpn_gateway_id = data.cloud_vpn_gateways.foo.gateway_list.0.id
+  vpn_gateway_id = data.tencentcloudenterprise_vpn_gateways.foo.gateway_list.0.id
   destination_cidr_block = "10.0.0.0/16"
   instance_type = "VPNCONN"
-  instance_id = data.cloud_vpn_connections.conns.connection_list.0.id
+  instance_id = data.tencentcloudenterprise_vpn_connections.conns.connection_list.0.id
   priority = "100"
   status = "ENABLE"
 }
@@ -127,10 +127,10 @@ data "tencentcloudenterprise_vpc_instances" "foo" {
 }
 
 resource "tencentcloudenterprise_vpn_gateway_route" "route1" {
-  vpn_gateway_id = data.cloud_vpn_gateways.foo.gateway_list.0.id
+  vpn_gateway_id = data.tencentcloudenterprise_vpn_gateways.foo.gateway_list.0.id
   destination_cidr_block = "10.0.0.0/16"
   instance_type = "VPNCONN"
-  instance_id = data.cloud_vpn_connections.conns.connection_list.0.id
+  instance_id = data.tencentcloudenterprise_vpn_connections.conns.connection_list.0.id
   priority = "100"
   status = "DISABLE"
 }

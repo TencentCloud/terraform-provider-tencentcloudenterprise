@@ -11,7 +11,7 @@ Provides a resource to create a VPC routing table.
 	}
 
 	resource "tencentcloudenterprise_vpc_route_table" "foo" {
-	  vpc_id = cloud_vpc.foo.id
+	  vpc_id = tencentcloudenterprise_vpc.foo.id
 	  name   = "ci-temp-test-rt"
 	}
 
@@ -22,7 +22,7 @@ Provides a resource to create a VPC routing table.
 Vpc routetable instance can be imported, e.g.
 
 ```
-$ terraform import cloud_route_table.test route_table_id
+$ terraform import tencentcloudenterprise_route_table.test route_table_id
 ```
 */
 package tencentcloud
@@ -114,7 +114,7 @@ func resourceTencentCloudVpcRouteTable() *schema.Resource {
 }
 
 func resourceTencentCloudVpcRouteTableCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_route_table.create")()
+	defer logElapsed("resource.tencentcloudenterprise_route_table.create")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
@@ -161,7 +161,7 @@ func resourceTencentCloudVpcRouteTableCreate(d *schema.ResourceData, meta interf
 }
 
 func resourceTencentCloudVpcRouteTableRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_route_table.read")()
+	defer logElapsed("resource.tencentcloudenterprise_route_table.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -224,7 +224,7 @@ func resourceTencentCloudVpcRouteTableRead(d *schema.ResourceData, meta interfac
 }
 
 func resourceTencentCloudVpcRouteTableUpdate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_route_table.update")()
+	defer logElapsed("resource.tencentcloudenterprise_route_table.update")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
@@ -265,7 +265,7 @@ func resourceTencentCloudVpcRouteTableUpdate(d *schema.ResourceData, meta interf
 }
 
 func resourceTencentCloudVpcRouteTableDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_route_table.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_route_table.delete")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)

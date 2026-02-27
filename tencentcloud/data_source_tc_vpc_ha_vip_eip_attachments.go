@@ -82,7 +82,7 @@ func dataSourceTencentCloudHaVipEipAttachments() *schema.Resource {
 }
 
 func dataSourceTencentCloudHaVipEipAttachmentsRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("data_source.cloud_vpc_ha_vip_eip_attachments.read")()
+	defer logElapsed("data_source.tencentcloudenterprise_vpc_ha_vip_eip_attachments.read")()
 
 	logId := getLogId(contextNil)
 

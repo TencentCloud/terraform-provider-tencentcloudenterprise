@@ -2,7 +2,7 @@
 subcategory: "Virtual Private Cloud(VPC)"
 layout: "tencentcloudenterprise"
 page_title: "TencentCloudEnterprise: tencentcloudenterprise_vpc_subnet"
-sidebar_current: "docs-tencentcloudenterprise-resources-vpc_subnet"
+sidebar_current: "docs-tencentcloudenterprise-resource-vpc_subnet"
 description: |-
   Provide a resource to create a VPC subnet.
 ---
@@ -55,12 +55,15 @@ In addition to all arguments above, the following attributes are exported:
 * `is_default` - Indicates whether it is the default VPC for this region.
 * `subnet_id` - ID of the subnet.
 
-
 ## Import
 
+tencentcloudenterprise_vpc_subnet can be imported using the id, e.g.
+
+```
 Vpc subnet instance can be imported, e.g.
 
 ```
 $ terraform import tencentcloudenterprise_vpc_subnet.test subnet_id
+```
 ```
 

@@ -30,7 +30,7 @@ Provides a resource to create a cls machine group.
 cls machine group can be imported using the id, e.g.
 
 ```
-$ terraform import cloud_cls_machine_group.group caf168e7-32cd-4ac6-bf89-1950a760e09c
+$ terraform import tencentcloudenterprise_cls_machine_group.group caf168e7-32cd-4ac6-bf89-1950a760e09c
 ```
 */
 package tencentcloud
@@ -179,7 +179,7 @@ func resourceTencentCloudClsMachineGroup() *schema.Resource {
 }
 
 func resourceTencentCloudClsMachineGroupCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cls_machine_group.create")()
+	defer logElapsed("resource.tencentcloudenterprise_cls_machine_group.create")()
 
 	logId := getLogId(contextNil)
 
@@ -260,7 +260,7 @@ func resourceTencentCloudClsMachineGroupCreate(d *schema.ResourceData, meta inte
 }
 
 func resourceTencentCloudClsMachineGroupRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cls_machine_group.read")()
+	defer logElapsed("resource.tencentcloudenterprise_cls_machine_group.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -306,7 +306,7 @@ func resourceTencentCloudClsMachineGroupRead(d *schema.ResourceData, meta interf
 }
 
 func resourceTencentCloudClsMachineGroupUpdate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cls_machine_group.update")()
+	defer logElapsed("resource.tencentcloudenterprise_cls_machine_group.update")()
 	logId := getLogId(contextNil)
 	request := cls.NewModifyMachineGroupRequest()
 
@@ -397,7 +397,7 @@ func resourceTencentCloudClsMachineGroupUpdate(d *schema.ResourceData, meta inte
 }
 
 func resourceTencentCloudClsMachineGroupDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cls_machine_group.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_cls_machine_group.delete")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)

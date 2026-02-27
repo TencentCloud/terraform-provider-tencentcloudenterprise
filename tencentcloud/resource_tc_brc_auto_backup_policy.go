@@ -36,7 +36,7 @@ Provides a resource to create a brc auto_backup_policy
 brc auto_backup_policy can be imported using the id, e.g.
 
 ```
-terraform import cloud_brc auto_backup_policy.example auto_backup_policy_id
+terraform import tencentcloudenterprise_brc auto_backup_policy.example auto_backup_policy_id
 ```
 */
 package tencentcloud
@@ -219,7 +219,7 @@ func resourceTencentCloudBrcAutoBackupPolicy() *schema.Resource {
 }
 
 func resourceTencentCloudBrcAutoBackupPolicyCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_brc_auto_backup_policy.create")()
+	defer logElapsed("resource.tencentcloudenterprise_brc_auto_backup_policy.create")()
 
 	var (
 		logId        = getLogId(contextNil)
@@ -325,7 +325,7 @@ func resourceTencentCloudBrcAutoBackupPolicyCreate(d *schema.ResourceData, meta 
 }
 
 func resourceTencentCloudBrcAutoBackupPolicyRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_brc_auto_backup_policy.read")()
+	defer logElapsed("resource.tencentcloudenterprise_brc_auto_backup_policy.read")()
 
 	var (
 		logId      = getLogId(contextNil)
@@ -458,7 +458,7 @@ func resourceTencentCloudBrcAutoBackupPolicyRead(d *schema.ResourceData, meta in
 }
 
 func resourceTencentCloudBrcAutoBackupPolicyUpdate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_brc_auto_backup_policy.update")()
+	defer logElapsed("resource.tencentcloudenterprise_brc_auto_backup_policy.update")()
 
 	var (
 		logId      = getLogId(contextNil)
@@ -579,7 +579,7 @@ func resourceTencentCloudBrcAutoBackupPolicyUpdate(d *schema.ResourceData, meta 
 }
 
 func resourceTencentCloudBrcAutoBackupPolicyDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_brc_auto_backup_policy.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_brc_auto_backup_policy.delete")()
 
 	var (
 		logId      = getLogId(contextNil)

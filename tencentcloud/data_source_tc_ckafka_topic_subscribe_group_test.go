@@ -14,7 +14,7 @@ func TestAccTencentCloudCkafkaTopicSubscribeGroupDataSource_basic(t *testing.T) 
 		Steps: []resource.TestStep{
 			{
 				Config: testAccCkafkaTopicSubscribeGroupDataSource,
-				Check:  resource.ComposeTestCheckFunc(testAccCheckTencentCloudDataSourceID("data.cloud_ckafka_topic_subscribe_group.topic_subscribe_group")),
+				Check:  resource.ComposeTestCheckFunc(testAccCheckTencentCloudDataSourceID("data.tencentcloudenterprise_ckafka_topic_subscribe_group.topic_subscribe_group")),
 			},
 		},
 	})

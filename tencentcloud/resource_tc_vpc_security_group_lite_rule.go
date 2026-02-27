@@ -12,7 +12,7 @@ Provide a resource to create security group some lite rules quickly.
 	}
 
 	resource "tencentcloudenterprise_vpc_security_group_lite_rule" "foo" {
-	  security_group_id = cloud_vpc_security_group.foo.id
+	  security_group_id = tencentcloudenterprise_vpc_security_group.foo.id
 
 	  ingress = [
 	    "ACCEPT#192.168.1.0/24#80#TCP",
@@ -40,7 +40,7 @@ Security group lite rule can be imported using the id, e.g.
 
 ```
 
-	$ terraform import cloud_vpc_security_group_lite_rule.foo sg-ey3wmiz1
+	$ terraform import tencentcloudenterprise_vpc_security_group_lite_rule.foo sg-ey3wmiz1
 
 ```
 */
@@ -99,7 +99,7 @@ func resourceTencentCloudSecurityGroupLiteRule() *schema.Resource {
 }
 
 func resourceTencentCloudSecurityGroupLiteRuleCreate(d *schema.ResourceData, m interface{}) error {
-	defer logElapsed("resource.cloud_vpc_security_group_lite_rule.create")()
+	defer logElapsed("resource.tencentcloudenterprise_vpc_security_group_lite_rule.create")()
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
 
@@ -144,7 +144,7 @@ func resourceTencentCloudSecurityGroupLiteRuleCreate(d *schema.ResourceData, m i
 }
 
 func resourceTencentCloudSecurityGroupLiteRuleRead(d *schema.ResourceData, m interface{}) error {
-	defer logElapsed("resource.cloud_vpc_security_group_lite_rule.read")()
+	defer logElapsed("resource.tencentcloudenterprise_vpc_security_group_lite_rule.read")()
 	defer inconsistentCheck(d, m)()
 
 	logId := getLogId(contextNil)
@@ -182,7 +182,7 @@ func resourceTencentCloudSecurityGroupLiteRuleRead(d *schema.ResourceData, m int
 }
 
 func resourceTencentCloudSecurityGroupLiteRuleUpdate(d *schema.ResourceData, m interface{}) error {
-	defer logElapsed("resource.cloud_vpc_security_group_lite_rule.update")()
+	defer logElapsed("resource.tencentcloudenterprise_vpc_security_group_lite_rule.update")()
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
 
@@ -288,7 +288,7 @@ func resourceTencentCloudSecurityGroupLiteRuleUpdate(d *schema.ResourceData, m i
 }
 
 func resourceTencentCloudSecurityGroupLiteRuleDelete(d *schema.ResourceData, m interface{}) error {
-	defer logElapsed("resource.cloud_vpc_security_group_lite_rule.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_vpc_security_group_lite_rule.delete")()
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
 

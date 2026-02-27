@@ -215,7 +215,7 @@ func dataTencentCloudBmsInstances() *schema.Resource {
 }
 
 func dataTencentCloudBmsInstanceRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_bms_instance.read")()
+	defer logElapsed("resource.tencentcloudenterprise_bms_instance.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)

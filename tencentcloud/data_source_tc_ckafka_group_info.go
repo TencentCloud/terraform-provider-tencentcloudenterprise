@@ -175,7 +175,7 @@ func dataSourceTencentCloudCkafkaGroupInfo() *schema.Resource {
 }
 
 func dataSourceTencentCloudCkafkaGroupInfoRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("data_source.cloud_ckafka_group_info.read")()
+	defer logElapsed("data_source.tencentcloudenterprise_ckafka_group_info.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)

@@ -60,7 +60,7 @@ func resourceTencentCloudDcdbSwitchDbInstanceHaOperation() *schema.Resource {
 }
 
 func resourceTencentCloudDcdbSwitchDbInstanceHaOperationCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_dcdb_switch_db_instance_ha_operation.create")()
+	defer logElapsed("resource.tencentcloudenterprise_dcdb_switch_db_instance_ha_operation.create")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -110,14 +110,14 @@ func resourceTencentCloudDcdbSwitchDbInstanceHaOperationCreate(d *schema.Resourc
 }
 
 func resourceTencentCloudDcdbSwitchDbInstanceHaOperationRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_dcdb_switch_db_instance_ha_operation.read")()
+	defer logElapsed("resource.tencentcloudenterprise_dcdb_switch_db_instance_ha_operation.read")()
 	defer inconsistentCheck(d, meta)()
 
 	return nil
 }
 
 func resourceTencentCloudDcdbSwitchDbInstanceHaOperationDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_dcdb_switch_db_instance_ha_operation.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_dcdb_switch_db_instance_ha_operation.delete")()
 	defer inconsistentCheck(d, meta)()
 
 	return nil

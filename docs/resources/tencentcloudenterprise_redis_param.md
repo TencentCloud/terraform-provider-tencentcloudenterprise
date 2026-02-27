@@ -1,8 +1,8 @@
 ---
-subcategory: "Cloud Redis®(Redis)"
+subcategory: "TencentDB for Redis(crs)"
 layout: "tencentcloudenterprise"
 page_title: "TencentCloudEnterprise: tencentcloudenterprise_redis_param"
-sidebar_current: "docs-tencentcloudenterprise-resources-redis_param"
+sidebar_current: "docs-tencentcloudenterprise-resource-redis_param"
 description: |-
   Provides a resource to create a param
 ---
@@ -53,12 +53,15 @@ In addition to all arguments above, the following attributes are exported:
 * `id` - ID of the resource.
 
 
-
 ## Import
 
+tencentcloudenterprise_redis_param can be imported using the id, e.g.
+
+```
 redis param can be imported using the instanceId, e.g.
 
 ```
 terraform import tencentcloudenterprise_redis_param.param crs-c1nl9rpv
+```
 ```
 

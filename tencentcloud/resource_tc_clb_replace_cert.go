@@ -14,7 +14,7 @@ Example Usage
 ```
 
 ```
-terraform import cloud_clb_replace_cert.replace_cert_for_lbs replace_cert_for_lbs_id
+terraform import tencentcloudenterprise_clb_replace_cert.replace_cert_for_lbs replace_cert_for_lbs_id
 ```
 */
 package tencentcloud
@@ -107,7 +107,7 @@ func resourceTencentCloudClbReplaceCert() *schema.Resource {
 }
 
 func resourceTencentCloudClbReplaceCertCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_clb_replace_cert_for_lbs.create")()
+	defer logElapsed("resource.tencentcloudenterprise_clb_replace_cert_for_lbs.create")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -155,21 +155,21 @@ func resourceTencentCloudClbReplaceCertCreate(d *schema.ResourceData, meta inter
 }
 
 func resourceTencentCloudClbReplaceCertRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_clb_replace_cert_for_lbs.read")()
+	defer logElapsed("resource.tencentcloudenterprise_clb_replace_cert_for_lbs.read")()
 	defer inconsistentCheck(d, meta)()
 
 	return nil
 }
 
 func resourceTencentCloudClbReplaceCertUpdate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_clb_replace_cert_for_lbs.update")()
+	defer logElapsed("resource.tencentcloudenterprise_clb_replace_cert_for_lbs.update")()
 	defer inconsistentCheck(d, meta)()
 
 	return nil
 }
 
 func resourceTencentCloudClbReplaceCertDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_clb_replace_cert_for_lbs.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_clb_replace_cert_for_lbs.delete")()
 	defer inconsistentCheck(d, meta)()
 
 	return nil

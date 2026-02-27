@@ -2,7 +2,7 @@
 subcategory: "Cloud Object Storage(COS)"
 layout: "tencentcloudenterprise"
 page_title: "TencentCloudEnterprise: tencentcloudenterprise_cos_bucket_policy"
-sidebar_current: "docs-tencentcloudenterprise-resources-cos_bucket_policy"
+sidebar_current: "docs-tencentcloudenterprise-resource-cos_bucket_policy"
 description: |-
   Provides a cos resource to create a COS bucket policy and set its attributes.
 ---
@@ -58,12 +58,15 @@ In addition to all arguments above, the following attributes are exported:
 * `id` - ID of the resource.
 
 
-
 ## Import
 
+tencentcloudenterprise_cos_bucket_policy can be imported using the id, e.g.
+
+```
 COS bucket policy can be imported, e.g.
 
 ```
 $ terraform import tencentcloudenterprise_cos_bucket_policy.bucket bucket-name
+```
 ```
 

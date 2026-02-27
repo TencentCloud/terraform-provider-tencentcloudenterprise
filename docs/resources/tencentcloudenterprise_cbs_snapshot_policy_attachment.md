@@ -2,7 +2,7 @@
 subcategory: "Cloud Block Storage(CBS)"
 layout: "tencentcloudenterprise"
 page_title: "TencentCloudEnterprise: tencentcloudenterprise_cbs_snapshot_policy_attachment"
-sidebar_current: "docs-tencentcloudenterprise-resources-cbs_snapshot_policy_attachment"
+sidebar_current: "docs-tencentcloudenterprise-resource-cbs_snapshot_policy_attachment"
 description: |-
   Provides a CBS snapshot policy attachment resource.
 ---
@@ -32,6 +32,5 @@ The following arguments are supported:
 In addition to all arguments above, the following attributes are exported:
 
 * `id` - ID of the resource.
-
 
 

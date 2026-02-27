@@ -215,7 +215,7 @@ func dataSourceTencentCloudImages() *schema.Resource {
 }
 
 func dataSourceTencentCloudImagesRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("data_source.cloud_cvm_images.read")()
+	defer logElapsed("data_source.tencentcloudenterprise_cvm_images.read")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)

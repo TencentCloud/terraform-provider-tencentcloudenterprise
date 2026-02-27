@@ -1,5 +1,5 @@
 ---
-subcategory: "Cloud Redis®(Redis)"
+subcategory: "TencentDB for Redis(crs)"
 layout: "tencentcloudenterprise"
 page_title: "TencentCloudEnterprise: tencentcloudenterprise_redis_backup"
 sidebar_current: "docs-tencentcloudenterprise-datasource-redis_backup"
@@ -53,5 +53,4 @@ In addition to all arguments above, the following attributes are exported:
   * `remark` - Notes information for the backup.
   * `start_time` - Backup start time.
   * `status` - Backup status.1: The backup is locked by another process.2: The backup is normal and not locked by any process.-1: The backup has expired.3: The backup is being exported.4: The backup export is successful.
-
 

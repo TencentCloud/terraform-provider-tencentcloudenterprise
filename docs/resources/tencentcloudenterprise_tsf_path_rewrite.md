@@ -2,7 +2,7 @@
 subcategory: "Tencent Service Framework(TSF)"
 layout: "tencentcloudenterprise"
 page_title: "TencentCloudEnterprise: tencentcloudenterprise_tsf_path_rewrite"
-sidebar_current: "docs-tencentcloudenterprise-resources-tsf_path_rewrite"
+sidebar_current: "docs-tencentcloudenterprise-resource-tsf_path_rewrite"
 description: |-
   Provides a resource to create a tsf path_rewrite
 ---
@@ -40,12 +40,15 @@ In addition to all arguments above, the following attributes are exported:
 * `id` - ID of the resource.
 * `path_rewrite_id` - Path rewrite rule ID.
 
-
 ## Import
 
+tencentcloudenterprise_tsf_path_rewrite can be imported using the id, e.g.
+
+```
 tsf path_rewrite can be imported using the id, e.g.
 
 ```
 terraform import tencentcloudenterprise_tsf_path_rewrite.path_rewrite rewrite-nygq33v2
+```
 ```
 

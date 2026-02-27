@@ -36,4 +36,3 @@ In addition to all arguments above, the following attributes are exported:
   * `address_ip` - Public IP address of EIP.
   * `havip_id` - ID of the attached HA VIP.
 
-

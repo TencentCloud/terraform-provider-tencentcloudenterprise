@@ -1,5 +1,5 @@
 ---
-subcategory: "Tencent Distributed Message Queue(TDMQ)"
+subcategory: "TDMQ for RabbitMQ(trabbit)"
 layout: "tencentcloudenterprise"
 page_title: "TencentCloudEnterprise: tencentcloudenterprise_tdmq_rabbitmq_vip_instance"
 sidebar_current: "docs-tencentcloudenterprise-datasource-tdmq_rabbitmq_vip_instance"
@@ -14,7 +14,7 @@ Use this data source to query detailed information of tdmq rabbitmq_vip_instance
 ## Example Usage
 
 ```hcl
-data "tencentcloudenterprise_tdmq_rabbitmq_vip_instance" "rabbitmq_vip_instance" {
+data "cloud_tdmq_rabbitmq_vip_instance" "rabbitmq_vip_instance" {
   filters {
     name   = ""
     values = []
@@ -54,5 +54,4 @@ In addition to all arguments above, the following attributes are exported:
   * `remark` - RemarksNote: This field may return null, indicating that no valid value can be obtained.
   * `spec_name` - Instance Configuration ID.
   * `status` - Instance status, 0 means creating, 1 means normal, 2 means isolating, 3 means destroyed, 4 - abnormal, 5 - delivery failed.
-
 

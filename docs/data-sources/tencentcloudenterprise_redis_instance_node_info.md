@@ -1,5 +1,5 @@
 ---
-subcategory: "Cloud Redis®(Redis)"
+subcategory: "TencentDB for Redis(crs)"
 layout: "tencentcloudenterprise"
 page_title: "TencentCloudEnterprise: tencentcloudenterprise_redis_instance_node_info"
 sidebar_current: "docs-tencentcloudenterprise-datasource-redis_instance_node_info"
@@ -40,5 +40,4 @@ In addition to all arguments above, the following attributes are exported:
   * `node_id` - Node ID.
   * `node_role` - Node role.
   * `zone_id` - Zone ID.
-
 

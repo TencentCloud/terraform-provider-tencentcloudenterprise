@@ -192,7 +192,7 @@ resource "tencentcloudenterprise_as_scaling_config" "launch_configuration" {
 
 resource "tencentcloudenterprise_as_scaling_group" "scaling_group" {
   scaling_group_name = "tf-as-group-basic"
-  configuration_id   = cloud_as_scaling_config.launch_configuration.id
+  configuration_id   = tencentcloudenterprise_as_scaling_config.launch_configuration.id
   max_size           = 1
   min_size           = 0
   vpc_id             = "%s"
@@ -215,7 +215,7 @@ resource "tencentcloudenterprise_as_scaling_config" "launch_configuration" {
 
 resource "tencentcloudenterprise_as_scaling_group" "scaling_group" {
   scaling_group_name   = "tf-as-group-full"
-  configuration_id     = cloud_as_scaling_config.launch_configuration.id
+  configuration_id     = tencentcloudenterprise_as_scaling_config.launch_configuration.id
   max_size             = 1
   min_size             = 0
   vpc_id               = "%s"
@@ -247,7 +247,7 @@ resource "tencentcloudenterprise_as_scaling_config" "launch_configuration" {
 
 resource "tencentcloudenterprise_as_scaling_group" "scaling_group" {
   scaling_group_name   = "tf-as-group-update"
-  configuration_id     = cloud_as_scaling_config.launch_configuration.id
+  configuration_id     = tencentcloudenterprise_as_scaling_config.launch_configuration.id
   max_size             = 2
   min_size             = 0
   vpc_id               = "%s"

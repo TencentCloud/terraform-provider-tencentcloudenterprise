@@ -91,7 +91,7 @@ func dataSourceTencentCloudAddressTemplates() *schema.Resource {
 }
 
 func dataSourceTencentCloudAddressTemplatesRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("data_source.cloud_vpc_address_templates.read")()
+	defer logElapsed("data_source.tencentcloudenterprise_vpc_address_templates.read")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)

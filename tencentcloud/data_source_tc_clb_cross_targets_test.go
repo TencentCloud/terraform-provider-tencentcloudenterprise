@@ -16,7 +16,7 @@ func TestAccTencentCloudClbCrossTargetsDataSource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			{
 				Config: testAccClbCrossTargetsDataSource,
-				Check:  resource.ComposeTestCheckFunc(testAccCheckTencentCloudDataSourceID("data.cloud_clb_cross_targets.cross_targets")),
+				Check:  resource.ComposeTestCheckFunc(testAccCheckTencentCloudDataSourceID("data.tencentcloudenterprise_clb_cross_targets.cross_targets")),
 			},
 		},
 	})

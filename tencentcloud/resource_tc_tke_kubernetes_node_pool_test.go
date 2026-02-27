@@ -284,8 +284,8 @@ resource "tencentcloudenterprise_kubernetes_node_pool" "np_test" {
   cluster_id = local.cluster_id
   max_size = 6
   min_size = 1
-  vpc_id               = data.cloud_vpc_subnets.vpc.instance_list.0.vpc_id
-  subnet_ids           = [data.cloud_vpc_subnets.vpc.instance_list.0.subnet_id]
+  vpc_id               = data.tencentcloudenterprise_vpc_subnets.vpc.instance_list.0.vpc_id
+  subnet_ids           = [data.tencentcloudenterprise_vpc_subnets.vpc.instance_list.0.subnet_id]
   retry_policy         = "INCREMENTAL_INTERVALS"
   desired_capacity     = 1
   enable_auto_scale    = true
@@ -300,7 +300,7 @@ resource "tencentcloudenterprise_kubernetes_node_pool" "np_test" {
     instance_type      = var.ins_type
     system_disk_type   = "CLOUD_PREMIUM"
     system_disk_size   = "50"
-    security_group_ids = [data.cloud_vpc_security_groups.sg.security_groups[0].security_group_id]
+    security_group_ids = [data.tencentcloudenterprise_vpc_security_groups.sg.security_groups[0].security_group_id]
     cam_role_name = "TCB_QcsRole"
     data_disk {
       disk_type = "CLOUD_PREMIUM"
@@ -347,8 +347,8 @@ resource "tencentcloudenterprise_kubernetes_node_pool" "np_test" {
   cluster_id = local.cluster_id
   max_size = 5
   min_size = 2
-  vpc_id               = data.cloud_vpc_subnets.vpc.instance_list.0.vpc_id
-  subnet_ids           = [data.cloud_vpc_subnets.vpc.instance_list.0.subnet_id]
+  vpc_id               = data.tencentcloudenterprise_vpc_subnets.vpc.instance_list.0.vpc_id
+  subnet_ids           = [data.tencentcloudenterprise_vpc_subnets.vpc.instance_list.0.subnet_id]
   retry_policy         = "INCREMENTAL_INTERVALS"
   desired_capacity     = 2
   enable_auto_scale    = false
@@ -364,7 +364,7 @@ resource "tencentcloudenterprise_kubernetes_node_pool" "np_test" {
     instance_type      = var.ins_type
     system_disk_type   = "CLOUD_PREMIUM"
     system_disk_size   = "100"
-    security_group_ids = [data.cloud_vpc_security_groups.sg.security_groups[0].security_group_id, data.cloud_vpc_security_groups.sg_as.security_groups[0].security_group_id]
+    security_group_ids = [data.tencentcloudenterprise_vpc_security_groups.sg.security_groups[0].security_group_id, data.tencentcloudenterprise_vpc_security_groups.sg_as.security_groups[0].security_group_id]
 	instance_charge_type = "SPOTPAID"
     spot_instance_type = "one-time"
     spot_max_price = "1000"
@@ -422,8 +422,8 @@ resource "tencentcloudenterprise_kubernetes_node_pool" "np_test" {
   cluster_id = local.cluster_id
   max_size = 3
   min_size = 1
-  vpc_id               = data.cloud_vpc_subnets.vpc.instance_list.0.vpc_id
-  subnet_ids           = [data.cloud_vpc_subnets.vpc.instance_list.0.subnet_id]
+  vpc_id               = data.tencentcloudenterprise_vpc_subnets.vpc.instance_list.0.vpc_id
+  subnet_ids           = [data.tencentcloudenterprise_vpc_subnets.vpc.instance_list.0.subnet_id]
   retry_policy         = "INCREMENTAL_INTERVALS"
   desired_capacity     = 1
   enable_auto_scale    = true
@@ -439,7 +439,7 @@ resource "tencentcloudenterprise_kubernetes_node_pool" "np_test" {
     cam_role_name      = "TCB_QcsRole"
     system_disk_type   = "CLOUD_PREMIUM"
     system_disk_size   = "50"
-    security_group_ids = [data.cloud_vpc_security_groups.sg.security_groups[0].security_group_id]
+    security_group_ids = [data.tencentcloudenterprise_vpc_security_groups.sg.security_groups[0].security_group_id]
 
     data_disk {
       disk_type = "CLOUD_PREMIUM"
@@ -462,8 +462,8 @@ resource "tencentcloudenterprise_kubernetes_node_pool" "np_test" {
   cluster_id = local.cluster_id
   max_size = 1
   min_size = 0
-  vpc_id               = data.cloud_vpc_subnets.vpc.instance_list.0.vpc_id
-  subnet_ids           = [data.cloud_vpc_subnets.vpc.instance_list.0.subnet_id]
+  vpc_id               = data.tencentcloudenterprise_vpc_subnets.vpc.instance_list.0.vpc_id
+  subnet_ids           = [data.tencentcloudenterprise_vpc_subnets.vpc.instance_list.0.subnet_id]
   retry_policy         = "INCREMENTAL_INTERVALS"
   desired_capacity     = 1
   enable_auto_scale    = false
@@ -479,7 +479,7 @@ resource "tencentcloudenterprise_kubernetes_node_pool" "np_test" {
     instance_type      = "GN6S.LARGE20"
     system_disk_type   = "CLOUD_PREMIUM"
     system_disk_size   = "100"
-    security_group_ids = [data.cloud_vpc_security_groups.sg.security_groups[0].security_group_id, data.cloud_vpc_security_groups.sg_as.security_groups[0].security_group_id]
+    security_group_ids = [data.tencentcloudenterprise_vpc_security_groups.sg.security_groups[0].security_group_id, data.tencentcloudenterprise_vpc_security_groups.sg_as.security_groups[0].security_group_id]
 	instance_charge_type = "SPOTPAID"
     spot_instance_type = "one-time"
     spot_max_price = "1000"

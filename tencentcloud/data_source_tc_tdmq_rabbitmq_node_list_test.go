@@ -17,7 +17,7 @@ func TestAccTencentCloudNeedFixTdmqRabbitmqNodeListDataSource_basic(t *testing.T
 			{
 				Config: testAccTdmqRabbitmqNodeListDataSource,
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckTencentCloudDataSourceID("data.cloud_tdmq_rabbitmq_node_list.rabbitmq_node_list"),
+					testAccCheckTencentCloudDataSourceID("data.tencentcloudenterprise_tdmq_rabbitmq_node_list.rabbitmq_node_list"),
 				),
 			},
 		},

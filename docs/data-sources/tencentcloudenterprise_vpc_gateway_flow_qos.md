@@ -37,4 +37,3 @@ In addition to all arguments above, the following attributes are exported:
   * `ip_address` - Cvm ip address.
   * `vpc_id` - Vpc id.
 
-

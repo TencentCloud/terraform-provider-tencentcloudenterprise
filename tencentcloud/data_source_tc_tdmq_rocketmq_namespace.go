@@ -11,7 +11,7 @@ Use this data source to query detailed information of tdmqRocketmq namespace
 	}
 
 	resource "tencentcloudenterprise_tdmq_rocketmq_namespace" "namespacedata" {
-		cluster_id = cloud_tdmq_rocketmq_cluster.cluster.cluster_id
+		cluster_id = tencentcloudenterprise_tdmq_rocketmq_cluster.cluster.cluster_id
 		namespace_name = "test_namespace_datasource"
 		ttl = 65000
 		retention_time = 65000
@@ -19,8 +19,8 @@ Use this data source to query detailed information of tdmqRocketmq namespace
 	}
 
 	data "tencentcloudenterprise_tdmq_rocketmq_namespace" "namespace" {
-		cluster_id = cloud_tdmq_rocketmq_cluster.cluster.cluster_id
-		name_keyword = cloud_tdmq_rocketmq_namespace.namespacedata.namespace_name
+		cluster_id = tencentcloudenterprise_tdmq_rocketmq_cluster.cluster.cluster_id
+		name_keyword = tencentcloudenterprise_tdmq_rocketmq_namespace.namespacedata.namespace_name
 	}
 
 ```
@@ -123,7 +123,7 @@ func dataSourceTencentCloudTdmqRocketmqNamespace() *schema.Resource {
 }
 
 func dataSourceTencentCloudTdmqRocketmqNamespaceRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("data_source.cloud_tdmqRocketmq_namespace.read")()
+	defer logElapsed("data_source.tencentcloudenterprise_tdmqRocketmq_namespace.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)

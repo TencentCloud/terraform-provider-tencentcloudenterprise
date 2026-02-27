@@ -7,7 +7,7 @@ description: The TencentCloudEnterprise provider is used to interact with many r
 
 # TencentCloudEnterprise Provider
 
-The TencentCloudEnterprise (TCE) provider is used to interact with many resources supported by [TencentCloudEnterprise](https://www.tencentcloud.com/solutions/tce).  
+The TencentCloudEnterprise (TCE) provider is used to interact with many resources supported by [TencentCloudEnterprise](https://www.tencentcloud.com/solutions/tce).
 This provider is implemented as `terraform-provider-tencentcloudenterprise` and requires proper credential configuration before use.
 
 Use the navigation on the left to read about the available resources.

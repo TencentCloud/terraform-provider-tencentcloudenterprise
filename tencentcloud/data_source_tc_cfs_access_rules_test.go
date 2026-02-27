@@ -17,10 +17,10 @@ func TestAccTencentCloudCfsAccessRulesDataSource(t *testing.T) {
 				Config: testAccCfsAccessRulesDataSource,
 				Check: resource.ComposeTestCheckFunc(
 					testAccCheckCfsAccessRuleExists("tencentcloudenterprise_cfs_access_rule.foo"),
-					resource.TestCheckResourceAttrSet("data.cloud_cfs_access_rules.access_rules", "access_rule_list.#"),
-					resource.TestCheckResourceAttrSet("data.cloud_cfs_access_rules.access_rules", "access_rule_list.0.access_rule_id"),
-					resource.TestCheckResourceAttr("data.cloud_cfs_access_rules.access_rules", "access_rule_list.0.auth_client_ip", "172.16.16.0/24"),
-					resource.TestCheckResourceAttr("data.cloud_cfs_access_rules.access_rules", "access_rule_list.0.priority", "1"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_cfs_access_rules.access_rules", "access_rule_list.#"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_cfs_access_rules.access_rules", "access_rule_list.0.access_rule_id"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_cfs_access_rules.access_rules", "access_rule_list.0.auth_client_ip", "172.16.16.0/24"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_cfs_access_rules.access_rules", "access_rule_list.0.priority", "1"),
 				),
 			},
 		},
@@ -37,6 +37,6 @@ resource "tencentcloudenterprise_cfs_access_rule" "foo" {
 
 data "tencentcloudenterprise_cfs_access_rules" "access_rules" {
   access_group_id = local.cfs_access_group_id
-  access_rule_id = cloud_cfs_access_rule.foo.id
+  access_rule_id = tencentcloudenterprise_cfs_access_rule.foo.id
 }
 `

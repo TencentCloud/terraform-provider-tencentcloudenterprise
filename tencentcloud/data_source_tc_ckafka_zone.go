@@ -302,7 +302,7 @@ func dataSourceTencentCloudCkafkaZone() *schema.Resource {
 }
 
 func dataSourceTencentCloudCkafkaZoneRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("data_source.cloud_ckafka_zone.read")()
+	defer logElapsed("data_source.tencentcloudenterprise_ckafka_zone.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)

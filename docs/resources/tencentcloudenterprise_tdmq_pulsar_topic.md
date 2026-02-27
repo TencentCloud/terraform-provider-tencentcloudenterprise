@@ -1,8 +1,8 @@
 ---
-subcategory: "Tencent Distributed Message Queue(TDMQ)"
+subcategory: "TDMQ for Pulsar(tpulsar)"
 layout: "tencentcloudenterprise"
 page_title: "TencentCloudEnterprise: tencentcloudenterprise_tdmq_pulsar_topic"
-sidebar_current: "docs-tencentcloudenterprise-resources-tdmq_pulsar_topic"
+sidebar_current: "docs-tencentcloudenterprise-resource-tdmq_pulsar_topic"
 description: |-
   Provide a resource to create a TDMQ Pulsar topic.
 ---
@@ -14,7 +14,7 @@ Provide a resource to create a TDMQ Pulsar topic.
 ## Example Usage
 
 ```hcl
-resource "tencentcloudenterprise_tdmq_pulsar_cluster" "example" {
+resource "cloud_tdmq_pulsar_cluster" "example" {
   cluster_name = "tf_example"
   remark       = "remark."
   tags = {
@@ -22,10 +22,10 @@ resource "tencentcloudenterprise_tdmq_pulsar_cluster" "example" {
   }
 }
 
-resource "tencentcloudenterprise_tdmq_pulsar_environment" "example" {
+resource "cloud_tdmq_pulsar_environment" "example" {
   environ_name = "tf_example"
   msg_ttl      = 300
-  cluster_id   = tencentcloudenterprise_tdmq_pulsar_cluster.example.id
+  cluster_id   = cloud_tdmq_pulsar_cluster.example.id
   retention_policy {
     time_in_minutes = 60
     size_in_mb      = 10
@@ -33,9 +33,9 @@ resource "tencentcloudenterprise_tdmq_pulsar_environment" "example" {
   remark = "remark."
 }
 
-resource "tencentcloudenterprise_tdmq_pulsar_topic" "example" {
-  environ_id        = tencentcloudenterprise_tdmq_pulsar_environment.example.environ_name
-  cluster_id        = tencentcloudenterprise_tdmq_pulsar_cluster.example.id
+resource "cloud_tdmq_pulsar_topic" "example" {
+  environ_id        = cloud_tdmq_pulsar_environment.example.environ_name
+  cluster_id        = cloud_tdmq_pulsar_cluster.example.id
   topic_name        = "tf-example-topic"
   partitions        = 6
   pulsar_topic_type = 3
@@ -61,5 +61,4 @@ In addition to all arguments above, the following attributes are exported:
 
 * `id` - ID of the resource.
 * `create_time` - Creation time of resource.
-
 

@@ -46,4 +46,3 @@ In addition to all arguments above, the following attributes are exported:
       * `namespace_name` - Namespace Name. Note: This field may return null, indicating that no valid values can be obtained.
   * `total_count` - Total count. Note: This field may return null, which means that no valid value was obtained.
 
-

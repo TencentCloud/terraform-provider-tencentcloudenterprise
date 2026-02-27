@@ -163,7 +163,7 @@ func dataSourceTencentCloudClbCertificates() *schema.Resource {
 }
 
 func dataSourceTencentCloudClbCertificatesRead(d *schema.ResourceData, m interface{}) error {
-	defer logElapsed("data_source.cloud_ssl_certificates.read")()
+	defer logElapsed("data_source.tencentcloudenterprise_ssl_certificates.read")()
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
 

@@ -1,8 +1,8 @@
 ---
-subcategory: "Tencent Distributed Message Queue(TDMQ)"
+subcategory: "TDMQ for RocketMQ(trocket)"
 layout: "tencentcloudenterprise"
 page_title: "TencentCloudEnterprise: tencentcloudenterprise_tdmq_rocketmq_topic"
-sidebar_current: "docs-tencentcloudenterprise-resources-tdmq_rocketmq_topic"
+sidebar_current: "docs-tencentcloudenterprise-resource-tdmq_rocketmq_topic"
 description: |-
   Provides a resource to create a tdmqRocketmq topic
 ---
@@ -55,11 +55,14 @@ In addition to all arguments above, the following attributes are exported:
 * `create_time` - Creation time in milliseconds.
 * `update_time` - Update time in milliseconds.
 
-
 ## Import
 
+tencentcloudenterprise_tdmq_rocketmq_topic can be imported using the id, e.g.
+
+```
 tdmqRocketmq topic can be imported using the id, e.g.
 ```
 $ terraform import tencentcloudenterprise_tdmq_rocketmq_topic.topic topic_id
+```
 ```
 

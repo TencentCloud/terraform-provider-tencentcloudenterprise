@@ -2,7 +2,7 @@
 subcategory: "Auto Scaling(AS)"
 layout: "tencentcloudenterprise"
 page_title: "TencentCloudEnterprise: tencentcloudenterprise_as_attachment"
-sidebar_current: "docs-tencentcloudenterprise-resources-as_attachment"
+sidebar_current: "docs-tencentcloudenterprise-resource-as_attachment"
 description: |-
   Provides a resource to attach or detach CVM instances to a specified scaling group.
 ---
@@ -32,6 +32,5 @@ The following arguments are supported:
 In addition to all arguments above, the following attributes are exported:
 
 * `id` - ID of the resource.
-
 
 

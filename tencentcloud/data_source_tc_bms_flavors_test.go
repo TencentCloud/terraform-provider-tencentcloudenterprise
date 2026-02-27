@@ -15,9 +15,9 @@ func TestAccTencentCloudBmsFlavorsDataSource(t *testing.T) {
 			{
 				Config: testAccTencentCloudBmsFlavorsDataSourceConfig_basic,
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckTencentCloudDataSourceID("data.cloud_bms_flavors.flavors"),
-					//resource.TestCheckResourceAttr("data.cloud_bms_flavors.flavors", "list.#", "2"),
-					//resource.TestCheckResourceAttr("data.cloud_vpcdns_domains.records",
+					testAccCheckTencentCloudDataSourceID("data.tencentcloudenterprise_bms_flavors.flavors"),
+					//resource.TestCheckResourceAttr("data.tencentcloudenterprise_bms_flavors.flavors", "list.#", "2"),
+					//resource.TestCheckResourceAttr("data.tencentcloudenterprise_vpcdns_domains.records",
 					//"list.0.domain", "brucelin.cc"),
 				),
 			},

@@ -2,7 +2,7 @@
 subcategory: "Virtual Private Cloud(VPC)"
 layout: "tencentcloudenterprise"
 page_title: "TencentCloudEnterprise: tencentcloudenterprise_vpc_acl_attachment"
-sidebar_current: "docs-tencentcloudenterprise-resources-vpc_acl_attachment"
+sidebar_current: "docs-tencentcloudenterprise-resource-vpc_acl_attachment"
 description: |-
   Provide a resource to attach an existing subnet to Network ACL.
 ---
@@ -50,12 +50,15 @@ In addition to all arguments above, the following attributes are exported:
 * `id` - ID of the resource.
 
 
-
 ## Import
 
+tencentcloudenterprise_vpc_acl_attachment can be imported using the id, e.g.
+
+```
 Acl attachment can be imported using the id, e.g.
 
 ```
 $ terraform import tencentcloudenterprise_vpc_acl_attachment.attachment acl-eotx5qsg#subnet-91x0geu6
+```
 ```
 

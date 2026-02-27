@@ -11,7 +11,7 @@ Use this data source to query detailed information of tdmqRocketmq group
 	}
 
 	resource "tencentcloudenterprise_tdmq_rocketmq_namespace" "namespace" {
-	  cluster_id = cloud_tdmq_rocketmq_cluster.cluster.cluster_id
+	  cluster_id = tencentcloudenterprise_tdmq_rocketmq_cluster.cluster.cluster_id
 	  namespace_name = "test_namespace_datasource"
 	  ttl = 65000
 	  retention_time = 65000
@@ -20,17 +20,17 @@ Use this data source to query detailed information of tdmqRocketmq group
 
 	resource "tencentcloudenterprise_tdmq_rocketmq_group" "group" {
 	  group_name = "test_rocketmq_group"
-	  namespace = cloud_tdmq_rocketmq_namespace.namespace.namespace_name
+	  namespace = tencentcloudenterprise_tdmq_rocketmq_namespace.namespace.namespace_name
 	  read_enable = true
 	  broadcast_enable = true
-	  cluster_id = cloud_tdmq_rocketmq_cluster.cluster.cluster_id
+	  cluster_id = tencentcloudenterprise_tdmq_rocketmq_cluster.cluster.cluster_id
 	  remark = "test rocketmq group"
 	}
 
 	data "tencentcloudenterprise_tdmq_rocketmq_group" "group" {
-	  cluster_id = cloud_tdmq_rocketmq_cluster.cluster.cluster_id
-	  namespace_id = cloud_tdmq_rocketmq_namespace.namespace.namespace_name
-	  filter_group = cloud_tdmq_rocketmq_group.group.group_name
+	  cluster_id = tencentcloudenterprise_tdmq_rocketmq_cluster.cluster.cluster_id
+	  namespace_id = tencentcloudenterprise_tdmq_rocketmq_namespace.namespace.namespace_name
+	  filter_group = tencentcloudenterprise_tdmq_rocketmq_group.group.group_name
 	}
 
 ```
@@ -196,7 +196,7 @@ func dataSourceTencentCloudTdmqRocketmqGroup() *schema.Resource {
 }
 
 func dataSourceTencentCloudTdmqRocketmqGroupRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("data_source.cloud_tdmqRocketmq_group.read")()
+	defer logElapsed("data_source.tencentcloudenterprise_tdmqRocketmq_group.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)

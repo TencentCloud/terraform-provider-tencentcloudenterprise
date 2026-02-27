@@ -1,8 +1,8 @@
 ---
-subcategory: "Cloud Distributed SQL For PostGreSQL(TBASE)"
+subcategory: "TDSQL PostgreSQL (Tbase)"
 layout: "tencentcloudenterprise"
 page_title: "TencentCloudEnterprise: tencentcloudenterprise_tbase_pg_instance_vip"
-sidebar_current: "docs-tencentcloudenterprise-resources-tbase_pg_instance_vip"
+sidebar_current: "docs-tencentcloudenterprise-resource-tbase_pg_instance_vip"
 description: |-
   Provides a resource to create a tbase instance.
 ---
@@ -39,11 +39,14 @@ In addition to all arguments above, the following attributes are exported:
 * `id` - ID of the resource.
 * `vport` - Vport.
 
-
 ## Import
 
+tencentcloudenterprise_tbase_pg_instance_vip can be imported using the id, e.g.
+
+```
 tbase instance can be imported using the id, e.g.
 ```
 $ terraform import tencentcloudenterprise_tbase_pg_instance_vip.instance cluster_id#instance_id
+```
 ```
 

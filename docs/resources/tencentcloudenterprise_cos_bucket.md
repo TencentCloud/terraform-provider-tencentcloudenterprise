@@ -2,7 +2,7 @@
 subcategory: "Cloud Object Storage(COS)"
 layout: "tencentcloudenterprise"
 page_title: "TencentCloudEnterprise: tencentcloudenterprise_cos_bucket"
-sidebar_current: "docs-tencentcloudenterprise-resources-cos_bucket"
+sidebar_current: "docs-tencentcloudenterprise-resource-cos_bucket"
 description: |-
   Provides a cos resource to create a COS bucket and set its attributes.
 ---
@@ -260,12 +260,15 @@ In addition to all arguments above, the following attributes are exported:
 * `id` - ID of the resource.
 * `cos_bucket_url` - The URL of this cos bucket.
 
-
 ## Import
 
+tencentcloudenterprise_cos_bucket can be imported using the id, e.g.
+
+```
 COS bucket can be imported, e.g.
 
 ```
 $ terraform import tencentcloudenterprise_cos_bucket.bucket bucket-name
+```
 ```
 

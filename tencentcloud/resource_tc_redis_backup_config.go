@@ -18,7 +18,7 @@ Use this resource to create a backup config.
 Redis  backup config can be imported, e.g.
 
 ```
-$ terraform import cloud_redis_backup_config.redisconfig redis-id
+$ terraform import tencentcloudenterprise_redis_backup_config.redisconfig redis-id
 ```
 */
 package tencentcloud
@@ -91,7 +91,7 @@ func resourceTencentCloudRedisBackupConfig() *schema.Resource {
 }
 
 func resourceTencentCloudRedisBackupConfigCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_redis_backup_config.create")()
+	defer logElapsed("resource.tencentcloudenterprise_redis_backup_config.create")()
 
 	d.SetId(d.Get("redis_id").(string))
 
@@ -99,7 +99,7 @@ func resourceTencentCloudRedisBackupConfigCreate(d *schema.ResourceData, meta in
 }
 
 func resourceTencentCloudRedisBackupConfigRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_redis_backup_config.read")()
+	defer logElapsed("resource.tencentcloudenterprise_redis_backup_config.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -129,7 +129,7 @@ func resourceTencentCloudRedisBackupConfigRead(d *schema.ResourceData, meta inte
 }
 
 func resourceTencentCloudRedisBackupConfigUpdate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_redis_backup_config.update")()
+	defer logElapsed("resource.tencentcloudenterprise_redis_backup_config.update")()
 
 	weeksAllows := map[string]bool{
 		"Monday": true, "Tuesday": true, "Wednesday": true,
@@ -175,7 +175,7 @@ func resourceTencentCloudRedisBackupConfigUpdate(d *schema.ResourceData, meta in
 }
 
 func resourceTencentCloudRedisBackupConfigDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_redis_backup_config.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_redis_backup_config.delete")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)

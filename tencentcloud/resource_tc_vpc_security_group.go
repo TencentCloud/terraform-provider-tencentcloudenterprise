@@ -19,7 +19,7 @@ Security group can be imported using the id, e.g.
 
 ```
 
-	$ terraform import cloud_vpc_security_group.sglab sg-ey3wmiz1
+	$ terraform import tencentcloudenterprise_vpc_security_group.sglab sg-ey3wmiz1
 
 ```
 */
@@ -99,7 +99,7 @@ func resourceTencentCloudSecurityGroup() *schema.Resource {
 }
 
 func resourceTencentCloudSecurityGroupCreate(d *schema.ResourceData, m interface{}) error {
-	defer logElapsed("resource.cloud_vpc_security_group.create")()
+	defer logElapsed("resource.tencentcloudenterprise_vpc_security_group.create")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
@@ -142,7 +142,7 @@ func resourceTencentCloudSecurityGroupCreate(d *schema.ResourceData, m interface
 }
 
 func resourceTencentCloudSecurityGroupRead(d *schema.ResourceData, m interface{}) error {
-	defer logElapsed("resource.cloud_vpc_security_group.read")()
+	defer logElapsed("resource.tencentcloudenterprise_vpc_security_group.read")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
@@ -186,7 +186,7 @@ func resourceTencentCloudSecurityGroupRead(d *schema.ResourceData, m interface{}
 }
 
 func resourceTencentCloudSecurityGroupUpdate(d *schema.ResourceData, m interface{}) error {
-	defer logElapsed("resource.cloud_vpc_security_group.update")()
+	defer logElapsed("resource.tencentcloudenterprise_vpc_security_group.update")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
@@ -240,7 +240,7 @@ func resourceTencentCloudSecurityGroupUpdate(d *schema.ResourceData, m interface
 }
 
 func resourceTencentCloudSecurityGroupDelete(d *schema.ResourceData, m interface{}) error {
-	defer logElapsed("resource.cloud_vpc_security_group.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_vpc_security_group.delete")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)

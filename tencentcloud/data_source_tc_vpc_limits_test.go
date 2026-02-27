@@ -16,7 +16,7 @@ func TestAccTencentCloudVpcLimitsDataSource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			{
 				Config: testAccVpcLimitsDataSource,
-				Check:  resource.ComposeTestCheckFunc(testAccCheckTencentCloudDataSourceID("data.cloud_vpc_limits.limits")),
+				Check:  resource.ComposeTestCheckFunc(testAccCheckTencentCloudDataSourceID("data.tencentcloudenterprise_vpc_limits.limits")),
 			},
 		},
 	})

@@ -2,7 +2,7 @@
 subcategory: "Cloud Virtual Machine(CVM)"
 layout: "tencentcloudenterprise"
 page_title: "TencentCloudEnterprise: tencentcloudenterprise_cvm_instance"
-sidebar_current: "docs-tencentcloudenterprise-resources-cvm_instance"
+sidebar_current: "docs-tencentcloudenterprise-resource-cvm_instance"
 description: |-
   Provides a CVM instance resource.
 ---
@@ -18,219 +18,61 @@ Provides a CVM instance resource.
 ## Example Usage
 
 ```hcl
-# variables.tf
-variable "number" {
-  default = "1"
-}
-
-variable "count_format" {
-  default = "%02d"
-}
-
-variable "image_name_regex_centos" {
-  default = "CentOS 7.4"
-}
-
-variable "terraform-instance-name" {
-  default = "terraform-instance"
-}
-
-variable "instance_family" {
-  default = "S2"
-}
-
-variable "cvm_password" {
-  default = "Test@12345"
-}
-
-variable "internet_charge_type" {
-  default = "TRAFFIC_POSTPAID_BY_HOUR"
-}
-
-variable "instance_charge_type" {
-  default = "POSTPAID_BY_HOUR"
-}
-
-variable "internet_max_bandwidth_out" {
-  default = 5
-}
-
-variable "disk_type" {
-  default = "CLOUD_PREMIUM"
-}
-
-variable "disk_size" {
-  default = "50"
-}
-
-variable "internet_service_provider" {
-  default = "CTCC"
-}
-
-# main.tf
-## Datasource Query
-data "tencentcloudenterprise_cvm_instance_types" "instance_type" {
-  filter {
-    name = "instance-family"
-    values = [var.instance_family]
-  }
-  exclude_sold_out = true
-}
-
-data "tencentcloudenterprise_cvm_images" "foo" {
-  instance_type = data.tencentcloudenterprise_cvm_instance_types.instance_type.instance_types[0].instance_type
+data "tencentcloudenterprise_cvm_images" "my_favorite_image" {
   image_type = ["PUBLIC_IMAGE"]
-  image_name_regex = var.image_name_regex_centos
+  os_name    = "CentOs"
 }
 
-# Create VPC & Subnet 
-resource "tencentcloudenterprise_vpc" "vpc" {
-  cidr_block = "172.16.0.0/16"
-  name       = var.terraform-instance-name
+data "tencentcloudenterprise_cvm_instance_types" "my_favorite_instance_types" {
+  filter {
+    name   = "instance-family"
+    values = ["HUZI345"]
+  }
+
+  cpu_core_count = 1
+  memory_size    = 1
 }
 
-resource "tencentcloudenterprise_vpc_subnet" "subnet" {
-  vpc_id            = tencentcloudenterprise_vpc.vpc.id
-  cidr_block        = "172.16.0.0/24"
-  availability_zone = data.tencentcloudenterprise_cvm_instance_types.instance_type.instance_types[0].availability_zone
-  name              = "${var.terraform-instance-name}-subnet"
-  is_multicast      = false
+data "tencentcloudenterprise_availability_zones" "my_favorite_zones" {
 }
 
-## Create security group & rule set
-resource "tencentcloudenterprise_vpc_security_group" "group" {
-  name        = var.terraform-instance-name
-  description = "New security group"
-  project_id  = 0
+// Create VPC resource
+
+resource "tencentcloudenterprise_vpc" "app" {
+  cidr_block = "10.0.0.0/16"
+  name       = "awesome_app_vpc"
 }
 
-resource "tencentcloudenterprise_vpc_security_group_rule_set" "group_rule" {
-  security_group_id = tencentcloudenterprise_vpc_security_group.group.id
-
-  ingress {
-    cidr_block  = "0.0.0.0/0"
-    protocol    = "TCP"
-    port        = "22"
-    action      = "ACCEPT"
-    description = "Allow SSH"
-  }
-
-  ingress {
-    cidr_block  = "0.0.0.0/0"
-    protocol    = "TCP"
-    port        = "80"
-    action      = "ACCEPT"
-    description = "Allow HTTP"
-  }
-
-  ingress {
-    cidr_block  = "0.0.0.0/0"
-    protocol    = "TCP"
-    port        = "443"
-    action      = "ACCEPT"
-    description = "Allow HTTPS"
-  }
-
-  ingress {
-    cidr_block  = "0.0.0.0/0"
-    protocol    = "ICMP"
-    action      = "ACCEPT"
-    description = "Allow ICMP"
-  }
-
-  egress {
-    cidr_block  = "0.0.0.0/0"
-    action      = "ACCEPT"
-    description = "Allow all egress"
-  }
+resource "tencentcloudenterprise_vpc_subnet" "app" {
+  vpc_id            = tencentcloudenterprise_vpc.app.id
+  availability_zone = data.tencentcloudenterprise_availability_zones.my_favorite_zones.zones.0.name
+  name              = "awesome_app_subnet"
+  cidr_block        = "10.0.1.0/24"
 }
 
+// Create 2 CVM instances to host awesome_app
 
+resource "tencentcloudenterprise_cvm_instance" "my_awesome_app" {
+  instance_name     = "awesome_app"
+  availability_zone = data.tencentcloudenterprise_availability_zones.my_favorite_zones.zones.0.name
+  image_id          = data.tencentcloudenterprise_cvm_images.my_favorite_image.images.0.image_id
+  instance_type     = data.tencentcloudenterprise_cvm_instance_types.my_favorite_instance_types.instance_types.0.instance_type
+  system_disk_type  = "CLOUD_PREMIUM"
+  system_disk_size  = 50
+  hostname          = "user"
+  project_id        = 0
+  vpc_id            = tencentcloudenterprise_vpc.app.id
+  subnet_id         = tencentcloudenterprise_vpc_subnet.app.id
+  count             = 2
 
-## CVM Instance
-resource "tencentcloudenterprise_cvm_instance" "instance" {
-  instance_name   = "${var.terraform-instance-name}-instance-${format(var.count_format, count.index + 1)}"
-  hostname        = "${var.terraform-instance-name}-host-${format(var.count_format, count.index + 1)}"
-  image_id        = data.tencentcloudenterprise_cvm_images.foo.images[0].image_id
-  instance_type   = data.tencentcloudenterprise_cvm_instance_types.instance_type.instance_types[0].instance_type
-  count           = var.number
-  availability_zone = data.tencentcloudenterprise_cvm_instance_types.instance_type.instance_types[0].availability_zone
-
-  orderly_security_groups = [tencentcloudenterprise_vpc_security_group.group.id]
-  vpc_id                  = tencentcloudenterprise_vpc.vpc.id
-  subnet_id               = tencentcloudenterprise_vpc_subnet.subnet.id
-
-  password = var.cvm_password
-
-  instance_charge_type    = var.instance_charge_type
-  system_disk_type        = var.disk_type
-  system_disk_size        = 50
+  data_disks {
+    data_disk_type = "CLOUD_PREMIUM"
+    data_disk_size = 50
+  }
 
   tags = {
-    type = "example"
-    env  = "test"
+    tagKey = "tagValue"
   }
-}
-
-## Create EIP and attach to CVM(If public network configuration is applicable)
-resource "tencentcloudenterprise_eip" "eip" {
-  count                      = var.number
-  name                       = "eip-${format(var.count_format, count.index + 1)}"
-  internet_charge_type       = var.internet_charge_type
-  internet_max_bandwidth_out = var.internet_max_bandwidth_out
-  internet_service_provider = var.internet_service_provider
-  type                       = "EIP"
-
-  tags = {
-    type = "example"
-    env  = "test"
-  }
-}
-resource "tencentcloudenterprise_eip_association" "eip_attachment" {
-  count       = var.number
-  eip_id      = tencentcloudenterprise_eip.eip[count.index].id
-  instance_id = tencentcloudenterprise_cvm_instance.instance[count.index].id
-}
-
-
-## Create CBS data disk and attach to CVM(If applicable)
-resource "tencentcloudenterprise_cbs_storage" "disk" {
-  availability_zone = data.tencentcloudenterprise_cvm_instance_types.instance_type.instance_types[0].availability_zone
-  storage_type      = var.disk_type
-  storage_size      = var.disk_size
-  storage_name      = "${var.terraform-instance-name}-disk-${format(var.count_format, count.index + 1)}"
-  count             = var.number
-}
-
-resource "tencentcloudenterprise_cbs_storage_attachment" "instance_attachment" {
-  count       = var.number
-  storage_id  = tencentcloudenterprise_cbs_storage.disk.*.id[count.index]
-  instance_id = tencentcloudenterprise_cvm_instance.instance.*.id[count.index]
-}
-
-# outputs.tf
-output "hostname_list" {
-  value = join(",", tencentcloudenterprise_cvm_instance.instance.*.instance_name)
-}
-
-output "cvm_ids" {
-  value = join(",", tencentcloudenterprise_cvm_instance.instance.*.id)
-}
-
-output "cvm_public_ip" {
-  value = join(",", tencentcloudenterprise_eip.eip.*.public_ip)
-}
-
-output "eip_ids" {
-  value = join(",", tencentcloudenterprise_eip.eip.*.id)
-}
-
-output "cvm_private_ip" {
-  value = join(",", tencentcloudenterprise_cvm_instance.instance.*.private_ip)
-}
-
-output "tags" {
-  value = jsonencode(tencentcloudenterprise_cvm_instance.instance.*.tags)
 }
 ```
 
@@ -246,6 +88,7 @@ The following arguments are supported:
 * `cdh_host_id` - (Optional, String, ForceNew) Id of cdh instance. Note: it only works when instance_charge_type is set to `CDHPAID`.
 * `cdh_instance_type` - (Optional, String) Type of instance created on cdh, the value of this parameter is in the format of CDH_XCXG based on the number of CPU cores and memory capacity. Note: it only works when instance_charge_type is set to `CDHPAID`.
 * `data_disks` - (Optional, List, ForceNew) Settings for data disks.
+* `disable_api_termination` - (Optional, Bool) Whether the termination protection is enabled. Default is `false`. If set true, which means that this instance can not be deleted by an API action.
 * `disable_monitor_service` - (Optional, Bool) Disable enhance service for monitor, it is enabled by default. When this options is set, monitor agent won't be installed. Modifying will cause the instance reset.
 * `disable_security_service` - (Optional, Bool) Disable enhance service for security, it is enabled by default. When this options is set, security agent won't be installed. Modifying will cause the instance reset.
 * `force_delete` - (Optional, Bool) Indicate whether to force delete the instance. Default is `false`. If set true, the instance will be permanently deleted instead of being moved into the recycle bin. Note: only works for `PREPAID` instance.
@@ -259,14 +102,14 @@ The following arguments are supported:
 * `internet_max_bandwidth_out` - (Optional, Int) Maximum outgoing bandwidth to the public network, measured in Mbps (Mega bits per second). This value does not need to be set when `allocate_public_ip` is false.
 * `keep_image_login` - (Optional, Bool) Whether to keep image login or not, default is `false`. When the image type is private or shared or imported, this parameter can be set `true`. Modifying will cause the instance reset.
 * `key_ids` - (Optional, Set: [`String`]) The key pair to use for the instance, it looks like `skey-16jig7tx`. Modifying will cause the instance reset.
-* `key_name` - (Optional, String, **Deprecated**) Please use `key_ids` instead. (Optional, String, *Deprecated*) Please use `key_ids` instead. The key pair to use for the instance, it looks like `skey-16jig7tx`. Modifying will cause the instance reset.
+* `key_name` - (Optional, String, **Deprecated**) Please use `key_ids` instead.  (Optional, String, *Deprecated*) Please use `key_ids` instead. The key pair to use for the instance, it looks like `skey-16jig7tx`. Modifying will cause the instance reset.
 * `orderly_security_groups` - (Optional, List: [`String`]) A list of orderly security group IDs to associate with.
 * `password` - (Optional, String) Password for the instance. In order for the new password to take effect, the instance will be restarted after the password change. Modifying will cause the instance reset.
 * `placement_group_id` - (Optional, String, ForceNew) The ID of a placement group.
-* `platform_project_id` - (Optional, String) The project the instance belongs to.
+* `platform_project_id` - (Optional, String) The project the instance belongs to
 * `private_ip` - (Optional, String) The private IP to be assigned to this instance, must be in the provided subnet and available.
 * `project_id` - (Optional, Int) The project the instance belongs to, default to 0.
-* `resource_type` - (Optional, String) resource type, default instance.
+* `resource_type` - (Optional, String) resource type, default instance
 * `running_flag` - (Optional, Bool) Set instance to running or stop. Default value is true, the instance will shutdown when this flag is false.
 * `security_groups` - (Optional, Set: [`String`], **Deprecated**) It will be deprecated. Use `orderly_security_groups` instead. (Optional, Set, `Deprecated`) Please use `orderly_security_groups` instead. A list of security group IDs to associate with.
 * `stopped_mode` - (Optional, String) Billing method of a pay-as-you-go instance after shutdown. Available values: `KEEP_CHARGING`,`STOP_CHARGING`. Default `KEEP_CHARGING`.
@@ -299,12 +142,14 @@ In addition to all arguments above, the following attributes are exported:
 * `instance_status` - Current status of the instance.
 * `public_ip` - Public IP of the instance.
 
-
 ## Import
 
-CVM instance can be imported using the id, e.g.
+tencentcloudenterprise_cvm_instance can be imported using the id, e.g.
 
 ```
+CVM instance can be imported using the id, e.g.
+```
 terraform import tencentcloudenterprise_cvm_instance.foo ins-2qol3a80
+```
 ```
 

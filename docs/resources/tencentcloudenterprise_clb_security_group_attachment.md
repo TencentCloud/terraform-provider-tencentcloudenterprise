@@ -2,7 +2,7 @@
 subcategory: "Cloud Load Balancer(CLB)"
 layout: "tencentcloudenterprise"
 page_title: "TencentCloudEnterprise: tencentcloudenterprise_clb_security_group_attachment"
-sidebar_current: "docs-tencentcloudenterprise-resources-clb_security_group_attachment"
+sidebar_current: "docs-tencentcloudenterprise-resource-clb_security_group_attachment"
 description: |-
   Provides a resource to create a clb security_group_attachment
 ---
@@ -34,12 +34,15 @@ In addition to all arguments above, the following attributes are exported:
 * `id` - ID of the resource.
 
 
-
 ## Import
 
+tencentcloudenterprise_clb_security_group_attachment can be imported using the id, e.g.
+
+```
 clb security_group_attachment can be imported using the id, e.g.
 
 ```
 terraform import tencentcloudenterprise_clb_security_group_attachment.security_group_attachment security_group_id#clb_id
+```
 ```
 

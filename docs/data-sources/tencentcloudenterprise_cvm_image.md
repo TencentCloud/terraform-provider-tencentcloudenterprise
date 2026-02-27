@@ -13,7 +13,7 @@ Provides an available image for the user.
 
 The Images data source fetch proper image, which could be one of the private images of the user and images of system resources provided by TencentCloud, as well as other public images and those available on the image market.
 
-~> **NOTE:** This data source will be deprecated, please use `tencentcloudenterprise_cvm_images` instead.
+~> **NOTE:** This data source will be deprecated, please use `cloud_cvm_images` instead.
 
 ## Example Usage
 
@@ -48,5 +48,4 @@ In addition to all arguments above, the following attributes are exported:
 
 * `image_id` - An image id indicate the uniqueness of a certain image,  which can be used for instance creation or resetting.
 * `image_name` - Name of this image.
-
 

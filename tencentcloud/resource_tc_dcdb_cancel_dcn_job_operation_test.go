@@ -35,13 +35,13 @@ data "tencentcloudenterprise_vpc_instances" "vpc" {
 }
 	
 data "tencentcloudenterprise_vpc_subnets" "subnet" {
-	vpc_id = data.cloud_vpc_instances.vpc.instance_list.0.vpc_id
+	vpc_id = data.tencentcloudenterprise_vpc_instances.vpc.instance_list.0.vpc_id
 }
 
 locals {
-	vpc_id = data.cloud_vpc_subnets.subnet.instance_list.0.vpc_id
-	subnet_id = data.cloud_vpc_subnets.subnet.instance_list.0.subnet_id
-	sg_id = data.cloud_vpc_security_groups.internal.security_groups.0.security_group_id
+	vpc_id = data.tencentcloudenterprise_vpc_subnets.subnet.instance_list.0.vpc_id
+	subnet_id = data.tencentcloudenterprise_vpc_subnets.subnet.instance_list.0.subnet_id
+	sg_id = data.tencentcloudenterprise_vpc_security_groups.internal.security_groups.0.security_group_id
 }
 
 resource "tencentcloudenterprise_dcdb_instance" "hourdb_instance_dcn" {
@@ -81,8 +81,8 @@ resource "tencentcloudenterprise_dcdb_instance" "hourdb_instance_dcn" {
 // }
 
   locals {
-	// master_dcdb_id = cloud_dcdb_instance.hourdb_instance_master.id
-	dcn_dcdb_id = cloud_dcdb_instance.hourdb_instance_dcn.id
+	// master_dcdb_id = tencentcloudenterprise_dcdb_instance.hourdb_instance_master.id
+	dcn_dcdb_id = tencentcloudenterprise_dcdb_instance.hourdb_instance_dcn.id
   }
 `
 

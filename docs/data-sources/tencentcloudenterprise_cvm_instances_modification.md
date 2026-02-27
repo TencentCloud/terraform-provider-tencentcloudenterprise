@@ -48,4 +48,3 @@ In addition to all arguments above, the following attributes are exported:
   * `message` - Status description information.
   * `status` - State description.
 
-

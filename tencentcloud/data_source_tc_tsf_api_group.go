@@ -279,7 +279,7 @@ func dataSourceTencentCloudTsfApiGroup() *schema.Resource {
 }
 
 func dataSourceTencentCloudTsfApiGroupRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("data_source.cloud_tsf_api_group.read")()
+	defer logElapsed("data_source.tencentcloudenterprise_tsf_api_group.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)

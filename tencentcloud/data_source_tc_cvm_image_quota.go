@@ -51,7 +51,7 @@ func dataSourceTencentCloudCvmImageQuota() *schema.Resource {
 }
 
 func dataSourceTencentCloudCvmImageQuotaRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("data_source.cloud_cvm_image_quota.read")()
+	defer logElapsed("data_source.tencentcloudenterprise_cvm_image_quota.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)

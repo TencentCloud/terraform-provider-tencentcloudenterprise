@@ -59,7 +59,7 @@ Provides a resource to create a cloud firewall (cfw) vpc instance.
 Cloud firewall vpc instance can be imported using the id, e.g.
 
 ```
-$ terraform import cloud_cfw_vpc_policy.example cfwg-4ee69507
+$ terraform import tencentcloudenterprise_cfw_vpc_policy.example cfwg-4ee69507
 */
 package tencentcloud
 
@@ -186,7 +186,7 @@ func resourceTencentCloudCfwVpcInstance() *schema.Resource {
 }
 
 func resourceTencentCloudCfwVpcInstanceCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cfw_vpc_instance.create")()
+	defer logElapsed("resource.tencentcloudenterprise_cfw_vpc_instance.create")()
 	defer inconsistentCheck(d, meta)()
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
@@ -412,7 +412,7 @@ func resourceTencentCloudCfwVpcInstanceCreate(d *schema.ResourceData, meta inter
 }
 
 func resourceTencentCloudCfwVpcInstanceRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cfw_vpc_instance.read")()
+	defer logElapsed("resource.tencentcloudenterprise_cfw_vpc_instance.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -525,7 +525,7 @@ func resourceTencentCloudCfwVpcInstanceRead(d *schema.ResourceData, meta interfa
 }
 
 func resourceTencentCloudCfwVpcInstanceUpdate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cfw_vpc_instance.update")()
+	defer logElapsed("resource.tencentcloudenterprise_cfw_vpc_instance.update")()
 	defer inconsistentCheck(d, meta)()
 	logId := getLogId(contextNil)
 	fwGroupId := d.Id()
@@ -567,7 +567,7 @@ func resourceTencentCloudCfwVpcInstanceUpdate(d *schema.ResourceData, meta inter
 }
 
 func resourceTencentCloudCfwVpcInstanceDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cfw_vpc_instance.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_cfw_vpc_instance.delete")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)

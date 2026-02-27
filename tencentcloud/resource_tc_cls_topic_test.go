@@ -121,7 +121,7 @@ resource "tencentcloudenterprise_cls_logset" "logset" {
 
 resource "tencentcloudenterprise_cls_topic" "topic" {
   auto_split           = true
-  logset_id            = cloud_cls_logset.logset.id
+  logset_id            = tencentcloudenterprise_cls_logset.logset.id
   max_split_partitions = 20
   partition_count      = 1
   period               = 10

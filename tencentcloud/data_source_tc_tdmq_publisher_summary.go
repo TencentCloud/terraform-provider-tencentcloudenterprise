@@ -69,7 +69,7 @@ func dataSourceTencentCloudTdmqPublisherSummary() *schema.Resource {
 }
 
 func dataSourceTencentCloudTdmqPublisherSummaryRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("data_source.cloud_tdmq_publisher_summary.read")()
+	defer logElapsed("data_source.tencentcloudenterprise_tdmq_publisher_summary.read")()
 	defer inconsistentCheck(d, meta)()
 
 	/*

@@ -16,7 +16,7 @@ func TestAccTencentCloudCkafkaInstancesDataSource(t *testing.T) {
 			{
 				Config: testAccTencentCloudDataSourceCkafkaInstances,
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr("data.cloud_ckafka_instances.foo", "instance_list.0.instance_id", defaultKafkaInstanceId),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_ckafka_instances.foo", "instance_list.0.instance_id", defaultKafkaInstanceId),
 				),
 			},
 		},

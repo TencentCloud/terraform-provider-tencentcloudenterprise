@@ -80,7 +80,7 @@ func dataSourceTencentCloudVpcLimits() *schema.Resource {
 }
 
 func dataSourceTencentCloudVpcLimitsRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("data_source.cloud_vpc_limits.read")()
+	defer logElapsed("data_source.tencentcloudenterprise_vpc_limits.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)

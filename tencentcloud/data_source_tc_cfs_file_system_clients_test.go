@@ -16,7 +16,7 @@ func TestAccTencentCloudCfsFileSystemClientsDataSource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			{
 				Config: testAccCfsFileSystemClientsDataSource,
-				Check:  resource.ComposeTestCheckFunc(testAccCheckTencentCloudDataSourceID("data.cloud_cfs_file_system_clients.file_system_clients")),
+				Check:  resource.ComposeTestCheckFunc(testAccCheckTencentCloudDataSourceID("data.tencentcloudenterprise_cfs_file_system_clients.file_system_clients")),
 			},
 		},
 	})

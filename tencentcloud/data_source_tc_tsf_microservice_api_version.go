@@ -99,7 +99,7 @@ func dataSourceTencentCloudTsfMicroserviceApiVersion() *schema.Resource {
 }
 
 func dataSourceTencentCloudTsfMicroserviceApiVersionRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("data_source.cloud_tsf_microservice_api_version.read")()
+	defer logElapsed("data_source.tencentcloudenterprise_tsf_microservice_api_version.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)

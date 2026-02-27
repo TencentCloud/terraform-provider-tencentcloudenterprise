@@ -2,7 +2,7 @@
 subcategory: "Cloud Block Storage(CBS)"
 layout: "tencentcloudenterprise"
 page_title: "TencentCloudEnterprise: tencentcloudenterprise_cbs_storage_attachment"
-sidebar_current: "docs-tencentcloudenterprise-resources-cbs_storage_attachment"
+sidebar_current: "docs-tencentcloudenterprise-resource-cbs_storage_attachment"
 description: |-
   Provides a CBS storage attachment resource.
 ---
@@ -34,12 +34,15 @@ In addition to all arguments above, the following attributes are exported:
 * `id` - ID of the resource.
 
 
-
 ## Import
 
+tencentcloudenterprise_cbs_storage_attachment can be imported using the id, e.g.
+
+```
 CBS storage attachment can be imported using the id, e.g.
 
 ```
 $ terraform import tencentcloudenterprise_cbs_storage_attachment.attachment disk-41s6jwy4
+```
 ```
 

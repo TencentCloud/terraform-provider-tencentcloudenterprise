@@ -16,7 +16,7 @@ func TestAccTencentCloudClbIdleInstancesDataSource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			{
 				Config: testAccClbIdleInstancesDataSource,
-				Check:  resource.ComposeTestCheckFunc(testAccCheckTencentCloudDataSourceID("data.cloud_clb_idle_instances.idle_instance")),
+				Check:  resource.ComposeTestCheckFunc(testAccCheckTencentCloudDataSourceID("data.tencentcloudenterprise_clb_idle_instances.idle_instance")),
 			},
 		},
 	})

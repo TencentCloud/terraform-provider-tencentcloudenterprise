@@ -17,7 +17,7 @@ Provides a resource to create a cvm security_group_attachment
 cvm security_group_attachment can be imported using the id, e.g.
 
 ```
-terraform import cloud_cvm_security_group_attachment.security_group_attachment ${instance_id}#${security_group_id}
+terraform import tencentcloudenterprise_cvm_security_group_attachment.security_group_attachment ${instance_id}#${security_group_id}
 ```
 */
 package tencentcloud
@@ -71,7 +71,7 @@ func resourceTencentCloudCvmSecurityGroupAttachment() *schema.Resource {
 }
 
 func resourceTencentCloudCvmSecurityGroupAttachmentCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cvm_security_group_attachment.create")()
+	defer logElapsed("resource.tencentcloudenterprise_cvm_security_group_attachment.create")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -103,7 +103,7 @@ func resourceTencentCloudCvmSecurityGroupAttachmentCreate(d *schema.ResourceData
 }
 
 func resourceTencentCloudCvmSecurityGroupAttachmentRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cvm_security_group_attachment.read")()
+	defer logElapsed("resource.tencentcloudenterprise_cvm_security_group_attachment.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -142,7 +142,7 @@ func resourceTencentCloudCvmSecurityGroupAttachmentRead(d *schema.ResourceData, 
 }
 
 func resourceTencentCloudCvmSecurityGroupAttachmentDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cvm_security_group_attachment.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_cvm_security_group_attachment.delete")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)

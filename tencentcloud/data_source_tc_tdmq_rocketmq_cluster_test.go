@@ -16,8 +16,8 @@ func TestAccTencentCloudTdmqRocketmqClusterDataSource(t *testing.T) {
 			{
 				Config: testAccDataSourceRocketmqCluster,
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckTencentCloudDataSourceID("data.cloud_tdmq_rocketmq_cluster.cluster"),
-					resource.TestCheckResourceAttr("data.cloud_tdmq_rocketmq_cluster.cluster", "cluster_list.#", "1"),
+					testAccCheckTencentCloudDataSourceID("data.tencentcloudenterprise_tdmq_rocketmq_cluster.cluster"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_tdmq_rocketmq_cluster.cluster", "cluster_list.#", "1"),
 				),
 			},
 		},

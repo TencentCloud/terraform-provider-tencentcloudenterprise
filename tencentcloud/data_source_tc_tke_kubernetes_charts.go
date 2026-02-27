@@ -78,7 +78,7 @@ func dataSourceTencentCloudKubernetesCharts() *schema.Resource {
 }
 
 func dataSourceTencentCloudKubernetesChartsRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("data_source.cloud_tke_kubernetes_charts.read")()
+	defer logElapsed("data_source.tencentcloudenterprise_tke_kubernetes_charts.read")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)

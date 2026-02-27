@@ -100,7 +100,7 @@ func dataSourceTencentCloudCfsFileSystemClients() *schema.Resource {
 }
 
 func dataSourceTencentCloudCfsFileSystemClientsRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("data_source.cloud_cfs_file_system_clients.read")()
+	defer logElapsed("data_source.tencentcloudenterprise_cfs_file_system_clients.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)

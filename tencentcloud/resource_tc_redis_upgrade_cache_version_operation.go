@@ -71,7 +71,7 @@ package tencentcloud
 //}
 //
 //func resourceTencentCloudRedisUpgradeCacheVersionOperationCreate(d *schema.ResourceData, meta interface{}) error {
-//	defer logElapsed("resource.cloud_redis_upgrade_cache_version_operation.create")()
+//	defer logElapsed("resource.tencentcloudenterprise_redis_upgrade_cache_version_operation.create")()
 //	defer inconsistentCheck(d, meta)()
 //
 //	logId := getLogId(contextNil)
@@ -143,14 +143,14 @@ package tencentcloud
 //}
 //
 //func resourceTencentCloudRedisUpgradeCacheVersionOperationRead(d *schema.ResourceData, meta interface{}) error {
-//	defer logElapsed("resource.cloud_redis_upgrade_cache_version_operation.read")()
+//	defer logElapsed("resource.tencentcloudenterprise_redis_upgrade_cache_version_operation.read")()
 //	defer inconsistentCheck(d, meta)()
 //
 //	return nil
 //}
 //
 //func resourceTencentCloudRedisUpgradeCacheVersionOperationDelete(d *schema.ResourceData, meta interface{}) error {
-//	defer logElapsed("resource.cloud_redis_upgrade_cache_version_operation.delete")()
+//	defer logElapsed("resource.tencentcloudenterprise_redis_upgrade_cache_version_operation.delete")()
 //	defer inconsistentCheck(d, meta)()
 //
 //	return nil

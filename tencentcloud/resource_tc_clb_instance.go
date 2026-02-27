@@ -43,7 +43,7 @@ Default enable
 	resource "tencentcloudenterprise_vpc_subnet" "subnet" {
 	  availability_zone = "ap-guangzhou-1"
 	  name              = "sdk-feature-test"
-	  vpc_id            = cloud_vpc.foo.id
+	  vpc_id            = tencentcloudenterprise_vpc.foo.id
 	  cidr_block        = "10.0.20.0/28"
 	  is_multicast      = false
 	}
@@ -67,8 +67,8 @@ Default enable
 	  network_type                 = "OPEN"
 	  clb_name                     = "my-open-clb"
 	  project_id                   = 0
-	  vpc_id                       = cloud_vpc.foo.id
-	  security_groups              = [cloud_vpc_security_group.sglab.id]
+	  vpc_id                       = tencentcloudenterprise_vpc.foo.id
+	  security_groups              = [tencentcloudenterprise_vpc_security_group.sglab.id]
 
 	  tags = {
 	    test = "open"
@@ -92,7 +92,7 @@ Import
 CLB instance can be imported using the id, e.g.
 
 ```
-$ terraform import cloud_clb_instance.foo lb-7a0t6zqb
+$ terraform import tencentcloudenterprise_clb_instance.foo lb-7a0t6zqb
 ```
 */
 package tencentcloud
@@ -308,7 +308,7 @@ func resourceTencentCloudClbInstance() *schema.Resource {
 }
 
 func resourceTencentCloudClbInstanceCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_clb_instance.create")()
+	defer logElapsed("resource.tencentcloudenterprise_clb_instance.create")()
 
 	clbActionMu.Lock()
 	defer clbActionMu.Unlock()
@@ -539,7 +539,7 @@ func resourceTencentCloudClbInstanceCreate(d *schema.ResourceData, meta interfac
 }
 
 func resourceTencentCloudClbInstanceRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_clb_instance.read")()
+	defer logElapsed("resource.tencentcloudenterprise_clb_instance.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -612,7 +612,7 @@ func resourceTencentCloudClbInstanceRead(d *schema.ResourceData, meta interface{
 }
 
 func resourceTencentCloudClbInstanceUpdate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_clb_instance.update")()
+	defer logElapsed("resource.tencentcloudenterprise_clb_instance.update")()
 
 	clbActionMu.Lock()
 	defer clbActionMu.Unlock()
@@ -786,7 +786,7 @@ func resourceTencentCloudClbInstanceUpdate(d *schema.ResourceData, meta interfac
 }
 
 func resourceTencentCloudClbInstanceDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_clb_instance.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_clb_instance.delete")()
 
 	clbActionMu.Lock()
 	defer clbActionMu.Unlock()

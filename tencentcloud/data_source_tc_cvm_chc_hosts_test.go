@@ -16,7 +16,7 @@ func TestAccTencentCloudCvmChcHostsDataSource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			{
 				Config: testAccCvmChcHostsDataSource,
-				Check:  resource.ComposeTestCheckFunc(testAccCheckTencentCloudDataSourceID("data.cloud_cvm_chc_hosts.chc_hosts")),
+				Check:  resource.ComposeTestCheckFunc(testAccCheckTencentCloudDataSourceID("data.tencentcloudenterprise_cvm_chc_hosts.chc_hosts")),
 			},
 		},
 	})

@@ -69,7 +69,7 @@ func dataSourceTencentCloudVpcAccountAttributes() *schema.Resource {
 }
 
 func dataSourceTencentCloudVpcAccountAttributesRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("data_source.cloud_vpc_account_attributes.read")()
+	defer logElapsed("data_source.tencentcloudenterprise_vpc_account_attributes.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)

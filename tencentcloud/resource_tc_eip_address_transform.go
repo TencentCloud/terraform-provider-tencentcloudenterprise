@@ -16,7 +16,7 @@ Provides a resource to create a eip address_transform
 eip address_transform can be imported using the id, e.g.
 
 ```
-terraform import cloud_eip_address_transform.address_transform address_transform_id
+terraform import tencentcloudenterprise_eip_address_transform.address_transform address_transform_id
 ```
 */
 package tencentcloud
@@ -62,7 +62,7 @@ func resourceTencentCloudEipAddressTransform() *schema.Resource {
 }
 
 func resourceTencentCloudEipAddressTransformCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_eip_address_transform.create")()
+	defer logElapsed("resource.tencentcloudenterprise_eip_address_transform.create")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -107,14 +107,14 @@ func resourceTencentCloudEipAddressTransformCreate(d *schema.ResourceData, meta 
 }
 
 func resourceTencentCloudEipAddressTransformRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_eip_address_transform.read")()
+	defer logElapsed("resource.tencentcloudenterprise_eip_address_transform.read")()
 	defer inconsistentCheck(d, meta)()
 
 	return nil
 }
 
 func resourceTencentCloudEipAddressTransformDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_eip_address_transform.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_eip_address_transform.delete")()
 	defer inconsistentCheck(d, meta)()
 
 	return nil

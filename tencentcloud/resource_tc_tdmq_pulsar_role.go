@@ -49,7 +49,7 @@ func resourceTencentCloudTdmqPulsarRole() *schema.Resource {
 }
 
 func resourceTencentCloudTdmqPulsarRoleCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_tdmq_pulsar_role.create")()
+	defer logElapsed("resource.tencentcloudenterprise_tdmq_pulsar_role.create")()
 
 	var (
 		logId       = getLogId(contextNil)
@@ -88,7 +88,7 @@ func resourceTencentCloudTdmqPulsarRoleCreate(d *schema.ResourceData, meta inter
 }
 
 func resourceTencentCloudTdmqPulsarRoleRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_tdmq_pulsar_role.read")()
+	defer logElapsed("resource.tencentcloudenterprise_tdmq_pulsar_role.read")()
 	defer inconsistentCheck(d, meta)()
 
 	var (
@@ -123,7 +123,7 @@ func resourceTencentCloudTdmqPulsarRoleRead(d *schema.ResourceData, meta interfa
 }
 
 func resourceTencentCloudTdmqPulsarRoleUpdate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_tdmq_pulsar_role.update")()
+	defer logElapsed("resource.tencentcloudenterprise_tdmq_pulsar_role.update")()
 
 	var (
 		logId     = getLogId(contextNil)
@@ -160,7 +160,7 @@ func resourceTencentCloudTdmqPulsarRoleUpdate(d *schema.ResourceData, meta inter
 }
 
 func resourceTencentCloudTdmqPulsarRoleDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_tdmq_pulsar_role.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_tdmq_pulsar_role.delete")()
 
 	var (
 		logId     = getLogId(contextNil)

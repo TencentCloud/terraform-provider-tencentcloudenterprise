@@ -65,7 +65,7 @@ func resourceTencentCloudCbsStorageSetAttachment() *schema.Resource {
 }
 
 func resourceTencentCloudCbsStorageSetAttachmentCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cbs_storage_set_attachment.create")()
+	defer logElapsed("resource.tencentcloudenterprise_cbs_storage_set_attachment.create")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
@@ -100,7 +100,7 @@ func resourceTencentCloudCbsStorageSetAttachmentCreate(d *schema.ResourceData, m
 }
 
 func resourceTencentCloudCbsStorageSetAttachmentRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cbs_storage_set_attachment.read")()
+	defer logElapsed("resource.tencentcloudenterprise_cbs_storage_set_attachment.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -130,7 +130,7 @@ func resourceTencentCloudCbsStorageSetAttachmentRead(d *schema.ResourceData, met
 }
 
 func resourceTencentCloudCbsStorageSetAttachmentDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cbs_storage_set_attachment.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_cbs_storage_set_attachment.delete")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)

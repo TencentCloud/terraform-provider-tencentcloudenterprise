@@ -1,8 +1,8 @@
 ---
-subcategory: "Virtual Private Cloud Domain Name System(VPCDNS)"
+subcategory: "Virtual Private Cloud DNS(VPCDNS)"
 layout: "tencentcloudenterprise"
 page_title: "TencentCloudEnterprise: tencentcloudenterprise_vpcdns_record"
-sidebar_current: "docs-tencentcloudenterprise-resources-vpcdns_record"
+sidebar_current: "docs-tencentcloudenterprise-resource-vpcdns_record"
 description: |-
   Provide a resource to create a VPCDNS record.
 ---
@@ -48,12 +48,15 @@ In addition to all arguments above, the following attributes are exported:
 * `ttl` - The TTL of the VpcDns Record.
 * `updated_on` - The last update time of the VpcDns Record.
 
-
 ## Import
 
+tencentcloudenterprise_vpcdns_record can be imported using the id, e.g.
+
+```
 Vpc subnet instance can be imported, e.g.
 
 ```
 $ terraform import tencentcloudenterprise_vpcdns_record.test record_id
+```
 ```
 

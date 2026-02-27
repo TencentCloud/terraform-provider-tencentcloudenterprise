@@ -1,5 +1,5 @@
 ---
-subcategory: "Distributed Database For MySQL(DCDB)"
+subcategory: "TDSQL for MySQL(DCDB)"
 layout: "tencentcloudenterprise"
 page_title: "TencentCloudEnterprise: tencentcloudenterprise_dcdb_shards"
 sidebar_current: "docs-tencentcloudenterprise-datasource-dcdb_shards"
@@ -60,5 +60,4 @@ In addition to all arguments above, the following attributes are exported:
   * `subnet_id` - Subnet id.
   * `vpc_id` - Vpc id.
   * `zone` - Zone.
-
 

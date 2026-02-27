@@ -377,7 +377,7 @@ func dataSourceTencentCloudCspBuckets() *schema.Resource {
 }
 
 func dataSourceTencentCloudCspBucketsRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("data_source.cloud_csp_buckets.read")()
+	defer logElapsed("data_source.tencentcloudenterprise_csp_buckets.read")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)

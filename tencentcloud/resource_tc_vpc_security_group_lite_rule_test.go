@@ -195,7 +195,7 @@ resource "tencentcloudenterprise_vpc_security_group" "foo" {
 }
 
 resource "tencentcloudenterprise_vpc_security_group_lite_rule" "foo" {
-  security_group_id = cloud_vpc_security_group.foo.id
+  security_group_id = tencentcloudenterprise_vpc_security_group.foo.id
 
   ingress = [
     "ACCEPT#192.168.1.0/24#80#TCP",
@@ -217,7 +217,7 @@ resource "tencentcloudenterprise_vpc_security_group" "foo" {
 }
 
 resource "tencentcloudenterprise_vpc_security_group_lite_rule" "foo" {
-  security_group_id = cloud_vpc_security_group.foo.id
+  security_group_id = tencentcloudenterprise_vpc_security_group.foo.id
 
   ingress = [
     "ACCEPT#192.168.1.0/24#80#TCP",
@@ -241,7 +241,7 @@ resource "tencentcloudenterprise_vpc_security_group" "foo" {
 }
 
 resource "tencentcloudenterprise_vpc_security_group_lite_rule" "foo" {
-  security_group_id = cloud_vpc_security_group.foo.id
+  security_group_id = tencentcloudenterprise_vpc_security_group.foo.id
 
   ingress = [
     "ACCEPT#192.168.1.0/24#80#TCP",
@@ -259,7 +259,7 @@ resource "tencentcloudenterprise_vpc_security_group" "foo" {
 }
 
 resource "tencentcloudenterprise_vpc_security_group_lite_rule" "foo" {
-  security_group_id = cloud_vpc_security_group.foo.id
+  security_group_id = tencentcloudenterprise_vpc_security_group.foo.id
 
   ingress = [
     "ACCEPT#192.168.1.0/24#80#TCP",
@@ -273,7 +273,7 @@ resource "tencentcloudenterprise_vpc_security_group" "foo" {
 }
 
 resource "tencentcloudenterprise_vpc_security_group_lite_rule" "foo" {
-  security_group_id = cloud_vpc_security_group.foo.id
+  security_group_id = tencentcloudenterprise_vpc_security_group.foo.id
 
   egress = [
     "ACCEPT#192.168.0.0/16#ALL#TCP",
@@ -287,7 +287,7 @@ resource "tencentcloudenterprise_vpc_security_group" "foo" {
 }
 
 resource "tencentcloudenterprise_vpc_security_group_lite_rule" "foo" {
-  security_group_id = cloud_vpc_security_group.foo.id
+  security_group_id = tencentcloudenterprise_vpc_security_group.foo.id
 }
 `
 const testAccSecurityGroupLiteRuleUpdate6 = `
@@ -311,21 +311,21 @@ resource "tencentcloudenterprise_vpc_address_template" "addr-bar" {
 
 resource "tencentcloudenterprise_vpc_address_template_group" "foo" {
   name      = "group-test"
-  template_ids = [cloud_vpc_address_template.addr-foo.id, cloud_vpc_address_template.addr-bar.id]
+  template_ids = [tencentcloudenterprise_vpc_address_template.addr-foo.id, tencentcloudenterprise_vpc_address_template.addr-bar.id]
 }
 
 resource "tencentcloudenterprise_vpc_security_group_lite_rule" "foo" {
-  security_group_id = cloud_vpc_security_group.foo.id
+  security_group_id = tencentcloudenterprise_vpc_security_group.foo.id
   ingress = [
-    "ACCEPT#${cloud_vpc_address_template_group.foo.id}#8080#TCP",
-    "DROP#${cloud_vpc_address_template.addr-foo.id}#8080#TCP",
+    "ACCEPT#${tencentcloudenterprise_vpc_address_template_group.foo.id}#8080#TCP",
+    "DROP#${tencentcloudenterprise_vpc_address_template.addr-foo.id}#8080#TCP",
     "ACCEPT#0.0.0.0/0#80-90#TCP",
     "DROP#8.8.8.8#80,90#UDP",
-    "ACCEPT#${cloud_vpc_security_group.group1.id}#80#TCP",
+    "ACCEPT#${tencentcloudenterprise_vpc_security_group.group1.id}#80#TCP",
   ]
   egress = [
     "ACCEPT#192.168.0.0/16#ALL#TCP",
-    "ACCEPT#${cloud_vpc_security_group.group1.id}#ALL#TCP",
+    "ACCEPT#${tencentcloudenterprise_vpc_security_group.group1.id}#ALL#TCP",
   ]
 }
 `

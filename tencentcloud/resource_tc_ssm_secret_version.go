@@ -15,7 +15,7 @@ Example Usage
 	}
 
 	resource "tencentcloudenterprise_ssm_secret_version" "v1" {
-	  secret_name = cloud_ssm_secret.foo.secret_name
+	  secret_name = tencentcloudenterprise_ssm_secret.foo.secret_name
 	  version_id = "v1"
 	  secret_binary = "MTIzMTIzMTIzMTIzMTIzQQ=="
 	}
@@ -24,7 +24,7 @@ Example Usage
 Import
 SSM secret version can be imported using the secretName#versionId, e.g.
 ```
-$ terraform import cloud_ssm_secret_version.v1 test#v1
+$ terraform import tencentcloudenterprise_ssm_secret_version.v1 test#v1
 ```
 */
 package tencentcloud
@@ -94,7 +94,7 @@ func resourceTencentCloudSsmSecretVersion() *schema.Resource {
 }
 
 func resourceTencentCloudSsmSecretVersionCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_ssm_secret_version.create")()
+	defer logElapsed("resource.tencentcloudenterprise_ssm_secret_version.create")()
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
 	ssmService := SsmService{
@@ -129,7 +129,7 @@ func resourceTencentCloudSsmSecretVersionCreate(d *schema.ResourceData, meta int
 }
 
 func resourceTencentCloudSsmSecretVersionRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_ssm_secret_version.read")()
+	defer logElapsed("resource.tencentcloudenterprise_ssm_secret_version.read")()
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
 	ssmService := SsmService{
@@ -202,7 +202,7 @@ func resourceTencentCloudSsmSecretVersionRead(d *schema.ResourceData, meta inter
 }
 
 func resourceTencentCloudSsmSecretVersionUpdate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_ssm_secret_version.update")()
+	defer logElapsed("resource.tencentcloudenterprise_ssm_secret_version.update")()
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
 	ssmService := SsmService{
@@ -263,7 +263,7 @@ func resourceTencentCloudSsmSecretVersionUpdate(d *schema.ResourceData, meta int
 }
 
 func resourceTencentCloudSsmSecretVersionDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_ssm_secret_version.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_ssm_secret_version.delete")()
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
 	ssmService := SsmService{

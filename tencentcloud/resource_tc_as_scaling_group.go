@@ -37,7 +37,7 @@ Provides a resource to create a group of AS (Auto scaling) instances.
 AutoScaling Groups can be imported using the id, e.g.
 
 ```
-$ terraform import cloud_as_scaling_group.scaling_group asg-n32ymck2
+$ terraform import tencentcloudenterprise_as_scaling_group.scaling_group asg-n32ymck2
 ```
 */
 package tencentcloud
@@ -283,7 +283,7 @@ func resourceTencentCloudAsScalingGroup() *schema.Resource {
 }
 
 func resourceTencentCloudAsScalingGroupCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_as_scaling_group.create")()
+	defer logElapsed("resource.tencentcloudenterprise_as_scaling_group.create")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
@@ -449,7 +449,7 @@ func resourceTencentCloudAsScalingGroupCreate(d *schema.ResourceData, meta inter
 }
 
 func resourceTencentCloudAsScalingGroupRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_as_scaling_group.read")()
+	defer logElapsed("resource.tencentcloudenterprise_as_scaling_group.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -547,7 +547,7 @@ func resourceTencentCloudAsScalingGroupRead(d *schema.ResourceData, meta interfa
 }
 
 func resourceTencentCloudAsScalingGroupUpdate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_as_scaling_group.update")()
+	defer logElapsed("resource.tencentcloudenterprise_as_scaling_group.update")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
@@ -746,7 +746,7 @@ func resourceTencentCloudAsScalingGroupUpdate(d *schema.ResourceData, meta inter
 }
 
 func resourceTencentCloudAsScalingGroupDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_as_scaling_group.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_as_scaling_group.delete")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)

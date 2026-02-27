@@ -2,7 +2,7 @@
 subcategory: "Virtual Private Cloud(VPC)"
 layout: "tencentcloudenterprise"
 page_title: "TencentCloudEnterprise: tencentcloudenterprise_vpc_security_group_lite_rule"
-sidebar_current: "docs-tencentcloudenterprise-resources-vpc_security_group_lite_rule"
+sidebar_current: "docs-tencentcloudenterprise-resource-vpc_security_group_lite_rule"
 description: |-
   Provide a resource to create security group some lite rules quickly.
 ---
@@ -11,7 +11,7 @@ description: |-
 
 Provide a resource to create security group some lite rules quickly.
 
--> **NOTE:** It can't be used with tencentcloudenterprise_vpc_security_group_rule, and don't create multiple tencentcloudenterprise_vpc_security_group_rule resources, otherwise it may cause problems.
+-> **NOTE:** It can't be used with cloud_vpc_security_group_rule, and don't create multiple cloud_vpc_security_group_rule resources, otherwise it may cause problems.
 
 ## Example Usage
 
@@ -57,14 +57,17 @@ In addition to all arguments above, the following attributes are exported:
 * `id` - ID of the resource.
 
 
-
 ## Import
 
+tencentcloudenterprise_vpc_security_group_lite_rule can be imported using the id, e.g.
+
+```
 Security group lite rule can be imported using the id, e.g.
 
 ```
 
 	$ terraform import tencentcloudenterprise_vpc_security_group_lite_rule.foo sg-ey3wmiz1
 
+```
 ```
 

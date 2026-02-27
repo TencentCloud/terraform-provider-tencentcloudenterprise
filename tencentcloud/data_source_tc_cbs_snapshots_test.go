@@ -18,15 +18,15 @@ func TestAccTencentCloudCbsSnapshotsDataSource(t *testing.T) {
 				Config: testAccCbsSnapshotsDataSource,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					testAccCheckSnapshotExists("tencentcloudenterprise_cbs_snapshot.snapshot"),
-					resource.TestCheckResourceAttr("data.cloud_cbs_snapshots.snapshots", "snapshot_list.#", "1"),
-					resource.TestCheckResourceAttrSet("data.cloud_cbs_snapshots.snapshots", "snapshot_list.0.snapshot_id"),
-					resource.TestCheckResourceAttr("data.cloud_cbs_snapshots.snapshots", "snapshot_list.0.snapshot_name", "tf-test-snapshot"),
-					resource.TestCheckResourceAttrSet("data.cloud_cbs_snapshots.snapshots", "snapshot_list.0.storage_id"),
-					resource.TestCheckResourceAttr("data.cloud_cbs_snapshots.snapshots", "snapshot_list.0.storage_size", "50"),
-					resource.TestCheckResourceAttr("data.cloud_cbs_snapshots.snapshots", "snapshot_list.0.availability_zone", "ap-guangzhou-3"),
-					resource.TestCheckResourceAttrSet("data.cloud_cbs_snapshots.snapshots", "snapshot_list.0.percent"),
-					resource.TestCheckResourceAttrSet("data.cloud_cbs_snapshots.snapshots", "snapshot_list.0.create_time"),
-					resource.TestCheckResourceAttr("data.cloud_cbs_snapshots.snapshots", "snapshot_list.0.encrypt", "false"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_cbs_snapshots.snapshots", "snapshot_list.#", "1"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_cbs_snapshots.snapshots", "snapshot_list.0.snapshot_id"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_cbs_snapshots.snapshots", "snapshot_list.0.snapshot_name", "tf-test-snapshot"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_cbs_snapshots.snapshots", "snapshot_list.0.storage_id"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_cbs_snapshots.snapshots", "snapshot_list.0.storage_size", "50"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_cbs_snapshots.snapshots", "snapshot_list.0.availability_zone", "ap-guangzhou-3"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_cbs_snapshots.snapshots", "snapshot_list.0.percent"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_cbs_snapshots.snapshots", "snapshot_list.0.create_time"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_cbs_snapshots.snapshots", "snapshot_list.0.encrypt", "false"),
 				),
 			},
 		},
@@ -42,11 +42,11 @@ resource "tencentcloudenterprise_cbs_storage" "storage" {
 }
 
 resource "tencentcloudenterprise_cbs_snapshot" "snapshot" {
-  storage_id    = cloud_cbs_storage.storage.id
+  storage_id    = tencentcloudenterprise_cbs_storage.storage.id
   snapshot_name = "tf-test-snapshot"
 }
 
 data "tencentcloudenterprise_cbs_snapshots" "snapshots" {
-  snapshot_id = cloud_cbs_snapshot.snapshot.id
+  snapshot_id = tencentcloudenterprise_cbs_snapshot.snapshot.id
 }
 `

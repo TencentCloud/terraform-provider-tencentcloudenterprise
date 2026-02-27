@@ -1,5 +1,5 @@
 ---
-subcategory: "Distributed Database For MySQL(DCDB)"
+subcategory: "TDSQL for MySQL(DCDB)"
 layout: "tencentcloudenterprise"
 page_title: "TencentCloudEnterprise: tencentcloudenterprise_dcdb_instances"
 sidebar_current: "docs-tencentcloudenterprise-datasource-dcdb_instances"
@@ -103,5 +103,4 @@ In addition to all arguments above, the following attributes are exported:
   * `wan_port` - Wan port.
   * `wan_status` - Wan status, 0:nonactivated, 1:activated, 2:closed, 3:activating.
   * `wan_vip` - Wan vip.
-
 

@@ -16,7 +16,7 @@ func TestAccTencentCloudVpcAccountAttributesDataSource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			{
 				Config: testAccVpcAccountAttributesDataSource,
-				Check:  resource.ComposeTestCheckFunc(testAccCheckTencentCloudDataSourceID("data.cloud_vpc_account_attributes.account_attributes")),
+				Check:  resource.ComposeTestCheckFunc(testAccCheckTencentCloudDataSourceID("data.tencentcloudenterprise_vpc_account_attributes.account_attributes")),
 			},
 		},
 	})

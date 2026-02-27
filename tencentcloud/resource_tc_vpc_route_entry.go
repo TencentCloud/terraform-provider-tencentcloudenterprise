@@ -1,7 +1,7 @@
 /*
 Provides a resource to create a routing entry in a VPC routing table.
 
-~> **NOTE:** It has been deprecated and replaced by cloud_vpc_route_table_entry.
+~> **NOTE:** It has been deprecated and replaced by tencentcloudenterprise_vpc_route_table_entry.
 
 # Example Usage
 
@@ -14,20 +14,20 @@ Provides a resource to create a routing entry in a VPC routing table.
 
 	resource "tencentcloudenterprise_route_table" "r" {
 	  name   = "Used to test the routing entry"
-	  vpc_id = cloud_vpc.main.id
+	  vpc_id = tencentcloudenterprise_vpc.main.id
 	}
 
 	resource "tencentcloudenterprise_route_entry" "rtb_entry_instance" {
-	  vpc_id         = cloud_route_table.main.vpc_id
-	  route_table_id = cloud_route_table.r.id
+	  vpc_id         = tencentcloudenterprise_route_table.main.vpc_id
+	  route_table_id = tencentcloudenterprise_route_table.r.id
 	  cidr_block     = "10.4.8.0/24"
 	  next_type      = "instance"
 	  next_hub       = "10.16.1.7"
 	}
 
 	resource "tencentcloudenterprise_route_entry" "rtb_entry_instance" {
-	  vpc_id         = cloud_route_table.main.vpc_id
-	  route_table_id = cloud_route_table.r.id
+	  vpc_id         = tencentcloudenterprise_route_table.main.vpc_id
+	  route_table_id = tencentcloudenterprise_route_table.r.id
 	  cidr_block     = "10.4.5.0/24"
 	  next_type      = "vpn_gateway"
 	  next_hub       = "vpngw-db52irtl"
@@ -146,7 +146,7 @@ func resourceTencentCloudRouteEntry() *schema.Resource {
 }
 
 func resourceTencentCloudRouteEntryCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_route_entry.create")()
+	defer logElapsed("resource.tencentcloudenterprise_route_entry.create")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
@@ -189,7 +189,7 @@ func resourceTencentCloudRouteEntryCreate(d *schema.ResourceData, meta interface
 }
 
 func resourceTencentCloudRouteEntryRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_route_entry.read")()
+	defer logElapsed("resource.tencentcloudenterprise_route_entry.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -249,7 +249,7 @@ func resourceTencentCloudRouteEntryRead(d *schema.ResourceData, meta interface{}
 }
 
 func resourceTencentCloudRouteEntryDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_route_entry.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_route_entry.delete")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)

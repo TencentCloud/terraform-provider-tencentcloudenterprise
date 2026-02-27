@@ -55,4 +55,3 @@ In addition to all arguments above, the following attributes are exported:
     * `updated_time` - Group update time, such as: 2019-06-20 15:51:28.Note: This field may return null, which means no valid value was found.
   * `total_count` - Total count.
 
-

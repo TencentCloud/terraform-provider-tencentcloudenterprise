@@ -2,7 +2,7 @@
 subcategory: "Virtual Private Cloud(VPC)"
 layout: "tencentcloudenterprise"
 page_title: "TencentCloudEnterprise: tencentcloudenterprise_vpc_ipv6_eni_address"
-sidebar_current: "docs-tencentcloudenterprise-resources-vpc_ipv6_eni_address"
+sidebar_current: "docs-tencentcloudenterprise-resource-vpc_ipv6_eni_address"
 description: |-
   Provides a resource to create a vpc ipv6_eni_address
 ---
@@ -46,6 +46,5 @@ The `ipv6_addresses` object supports the following:
 In addition to all arguments above, the following attributes are exported:
 
 * `id` - ID of the resource.
-
 
 

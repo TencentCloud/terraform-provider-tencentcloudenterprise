@@ -25,7 +25,7 @@ Provides a resource to create a cls topic.
 cls topic can be imported using the id, e.g.
 
 ```
-$ terraform import cloud_cls_topic.topic 2f5764c1-c833-44c5-84c7-950979b2a278
+$ terraform import tencentcloudenterprise_cls_topic.topic 2f5764c1-c833-44c5-84c7-950979b2a278
 ```
 */
 package tencentcloud
@@ -159,7 +159,7 @@ func resourceTencentCloudClsTopic() *schema.Resource {
 }
 
 func resourceTencentCloudClsTopicCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cls_topic.create")()
+	defer logElapsed("resource.tencentcloudenterprise_cls_topic.create")()
 
 	logId := getLogId(contextNil)
 
@@ -257,7 +257,7 @@ func resourceTencentCloudClsTopicCreate(d *schema.ResourceData, meta interface{}
 }
 
 func resourceTencentCloudClsTopicRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cls_topic.read")()
+	defer logElapsed("resource.tencentcloudenterprise_cls_topic.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -302,7 +302,7 @@ func resourceTencentCloudClsTopicRead(d *schema.ResourceData, meta interface{}) 
 }
 
 func resourceTencentCloudClsTopicUpdate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cls_topic.update")()
+	defer logElapsed("resource.tencentcloudenterprise_cls_topic.update")()
 	logId := getLogId(contextNil)
 	request := cls.NewModifyTopicRequest()
 
@@ -390,7 +390,7 @@ func resourceTencentCloudClsTopicUpdate(d *schema.ResourceData, meta interface{}
 }
 
 func resourceTencentCloudClsTopicDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cls_topic.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_cls_topic.delete")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)

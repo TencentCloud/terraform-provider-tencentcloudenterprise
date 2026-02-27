@@ -16,7 +16,7 @@ func TestAccTencentCloudVpcClassicLinkInstancesDataSource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			{
 				Config: testAccVpcClassicLinkInstancesDataSource,
-				Check:  resource.ComposeTestCheckFunc(testAccCheckTencentCloudDataSourceID("data.cloud_vpc_classic_link_instances.classic_link_instances")),
+				Check:  resource.ComposeTestCheckFunc(testAccCheckTencentCloudDataSourceID("data.tencentcloudenterprise_vpc_classic_link_instances.classic_link_instances")),
 			},
 		},
 	})

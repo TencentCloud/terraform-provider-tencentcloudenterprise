@@ -16,7 +16,7 @@ func TestAccTencentCloudCvmImageQuotaDataSource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			{
 				Config: testAccCvmImageQuotaDataSource,
-				Check:  resource.ComposeTestCheckFunc(testAccCheckTencentCloudDataSourceID("data.cloud_cvm_image_quota.image_quota")),
+				Check:  resource.ComposeTestCheckFunc(testAccCheckTencentCloudDataSourceID("data.tencentcloudenterprise_cvm_image_quota.image_quota")),
 			},
 		},
 	})

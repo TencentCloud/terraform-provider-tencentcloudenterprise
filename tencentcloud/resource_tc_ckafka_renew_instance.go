@@ -48,7 +48,7 @@ package tencentcloud
 //}
 //
 //func resourceTencentCloudCkafkaRenewInstanceCreate(d *schema.ResourceData, meta interface{}) error {
-//	defer logElapsed("resource.cloud_ckafka_renew_instance.create")()
+//	defer logElapsed("resource.tencentcloudenterprise_ckafka_renew_instance.create")()
 //	defer inconsistentCheck(d, meta)()
 //
 //	logId := getLogId(contextNil)
@@ -86,14 +86,14 @@ package tencentcloud
 //}
 //
 //func resourceTencentCloudCkafkaRenewInstanceRead(d *schema.ResourceData, meta interface{}) error {
-//	defer logElapsed("resource.cloud_ckafka_renew_instance.read")()
+//	defer logElapsed("resource.tencentcloudenterprise_ckafka_renew_instance.read")()
 //	defer inconsistentCheck(d, meta)()
 //
 //	return nil
 //}
 //
 //func resourceTencentCloudCkafkaRenewInstanceDelete(d *schema.ResourceData, meta interface{}) error {
-//	defer logElapsed("resource.cloud_ckafka_renew_instance.delete")()
+//	defer logElapsed("resource.tencentcloudenterprise_ckafka_renew_instance.delete")()
 //	defer inconsistentCheck(d, meta)()
 //
 //	return nil

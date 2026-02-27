@@ -200,7 +200,7 @@ func resourceTencentCloudDcxInstance() *schema.Resource {
 }
 
 func resourceTencentCloudDcxInstanceCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_dcx.create")()
+	defer logElapsed("resource.tencentcloudenterprise_dcx.create")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
@@ -279,7 +279,7 @@ func resourceTencentCloudDcxInstanceCreate(d *schema.ResourceData, meta interfac
 }
 
 func resourceTencentCloudDcxInstanceRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_dcx.read")()
+	defer logElapsed("resource.tencentcloudenterprise_dcx.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -345,7 +345,7 @@ func resourceTencentCloudDcxInstanceRead(d *schema.ResourceData, meta interface{
 }
 
 func resourceTencentCloudDcxInstanceUpdate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_dcx.update")()
+	defer logElapsed("resource.tencentcloudenterprise_dcx.update")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
@@ -370,7 +370,7 @@ func resourceTencentCloudDcxInstanceUpdate(d *schema.ResourceData, meta interfac
 }
 
 func resourceTencentCloudDcxInstanceDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_dcx.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_dcx.delete")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)

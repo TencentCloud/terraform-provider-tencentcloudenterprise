@@ -18,12 +18,12 @@ func TestAccTencentCloudDCDBDatabaseObjectsDataSource_basic(t *testing.T) {
 			{
 				Config: fmt.Sprintf(testAccDCDBDatabaseObjectsDataSource, defaultDcdbInstanceId),
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckTencentCloudDataSourceID("data.cloud_dcdb_database_objects.database_objects"),
-					resource.TestCheckResourceAttrSet("data.cloud_dcdb_database_objects.database_objects", "tables.#"),
-					resource.TestCheckResourceAttrSet("data.cloud_dcdb_database_objects.database_objects", "views.#"),
-					resource.TestCheckResourceAttrSet("data.cloud_dcdb_database_objects.database_objects", "procs.#"),
-					resource.TestCheckResourceAttrSet("data.cloud_dcdb_database_objects.database_objects", "funcs.#"),
-					resource.TestCheckResourceAttr("data.cloud_dcdb_database_objects.database_objects", "db_name", "SysDB"),
+					testAccCheckTencentCloudDataSourceID("data.tencentcloudenterprise_dcdb_database_objects.database_objects"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_dcdb_database_objects.database_objects", "tables.#"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_dcdb_database_objects.database_objects", "views.#"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_dcdb_database_objects.database_objects", "procs.#"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_dcdb_database_objects.database_objects", "funcs.#"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_dcdb_database_objects.database_objects", "db_name", "SysDB"),
 				),
 			},
 		},

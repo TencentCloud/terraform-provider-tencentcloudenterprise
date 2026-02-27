@@ -40,7 +40,7 @@ EOF
 csp bucket policy can be imported, e.g.
 
 ```
-$ terraform import cloud_csp_bucket_policy.bucket bucket-name
+$ terraform import tencentcloudenterprise_csp_bucket_policy.bucket bucket-name
 ```
 */
 package tencentcloud
@@ -112,7 +112,7 @@ func resourceTencentCloudCspBucketPolicy() *schema.Resource {
 }
 
 func resourceTencentCloudCspBucketPolicyCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_csp_bucket_policy.create")()
+	defer logElapsed("resource.tencentcloudenterprise_csp_bucket_policy.create")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
@@ -141,7 +141,7 @@ func resourceTencentCloudCspBucketPolicyCreate(d *schema.ResourceData, meta inte
 }
 
 func resourceTencentCloudCspBucketPolicyRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_csp_bucket_policy.read")()
+	defer logElapsed("resource.tencentcloudenterprise_csp_bucket_policy.read")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
@@ -178,7 +178,7 @@ func resourceTencentCloudCspBucketPolicyRead(d *schema.ResourceData, meta interf
 }
 
 func resourceTencentCloudCspBucketPolicyUpdate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_csp_bucket_policy.update")()
+	defer logElapsed("resource.tencentcloudenterprise_csp_bucket_policy.update")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
@@ -208,7 +208,7 @@ func resourceTencentCloudCspBucketPolicyUpdate(d *schema.ResourceData, meta inte
 }
 
 func resourceTencentCloudCspBucketPolicyDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_csp_bucket_policy.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_csp_bucket_policy.delete")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)

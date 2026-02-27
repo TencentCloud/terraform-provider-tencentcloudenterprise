@@ -17,12 +17,12 @@ func TestAccTencentCloudDCDBSecurityGroupsDataSource(t *testing.T) {
 			{
 				Config: fmt.Sprintf(testAccDataSourceDcdbSecurityGroups_basic, defaultDcdbSGId, defaultDcdbInstanceId),
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckTencentCloudDataSourceID("data.cloud_dcdb_security_groups.security_groups"),
-					resource.TestCheckResourceAttrSet("data.cloud_dcdb_security_groups.security_groups", "list.#"),
-					resource.TestCheckResourceAttrSet("data.cloud_dcdb_security_groups.security_groups", "list.0.create_time"),
-					resource.TestCheckResourceAttr("data.cloud_dcdb_security_groups.security_groups", "list.0.security_group_id", defaultDcdbSGId),
-					resource.TestCheckResourceAttr("data.cloud_dcdb_security_groups.security_groups", "list.0.security_group_name", defaultDcdbSGName),
-					resource.TestCheckResourceAttrSet("data.cloud_dcdb_security_groups.security_groups", "list.0.inbound.#"),
+					testAccCheckTencentCloudDataSourceID("data.tencentcloudenterprise_dcdb_security_groups.security_groups"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_dcdb_security_groups.security_groups", "list.#"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_dcdb_security_groups.security_groups", "list.0.create_time"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_dcdb_security_groups.security_groups", "list.0.security_group_id", defaultDcdbSGId),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_dcdb_security_groups.security_groups", "list.0.security_group_name", defaultDcdbSGName),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_dcdb_security_groups.security_groups", "list.0.inbound.#"),
 				),
 			},
 		},
@@ -37,7 +37,7 @@ resource "tencentcloudenterprise_dcdb_security_group_attachment" "default" {
 }
 
 data "tencentcloudenterprise_dcdb_security_groups" "security_groups" {
-  instance_id = cloud_dcdb_security_group_attachment.default.instance_id
+  instance_id = tencentcloudenterprise_dcdb_security_group_attachment.default.instance_id
 }
 
 `

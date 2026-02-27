@@ -1,8 +1,8 @@
 ---
-subcategory: "Cloud Redis®(Redis)"
+subcategory: "TencentDB for Redis(crs)"
 layout: "tencentcloudenterprise"
 page_title: "TencentCloudEnterprise: tencentcloudenterprise_redis_backup_config"
-sidebar_current: "docs-tencentcloudenterprise-resources-redis_backup_config"
+sidebar_current: "docs-tencentcloudenterprise-resource-redis_backup_config"
 description: |-
   Use this resource to create a backup config.
 ---
@@ -36,12 +36,15 @@ In addition to all arguments above, the following attributes are exported:
 * `id` - ID of the resource.
 
 
-
 ## Import
 
+tencentcloudenterprise_redis_backup_config can be imported using the id, e.g.
+
+```
 Redis  backup config can be imported, e.g.
 
 ```
 $ terraform import tencentcloudenterprise_redis_backup_config.redisconfig redis-id
+```
 ```
 

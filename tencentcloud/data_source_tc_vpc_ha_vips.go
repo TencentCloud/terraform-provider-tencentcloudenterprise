@@ -152,7 +152,7 @@ func dataSourceTencentCloudHaVips() *schema.Resource {
 }
 
 func dataSourceTencentCloudHaVipsRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("data_source.cloud_vpc_ha_vips.read")()
+	defer logElapsed("data_source.tencentcloudenterprise_vpc_ha_vips.read")()
 
 	logId := getLogId(contextNil)
 

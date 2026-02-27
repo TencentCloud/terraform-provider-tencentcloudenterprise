@@ -48,4 +48,3 @@ In addition to all arguments above, the following attributes are exported:
   * `storage_size` - Volume of storage which this snapshot created from.
   * `storage_usage` - Types of CBS which this snapshot created from.
 
-

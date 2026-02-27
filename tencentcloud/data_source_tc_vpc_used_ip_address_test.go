@@ -16,7 +16,7 @@ func TestAccTencentCloudVpcUsedIpAddressDataSource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			{
 				Config: testAccVpcUsedIpAddressDataSource,
-				Check:  resource.ComposeTestCheckFunc(testAccCheckTencentCloudDataSourceID("data.cloud_vpc_used_ip_address.used_ip_address")),
+				Check:  resource.ComposeTestCheckFunc(testAccCheckTencentCloudDataSourceID("data.tencentcloudenterprise_vpc_used_ip_address.used_ip_address")),
 			},
 		},
 	})

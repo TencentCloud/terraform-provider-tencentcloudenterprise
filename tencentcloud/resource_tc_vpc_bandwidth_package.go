@@ -19,7 +19,7 @@ Import
 
 vpc bandwidth_package can be imported using the id, e.g.
 ```
-$ terraform import cloud_vpc_bandwidth_package.bandwidth_package bandwidthPackage_id
+$ terraform import tencentcloudenterprise_vpc_bandwidth_package.bandwidth_package bandwidthPackage_id
 ```
 */
 package tencentcloud
@@ -92,7 +92,7 @@ func resourceTencentCloudVpcBandwidthPackage() *schema.Resource {
 }
 
 func resourceTencentCloudVpcBandwidthPackageCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_bwp_bandwidth_package.create")()
+	defer logElapsed("resource.tencentcloudenterprise_bwp_bandwidth_package.create")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -182,7 +182,7 @@ func resourceTencentCloudVpcBandwidthPackageCreate(d *schema.ResourceData, meta 
 }
 
 func resourceTencentCloudVpcBandwidthPackageRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_bwp_bandwidth_package.read")()
+	defer logElapsed("resource.tencentcloudenterprise_bwp_bandwidth_package.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -234,7 +234,7 @@ func resourceTencentCloudVpcBandwidthPackageRead(d *schema.ResourceData, meta in
 }
 
 func resourceTencentCloudVpcBandwidthPackageUpdate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_vpc_bandwidth_package.update")()
+	defer logElapsed("resource.tencentcloudenterprise_vpc_bandwidth_package.update")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -307,7 +307,7 @@ func resourceTencentCloudVpcBandwidthPackageUpdate(d *schema.ResourceData, meta 
 }
 
 func resourceTencentCloudVpcBandwidthPackageDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_bwp_bandwidth_package.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_bwp_bandwidth_package.delete")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)

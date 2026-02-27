@@ -16,7 +16,7 @@ func TestAccTencentCloudVpcProductQuotaDataSource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			{
 				Config: testAccVpcProductQuotaDataSource,
-				Check:  resource.ComposeTestCheckFunc(testAccCheckTencentCloudDataSourceID("data.cloud_vpc_product_quota.product_quota")),
+				Check:  resource.ComposeTestCheckFunc(testAccCheckTencentCloudDataSourceID("data.tencentcloudenterprise_vpc_product_quota.product_quota")),
 			},
 		},
 	})

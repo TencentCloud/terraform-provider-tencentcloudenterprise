@@ -57,7 +57,7 @@ func resourceTencentCloudVpnConnectionReset() *schema.Resource {
 }
 
 func resourceTencentCloudVpnConnectionResetCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("data_source.cloud_vpn_connection_reset.read")()
+	defer logElapsed("data_source.tencentcloudenterprise_vpn_connection_reset.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -97,14 +97,14 @@ func resourceTencentCloudVpnConnectionResetCreate(d *schema.ResourceData, meta i
 }
 
 func resourceTencentCloudVpnConnectionResetRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_vpn_connection_reset.read")()
+	defer logElapsed("resource.tencentcloudenterprise_vpn_connection_reset.read")()
 	defer inconsistentCheck(d, meta)()
 
 	return nil
 }
 
 func resourceTencentCloudVpnConnectionResetDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_vpn_connection_reset.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_vpn_connection_reset.delete")()
 	defer inconsistentCheck(d, meta)()
 
 	return nil

@@ -50,4 +50,3 @@ In addition to all arguments above, the following attributes are exported:
   * `vip` - Virtual IP address, it must not be occupied and in this VPC network segment. If not set, it will be assigned after resource created automatically.
   * `vpc_id` - VPC id.
 
-

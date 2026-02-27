@@ -1,5 +1,5 @@
 ---
-subcategory: "Cloud Redis®(Redis)"
+subcategory: "TencentDB for Redis(crs)"
 layout: "tencentcloudenterprise"
 page_title: "TencentCloudEnterprise: tencentcloudenterprise_redis_zone_config"
 sidebar_current: "docs-tencentcloudenterprise-datasource-redis_zone_config"
@@ -41,5 +41,4 @@ In addition to all arguments above, the following attributes are exported:
   * `type` - (**Deprecated**) It has been deprecated from version 1.33.1. Please use 'type_id' instead. Instance type. Available values: `master_slave_redis`, `master_slave_ckv`, `cluster_ckv`, `cluster_redis` and `standalone_redis`.
   * `version` - Version description of an available instance. Possible values: `Redis 3.2`, `Redis 4.0`.
   * `zone` - ID of available zone.
-
 

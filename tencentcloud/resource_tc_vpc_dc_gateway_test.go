@@ -131,7 +131,7 @@ resource "tencentcloudenterprise_ccn" "main" {
 
 resource "tencentcloudenterprise_vpc_dc_gateway" "ccn_main" {
   name                = "ci-cdg-ccn-test"
-  network_instance_id = cloud_ccn.main.id
+  network_instance_id = tencentcloudenterprise_ccn.main.id
   network_type        = "CCN"
   gateway_type        = "NORMAL"
 }
@@ -145,7 +145,7 @@ resource "tencentcloudenterprise_ccn" "main" {
 
 resource "tencentcloudenterprise_vpc_dc_gateway" "ccn_main" {
   name                = "ci-cdg-ccn-test-update"
-  network_instance_id = cloud_ccn.main.id
+  network_instance_id = tencentcloudenterprise_ccn.main.id
   network_type        = "CCN"
   gateway_type        = "NORMAL"
 }

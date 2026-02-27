@@ -16,10 +16,10 @@ func TestAccTencentCloudTsfDeliveryConfigByGroupIdDataSource_basic(t *testing.T)
 			{
 				Config: testAccTsfDeliveryConfigByGroupIdDataSource,
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckTencentCloudDataSourceID("data.cloud_tsf_delivery_config_by_group_id.delivery_config_by_group_id"),
-					resource.TestCheckResourceAttrSet("data.cloud_tsf_delivery_config_by_group_id.delivery_config_by_group_id", "result.#"),
-					resource.TestCheckResourceAttrSet("data.cloud_tsf_delivery_config_by_group_id.delivery_config_by_group_id", "result.0.config_id"),
-					resource.TestCheckResourceAttrSet("data.cloud_tsf_delivery_config_by_group_id.delivery_config_by_group_id", "result.0.config_name"),
+					testAccCheckTencentCloudDataSourceID("data.tencentcloudenterprise_tsf_delivery_config_by_group_id.delivery_config_by_group_id"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_tsf_delivery_config_by_group_id.delivery_config_by_group_id", "result.#"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_tsf_delivery_config_by_group_id.delivery_config_by_group_id", "result.0.config_id"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_tsf_delivery_config_by_group_id.delivery_config_by_group_id", "result.0.config_name"),
 				),
 			},
 		},

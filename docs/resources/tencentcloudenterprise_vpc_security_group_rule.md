@@ -2,7 +2,7 @@
 subcategory: "Virtual Private Cloud(VPC)"
 layout: "tencentcloudenterprise"
 page_title: "TencentCloudEnterprise: tencentcloudenterprise_vpc_security_group_rule"
-sidebar_current: "docs-tencentcloudenterprise-resources-vpc_security_group_rule"
+sidebar_current: "docs-tencentcloudenterprise-resource-vpc_security_group_rule"
 description: |-
   Provides a resource to create security group rule.
 ---
@@ -11,7 +11,7 @@ description: |-
 
 Provides a resource to create security group rule.
 
-~> **NOTE:** Single security rule is hardly ordered, use tencentcloudenterprise_vpc_security_group_lite_rule instead.
+~> **NOTE:** Single security rule is hardly ordered, use cloud_vpc_security_group_lite_rule instead.
 
 ## Example Usage
 
@@ -92,6 +92,5 @@ The `protocol_template` object supports the following:
 In addition to all arguments above, the following attributes are exported:
 
 * `id` - ID of the resource.
-
 
 

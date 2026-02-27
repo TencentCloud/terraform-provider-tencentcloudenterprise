@@ -1,5 +1,5 @@
 ---
-subcategory: "Cloud Kafka(CKafka)"
+subcategory: "Cloud Kafka(ckafka)"
 layout: "tencentcloudenterprise"
 page_title: "TencentCloudEnterprise: tencentcloudenterprise_ckafka_group"
 sidebar_current: "docs-tencentcloudenterprise-datasource-ckafka_group"
@@ -35,5 +35,4 @@ In addition to all arguments above, the following attributes are exported:
 * `group_list` - GroupList.
   * `group` - GroupId.
   * `protocol` - The protocol used by this group.
-
 

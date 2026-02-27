@@ -245,7 +245,7 @@ func dataSourceTencentCloudTdmqRocketmqCluster() *schema.Resource {
 }
 
 func dataSourceTencentCloudRocketmqClusterRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("data_source.cloud_rocketmq_cluster.read")()
+	defer logElapsed("data_source.tencentcloudenterprise_rocketmq_cluster.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)

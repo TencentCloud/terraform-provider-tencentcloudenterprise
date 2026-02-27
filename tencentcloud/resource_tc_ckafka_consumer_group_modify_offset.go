@@ -101,7 +101,7 @@ func resourceTencentCloudCkafkaConsumerGroupModifyOffset() *schema.Resource {
 }
 
 func resourceTencentCloudCkafkaConsumerGroupModifyOffsetCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_ckafka_consumer_group_modify_offset.create")()
+	defer logElapsed("resource.tencentcloudenterprise_ckafka_consumer_group_modify_offset.create")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -173,14 +173,14 @@ func resourceTencentCloudCkafkaConsumerGroupModifyOffsetCreate(d *schema.Resourc
 }
 
 func resourceTencentCloudCkafkaConsumerGroupModifyOffsetRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_ckafka_consumer_group_modify_offset.read")()
+	defer logElapsed("resource.tencentcloudenterprise_ckafka_consumer_group_modify_offset.read")()
 	defer inconsistentCheck(d, meta)()
 
 	return nil
 }
 
 func resourceTencentCloudCkafkaConsumerGroupModifyOffsetDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_ckafka_consumer_group_modify_offset.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_ckafka_consumer_group_modify_offset.delete")()
 	defer inconsistentCheck(d, meta)()
 
 	return nil

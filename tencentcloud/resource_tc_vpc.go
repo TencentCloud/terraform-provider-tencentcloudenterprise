@@ -39,7 +39,7 @@ Using Assistant CIDR
 Vpc instance can be imported, e.g.
 
 ```
-$ terraform import cloud_vpc.test vpc-id
+$ terraform import tencentcloudenterprise_vpc.test vpc-id
 ```
 */
 package tencentcloud
@@ -167,7 +167,7 @@ func resourceTencentCloudVpcInstance() *schema.Resource {
 }
 
 func resourceTencentCloudVpcInstanceCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_vpc.create")()
+	defer logElapsed("resource.tencentcloudenterprise_vpc.create")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
@@ -231,7 +231,7 @@ func resourceTencentCloudVpcInstanceCreate(d *schema.ResourceData, meta interfac
 }
 
 func resourceTencentCloudVpcInstanceRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_vpc.read")()
+	defer logElapsed("resource.tencentcloudenterprise_vpc.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -305,7 +305,7 @@ func resourceTencentCloudVpcInstanceRead(d *schema.ResourceData, meta interface{
 }
 
 func resourceTencentCloudVpcInstanceUpdate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_vpc.update")()
+	defer logElapsed("resource.tencentcloudenterprise_vpc.update")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
@@ -392,7 +392,7 @@ func resourceTencentCloudVpcInstanceUpdate(d *schema.ResourceData, meta interfac
 }
 
 func resourceTencentCloudVpcInstanceDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_vpc.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_vpc.delete")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)

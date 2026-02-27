@@ -124,13 +124,13 @@ resource "tencentcloudenterprise_vpc_address_template" "foo" {
 
 resource "tencentcloudenterprise_vpc_address_template_group" "foo" {
   name         = "test-set-atg"
-  template_ids = [cloud_vpc_address_template.foo.id]
+  template_ids = [tencentcloudenterprise_vpc_address_template.foo.id]
 }
 `
 
 const testAccSecurityGroupRuleSetResource_basic = testAccSecurityGroupRuleSetDeps + `
 resource "tencentcloudenterprise_vpc_security_group_rule_set" "base" {
-  security_group_id = cloud_vpc_security_group.base.id
+  security_group_id = tencentcloudenterprise_vpc_security_group.base.id
 
   ingress {
     action      = "ACCEPT"
@@ -168,7 +168,7 @@ resource "tencentcloudenterprise_vpc_security_group_rule_set" "base" {
     action             = "DROP"
     protocol           = "TCP"
     port               = "80"
-    source_security_id = cloud_vpc_security_group.relative.id
+    source_security_id = tencentcloudenterprise_vpc_security_group.relative.id
     description        = "E:Block relative"
   }
 
@@ -181,13 +181,13 @@ resource "tencentcloudenterprise_vpc_security_group_rule_set" "base" {
 
   egress {
     action              = "DROP"
-    address_template_id = cloud_vpc_address_template.foo.id
+    address_template_id = tencentcloudenterprise_vpc_address_template.foo.id
     description         = "B:Allow template"
   }
 
   egress {
     action              = "DROP"
-    address_template_group = cloud_vpc_address_template_group.foo.id
+    address_template_group = tencentcloudenterprise_vpc_address_template_group.foo.id
     description         = "C:DROP template group"
   }
 }
@@ -195,13 +195,13 @@ resource "tencentcloudenterprise_vpc_security_group_rule_set" "base" {
 
 const testAccSecurityGroupRuleSetResource_sort = testAccSecurityGroupRuleSetDeps + `
 resource "tencentcloudenterprise_vpc_security_group_rule_set" "base" {
-  security_group_id = cloud_vpc_security_group.base.id
+  security_group_id = tencentcloudenterprise_vpc_security_group.base.id
 
   ingress {
     action             = "DROP"
     protocol           = "TCP"
     port               = "82"
-    source_security_id = cloud_vpc_security_group.relative.id
+    source_security_id = tencentcloudenterprise_vpc_security_group.relative.id
     description        = "E:Block relative and set 82"
   }
 
@@ -246,13 +246,13 @@ resource "tencentcloudenterprise_vpc_security_group_rule_set" "base" {
 
   egress {
     action              = "DROP"
-    address_template_id = cloud_vpc_address_template.foo.id
+    address_template_id = tencentcloudenterprise_vpc_address_template.foo.id
     description         = "B:Allow template"
   }
 
   egress {
     action              = "ACCEPT"
-    address_template_group = cloud_vpc_address_template_group.foo.id
+    address_template_group = tencentcloudenterprise_vpc_address_template_group.foo.id
     description         = "C:ACCEPT template group"
   }
 }
@@ -260,7 +260,7 @@ resource "tencentcloudenterprise_vpc_security_group_rule_set" "base" {
 
 const testAccSecurityGroupRuleSetResource_modify = testAccSecurityGroupRuleSetDeps + `
 resource "tencentcloudenterprise_vpc_security_group_rule_set" "base" {
-  security_group_id = cloud_vpc_security_group.base.id
+  security_group_id = tencentcloudenterprise_vpc_security_group.base.id
 
   ingress {
     action      = "ACCEPT"
@@ -282,7 +282,7 @@ resource "tencentcloudenterprise_vpc_security_group_rule_set" "base" {
     action             = "DROP"
     protocol           = "TCP"
     port               = "80"
-    source_security_id = cloud_vpc_security_group.relative.id
+    source_security_id = tencentcloudenterprise_vpc_security_group.relative.id
     description        = "E:Block relative"
   }
 
@@ -302,13 +302,13 @@ resource "tencentcloudenterprise_vpc_security_group_rule_set" "base" {
 
   egress {
     action              = "DROP"
-    address_template_id = cloud_vpc_address_template.foo.id
+    address_template_id = tencentcloudenterprise_vpc_address_template.foo.id
     description         = "B:Allow template"
   }
 
   egress {
     action              = "DROP"
-    address_template_group = cloud_vpc_address_template_group.foo.id
+    address_template_group = tencentcloudenterprise_vpc_address_template_group.foo.id
     description         = "C:DROP template group"
   }
 }

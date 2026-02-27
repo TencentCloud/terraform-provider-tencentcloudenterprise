@@ -12,12 +12,12 @@ data "tencentcloudenterprise_redis_zone_config" "zone" {
 }
 
 	resource "tencentcloudenterprise_redis_instance" "redis_instance_test_2" {
-	  availability_zone  = data.cloud_redis_zone_config.zone.list[0].zone
-	  type_id            = data.cloud_redis_zone_config.zone.list[0].type_id
+	  availability_zone  = data.tencentcloudenterprise_redis_zone_config.zone.list[0].zone
+	  type_id            = data.tencentcloudenterprise_redis_zone_config.zone.list[0].type_id
 	  password           = "test12345789"
 	  mem_size           = 8192
-	  redis_shard_num    = data.cloud_redis_zone_config.zone.list[0].redis_shard_nums[0]
-	  redis_replicas_num = data.cloud_redis_zone_config.zone.list[0].redis_replicas_nums[0]
+	  redis_shard_num    = data.tencentcloudenterprise_redis_zone_config.zone.list[0].redis_shard_nums[0]
+	  redis_replicas_num = data.tencentcloudenterprise_redis_zone_config.zone.list[0].redis_replicas_nums[0]
 	  name               = "terrform_test"
 	  port               = 6379
 	}
@@ -35,7 +35,7 @@ data "tencentcloudenterprise_availability_zones" "az" {
 	}
 
 	resource "tencentcloudenterprise_redis_instance" "red1" {
-	  availability_zone  = data.cloud_availability_zones.az.zones[0].name
+	  availability_zone  = data.tencentcloudenterprise_availability_zones.az.zones[0].name
 	  charge_type        = "POSTPAID"
 	  mem_size           = 1024
 	  name               = "test-redis"
@@ -53,7 +53,7 @@ data "tencentcloudenterprise_availability_zones" "az" {
 
 	  replica_zone_ids = [
 	    for i in range(var.redis_replicas_num)
-	    : data.cloud_availability_zones.az.zones[i % length(data.cloud_availability_zones.az.zones)].id ]
+	    : data.tencentcloudenterprise_availability_zones.az.zones[i % length(data.tencentcloudenterprise_availability_zones.az.zones)].id ]
 	}
 
 ```
@@ -63,7 +63,7 @@ data "tencentcloudenterprise_availability_zones" "az" {
 Redis instance can be imported, e.g.
 
 ```
-$ terraform import cloud_redis_instance.redislab redis-id
+$ terraform import tencentcloudenterprise_redis_instance.redislab redis-id
 ```
 */
 package tencentcloud
@@ -141,7 +141,7 @@ func resourceTencentCloudRedisInstance() *schema.Resource {
 				Type:        schema.TypeString,
 				ForceNew:    true,
 				Required:    true,
-				Description: "The available zone ID of an instance to be created, please refer to `cloud_redis_zone_config.list`.",
+				Description: "The available zone ID of an instance to be created, please refer to `tencentcloudenterprise_redis_zone_config.list`.",
 			},
 			"name": {
 				Type:        schema.TypeString,
@@ -213,7 +213,7 @@ func resourceTencentCloudRedisInstance() *schema.Resource {
 			"mem_size": {
 				Type:        schema.TypeInt,
 				Required:    true,
-				Description: "The memory volume of an available instance(in MB), please refer to `cloud_redis_zone_config.list[zone].shard_memories`. When redis is standard type, it represents total memory size of the instance; when Redis is cluster type, it represents memory size of per sharding.",
+				Description: "The memory volume of an available instance(in MB), please refer to `tencentcloudenterprise_redis_zone_config.list[zone].shard_memories`. When redis is standard type, it represents total memory size of the instance; when Redis is cluster type, it represents memory size of per sharding.",
 			},
 			"vpc_id": {
 				Type:         schema.TypeString,
@@ -361,7 +361,7 @@ func resourceTencentCloudRedisInstance() *schema.Resource {
 }
 
 func resourceTencentCloudRedisInstanceCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_redis_instance.create")()
+	defer logElapsed("resource.tencentcloudenterprise_redis_instance.create")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
@@ -583,7 +583,7 @@ func resourceTencentCloudRedisInstanceCreate(d *schema.ResourceData, meta interf
 }
 
 func resourceTencentCloudRedisInstanceRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_redis_instance.read")()
+	defer logElapsed("resource.tencentcloudenterprise_redis_instance.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -728,7 +728,7 @@ func resourceTencentCloudRedisInstanceRead(d *schema.ResourceData, meta interfac
 }
 
 func resourceTencentCloudRedisInstanceUpdate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_redis_instance.update")()
+	defer logElapsed("resource.tencentcloudenterprise_redis_instance.update")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
@@ -1036,7 +1036,7 @@ func resourceTencentCloudRedisInstanceUpdate(d *schema.ResourceData, meta interf
 
 func resourceTencentCloudRedisInstanceDelete(d *schema.ResourceData, meta interface{}) error {
 
-	defer logElapsed("resource.cloud_redis_instance.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_redis_instance.delete")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)

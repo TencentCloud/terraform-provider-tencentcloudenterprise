@@ -3,7 +3,7 @@ Provides details about a specific Route Table.
 
 This resource can prove useful when a module accepts a Subnet id as an input variable and needs to, for example, add a route in the Route Table.
 
-~> **NOTE:** It has been deprecated and replaced by cloud_vpc_route_tables.
+~> **NOTE:** It has been deprecated and replaced by tencentcloudenterprise_vpc_route_tables.
 
 # Example Usage
 
@@ -15,7 +15,7 @@ variable "route_table_id" {}
 	}
 
 	resource "tencentcloudenterprise_route_entry" "rtb_entry_instance" {
-	  vpc_id         = "{data.cloud_route_table.selected.vpc_id}"
+	  vpc_id         = "{data.tencentcloudenterprise_route_table.selected.vpc_id}"
 	  route_table_id = var.route_table_id
 	  cidr_block     = "10.4.8.0/24"
 	  next_type      = "instance"
@@ -112,7 +112,7 @@ func dataSourceTencentCloudRouteTable() *schema.Resource {
 }
 
 func dataSourceTencentCloudRouteTableRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("data_source.cloud_route_table.read")()
+	defer logElapsed("data_source.tencentcloudenterprise_route_table.read")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)

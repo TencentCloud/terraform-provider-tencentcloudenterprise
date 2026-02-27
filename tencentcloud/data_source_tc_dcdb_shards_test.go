@@ -17,12 +17,12 @@ func TestAccTencentCloudDCDBShardsDataSource(t *testing.T) {
 			{
 				Config: fmt.Sprintf(testAccDataSourceDcdbShards_basic, defaultDcdbInstanceId),
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckTencentCloudDataSourceID("data.cloud_dcdb_shards.shards"),
-					resource.TestCheckResourceAttr("data.cloud_dcdb_shards.shards", "list.#", "2"),
-					resource.TestCheckResourceAttr("data.cloud_dcdb_shards.shards", "list.0.instance_id", defaultDcdbInstanceId),
-					resource.TestCheckResourceAttrSet("data.cloud_dcdb_shards.shards", "list.0.shard_instance_id"),
-					resource.TestCheckResourceAttr("data.cloud_dcdb_shards.shards", "list.1.instance_id", defaultDcdbInstanceId),
-					resource.TestCheckResourceAttrSet("data.cloud_dcdb_shards.shards", "list.1.shard_instance_id"),
+					testAccCheckTencentCloudDataSourceID("data.tencentcloudenterprise_dcdb_shards.shards"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_dcdb_shards.shards", "list.#", "2"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_dcdb_shards.shards", "list.0.instance_id", defaultDcdbInstanceId),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_dcdb_shards.shards", "list.0.shard_instance_id"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_dcdb_shards.shards", "list.1.instance_id", defaultDcdbInstanceId),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_dcdb_shards.shards", "list.1.shard_instance_id"),
 				),
 			},
 		},
@@ -35,8 +35,8 @@ data "tencentcloudenterprise_dcdb_instances" "instances" {
 }
 
 data "tencentcloudenterprise_dcdb_shards" "shards" {
-	instance_id = data.cloud_dcdb_instances.instances.list.0.instance_id
-	shard_instance_ids = [data.cloud_dcdb_instances.instances.list.0.shard_detail.0.shard_instance_id, data.cloud_dcdb_instances.instances.list.0.shard_detail.1.shard_instance_id]
+	instance_id = data.tencentcloudenterprise_dcdb_instances.instances.list.0.instance_id
+	shard_instance_ids = [data.tencentcloudenterprise_dcdb_instances.instances.list.0.shard_detail.0.shard_instance_id, data.tencentcloudenterprise_dcdb_instances.instances.list.0.shard_detail.1.shard_instance_id]
 }
 
 `

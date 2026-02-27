@@ -52,7 +52,7 @@ package tencentcloud
 //}
 //
 //func resourceTencentCloudRedisSwitchMasterCreate(d *schema.ResourceData, meta interface{}) error {
-//	defer logElapsed("resource.cloud_redis_switch_master.create")()
+//	defer logElapsed("resource.tencentcloudenterprise_redis_switch_master.create")()
 //	defer inconsistentCheck(d, meta)()
 //
 //	var (
@@ -68,7 +68,7 @@ package tencentcloud
 //}
 //
 //func resourceTencentCloudRedisSwitchMasterRead(d *schema.ResourceData, meta interface{}) error {
-//	defer logElapsed("resource.cloud_redis_switch_master.read")()
+//	defer logElapsed("resource.tencentcloudenterprise_redis_switch_master.read")()
 //	defer inconsistentCheck(d, meta)()
 //
 //	logId := getLogId(contextNil)
@@ -106,7 +106,7 @@ package tencentcloud
 //}
 //
 //func resourceTencentCloudRedisSwitchMasterUpdate(d *schema.ResourceData, meta interface{}) error {
-//	defer logElapsed("resource.cloud_redis_switch_master.update")()
+//	defer logElapsed("resource.tencentcloudenterprise_redis_switch_master.update")()
 //	defer inconsistentCheck(d, meta)()
 //
 //	logId := getLogId(contextNil)
@@ -168,7 +168,7 @@ package tencentcloud
 //}
 //
 //func resourceTencentCloudRedisSwitchMasterDelete(d *schema.ResourceData, meta interface{}) error {
-//	defer logElapsed("resource.cloud_redis_switch_master.delete")()
+//	defer logElapsed("resource.tencentcloudenterprise_redis_switch_master.delete")()
 //	defer inconsistentCheck(d, meta)()
 //
 //	return nil

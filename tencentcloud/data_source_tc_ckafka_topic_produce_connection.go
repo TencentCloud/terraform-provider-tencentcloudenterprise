@@ -91,7 +91,7 @@ package tencentcloud
 //}
 //
 //func dataSourceTencentCloudCkafkaTopicProduceConnectionRead(d *schema.ResourceData, meta interface{}) error {
-//	defer logElapsed("data_source.cloud_ckafka_topic_produce_connection.read")()
+//	defer logElapsed("data_source.tencentcloudenterprise_ckafka_topic_produce_connection.read")()
 //	defer inconsistentCheck(d, meta)()
 //
 //	logId := getLogId(contextNil)

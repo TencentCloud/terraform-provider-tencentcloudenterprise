@@ -82,7 +82,7 @@ func resourceTencentCloudIpv6AddressBandwidth() *schema.Resource {
 }
 
 func resourceTencentCloudIpv6AddressBandwidthCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_vpc_ipv6_address_bandwidth.create")()
+	defer logElapsed("resource.tencentcloudenterprise_vpc_ipv6_address_bandwidth.create")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -144,7 +144,7 @@ func resourceTencentCloudIpv6AddressBandwidthCreate(d *schema.ResourceData, meta
 }
 
 func resourceTencentCloudIpv6AddressBandwidthRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_vpc_ipv6_address_bandwidth.read")()
+	defer logElapsed("resource.tencentcloudenterprise_vpc_ipv6_address_bandwidth.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -184,7 +184,7 @@ func resourceTencentCloudIpv6AddressBandwidthRead(d *schema.ResourceData, meta i
 }
 
 func resourceTencentCloudIpv6AddressBandwidthUpdate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_vpc_ipv6_address_bandwidth.update")()
+	defer logElapsed("resource.tencentcloudenterprise_vpc_ipv6_address_bandwidth.update")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -244,7 +244,7 @@ func resourceTencentCloudIpv6AddressBandwidthUpdate(d *schema.ResourceData, meta
 }
 
 func resourceTencentCloudIpv6AddressBandwidthDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_vpc_ipv6_address_bandwidth.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_vpc_ipv6_address_bandwidth.delete")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)

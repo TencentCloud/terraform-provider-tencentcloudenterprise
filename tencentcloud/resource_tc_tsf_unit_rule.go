@@ -32,7 +32,7 @@ Provides a resource to create a tsf unit_rule
 tsf unit_rule can be imported using the id, e.g.
 
 ```
-terraform import cloud_tsf_unit_rule.unit_rule unit-rl-zbywqeca
+terraform import tencentcloudenterprise_tsf_unit_rule.unit_rule unit-rl-zbywqeca
 ```
 */
 package tencentcloud
@@ -213,7 +213,7 @@ func resourceTencentCloudTsfUnitRule() *schema.Resource {
 }
 
 func resourceTencentCloudTsfUnitRuleCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_tsf_unit_rule.create")()
+	defer logElapsed("resource.tencentcloudenterprise_tsf_unit_rule.create")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -328,7 +328,7 @@ func resourceTencentCloudTsfUnitRuleCreate(d *schema.ResourceData, meta interfac
 }
 
 func resourceTencentCloudTsfUnitRuleRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_tsf_unit_rule.read")()
+	defer logElapsed("resource.tencentcloudenterprise_tsf_unit_rule.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -455,7 +455,7 @@ func resourceTencentCloudTsfUnitRuleRead(d *schema.ResourceData, meta interface{
 }
 
 func resourceTencentCloudTsfUnitRuleUpdate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_tsf_unit_rule.update")()
+	defer logElapsed("resource.tencentcloudenterprise_tsf_unit_rule.update")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -561,7 +561,7 @@ func resourceTencentCloudTsfUnitRuleUpdate(d *schema.ResourceData, meta interfac
 }
 
 func resourceTencentCloudTsfUnitRuleDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_tsf_unit_rule.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_tsf_unit_rule.delete")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)

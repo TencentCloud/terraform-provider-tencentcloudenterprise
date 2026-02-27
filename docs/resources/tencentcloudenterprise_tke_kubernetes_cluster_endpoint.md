@@ -2,7 +2,7 @@
 subcategory: "Tencent Kubernetes Engine(TKE)"
 layout: "tencentcloudenterprise"
 page_title: "TencentCloudEnterprise: tencentcloudenterprise_tke_kubernetes_cluster_endpoint"
-sidebar_current: "docs-tencentcloudenterprise-resources-tke_kubernetes_cluster_endpoint"
+sidebar_current: "docs-tencentcloudenterprise-resource-tke_kubernetes_cluster_endpoint"
 description: |-
   Provide a resource to create a KubernetesClusterEndpoint. This resource allows you to create an empty cluster first without any workers. Only all attached node depends create complete, cluster endpoint will finally be enabled.
 ---
@@ -53,11 +53,14 @@ In addition to all arguments above, the following attributes are exported:
 * `id` - ID of the resource.
 
 
-
 ## Import
 
+tencentcloudenterprise_tke_kubernetes_cluster_endpoint can be imported using the id, e.g.
+
+```
 KubernetesClusterEndpoint instance can be imported by passing cluster id, e.g.
 ```
 $ terraform import tencentcloudenterprise_tke_kubernetes_cluster_endpoint.test cluster-id
+```
 ```
 

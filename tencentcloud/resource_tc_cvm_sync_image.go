@@ -66,7 +66,7 @@ func resourceTencentCloudCvmSyncImage() *schema.Resource {
 }
 
 func resourceTencentCloudCvmSyncImageCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cvm_sync_image.create")()
+	defer logElapsed("resource.tencentcloudenterprise_cvm_sync_image.create")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -125,14 +125,14 @@ func resourceTencentCloudCvmSyncImageCreate(d *schema.ResourceData, meta interfa
 }
 
 func resourceTencentCloudCvmSyncImageRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cvm_sync_image.read")()
+	defer logElapsed("resource.tencentcloudenterprise_cvm_sync_image.read")()
 	defer inconsistentCheck(d, meta)()
 
 	return nil
 }
 
 func resourceTencentCloudCvmSyncImageDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cvm_sync_image.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_cvm_sync_image.delete")()
 	defer inconsistentCheck(d, meta)()
 
 	return nil

@@ -14,7 +14,7 @@ func TestAccTencentCloudCvmImageSharePermissionDataSource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			{
 				Config: testAccCvmImageSharePermissionDataSource,
-				Check:  resource.ComposeTestCheckFunc(testAccCheckTencentCloudDataSourceID("data.cloud_cvm_image_share_permission.image_share_permission")),
+				Check:  resource.ComposeTestCheckFunc(testAccCheckTencentCloudDataSourceID("data.tencentcloudenterprise_cvm_image_share_permission.image_share_permission")),
 			},
 		},
 	})

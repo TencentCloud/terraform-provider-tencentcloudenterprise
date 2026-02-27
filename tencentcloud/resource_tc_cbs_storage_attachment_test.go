@@ -91,9 +91,9 @@ const testAccCbsStorageAttachmentConfig = defaultInstanceVariable + defaultAzVar
 resource "tencentcloudenterprise_cvm_instance" "test_cbs_attach" {
   instance_name     = "test-cbs-attach-cvm"
   availability_zone = var.default_az
-  image_id          = data.cloud_cvm_images.default.images.0.image_id
+  image_id          = data.tencentcloudenterprise_cvm_images.default.images.0.image_id
   system_disk_type  = "CLOUD_PREMIUM"
-  instance_type     = data.cloud_cvm_instance_types.default.instance_types.0.instance_type
+  instance_type     = data.tencentcloudenterprise_cvm_instance_types.default.instance_types.0.instance_type
 }
 
 resource "tencentcloudenterprise_cbs_storage" "foo" {
@@ -105,7 +105,7 @@ resource "tencentcloudenterprise_cbs_storage" "foo" {
 }
 
 resource "tencentcloudenterprise_cbs_storage_attachment" "foo" {
-  storage_id  = cloud_cbs_storage.foo.id
-  instance_id = cloud_cvm_instance.test_cbs_attach.id
+  storage_id  = tencentcloudenterprise_cbs_storage.foo.id
+  instance_id = tencentcloudenterprise_cvm_instance.test_cbs_attach.id
 }
 `

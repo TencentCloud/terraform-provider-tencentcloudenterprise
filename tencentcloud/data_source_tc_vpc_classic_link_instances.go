@@ -99,7 +99,7 @@ func dataSourceTencentCloudVpcClassicLinkInstances() *schema.Resource {
 }
 
 func dataSourceTencentCloudVpcClassicLinkInstancesRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("data_source.cloud_vpc_classic_link_instances.read")()
+	defer logElapsed("data_source.tencentcloudenterprise_vpc_classic_link_instances.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)

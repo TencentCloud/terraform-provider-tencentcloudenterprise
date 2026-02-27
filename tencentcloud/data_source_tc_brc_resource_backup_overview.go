@@ -139,7 +139,7 @@ func dataSourceTencentCloudBrcResourceBackupOverview() *schema.Resource {
 }
 
 func dataSourceTencentCloudBrcResourceBackupOverviewRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("data_source.cloud_brc_resource_backup_overview.read")()
+	defer logElapsed("data_source.tencentcloudenterprise_brc_resource_backup_overview.read")()
 
 	var (
 		logId      = getLogId(contextNil)

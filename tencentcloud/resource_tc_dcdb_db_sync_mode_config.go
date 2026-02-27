@@ -17,7 +17,7 @@ Provides a resource to create a dcdb db_sync_mode_config
 dcdb db_sync_mode_config can be imported using the id, e.g.
 
 ```
-terraform import cloud_dcdb_db_sync_mode_config.db_sync_mode_config db_sync_mode_config_id
+terraform import tencentcloudenterprise_dcdb_db_sync_mode_config.db_sync_mode_config db_sync_mode_config_id
 ```
 */
 package tencentcloud
@@ -72,7 +72,7 @@ func resourceTencentCloudDcdbDbSyncModeConfig() *schema.Resource {
 }
 
 func resourceTencentCloudDcdbDbSyncModeConfigCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_dcdb_db_sync_mode_config.create")()
+	defer logElapsed("resource.tencentcloudenterprise_dcdb_db_sync_mode_config.create")()
 	defer inconsistentCheck(d, meta)()
 
 	var instanceId string
@@ -85,7 +85,7 @@ func resourceTencentCloudDcdbDbSyncModeConfigCreate(d *schema.ResourceData, meta
 }
 
 func resourceTencentCloudDcdbDbSyncModeConfigRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_dcdb_db_sync_mode_config.read")()
+	defer logElapsed("resource.tencentcloudenterprise_dcdb_db_sync_mode_config.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -117,7 +117,7 @@ func resourceTencentCloudDcdbDbSyncModeConfigRead(d *schema.ResourceData, meta i
 }
 
 func resourceTencentCloudDcdbDbSyncModeConfigUpdate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_dcdb_db_sync_mode_config.update")()
+	defer logElapsed("resource.tencentcloudenterprise_dcdb_db_sync_mode_config.update")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -162,7 +162,7 @@ func resourceTencentCloudDcdbDbSyncModeConfigUpdate(d *schema.ResourceData, meta
 }
 
 func resourceTencentCloudDcdbDbSyncModeConfigDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_dcdb_db_sync_mode_config.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_dcdb_db_sync_mode_config.delete")()
 	defer inconsistentCheck(d, meta)()
 
 	return nil

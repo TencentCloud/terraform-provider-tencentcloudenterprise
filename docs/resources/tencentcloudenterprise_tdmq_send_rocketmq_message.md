@@ -1,8 +1,8 @@
 ---
-subcategory: "Tencent Distributed Message Queue(TDMQ)"
+subcategory: "TDMQ for RocketMQ(trocket)"
 layout: "tencentcloudenterprise"
 page_title: "TencentCloudEnterprise: tencentcloudenterprise_tdmq_send_rocketmq_message"
-sidebar_current: "docs-tencentcloudenterprise-resources-tdmq_send_rocketmq_message"
+sidebar_current: "docs-tencentcloudenterprise-resource-tdmq_send_rocketmq_message"
 description: |-
   Provides a resource to create a tdmq send_rocketmq_message
 ---
@@ -40,6 +40,5 @@ The following arguments are supported:
 In addition to all arguments above, the following attributes are exported:
 
 * `id` - ID of the resource.
-
 
 

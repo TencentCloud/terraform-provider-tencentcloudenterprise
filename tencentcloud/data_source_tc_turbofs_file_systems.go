@@ -308,7 +308,7 @@ func dataSourceTencentCloudTurbofsFileSystems() *schema.Resource {
 }
 
 func dataSourceTencentCloudTurbofsFileSystemsRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("data_source.cloud_turbofs_file_systems.read")()
+	defer logElapsed("data_source.tencentcloudenterprise_turbofs_file_systems.read")()
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
 	turbofsService := TurbofsService{

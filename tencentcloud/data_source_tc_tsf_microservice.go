@@ -162,7 +162,7 @@ func dataSourceTencentCloudTsfMicroservice() *schema.Resource {
 }
 
 func dataSourceTencentCloudTsfMicroserviceRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("data_source.cloud_tsf_microservice.read")()
+	defer logElapsed("data_source.tencentcloudenterprise_tsf_microservice.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)

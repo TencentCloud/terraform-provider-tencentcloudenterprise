@@ -95,7 +95,7 @@ data "tencentcloudenterprise_vpc_enis" "eni" {
 resource "tencentcloudenterprise_vpc_flow_log" "flow_log" {
   flow_log_name = "foo"
   resource_type = "NETWORKINTERFACE"
-  resource_id = data.cloud_vpc_enis.eni.enis.0.id
+  resource_id = data.tencentcloudenterprise_vpc_enis.eni.enis.0.id
   traffic_type = "ACCEPT"
   vpc_id = local.vpc_id
   flow_log_description = "this is a testing flow log"
@@ -115,7 +115,7 @@ data "tencentcloudenterprise_vpc_enis" "eni" {
 resource "tencentcloudenterprise_vpc_flow_log" "flow_log" {
   flow_log_name = "foo2"
   resource_type = "NETWORKINTERFACE"
-  resource_id = data.cloud_vpc_enis.eni.enis.0.id
+  resource_id = data.tencentcloudenterprise_vpc_enis.eni.enis.0.id
   traffic_type = "ACCEPT"
   vpc_id = local.vpc_id
   flow_log_description = "updated"

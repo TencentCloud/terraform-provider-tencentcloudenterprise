@@ -36,7 +36,7 @@
 //
 // redis param_template can be imported using the id, e.g.
 // ```
-// $ terraform import cloud_redis_param_template.param_template param_template_id
+// $ terraform import tencentcloudenterprise_redis_param_template.param_template param_template_id
 // ```
 // */
 package tencentcloud
@@ -163,7 +163,7 @@ package tencentcloud
 //}
 //
 //func resourceTencentCloudRedisParamTemplateCreate(d *schema.ResourceData, meta interface{}) error {
-//	defer logElapsed("resource.cloud_redis_param_template.create")()
+//	defer logElapsed("resource.tencentcloudenterprise_redis_param_template.create")()
 //	defer inconsistentCheck(d, meta)()
 //
 //	logId := getLogId(contextNil)
@@ -229,7 +229,7 @@ package tencentcloud
 //}
 //
 //func resourceTencentCloudRedisParamTemplateRead(d *schema.ResourceData, meta interface{}) error {
-//	defer logElapsed("resource.cloud_redis_param_template.read")()
+//	defer logElapsed("resource.tencentcloudenterprise_redis_param_template.read")()
 //	defer inconsistentCheck(d, meta)()
 //
 //	logId := getLogId(contextNil)
@@ -289,7 +289,7 @@ package tencentcloud
 //}
 //
 //func resourceTencentCloudRedisParamTemplateUpdate(d *schema.ResourceData, meta interface{}) error {
-//	defer logElapsed("resource.cloud_redis_param_template.update")()
+//	defer logElapsed("resource.tencentcloudenterprise_redis_param_template.update")()
 //	defer inconsistentCheck(d, meta)()
 //
 //	logId := getLogId(contextNil)
@@ -341,7 +341,7 @@ package tencentcloud
 //}
 //
 //func resourceTencentCloudRedisParamTemplateDelete(d *schema.ResourceData, meta interface{}) error {
-//	defer logElapsed("resource.cloud_redis_param_template.delete")()
+//	defer logElapsed("resource.tencentcloudenterprise_redis_param_template.delete")()
 //	defer inconsistentCheck(d, meta)()
 //
 //	logId := getLogId(contextNil)

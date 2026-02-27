@@ -2,7 +2,7 @@
 subcategory: "Virtual Private Cloud(VPC)"
 layout: "tencentcloudenterprise"
 page_title: "TencentCloudEnterprise: tencentcloudenterprise_vpc_ipv6_address_bandwidth"
-sidebar_current: "docs-tencentcloudenterprise-resources-vpc_ipv6_address_bandwidth"
+sidebar_current: "docs-tencentcloudenterprise-resource-vpc_ipv6_address_bandwidth"
 description: |-
   Provides a resource to create a ipv6_address_bandwidth
 ---
@@ -36,6 +36,5 @@ The following arguments are supported:
 In addition to all arguments above, the following attributes are exported:
 
 * `id` - ID of the resource.
-
 
 

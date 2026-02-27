@@ -17,7 +17,7 @@ Provides a resource to manage address template.
 Address template can be imported using the id, e.g.
 
 ```
-$ terraform import cloud_vpc_address_template.foo ipm-makf7k9e"
+$ terraform import tencentcloudenterprise_vpc_address_template.foo ipm-makf7k9e"
 ```
 */
 package tencentcloud
@@ -71,7 +71,7 @@ func resourceTencentCloudAddressTemplate() *schema.Resource {
 }
 
 func resourceTencentCloudAddressTemplateCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_vpc_address_template.create")()
+	defer logElapsed("resource.tencentcloudenterprise_vpc_address_template.create")()
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
 
@@ -101,7 +101,7 @@ func resourceTencentCloudAddressTemplateCreate(d *schema.ResourceData, meta inte
 }
 
 func resourceTencentCloudAddressTemplateRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_vpc_address_template.read")()
+	defer logElapsed("resource.tencentcloudenterprise_vpc_address_template.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -135,7 +135,7 @@ func resourceTencentCloudAddressTemplateRead(d *schema.ResourceData, meta interf
 }
 
 func resourceTencentCloudAddressTemplateUpdate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_vpc_address_template.update")()
+	defer logElapsed("resource.tencentcloudenterprise_vpc_address_template.update")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
@@ -163,7 +163,7 @@ func resourceTencentCloudAddressTemplateUpdate(d *schema.ResourceData, meta inte
 }
 
 func resourceTencentCloudAddressTemplateDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_vpc_address_template.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_vpc_address_template.delete")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)

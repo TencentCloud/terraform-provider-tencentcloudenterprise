@@ -15,11 +15,11 @@ func TestAccTencentCloudVpnCustomerGatewaysDataSource(t *testing.T) {
 			{
 				Config: testAccTencentCloudVpnCustomerGatewaysDataSourceConfig_basic,
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckTencentCloudDataSourceID("data.cloud_vpn_customer_gateways.cgws"),
-					resource.TestCheckResourceAttr("data.cloud_vpn_customer_gateways.cgws", "gateway_list.#", "1"),
-					resource.TestCheckResourceAttr("data.cloud_vpn_customer_gateways.cgws", "gateway_list.0.name", "terraform_test"),
-					resource.TestCheckResourceAttr("data.cloud_vpn_customer_gateways.cgws", "gateway_list.0.public_ip_address", "1.1.1.3"),
-					resource.TestCheckResourceAttr("data.cloud_vpn_customer_gateways.cgws", "gateway_list.0.tags.test", "tf"),
+					testAccCheckTencentCloudDataSourceID("data.tencentcloudenterprise_vpn_customer_gateways.cgws"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_vpn_customer_gateways.cgws", "gateway_list.#", "1"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_vpn_customer_gateways.cgws", "gateway_list.0.name", "terraform_test"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_vpn_customer_gateways.cgws", "gateway_list.0.public_ip_address", "1.1.1.3"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_vpn_customer_gateways.cgws", "gateway_list.0.tags.test", "tf"),
 				),
 			},
 		},
@@ -36,6 +36,6 @@ resource "tencentcloudenterprise_vpn_customer_gateway" "my_cgw" {
 }
 
 data "tencentcloudenterprise_vpn_customer_gateways" "cgws" {
-  id = cloud_vpn_customer_gateway.my_cgw.id
+  id = tencentcloudenterprise_vpn_customer_gateway.my_cgw.id
 }
 `

@@ -21,7 +21,7 @@ Provide a resource to create a VPCDNS record.
 Vpc subnet instance can be imported, e.g.
 
 ```
-$ terraform import cloud_vpcdns_record.test record_id
+$ terraform import tencentcloudenterprise_vpcdns_record.test record_id
 ```
 */
 package tencentcloud
@@ -202,7 +202,7 @@ func resourceTencentCloudVpcDnsRecordCreate(d *schema.ResourceData, meta interfa
 }
 
 func resourceTencentCloudVpcDnsRecordRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_vpcdns_record.read")()
+	defer logElapsed("resource.tencentcloudenterprise_vpcdns_record.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -245,7 +245,7 @@ func resourceTencentCloudVpcDnsRecordRead(d *schema.ResourceData, meta interface
 }
 
 func resourceTencentCloudVpcDnsRecordUpdate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_vpcdns_record.update")()
+	defer logElapsed("resource.tencentcloudenterprise_vpcdns_record.update")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
@@ -322,7 +322,7 @@ func resourceTencentCloudVpcDnsRecordUpdate(d *schema.ResourceData, meta interfa
 }
 
 func resourceTencentCloudVpcDnsRecordDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_vpcdns_Record.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_vpcdns_Record.delete")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)

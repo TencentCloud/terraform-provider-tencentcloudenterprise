@@ -17,7 +17,7 @@
 // redis read_only can be imported using the instanceId, e.g.
 //
 // ```
-// terraform import cloud_redis_read_only.read_only crs-c1nl9rpv
+// terraform import tencentcloudenterprise_redis_read_only.read_only crs-c1nl9rpv
 // ```
 // */
 package tencentcloud
@@ -62,7 +62,7 @@ package tencentcloud
 //}
 //
 //func resourceTencentCloudRedisReadOnlyCreate(d *schema.ResourceData, meta interface{}) error {
-//	defer logElapsed("resource.cloud_redis_read_only.create")()
+//	defer logElapsed("resource.tencentcloudenterprise_redis_read_only.create")()
 //	defer inconsistentCheck(d, meta)()
 //
 //	var (
@@ -78,7 +78,7 @@ package tencentcloud
 //}
 //
 //func resourceTencentCloudRedisReadOnlyRead(d *schema.ResourceData, meta interface{}) error {
-//	defer logElapsed("resource.cloud_redis_read_only.read")()
+//	defer logElapsed("resource.tencentcloudenterprise_redis_read_only.read")()
 //	defer inconsistentCheck(d, meta)()
 //
 //	logId := getLogId(contextNil)
@@ -111,7 +111,7 @@ package tencentcloud
 //}
 //
 //func resourceTencentCloudRedisReadOnlyUpdate(d *schema.ResourceData, meta interface{}) error {
-//	defer logElapsed("resource.cloud_redis_read_only.update")()
+//	defer logElapsed("resource.tencentcloudenterprise_redis_read_only.update")()
 //	defer inconsistentCheck(d, meta)()
 //
 //	logId := getLogId(contextNil)
@@ -170,7 +170,7 @@ package tencentcloud
 //}
 //
 //func resourceTencentCloudRedisReadOnlyDelete(d *schema.ResourceData, meta interface{}) error {
-//	defer logElapsed("resource.cloud_redis_read_only.delete")()
+//	defer logElapsed("resource.tencentcloudenterprise_redis_read_only.delete")()
 //	defer inconsistentCheck(d, meta)()
 //
 //	return nil

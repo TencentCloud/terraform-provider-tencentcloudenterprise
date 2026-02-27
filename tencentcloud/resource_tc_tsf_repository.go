@@ -21,7 +21,7 @@ Provides a resource to create a tsf repository
 tsf repository can be imported using the id, e.g.
 
 ```
-terraform import cloud_tsf_repository.repository repository_id
+terraform import tencentcloudenterprise_tsf_repository.repository repository_id
 ```
 */
 package tencentcloud
@@ -107,7 +107,7 @@ func resourceTencentCloudTsfRepository() *schema.Resource {
 }
 
 func resourceTencentCloudTsfRepositoryCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_tsf_repository.create")()
+	defer logElapsed("resource.tencentcloudenterprise_tsf_repository.create")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -163,7 +163,7 @@ func resourceTencentCloudTsfRepositoryCreate(d *schema.ResourceData, meta interf
 }
 
 func resourceTencentCloudTsfRepositoryRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_tsf_repository.read")()
+	defer logElapsed("resource.tencentcloudenterprise_tsf_repository.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -225,7 +225,7 @@ func resourceTencentCloudTsfRepositoryRead(d *schema.ResourceData, meta interfac
 }
 
 func resourceTencentCloudTsfRepositoryUpdate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_tsf_repository.update")()
+	defer logElapsed("resource.tencentcloudenterprise_tsf_repository.update")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -268,7 +268,7 @@ func resourceTencentCloudTsfRepositoryUpdate(d *schema.ResourceData, meta interf
 }
 
 func resourceTencentCloudTsfRepositoryDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_tsf_repository.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_tsf_repository.delete")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)

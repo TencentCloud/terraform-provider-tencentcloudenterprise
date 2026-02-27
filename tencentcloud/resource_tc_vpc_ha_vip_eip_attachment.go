@@ -17,7 +17,7 @@ Provides a resource to create a HA VIP EIP attachment.
 HA VIP EIP attachment can be imported using the id, e.g.
 
 ```
-$ terraform import cloud_vpc_ha_vip_eip_attachment.foo havip-kjqwe4ba#1.1.1.1
+$ terraform import tencentcloudenterprise_vpc_ha_vip_eip_attachment.foo havip-kjqwe4ba#1.1.1.1
 ```
 */
 package tencentcloud
@@ -74,7 +74,7 @@ func resourceTencentCloudHaVipEipAttachment() *schema.Resource {
 }
 
 func resourceTencentCloudHaVipEipAttachmentCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_vpc_ha_vip_eip_attachment.create")()
+	defer logElapsed("resource.tencentcloudenterprise_vpc_ha_vip_eip_attachment.create")()
 
 	haVipId := d.Get("havip_id").(string)
 	addressIp := d.Get("address_ip").(string)
@@ -90,7 +90,7 @@ func resourceTencentCloudHaVipEipAttachmentCreate(d *schema.ResourceData, meta i
 }
 
 func resourceTencentCloudHaVipEipAttachmentRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_vpc_ha_vip_eip_attachment.read")()
+	defer logElapsed("resource.tencentcloudenterprise_vpc_ha_vip_eip_attachment.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -131,7 +131,7 @@ func resourceTencentCloudHaVipEipAttachmentRead(d *schema.ResourceData, meta int
 }
 
 func resourceTencentCloudHaVipEipAttachmentDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_vpc_ha_vip_eip_attachment.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_vpc_ha_vip_eip_attachment.delete")()
 
 	haVipEipAttachmentId := d.Id()
 	items := strings.Split(haVipEipAttachmentId, "#")

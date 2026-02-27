@@ -194,7 +194,7 @@ func dataSourceTencentCloudDcInstances() *schema.Resource {
 }
 
 func dataSourceTencentCloudDcInstancesRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("data_source.cloud_dc_instances.read")()
+	defer logElapsed("data_source.tencentcloudenterprise_dc_instances.read")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)

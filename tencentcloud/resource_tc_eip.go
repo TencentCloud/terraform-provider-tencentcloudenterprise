@@ -19,7 +19,7 @@ Provides an EIP resource.
 EIP can be imported using the id, e.g.
 
 ```
-$ terraform import cloud_eip.foo eip-nyvf60va
+$ terraform import tencentcloudenterprise_eip.foo eip-nyvf60va
 ```
 */
 package tencentcloud
@@ -166,7 +166,7 @@ func resourceTencentCloudEip() *schema.Resource {
 }
 
 func resourceTencentCloudEipCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_eip.create")()
+	defer logElapsed("resource.tencentcloudenterprise_eip.create")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
@@ -286,7 +286,7 @@ func resourceTencentCloudEipCreate(d *schema.ResourceData, meta interface{}) err
 }
 
 func resourceTencentCloudEipRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_eip.read")()
+	defer logElapsed("resource.tencentcloudenterprise_eip.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -344,7 +344,7 @@ func resourceTencentCloudEipRead(d *schema.ResourceData, meta interface{}) error
 }
 
 func resourceTencentCloudEipUpdate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_eip.update")()
+	defer logElapsed("resource.tencentcloudenterprise_eip.update")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
@@ -450,7 +450,7 @@ func resourceTencentCloudEipUpdate(d *schema.ResourceData, meta interface{}) err
 }
 
 func resourceTencentCloudEipDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_eip.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_eip.delete")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)

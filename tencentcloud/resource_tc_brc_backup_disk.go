@@ -19,7 +19,7 @@ Provides a resource to create a brc disk(cbs) backup action
 brc backup_disk can be imported using the id, e.g.
 
 ```
-terraform import cloud_brc_backup_disk.example backup_id
+terraform import tencentcloudenterprise_brc_backup_disk.example backup_id
 ```
 */
 package tencentcloud
@@ -110,7 +110,7 @@ func resourceTencentCloudBrcBackupDisk() *schema.Resource {
 }
 
 func resourceTencentCloudBrcBackupDiskCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_brc_backup_disk.create")()
+	defer logElapsed("resource.tencentcloudenterprise_brc_backup_disk.create")()
 	logId := getLogId(contextNil)
 
 	request := brc.NewCreateBackupRequest()
@@ -165,7 +165,7 @@ func resourceTencentCloudBrcBackupDiskCreate(d *schema.ResourceData, meta interf
 }
 
 func resourceTencentCloudBrcBackupDiskRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_brc_backup_disk.read")()
+	defer logElapsed("resource.tencentcloudenterprise_brc_backup_disk.read")()
 	defer inconsistentCheck(d, meta)()
 	//logId := getLogId(contextNil)
 	//ctx := context.WithValue(context.Background(), logIdKey, logId)
@@ -221,7 +221,7 @@ func resourceTencentCloudBrcBackupDiskRead(d *schema.ResourceData, meta interfac
 }
 
 func resourceTencentCloudBrcBackupDiskDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_brc_backup_disk.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_brc_backup_disk.delete")()
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.Background(), logIdKey, logId)
 

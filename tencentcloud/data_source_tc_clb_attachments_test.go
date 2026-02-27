@@ -18,10 +18,10 @@ func TestAccTencentCloudClbServerAttachmentsDataSource(t *testing.T) {
 				Config: testAccTencentCloudDataSourceClbServerAttachments,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					testAccCheckClbServerAttachmentExists("tencentcloudenterprise_clb_attachment.foo"),
-					resource.TestCheckResourceAttr("data.cloud_clb_attachments.foo", "attachment_list.#", "1"),
-					resource.TestCheckResourceAttrSet("data.cloud_clb_attachments.foo", "attachment_list.0.clb_id"),
-					resource.TestCheckResourceAttrSet("data.cloud_clb_attachments.foo", "attachment_list.0.listener_id"),
-					resource.TestCheckResourceAttr("data.cloud_clb_attachments.foo", "attachment_list.0.targets.#", "1"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_clb_attachments.foo", "attachment_list.#", "1"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_clb_attachments.foo", "attachment_list.0.clb_id"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_clb_attachments.foo", "attachment_list.0.listener_id"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_clb_attachments.foo", "attachment_list.0.targets.#", "1"),
 				),
 			},
 		},
@@ -36,7 +36,7 @@ resource "tencentcloudenterprise_clb_instance" "foo" {
 }
 
 resource "tencentcloudenterprise_clb_listener" "foo" {
-  clb_id                     = cloud_clb_instance.foo.id
+  clb_id                     = tencentcloudenterprise_clb_instance.foo.id
   listener_name              = var.instance_name
   port                       = 44
   protocol                   = "TCP"
@@ -50,18 +50,18 @@ resource "tencentcloudenterprise_clb_listener" "foo" {
 }
 
 resource "tencentcloudenterprise_clb_attachment" "foo" {
-  clb_id      = cloud_clb_instance.foo.id
-  listener_id = cloud_clb_listener.foo.listener_id
+  clb_id      = tencentcloudenterprise_clb_instance.foo.id
+  listener_id = tencentcloudenterprise_clb_listener.foo.listener_id
 
   targets {
-    instance_id = cloud_cvm_instance.default.id
+    instance_id = tencentcloudenterprise_cvm_instance.default.id
     port        = 23
     weight      = 10
   }
 }
 
 data "tencentcloudenterprise_clb_attachments" "foo" {
-  clb_id      = cloud_clb_instance.foo.id
-  listener_id = cloud_clb_attachment.foo.listener_id
+  clb_id      = tencentcloudenterprise_clb_instance.foo.id
+  listener_id = tencentcloudenterprise_clb_attachment.foo.listener_id
 }
 `

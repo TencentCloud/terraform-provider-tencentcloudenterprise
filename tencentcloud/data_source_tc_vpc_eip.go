@@ -3,7 +3,7 @@ Provides an available EIP for the user.
 
 The EIP data source fetch proper EIP from user's EIP pool.
 
-~> **NOTE:** It has been deprecated and replaced by cloud_eips.
+~> **NOTE:** It has been deprecated and replaced by tencentcloudenterprise_eips.
 
 # Example Usage
 
@@ -89,7 +89,7 @@ func dataSourceTencentCloudEip() *schema.Resource {
 }
 
 func dataSourceTencentCloudEipRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("data_source.cloud_eip.read")()
+	defer logElapsed("data_source.tencentcloudenterprise_eip.read")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)

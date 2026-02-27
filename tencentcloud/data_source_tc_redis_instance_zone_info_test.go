@@ -18,18 +18,18 @@ func TestAccTencentCloudRedisInstanceZoneInfoDataSource_basic(t *testing.T) {
 			{
 				Config: testAccRedisInstanceZoneInfoDataSource,
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckTencentCloudDataSourceID("data.cloud_redis_instance_zone_info.instance_zone_info"),
-					resource.TestCheckResourceAttrSet("data.cloud_redis_instance_zone_info.instance_zone_info", "replica_groups.#"),
-					resource.TestCheckResourceAttrSet("data.cloud_redis_instance_zone_info.instance_zone_info", "replica_groups.0.group_id"),
-					resource.TestCheckResourceAttrSet("data.cloud_redis_instance_zone_info.instance_zone_info", "replica_groups.0.group_name"),
-					resource.TestCheckResourceAttrSet("data.cloud_redis_instance_zone_info.instance_zone_info", "replica_groups.0.redis_nodes.#"),
-					resource.TestCheckResourceAttrSet("data.cloud_redis_instance_zone_info.instance_zone_info", "replica_groups.0.redis_nodes.0.keys"),
-					resource.TestCheckResourceAttrSet("data.cloud_redis_instance_zone_info.instance_zone_info", "replica_groups.0.redis_nodes.0.node_id"),
-					resource.TestCheckResourceAttrSet("data.cloud_redis_instance_zone_info.instance_zone_info", "replica_groups.0.redis_nodes.0.role"),
-					resource.TestCheckResourceAttrSet("data.cloud_redis_instance_zone_info.instance_zone_info", "replica_groups.0.redis_nodes.0.slot"),
-					resource.TestCheckResourceAttrSet("data.cloud_redis_instance_zone_info.instance_zone_info", "replica_groups.0.redis_nodes.0.status"),
-					resource.TestCheckResourceAttrSet("data.cloud_redis_instance_zone_info.instance_zone_info", "replica_groups.0.role"),
-					resource.TestCheckResourceAttrSet("data.cloud_redis_instance_zone_info.instance_zone_info", "replica_groups.0.zone_id"),
+					testAccCheckTencentCloudDataSourceID("data.tencentcloudenterprise_redis_instance_zone_info.instance_zone_info"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_redis_instance_zone_info.instance_zone_info", "replica_groups.#"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_redis_instance_zone_info.instance_zone_info", "replica_groups.0.group_id"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_redis_instance_zone_info.instance_zone_info", "replica_groups.0.group_name"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_redis_instance_zone_info.instance_zone_info", "replica_groups.0.redis_nodes.#"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_redis_instance_zone_info.instance_zone_info", "replica_groups.0.redis_nodes.0.keys"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_redis_instance_zone_info.instance_zone_info", "replica_groups.0.redis_nodes.0.node_id"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_redis_instance_zone_info.instance_zone_info", "replica_groups.0.redis_nodes.0.role"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_redis_instance_zone_info.instance_zone_info", "replica_groups.0.redis_nodes.0.slot"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_redis_instance_zone_info.instance_zone_info", "replica_groups.0.redis_nodes.0.status"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_redis_instance_zone_info.instance_zone_info", "replica_groups.0.role"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_redis_instance_zone_info.instance_zone_info", "replica_groups.0.zone_id"),
 				),
 			},
 		},
@@ -72,7 +72,7 @@ resource "tencentcloudenterprise_redis_instance" "redis_instance_test" {
 }
 
 data "tencentcloudenterprise_redis_instance_zone_info" "instance_zone_info" {
-  instance_id = cloud_redis_instance.redis_instance_test.id
+  instance_id = tencentcloudenterprise_redis_instance.redis_instance_test.id
 }
 
 `

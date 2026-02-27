@@ -146,19 +146,19 @@ resource "tencentcloudenterprise_vpc" "foo" {
   resource "tencentcloudenterprise_clb_instance" "clb_basic" {
 	network_type = "OPEN"
 	clb_name     = "tf-clb-attach-basic"
-	vpc_id       = cloud_vpc.foo.id
+	vpc_id       = tencentcloudenterprise_vpc.foo.id
   }
 
   resource "tencentcloudenterprise_clb_listener" "listener_basic" {
-	clb_id        = cloud_clb_instance.clb_basic.id
+	clb_id        = tencentcloudenterprise_clb_instance.clb_basic.id
 	port          = 1
 	protocol      = "HTTP"
 	listener_name = "listener_basic"
   }
 
   resource "tencentcloudenterprise_clb_listener_rule" "rule_basic" {
-	clb_id              = cloud_clb_instance.clb_basic.id
-	listener_id         = cloud_clb_listener.listener_basic.listener_id
+	clb_id              = tencentcloudenterprise_clb_instance.clb_basic.id
+	listener_id         = tencentcloudenterprise_clb_listener.listener_basic.listener_id
 	domain              = "abc.com"
 	url                 = "/"
 	session_expire_time = 30
@@ -168,14 +168,14 @@ resource "tencentcloudenterprise_vpc" "foo" {
 
   resource "tencentcloudenterprise_clb_target_group" "test"{
 	  target_group_name = "test-target-keep-1"
-	  vpc_id            = cloud_vpc.foo.id
+	  vpc_id            = tencentcloudenterprise_vpc.foo.id
   }
 
   resource "tencentcloudenterprise_clb_target_group_attachment" "group" {
-	  clb_id          = cloud_clb_instance.clb_basic.id
-	  listener_id     = cloud_clb_listener.listener_basic.listener_id
-	  rule_id         = cloud_clb_listener_rule.rule_basic.rule_id
-	  target_group_id = cloud_clb_target_group.test.id 
+	  clb_id          = tencentcloudenterprise_clb_instance.clb_basic.id
+	  listener_id     = tencentcloudenterprise_clb_listener.listener_basic.listener_id
+	  rule_id         = tencentcloudenterprise_clb_listener_rule.rule_basic.rule_id
+	  target_group_id = tencentcloudenterprise_clb_target_group.test.id 
   }
 `
 
@@ -188,17 +188,17 @@ const testAccClbTargetGroupAttachment = `
   resource "tencentcloudenterprise_clb_instance" "clb_open" {
 	network_type              = "OPEN"
 	clb_name                  = "tf-clb-update-open"
-	vpc_id                    = cloud_vpc.foo.id
+	vpc_id                    = tencentcloudenterprise_vpc.foo.id
 	project_id                = 0
 	target_region_info_region = "ap-guangzhou"
-	target_region_info_vpc_id = cloud_vpc.foo.id
+	target_region_info_vpc_id = tencentcloudenterprise_vpc.foo.id
 	tags = {
 	  test = "test"
 	}
   }
   
   resource "tencentcloudenterprise_clb_listener" "TCP_listener" {
-	clb_id                     = cloud_clb_instance.clb_open.id
+	clb_id                     = tencentcloudenterprise_clb_instance.clb_open.id
 	listener_name              = "test_listener"
 	port                       = 80
 	protocol                   = "TCP"
@@ -214,12 +214,12 @@ const testAccClbTargetGroupAttachment = `
   
   resource "tencentcloudenterprise_clb_target_group" "test"{
 	target_group_name = "test-target-keep-1"
-	vpc_id = cloud_vpc.foo.id
+	vpc_id = tencentcloudenterprise_vpc.foo.id
   }
   
   resource "tencentcloudenterprise_clb_target_group_attachment" "group" {
-	  clb_id          = cloud_clb_instance.clb_open.id
-	  listener_id     = cloud_clb_listener.TCP_listener.listener_id
-	  target_group_id = cloud_clb_target_group.test.id 
+	  clb_id          = tencentcloudenterprise_clb_instance.clb_open.id
+	  listener_id     = tencentcloudenterprise_clb_listener.TCP_listener.listener_id
+	  target_group_id = tencentcloudenterprise_clb_target_group.test.id 
   }
 `

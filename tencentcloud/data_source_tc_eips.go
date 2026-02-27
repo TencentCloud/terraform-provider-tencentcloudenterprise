@@ -132,7 +132,7 @@ func dataSourceTencentCloudEips() *schema.Resource {
 }
 
 func dataSourceTencentCloudEipsRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("data_source.cloud_eips.read")()
+	defer logElapsed("data_source.tencentcloudenterprise_eips.read")()
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
 

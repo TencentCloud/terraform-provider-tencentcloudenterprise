@@ -329,7 +329,7 @@ func dataSourceTencentCloudCkafkaInstances() *schema.Resource {
 }
 
 func dataSourceTencentCloudCkafkaInstancesRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("data_source.cloud_ckafka_instances.read")()
+	defer logElapsed("data_source.tencentcloudenterprise_ckafka_instances.read")()
 
 	ckafkaService := CkafkaService{
 		client: meta.(*TencentCloudClient).apiV3Conn,

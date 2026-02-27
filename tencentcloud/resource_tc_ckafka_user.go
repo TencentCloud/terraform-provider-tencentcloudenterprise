@@ -20,7 +20,7 @@ Provides a resource to create a Ckafka user.
 Ckafka user can be imported using the instance_id#account_name, e.g.
 
 ```
-$ terraform import cloud_ckafka_user.foo ckafka-f9ife4zz#tf-test
+$ terraform import tencentcloudenterprise_ckafka_user.foo ckafka-f9ife4zz#tf-test
 ```
 */
 package tencentcloud
@@ -92,7 +92,7 @@ func resourceTencentCloudCkafkaUser() *schema.Resource {
 }
 
 func resourceTencentCloudCkafkaUserCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_ckafka_user.create")()
+	defer logElapsed("resource.tencentcloudenterprise_ckafka_user.create")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
@@ -113,7 +113,7 @@ func resourceTencentCloudCkafkaUserCreate(d *schema.ResourceData, meta interface
 }
 
 func resourceTencentCloudCkafkaUserRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_ckafka_user.read")()
+	defer logElapsed("resource.tencentcloudenterprise_ckafka_user.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -141,7 +141,7 @@ func resourceTencentCloudCkafkaUserRead(d *schema.ResourceData, meta interface{}
 }
 
 func resourceTencentCloudCkafkaUserUpdate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_ckafka_user.update")()
+	defer logElapsed("resource.tencentcloudenterprise_ckafka_user.update")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
@@ -163,7 +163,7 @@ func resourceTencentCloudCkafkaUserUpdate(d *schema.ResourceData, meta interface
 }
 
 func resourceTencentCloudCkafkaUserDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_ckafka_user.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_ckafka_user.delete")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)

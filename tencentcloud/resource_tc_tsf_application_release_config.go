@@ -18,7 +18,7 @@ Provides a resource to create a tsf application_release_config
 tsf application_release_config can be imported using the configId#groupId#configReleaseId, e.g.
 
 ```
-terraform import cloud_tsf_application_release_config.application_release_config dcfg-nalqbqwv#group-yxmz72gv#dcfgr-maeeq2ea
+terraform import tencentcloudenterprise_tsf_application_release_config.application_release_config dcfg-nalqbqwv#group-yxmz72gv#dcfgr-maeeq2ea
 ```
 */
 package tencentcloud
@@ -152,7 +152,7 @@ func resourceTencentCloudTsfApplicationReleaseConfig() *schema.Resource {
 }
 
 func resourceTencentCloudTsfApplicationReleaseConfigCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_tsf_application_release_config.create")()
+	defer logElapsed("resource.tencentcloudenterprise_tsf_application_release_config.create")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -204,7 +204,7 @@ func resourceTencentCloudTsfApplicationReleaseConfigCreate(d *schema.ResourceDat
 }
 
 func resourceTencentCloudTsfApplicationReleaseConfigRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_tsf_application_release_config.read")()
+	defer logElapsed("resource.tencentcloudenterprise_tsf_application_release_config.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -287,7 +287,7 @@ func resourceTencentCloudTsfApplicationReleaseConfigRead(d *schema.ResourceData,
 }
 
 func resourceTencentCloudTsfApplicationReleaseConfigDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_tsf_application_release_config.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_tsf_application_release_config.delete")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)

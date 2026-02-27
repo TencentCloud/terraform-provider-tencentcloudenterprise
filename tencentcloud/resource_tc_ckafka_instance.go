@@ -132,7 +132,7 @@ Basic Instance
 
 	resource "tencentcloudenterprise_ckafka_instance" "kafka_instance" {
 	  instance_name      = "ckafka-instance-type-tf-test"
-	  zone_id            = data.cloud_availability_zones.gz.zones.0.id
+	  zone_id            = data.tencentcloudenterprise_availability_zones.gz.zones.0.id
 	  region_id          = 80000052
 	  region_name        = "深圳"
 	  pid                = 1004667
@@ -180,11 +180,11 @@ Multi zone Instance
 
 	resource "tencentcloudenterprise_ckafka_instance" "kafka_instance" {
 	  instance_name   = "ckafka-instance-maz-tf-test"
-	  zone_id         = data.cloud_availability_zones.gz3.zones.0.id
+	  zone_id         = data.tencentcloudenterprise_availability_zones.gz3.zones.0.id
 	  multi_zone_flag = true
 	  zone_ids        = [
-	    data.cloud_availability_zones.gz3.zones.0.id,
-	    data.cloud_availability_zones.gz6.zones.0.id
+	    data.tencentcloudenterprise_availability_zones.gz3.zones.0.id,
+	    data.tencentcloudenterprise_availability_zones.gz6.zones.0.id
 	  ]
 	  period             = 1
 	  vpc_id             = var.vpc_id
@@ -206,7 +206,7 @@ Multi zone Instance
 ckafka instance can be imported using the instance_id, e.g.
 
 ```
-$ terraform import cloud_ckafka_instance.foo ckafka-f9ife4zz
+$ terraform import tencentcloudenterprise_ckafka_instance.foo ckafka-f9ife4zz
 ```
 */
 package tencentcloud
@@ -799,7 +799,7 @@ func buildProductInfo(d *schema.ResourceData) []ckafka.ProductInfo {
 }
 
 func resourceTencentCloudCkafkaInstanceCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_ckafka_instance.create")()
+	defer logElapsed("resource.tencentcloudenterprise_ckafka_instance.create")()
 	var (
 		logId   = getLogId(contextNil)
 		service = CkafkaService{
@@ -880,7 +880,7 @@ func resourceTencentCloudCkafkaInstanceCreate(d *schema.ResourceData, meta inter
 }
 
 func resourceTencentCloudCkafkaInstanceRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_ckafka_instance.read")()
+	defer logElapsed("resource.tencentcloudenterprise_ckafka_instance.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -1021,7 +1021,7 @@ func resourceTencentCloudCkafkaInstanceRead(d *schema.ResourceData, meta interfa
 }
 
 func resourceTencentCloudCkafkaInstanceUpdate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_ckafka_instance.update")()
+	defer logElapsed("resource.tencentcloudenterprise_ckafka_instance.update")()
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
 	service := CkafkaService{
@@ -1194,7 +1194,7 @@ func resourceTencentCloudCkafkaInstanceUpdate(d *schema.ResourceData, meta inter
 }
 
 func resourceTencentCLoudCkafkaInstanceDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_ckafka_instance.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_ckafka_instance.delete")()
 	var (
 		logId   = getLogId(contextNil)
 		ctx     = context.WithValue(context.TODO(), logIdKey, logId)

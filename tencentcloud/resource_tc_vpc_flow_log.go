@@ -26,7 +26,7 @@ Provides a resource to create a vpc flow_log
 vpc flow_log can be imported using the flow log Id combine vpc Id, e.g.
 
 ```
-$ terraform import cloud_vpc_flow_log.flow_log flow_log_id fl-xxxx1234#vpc-yyyy5678
+$ terraform import tencentcloudenterprise_vpc_flow_log.flow_log flow_log_id fl-xxxx1234#vpc-yyyy5678
 ```
 */
 package tencentcloud
@@ -154,7 +154,7 @@ func resourceTencentCloudVpcFlowLog() *schema.Resource {
 }
 
 func resourceTencentCloudVpcFlowLogCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_vpc_flow_log.create")()
+	defer logElapsed("resource.tencentcloudenterprise_vpc_flow_log.create")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -258,7 +258,7 @@ func resourceTencentCloudVpcFlowLogCreate(d *schema.ResourceData, meta interface
 }
 
 func resourceTencentCloudVpcFlowLogRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_vpc_flow_log.read")()
+	defer logElapsed("resource.tencentcloudenterprise_vpc_flow_log.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -357,7 +357,7 @@ func resourceTencentCloudVpcFlowLogRead(d *schema.ResourceData, meta interface{}
 }
 
 func resourceTencentCloudVpcFlowLogUpdate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_vpc_flow_log.update")()
+	defer logElapsed("resource.tencentcloudenterprise_vpc_flow_log.update")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -436,7 +436,7 @@ func resourceTencentCloudVpcFlowLogUpdate(d *schema.ResourceData, meta interface
 }
 
 func resourceTencentCloudVpcFlowLogDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_vpc_flow_log.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_vpc_flow_log.delete")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)

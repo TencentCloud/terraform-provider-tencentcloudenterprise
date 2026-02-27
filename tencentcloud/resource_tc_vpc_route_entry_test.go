@@ -149,21 +149,21 @@ resource "tencentcloudenterprise_vpc" "foo" {
 
 resource "tencentcloudenterprise_route_table" "foo" {
   name   = var.instance_name
-  vpc_id = cloud_vpc.foo.id
+  vpc_id = tencentcloudenterprise_vpc.foo.id
 }
 
 resource "tencentcloudenterprise_vpc_subnet" "foo" {
   name              = var.instance_name
-  vpc_id            = cloud_vpc.foo.id
+  vpc_id            = tencentcloudenterprise_vpc.foo.id
   availability_zone = var.availability_zone
   cidr_block        = var.subnet_cidr
   is_multicast      = false
-  route_table_id    = cloud_route_table.foo.id
+  route_table_id    = tencentcloudenterprise_route_table.foo.id
 }
 
 resource "tencentcloudenterprise_route_entry" "foo" {
-  vpc_id        	= cloud_vpc.foo.id
-  route_table_id 	= cloud_route_table.foo.id
+  vpc_id        	= tencentcloudenterprise_vpc.foo.id
+  route_table_id 	= tencentcloudenterprise_route_table.foo.id
   cidr_block 		= "10.0.0.0/24"
   next_type 		= "eip"
   next_hub  		= "0"

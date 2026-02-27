@@ -1,8 +1,8 @@
 ---
-subcategory: "Distributed Database For MySQL(DCDB)"
+subcategory: "TDSQL for MySQL(DCDB)"
 layout: "tencentcloudenterprise"
 page_title: "TencentCloudEnterprise: tencentcloudenterprise_dcdb_encrypt_attributes_config"
-sidebar_current: "docs-tencentcloudenterprise-resources-dcdb_encrypt_attributes_config"
+sidebar_current: "docs-tencentcloudenterprise-resource-dcdb_encrypt_attributes_config"
 description: |-
   Provides a resource to create a dcdb encrypt_attributes_config
 ---
@@ -103,12 +103,15 @@ In addition to all arguments above, the following attributes are exported:
 * `id` - ID of the resource.
 
 
-
 ## Import
 
+tencentcloudenterprise_dcdb_encrypt_attributes_config can be imported using the id, e.g.
+
+```
 dcdb encrypt_attributes_config can be imported using the id, e.g.
 
 ```
 terraform import tencentcloudenterprise_dcdb_encrypt_attributes_config.encrypt_attributes_config encrypt_attributes_config_id
+```
 ```
 

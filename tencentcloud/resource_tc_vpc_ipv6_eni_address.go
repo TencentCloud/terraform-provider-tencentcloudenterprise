@@ -112,7 +112,7 @@ func resourceTencentCloudVpcIpv6EniAddress() *schema.Resource {
 }
 
 func resourceTencentCloudVpcIpv6EniAddressCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_vpc_ipv6_eni_address.create")()
+	defer logElapsed("resource.tencentcloudenterprise_vpc_ipv6_eni_address.create")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -186,7 +186,7 @@ func resourceTencentCloudVpcIpv6EniAddressCreate(d *schema.ResourceData, meta in
 }
 
 func resourceTencentCloudVpcIpv6EniAddressRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_vpc_ipv6_eni_address.read")()
+	defer logElapsed("resource.tencentcloudenterprise_vpc_ipv6_eni_address.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -221,7 +221,7 @@ func resourceTencentCloudVpcIpv6EniAddressRead(d *schema.ResourceData, meta inte
 }
 
 func resourceTencentCloudVpcIpv6EniAddressUpdate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_vpc_ipv6_eni_address.update")()
+	defer logElapsed("resource.tencentcloudenterprise_vpc_ipv6_eni_address.update")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -282,7 +282,7 @@ func resourceTencentCloudVpcIpv6EniAddressUpdate(d *schema.ResourceData, meta in
 }
 
 func resourceTencentCloudVpcIpv6EniAddressDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_vpc_ipv6_eni_address.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_vpc_ipv6_eni_address.delete")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)

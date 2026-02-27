@@ -16,8 +16,8 @@ func TestAccTencentCloudTdmqRocketmqGroupDataSource(t *testing.T) {
 			{
 				Config: testAccDataSourceTdmqRocketmqGroup,
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckTencentCloudDataSourceID("data.cloud_tdmq_rocketmq_group.group"),
-					resource.TestCheckResourceAttr("data.cloud_tdmq_rocketmq_group.group", "groups.#", "1"),
+					testAccCheckTencentCloudDataSourceID("data.tencentcloudenterprise_tdmq_rocketmq_group.group"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_tdmq_rocketmq_group.group", "groups.#", "1"),
 				),
 			},
 		},
@@ -31,7 +31,7 @@ resource "tencentcloudenterprise_tdmq_rocketmq_cluster" "cluster" {
   }
   
   resource "tencentcloudenterprise_tdmq_rocketmq_namespace" "namespace" {
-	cluster_id = cloud_tdmq_rocketmq_cluster.cluster.cluster_id
+	cluster_id = tencentcloudenterprise_tdmq_rocketmq_cluster.cluster.cluster_id
 	namespace_name = "test_namespace_datasource"
 	ttl = 65000
 	retention_time = 65000
@@ -40,16 +40,16 @@ resource "tencentcloudenterprise_tdmq_rocketmq_cluster" "cluster" {
   
   resource "tencentcloudenterprise_tdmq_rocketmq_group" "group" {
 	group_name = "test_rocketmq_group"
-	namespace = cloud_tdmq_rocketmq_namespace.namespace.namespace_name
+	namespace = tencentcloudenterprise_tdmq_rocketmq_namespace.namespace.namespace_name
 	read_enable = true
 	broadcast_enable = true
-	cluster_id = cloud_tdmq_rocketmq_cluster.cluster.cluster_id
+	cluster_id = tencentcloudenterprise_tdmq_rocketmq_cluster.cluster.cluster_id
 	remark = "test rocketmq group"
   }
   
   data "tencentcloudenterprise_tdmq_rocketmq_group" "group" {
-	cluster_id = cloud_tdmq_rocketmq_cluster.cluster.cluster_id
-	namespace_id = cloud_tdmq_rocketmq_namespace.namespace.namespace_name
-	filter_group = cloud_tdmq_rocketmq_group.group.group_name
+	cluster_id = tencentcloudenterprise_tdmq_rocketmq_cluster.cluster.cluster_id
+	namespace_id = tencentcloudenterprise_tdmq_rocketmq_namespace.namespace.namespace_name
+	filter_group = tencentcloudenterprise_tdmq_rocketmq_group.group.group_name
   }
 `

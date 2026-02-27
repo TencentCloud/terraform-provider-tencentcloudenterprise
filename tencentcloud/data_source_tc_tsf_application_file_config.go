@@ -209,7 +209,7 @@ func dataSourceTencentCloudTsfApplicationFileConfig() *schema.Resource {
 }
 
 func dataSourceTencentCloudTsfApplicationFileConfigRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("data_source.cloud_tsf_application_file_config.read")()
+	defer logElapsed("data_source.tencentcloudenterprise_tsf_application_file_config.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)

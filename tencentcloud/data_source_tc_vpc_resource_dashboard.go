@@ -320,7 +320,7 @@ func dataSourceTencentCloudVpcResourceDashboard() *schema.Resource {
 }
 
 func dataSourceTencentCloudVpcResourceDashboardRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("data_source.cloud_vpc_resource_dashboard.read")()
+	defer logElapsed("data_source.tencentcloudenterprise_vpc_resource_dashboard.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)

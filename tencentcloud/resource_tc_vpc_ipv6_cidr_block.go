@@ -12,7 +12,7 @@ Provides a resource to create a vpc ipv6_cidr_block
 	}
 
 	resource "tencentcloudenterprise_vpc_ipv6_cidr_block" "ipv6_cidr_block" {
-	  vpc_id = cloud_vpc.cidr-block.id
+	  vpc_id = tencentcloudenterprise_vpc.cidr-block.id
 	}
 
 ```
@@ -22,7 +22,7 @@ Provides a resource to create a vpc ipv6_cidr_block
 vpc ipv6_cidr_block can be imported using the id, e.g.
 
 ```
-terraform import cloud_vpc_ipv6_cidr_block.ipv6_cidr_block vpc_id
+terraform import tencentcloudenterprise_vpc_ipv6_cidr_block.ipv6_cidr_block vpc_id
 ```
 */
 package tencentcloud
@@ -73,7 +73,7 @@ func resourceTencentCloudVpcIpv6CidrBlock() *schema.Resource {
 }
 
 func resourceTencentCloudVpcIpv6CidrBlockCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_vpc_ipv6_cidr_block.create")()
+	defer logElapsed("resource.tencentcloudenterprise_vpc_ipv6_cidr_block.create")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -107,7 +107,7 @@ func resourceTencentCloudVpcIpv6CidrBlockCreate(d *schema.ResourceData, meta int
 }
 
 func resourceTencentCloudVpcIpv6CidrBlockRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_vpc_ipv6_cidr_block.read")()
+	defer logElapsed("resource.tencentcloudenterprise_vpc_ipv6_cidr_block.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -141,7 +141,7 @@ func resourceTencentCloudVpcIpv6CidrBlockRead(d *schema.ResourceData, meta inter
 }
 
 func resourceTencentCloudVpcIpv6CidrBlockDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_vpc_ipv6_cidr_block.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_vpc_ipv6_cidr_block.delete")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)

@@ -40,7 +40,7 @@ Provides a resource to create a cls ckafka_consumer
 cls ckafka_consumer can be imported using the id, e.g.
 
 ```
-terraform import cloud_cls_ckafka_consumer.ckafka_consumer topic_id
+terraform import tencentcloudenterprise_cls_ckafka_consumer.ckafka_consumer topic_id
 ```
 */
 package tencentcloud
@@ -193,7 +193,7 @@ func resourceTencentCloudClsCkafkaConsumer() *schema.Resource {
 }
 
 func resourceTencentCloudClsCkafkaConsumerCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cls_ckafka_consumer.create")()
+	defer logElapsed("resource.tencentcloudenterprise_cls_ckafka_consumer.create")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -278,7 +278,7 @@ func resourceTencentCloudClsCkafkaConsumerCreate(d *schema.ResourceData, meta in
 }
 
 func resourceTencentCloudClsCkafkaConsumerRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cls_ckafka_consumer.read")()
+	defer logElapsed("resource.tencentcloudenterprise_cls_ckafka_consumer.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -366,7 +366,7 @@ func resourceTencentCloudClsCkafkaConsumerRead(d *schema.ResourceData, meta inte
 }
 
 func resourceTencentCloudClsCkafkaConsumerUpdate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cls_ckafka_consumer.update")()
+	defer logElapsed("resource.tencentcloudenterprise_cls_ckafka_consumer.update")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -459,7 +459,7 @@ func resourceTencentCloudClsCkafkaConsumerUpdate(d *schema.ResourceData, meta in
 }
 
 func resourceTencentCloudClsCkafkaConsumerDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cls_ckafka_consumer.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_cls_ckafka_consumer.delete")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)

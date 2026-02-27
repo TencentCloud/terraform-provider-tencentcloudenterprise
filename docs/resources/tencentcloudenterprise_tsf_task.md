@@ -2,7 +2,7 @@
 subcategory: "Tencent Service Framework(TSF)"
 layout: "tencentcloudenterprise"
 page_title: "TencentCloudEnterprise: tencentcloudenterprise_tsf_task"
-sidebar_current: "docs-tencentcloudenterprise-resources-tsf_task"
+sidebar_current: "docs-tencentcloudenterprise-resource-tsf_task"
 description: |-
   Provides a resource to create a tsf task
 ---
@@ -82,12 +82,15 @@ In addition to all arguments above, the following attributes are exported:
 * `task_state` - Whether to enable the task, ENABLED/DISABLED.
 * `trigger_type` - Trigger type.
 
-
 ## Import
 
+tencentcloudenterprise_tsf_task can be imported using the id, e.g.
+
+```
 tsf task can be imported using the id, e.g.
 
 ```
 terraform import tencentcloudenterprise_tsf_task.task task-y37eqq95
+```
 ```
 

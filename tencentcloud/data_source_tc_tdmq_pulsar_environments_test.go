@@ -18,7 +18,7 @@ func TestAccTencentCloudTdmqPulsarEnvironmentsDataSource_basic(t *testing.T) {
 			{
 				Config: testAccTdmqPulsarEnvironmentsDataSource,
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckTencentCloudDataSourceID("data.cloud_tdmq_pulsar_environments.example"),
+					testAccCheckTencentCloudDataSourceID("data.tencentcloudenterprise_tdmq_pulsar_environments.example"),
 				),
 			},
 		},

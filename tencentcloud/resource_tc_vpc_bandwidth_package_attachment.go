@@ -91,7 +91,7 @@ func resourceTencentCloudVpcBandwidthPackageAttachment() *schema.Resource {
 }
 
 func resourceTencentCloudVpcBandwidthPackageAttachmentCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_vpc_bandwidth_package_attachment.create")()
+	defer logElapsed("resource.tencentcloudenterprise_vpc_bandwidth_package_attachment.create")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -145,7 +145,7 @@ func resourceTencentCloudVpcBandwidthPackageAttachmentCreate(d *schema.ResourceD
 }
 
 func resourceTencentCloudVpcBandwidthPackageAttachmentRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_vpc_bandwidth_package_attachment.read")()
+	defer logElapsed("resource.tencentcloudenterprise_vpc_bandwidth_package_attachment.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -196,7 +196,7 @@ func resourceTencentCloudVpcBandwidthPackageAttachmentRead(d *schema.ResourceDat
 }
 
 func resourceTencentCloudVpcBandwidthPackageAttachmentDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_vpc_bandwidth_package_attachment.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_vpc_bandwidth_package_attachment.delete")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)

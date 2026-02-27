@@ -22,7 +22,7 @@ func TestAccTencentCloudCvmRenewInstanceResource_basic(t *testing.T) {
 const testAccCvmRenewInstance = testAccTencentCloudInstanceBasicToPrepaid + `
 
 resource "tencentcloudenterprise_cvm_renew_instance" "renew_instance" {
-  instance_id = cloud_cvm_instance.foo.id
+  instance_id = tencentcloudenterprise_cvm_instance.foo.id
   instance_charge_prepaid {
 	period = 1
   }

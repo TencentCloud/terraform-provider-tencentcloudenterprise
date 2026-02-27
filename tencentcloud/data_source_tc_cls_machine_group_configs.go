@@ -22,7 +22,7 @@ Use this data source to query detailed information of cls machine_group_configs
 	}
 
 	data "tencentcloudenterprise_cls_machine_group_configs" "machine_group_configs" {
-	  group_id = cloud_cls_machine_group.group.id
+	  group_id = tencentcloudenterprise_cls_machine_group.group.id
 	}
 
 ```
@@ -365,7 +365,7 @@ func dataSourceTencentCloudClsMachineGroupConfigs() *schema.Resource {
 }
 
 func dataSourceTencentCloudClsMachineGroupConfigsRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("data_source.cloud_cls_machine_group_configs.read")()
+	defer logElapsed("data_source.tencentcloudenterprise_cls_machine_group_configs.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)

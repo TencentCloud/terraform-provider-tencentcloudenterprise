@@ -163,7 +163,7 @@ func dataSourceTencentCloudRedisBackupDownloadInfo() *schema.Resource {
 }
 
 func dataSourceTencentCloudRedisBackupDownloadInfoRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("data_source.cloud_redis_backup_download_info.read")()
+	defer logElapsed("data_source.tencentcloudenterprise_redis_backup_download_info.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)

@@ -16,7 +16,7 @@ func TestAccTencentCloudClbTargetGroupListDataSource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			{
 				Config: testAccClbTargetGroupListDataSource,
-				Check:  resource.ComposeTestCheckFunc(testAccCheckTencentCloudDataSourceID("data.cloud_clb_target_group_list.target_group_list")),
+				Check:  resource.ComposeTestCheckFunc(testAccCheckTencentCloudDataSourceID("data.tencentcloudenterprise_clb_target_group_list.target_group_list")),
 			},
 		},
 	})

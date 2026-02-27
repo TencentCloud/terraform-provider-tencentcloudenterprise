@@ -2,7 +2,7 @@
 subcategory: "Virtual Private Cloud(VPC)"
 layout: "tencentcloudenterprise"
 page_title: "TencentCloudEnterprise: tencentcloudenterprise_vpc_net_detect"
-sidebar_current: "docs-tencentcloudenterprise-resources-vpc_net_detect"
+sidebar_current: "docs-tencentcloudenterprise-resource-vpc_net_detect"
 description: |-
   Provides a resource to create a vpc net_detect
 ---
@@ -46,12 +46,15 @@ In addition to all arguments above, the following attributes are exported:
 * `id` - ID of the resource.
 
 
-
 ## Import
 
+tencentcloudenterprise_vpc_net_detect can be imported using the id, e.g.
+
+```
 vpc net_detect can be imported using the id, e.g.
 
 ```
 terraform import tencentcloudenterprise_vpc_net_detect.net_detect net_detect_id
+```
 ```
 

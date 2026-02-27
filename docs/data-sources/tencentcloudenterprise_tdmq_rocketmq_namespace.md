@@ -1,5 +1,5 @@
 ---
-subcategory: "Tencent Distributed Message Queue(TDMQ)"
+subcategory: "TDMQ for RocketMQ(trocket)"
 layout: "tencentcloudenterprise"
 page_title: "TencentCloudEnterprise: tencentcloudenterprise_tdmq_rocketmq_namespace"
 sidebar_current: "docs-tencentcloudenterprise-datasource-tdmq_rocketmq_namespace"
@@ -52,5 +52,4 @@ In addition to all arguments above, the following attributes are exported:
   * `retention_time` - Retention time of persisted messages in milliseconds.
   * `ttl` - Retention time of unconsumed messages in milliseconds. Value range: 60 seconds-15 days.
   * `vpc_endpoint` - VPC access point address.
-
 

@@ -50,7 +50,7 @@ func resourceTencentCloudDcdbFlushBinlogOperation() *schema.Resource {
 }
 
 func resourceTencentCloudDcdbFlushBinlogOperationCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_dcdb_flush_binlog_operation.create")()
+	defer logElapsed("resource.tencentcloudenterprise_dcdb_flush_binlog_operation.create")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -84,14 +84,14 @@ func resourceTencentCloudDcdbFlushBinlogOperationCreate(d *schema.ResourceData, 
 }
 
 func resourceTencentCloudDcdbFlushBinlogOperationRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_dcdb_flush_binlog_operation.read")()
+	defer logElapsed("resource.tencentcloudenterprise_dcdb_flush_binlog_operation.read")()
 	defer inconsistentCheck(d, meta)()
 
 	return nil
 }
 
 func resourceTencentCloudDcdbFlushBinlogOperationDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_dcdb_flush_binlog_operation.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_dcdb_flush_binlog_operation.delete")()
 	defer inconsistentCheck(d, meta)()
 
 	return nil

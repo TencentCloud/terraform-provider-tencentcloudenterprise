@@ -35,7 +35,7 @@ resource "tencentcloudenterprise_cls_logset" "logset" {
 
 resource "tencentcloudenterprise_cls_topic" "topic" {
   auto_split           = true
-  logset_id            = cloud_cls_logset.logset.id
+  logset_id            = tencentcloudenterprise_cls_logset.logset.id
   max_split_partitions = 20
   partition_count      = 1
   period               = 10
@@ -48,7 +48,7 @@ resource "tencentcloudenterprise_cls_topic" "topic" {
 
 resource "tencentcloudenterprise_cls_config" "config" {
   name             = "attach"
-  output           = cloud_cls_topic.topic.id
+  output           = tencentcloudenterprise_cls_topic.topic.id
   path             = "/var/log/kubernetes/**/kubernetes.audit"
   log_type         = "json_log"
   extract_rule {
@@ -91,7 +91,7 @@ resource "tencentcloudenterprise_cls_machine_group" "group" {
 }
 
 resource "tencentcloudenterprise_cls_config_attachment" "attach" {
-  config_id = cloud_cls_config.config.id
-  group_id = cloud_cls_machine_group.group.id
+  config_id = tencentcloudenterprise_cls_config.config.id
+  group_id = tencentcloudenterprise_cls_machine_group.group.id
 }
 `

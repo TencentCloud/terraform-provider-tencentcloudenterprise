@@ -81,7 +81,7 @@ func dataSourceTencentCloudCvmDisasterRecoverGroupQuota() *schema.Resource {
 }
 
 func dataSourceTencentCloudCvmDisasterRecoverGroupQuotaRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("data_source.cloud_cvm_disaster_recover_group_quota.read")()
+	defer logElapsed("data_source.tencentcloudenterprise_cvm_disaster_recover_group_quota.read")()
 	defer inconsistentCheck(d, meta)()
 
 	var response *cvm.DescribeDisasterRecoverGroupQuotaResponse

@@ -114,7 +114,7 @@ resource "tencentcloudenterprise_vpc_bandwidth_package" "bandwidth_package" {
 
 resource "tencentcloudenterprise_vpc_bandwidth_package_attachment" "bandwidthPackageAttachment" {
   resource_id          = "eip-r2l240dq"
-  bandwidth_package_id  = cloud_vpc_bandwidth_package.bandwidth_package.id
+  bandwidth_package_id  = tencentcloudenterprise_vpc_bandwidth_package.bandwidth_package.id
   network_type          = "BGP"
   resource_type         = "Address"
 }

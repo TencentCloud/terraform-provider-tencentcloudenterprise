@@ -2,7 +2,7 @@
 subcategory: "Cloud Virtual Machine(CVM)"
 layout: "tencentcloudenterprise"
 page_title: "TencentCloudEnterprise: tencentcloudenterprise_cvm_reboot_instance"
-sidebar_current: "docs-tencentcloudenterprise-resources-cvm_reboot_instance"
+sidebar_current: "docs-tencentcloudenterprise-resource-cvm_reboot_instance"
 description: |-
   Provides a resource to create a cvm reboot_instance
 ---
@@ -32,6 +32,5 @@ The following arguments are supported:
 In addition to all arguments above, the following attributes are exported:
 
 * `id` - ID of the resource.
-
 
 

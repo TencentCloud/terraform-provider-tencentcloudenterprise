@@ -62,7 +62,7 @@ func resourceTencentCloudCvmRebootInstance() *schema.Resource {
 }
 
 func resourceTencentCloudCvmRebootInstanceCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cvm_reboot_instance.create")()
+	defer logElapsed("resource.tencentcloudenterprise_cvm_reboot_instance.create")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -95,14 +95,14 @@ func resourceTencentCloudCvmRebootInstanceCreate(d *schema.ResourceData, meta in
 }
 
 func resourceTencentCloudCvmRebootInstanceRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cvm_reboot_instance.read")()
+	defer logElapsed("resource.tencentcloudenterprise_cvm_reboot_instance.read")()
 	defer inconsistentCheck(d, meta)()
 
 	return nil
 }
 
 func resourceTencentCloudCvmRebootInstanceDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cvm_reboot_instance.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_cvm_reboot_instance.delete")()
 	defer inconsistentCheck(d, meta)()
 
 	return nil

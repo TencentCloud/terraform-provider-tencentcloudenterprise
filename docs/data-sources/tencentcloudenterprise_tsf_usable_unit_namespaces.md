@@ -37,4 +37,3 @@ In addition to all arguments above, the following attributes are exported:
     * `namespace_name` - Namespace name.
   * `total_count` - Total count.
 
-

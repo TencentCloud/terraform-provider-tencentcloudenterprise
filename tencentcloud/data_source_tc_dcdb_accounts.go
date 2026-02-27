@@ -6,7 +6,7 @@ Use this data source to query detailed information of dcdb accounts.
 ```hcl
 
 	data "tencentcloudenterprise_dcdb_accounts" "foo" {
-	  instance_id = cloud_dcdb_account.foo.instance_id
+	  instance_id = tencentcloudenterprise_dcdb_account.foo.instance_id
 	}
 
 ```
@@ -106,7 +106,7 @@ func dataSourceTencentCloudDcdbAccounts() *schema.Resource {
 }
 
 func dataSourceTencentCloudDcdbAccountsRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("data_source.cloud_dcdb_accounts.read")()
+	defer logElapsed("data_source.tencentcloudenterprise_dcdb_accounts.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)

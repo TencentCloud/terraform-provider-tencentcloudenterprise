@@ -17,15 +17,15 @@ func TestAccTencentCloudCfsFileSystemsDataSource(t *testing.T) {
 				Config: testAccCfsFileSystemsDataSource,
 				Check: resource.ComposeTestCheckFunc(
 					testAccCheckCfsFileSystemExists("tencentcloudenterprise_cfs_file_system.foo"),
-					resource.TestCheckResourceAttr("data.cloud_cfs_file_systems.file_systems", "file_system_list.#", "1"),
-					resource.TestCheckResourceAttrSet("data.cloud_cfs_file_systems.file_systems", "file_system_list.0.file_system_id"),
-					resource.TestCheckResourceAttrSet("data.cloud_cfs_file_systems.file_systems", "file_system_list.0.name"),
-					resource.TestCheckResourceAttr("data.cloud_cfs_file_systems.file_systems", "file_system_list.0.availability_zone", "ap-guangzhou-3"),
-					resource.TestCheckResourceAttr("data.cloud_cfs_file_systems.file_systems", "file_system_list.0.protocol", "NFS"),
-					resource.TestCheckResourceAttrSet("data.cloud_cfs_file_systems.file_systems", "file_system_list.0.access_group_id"),
-					resource.TestCheckResourceAttrSet("data.cloud_cfs_file_systems.file_systems", "file_system_list.0.status"),
-					resource.TestCheckResourceAttrSet("data.cloud_cfs_file_systems.file_systems", "file_system_list.0.create_time"),
-					resource.TestCheckResourceAttrSet("data.cloud_cfs_file_systems.file_systems", "file_system_list.0.mount_ip"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_cfs_file_systems.file_systems", "file_system_list.#", "1"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_cfs_file_systems.file_systems", "file_system_list.0.file_system_id"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_cfs_file_systems.file_systems", "file_system_list.0.name"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_cfs_file_systems.file_systems", "file_system_list.0.availability_zone", "ap-guangzhou-3"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_cfs_file_systems.file_systems", "file_system_list.0.protocol", "NFS"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_cfs_file_systems.file_systems", "file_system_list.0.access_group_id"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_cfs_file_systems.file_systems", "file_system_list.0.status"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_cfs_file_systems.file_systems", "file_system_list.0.create_time"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_cfs_file_systems.file_systems", "file_system_list.0.mount_ip"),
 				),
 			},
 		},
@@ -39,7 +39,7 @@ resource "tencentcloudenterprise_vpc" "vpc" {
 }
 
 resource "tencentcloudenterprise_vpc_subnet" "subnet" {
-  vpc_id            = cloud_vpc.vpc.id
+  vpc_id            = tencentcloudenterprise_vpc.vpc.id
   name              = "test-cfs-subnet"
   cidr_block        = "10.2.11.0/24"
   availability_zone = "ap-guangzhou-3"
@@ -50,12 +50,12 @@ resource "tencentcloudenterprise_cfs_file_system" "foo" {
   availability_zone = "ap-guangzhou-3"
   access_group_id = local.cfs_access_group_id
   protocol = "NFS"
-  vpc_id = cloud_vpc.vpc.id
-  subnet_id = cloud_vpc_subnet.subnet.id
+  vpc_id = tencentcloudenterprise_vpc.vpc.id
+  subnet_id = tencentcloudenterprise_vpc_subnet.subnet.id
 }
 
 data "tencentcloudenterprise_cfs_file_systems" "file_systems" {
-  file_system_id = cloud_cfs_file_system.foo.id
-  name = cloud_cfs_file_system.foo.name
+  file_system_id = tencentcloudenterprise_cfs_file_system.foo.id
+  name = tencentcloudenterprise_cfs_file_system.foo.name
 }
 `

@@ -16,7 +16,7 @@ func TestAccTencentCloudVpcBandwidthPackageQuotaDataSource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			{
 				Config: testAccVpcBandwidthPackageQuotaDataSource,
-				Check:  resource.ComposeTestCheckFunc(testAccCheckTencentCloudDataSourceID("data.cloud_vpc_bandwidth_package_quota.bandwidth_package_quota")),
+				Check:  resource.ComposeTestCheckFunc(testAccCheckTencentCloudDataSourceID("data.tencentcloudenterprise_vpc_bandwidth_package_quota.bandwidth_package_quota")),
 			},
 		},
 	})

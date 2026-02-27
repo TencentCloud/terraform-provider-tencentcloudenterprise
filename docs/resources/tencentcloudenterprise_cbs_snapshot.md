@@ -2,7 +2,7 @@
 subcategory: "Cloud Block Storage(CBS)"
 layout: "tencentcloudenterprise"
 page_title: "TencentCloudEnterprise: tencentcloudenterprise_cbs_snapshot"
-sidebar_current: "docs-tencentcloudenterprise-resources-cbs_snapshot"
+sidebar_current: "docs-tencentcloudenterprise-resource-cbs_snapshot"
 description: |-
   Provides a resource to create a CBS snapshot.
 ---
@@ -39,12 +39,15 @@ In addition to all arguments above, the following attributes are exported:
 * `snapshot_status` - Status of the snapshot.
 * `storage_size` - Volume of storage which this snapshot created from.
 
-
 ## Import
 
+tencentcloudenterprise_cbs_snapshot can be imported using the id, e.g.
+
+```
 CBS snapshot can be imported using the id, e.g.
 
 ```
 $ terraform import tencentcloudenterprise_cbs_snapshot.snapshot snap-3sa3f39b
+```
 ```
 

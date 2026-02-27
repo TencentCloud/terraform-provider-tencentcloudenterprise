@@ -39,7 +39,7 @@ Provides a resource to create a cls cos shipper.
 cls cos shipper can be imported using the id, e.g.
 
 ```
-$ terraform import cloud_cls_cos_shipper.shipper 5d1b7b2a-c163-4c48-bb01-9ee00584d761
+$ terraform import tencentcloudenterprise_cls_cos_shipper.shipper 5d1b7b2a-c163-4c48-bb01-9ee00584d761
 ```
 */
 package tencentcloud
@@ -326,7 +326,7 @@ func resourceTencentCloudClsCosShipper() *schema.Resource {
 }
 
 func resourceTencentCloudClsCosShipperCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cls_cos_shipper.create")()
+	defer logElapsed("resource.tencentcloudenterprise_cls_cos_shipper.create")()
 
 	logId := getLogId(contextNil)
 
@@ -499,7 +499,7 @@ func resourceTencentCloudClsCosShipperCreate(d *schema.ResourceData, meta interf
 }
 
 func resourceTencentCloudClsCosShipperRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cls_cos_shipper.read")()
+	defer logElapsed("resource.tencentcloudenterprise_cls_cos_shipper.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -617,7 +617,7 @@ func resourceTencentCloudClsCosShipperRead(d *schema.ResourceData, meta interfac
 }
 
 func resourceTencentCloudClsCosShipperUpdate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cls_cos_shipper.update")()
+	defer logElapsed("resource.tencentcloudenterprise_cls_cos_shipper.update")()
 	logId := getLogId(contextNil)
 	request := cls.NewModifyShipperRequest()
 
@@ -818,7 +818,7 @@ func resourceTencentCloudClsCosShipperUpdate(d *schema.ResourceData, meta interf
 }
 
 func resourceTencentCloudClsCosShipperDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cls_cos_shipper.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_cls_cos_shipper.delete")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)

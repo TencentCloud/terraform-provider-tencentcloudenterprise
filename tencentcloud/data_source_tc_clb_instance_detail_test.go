@@ -16,7 +16,7 @@ func TestAccTencentCloudClbInstanceDetailDataSource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			{
 				Config: testAccClbInstanceDetailDataSource,
-				Check:  resource.ComposeTestCheckFunc(testAccCheckTencentCloudDataSourceID("data.cloud_clb_instance_detail.instance_detail")),
+				Check:  resource.ComposeTestCheckFunc(testAccCheckTencentCloudDataSourceID("data.tencentcloudenterprise_clb_instance_detail.instance_detail")),
 			},
 		},
 	})

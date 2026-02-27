@@ -18,11 +18,11 @@ Provide a resource to create a TDMQ topic.
 	}
 
 	resource "tencentcloudenterprise_tdmq_topic" "bar" {
-	  environ_id = cloud_tdmq_namespace.bar.id
+	  environ_id = tencentcloudenterprise_tdmq_namespace.bar.id
 	  topic_name = "example"
 	  partitions = 6
 	  topic_type = 0
-	  cluster_id = cloud_tdmq_instance.foo.id
+	  cluster_id = tencentcloudenterprise_tdmq_instance.foo.id
 	  remark = "this is description."
 	}
 
@@ -33,7 +33,7 @@ Provide a resource to create a TDMQ topic.
 Tdmq Topic can be imported, e.g.
 
 ```
-$ terraform import cloud_tdmq_topic.test topic_id
+$ terraform import tencentcloudenterprise_tdmq_topic.test topic_id
 ```
 */
 package tencentcloud
@@ -129,7 +129,7 @@ func resourceTencentCloudTdmqTopic() *schema.Resource {
 }
 
 func resourceTencentCloudTdmqTopicCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_tdmq_topic.create")()
+	defer logElapsed("resource.tencentcloudenterprise_tdmq_topic.create")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
@@ -177,7 +177,7 @@ func resourceTencentCloudTdmqTopicCreate(d *schema.ResourceData, meta interface{
 }
 
 func resourceTencentCloudTdmqTopicRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_tdmq_instance.read")()
+	defer logElapsed("resource.tencentcloudenterprise_tdmq_instance.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -212,7 +212,7 @@ func resourceTencentCloudTdmqTopicRead(d *schema.ResourceData, meta interface{})
 }
 
 func resourceTencentCloudTdmqTopicUpdate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_tdmq_topic.update")()
+	defer logElapsed("resource.tencentcloudenterprise_tdmq_topic.update")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
@@ -256,7 +256,7 @@ func resourceTencentCloudTdmqTopicUpdate(d *schema.ResourceData, meta interface{
 }
 
 func resourceTencentCloudTdmqTopicDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_tdmq_instance.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_tdmq_instance.delete")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)

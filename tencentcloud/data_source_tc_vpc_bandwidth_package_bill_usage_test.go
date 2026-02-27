@@ -16,7 +16,7 @@ func TestAccTencentCloudVpcBandwidthPackageBillUsageDataSource_basic(t *testing.
 		Steps: []resource.TestStep{
 			{
 				Config: testAccVpcBandwidthPackageBillUsageDataSource,
-				Check:  resource.ComposeTestCheckFunc(testAccCheckTencentCloudDataSourceID("data.cloud_vpc_bandwidth_package_bill_usage.bandwidth_package_bill_usage")),
+				Check:  resource.ComposeTestCheckFunc(testAccCheckTencentCloudDataSourceID("data.tencentcloudenterprise_vpc_bandwidth_package_bill_usage.bandwidth_package_bill_usage")),
 			},
 		},
 	})
@@ -34,7 +34,7 @@ resource "tencentcloudenterprise_vpc_bandwidth_package" "bandwidth_package" {
 }
 
 data "tencentcloudenterprise_vpc_bandwidth_package_bill_usage" "bandwidth_package_bill_usage" {
-  bandwidth_package_id =  cloud_vpc_bandwidth_package.bandwidth_package.id
+  bandwidth_package_id =  tencentcloudenterprise_vpc_bandwidth_package.bandwidth_package.id
 }
 
 `

@@ -43,4 +43,3 @@ In addition to all arguments above, the following attributes are exported:
 * `name` - Specifies the object name.
 * `next_marker` - Specifies the object name to start with when listing objects in a bucket. If the returned value of IsTruncated is true, the value of NextMarker is the object name that starts with the value of Marker in the request. If the returned value of IsTruncated is false, the value of NextMarker is null.
 
-

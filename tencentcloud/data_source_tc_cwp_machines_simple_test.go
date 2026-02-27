@@ -16,9 +16,9 @@ func TestAccTencentCloudNeedFixCwpMachinesSimpleDataSource_basic(t *testing.T) {
 			{
 				Config: testAccCwpMachinesSimpleDataSource,
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckTencentCloudDataSourceID("data.cloud_cwp_machines_simple.example"),
-					resource.TestCheckResourceAttrSet("data.cloud_cwp_machines_simple.example", "machine_type"),
-					resource.TestCheckResourceAttrSet("data.cloud_cwp_machines_simple.example", "machine_region"),
+					testAccCheckTencentCloudDataSourceID("data.tencentcloudenterprise_cwp_machines_simple.example"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_cwp_machines_simple.example", "machine_type"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_cwp_machines_simple.example", "machine_region"),
 				),
 			},
 		},

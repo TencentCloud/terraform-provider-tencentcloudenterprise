@@ -46,7 +46,7 @@ func resourceTencentCloudTurbofsSignUpService() *schema.Resource {
 }
 
 func resourceTencentCloudTurbofsSignUpServiceCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("data_source.cloud_turbofs_sign_up_service.create")()
+	defer logElapsed("data_source.tencentcloudenterprise_turbofs_sign_up_service.create")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -78,7 +78,7 @@ func resourceTencentCloudTurbofsSignUpServiceCreate(d *schema.ResourceData, meta
 }
 
 func resourceTencentCloudTurbofsSignUpServiceRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_turbofs_sign_up_service.read")()
+	defer logElapsed("resource.tencentcloudenterprise_turbofs_sign_up_service.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -108,7 +108,7 @@ func resourceTencentCloudTurbofsSignUpServiceRead(d *schema.ResourceData, meta i
 }
 
 func resourceTencentCloudTurbofsSignUpServiceDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_turbofs_sign_up_service.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_turbofs_sign_up_service.delete")()
 	defer inconsistentCheck(d, meta)()
 
 	return nil

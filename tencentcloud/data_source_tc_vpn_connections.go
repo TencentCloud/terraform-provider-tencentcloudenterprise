@@ -302,7 +302,7 @@ func dataSourceTencentCloudVpnConnections() *schema.Resource {
 }
 
 func dataSourceTencentCloudVpnConnectionsRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("data_source.cloud_vpn_connections.read")()
+	defer logElapsed("data_source.tencentcloudenterprise_vpn_connections.read")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)

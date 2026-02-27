@@ -2,7 +2,7 @@
 subcategory: "Virtual Private Cloud(VPC)"
 layout: "tencentcloudenterprise"
 page_title: "TencentCloudEnterprise: tencentcloudenterprise_vpc_security_group"
-sidebar_current: "docs-tencentcloudenterprise-resources-vpc_security_group"
+sidebar_current: "docs-tencentcloudenterprise-resource-vpc_security_group"
 description: |-
   Provides a resource to create security group.
 ---
@@ -37,14 +37,17 @@ In addition to all arguments above, the following attributes are exported:
 * `id` - ID of the resource.
 * `security_group_id` - ID of the security group to be queried.
 
-
 ## Import
 
+tencentcloudenterprise_vpc_security_group can be imported using the id, e.g.
+
+```
 Security group can be imported using the id, e.g.
 
 ```
 
 	$ terraform import tencentcloudenterprise_vpc_security_group.sglab sg-ey3wmiz1
 
+```
 ```
 

@@ -141,7 +141,7 @@ func dataSourceTencentCloudVpcNetDetectStateCheck() *schema.Resource {
 }
 
 func dataSourceTencentCloudVpcNetDetectStateCheckRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("data_source.cloud_vpc_net_detect_state_check.read")()
+	defer logElapsed("data_source.tencentcloudenterprise_vpc_net_detect_state_check.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)

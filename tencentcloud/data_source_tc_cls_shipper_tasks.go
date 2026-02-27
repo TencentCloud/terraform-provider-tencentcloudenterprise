@@ -126,7 +126,7 @@ func dataSourceTencentCloudClsShipperTasks() *schema.Resource {
 }
 
 func dataSourceTencentCloudClsShipperTasksRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("data_source.cloud_cls_shipper_tasks.read")()
+	defer logElapsed("data_source.tencentcloudenterprise_cls_shipper_tasks.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)

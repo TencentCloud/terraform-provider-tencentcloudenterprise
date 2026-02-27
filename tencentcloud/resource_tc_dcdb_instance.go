@@ -35,7 +35,7 @@ Import
 
 dcdb hourdb_instance can be imported using the id, e.g.
 ```
-$ terraform import cloud_dcdb_instance.hourdb_instance hourdbInstance_id
+$ terraform import tencentcloudenterprise_dcdb_instance.hourdb_instance hourdbInstance_id
 ```
 */
 package tencentcloud
@@ -286,7 +286,7 @@ func resourceTencentCloudDcdbdbInstance() *schema.Resource {
 }
 
 func resourceTencentCloudDcdbdbInstanceCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_dcdb_instance.create")()
+	defer logElapsed("resource.tencentcloudenterprise_dcdb_instance.create")()
 	defer inconsistentCheck(d, meta)()
 
 	var (
@@ -474,7 +474,7 @@ func resourceTencentCloudDcdbdbInstanceCreate(d *schema.ResourceData, meta inter
 }
 
 func resourceTencentCloudDcdbdbInstanceRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_dcdb_instance.read")()
+	defer logElapsed("resource.tencentcloudenterprise_dcdb_instance.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -602,7 +602,7 @@ func resourceTencentCloudDcdbdbInstanceRead(d *schema.ResourceData, meta interfa
 }
 
 func resourceTencentCloudDcdbdbInstanceUpdate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_dcdb_instance.update")()
+	defer logElapsed("resource.tencentcloudenterprise_dcdb_instance.update")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -712,7 +712,7 @@ func resourceTencentCloudDcdbdbInstanceUpdate(d *schema.ResourceData, meta inter
 }
 
 func resourceTencentCloudDcdbdbInstanceDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_dcdb_instance.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_dcdb_instance.delete")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)

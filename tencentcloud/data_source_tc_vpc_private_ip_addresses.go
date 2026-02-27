@@ -100,7 +100,7 @@ func dataSourceTencentCloudVpcPrivateIpAddresses() *schema.Resource {
 }
 
 func dataSourceTencentCloudVpcPrivateIpAddressesRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("data_source.cloud_vpc_private_ip_addresses.read")()
+	defer logElapsed("data_source.tencentcloudenterprise_vpc_private_ip_addresses.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)

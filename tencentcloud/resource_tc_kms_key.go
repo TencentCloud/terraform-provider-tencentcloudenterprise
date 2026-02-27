@@ -23,7 +23,7 @@ Provide a resource to create a KMS key.
 KMS keys can be imported using the id, e.g.
 
 ```
-$ terraform import cloud_kms_key.foo 287e8f40-7cbb-11eb-9a3a-5254004f7f94
+$ terraform import tencentcloudenterprise_kms_key.foo 287e8f40-7cbb-11eb-9a3a-5254004f7f94
 ```
 */
 package tencentcloud
@@ -143,7 +143,7 @@ func resourceTencentCloudKmsKey() *schema.Resource {
 }
 
 func resourceTencentCloudKmsKeyCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_kms_key.create")()
+	defer logElapsed("resource.tencentcloudenterprise_kms_key.create")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
@@ -243,7 +243,7 @@ func resourceTencentCloudKmsKeyCreate(d *schema.ResourceData, meta interface{}) 
 }
 
 func resourceTencentCloudKmsKeyRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_kms_key.read")()
+	defer logElapsed("resource.tencentcloudenterprise_kms_key.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -290,7 +290,7 @@ func resourceTencentCloudKmsKeyRead(d *schema.ResourceData, meta interface{}) er
 }
 
 func resourceTencentCloudKmsKeyUpdate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_kms_key.update")()
+	defer logElapsed("resource.tencentcloudenterprise_kms_key.update")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
@@ -386,7 +386,7 @@ func resourceTencentCloudKmsKeyUpdate(d *schema.ResourceData, meta interface{}) 
 }
 
 func resourceTencentCloudKmsKeyDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_kms_key.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_kms_key.delete")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)

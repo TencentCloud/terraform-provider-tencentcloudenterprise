@@ -2,7 +2,7 @@
 subcategory: "Virtual Private Cloud(VPC)"
 layout: "tencentcloudenterprise"
 page_title: "TencentCloudEnterprise: tencentcloudenterprise_vpc_eni_attachment"
-sidebar_current: "docs-tencentcloudenterprise-resources-vpc_eni_attachment"
+sidebar_current: "docs-tencentcloudenterprise-resource-vpc_eni_attachment"
 description: |-
   Provides a resource to detailed information of attached backend server to an ENI.
 ---
@@ -85,14 +85,17 @@ In addition to all arguments above, the following attributes are exported:
 * `id` - ID of the resource.
 
 
-
 ## Import
 
+tencentcloudenterprise_vpc_eni_attachment can be imported using the id, e.g.
+
+```
 ENI attachment can be imported using the id, e.g.
 
 ```
 
 	$ terraform import tencentcloudenterprise_vpc_eni_attachment.foo eni-gtlvkjvz+ins-0h3a5new
 
+```
 ```
 

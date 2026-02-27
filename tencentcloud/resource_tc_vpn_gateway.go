@@ -44,7 +44,7 @@ PREPAID VPN gateway
 VPN gateway can be imported using the id, e.g.
 
 ```
-$ terraform import cloud_vpn_gateway.foo vpngw-8ccsnclt
+$ terraform import tencentcloudenterprise_vpn_gateway.foo vpngw-8ccsnclt
 ```
 */
 package tencentcloud
@@ -216,7 +216,7 @@ func resourceTencentCloudVpnGateway() *schema.Resource {
 }
 
 func resourceTencentCloudVpnGatewayCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_vpn_gateway.create")()
+	defer logElapsed("resource.tencentcloudenterprise_vpn_gateway.create")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
@@ -331,7 +331,7 @@ func resourceTencentCloudVpnGatewayCreate(d *schema.ResourceData, meta interface
 }
 
 func resourceTencentCloudVpnGatewayRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_vpn_gateway.read")()
+	defer logElapsed("resource.tencentcloudenterprise_vpn_gateway.read")()
 	defer inconsistentCheck(d, meta)()
 
 	var (
@@ -379,7 +379,7 @@ func resourceTencentCloudVpnGatewayRead(d *schema.ResourceData, meta interface{}
 }
 
 func resourceTencentCloudVpnGatewayUpdate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_vpn_gateway.update")()
+	defer logElapsed("resource.tencentcloudenterprise_vpn_gateway.update")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
@@ -530,7 +530,7 @@ func resourceTencentCloudVpnGatewayUpdate(d *schema.ResourceData, meta interface
 }
 
 func resourceTencentCloudVpnGatewayDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_vpn_gateway.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_vpn_gateway.delete")()
 
 	logId := getLogId(contextNil)
 

@@ -56,4 +56,3 @@ In addition to all arguments above, the following attributes are exported:
     * `last_update_time` - Last update time.Note: This field may return null, indicating that no valid value was found.
   * `total_count` - Total count.
 
-

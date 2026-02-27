@@ -16,15 +16,15 @@ func TestAccTencentCloudNeedFixCwpLicenseBindAttachmentResource_basic(t *testing
 			{
 				Config: testAccCwpLicenseBindAttachment,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttrSet("tencentcloud_cwp_license_bind_attachment.license_bind_attachment", "id"),
-					resource.TestCheckResourceAttrSet("tencentcloud_cwp_license_bind_attachment.license_bind_attachment", "resource_id"),
-					resource.TestCheckResourceAttrSet("tencentcloud_cwp_license_bind_attachment.license_bind_attachment", "license_id"),
-					resource.TestCheckResourceAttrSet("tencentcloud_cwp_license_bind_attachment.license_bind_attachment", "license_type"),
-					resource.TestCheckResourceAttrSet("tencentcloud_cwp_license_bind_attachment.license_bind_attachment", "quuid"),
+					resource.TestCheckResourceAttrSet("tencenttencentcloudenterprise_cwp_license_bind_attachment.license_bind_attachment", "id"),
+					resource.TestCheckResourceAttrSet("tencenttencentcloudenterprise_cwp_license_bind_attachment.license_bind_attachment", "resource_id"),
+					resource.TestCheckResourceAttrSet("tencenttencentcloudenterprise_cwp_license_bind_attachment.license_bind_attachment", "license_id"),
+					resource.TestCheckResourceAttrSet("tencenttencentcloudenterprise_cwp_license_bind_attachment.license_bind_attachment", "license_type"),
+					resource.TestCheckResourceAttrSet("tencenttencentcloudenterprise_cwp_license_bind_attachment.license_bind_attachment", "quuid"),
 				),
 			},
 			{
-				ResourceName:      "tencentcloud_cwp_license_bind_attachment.example",
+				ResourceName:      "tencenttencentcloudenterprise_cwp_license_bind_attachment.example",
 				ImportState:       true,
 				ImportStateVerify: true,
 			},
@@ -45,8 +45,8 @@ resource "tencentcloud_cwp_license_order" "example" {
 }
 
 resource "tencentcloud_cwp_license_bind_attachment" "example" {
-  resource_id  = tencentcloud_cwp_license_order.example.resource_id
-  license_id   = tencentcloud_cwp_license_order.example.license_id
+  resource_id  = tencenttencentcloudenterprise_cwp_license_order.example.resource_id
+  license_id   = tencenttencentcloudenterprise_cwp_license_order.example.license_id
   license_type = 0
   quuid        = "2c7e5cce-1cec-4456-8d18-018f160dd987"
 }

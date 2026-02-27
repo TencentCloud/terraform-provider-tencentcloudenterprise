@@ -9,7 +9,7 @@ import (
 func TestAccTencentCloudKubernetesClusterDataSource(t *testing.T) {
 	t.Parallel()
 
-	key := "data.cloud_tke_kubernetes_clusters.name"
+	key := "data.tencentcloudenterprise_tke_kubernetes_clusters.name"
 
 	resource.Test(t, resource.TestCase{
 		PreCheck:  func() { testAccPreCheck(t) },
@@ -31,7 +31,7 @@ func TestAccTencentCloudKubernetesClusterDataSource(t *testing.T) {
 func TestAccTencentCloudKubernetesClusterTagsDataSource(t *testing.T) {
 	t.Parallel()
 
-	key := "data.cloud_tke_kubernetes_clusters.tags"
+	key := "data.tencentcloudenterprise_tke_kubernetes_clusters.tags"
 
 	resource.Test(t, resource.TestCase{
 		PreCheck:  func() { testAccPreCheck(t) },

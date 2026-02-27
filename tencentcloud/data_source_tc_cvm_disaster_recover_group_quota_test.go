@@ -16,7 +16,7 @@ func TestAccTencentCloudCvmDisasterRecoverGroupQuotaDataSource_basic(t *testing.
 		Steps: []resource.TestStep{
 			{
 				Config: testAccCvmDisasterRecoverGroupQuotaDataSource,
-				Check:  resource.ComposeTestCheckFunc(testAccCheckTencentCloudDataSourceID("data.cloud_cvm_disaster_recover_group_quota.disaster_recover_group_quota")),
+				Check:  resource.ComposeTestCheckFunc(testAccCheckTencentCloudDataSourceID("data.tencentcloudenterprise_cvm_disaster_recover_group_quota.disaster_recover_group_quota")),
 			},
 		},
 	})

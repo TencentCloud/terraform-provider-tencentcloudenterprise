@@ -70,7 +70,7 @@ func dataSourceTencentCloudVpnCustomerGatewayVendors() *schema.Resource {
 }
 
 func dataSourceTencentCloudVpcVpnCustomerGatewayVendorsRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("data_source.cloud_vpc_vpn_customer_gateway_vendors.read")()
+	defer logElapsed("data_source.tencentcloudenterprise_vpc_vpn_customer_gateway_vendors.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)

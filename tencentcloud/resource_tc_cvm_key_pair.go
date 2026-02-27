@@ -21,7 +21,7 @@ Provides a key pair resource.
 Key pair can be imported using the id, e.g.
 
 ```
-$ terraform import cloud_cvm_key_pair.foo skey-17634f05
+$ terraform import tencentcloudenterprise_cvm_key_pair.foo skey-17634f05
 ```
 */
 package tencentcloud
@@ -177,7 +177,7 @@ func cvmCreateKeyPairByImportPublicKey(ctx context.Context, d *schema.ResourceDa
 }
 
 func resourceTencentCloudKeyPairCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cvm_key_pair.create")()
+	defer logElapsed("resource.tencentcloudenterprise_cvm_key_pair.create")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
@@ -212,7 +212,7 @@ func resourceTencentCloudKeyPairCreate(d *schema.ResourceData, meta interface{})
 }
 
 func resourceTencentCloudKeyPairRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cvm_key_pair.read")()
+	defer logElapsed("resource.tencentcloudenterprise_cvm_key_pair.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -263,7 +263,7 @@ func resourceTencentCloudKeyPairRead(d *schema.ResourceData, meta interface{}) e
 }
 
 func resourceTencentCloudKeyPairUpdate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cvm_key_pair.update")()
+	defer logElapsed("resource.tencentcloudenterprise_cvm_key_pair.update")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
@@ -299,7 +299,7 @@ func resourceTencentCloudKeyPairUpdate(d *schema.ResourceData, meta interface{})
 }
 
 func resourceTencentCloudKeyPairDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cvm_key_pair.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_cvm_key_pair.delete")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)

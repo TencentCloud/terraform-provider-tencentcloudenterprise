@@ -44,4 +44,3 @@ In addition to all arguments above, the following attributes are exported:
   * `instance_status` - Current status of the instance.
   * `zone` - The available zone for the bms instance.
 
-

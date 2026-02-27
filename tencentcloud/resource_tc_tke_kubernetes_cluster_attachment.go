@@ -40,14 +40,14 @@ Provide a resource to attach an existing  cvm to kubernetes cluster.
 	resource "tencentcloudenterprise_cvm_instance" "foo" {
 	  instance_name     = "tf-auto-test-1-1"
 	  availability_zone = var.availability_zone
-	  image_id          = data.cloud_cvm_images.default.images.0.image_id
+	  image_id          = data.tencentcloudenterprise_cvm_images.default.images.0.image_id
 	  instance_type     = var.default_instance_type
 	  system_disk_type  = "CLOUD_PREMIUM"
 	  system_disk_size  = 50
 	}
 
 	resource "tencentcloudenterprise_tke_kubernetes_cluster" "managed_cluster" {
-	  vpc_id                  = data.cloud_vpc_subnets.vpc.instance_list.0.vpc_id
+	  vpc_id                  = data.tencentcloudenterprise_vpc_subnets.vpc.instance_list.0.vpc_id
 	  cluster_cidr            = "10.1.0.0/16"
 	  cluster_max_pod_num     = 32
 	  cluster_name            = "keep"
@@ -63,7 +63,7 @@ Provide a resource to attach an existing  cvm to kubernetes cluster.
 	    internet_charge_type       = "TRAFFIC_POSTPAID_BY_HOUR"
 	    internet_max_bandwidth_out = 100
 	    public_ip_assigned         = true
-	    subnet_id                  = data.cloud_vpc_subnets.vpc.instance_list.0.subnet_id
+	    subnet_id                  = data.tencentcloudenterprise_vpc_subnets.vpc.instance_list.0.subnet_id
 
 	    data_disk {
 	      disk_type = "CLOUD_PREMIUM"
@@ -80,8 +80,8 @@ Provide a resource to attach an existing  cvm to kubernetes cluster.
 	}
 
 	resource "tencentcloudenterprise_tke_kubernetes_cluster_attachment" "test_attach" {
-	  cluster_id  = cloud_tke_kubernetes_cluster.managed_cluster.id
-	  instance_id = cloud_cvm_instance.foo.id
+	  cluster_id  = tencentcloudenterprise_tke_kubernetes_cluster.managed_cluster.id
+	  instance_id = tencentcloudenterprise_cvm_instance.foo.id
 	  password    = "Lo4wbdit"
 
 	  labels = {
@@ -496,7 +496,7 @@ func tkeGetInstanceAdvancedPara(dMap map[string]interface{}, meta interface{}) (
 	return setting
 }
 func resourceTencentCloudTkeClusterAttachmentRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_tke_kubernetes_cluster_attachment.read")()
+	defer logElapsed("resource.tencentcloudenterprise_tke_kubernetes_cluster_attachment.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -596,7 +596,7 @@ func resourceTencentCloudTkeClusterAttachmentRead(d *schema.ResourceData, meta i
 }
 
 func resourceTencentCloudTkeClusterAttachmentCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_tke_kubernetes_cluster_attachment.create")()
+	defer logElapsed("resource.tencentcloudenterprise_tke_kubernetes_cluster_attachment.create")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
@@ -757,7 +757,7 @@ func resourceTencentCloudTkeClusterAttachmentCreate(d *schema.ResourceData, meta
 }
 
 func resourceTencentCloudTkeClusterAttachmentDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_tke_kubernetes_cluster_attachment.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_tke_kubernetes_cluster_attachment.delete")()
 
 	tkeService := TkeService{client: meta.(*TencentCloudClient).apiV3Conn}
 	instanceId, clusterId := "", ""

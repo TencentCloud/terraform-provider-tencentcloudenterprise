@@ -28,7 +28,7 @@ func RuleIdCheck(ruleId string) error {
 	//old example file cause wrong usage of listener.id
 	items := strings.Split(ruleId, FILED_SP)
 	if len(items) > 1 {
-		return fmt.Errorf("Unsupported references of rule_id since version 1.47.0, please check your tf content and use `cloud_clb_listener_rule.xxx.rule_id` instead of `cloud_clb_listener_rule.xxx.id`")
+		return fmt.Errorf("Unsupported references of rule_id since version 1.47.0, please check your tf content and use `tencentcloudenterprise_clb_listener_rule.xxx.rule_id` instead of `tencentcloudenterprise_clb_listener_rule.xxx.id`")
 	}
 	return nil
 }
@@ -38,7 +38,7 @@ func ListenerIdCheck(listenerId string) error {
 	//old example file cause wrong usage of listener.id
 	items := strings.Split(listenerId, FILED_SP)
 	if len(items) > 1 {
-		return fmt.Errorf("Unsupported references of listener_id since version 1.47.0, please check your tf content and use `cloud_clb_listener.xxx.listener_id` instead of `cloud_clb_listener.xxx.id`")
+		return fmt.Errorf("Unsupported references of listener_id since version 1.47.0, please check your tf content and use `tencentcloudenterprise_clb_listener.xxx.listener_id` instead of `tencentcloudenterprise_clb_listener.xxx.id`")
 	}
 	return nil
 }

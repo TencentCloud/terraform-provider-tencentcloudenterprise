@@ -2,7 +2,7 @@
 subcategory: "Cloud Virtual Machine(CVM)"
 layout: "tencentcloudenterprise"
 page_title: "TencentCloudEnterprise: tencentcloudenterprise_cvm_sync_image"
-sidebar_current: "docs-tencentcloudenterprise-resources-cvm_sync_image"
+sidebar_current: "docs-tencentcloudenterprise-resource-cvm_sync_image"
 description: |-
   Provides a resource to create a cvm sync_image
 ---
@@ -32,6 +32,5 @@ The following arguments are supported:
 In addition to all arguments above, the following attributes are exported:
 
 * `id` - ID of the resource.
-
 
 

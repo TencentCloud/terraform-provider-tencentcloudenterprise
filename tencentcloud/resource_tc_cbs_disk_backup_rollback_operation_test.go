@@ -31,7 +31,7 @@ resource "tencentcloudenterprise_cbs_disk_backup" "disk_backup" {
 }
 
 resource "tencentcloudenterprise_cbs_disk_backup_rollback_operation" "operation" {
-disk_backup_id  = cloud_cbs_disk_backup.disk_backup.id
+disk_backup_id  = tencentcloudenterprise_cbs_disk_backup.disk_backup.id
 disk_id = var.cbs_backup_disk_id
 }
 `

@@ -108,7 +108,7 @@ func dataSourceTencentCloudCvmImportImageOs() *schema.Resource {
 }
 
 func dataSourceTencentCloudCvmImportImageOsRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("data_source.cloud_cvm_import_image_os.read")()
+	defer logElapsed("data_source.tencentcloudenterprise_cvm_import_image_os.read")()
 	defer inconsistentCheck(d, meta)()
 
 	var (

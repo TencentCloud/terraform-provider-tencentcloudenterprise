@@ -15,14 +15,14 @@ func TestAccTencentCloudHaVipsDataSource(t *testing.T) {
 			{
 				Config: testAccTencentCloudHaVipsDataSourceConfig_basic,
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckTencentCloudDataSourceID("data.cloud_vpc_ha_vips.havips"),
-					resource.TestCheckResourceAttr("data.cloud_vpc_ha_vips.havips", "ha_vip_list.#", "1"),
-					resource.TestCheckResourceAttr("data.cloud_vpc_ha_vips.havips", "ha_vip_list.0.name", "terraform_test"),
-					resource.TestCheckResourceAttrSet("data.cloud_vpc_ha_vips.havips", "ha_vip_list.0.vpc_id"),
-					resource.TestCheckResourceAttrSet("data.cloud_vpc_ha_vips.havips", "ha_vip_list.0.subnet_id"),
-					resource.TestCheckResourceAttrSet("data.cloud_vpc_ha_vips.havips", "ha_vip_list.0.vip"),
-					resource.TestCheckResourceAttrSet("data.cloud_vpc_ha_vips.havips", "ha_vip_list.0.state"),
-					resource.TestCheckResourceAttrSet("data.cloud_vpc_ha_vips.havips", "ha_vip_list.0.create_time"),
+					testAccCheckTencentCloudDataSourceID("data.tencentcloudenterprise_vpc_ha_vips.havips"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_vpc_ha_vips.havips", "ha_vip_list.#", "1"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_vpc_ha_vips.havips", "ha_vip_list.0.name", "terraform_test"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_vpc_ha_vips.havips", "ha_vip_list.0.vpc_id"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_vpc_ha_vips.havips", "ha_vip_list.0.subnet_id"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_vpc_ha_vips.havips", "ha_vip_list.0.vip"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_vpc_ha_vips.havips", "ha_vip_list.0.state"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_vpc_ha_vips.havips", "ha_vip_list.0.create_time"),
 				),
 			},
 		},
@@ -37,6 +37,6 @@ resource "tencentcloudenterprise_vpc_ha_vip" "havip" {
 }
 
 data "tencentcloudenterprise_vpc_ha_vips" "havips" {
-  id = cloud_vpc_ha_vip.havip.id
+  id = tencentcloudenterprise_vpc_ha_vip.havip.id
 }
 `

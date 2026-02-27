@@ -15,9 +15,9 @@ func TestAccTencentCloudVpnDnsRecordDataSource(t *testing.T) {
 			{
 				Config: testAccTencentCloudVpnDnsRecordDataSourceConfig_basic,
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckTencentCloudDataSourceID("data.cloud_vpcdns_records.records"),
-					resource.TestCheckResourceAttr("data.cloud_vpcdns_records.records", "list.#", "2"),
-					//resource.TestCheckResourceAttr("data.cloud_vpcdns_domains.records",
+					testAccCheckTencentCloudDataSourceID("data.tencentcloudenterprise_vpcdns_records.records"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_vpcdns_records.records", "list.#", "2"),
+					//resource.TestCheckResourceAttr("data.tencentcloudenterprise_vpcdns_domains.records",
 					//"list.0.domain", "brucelin.cc"),
 				),
 			},

@@ -170,7 +170,7 @@ resource "tencentcloudenterprise_vpc" "vpc" {
 }
 
 resource "tencentcloudenterprise_vpc_subnet" "subnet" {
-  vpc_id            = cloud_vpc.vpc.id
+  vpc_id            = tencentcloudenterprise_vpc.vpc.id
   name              = "test-cfs-subnet"
   cidr_block        = "10.2.11.0/24"
   availability_zone = "ap-guangzhou-3"
@@ -181,8 +181,8 @@ resource "tencentcloudenterprise_cfs_file_system" "foo" {
   availability_zone = "ap-guangzhou-3"
   access_group_id = local.cfs_access_group_id
   protocol = "NFS"
-  vpc_id = cloud_vpc.vpc.id
-  subnet_id = cloud_vpc_subnet.subnet.id
+  vpc_id = tencentcloudenterprise_vpc.vpc.id
+  subnet_id = tencentcloudenterprise_vpc_subnet.subnet.id
   storage_type = "SD"
 }
 `
@@ -197,7 +197,7 @@ resource "tencentcloudenterprise_vpc" "vpc" {
 }
 
 resource "tencentcloudenterprise_vpc_subnet" "subnet" {
-  vpc_id            = cloud_vpc.vpc.id
+  vpc_id            = tencentcloudenterprise_vpc.vpc.id
   name              = "test-cfs-subnet"
   cidr_block        = "10.2.11.0/24"
   availability_zone = "ap-guangzhou-3"
@@ -209,8 +209,8 @@ resource "tencentcloudenterprise_cfs_file_system" "foo" {
   availability_zone = "ap-guangzhou-3"
   access_group_id = local.cfs_access_group_id
   protocol = "NFS"
-  vpc_id = cloud_vpc.vpc.id
-  subnet_id = cloud_vpc_subnet.subnet.id
+  vpc_id = tencentcloudenterprise_vpc.vpc.id
+  subnet_id = tencentcloudenterprise_vpc_subnet.subnet.id
   storage_type = "SD"
   
   tags = {

@@ -52,7 +52,7 @@ resource "tencentcloudenterprise_vpc_snapshot_policy" "snapshot_policy" {
 }
 
 resource "tencentcloudenterprise_vpc_snapshot_policy_attachment" "snapshot_policy_attachment" {
-  snapshot_policy_id = cloud_vpc_snapshot_policy.snapshot_policy.id
+  snapshot_policy_id = tencentcloudenterprise_vpc_snapshot_policy.snapshot_policy.id
 
   instances {
     instance_id        = "sg-r8ibzbd9"

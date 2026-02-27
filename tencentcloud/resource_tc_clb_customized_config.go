@@ -9,8 +9,8 @@ Provides a resource to create a CLB customized config.
 	  config_content = "client_max_body_size 224M;\r\nclient_body_timeout 60s;"
 	  config_name    = "helloWorld"
 	  load_balancer_ids = [
-	    "${cloud_clb_instance.internal_clb.id}",
-	    "${cloud_clb_instance.internal_clb2.id}",
+	    "${tencentcloudenterprise_clb_instance.internal_clb.id}",
+	    "${tencentcloudenterprise_clb_instance.internal_clb2.id}",
 	  ]
 	}
 
@@ -20,7 +20,7 @@ Import
 CLB customized config can be imported using the id, e.g.
 
 ```
-$ terraform import cloud_clb_customized_config.foo pz-diowqstq
+$ terraform import tencentcloudenterprise_clb_customized_config.foo pz-diowqstq
 ```
 */
 package tencentcloud
@@ -93,7 +93,7 @@ func resourceTencentCloudClbCustomizedConfig() *schema.Resource {
 }
 
 func resourceTencentCloudClbCustomizedConfigCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_clb_customized_config.create")()
+	defer logElapsed("resource.tencentcloudenterprise_clb_customized_config.create")()
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
 
@@ -144,7 +144,7 @@ func resourceTencentCloudClbCustomizedConfigCreate(d *schema.ResourceData, meta 
 }
 
 func resourceTencentCloudClbCustomizedConfigRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_clb_customized_config.read")()
+	defer logElapsed("resource.tencentcloudenterprise_clb_customized_config.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -201,7 +201,7 @@ func resourceTencentCloudClbCustomizedConfigRead(d *schema.ResourceData, meta in
 }
 
 func resourceTencentCloudClbCustomizedConfigUpdate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_clb_customized_config.update")()
+	defer logElapsed("resource.tencentcloudenterprise_clb_customized_config.update")()
 
 	logId := getLogId(contextNil)
 
@@ -273,7 +273,7 @@ func resourceTencentCloudClbCustomizedConfigUpdate(d *schema.ResourceData, meta 
 }
 
 func resourceTencentCloudClbCustomizedConfigDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_clb_customized_config.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_clb_customized_config.delete")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)

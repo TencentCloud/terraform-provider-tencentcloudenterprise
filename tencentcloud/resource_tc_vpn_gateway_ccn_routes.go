@@ -19,7 +19,7 @@ Provides a resource to create a vpn_gateway_ccn_routes
 vpc vpn_gateway_ccn_routes can be imported using the id, e.g.
 
 ```
-terraform import cloud_vpn_gateway_ccn_routes.vpn_gateway_ccn_routes vpn_gateway_id#ccn_routes_id
+terraform import tencentcloudenterprise_vpn_gateway_ccn_routes.vpn_gateway_ccn_routes vpn_gateway_id#ccn_routes_id
 ```
 */
 package tencentcloud
@@ -86,7 +86,7 @@ func resourceTencentCloudVpnGatewayCcnRoutes() *schema.Resource {
 }
 
 func resourceTencentCloudVpnGatewayCcnRoutesCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_vpn_gateway_ccn_routes.create")()
+	defer logElapsed("resource.tencentcloudenterprise_vpn_gateway_ccn_routes.create")()
 	defer inconsistentCheck(d, meta)()
 
 	var (
@@ -108,7 +108,7 @@ func resourceTencentCloudVpnGatewayCcnRoutesCreate(d *schema.ResourceData, meta 
 }
 
 func resourceTencentCloudVpnGatewayCcnRoutesRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_vpn_gateway_ccn_routes.read")()
+	defer logElapsed("resource.tencentcloudenterprise_vpn_gateway_ccn_routes.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -144,7 +144,7 @@ func resourceTencentCloudVpnGatewayCcnRoutesRead(d *schema.ResourceData, meta in
 }
 
 func resourceTencentCloudVpnGatewayCcnRoutesUpdate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_vpn_gateway_ccn_routes.update")()
+	defer logElapsed("resource.tencentcloudenterprise_vpn_gateway_ccn_routes.update")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -183,7 +183,7 @@ func resourceTencentCloudVpnGatewayCcnRoutesUpdate(d *schema.ResourceData, meta 
 }
 
 func resourceTencentCloudVpnGatewayCcnRoutesDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_vpn_gateway_ccn_routes.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_vpn_gateway_ccn_routes.delete")()
 	defer inconsistentCheck(d, meta)()
 
 	return nil

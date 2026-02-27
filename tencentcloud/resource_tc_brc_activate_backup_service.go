@@ -62,7 +62,7 @@ func resourceTencentCloudBrcActivateBackupService() *schema.Resource {
 }
 
 func resourceTencentCloudBrcActivateBackupServiceCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_brc_activate_brc_service.create")()
+	defer logElapsed("resource.tencentcloudenterprise_brc_activate_brc_service.create")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -89,7 +89,7 @@ func resourceTencentCloudBrcActivateBackupServiceCreate(d *schema.ResourceData, 
 }
 
 func resourceTencentCloudBrcActivateBackupServiceRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_brc_activate_brc_service.read")()
+	defer logElapsed("resource.tencentcloudenterprise_brc_activate_brc_service.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -121,7 +121,7 @@ func resourceTencentCloudBrcActivateBackupServiceRead(d *schema.ResourceData, me
 }
 
 func resourceTencentCloudBrcActivateBackupServiceDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_brc_activate_brc_service.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_brc_activate_brc_service.delete")()
 	defer inconsistentCheck(d, meta)()
 
 	return nil

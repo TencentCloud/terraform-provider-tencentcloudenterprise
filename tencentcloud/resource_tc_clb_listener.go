@@ -44,7 +44,7 @@ TCP/UDP Listener with tcp health check
 ```hcl
 
 	resource "tencentcloudenterprise_clb_listener" "listener_tcp" {
-	  clb_id                     = cloud_clb_instance.clb_basic.id
+	  clb_id                     = tencentcloudenterprise_clb_instance.clb_basic.id
 	  listener_name              = "listener_tcp"
 	  port                       = 44
 	  protocol                   = "TCP"
@@ -65,7 +65,7 @@ TCP/UDP Listener with http health check
 ```hcl
 
 	resource "tencentcloudenterprise_clb_listener" "listener_tcp" {
-	  clb_id                     = cloud_clb_instance.clb_basic.id
+	  clb_id                     = tencentcloudenterprise_clb_instance.clb_basic.id
 	  listener_name              = "listener_tcp"
 	  port                       = 44
 	  protocol                   = "TCP"
@@ -90,7 +90,7 @@ TCP/UDP Listener with customer health check
 ```hcl
 
 	resource "tencentcloudenterprise_clb_listener" "listener_tcp"{
-	  clb_id                     = cloud_clb_instance.clb_basic.id
+	  clb_id                     = tencentcloudenterprise_clb_instance.clb_basic.id
 	  listener_name              = "listener_tcp"
 	  port                       = 44
 	  protocol                   = "TCP"
@@ -152,7 +152,7 @@ Import
 CLB listener can be imported using the id (version >= 1.47.0), e.g.
 
 ```
-$ terraform import cloud_clb_listener.foo lb-7a0t6zqb#lbl-hh141sn9
+$ terraform import tencentcloudenterprise_clb_listener.foo lb-7a0t6zqb#lbl-hh141sn9
 ```
 */
 package tencentcloud
@@ -271,7 +271,7 @@ func resourceTencentCloudClbListener() *schema.Resource {
 				Optional:     true,
 				Computed:     true,
 				ValidateFunc: validateIntegerInRange(2, 10),
-				Description:  "Health threshold of health check, and the default is `3`. If a success result is returned for the health check for 3 consecutive times, the backend CVM is identified as healthy. The value range is 2-10. NOTES: TCP/UDP listener allows direct configuration, HTTP/HTTPS listener needs to be configured in cloud_clb_listener_rule.",
+				Description:  "Health threshold of health check, and the default is `3`. If a success result is returned for the health check for 3 consecutive times, the backend CVM is identified as healthy. The value range is 2-10. NOTES: TCP/UDP listener allows direct configuration, HTTP/HTTPS listener needs to be configured in tencentcloudenterprise_clb_listener_rule.",
 			},
 			"health_check_unhealth_num": {
 				Type:         schema.TypeInt,
@@ -417,7 +417,7 @@ func resourceTencentCloudClbListener() *schema.Resource {
 }
 
 func resourceTencentCloudClbListenerCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_clb_listener.create")()
+	defer logElapsed("resource.tencentcloudenterprise_clb_listener.create")()
 
 	clbActionMu.Lock()
 	defer clbActionMu.Unlock()
@@ -536,7 +536,7 @@ func resourceTencentCloudClbListenerCreate(d *schema.ResourceData, meta interfac
 }
 
 func resourceTencentCloudClbListenerRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_clb_listener.read")()
+	defer logElapsed("resource.tencentcloudenterprise_clb_listener.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -661,7 +661,7 @@ func resourceTencentCloudClbListenerRead(d *schema.ResourceData, meta interface{
 }
 
 func resourceTencentCloudClbListenerUpdate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_clb_listener.update")()
+	defer logElapsed("resource.tencentcloudenterprise_clb_listener.update")()
 
 	clbActionMu.Lock()
 	defer clbActionMu.Unlock()
@@ -763,7 +763,7 @@ func resourceTencentCloudClbListenerUpdate(d *schema.ResourceData, meta interfac
 }
 
 func resourceTencentCloudClbListenerDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_clb_listener.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_clb_listener.delete")()
 	clbActionMu.Lock()
 	defer clbActionMu.Unlock()
 

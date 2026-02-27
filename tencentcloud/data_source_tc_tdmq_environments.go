@@ -140,7 +140,7 @@ func dataSourceTencentCloudTdmqEnvironments() *schema.Resource {
 }
 
 func dataSourceTencentCloudTdmqEnvironmentsRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("data_source.cloud_tdmq_environment_attributes.read")()
+	defer logElapsed("data_source.tencentcloudenterprise_tdmq_environment_attributes.read")()
 	defer inconsistentCheck(d, meta)()
 
 	var (

@@ -2,7 +2,7 @@
 subcategory: "Virtual Private Cloud(VPC)"
 layout: "tencentcloudenterprise"
 page_title: "TencentCloudEnterprise: tencentcloudenterprise_vpc_acl"
-sidebar_current: "docs-tencentcloudenterprise-resources-vpc_acl"
+sidebar_current: "docs-tencentcloudenterprise-resource-vpc_acl"
 description: |-
   Provide a resource to create a VPC ACL instance.
 ---
@@ -48,12 +48,15 @@ In addition to all arguments above, the following attributes are exported:
 * `id` - ID of the resource.
 * `create_time` - Creation time of ACL.
 
-
 ## Import
 
+tencentcloudenterprise_vpc_acl can be imported using the id, e.g.
+
+```
 Vpc ACL can be imported, e.g.
 
 ```
 $ terraform import tencentcloudenterprise_vpc_acl.default acl-id
+```
 ```
 

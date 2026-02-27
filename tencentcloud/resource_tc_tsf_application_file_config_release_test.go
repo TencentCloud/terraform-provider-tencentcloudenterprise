@@ -39,7 +39,7 @@ const testAccTsfApplicationFileConfigRelease = testAccTsfGroup + testAccTsfAppli
 
 resource "tencentcloudenterprise_tsf_application_file_config_release" "application_file_config_release" {
   config_id = var.config_id
-  group_id = cloud_tsf_group.group.id
+  group_id = tencentcloudenterprise_tsf_group.group.id
   release_desc = "product release"
 }
 

@@ -208,7 +208,7 @@ func dataSourceTencentCloudTdmqPulsarCluster() *schema.Resource {
 }
 
 func dataSourceTencentCloudTdmqPulsarClusterRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("data_source.cloud_tdmq_pulsar_clusters.read")()
+	defer logElapsed("data_source.tencentcloudenterprise_tdmq_pulsar_clusters.read")()
 	defer inconsistentCheck(d, meta)()
 
 	var (

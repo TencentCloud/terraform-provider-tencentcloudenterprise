@@ -60,7 +60,7 @@ resource "tencentcloudenterprise_vpc" "vpc" {
 # create vpc subnet
 resource "tencentcloudenterprise_vpc_subnet" "subnet" {
   name              = "subnet"
-  vpc_id            = cloud_vpc.vpc.id
+  vpc_id            = tencentcloudenterprise_vpc.vpc.id
   availability_zone = "ap-guangzhou-6"
   cidr_block        = "10.0.20.0/28"
   is_multicast      = false
@@ -68,9 +68,9 @@ resource "tencentcloudenterprise_vpc_subnet" "subnet" {
 
 # create rabbitmq instance
 resource "tencentcloudenterprise_tdmq_rabbitmq_vip_instance" "example" {
-  zone_ids                              = [data.cloud_availability_zones.zones.zones.0.id]
-  vpc_id                                = cloud_vpc.vpc.id
-  subnet_id                             = cloud_vpc_subnet.subnet.id
+  zone_ids                              = [data.tencentcloudenterprise_availability_zones.zones.zones.0.id]
+  vpc_id                                = tencentcloudenterprise_vpc.vpc.id
+  subnet_id                             = tencentcloudenterprise_vpc_subnet.subnet.id
   cluster_name                          = "tf-example-rabbitmq-vip-instance"
   node_spec                             = "rabbit-vip-basic-1"
   node_num                              = 1
@@ -82,7 +82,7 @@ resource "tencentcloudenterprise_tdmq_rabbitmq_vip_instance" "example" {
 
 # create rabbitmq user
 resource "tencentcloudenterprise_tdmq_rabbitmq_user" "example" {
-  instance_id     = cloud_tdmq_rabbitmq_vip_instance.example.id
+  instance_id     = tencentcloudenterprise_tdmq_rabbitmq_vip_instance.example.id
   user            = "tf-example-user"
   password        = "$Password"
   description     = "desc."
@@ -104,7 +104,7 @@ resource "tencentcloudenterprise_vpc" "vpc" {
 # create vpc subnet
 resource "tencentcloudenterprise_vpc_subnet" "subnet" {
   name              = "subnet"
-  vpc_id            = cloud_vpc.vpc.id
+  vpc_id            = tencentcloudenterprise_vpc.vpc.id
   availability_zone = "ap-guangzhou-6"
   cidr_block        = "10.0.20.0/28"
   is_multicast      = false
@@ -112,9 +112,9 @@ resource "tencentcloudenterprise_vpc_subnet" "subnet" {
 
 # create rabbitmq instance
 resource "tencentcloudenterprise_tdmq_rabbitmq_vip_instance" "example" {
-  zone_ids                              = [data.cloud_availability_zones.zones.zones.0.id]
-  vpc_id                                = cloud_vpc.vpc.id
-  subnet_id                             = cloud_vpc_subnet.subnet.id
+  zone_ids                              = [data.tencentcloudenterprise_availability_zones.zones.zones.0.id]
+  vpc_id                                = tencentcloudenterprise_vpc.vpc.id
+  subnet_id                             = tencentcloudenterprise_vpc_subnet.subnet.id
   cluster_name                          = "tf-example-rabbitmq-vip-instance"
   node_spec                             = "rabbit-vip-basic-1"
   node_num                              = 1
@@ -126,7 +126,7 @@ resource "tencentcloudenterprise_tdmq_rabbitmq_vip_instance" "example" {
 
 # create rabbitmq user
 resource "tencentcloudenterprise_tdmq_rabbitmq_user" "example" {
-  instance_id     = cloud_tdmq_rabbitmq_vip_instance.example.id
+  instance_id     = tencentcloudenterprise_tdmq_rabbitmq_vip_instance.example.id
   user            = "tf-example-user"
   password        = "$Password"
   description     = "desc update."

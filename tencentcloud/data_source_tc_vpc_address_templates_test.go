@@ -6,7 +6,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 )
 
-var testDataAddressTemplatesNameAll = "data.cloud_vpc_address_templates.all_test"
+var testDataAddressTemplatesNameAll = "data.tencentcloudenterprise_vpc_address_templates.all_test"
 
 func TestAccTencentCloudDataAddressTemplates(t *testing.T) {
 	t.Parallel()
@@ -35,8 +35,8 @@ resource "tencentcloudenterprise_vpc_address_template" "myaddress_template" {
 }
 
 data "tencentcloudenterprise_vpc_address_templates" "all_test" {
-  name = cloud_vpc_address_template.myaddress_template.name
-  id = cloud_vpc_address_template.myaddress_template.id
+  name = tencentcloudenterprise_vpc_address_template.myaddress_template.name
+  id = tencentcloudenterprise_vpc_address_template.myaddress_template.id
 }
 
 `

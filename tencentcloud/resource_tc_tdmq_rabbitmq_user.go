@@ -82,7 +82,7 @@ func resourceTencentCloudTdmqRabbitmqUser() *schema.Resource {
 }
 
 func resourceTencentCloudTdmqRabbitmqUserCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_tdmq_rabbitmq_user.create")()
+	defer logElapsed("resource.tencentcloudenterprise_tdmq_rabbitmq_user.create")()
 	defer inconsistentCheck(d, meta)()
 
 	var (
@@ -146,7 +146,7 @@ func resourceTencentCloudTdmqRabbitmqUserCreate(d *schema.ResourceData, meta int
 }
 
 func resourceTencentCloudTdmqRabbitmqUserRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_tdmq_rabbitmq_user.read")()
+	defer logElapsed("resource.tencentcloudenterprise_tdmq_rabbitmq_user.read")()
 	defer inconsistentCheck(d, meta)()
 
 	var (
@@ -206,7 +206,7 @@ func resourceTencentCloudTdmqRabbitmqUserRead(d *schema.ResourceData, meta inter
 }
 
 func resourceTencentCloudTdmqRabbitmqUserUpdate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_tdmq_rabbitmq_user.update")()
+	defer logElapsed("resource.tencentcloudenterprise_tdmq_rabbitmq_user.update")()
 	defer inconsistentCheck(d, meta)()
 
 	var (
@@ -275,7 +275,7 @@ func resourceTencentCloudTdmqRabbitmqUserUpdate(d *schema.ResourceData, meta int
 }
 
 func resourceTencentCloudTdmqRabbitmqUserDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_tdmq_rabbitmq_user.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_tdmq_rabbitmq_user.delete")()
 	defer inconsistentCheck(d, meta)()
 
 	var (

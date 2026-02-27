@@ -52,4 +52,3 @@ In addition to all arguments above, the following attributes are exported:
   * `subnet_id` - Subnet instance ID.
   * `vpc_id` - VPC instance ID.
 
-

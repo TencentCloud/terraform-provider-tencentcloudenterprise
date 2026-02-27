@@ -2,7 +2,7 @@
 subcategory: "Auto Scaling(AS)"
 layout: "tencentcloudenterprise"
 page_title: "TencentCloudEnterprise: tencentcloudenterprise_as_scaling_config"
-sidebar_current: "docs-tencentcloudenterprise-resources-as_scaling_config"
+sidebar_current: "docs-tencentcloudenterprise-resource-as_scaling_config"
 description: |-
   Provides a resource to create a configuration for an AS (Auto scaling) instance.
 ---
@@ -105,12 +105,15 @@ In addition to all arguments above, the following attributes are exported:
 * `create_time` - The time when the launch configuration was created.
 * `status` - Current statues of a launch configuration.
 
-
 ## Import
 
+tencentcloudenterprise_as_scaling_config can be imported using the id, e.g.
+
+```
 AutoScaling Configuration can be imported using the id, e.g.
 
 ```
 $ terraform import tencentcloudenterprise_as_scaling_config.scaling_config asc-n32ymck2
+```
 ```
 

@@ -195,7 +195,7 @@ func dataSourceTencentCloudClbTargetGroupList() *schema.Resource {
 }
 
 func dataSourceTencentCloudClbTargetGroupListRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("data_source.cloud_clb_target_group_list.read")()
+	defer logElapsed("data_source.tencentcloudenterprise_clb_target_group_list.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)

@@ -121,7 +121,7 @@ func dataSourceTencentCloudTdmqRabbitmqNodeList() *schema.Resource {
 }
 
 func dataSourceTencentCloudTdmqRabbitmqNodeListRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("data_source.cloud_tdmq_rabbitmq_node_list.read")()
+	defer logElapsed("data_source.tencentcloudenterprise_tdmq_rabbitmq_node_list.read")()
 	defer inconsistentCheck(d, meta)()
 
 	var (

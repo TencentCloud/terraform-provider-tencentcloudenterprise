@@ -13,15 +13,15 @@ Provides a resource to create an ENI.
 	resource "tencentcloudenterprise_vpc_subnet" "foo" {
 	  availability_zone = "ap-guangzhou-3"
 	  name              = "ci-test-eni-subnet"
-	  vpc_id            = cloud_vpc.foo.id
+	  vpc_id            = tencentcloudenterprise_vpc.foo.id
 	  cidr_block        = "10.0.0.0/16"
 	  is_multicast      = false
 	}
 
 	resource "tencentcloudenterprise_vpc_eni" "foo" {
 	  name        = "ci-test-eni"
-	  vpc_id      = cloud_vpc.foo.id
-	  subnet_id   = cloud_vpc_subnet.foo.id
+	  vpc_id      = tencentcloudenterprise_vpc.foo.id
+	  subnet_id   = tencentcloudenterprise_vpc_subnet.foo.id
 	  description = "eni desc"
 	  ipv4_count  = 1
 	}
@@ -34,7 +34,7 @@ ENI can be imported using the id, e.g.
 
 ```
 
-	$ terraform import cloud_vpc_eni.foo eni-qka182br
+	$ terraform import tencentcloudenterprise_vpc_eni.foo eni-qka182br
 
 ```
 */
@@ -212,7 +212,7 @@ func resourceTencentCloudEni() *schema.Resource {
 }
 
 func resourceTencentCloudEniCreate(d *schema.ResourceData, m interface{}) error {
-	defer logElapsed("resource.cloud_vpc_eni.create")()
+	defer logElapsed("resource.tencentcloudenterprise_vpc_eni.create")()
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
 
@@ -376,7 +376,7 @@ func resourceTencentCloudEniCreate(d *schema.ResourceData, m interface{}) error 
 }
 
 func resourceTencentCloudEniRead(d *schema.ResourceData, m interface{}) error {
-	defer logElapsed("resource.cloud_vpc_eni.read")()
+	defer logElapsed("resource.tencentcloudenterprise_vpc_eni.read")()
 	defer inconsistentCheck(d, m)()
 
 	logId := getLogId(contextNil)
@@ -440,7 +440,7 @@ func resourceTencentCloudEniRead(d *schema.ResourceData, m interface{}) error {
 }
 
 func resourceTencentCloudEniUpdate(d *schema.ResourceData, m interface{}) error {
-	defer logElapsed("resource.cloud_vpc_eni.update")()
+	defer logElapsed("resource.tencentcloudenterprise_vpc_eni.update")()
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
 
@@ -671,7 +671,7 @@ func resourceTencentCloudEniUpdate(d *schema.ResourceData, m interface{}) error 
 }
 
 func resourceTencentCloudEniDelete(d *schema.ResourceData, m interface{}) error {
-	defer logElapsed("resource.cloud_vpc_eni.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_vpc_eni.delete")()
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
 

@@ -96,7 +96,7 @@ func resourceTencentCloudTdmqPulsarRoute() *schema.Resource {
 
 func resourceTencentCloudTdmqPulsarRouteCreate(ctx context.Context, d *schema.ResourceData,
 	meta interface{}) diag.Diagnostics {
-	defer logElapsed("resource.cloud_tdmq_pulsar_route.create")()
+	defer logElapsed("resource.tencentcloudenterprise_tdmq_pulsar_route.create")()
 
 	logId := getLogId(contextNil)
 
@@ -157,7 +157,7 @@ func resourceTencentCloudTdmqPulsarRouteCreate(ctx context.Context, d *schema.Re
 }
 
 func resourceTencentCloudTdmqPulsarRouteRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	defer logElapsed("resource.cloud_tdmq_pulsar_route.read")()
+	defer logElapsed("resource.tencentcloudenterprise_tdmq_pulsar_route.read")()
 	defer inconsistentCheck(d, meta)()
 
 	var (
@@ -189,13 +189,13 @@ func resourceTencentCloudTdmqPulsarRouteRead(ctx context.Context, d *schema.Reso
 
 func resourceTencentCloudTdmqPulsarRouteUpdate(ctx context.Context, d *schema.ResourceData,
 	meta interface{}) diag.Diagnostics {
-	defer logElapsed("resource.cloud_tdmq_pulsar_route.update")()
+	defer logElapsed("resource.tencentcloudenterprise_tdmq_pulsar_route.update")()
 
 	return nil
 }
 
 func resourceTencentCloudTdmqPulsarRouteDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	defer logElapsed("resource.cloud_tdmq_pulsar_route.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_tdmq_pulsar_route.delete")()
 
 	var (
 		request = tdmq.NewDeleteRouteRequest()

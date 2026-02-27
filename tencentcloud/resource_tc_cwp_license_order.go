@@ -88,7 +88,7 @@ func ResourceTencentCloudCwpLicenseOrder() *schema.Resource {
 }
 
 func resourceTencentCloudCwpLicenseOrderCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cwp_license_order.create")()
+	defer logElapsed("resource.tencentcloudenterprise_cwp_license_order.create")()
 	defer inconsistentCheck(d, meta)()
 
 	var (
@@ -182,7 +182,7 @@ func resourceTencentCloudCwpLicenseOrderCreate(d *schema.ResourceData, meta inte
 }
 
 func resourceTencentCloudCwpLicenseOrderRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cwp_license_order.read")()
+	defer logElapsed("resource.tencentcloudenterprise_cwp_license_order.read")()
 	defer inconsistentCheck(d, meta)()
 
 	var (
@@ -249,7 +249,7 @@ func resourceTencentCloudCwpLicenseOrderRead(d *schema.ResourceData, meta interf
 }
 
 func resourceTencentCloudCwpLicenseOrderUpdate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cwp_license_order.update")()
+	defer logElapsed("resource.tencentcloudenterprise_cwp_license_order.update")()
 	defer inconsistentCheck(d, meta)()
 
 	var (
@@ -316,7 +316,7 @@ func resourceTencentCloudCwpLicenseOrderUpdate(d *schema.ResourceData, meta inte
 }
 
 func resourceTencentCloudCwpLicenseOrderDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cwp_license_order.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_cwp_license_order.delete")()
 	defer inconsistentCheck(d, meta)()
 
 	var (

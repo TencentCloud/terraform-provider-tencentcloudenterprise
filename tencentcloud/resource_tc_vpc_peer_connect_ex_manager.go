@@ -21,7 +21,7 @@ Provides a resource to create and manage a VPC peering connection with extended 
 VPC peering connection ex can be imported using the id, e.g.
 
 ```
-$ terraform import cloud_vpc_peer_connect_ex_manager.example pcx-1asg3t63
+$ terraform import tencentcloudenterprise_vpc_peer_connect_ex_manager.example pcx-1asg3t63
 ```
 */
 package tencentcloud
@@ -100,7 +100,7 @@ func resourceTencentCloudVpcPeerConnectExManager() *schema.Resource {
 }
 
 func resourceTencentCloudVpcPeerConnectExManagerCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_vpc_peer_connect_ex_manager.create")()
+	defer logElapsed("resource.tencentcloudenterprise_vpc_peer_connect_ex_manager.create")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -187,7 +187,7 @@ func resourceTencentCloudVpcPeerConnectExManagerCreate(d *schema.ResourceData, m
 }
 
 func resourceTencentCloudVpcPeerConnectExManagerRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_vpc_peer_connect_ex_manager.read")()
+	defer logElapsed("resource.tencentcloudenterprise_vpc_peer_connect_ex_manager.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -237,7 +237,7 @@ func resourceTencentCloudVpcPeerConnectExManagerRead(d *schema.ResourceData, met
 }
 
 func resourceTencentCloudVpcPeerConnectExManagerUpdate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_vpc_peer_connect_ex_manager.update")()
+	defer logElapsed("resource.tencentcloudenterprise_vpc_peer_connect_ex_manager.update")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -321,7 +321,7 @@ func resourceTencentCloudVpcPeerConnectExManagerUpdate(d *schema.ResourceData, m
 }
 
 func resourceTencentCloudVpcPeerConnectExManagerDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_vpc_peer_connect_ex_manager.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_vpc_peer_connect_ex_manager.delete")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)

@@ -17,7 +17,7 @@ Provides a resource to create a eni_sg_attachment
 vpc eni_sg_attachment can be imported using the id, e.g.
 
 ```
-terraform import cloud_vpc_eni_sg_attachment.eni_sg_attachment eni_sg_attachment_id
+terraform import tencentcloudenterprise_vpc_eni_sg_attachment.eni_sg_attachment eni_sg_attachment_id
 ```
 */
 package tencentcloud
@@ -76,7 +76,7 @@ func resourceTencentCloudEniSgAttachment() *schema.Resource {
 }
 
 func resourceTencentCloudEniSgAttachmentCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_vpc_eni_sg_attachment.create")()
+	defer logElapsed("resource.tencentcloudenterprise_vpc_eni_sg_attachment.create")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -121,7 +121,7 @@ func resourceTencentCloudEniSgAttachmentCreate(d *schema.ResourceData, meta inte
 }
 
 func resourceTencentCloudEniSgAttachmentRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_vpc_eni_sg_attachment.read")()
+	defer logElapsed("resource.tencentcloudenterprise_vpc_eni_sg_attachment.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -155,7 +155,7 @@ func resourceTencentCloudEniSgAttachmentRead(d *schema.ResourceData, meta interf
 }
 
 func resourceTencentCloudEniSgAttachmentDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_vpc_eni_sg_attachment.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_vpc_eni_sg_attachment.delete")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)

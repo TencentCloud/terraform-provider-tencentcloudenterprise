@@ -16,7 +16,7 @@ Import
 Tdmq Route can be imported, e.g.
 
 ```
-$ terraform import cloud_tdmq_Route.test tdmq_id
+$ terraform import tencentcloudenterprise_tdmq_Route.test tdmq_id
 ```
 */
 package tencentcloud
@@ -117,7 +117,7 @@ func resourceTencentCloudTdmqRoute() *schema.Resource {
 
 func resourceTencentCloudTdmqRouteCreate(ctx context.Context, d *schema.ResourceData,
 	meta interface{}) diag.Diagnostics {
-	defer logElapsed("resource.cloud_tdmq_Route.create")()
+	defer logElapsed("resource.tencentcloudenterprise_tdmq_Route.create")()
 
 	logId := getLogId(contextNil)
 
@@ -173,7 +173,7 @@ func resourceTencentCloudTdmqRouteCreate(ctx context.Context, d *schema.Resource
 }
 
 func resourceTencentCloudTdmqRouteRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	defer logElapsed("resource.cloud_tdmq_Route.read")()
+	defer logElapsed("resource.tencentcloudenterprise_tdmq_Route.read")()
 	defer inconsistentCheck(d, meta)()
 
 	var (
@@ -204,13 +204,13 @@ func resourceTencentCloudTdmqRouteRead(ctx context.Context, d *schema.ResourceDa
 
 func resourceTencentCloudTdmqRouteUpdate(ctx context.Context, d *schema.ResourceData,
 	meta interface{}) diag.Diagnostics {
-	defer logElapsed("resource.cloud_tdmq_Route.update")()
+	defer logElapsed("resource.tencentcloudenterprise_tdmq_Route.update")()
 
 	return nil
 }
 
 func resourceTencentCloudTdmqRouteDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	defer logElapsed("resource.cloud_tdmq_Route.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_tdmq_Route.delete")()
 
 	var (
 		request = tdmq.NewDeleteRouteRequest()

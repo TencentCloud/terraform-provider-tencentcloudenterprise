@@ -23,7 +23,7 @@ Provides a resource to create a dc instance
 dc instance can be imported using the id, e.g.
 
 ```
-terraform import cloud_dc_instance.instance dc_id
+terraform import tencentcloudenterprise_dc_instance.instance dc_id
 ```
 */
 package tencentcloud
@@ -171,7 +171,7 @@ func resourceTencentCloudDcInstance() *schema.Resource {
 }
 
 func resourceTencentCloudDcInstanceCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_dc_instance.create")()
+	defer logElapsed("resource.tencentcloudenterprise_dc_instance.create")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -274,7 +274,7 @@ func resourceTencentCloudDcInstanceCreate(d *schema.ResourceData, meta interface
 }
 
 func resourceTencentCloudDcInstanceRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_dc_instance.read")()
+	defer logElapsed("resource.tencentcloudenterprise_dc_instance.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -370,7 +370,7 @@ func resourceTencentCloudDcInstanceRead(d *schema.ResourceData, meta interface{}
 }
 
 func resourceTencentCloudDcInstanceUpdate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_dc_instance.update")()
+	defer logElapsed("resource.tencentcloudenterprise_dc_instance.update")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -476,7 +476,7 @@ func resourceTencentCloudDcInstanceUpdate(d *schema.ResourceData, meta interface
 }
 
 func resourceTencentCloudDcInstanceDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_dc_instance.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_dc_instance.delete")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)

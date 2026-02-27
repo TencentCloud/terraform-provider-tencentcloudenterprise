@@ -120,7 +120,7 @@ package tencentcloud
 //}
 //
 //func dataSourceTencentCloudCkafkaDatahubTopicRead(d *schema.ResourceData, meta interface{}) error {
-//	defer logElapsed("data_source.cloud_ckafka_datahub_topic.read")()
+//	defer logElapsed("data_source.tencentcloudenterprise_ckafka_datahub_topic.read")()
 //	defer inconsistentCheck(d, meta)()
 //
 //	logId := getLogId(contextNil)

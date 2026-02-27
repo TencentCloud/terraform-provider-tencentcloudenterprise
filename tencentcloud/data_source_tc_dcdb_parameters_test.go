@@ -17,10 +17,10 @@ func TestAccTencentCloudDCDBParametersDataSource(t *testing.T) {
 			{
 				Config: fmt.Sprintf(testAccDataSourceDcdbParameters_basic, defaultDcdbInstanceId),
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckTencentCloudDataSourceID("data.cloud_dcdb_parameters.parameters"),
-					resource.TestCheckResourceAttrSet("data.cloud_dcdb_parameters.parameters", "list.#"),
-					resource.TestCheckResourceAttrSet("data.cloud_dcdb_parameters.parameters", "list.0.param"),
-					resource.TestCheckResourceAttrSet("data.cloud_dcdb_parameters.parameters", "list.0.value"),
+					testAccCheckTencentCloudDataSourceID("data.tencentcloudenterprise_dcdb_parameters.parameters"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_dcdb_parameters.parameters", "list.#"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_dcdb_parameters.parameters", "list.0.param"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_dcdb_parameters.parameters", "list.0.value"),
 				),
 			},
 		},

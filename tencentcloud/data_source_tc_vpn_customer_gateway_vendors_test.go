@@ -16,7 +16,7 @@ func TestAccTencentCloudVpnCustomerGatewayVendorsDataSource_basic(t *testing.T) 
 		Steps: []resource.TestStep{
 			{
 				Config: testAccVpnCustomerGatewayVendorsDataSource,
-				Check:  resource.ComposeTestCheckFunc(testAccCheckTencentCloudDataSourceID("data.cloud_vpn_customer_gateway_vendors.vpn_customer_gateway_vendors")),
+				Check:  resource.ComposeTestCheckFunc(testAccCheckTencentCloudDataSourceID("data.tencentcloudenterprise_vpn_customer_gateway_vendors.vpn_customer_gateway_vendors")),
 			},
 		},
 	})

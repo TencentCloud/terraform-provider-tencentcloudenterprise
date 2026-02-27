@@ -99,7 +99,7 @@ func resourceTencentCloudCvmRenewInstance() *schema.Resource {
 }
 
 func resourceTencentCloudCvmRenewInstanceCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cvm_renew_instance.create")()
+	defer logElapsed("resource.tencentcloudenterprise_cvm_renew_instance.create")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -146,14 +146,14 @@ func resourceTencentCloudCvmRenewInstanceCreate(d *schema.ResourceData, meta int
 }
 
 func resourceTencentCloudCvmRenewInstanceRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cvm_renew_instance.read")()
+	defer logElapsed("resource.tencentcloudenterprise_cvm_renew_instance.read")()
 	defer inconsistentCheck(d, meta)()
 
 	return nil
 }
 
 func resourceTencentCloudCvmRenewInstanceDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cvm_renew_instance.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_cvm_renew_instance.delete")()
 	defer inconsistentCheck(d, meta)()
 
 	return nil

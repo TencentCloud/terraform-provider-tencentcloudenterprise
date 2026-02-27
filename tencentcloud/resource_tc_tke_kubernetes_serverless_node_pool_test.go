@@ -185,15 +185,15 @@ data "tencentcloudenterprise_vpc_security_groups" "sg" {
 }
 
 data "tencentcloudenterprise_vpc_instances" "vpc_cluster" {
-  vpc_id = data.cloud_tke_kubernetes_clusters.existed_cluster.list.0.vpc_id
+  vpc_id = data.tencentcloudenterprise_tke_kubernetes_clusters.existed_cluster.list.0.vpc_id
 }
 
 resource "tencentcloudenterprise_kubernetes_serverless_node_pool" "pool_example" {
-  cluster_id = data.cloud_tke_kubernetes_clusters.existed_cluster.list.0.cluster_id
+  cluster_id = data.tencentcloudenterprise_tke_kubernetes_clusters.existed_cluster.list.0.cluster_id
   name = "hello-world"
   serverless_nodes {
     display_name = "serverless_node1"
-    subnet_id = data.cloud_vpc_instances.vpc_cluster.instance_list.0.subnet_ids.0
+    subnet_id = data.tencentcloudenterprise_vpc_instances.vpc_cluster.instance_list.0.subnet_ids.0
   }
   labels = {
     "key1" = "value1"
@@ -203,7 +203,7 @@ resource "tencentcloudenterprise_kubernetes_serverless_node_pool" "pool_example"
     value = "yes"
     effect = "NoSchedule"
   }
-  security_group_ids = [data.cloud_vpc_security_groups.sg.id]
+  security_group_ids = [data.tencentcloudenterprise_vpc_security_groups.sg.id]
 }
 `
 
@@ -217,15 +217,15 @@ data "tencentcloudenterprise_vpc_security_groups" "sg" {
 }
 
 data "tencentcloudenterprise_vpc_instances" "vpc_cluster" {
-  vpc_id = data.cloud_tke_kubernetes_clusters.existed_cluster.list.0.vpc_id
+  vpc_id = data.tencentcloudenterprise_tke_kubernetes_clusters.existed_cluster.list.0.vpc_id
 }
 
 resource "tencentcloudenterprise_kubernetes_serverless_node_pool" "pool_example" {
-  cluster_id = data.cloud_tke_kubernetes_clusters.existed_cluster.list.0.cluster_id
+  cluster_id = data.tencentcloudenterprise_tke_kubernetes_clusters.existed_cluster.list.0.cluster_id
   name = "hello-world-2"
   serverless_nodes {
     display_name = "serverless_node2"
-    subnet_id = data.cloud_vpc_instances.vpc_cluster.instance_list.0.subnet_ids.0
+    subnet_id = data.tencentcloudenterprise_vpc_instances.vpc_cluster.instance_list.0.subnet_ids.0
   }
   labels = {
     "key2" = "value2"
@@ -240,7 +240,7 @@ resource "tencentcloudenterprise_kubernetes_serverless_node_pool" "pool_example"
     value = "no"
     effect = "NoSchedule"
   }	
-  security_group_ids = [data.cloud_vpc_security_groups.sg.id]
+  security_group_ids = [data.tencentcloudenterprise_vpc_security_groups.sg.id]
 }
 `
 )

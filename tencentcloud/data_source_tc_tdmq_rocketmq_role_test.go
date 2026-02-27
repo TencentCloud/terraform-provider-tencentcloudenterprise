@@ -16,8 +16,8 @@ func TestAccTencentCloudTdmqRocketmqRoleDataSource(t *testing.T) {
 			{
 				Config: testAccDataSourceTdmqRocketmqRole,
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckTencentCloudDataSourceID("data.cloud_tdmq_rocketmq_role.role"),
-					resource.TestCheckResourceAttr("data.cloud_tdmq_rocketmq_role.role", "role_sets.#", "1"),
+					testAccCheckTencentCloudDataSourceID("data.tencentcloudenterprise_tdmq_rocketmq_role.role"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_tdmq_rocketmq_role.role", "role_sets.#", "1"),
 				),
 			},
 		},
@@ -33,11 +33,11 @@ resource "tencentcloudenterprise_tdmq_rocketmq_cluster" "cluster" {
 resource "tencentcloudenterprise_tdmq_rocketmq_role" "role" {
   role_name = "test_rocketmq_role"
   remark = "test rocketmq role"
-  cluster_id = cloud_tdmq_rocketmq_cluster.cluster.cluster_id
+  cluster_id = tencentcloudenterprise_tdmq_rocketmq_cluster.cluster.cluster_id
 }
 
 data "tencentcloudenterprise_tdmq_rocketmq_role" "role" {
-  role_name = cloud_tdmq_rocketmq_role.role.role_name
-  cluster_id = cloud_tdmq_rocketmq_cluster.cluster.cluster_id
+  role_name = tencentcloudenterprise_tdmq_rocketmq_role.role.role_name
+  cluster_id = tencentcloudenterprise_tdmq_rocketmq_cluster.cluster.cluster_id
 }
 `

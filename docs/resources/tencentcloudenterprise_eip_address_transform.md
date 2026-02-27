@@ -2,7 +2,7 @@
 subcategory: "Cloud Elastic IP(EIP)"
 layout: "tencentcloudenterprise"
 page_title: "TencentCloudEnterprise: tencentcloudenterprise_eip_address_transform"
-sidebar_current: "docs-tencentcloudenterprise-resources-eip_address_transform"
+sidebar_current: "docs-tencentcloudenterprise-resource-eip_address_transform"
 description: |-
   Provides a resource to create a eip address_transform
 ---
@@ -32,12 +32,15 @@ In addition to all arguments above, the following attributes are exported:
 * `id` - ID of the resource.
 
 
-
 ## Import
 
+tencentcloudenterprise_eip_address_transform can be imported using the id, e.g.
+
+```
 eip address_transform can be imported using the id, e.g.
 
 ```
 terraform import tencentcloudenterprise_eip_address_transform.address_transform address_transform_id
+```
 ```
 

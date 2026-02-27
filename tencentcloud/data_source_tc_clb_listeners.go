@@ -140,17 +140,17 @@ func dataSourceTencentCloudClbListeners() *schema.Resource {
 						"health_check_interval_time": {
 							Type:        schema.TypeInt,
 							Computed:    true,
-							Description: "Interval time of health check. The value range is 2-300 sec, and the default is `5` sec. NOTES: TCP/UDP listener allows direct configuration, HTTP/HTTPS listener needs to be configured in cloud_clb_listener_rule.",
+							Description: "Interval time of health check. The value range is 2-300 sec, and the default is `5` sec. NOTES: TCP/UDP listener allows direct configuration, HTTP/HTTPS listener needs to be configured in tencentcloudenterprise_clb_listener_rule.",
 						},
 						"health_check_health_num": {
 							Type:        schema.TypeInt,
 							Computed:    true,
-							Description: "Health threshold of health check, and the default is `3`. If a success result is returned for the health check three consecutive times, the CVM is identified as healthy. The value range is 2-10. NOTES: TCP/UDP listener allows direct configuration, HTTP/HTTPS listener needs to be configured in cloud_clb_listener_rule.",
+							Description: "Health threshold of health check, and the default is `3`. If a success result is returned for the health check three consecutive times, the CVM is identified as healthy. The value range is 2-10. NOTES: TCP/UDP listener allows direct configuration, HTTP/HTTPS listener needs to be configured in tencentcloudenterprise_clb_listener_rule.",
 						},
 						"health_check_unhealth_num": {
 							Type:        schema.TypeInt,
 							Computed:    true,
-							Description: "Unhealthy threshold of health check, and the default is `3`. If a success result is returned for the health check three consecutive times, the CVM is identified as unhealthy. The value range is 2-10. NOTES: TCP/UDP listener allows direct configuration, HTTP/HTTPS listener needs to be configured in cloud_clb_listener_rule.",
+							Description: "Unhealthy threshold of health check, and the default is `3`. If a success result is returned for the health check three consecutive times, the CVM is identified as unhealthy. The value range is 2-10. NOTES: TCP/UDP listener allows direct configuration, HTTP/HTTPS listener needs to be configured in tencentcloudenterprise_clb_listener_rule.",
 						},
 						"health_check_type": {
 							Type:        schema.TypeString,
@@ -220,12 +220,12 @@ func dataSourceTencentCloudClbListeners() *schema.Resource {
 						"session_expire_time": {
 							Type:        schema.TypeInt,
 							Computed:    true,
-							Description: "Time of session persistence within the CLB listener. NOTES: TCP/UDP listener allows direct configuration, HTTP/HTTPS listener needs to be configured in cloud_clb_listener_rule.",
+							Description: "Time of session persistence within the CLB listener. NOTES: TCP/UDP listener allows direct configuration, HTTP/HTTPS listener needs to be configured in tencentcloudenterprise_clb_listener_rule.",
 						},
 						"scheduler": {
 							Type:        schema.TypeString,
 							Computed:    true,
-							Description: "Scheduling method of the CLB listener, and available values are `WRR` and `LEAST_CONN`. The default is `WRR`. NOTES: The listener of 'HTTP' and `HTTPS` protocol additionally supports the `IP HASH` method. NOTES: TCP/UDP listener allows direct configuration, HTTP/HTTPS listener needs to be configured in cloud_clb_listener_rule.",
+							Description: "Scheduling method of the CLB listener, and available values are `WRR` and `LEAST_CONN`. The default is `WRR`. NOTES: The listener of 'HTTP' and `HTTPS` protocol additionally supports the `IP HASH` method. NOTES: TCP/UDP listener allows direct configuration, HTTP/HTTPS listener needs to be configured in tencentcloudenterprise_clb_listener_rule.",
 						},
 						"sni_switch": {
 							Type:        schema.TypeBool,
@@ -240,7 +240,7 @@ func dataSourceTencentCloudClbListeners() *schema.Resource {
 }
 
 func dataSourceTencentCloudClbListenersRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("data_source.cloud_clb_listeners.read")()
+	defer logElapsed("data_source.tencentcloudenterprise_clb_listeners.read")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)

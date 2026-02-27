@@ -170,7 +170,7 @@ resource "tencentcloudenterprise_clb_instance" "foo" {
 }
 
 resource "tencentcloudenterprise_clb_listener" "foo" {
-  clb_id                     = cloud_clb_instance.foo.id
+  clb_id                     = tencentcloudenterprise_clb_instance.foo.id
   listener_name              = "tf-clb-attach-tcp-test"
   port                       = 44
   protocol                   = "TCP"
@@ -184,11 +184,11 @@ resource "tencentcloudenterprise_clb_listener" "foo" {
 }
 
 resource "tencentcloudenterprise_clb_attachment" "foo" {
-  clb_id      = cloud_clb_instance.foo.id
-  listener_id = cloud_clb_listener.foo.listener_id
+  clb_id      = tencentcloudenterprise_clb_instance.foo.id
+  listener_id = tencentcloudenterprise_clb_listener.foo.listener_id
 
   targets {
-    instance_id = cloud_cvm_instance.default.id
+    instance_id = tencentcloudenterprise_cvm_instance.default.id
     port        = 23
     weight      = 10
   }
@@ -204,7 +204,7 @@ resource "tencentcloudenterprise_clb_instance" "foo" {
 }
 
 resource "tencentcloudenterprise_clb_listener" "foo" {
-  clb_id                     = cloud_clb_instance.foo.id
+  clb_id                     = tencentcloudenterprise_clb_instance.foo.id
   listener_name              = "tf-clb-attach-tcp-test"
   port                       = 44
   protocol                   = "TCP"
@@ -218,8 +218,8 @@ resource "tencentcloudenterprise_clb_listener" "foo" {
 }
 
 resource "tencentcloudenterprise_clb_attachment" "foo" {
-  clb_id      = cloud_clb_instance.foo.id
-  listener_id = cloud_clb_listener.foo.listener_id
+  clb_id      = tencentcloudenterprise_clb_instance.foo.id
+  listener_id = tencentcloudenterprise_clb_listener.foo.listener_id
 
   targets {
     eni_ip      = local.cvm_private_ip
@@ -243,19 +243,19 @@ resource "tencentcloudenterprise_clb_instance" "foo" {
 
 # This is will force new as expected
 resource "tencentcloudenterprise_clb_listener" "foo" {
-  clb_id                     = cloud_clb_instance.foo.id
+  clb_id                     = tencentcloudenterprise_clb_instance.foo.id
   listener_name              = "tf-clb-attach-tcp-ssl"
   port                       = 44
   protocol                   = "TCP_SSL"
   health_check_switch        = true
   scheduler                  = "WRR"
   certificate_ssl_mode       = "UNIDIRECTIONAL"
-  certificate_id             = data.cloud_ssl_certificates.foo.certificates.0.id
+  certificate_id             = data.tencentcloudenterprise_ssl_certificates.foo.certificates.0.id
 }
 
 resource "tencentcloudenterprise_clb_attachment" "foo" {
-  clb_id      = cloud_clb_instance.foo.id
-  listener_id = cloud_clb_listener.foo.listener_id
+  clb_id      = tencentcloudenterprise_clb_instance.foo.id
+  listener_id = tencentcloudenterprise_clb_listener.foo.listener_id
 
   # cross network target
   targets {
@@ -274,7 +274,7 @@ resource "tencentcloudenterprise_clb_instance" "foo" {
 }
 
 resource "tencentcloudenterprise_clb_listener" "foo" {
-  clb_id               = cloud_clb_instance.foo.id
+  clb_id               = tencentcloudenterprise_clb_instance.foo.id
   listener_name        = "tf-clb-attach-http-test"
   port                 = 77
   protocol             = "HTTPS"
@@ -283,8 +283,8 @@ resource "tencentcloudenterprise_clb_listener" "foo" {
 }
 
 resource "tencentcloudenterprise_clb_listener_rule" "foo" {
-  clb_id              = cloud_clb_instance.foo.id
-  listener_id         = cloud_clb_listener.foo.listener_id
+  clb_id              = tencentcloudenterprise_clb_instance.foo.id
+  listener_id         = tencentcloudenterprise_clb_listener.foo.listener_id
   domain              = "abc.com"
   url                 = "/"
   session_expire_time = 30
@@ -292,12 +292,12 @@ resource "tencentcloudenterprise_clb_listener_rule" "foo" {
 }
 
 resource "tencentcloudenterprise_clb_attachment" "foo" {
-  clb_id      = cloud_clb_instance.foo.id
-  listener_id = cloud_clb_listener.foo.listener_id
-  rule_id     = cloud_clb_listener_rule.foo.rule_id
+  clb_id      = tencentcloudenterprise_clb_instance.foo.id
+  listener_id = tencentcloudenterprise_clb_listener.foo.listener_id
+  rule_id     = tencentcloudenterprise_clb_listener_rule.foo.rule_id
 
   targets {
-    instance_id = cloud_cvm_instance.default.id
+    instance_id = tencentcloudenterprise_cvm_instance.default.id
     port        = 23
     weight      = 10
   }
@@ -308,8 +308,8 @@ const testAccClbServerAttachment_multiple = instanceCommonTestCase + `
 resource "tencentcloudenterprise_cvm_instance" "update" {
   instance_name              = var.instance_name_update
   availability_zone          = var.availability_cvm_zone
-  image_id                   = data.cloud_cvm_images.default.images.0.image_id
-  instance_type              = data.cloud_cvm_instance_types.default.instance_types.0.instance_type
+  image_id                   = data.tencentcloudenterprise_cvm_images.default.images.0.image_id
+  instance_type              = data.tencentcloudenterprise_cvm_instance_types.default.instance_types.0.instance_type
   system_disk_type           = "CLOUD_PREMIUM"
   system_disk_size           = 50
   allocate_public_ip         = true
@@ -325,7 +325,7 @@ resource "tencentcloudenterprise_clb_instance" "foo" {
 }
 
 resource "tencentcloudenterprise_clb_listener" "foo" {
-  clb_id               = cloud_clb_instance.foo.id
+  clb_id               = tencentcloudenterprise_clb_instance.foo.id
   listener_name        = "tf-clb-attach-multi-test"
   port                 = 77
   protocol             = "HTTPS"
@@ -334,8 +334,8 @@ resource "tencentcloudenterprise_clb_listener" "foo" {
 }
 
 resource "tencentcloudenterprise_clb_listener_rule" "foo" {
-  clb_id              = cloud_clb_instance.foo.id
-  listener_id         = cloud_clb_listener.foo.listener_id
+  clb_id              = tencentcloudenterprise_clb_instance.foo.id
+  listener_id         = tencentcloudenterprise_clb_listener.foo.listener_id
   domain              = "abc.com"
   url                 = "/"
   session_expire_time = 30
@@ -343,17 +343,17 @@ resource "tencentcloudenterprise_clb_listener_rule" "foo" {
 }
 
 resource "tencentcloudenterprise_clb_attachment" "foo" {
-  clb_id      = cloud_clb_instance.foo.id
-  listener_id = cloud_clb_listener.foo.listener_id
-  rule_id     = cloud_clb_listener_rule.foo.rule_id
+  clb_id      = tencentcloudenterprise_clb_instance.foo.id
+  listener_id = tencentcloudenterprise_clb_listener.foo.listener_id
+  rule_id     = tencentcloudenterprise_clb_listener_rule.foo.rule_id
 
   targets {
-    instance_id = cloud_cvm_instance.default.id
+    instance_id = tencentcloudenterprise_cvm_instance.default.id
     port        = 23
     weight      = 10
   }
   targets {
-    instance_id = cloud_cvm_instance.update.id
+    instance_id = tencentcloudenterprise_cvm_instance.update.id
     port        = 24
     weight      = 10
   }
@@ -369,7 +369,7 @@ resource "tencentcloudenterprise_clb_instance" "foo" {
 }
 
 resource "tencentcloudenterprise_clb_listener" "foo" {
-  clb_id               = cloud_clb_instance.foo.id
+  clb_id               = tencentcloudenterprise_clb_instance.foo.id
   listener_name        = "tf-clb-attach-multi-test"
   port                 = 77
   protocol             = "HTTPS"
@@ -378,8 +378,8 @@ resource "tencentcloudenterprise_clb_listener" "foo" {
 }
 
 resource "tencentcloudenterprise_clb_listener_rule" "foo" {
-  clb_id              = cloud_clb_instance.foo.id
-  listener_id         = cloud_clb_listener.foo.listener_id
+  clb_id              = tencentcloudenterprise_clb_instance.foo.id
+  listener_id         = tencentcloudenterprise_clb_listener.foo.listener_id
   domain              = "abc.com"
   url                 = "/"
   session_expire_time = 30
@@ -387,12 +387,12 @@ resource "tencentcloudenterprise_clb_listener_rule" "foo" {
 }
 
 resource "tencentcloudenterprise_clb_attachment" "foo" {
-  clb_id      = cloud_clb_instance.foo.id
-  listener_id = cloud_clb_listener.foo.listener_id
-  rule_id     = cloud_clb_listener_rule.foo.rule_id
+  clb_id      = tencentcloudenterprise_clb_instance.foo.id
+  listener_id = tencentcloudenterprise_clb_listener.foo.listener_id
+  rule_id     = tencentcloudenterprise_clb_listener_rule.foo.rule_id
 
   targets {
-    instance_id = cloud_cvm_instance.default.id
+    instance_id = tencentcloudenterprise_cvm_instance.default.id
     port        = 23
     weight      = 10
   }

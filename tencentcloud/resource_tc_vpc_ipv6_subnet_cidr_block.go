@@ -20,7 +20,7 @@ Provides a resource to create a vpc ipv6_subnet_cidr_block
 vpc ipv6_subnet_cidr_block can be imported using the id, e.g.
 
 ```
-terraform import cloud_vpc_ipv6_subnet_cidr_block.ipv6_subnet_cidr_block ipv6_subnet_cidr_block_id
+terraform import tencentcloudenterprise_vpc_ipv6_subnet_cidr_block.ipv6_subnet_cidr_block ipv6_subnet_cidr_block_id
 ```
 */
 package tencentcloud
@@ -92,7 +92,7 @@ func resourceTencentCloudVpcIpv6SubnetCidrBlock() *schema.Resource {
 }
 
 func resourceTencentCloudVpcIpv6SubnetCidrBlockCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_vpc_ipv6_subnet_cidr_block.create")()
+	defer logElapsed("resource.tencentcloudenterprise_vpc_ipv6_subnet_cidr_block.create")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -142,7 +142,7 @@ func resourceTencentCloudVpcIpv6SubnetCidrBlockCreate(d *schema.ResourceData, me
 }
 
 func resourceTencentCloudVpcIpv6SubnetCidrBlockRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_vpc_ipv6_subnet_cidr_block.read")()
+	defer logElapsed("resource.tencentcloudenterprise_vpc_ipv6_subnet_cidr_block.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -185,7 +185,7 @@ func resourceTencentCloudVpcIpv6SubnetCidrBlockRead(d *schema.ResourceData, meta
 }
 
 func resourceTencentCloudVpcIpv6SubnetCidrBlockDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_vpc_ipv6_subnet_cidr_block.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_vpc_ipv6_subnet_cidr_block.delete")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)

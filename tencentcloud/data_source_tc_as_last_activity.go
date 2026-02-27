@@ -302,7 +302,7 @@ func dataSourceTencentCloudAsLastActivity() *schema.Resource {
 }
 
 func dataSourceTencentCloudAsLastActivityRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("data_source.cloud_as_last_activity.read")()
+	defer logElapsed("data_source.tencentcloudenterprise_as_last_activity.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)

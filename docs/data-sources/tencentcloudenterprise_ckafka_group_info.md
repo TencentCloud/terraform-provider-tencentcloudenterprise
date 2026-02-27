@@ -1,5 +1,5 @@
 ---
-subcategory: "Cloud Kafka(CKafka)"
+subcategory: "Cloud Kafka(ckafka)"
 layout: "tencentcloudenterprise"
 page_title: "TencentCloudEnterprise: tencentcloudenterprise_ckafka_group_info"
 sidebar_current: "docs-tencentcloudenterprise-datasource-ckafka_group_info"
@@ -47,5 +47,4 @@ In addition to all arguments above, the following attributes are exported:
   * `protocol_type` - The protocol type selected by the consumption group is normally the consumer, but some systems use their own protocol, such as kafka-connect, which uses connect. Only the standard consumer protocol, this interface knows the format of the specific allocation method, and can analyze the specific partition allocation.
   * `protocol` - Common consumer partition allocation algorithms are as follows (the default option for Kafka consumer SDK is range)  range|roundrobin|sticky.
   * `state` - Group state description (commonly Empty, Stable, and Dead states): Dead: The consumption group does not exist Empty: The consumption group does not currently have any consumer subscriptions PreparingRebalance: The consumption group is in the rebalance state CompletingRebalance: The consumption group is in the rebalance state Stable: Each consumer in the consumption group has joined and is in a stable state.
-
 

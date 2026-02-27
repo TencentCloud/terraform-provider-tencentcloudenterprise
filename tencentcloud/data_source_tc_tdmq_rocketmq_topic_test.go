@@ -16,8 +16,8 @@ func TestAccTencentCloudTdmqRocketmqTopicDataSource(t *testing.T) {
 			{
 				Config: testAccDataSourceTdmqRocketmqTopic,
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckTencentCloudDataSourceID("data.cloud_tdmq_rocketmq_topic.topic"),
-					resource.TestCheckResourceAttr("data.cloud_tdmq_rocketmq_topic.topic", "topics.#", "1"),
+					testAccCheckTencentCloudDataSourceID("data.tencentcloudenterprise_tdmq_rocketmq_topic.topic"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_tdmq_rocketmq_topic.topic", "topics.#", "1"),
 				),
 			},
 		},
@@ -32,7 +32,7 @@ resource "tencentcloudenterprise_tdmq_rocketmq_cluster" "cluster" {
 }
 
 resource "tencentcloudenterprise_tdmq_rocketmq_namespace" "namespace" {
-	cluster_id = cloud_tdmq_rocketmq_cluster.cluster.cluster_id
+	cluster_id = tencentcloudenterprise_tdmq_rocketmq_cluster.cluster.cluster_id
 	namespace_name = "test_namespace_datasource_topic"
 	ttl = 65000
 	retention_time = 65000
@@ -41,15 +41,15 @@ resource "tencentcloudenterprise_tdmq_rocketmq_namespace" "namespace" {
   
   resource "tencentcloudenterprise_tdmq_rocketmq_topic" "topic" {
 	topic_name = "test_rocketmq_topic"
-	namespace_name = cloud_tdmq_rocketmq_namespace.namespace.namespace_name
+	namespace_name = tencentcloudenterprise_tdmq_rocketmq_namespace.namespace.namespace_name
 	type = "Normal"
-	cluster_id = cloud_tdmq_rocketmq_cluster.cluster.cluster_id
+	cluster_id = tencentcloudenterprise_tdmq_rocketmq_cluster.cluster.cluster_id
 	remark = "test rocketmq topic"
   }
   
   data "tencentcloudenterprise_tdmq_rocketmq_topic" "topic" {
-	cluster_id = cloud_tdmq_rocketmq_cluster.cluster.cluster_id
-	namespace_id = cloud_tdmq_rocketmq_namespace.namespace.namespace_name
-	filter_name = cloud_tdmq_rocketmq_topic.topic.topic_name
+	cluster_id = tencentcloudenterprise_tdmq_rocketmq_cluster.cluster.cluster_id
+	namespace_id = tencentcloudenterprise_tdmq_rocketmq_namespace.namespace.namespace_name
+	filter_name = tencentcloudenterprise_tdmq_rocketmq_topic.topic.topic_name
   }
 `

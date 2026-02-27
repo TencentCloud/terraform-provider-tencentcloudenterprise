@@ -28,7 +28,7 @@ Use this resource to create ckafka topic.
 ckafka topic can be imported using the instance_id#topic_name, e.g.
 
 ```
-$ terraform import cloud_ckafka_topic.foo ckafka-f9ife4zz#example
+$ terraform import tencentcloudenterprise_ckafka_topic.foo ckafka-f9ife4zz#example
 ```
 */
 package tencentcloud
@@ -194,7 +194,7 @@ func resourceTencentCloudCkafkaTopic() *schema.Resource {
 }
 
 func resourceTencentCloudCkafkaTopicCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_ckafka_topic.create")()
+	defer logElapsed("resource.tencentcloudenterprise_ckafka_topic.create")()
 	var (
 		logId         = getLogId(contextNil)
 		ctx           = context.WithValue(context.TODO(), logIdKey, logId)
@@ -274,7 +274,7 @@ func resourceTencentCloudCkafkaTopicCreate(d *schema.ResourceData, meta interfac
 }
 
 func resourceTencentCloudCkafkaTopicRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_ckafka_topic.read")()
+	defer logElapsed("resource.tencentcloudenterprise_ckafka_topic.read")()
 	defer inconsistentCheck(d, meta)()
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
@@ -336,7 +336,7 @@ func resourceTencentCloudCkafkaTopicRead(d *schema.ResourceData, meta interface{
 }
 
 func resourceTencentCloudCkafkaTopicUpdate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_ckafka_topic.update")()
+	defer logElapsed("resource.tencentcloudenterprise_ckafka_topic.update")()
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
 	ckafkcService := CkafkaService{
@@ -423,7 +423,7 @@ func resourceTencentCloudCkafkaTopicUpdate(d *schema.ResourceData, meta interfac
 }
 
 func resourceTencentCLoudCkafkaTopicDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_ckafka_topic.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_ckafka_topic.delete")()
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
 	ckafkcService := CkafkaService{

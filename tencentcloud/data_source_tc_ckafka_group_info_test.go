@@ -14,7 +14,7 @@ func TestAccTencentCloudCkafkaGroupInfoDataSource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			{
 				Config: testAccCkafkaGroupInfoDataSource,
-				Check:  resource.ComposeTestCheckFunc(testAccCheckTencentCloudDataSourceID("data.cloud_ckafka_group_info.group_info")),
+				Check:  resource.ComposeTestCheckFunc(testAccCheckTencentCloudDataSourceID("data.tencentcloudenterprise_ckafka_group_info.group_info")),
 			},
 		},
 	})

@@ -83,7 +83,7 @@ data "tencentcloudenterprise_vpc_instances" "id_instances" {
 	is_default = true
 }
 resource "tencentcloudenterprise_vpc_acl" "foo" {  
-    vpc_id  = data.cloud_vpc_instances.id_instances.instance_list.0.vpc_id
+    vpc_id  = data.tencentcloudenterprise_vpc_instances.id_instances.instance_list.0.vpc_id
     name  	= "test_acl"
 	ingress = [
 		"ACCEPT#192.168.1.0/24#800#TCP",
@@ -95,7 +95,7 @@ resource "tencentcloudenterprise_vpc_acl" "foo" {
 	]
 }
 resource "tencentcloudenterprise_vpc_acl_attachment" "attachment"{
-		acl_id = cloud_vpc_acl.foo.id
-		subnet_id = data.cloud_vpc_instances.id_instances.instance_list[0].subnet_ids[0]
+		acl_id = tencentcloudenterprise_vpc_acl.foo.id
+		subnet_id = data.tencentcloudenterprise_vpc_instances.id_instances.instance_list[0].subnet_ids[0]
 }
 `

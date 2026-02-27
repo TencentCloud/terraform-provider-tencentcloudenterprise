@@ -16,7 +16,7 @@ func TestAccTencentCloudVpcNetworkInterfaceLimitDataSource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			{
 				Config: testAccVpcNetworkInterfaceLimitDataSource,
-				Check:  resource.ComposeTestCheckFunc(testAccCheckTencentCloudDataSourceID("data.cloud_vpc_network_interface_limit.network_interface_limit")),
+				Check:  resource.ComposeTestCheckFunc(testAccCheckTencentCloudDataSourceID("data.tencentcloudenterprise_vpc_network_interface_limit.network_interface_limit")),
 			},
 		},
 	})

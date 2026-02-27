@@ -15,9 +15,9 @@ func TestAccTencentCloudInstanceTypesDataSource_basic(t *testing.T) {
 			{
 				Config: testAccTencentCloudInstanceTypesDataSourceConfigBasic,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr("data.cloud_cvm_instance_types.t4c8g", "instance_types.0.cpu_core_count", "4"),
-					resource.TestCheckResourceAttr("data.cloud_cvm_instance_types.t4c8g", "instance_types.0.memory_size", "8"),
-					resource.TestCheckResourceAttr("data.cloud_cvm_instance_types.t4c8g", "instance_types.0.availability_zone", "ap-guangzhou-3"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_cvm_instance_types.t4c8g", "instance_types.0.cpu_core_count", "4"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_cvm_instance_types.t4c8g", "instance_types.0.memory_size", "8"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_cvm_instance_types.t4c8g", "instance_types.0.availability_zone", "ap-guangzhou-3"),
 				),
 			},
 		},
@@ -33,10 +33,10 @@ func TestAccTencentCloudInstanceTypesDataSource_sell(t *testing.T) {
 			{
 				Config: testAccTencentCloudInstanceTypesDataSourceConfigSell,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr("data.cloud_cvm_instance_types.t4c8g", "instance_types.0.cpu_core_count", "2"),
-					resource.TestCheckResourceAttr("data.cloud_cvm_instance_types.t4c8g", "instance_types.0.memory_size", "2"),
-					resource.TestCheckResourceAttr("data.cloud_cvm_instance_types.t4c8g", "instance_types.0.availability_zone", "ap-guangzhou-3"),
-					resource.TestCheckResourceAttr("data.cloud_cvm_instance_types.t4c8g", "instance_types.0.family", "SA2"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_cvm_instance_types.t4c8g", "instance_types.0.cpu_core_count", "2"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_cvm_instance_types.t4c8g", "instance_types.0.memory_size", "2"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_cvm_instance_types.t4c8g", "instance_types.0.availability_zone", "ap-guangzhou-3"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_cvm_instance_types.t4c8g", "instance_types.0.family", "SA2"),
 				),
 			},
 		},

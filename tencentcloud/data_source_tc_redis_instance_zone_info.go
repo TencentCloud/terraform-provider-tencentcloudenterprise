@@ -109,7 +109,7 @@ package tencentcloud
 //}
 //
 //func dataSourceTencentCloudRedisInstanceZoneInfoRead(d *schema.ResourceData, meta interface{}) error {
-//	defer logElapsed("data_source.cloud_redis_instance_zone_info.read")()
+//	defer logElapsed("data_source.tencentcloudenterprise_redis_instance_zone_info.read")()
 //	defer inconsistentCheck(d, meta)()
 //
 //	logId := getLogId(contextNil)

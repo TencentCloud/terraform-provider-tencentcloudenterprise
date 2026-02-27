@@ -1,5 +1,5 @@
 ---
-subcategory: "Cloud Redis®(Redis)"
+subcategory: "TencentDB for Redis(crs)"
 layout: "tencentcloudenterprise"
 page_title: "TencentCloudEnterprise: tencentcloudenterprise_redis_param_records"
 sidebar_current: "docs-tencentcloudenterprise-datasource-redis_param_records"
@@ -36,5 +36,4 @@ In addition to all arguments above, the following attributes are exported:
   * `param_name` - The parameter name.
   * `pre_value` - Modify the previous value.
   * `status` - Parameter status:1: parameter configuration modification.2: The parameter configuration is modified successfully.3: Parameter configuration modification failed.
-
 

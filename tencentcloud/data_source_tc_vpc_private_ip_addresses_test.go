@@ -16,7 +16,7 @@ func TestAccTencentCloudVpcPrivateIpAddressesDataSource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			{
 				Config: testAccVpcPrivateIpAddressesDataSource,
-				Check:  resource.ComposeTestCheckFunc(testAccCheckTencentCloudDataSourceID("data.cloud_vpc_private_ip_addresses.private_ip_addresses")),
+				Check:  resource.ComposeTestCheckFunc(testAccCheckTencentCloudDataSourceID("data.tencentcloudenterprise_vpc_private_ip_addresses.private_ip_addresses")),
 			},
 		},
 	})

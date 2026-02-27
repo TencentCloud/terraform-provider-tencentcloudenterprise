@@ -17,7 +17,7 @@ Import
 
 cls logset can be imported using the id, e.g.
 ```
-$ terraform import cloud_cls_logset.logset logset_id
+$ terraform import tencentcloudenterprise_cls_logset.logset logset_id
 ```
 */
 package tencentcloud
@@ -88,7 +88,7 @@ func resourceTencentCloudClsLogset() *schema.Resource {
 }
 
 func resourceTencentCloudClsLogsetCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cls_logset.create")()
+	defer logElapsed("resource.tencentcloudenterprise_cls_logset.create")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -146,7 +146,7 @@ func resourceTencentCloudClsLogsetCreate(d *schema.ResourceData, meta interface{
 }
 
 func resourceTencentCloudClsLogsetRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cls_logset.read")()
+	defer logElapsed("resource.tencentcloudenterprise_cls_logset.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -189,7 +189,7 @@ func resourceTencentCloudClsLogsetRead(d *schema.ResourceData, meta interface{})
 }
 
 func resourceTencentCloudClsLogsetUpdate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cls_logset.update")()
+	defer logElapsed("resource.tencentcloudenterprise_cls_logset.update")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -235,7 +235,7 @@ func resourceTencentCloudClsLogsetUpdate(d *schema.ResourceData, meta interface{
 }
 
 func resourceTencentCloudClsLogsetDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cls_logset.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_cls_logset.delete")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)

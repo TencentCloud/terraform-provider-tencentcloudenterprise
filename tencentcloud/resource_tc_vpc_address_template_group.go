@@ -17,7 +17,7 @@ Provides a resource to manage address template group.
 Address template group can be imported using the id, e.g.
 
 ```
-$ terraform import cloud_vpc_address_template_group.foo ipmg-0np3u974
+$ terraform import tencentcloudenterprise_vpc_address_template_group.foo ipmg-0np3u974
 ```
 */
 package tencentcloud
@@ -71,7 +71,7 @@ func resourceTencentCloudAddressTemplateGroup() *schema.Resource {
 }
 
 func resourceTencentCloudAddressTemplateGroupCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_vpc_address_template_group.create")()
+	defer logElapsed("resource.tencentcloudenterprise_vpc_address_template_group.create")()
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
 
@@ -101,7 +101,7 @@ func resourceTencentCloudAddressTemplateGroupCreate(d *schema.ResourceData, meta
 }
 
 func resourceTencentCloudAddressTemplateGroupRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_vpc_address_template_group.read")()
+	defer logElapsed("resource.tencentcloudenterprise_vpc_address_template_group.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -135,7 +135,7 @@ func resourceTencentCloudAddressTemplateGroupRead(d *schema.ResourceData, meta i
 }
 
 func resourceTencentCloudAddressTemplateGroupUpdate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_vpc_address_template_group.update")()
+	defer logElapsed("resource.tencentcloudenterprise_vpc_address_template_group.update")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
@@ -162,7 +162,7 @@ func resourceTencentCloudAddressTemplateGroupUpdate(d *schema.ResourceData, meta
 }
 
 func resourceTencentCloudAddressTemplateGroupDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_vpc_address_template_group.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_vpc_address_template_group.delete")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)

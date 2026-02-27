@@ -189,7 +189,7 @@ resource "tencentcloudenterprise_cos_bucket" "object_bucket" {
 }
 
 resource "tencentcloudenterprise_cos_bucket_object" "object_source" {
-  bucket       = cloud_cos_bucket.object_bucket.bucket
+  bucket       = tencentcloudenterprise_cos_bucket.object_bucket.bucket
   key          = "tf-object-source"
   source       = "%s"
   content_type = "binary/octet-stream"
@@ -204,7 +204,7 @@ resource "tencentcloudenterprise_cos_bucket" "object_bucket" {
 }
 
 resource "tencentcloudenterprise_cos_bucket_object" "object_content" {
-  bucket       = cloud_cos_bucket.object_bucket.bucket
+  bucket       = tencentcloudenterprise_cos_bucket.object_bucket.bucket
   key          = "tf-object-content"
   content      = "aaaaaaaaaaaaaaaa"
   content_type = "binary/octet-stream"
@@ -219,7 +219,7 @@ resource "tencentcloudenterprise_cos_bucket" "object_bucket" {
 }
 
 resource "tencentcloudenterprise_cos_bucket_object" "object_with_tags" {
-  bucket       = cloud_cos_bucket.object_bucket.bucket
+  bucket       = tencentcloudenterprise_cos_bucket.object_bucket.bucket
   key          = "tf-object-tags"
   content       = "aaaaaaaaaaaaaaaa"
   content_type = "binary/octet-stream"
@@ -238,7 +238,7 @@ resource "tencentcloudenterprise_cos_bucket" "object_bucket" {
 }
 
 resource "tencentcloudenterprise_cos_bucket_object" "object_storage" {
-  bucket        = cloud_cos_bucket.object_bucket.bucket
+  bucket        = tencentcloudenterprise_cos_bucket.object_bucket.bucket
   key           = "tf-object-full"
   content       = "aaaaaaaaaaaaaaaa"
   content_type  = "binary/octet-stream"
@@ -254,7 +254,7 @@ resource "tencentcloudenterprise_cos_bucket" "object_bucket" {
 }
 
 resource "tencentcloudenterprise_cos_bucket_object" "object_acl" {
-  bucket  = cloud_cos_bucket.object_bucket.bucket
+  bucket  = tencentcloudenterprise_cos_bucket.object_bucket.bucket
   key     = "tf-object-acl"
   content = "aaaaaaaaaaaaaaaa"
   acl     = "%s"

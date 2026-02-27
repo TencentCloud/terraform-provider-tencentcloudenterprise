@@ -119,7 +119,7 @@ func resourceTencentCloudTsfApplicationConfig() *schema.Resource {
 }
 
 func resourceTencentCloudTsfApplicationConfigCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_tsf_application_config.create")()
+	defer logElapsed("resource.tencentcloudenterprise_tsf_application_config.create")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -187,7 +187,7 @@ func resourceTencentCloudTsfApplicationConfigCreate(d *schema.ResourceData, meta
 }
 
 func resourceTencentCloudTsfApplicationConfigRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_tsf_application_config.read")()
+	defer logElapsed("resource.tencentcloudenterprise_tsf_application_config.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -248,7 +248,7 @@ func resourceTencentCloudTsfApplicationConfigRead(d *schema.ResourceData, meta i
 }
 
 func resourceTencentCloudTsfApplicationConfigUpdate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_tsf_microservice.update")()
+	defer logElapsed("resource.tencentcloudenterprise_tsf_microservice.update")()
 	defer inconsistentCheck(d, meta)()
 
 	immutableArgs := []string{
@@ -272,7 +272,7 @@ func resourceTencentCloudTsfApplicationConfigUpdate(d *schema.ResourceData, meta
 }
 
 func resourceTencentCloudTsfApplicationConfigDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_tsf_application_config.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_tsf_application_config.delete")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)

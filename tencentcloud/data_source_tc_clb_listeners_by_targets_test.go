@@ -16,7 +16,7 @@ func TestAccTencentCloudClbListenersByTargetsDataSource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			{
 				Config: testAccClbListenersByTargetsDataSource,
-				Check:  resource.ComposeTestCheckFunc(testAccCheckTencentCloudDataSourceID("data.cloud_clb_listeners_by_targets.listeners_by_targets")),
+				Check:  resource.ComposeTestCheckFunc(testAccCheckTencentCloudDataSourceID("data.tencentcloudenterprise_clb_listeners_by_targets.listeners_by_targets")),
 			},
 		},
 	})

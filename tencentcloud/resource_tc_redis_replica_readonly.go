@@ -70,7 +70,7 @@ func resourceTencentCloudRedisReplicaReadonly() *schema.Resource {
 }
 
 func resourceTencentCloudRedisReplicaReadonlyCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_redis_replica_readonly.create")()
+	defer logElapsed("resource.tencentcloudenterprise_redis_replica_readonly.create")()
 	defer inconsistentCheck(d, meta)()
 
 	var (
@@ -86,7 +86,7 @@ func resourceTencentCloudRedisReplicaReadonlyCreate(d *schema.ResourceData, meta
 }
 
 func resourceTencentCloudRedisReplicaReadonlyRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_redis_replica_readonly.read")()
+	defer logElapsed("resource.tencentcloudenterprise_redis_replica_readonly.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -124,7 +124,7 @@ func resourceTencentCloudRedisReplicaReadonlyRead(d *schema.ResourceData, meta i
 }
 
 func resourceTencentCloudRedisReplicaReadonlyUpdate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_redis_replica_readonly.update")()
+	defer logElapsed("resource.tencentcloudenterprise_redis_replica_readonly.update")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -207,7 +207,7 @@ func resourceTencentCloudRedisReplicaReadonlyUpdate(d *schema.ResourceData, meta
 }
 
 func resourceTencentCloudRedisReplicaReadonlyDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_redis_replica_readonly.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_redis_replica_readonly.delete")()
 	defer inconsistentCheck(d, meta)()
 
 	return nil

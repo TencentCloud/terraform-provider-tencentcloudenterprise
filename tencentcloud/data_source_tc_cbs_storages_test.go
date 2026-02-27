@@ -18,18 +18,18 @@ func TestAccTencentCloudCbsStoragesDataSourceId(t *testing.T) {
 				Config: testAccCbsStoragesDataSource,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					testAccCheckStorageExists("tencentcloudenterprise_cbs_storage.storage"),
-					resource.TestCheckResourceAttr("data.cloud_cbs_storages.storages", "storage_list.#", "1"),
-					resource.TestCheckResourceAttrSet("data.cloud_cbs_storages.storages", "storage_list.0.storage_id"),
-					resource.TestCheckResourceAttr("data.cloud_cbs_storages.storages", "storage_list.0.storage_name", "tf-test-storage"),
-					resource.TestCheckResourceAttr("data.cloud_cbs_storages.storages", "storage_list.0.storage_type", "CLOUD_PREMIUM"),
-					resource.TestCheckResourceAttr("data.cloud_cbs_storages.storages", "storage_list.0.storage_size", "50"),
-					resource.TestCheckResourceAttr("data.cloud_cbs_storages.storages", "storage_list.0.availability_zone", "ap-guangzhou-3"),
-					resource.TestCheckResourceAttr("data.cloud_cbs_storages.storages", "storage_list.0.project_id", "0"),
-					resource.TestCheckResourceAttr("data.cloud_cbs_storages.storages", "storage_list.0.encrypt", "false"),
-					resource.TestCheckResourceAttr("data.cloud_cbs_storages.storages", "storage_list.0.attached", "false"),
-					resource.TestCheckResourceAttrSet("data.cloud_cbs_storages.storages", "storage_list.0.create_time"),
-					resource.TestCheckResourceAttrSet("data.cloud_cbs_storages.storages", "storage_list.0.status"),
-					resource.TestCheckResourceAttrSet("data.cloud_cbs_storages.storages", "storage_list.0.charge_type"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_cbs_storages.storages", "storage_list.#", "1"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_cbs_storages.storages", "storage_list.0.storage_id"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_cbs_storages.storages", "storage_list.0.storage_name", "tf-test-storage"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_cbs_storages.storages", "storage_list.0.storage_type", "CLOUD_PREMIUM"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_cbs_storages.storages", "storage_list.0.storage_size", "50"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_cbs_storages.storages", "storage_list.0.availability_zone", "ap-guangzhou-3"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_cbs_storages.storages", "storage_list.0.project_id", "0"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_cbs_storages.storages", "storage_list.0.encrypt", "false"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_cbs_storages.storages", "storage_list.0.attached", "false"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_cbs_storages.storages", "storage_list.0.create_time"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_cbs_storages.storages", "storage_list.0.status"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_cbs_storages.storages", "storage_list.0.charge_type"),
 				),
 			},
 		},
@@ -47,7 +47,7 @@ func TestAccTencentCloudCbsStoragesDataSourceNewParams(t *testing.T) {
 			{
 				Config: testAccCbsStoragesDataSourceNewParams,
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttrSet("data.cloud_cbs_storages.storages", "storage_list.#"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_cbs_storages.storages", "storage_list.#"),
 				),
 			},
 		},
@@ -65,7 +65,7 @@ resource "tencentcloudenterprise_cbs_storage" "storage" {
 }
 
 data "tencentcloudenterprise_cbs_storages" "storages" {
-  storage_id = cloud_cbs_storage.storage.id
+  storage_id = tencentcloudenterprise_cbs_storage.storage.id
 }
 `
 

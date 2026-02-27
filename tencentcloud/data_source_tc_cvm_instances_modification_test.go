@@ -17,8 +17,8 @@ func TestAccTencentCloudCvmInstancesModificationDataSource_basic(t *testing.T) {
 			{
 				Config: testAccCvmInstancesModificationDataSource,
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckTencentCloudDataSourceID("data.cloud_cvm_instances_modification.foo"),
-					resource.TestCheckResourceAttrSet("data.cloud_cvm_instances_modification.foo", "instance_type_config_status_list.#"),
+					testAccCheckTencentCloudDataSourceID("data.tencentcloudenterprise_cvm_instances_modification.foo"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_cvm_instances_modification.foo", "instance_type_config_status_list.#"),
 				),
 			},
 		},

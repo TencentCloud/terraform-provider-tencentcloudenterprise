@@ -20,8 +20,8 @@ func TestAccTencentCloudCosBucketObjectDataSource(t *testing.T) {
 				Config: testAccCosBucketObjectDataSource(appid),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					testAccCheckCosBucketObjectExists("tencentcloudenterprise_cos_bucket_object.object_content"),
-					resource.TestCheckResourceAttr("data.cloud_cos_bucket_object.object", "content_type", "binary/octet-stream"),
-					resource.TestMatchResourceAttr("data.cloud_cos_bucket_object.object", "last_modified",
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_cos_bucket_object.object", "content_type", "binary/octet-stream"),
+					resource.TestMatchResourceAttr("data.tencentcloudenterprise_cos_bucket_object.object", "last_modified",
 						regexp.MustCompile("^[a-zA-Z]{3}, [0-9]+ [a-zA-Z]+ [0-9]{4} [0-9:]+ [A-Z]+$")),
 				),
 			},
@@ -36,15 +36,15 @@ resource "tencentcloudenterprise_cos_bucket" "object_bucket" {
 }
 
 resource "tencentcloudenterprise_cos_bucket_object" "object_content" {
-  bucket       = cloud_cos_bucket.object_bucket.bucket
+  bucket       = tencentcloudenterprise_cos_bucket.object_bucket.bucket
   key          = "tf-object-content"
   content      = "aaaaaaaaaaaaaaaa"
   content_type = "binary/octet-stream"
 }
 
 data "tencentcloudenterprise_cos_bucket_object" "object" {
-  bucket = cloud_cos_bucket_object.object_content.bucket
-  key    = cloud_cos_bucket_object.object_content.key
+  bucket = tencentcloudenterprise_cos_bucket_object.object_content.bucket
+  key    = tencentcloudenterprise_cos_bucket_object.object_content.key
 }
 `, acctest.RandInt(), appid)
 }

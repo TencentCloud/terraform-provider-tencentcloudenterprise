@@ -107,7 +107,7 @@ resource "tencentcloudenterprise_tsf_lane_rule" "lane_rule" {
 		  tag_value = "222"
 	}
 	rule_tag_relationship = "RELEATION_AND"
-	lane_id = cloud_tsf_lane.lane1.id
+	lane_id = tencentcloudenterprise_tsf_lane.lane1.id
 	enable = false
   }
 

@@ -161,7 +161,7 @@ func dataSourceTencentCloudCfsFileSystems() *schema.Resource {
 }
 
 func dataSourceTencentCloudCfsFileSystemsRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("data_source.cloud_cfs_file_systems.read")()
+	defer logElapsed("data_source.tencentcloudenterprise_cfs_file_systems.read")()
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
 	cfsService := CfsService{

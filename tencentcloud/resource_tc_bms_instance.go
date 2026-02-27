@@ -25,7 +25,7 @@ Import
 Placement group can be imported using the id, e.g.
 
 ```
-$ terraform import cloud_bms_placement_group.foo ps-ilan8vjf
+$ terraform import tencentcloudenterprise_bms_placement_group.foo ps-ilan8vjf
 ```
 */
 package tencentcloud
@@ -357,7 +357,7 @@ func resourceTencentCloudBmsInstance() *schema.Resource {
 }
 
 func resourceTencentCloudBmsInstanceCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cvm_instance.create")()
+	defer logElapsed("resource.tencentcloudenterprise_cvm_instance.create")()
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
 	bmsService := BmsService{
@@ -592,7 +592,7 @@ func resourceTencentCloudBmsInstanceCreate(d *schema.ResourceData, meta interfac
 }
 
 func resourceTencentCloudBmsInstanceRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cvm_instance.read")()
+	defer logElapsed("resource.tencentcloudenterprise_cvm_instance.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -652,12 +652,12 @@ func resourceTencentCloudBmsInstanceRead(d *schema.ResourceData, meta interface{
 }
 
 func resourceTencentCloudBmsInstanceUpdate(d *schema.ResourceData, meta interface{}) (err error) {
-	defer logElapsed("resource.cloud_cvm_instance.update")()
+	defer logElapsed("resource.tencentcloudenterprise_cvm_instance.update")()
 	return nil
 }
 
 func resourceTencentCloudBmsInstanceDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cvm_instance.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_cvm_instance.delete")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)

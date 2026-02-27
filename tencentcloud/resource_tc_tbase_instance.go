@@ -38,7 +38,7 @@ Import
 
 tbase instance can be imported using the id, e.g.
 ```
-$ terraform import cloud_tbase_instance.instance cluster_id#instance_id
+$ terraform import tencentcloudenterprise_tbase_instance.instance cluster_id#instance_id
 ```
 */
 package tencentcloud
@@ -275,7 +275,7 @@ func resourceTencentCloudTbaseInstance() *schema.Resource {
 }
 
 func resourceTencentCloudTbaseInstanceCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_tbase_instance.create")()
+	defer logElapsed("resource.tencentcloudenterprise_tbase_instance.create")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -421,7 +421,7 @@ func resourceTencentCloudTbaseInstanceCreate(d *schema.ResourceData, meta interf
 }
 
 func resourceTencentCloudTbaseInstanceRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_tbase_instance.read")()
+	defer logElapsed("resource.tencentcloudenterprise_tbase_instance.read")()
 	defer inconsistentCheck(d, meta)()
 
 	var (
@@ -472,7 +472,7 @@ func resourceTencentCloudTbaseInstanceRead(d *schema.ResourceData, meta interfac
 }
 
 func resourceTencentCloudTbaseInstanceUpdate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_tbase_instance.update")()
+	defer logElapsed("resource.tencentcloudenterprise_tbase_instance.update")()
 	defer inconsistentCheck(d, meta)()
 
 	var (
@@ -525,7 +525,7 @@ func resourceTencentCloudTbaseInstanceUpdate(d *schema.ResourceData, meta interf
 }
 
 func resourceTencentCloudTbaseInstanceDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_tbase.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_tbase.delete")()
 	defer inconsistentCheck(d, meta)()
 
 	var (

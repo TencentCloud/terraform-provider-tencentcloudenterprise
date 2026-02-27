@@ -87,7 +87,7 @@ func dataSourceTencentCloudSsmSecretVersions() *schema.Resource {
 }
 
 func dataSourceTencentCloudSsmSecretVersionsRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("data_source.cloud_ssm_secret_versions.read")()
+	defer logElapsed("data_source.tencentcloudenterprise_ssm_secret_versions.read")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)

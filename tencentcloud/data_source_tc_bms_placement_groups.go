@@ -136,7 +136,7 @@ func dataTencentCloudBmsPlacementGroup() *schema.Resource {
 }
 
 func dataTencentCloudBmsPlacementGroupRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_bms_instance.read")()
+	defer logElapsed("resource.tencentcloudenterprise_bms_instance.read")()
 	defer inconsistentCheck(d, meta)()
 
 	client := meta.(*TencentCloudClient).apiV3Conn

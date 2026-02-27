@@ -1,8 +1,8 @@
 ---
-subcategory: "Tencent Distributed Message Queue(TDMQ)"
+subcategory: "TDMQ for RocketMQ(trocket)"
 layout: "tencentcloudenterprise"
 page_title: "TencentCloudEnterprise: tencentcloudenterprise_tdmq_rocketmq_environment_role"
-sidebar_current: "docs-tencentcloudenterprise-resources-tdmq_rocketmq_environment_role"
+sidebar_current: "docs-tencentcloudenterprise-resource-tdmq_rocketmq_environment_role"
 description: |-
   Provides a resource to create a tdmqRocketmq environment_role
 ---
@@ -57,11 +57,14 @@ In addition to all arguments above, the following attributes are exported:
 * `id` - ID of the resource.
 
 
-
 ## Import
 
+tencentcloudenterprise_tdmq_rocketmq_environment_role can be imported using the id, e.g.
+
+```
 tdmqRocketmq environment_role can be imported using the id, e.g.
 ```
 $ terraform import tencentcloudenterprise_tdmq_rocketmq_environment_role.environment_role environmentRole_id
+```
 ```
 

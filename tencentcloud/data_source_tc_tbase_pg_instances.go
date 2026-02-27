@@ -122,7 +122,7 @@ func dataSourceTencentCloudTbasePGInstances() *schema.Resource {
 
 func dataSourceTencentCloudTbasePGInstancesRead(ctx context.Context, d *schema.ResourceData,
 	meta interface{}) diag.Diagnostics {
-	defer logElapsed("data_source.cloud_dcdb_hour_instances.read")()
+	defer logElapsed("data_source.tencentcloudenterprise_dcdb_hour_instances.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)

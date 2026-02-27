@@ -18,13 +18,13 @@ func TestAccTencentCloudRedisBackupDownloadInfoDataSource_basic(t *testing.T) {
 			{
 				Config: testAccRedisBackupDownloadInfoDataSource,
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckTencentCloudDataSourceID("data.cloud_redis_backup_download_info.backup_download_info"),
-					resource.TestCheckResourceAttrSet("data.cloud_redis_backup_download_info.backup_download_info", "instance_id"),
-					resource.TestCheckResourceAttr("data.cloud_redis_backup_download_info.backup_download_info", "backup_infos.#", "1"),
-					// resource.TestCheckResourceAttrSet("data.cloud_redis_backup_download_info.backup_download_info", "backup_infos.0.download_url"),
-					resource.TestCheckResourceAttrSet("data.cloud_redis_backup_download_info.backup_download_info", "backup_infos.0.file_name"),
-					resource.TestCheckResourceAttrSet("data.cloud_redis_backup_download_info.backup_download_info", "backup_infos.0.file_size"),
-					resource.TestCheckResourceAttrSet("data.cloud_redis_backup_download_info.backup_download_info", "backup_infos.0.inner_download_url"),
+					testAccCheckTencentCloudDataSourceID("data.tencentcloudenterprise_redis_backup_download_info.backup_download_info"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_redis_backup_download_info.backup_download_info", "instance_id"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_redis_backup_download_info.backup_download_info", "backup_infos.#", "1"),
+					// resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_redis_backup_download_info.backup_download_info", "backup_infos.0.download_url"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_redis_backup_download_info.backup_download_info", "backup_infos.0.file_name"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_redis_backup_download_info.backup_download_info", "backup_infos.0.file_size"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_redis_backup_download_info.backup_download_info", "backup_infos.0.inner_download_url"),
 				),
 			},
 		},
@@ -35,7 +35,7 @@ const testAccRedisBackupDownloadInfoDataSource = testAccRedisBackupDataSource + 
 
 data "tencentcloudenterprise_redis_backup_download_info" "backup_download_info" {
 	instance_id = var.instance_id
-	backup_id = data.cloud_redis_backup.backup.backup_set.0.backup_id
+	backup_id = data.tencentcloudenterprise_redis_backup.backup.backup_set.0.backup_id
 	# limit_type = "NoLimit"
 	# vpc_comparison_symbol = "In"
 	# ip_comparison_symbol = "In"

@@ -16,9 +16,9 @@ func TestAccDataSourceTencentCloudDcV3InstancesBasic(t *testing.T) {
 				Config: TestAccDataSourceTencentCloudDcInstances,
 				Check: resource.ComposeTestCheckFunc(
 					//name filter
-					testAccCheckTencentCloudDataSourceID("data.cloud_dc_instances.name_select"),
-					resource.TestCheckResourceAttrSet("data.cloud_dc_instances.name_select", "instance_list.#"),
-					resource.TestCheckResourceAttrSet("data.cloud_dc_instances.name_select", "name"),
+					testAccCheckTencentCloudDataSourceID("data.tencentcloudenterprise_dc_instances.name_select"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_dc_instances.name_select", "instance_list.#"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_dc_instances.name_select", "name"),
 				),
 			},
 		},

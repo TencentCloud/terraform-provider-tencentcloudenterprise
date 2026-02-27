@@ -2,7 +2,7 @@
 subcategory: "Cloud Block Storage(CBS)"
 layout: "tencentcloudenterprise"
 page_title: "TencentCloudEnterprise: tencentcloudenterprise_cbs_snapshot_share_permission"
-sidebar_current: "docs-tencentcloudenterprise-resources-cbs_snapshot_share_permission"
+sidebar_current: "docs-tencentcloudenterprise-resource-cbs_snapshot_share_permission"
 description: |-
   Provides a resource to create a cbs snapshot_share_permission
 ---
@@ -34,12 +34,15 @@ In addition to all arguments above, the following attributes are exported:
 * `id` - ID of the resource.
 
 
-
 ## Import
 
+tencentcloudenterprise_cbs_snapshot_share_permission can be imported using the id, e.g.
+
+```
 cbs snapshot_share_permission can be imported using the id, e.g.
 
 ```
 terraform import tencentcloudenterprise_cbs_snapshot_share_permission.snapshot_share_permission snap-xxxxxx
+```
 ```
 

@@ -25,7 +25,7 @@ Uploading a file to a bucket
 	}
 
 	resource "tencentcloudenterprise_cos_bucket_object" "myobject" {
-	  bucket  = cloud_cos_bucket.mycos.bucket
+	  bucket  = tencentcloudenterprise_cos_bucket.mycos.bucket
 	  key     = "new_object_key"
 	  content = "the content that you want to upload."
 	}
@@ -160,7 +160,7 @@ func resourceTencentCloudCosBucketObject() *schema.Resource {
 }
 
 func resourceTencentCloudCosBucketObjectCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cos_bucket_object.create")()
+	defer logElapsed("resource.tencentcloudenterprise_cos_bucket_object.create")()
 
 	logId := getLogId(contextNil)
 
@@ -250,7 +250,7 @@ func resourceTencentCloudCosBucketObjectCreate(d *schema.ResourceData, meta inte
 }
 
 func resourceTencentCloudCosBucketObjectRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cos_bucket_object.read")()
+	defer logElapsed("resource.tencentcloudenterprise_cos_bucket_object.read")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
@@ -297,7 +297,7 @@ func resourceTencentCloudCosBucketObjectRead(d *schema.ResourceData, meta interf
 }
 
 func resourceTencentCloudCosBucketObjectUpdate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cos_bucket_object.update")()
+	defer logElapsed("resource.tencentcloudenterprise_cos_bucket_object.update")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
@@ -348,7 +348,7 @@ func resourceTencentCloudCosBucketObjectUpdate(d *schema.ResourceData, meta inte
 }
 
 func resourceTencentCloudCosBucketObjectDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cos_bucket_object.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_cos_bucket_object.delete")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)

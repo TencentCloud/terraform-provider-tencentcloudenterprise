@@ -38,7 +38,7 @@ Provides a resource to create a cls cos_recharge
 cls cos_recharge can be imported using the id, e.g.
 
 ```
-terraform import cloud_cls_cos_recharge.cos_recharge topic_id#cos_recharge_id
+terraform import tencentcloudenterprise_cls_cos_recharge.cos_recharge topic_id#cos_recharge_id
 ```
 */
 package tencentcloud
@@ -334,7 +334,7 @@ func resourceTencentCloudClsCosRecharge() *schema.Resource {
 }
 
 func resourceTencentCloudClsCosRechargeCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cls_cos_recharge.create")()
+	defer logElapsed("resource.tencentcloudenterprise_cls_cos_recharge.create")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -506,7 +506,7 @@ func resourceTencentCloudClsCosRechargeCreate(d *schema.ResourceData, meta inter
 }
 
 func resourceTencentCloudClsCosRechargeRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cls_cos_recharge.read")()
+	defer logElapsed("resource.tencentcloudenterprise_cls_cos_recharge.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -711,7 +711,7 @@ func resourceTencentCloudClsCosRechargeRead(d *schema.ResourceData, meta interfa
 }
 
 func resourceTencentCloudClsCosRechargeUpdate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cls_cos_recharge.update")()
+	defer logElapsed("resource.tencentcloudenterprise_cls_cos_recharge.update")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -763,7 +763,7 @@ func resourceTencentCloudClsCosRechargeUpdate(d *schema.ResourceData, meta inter
 }
 
 func resourceTencentCloudClsCosRechargeDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cls_cos_recharge.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_cls_cos_recharge.delete")()
 	defer inconsistentCheck(d, meta)()
 
 	return fmt.Errorf("due to cls api, resource `cls cos_recharge` can not be deleted")

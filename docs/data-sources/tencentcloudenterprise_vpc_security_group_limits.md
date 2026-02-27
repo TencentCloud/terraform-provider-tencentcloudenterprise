@@ -37,4 +37,3 @@ In addition to all arguments above, the following attributes are exported:
   * `security_group_referred_cvm_and_eni_limit` - Number of eni and cvm can be referred.
   * `security_group_referred_svc_limit` - Number of svc can be referred.
 
-

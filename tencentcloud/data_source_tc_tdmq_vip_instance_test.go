@@ -17,7 +17,7 @@ func TestAccTencentNeedFixCloudTdmqVipInstanceDataSource_basic(t *testing.T) {
 			{
 				Config: testAccTdmqVipInstanceDataSource,
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckTencentCloudDataSourceID("data.cloud_tdmq_vip_instance.vip_instance"),
+					testAccCheckTencentCloudDataSourceID("data.tencentcloudenterprise_tdmq_vip_instance.vip_instance"),
 				),
 			},
 		},

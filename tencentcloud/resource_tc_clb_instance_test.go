@@ -339,12 +339,12 @@ data "tencentcloudenterprise_vpc_instances" "gz3vpc" {
 }
 
 data "tencentcloudenterprise_vpc_subnets" "gz3" {
-  vpc_id = data.cloud_vpc_instances.gz3vpc.instance_list.0.vpc_id
+  vpc_id = data.tencentcloudenterprise_vpc_instances.gz3vpc.instance_list.0.vpc_id
 }
 
 locals {
-  keep_clb_subnets = [for subnet in data.cloud_vpc_subnets.gz3.instance_list: lookup(subnet, "subnet_id") if lookup(subnet, "name") == "keep-clb-sub"]
-  subnets = [for subnet in data.cloud_vpc_subnets.gz3.instance_list: lookup(subnet, "subnet_id") ]
+  keep_clb_subnets = [for subnet in data.tencentcloudenterprise_vpc_subnets.gz3.instance_list: lookup(subnet, "subnet_id") if lookup(subnet, "name") == "keep-clb-sub"]
+  subnets = [for subnet in data.tencentcloudenterprise_vpc_subnets.gz3.instance_list: lookup(subnet, "subnet_id") ]
   subnet_for_clb_snat = concat(local.keep_clb_subnets, local.subnets)
 }
 
@@ -374,7 +374,7 @@ resource "tencentcloudenterprise_vpc" "foo" {
 resource "tencentcloudenterprise_vpc_subnet" "subnet" {
   availability_zone = var.availability_zone
   name              = "guagua-ci-temp-test"
-  vpc_id            = cloud_vpc.foo.id
+  vpc_id            = tencentcloudenterprise_vpc.foo.id
   cidr_block        = "10.0.20.0/28"
   is_multicast      = false
 }
@@ -382,8 +382,8 @@ resource "tencentcloudenterprise_vpc_subnet" "subnet" {
 resource "tencentcloudenterprise_clb_instance" "clb_internal" {
   network_type = "INTERNAL"
   clb_name     = "` + InternalClbName + `"
-  vpc_id       = cloud_vpc.foo.id
-  subnet_id    = cloud_vpc_subnet.subnet.id
+  vpc_id       = tencentcloudenterprise_vpc.foo.id
+  subnet_id    = tencentcloudenterprise_vpc_subnet.subnet.id
   project_id   = 0
 
   tags = {
@@ -406,10 +406,10 @@ resource "tencentcloudenterprise_clb_instance" "clb_open" {
   network_type              = "OPEN"
   clb_name                  = "` + OpenClbName + `"
   project_id                = 0
-  vpc_id                    = cloud_vpc.foo.id
+  vpc_id                    = tencentcloudenterprise_vpc.foo.id
   target_region_info_region = "ap-guangzhou"
-  target_region_info_vpc_id = cloud_vpc.foo.id
-  security_groups           = [cloud_vpc_security_group.foo.id]
+  target_region_info_vpc_id = tencentcloudenterprise_vpc.foo.id
+  security_groups           = [tencentcloudenterprise_vpc_security_group.foo.id]
 
   tags = {
     test = "tf"
@@ -430,7 +430,7 @@ resource "tencentcloudenterprise_vpc" "foo" {
 resource "tencentcloudenterprise_vpc_subnet" "subnet" {
   availability_zone = var.availability_zone
   name              = "guagua-ci-temp-test"
-  vpc_id            = cloud_vpc.foo.id
+  vpc_id            = tencentcloudenterprise_vpc.foo.id
   cidr_block        = "10.0.20.0/28"
   is_multicast      = false
 }
@@ -438,8 +438,8 @@ resource "tencentcloudenterprise_vpc_subnet" "subnet" {
 resource "tencentcloudenterprise_clb_instance" "clb_internal" {
   network_type = "INTERNAL"
   clb_name     = "` + InternalClbNameUpdate + `"
-  vpc_id       = cloud_vpc.foo.id
-  subnet_id    = cloud_vpc_subnet.subnet.id
+  vpc_id       = tencentcloudenterprise_vpc.foo.id
+  subnet_id    = tencentcloudenterprise_vpc_subnet.subnet.id
   project_id   = 0
 
   tags = {
@@ -461,11 +461,11 @@ resource "tencentcloudenterprise_vpc" "foo" {
 resource "tencentcloudenterprise_clb_instance" "clb_open" {
   network_type              = "OPEN"
   clb_name                  = "` + OpenClbNameUpdate + `"
-  vpc_id                    = cloud_vpc.foo.id
+  vpc_id                    = tencentcloudenterprise_vpc.foo.id
   project_id                = 0
   target_region_info_region = "ap-guangzhou"
-  target_region_info_vpc_id = cloud_vpc.foo.id
-  security_groups           = [cloud_vpc_security_group.foo.id]
+  target_region_info_vpc_id = tencentcloudenterprise_vpc.foo.id
+  security_groups           = [tencentcloudenterprise_vpc_security_group.foo.id]
 
   tags = {
     test = "test"
@@ -481,7 +481,7 @@ variable "availability_zone" {
 resource "tencentcloudenterprise_vpc_subnet" "subnet" {
   availability_zone = var.availability_zone
   name              = "keep-sdk-feature-test"
-  vpc_id            = cloud_vpc.foo.id
+  vpc_id            = tencentcloudenterprise_vpc.foo.id
   cidr_block        = "10.0.20.0/28"
   is_multicast      = false
 }
@@ -505,12 +505,12 @@ resource "tencentcloudenterprise_clb_instance" "default_enable" {
   network_type                 = "OPEN"
   clb_name                     = "` + SingleClbName + `"
   project_id                   = 0
-  vpc_id                       = cloud_vpc.foo.id
+  vpc_id                       = tencentcloudenterprise_vpc.foo.id
   load_balancer_pass_to_target = true
 
-  security_groups              = [cloud_vpc_security_group.sglab.id]
+  security_groups              = [tencentcloudenterprise_vpc_security_group.sglab.id]
   target_region_info_region    = "ap-guangzhou"
-  target_region_info_vpc_id    = cloud_vpc.foo.id
+  target_region_info_vpc_id    = tencentcloudenterprise_vpc.foo.id
 
   tags = {
     test = "open"
@@ -526,7 +526,7 @@ variable "availability_zone" {
 resource "tencentcloudenterprise_vpc_subnet" "subnet" {
   availability_zone = var.availability_zone
   name              = "keep-sdk-feature-test"
-  vpc_id            = cloud_vpc.foo.id
+  vpc_id            = tencentcloudenterprise_vpc.foo.id
   cidr_block        = "10.0.20.0/28"
   is_multicast      = false
 }
@@ -550,12 +550,12 @@ resource "tencentcloudenterprise_clb_instance" "default_enable" {
   network_type                 = "OPEN"
   clb_name                     = "` + SingleClbName + `"
   project_id                   = 0
-  vpc_id                       = cloud_vpc.foo.id
+  vpc_id                       = tencentcloudenterprise_vpc.foo.id
   load_balancer_pass_to_target = true
 
-  security_groups              = [cloud_vpc_security_group.sglab.id]
+  security_groups              = [tencentcloudenterprise_vpc_security_group.sglab.id]
   target_region_info_region    = "ap-guangzhou"
-  target_region_info_vpc_id    = cloud_vpc.foo.id
+  target_region_info_vpc_id    = tencentcloudenterprise_vpc.foo.id
 
   tags = {
     test = "hello"

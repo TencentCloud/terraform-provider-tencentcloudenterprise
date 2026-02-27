@@ -17,23 +17,23 @@ func TestAccDataSourceTencentCloudEnis_basic(t *testing.T) {
 			{
 				Config: TestAccDataSourceTencentCloudEnisBasic,
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckTencentCloudDataSourceID("data.cloud_vpc_enis.foo"),
-					resource.TestCheckResourceAttr("data.cloud_vpc_enis.foo", "ids.#", "1"),
-					resource.TestCheckResourceAttr("data.cloud_vpc_enis.foo", "enis.#", "1"),
-					resource.TestCheckResourceAttrSet("data.cloud_vpc_enis.foo", "enis.0.id"),
-					resource.TestCheckResourceAttr("data.cloud_vpc_enis.foo", "enis.0.name", "ci-test-eni"),
-					resource.TestCheckResourceAttr("data.cloud_vpc_enis.foo", "enis.0.description", "eni desc"),
-					resource.TestCheckResourceAttrSet("data.cloud_vpc_enis.foo", "enis.0.vpc_id"),
-					resource.TestCheckResourceAttrSet("data.cloud_vpc_enis.foo", "enis.0.subnet_id"),
-					resource.TestCheckResourceAttr("data.cloud_vpc_enis.foo", "enis.0.security_groups.#", "1"),
-					resource.TestCheckResourceAttr("data.cloud_vpc_enis.foo", "enis.0.primary", "false"),
-					resource.TestCheckResourceAttrSet("data.cloud_vpc_enis.foo", "enis.0.mac"),
-					resource.TestCheckResourceAttr("data.cloud_vpc_enis.foo", "enis.0.state", ENI_STATE_AVAILABLE),
-					resource.TestCheckResourceAttrSet("data.cloud_vpc_enis.foo", "enis.0.create_time"),
-					resource.TestCheckResourceAttr("data.cloud_vpc_enis.foo", "enis.0.ipv4s.#", "1"),
-					resource.TestCheckResourceAttrSet("data.cloud_vpc_enis.foo", "enis.0.ipv4s.0.ip"),
-					resource.TestCheckResourceAttr("data.cloud_vpc_enis.foo", "enis.0.ipv4s.0.primary", "true"),
-					resource.TestCheckResourceAttr("data.cloud_vpc_enis.foo", "enis.0.ipv4s.0.description", "eni desc"),
+					testAccCheckTencentCloudDataSourceID("data.tencentcloudenterprise_vpc_enis.foo"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_vpc_enis.foo", "ids.#", "1"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_vpc_enis.foo", "enis.#", "1"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_vpc_enis.foo", "enis.0.id"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_vpc_enis.foo", "enis.0.name", "ci-test-eni"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_vpc_enis.foo", "enis.0.description", "eni desc"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_vpc_enis.foo", "enis.0.vpc_id"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_vpc_enis.foo", "enis.0.subnet_id"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_vpc_enis.foo", "enis.0.security_groups.#", "1"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_vpc_enis.foo", "enis.0.primary", "false"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_vpc_enis.foo", "enis.0.mac"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_vpc_enis.foo", "enis.0.state", ENI_STATE_AVAILABLE),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_vpc_enis.foo", "enis.0.create_time"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_vpc_enis.foo", "enis.0.ipv4s.#", "1"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_vpc_enis.foo", "enis.0.ipv4s.0.ip"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_vpc_enis.foo", "enis.0.ipv4s.0.primary", "true"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_vpc_enis.foo", "enis.0.ipv4s.0.description", "eni desc"),
 				),
 			},
 		},
@@ -49,108 +49,108 @@ func TestAccDataSourceTencentCloudEnis_filter(t *testing.T) {
 			{
 				Config: TestAccDataSourceTencentCloudEnisFilter,
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckTencentCloudDataSourceID("data.cloud_vpc_enis.vpc"),
-					resource.TestCheckResourceAttrSet("data.cloud_vpc_enis.vpc", "vpc_id"),
-					resource.TestCheckResourceAttr("data.cloud_vpc_enis.vpc", "enis.#", "1"),
-					resource.TestCheckResourceAttrSet("data.cloud_vpc_enis.vpc", "enis.0.id"),
-					resource.TestCheckResourceAttr("data.cloud_vpc_enis.vpc", "enis.0.name", "ci-test-eni"),
-					resource.TestCheckResourceAttr("data.cloud_vpc_enis.vpc", "enis.0.description", "eni desc"),
-					resource.TestCheckResourceAttrSet("data.cloud_vpc_enis.vpc", "enis.0.vpc_id"),
-					resource.TestCheckResourceAttrSet("data.cloud_vpc_enis.vpc", "enis.0.subnet_id"),
-					resource.TestCheckResourceAttr("data.cloud_vpc_enis.vpc", "enis.0.security_groups.#", "1"),
-					resource.TestCheckResourceAttr("data.cloud_vpc_enis.vpc", "enis.0.primary", "false"),
-					resource.TestCheckResourceAttrSet("data.cloud_vpc_enis.vpc", "enis.0.mac"),
-					resource.TestCheckResourceAttr("data.cloud_vpc_enis.vpc", "enis.0.state", ENI_STATE_AVAILABLE),
-					resource.TestCheckResourceAttrSet("data.cloud_vpc_enis.vpc", "enis.0.create_time"),
-					resource.TestCheckResourceAttr("data.cloud_vpc_enis.vpc", "enis.0.tags.test", "test"),
-					resource.TestCheckResourceAttr("data.cloud_vpc_enis.vpc", "enis.0.ipv4s.#", "1"),
-					resource.TestCheckResourceAttrSet("data.cloud_vpc_enis.vpc", "enis.0.ipv4s.0.ip"),
-					resource.TestCheckResourceAttr("data.cloud_vpc_enis.vpc", "enis.0.ipv4s.0.primary", "true"),
-					resource.TestCheckResourceAttr("data.cloud_vpc_enis.vpc", "enis.0.ipv4s.0.description", "eni desc"),
+					testAccCheckTencentCloudDataSourceID("data.tencentcloudenterprise_vpc_enis.vpc"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_vpc_enis.vpc", "vpc_id"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_vpc_enis.vpc", "enis.#", "1"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_vpc_enis.vpc", "enis.0.id"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_vpc_enis.vpc", "enis.0.name", "ci-test-eni"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_vpc_enis.vpc", "enis.0.description", "eni desc"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_vpc_enis.vpc", "enis.0.vpc_id"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_vpc_enis.vpc", "enis.0.subnet_id"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_vpc_enis.vpc", "enis.0.security_groups.#", "1"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_vpc_enis.vpc", "enis.0.primary", "false"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_vpc_enis.vpc", "enis.0.mac"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_vpc_enis.vpc", "enis.0.state", ENI_STATE_AVAILABLE),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_vpc_enis.vpc", "enis.0.create_time"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_vpc_enis.vpc", "enis.0.tags.test", "test"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_vpc_enis.vpc", "enis.0.ipv4s.#", "1"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_vpc_enis.vpc", "enis.0.ipv4s.0.ip"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_vpc_enis.vpc", "enis.0.ipv4s.0.primary", "true"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_vpc_enis.vpc", "enis.0.ipv4s.0.description", "eni desc"),
 
-					testAccCheckTencentCloudDataSourceID("data.cloud_vpc_enis.subnet"),
-					resource.TestCheckResourceAttrSet("data.cloud_vpc_enis.subnet", "subnet_id"),
-					resource.TestCheckResourceAttrSet("data.cloud_vpc_enis.subnet", "security_group"),
-					resource.TestCheckResourceAttr("data.cloud_vpc_enis.subnet", "enis.#", "1"),
-					resource.TestCheckResourceAttrSet("data.cloud_vpc_enis.subnet", "enis.0.id"),
-					resource.TestCheckResourceAttr("data.cloud_vpc_enis.subnet", "enis.0.name", "ci-test-eni"),
-					resource.TestCheckResourceAttr("data.cloud_vpc_enis.subnet", "enis.0.description", "eni desc"),
-					resource.TestCheckResourceAttrSet("data.cloud_vpc_enis.subnet", "enis.0.vpc_id"),
-					resource.TestCheckResourceAttrSet("data.cloud_vpc_enis.subnet", "enis.0.subnet_id"),
-					resource.TestCheckResourceAttr("data.cloud_vpc_enis.subnet", "enis.0.security_groups.#", "1"),
-					resource.TestCheckResourceAttr("data.cloud_vpc_enis.subnet", "enis.0.primary", "false"),
-					resource.TestCheckResourceAttrSet("data.cloud_vpc_enis.subnet", "enis.0.mac"),
-					resource.TestCheckResourceAttr("data.cloud_vpc_enis.subnet", "enis.0.state", ENI_STATE_AVAILABLE),
-					resource.TestCheckResourceAttrSet("data.cloud_vpc_enis.subnet", "enis.0.create_time"),
-					resource.TestCheckResourceAttr("data.cloud_vpc_enis.subnet", "enis.0.tags.test", "test"),
-					resource.TestCheckResourceAttr("data.cloud_vpc_enis.subnet", "enis.0.ipv4s.#", "1"),
-					resource.TestCheckResourceAttrSet("data.cloud_vpc_enis.subnet", "enis.0.ipv4s.0.ip"),
-					resource.TestCheckResourceAttr("data.cloud_vpc_enis.subnet", "enis.0.ipv4s.0.primary", "true"),
-					resource.TestCheckResourceAttr("data.cloud_vpc_enis.subnet", "enis.0.ipv4s.0.description", "eni desc"),
+					testAccCheckTencentCloudDataSourceID("data.tencentcloudenterprise_vpc_enis.subnet"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_vpc_enis.subnet", "subnet_id"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_vpc_enis.subnet", "security_group"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_vpc_enis.subnet", "enis.#", "1"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_vpc_enis.subnet", "enis.0.id"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_vpc_enis.subnet", "enis.0.name", "ci-test-eni"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_vpc_enis.subnet", "enis.0.description", "eni desc"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_vpc_enis.subnet", "enis.0.vpc_id"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_vpc_enis.subnet", "enis.0.subnet_id"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_vpc_enis.subnet", "enis.0.security_groups.#", "1"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_vpc_enis.subnet", "enis.0.primary", "false"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_vpc_enis.subnet", "enis.0.mac"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_vpc_enis.subnet", "enis.0.state", ENI_STATE_AVAILABLE),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_vpc_enis.subnet", "enis.0.create_time"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_vpc_enis.subnet", "enis.0.tags.test", "test"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_vpc_enis.subnet", "enis.0.ipv4s.#", "1"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_vpc_enis.subnet", "enis.0.ipv4s.0.ip"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_vpc_enis.subnet", "enis.0.ipv4s.0.primary", "true"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_vpc_enis.subnet", "enis.0.ipv4s.0.description", "eni desc"),
 
-					testAccCheckTencentCloudDataSourceID("data.cloud_vpc_enis.name"),
-					resource.TestCheckResourceAttr("data.cloud_vpc_enis.name", "name", "ci-test-eni"),
-					resource.TestMatchResourceAttr("data.cloud_vpc_enis.name", "enis.#", regexp.MustCompile(`^[1-9]\d*$`)),
-					resource.TestCheckResourceAttrSet("data.cloud_vpc_enis.name", "enis.0.id"),
-					resource.TestCheckResourceAttr("data.cloud_vpc_enis.name", "enis.0.name", "ci-test-eni"),
-					resource.TestCheckResourceAttrSet("data.cloud_vpc_enis.name", "enis.0.description"),
-					resource.TestCheckResourceAttrSet("data.cloud_vpc_enis.name", "enis.0.vpc_id"),
-					resource.TestCheckResourceAttrSet("data.cloud_vpc_enis.name", "enis.0.subnet_id"),
-					resource.TestCheckResourceAttrSet("data.cloud_vpc_enis.name", "enis.0.primary"),
-					resource.TestCheckResourceAttrSet("data.cloud_vpc_enis.name", "enis.0.mac"),
-					resource.TestCheckResourceAttr("data.cloud_vpc_enis.name", "enis.0.state", ENI_STATE_AVAILABLE),
-					resource.TestCheckResourceAttrSet("data.cloud_vpc_enis.name", "enis.0.create_time"),
-					resource.TestMatchResourceAttr("data.cloud_vpc_enis.name", "enis.0.ipv4s.#", regexp.MustCompile(`^[1-9]\d*$`)),
-					resource.TestCheckResourceAttrSet("data.cloud_vpc_enis.name", "enis.0.ipv4s.0.ip"),
-					resource.TestCheckResourceAttrSet("data.cloud_vpc_enis.name", "enis.0.ipv4s.0.primary"),
+					testAccCheckTencentCloudDataSourceID("data.tencentcloudenterprise_vpc_enis.name"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_vpc_enis.name", "name", "ci-test-eni"),
+					resource.TestMatchResourceAttr("data.tencentcloudenterprise_vpc_enis.name", "enis.#", regexp.MustCompile(`^[1-9]\d*$`)),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_vpc_enis.name", "enis.0.id"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_vpc_enis.name", "enis.0.name", "ci-test-eni"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_vpc_enis.name", "enis.0.description"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_vpc_enis.name", "enis.0.vpc_id"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_vpc_enis.name", "enis.0.subnet_id"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_vpc_enis.name", "enis.0.primary"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_vpc_enis.name", "enis.0.mac"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_vpc_enis.name", "enis.0.state", ENI_STATE_AVAILABLE),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_vpc_enis.name", "enis.0.create_time"),
+					resource.TestMatchResourceAttr("data.tencentcloudenterprise_vpc_enis.name", "enis.0.ipv4s.#", regexp.MustCompile(`^[1-9]\d*$`)),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_vpc_enis.name", "enis.0.ipv4s.0.ip"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_vpc_enis.name", "enis.0.ipv4s.0.primary"),
 
-					testAccCheckTencentCloudDataSourceID("data.cloud_vpc_enis.description"),
-					resource.TestCheckResourceAttrSet("data.cloud_vpc_enis.description", "description"),
-					resource.TestMatchResourceAttr("data.cloud_vpc_enis.description", "enis.#", regexp.MustCompile(`^[1-9]\d*$`)),
-					resource.TestCheckResourceAttrSet("data.cloud_vpc_enis.description", "enis.0.id"),
-					resource.TestCheckResourceAttrSet("data.cloud_vpc_enis.description", "enis.0.name"),
-					resource.TestCheckResourceAttr("data.cloud_vpc_enis.description", "enis.0.description", "eni desc"),
-					resource.TestCheckResourceAttrSet("data.cloud_vpc_enis.description", "enis.0.vpc_id"),
-					resource.TestCheckResourceAttrSet("data.cloud_vpc_enis.description", "enis.0.subnet_id"),
-					resource.TestCheckResourceAttrSet("data.cloud_vpc_enis.description", "enis.0.primary"),
-					resource.TestCheckResourceAttrSet("data.cloud_vpc_enis.description", "enis.0.mac"),
-					resource.TestCheckResourceAttr("data.cloud_vpc_enis.description", "enis.0.state", ENI_STATE_AVAILABLE),
-					resource.TestCheckResourceAttrSet("data.cloud_vpc_enis.description", "enis.0.create_time"),
-					resource.TestMatchResourceAttr("data.cloud_vpc_enis.description", "enis.0.ipv4s.#", regexp.MustCompile(`^[1-9]\d*$`)),
-					resource.TestCheckResourceAttrSet("data.cloud_vpc_enis.description", "enis.0.ipv4s.0.ip"),
-					resource.TestCheckResourceAttrSet("data.cloud_vpc_enis.description", "enis.0.ipv4s.0.primary"),
+					testAccCheckTencentCloudDataSourceID("data.tencentcloudenterprise_vpc_enis.description"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_vpc_enis.description", "description"),
+					resource.TestMatchResourceAttr("data.tencentcloudenterprise_vpc_enis.description", "enis.#", regexp.MustCompile(`^[1-9]\d*$`)),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_vpc_enis.description", "enis.0.id"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_vpc_enis.description", "enis.0.name"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_vpc_enis.description", "enis.0.description", "eni desc"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_vpc_enis.description", "enis.0.vpc_id"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_vpc_enis.description", "enis.0.subnet_id"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_vpc_enis.description", "enis.0.primary"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_vpc_enis.description", "enis.0.mac"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_vpc_enis.description", "enis.0.state", ENI_STATE_AVAILABLE),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_vpc_enis.description", "enis.0.create_time"),
+					resource.TestMatchResourceAttr("data.tencentcloudenterprise_vpc_enis.description", "enis.0.ipv4s.#", regexp.MustCompile(`^[1-9]\d*$`)),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_vpc_enis.description", "enis.0.ipv4s.0.ip"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_vpc_enis.description", "enis.0.ipv4s.0.primary"),
 
-					testAccCheckTencentCloudDataSourceID("data.cloud_vpc_enis.ipv4"),
-					resource.TestCheckResourceAttrSet("data.cloud_vpc_enis.ipv4", "ipv4"),
-					resource.TestMatchResourceAttr("data.cloud_vpc_enis.ipv4", "enis.#", regexp.MustCompile(`^[1-9]\d*$`)),
-					resource.TestCheckResourceAttrSet("data.cloud_vpc_enis.ipv4", "enis.0.id"),
-					resource.TestCheckResourceAttrSet("data.cloud_vpc_enis.ipv4", "enis.0.name"),
-					// resource.TestCheckResourceAttrSet("data.cloud_vpc_enis.ipv4", "enis.0.description"),
-					resource.TestCheckResourceAttrSet("data.cloud_vpc_enis.ipv4", "enis.0.vpc_id"),
-					resource.TestCheckResourceAttrSet("data.cloud_vpc_enis.ipv4", "enis.0.subnet_id"),
-					resource.TestCheckResourceAttrSet("data.cloud_vpc_enis.ipv4", "enis.0.primary"),
-					resource.TestCheckResourceAttrSet("data.cloud_vpc_enis.ipv4", "enis.0.mac"),
-					resource.TestCheckResourceAttr("data.cloud_vpc_enis.ipv4", "enis.0.state", ENI_STATE_AVAILABLE),
-					resource.TestCheckResourceAttrSet("data.cloud_vpc_enis.ipv4", "enis.0.create_time"),
-					resource.TestMatchResourceAttr("data.cloud_vpc_enis.ipv4", "enis.0.ipv4s.#", regexp.MustCompile(`^[1-9]\d*$`)),
-					resource.TestCheckResourceAttrSet("data.cloud_vpc_enis.ipv4", "enis.0.ipv4s.0.ip"),
-					resource.TestCheckResourceAttrSet("data.cloud_vpc_enis.ipv4", "enis.0.ipv4s.0.primary"),
+					testAccCheckTencentCloudDataSourceID("data.tencentcloudenterprise_vpc_enis.ipv4"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_vpc_enis.ipv4", "ipv4"),
+					resource.TestMatchResourceAttr("data.tencentcloudenterprise_vpc_enis.ipv4", "enis.#", regexp.MustCompile(`^[1-9]\d*$`)),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_vpc_enis.ipv4", "enis.0.id"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_vpc_enis.ipv4", "enis.0.name"),
+					// resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_vpc_enis.ipv4", "enis.0.description"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_vpc_enis.ipv4", "enis.0.vpc_id"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_vpc_enis.ipv4", "enis.0.subnet_id"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_vpc_enis.ipv4", "enis.0.primary"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_vpc_enis.ipv4", "enis.0.mac"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_vpc_enis.ipv4", "enis.0.state", ENI_STATE_AVAILABLE),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_vpc_enis.ipv4", "enis.0.create_time"),
+					resource.TestMatchResourceAttr("data.tencentcloudenterprise_vpc_enis.ipv4", "enis.0.ipv4s.#", regexp.MustCompile(`^[1-9]\d*$`)),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_vpc_enis.ipv4", "enis.0.ipv4s.0.ip"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_vpc_enis.ipv4", "enis.0.ipv4s.0.primary"),
 
-					testAccCheckTencentCloudDataSourceID("data.cloud_vpc_enis.tags"),
-					resource.TestMatchResourceAttr("data.cloud_vpc_enis.tags", "enis.#", regexp.MustCompile(`^[1-9]\d*$`)),
-					resource.TestCheckResourceAttrSet("data.cloud_vpc_enis.tags", "enis.0.id"),
-					resource.TestCheckResourceAttrSet("data.cloud_vpc_enis.tags", "enis.0.name"),
-					resource.TestCheckResourceAttrSet("data.cloud_vpc_enis.tags", "enis.0.description"),
-					resource.TestCheckResourceAttrSet("data.cloud_vpc_enis.tags", "enis.0.vpc_id"),
-					resource.TestCheckResourceAttrSet("data.cloud_vpc_enis.tags", "enis.0.subnet_id"),
-					resource.TestCheckResourceAttrSet("data.cloud_vpc_enis.tags", "enis.0.primary"),
-					resource.TestCheckResourceAttrSet("data.cloud_vpc_enis.tags", "enis.0.mac"),
-					resource.TestCheckResourceAttr("data.cloud_vpc_enis.tags", "enis.0.state", ENI_STATE_AVAILABLE),
-					resource.TestCheckResourceAttrSet("data.cloud_vpc_enis.tags", "enis.0.create_time"),
-					resource.TestCheckResourceAttr("data.cloud_vpc_enis.tags", "enis.0.tags.test", "test"),
-					resource.TestMatchResourceAttr("data.cloud_vpc_enis.tags", "enis.0.ipv4s.#", regexp.MustCompile(`^[1-9]\d*$`)),
-					resource.TestCheckResourceAttrSet("data.cloud_vpc_enis.tags", "enis.0.ipv4s.0.ip"),
-					resource.TestCheckResourceAttrSet("data.cloud_vpc_enis.tags", "enis.0.ipv4s.0.primary"),
+					testAccCheckTencentCloudDataSourceID("data.tencentcloudenterprise_vpc_enis.tags"),
+					resource.TestMatchResourceAttr("data.tencentcloudenterprise_vpc_enis.tags", "enis.#", regexp.MustCompile(`^[1-9]\d*$`)),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_vpc_enis.tags", "enis.0.id"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_vpc_enis.tags", "enis.0.name"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_vpc_enis.tags", "enis.0.description"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_vpc_enis.tags", "enis.0.vpc_id"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_vpc_enis.tags", "enis.0.subnet_id"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_vpc_enis.tags", "enis.0.primary"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_vpc_enis.tags", "enis.0.mac"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_vpc_enis.tags", "enis.0.state", ENI_STATE_AVAILABLE),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_vpc_enis.tags", "enis.0.create_time"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_vpc_enis.tags", "enis.0.tags.test", "test"),
+					resource.TestMatchResourceAttr("data.tencentcloudenterprise_vpc_enis.tags", "enis.0.ipv4s.#", regexp.MustCompile(`^[1-9]\d*$`)),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_vpc_enis.tags", "enis.0.ipv4s.0.ip"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_vpc_enis.tags", "enis.0.ipv4s.0.primary"),
 				),
 			},
 		},
@@ -170,7 +170,7 @@ resource "tencentcloudenterprise_vpc" "foo" {
 resource "tencentcloudenterprise_vpc_subnet" "foo" {
   availability_zone = var.availability_zone
   name              = "ci-test-eni-subnet"
-  vpc_id            = cloud_vpc.foo.id
+  vpc_id            = tencentcloudenterprise_vpc.foo.id
   cidr_block        = "10.0.0.0/16"
   is_multicast      = false
 }
@@ -184,15 +184,15 @@ resource "tencentcloudenterprise_vpc_security_group" "foo" {
 
 resource "tencentcloudenterprise_vpc_eni" "foo" {
   name            = "ci-test-eni"
-  vpc_id          = cloud_vpc.foo.id
-  subnet_id       = cloud_vpc_subnet.foo.id
+  vpc_id          = tencentcloudenterprise_vpc.foo.id
+  subnet_id       = tencentcloudenterprise_vpc_subnet.foo.id
   description     = "eni desc"
-  security_groups = [cloud_vpc_security_group.foo.id]
+  security_groups = [tencentcloudenterprise_vpc_security_group.foo.id]
   ipv4_count      = 1
 }
 
 data "tencentcloudenterprise_vpc_enis" "foo" {
-  ids = [cloud_vpc_eni.foo.id]
+  ids = [tencentcloudenterprise_vpc_eni.foo.id]
 }
 `
 
@@ -204,10 +204,10 @@ resource "tencentcloudenterprise_vpc_security_group" "foo" {
 
 resource "tencentcloudenterprise_vpc_eni" "foo" {
   name            = "ci-test-eni"
-  vpc_id          = cloud_vpc.foo.id
-  subnet_id       = cloud_vpc_subnet.foo.id
+  vpc_id          = tencentcloudenterprise_vpc.foo.id
+  subnet_id       = tencentcloudenterprise_vpc_subnet.foo.id
   description     = "eni desc"
-  security_groups = [cloud_vpc_security_group.foo.id]
+  security_groups = [tencentcloudenterprise_vpc_security_group.foo.id]
   ipv4_count      = 1
 
   tags = {
@@ -216,27 +216,27 @@ resource "tencentcloudenterprise_vpc_eni" "foo" {
 }
 
 data "tencentcloudenterprise_vpc_enis" "vpc" {
-  vpc_id = cloud_vpc_eni.foo.vpc_id
+  vpc_id = tencentcloudenterprise_vpc_eni.foo.vpc_id
 }
 
 data "tencentcloudenterprise_vpc_enis" "subnet" {
-  subnet_id      = cloud_vpc_eni.foo.subnet_id
-  security_group = cloud_vpc_security_group.foo.id
+  subnet_id      = tencentcloudenterprise_vpc_eni.foo.subnet_id
+  security_group = tencentcloudenterprise_vpc_security_group.foo.id
 }
 
 data "tencentcloudenterprise_vpc_enis" "name" {
-  name = cloud_vpc_eni.foo.name
+  name = tencentcloudenterprise_vpc_eni.foo.name
 }
 
 data "tencentcloudenterprise_vpc_enis" "description" {
-  description = cloud_vpc_eni.foo.description
+  description = tencentcloudenterprise_vpc_eni.foo.description
 }
 
 data "tencentcloudenterprise_vpc_enis" "ipv4" {
-  ipv4 = cloud_vpc_eni.foo.ipv4_info.0.ip
+  ipv4 = tencentcloudenterprise_vpc_eni.foo.ipv4_info.0.ip
 }
 
 data "tencentcloudenterprise_vpc_enis" "tags" {
-  tags = cloud_vpc_eni.foo.tags
+  tags = tencentcloudenterprise_vpc_eni.foo.tags
 }
 `

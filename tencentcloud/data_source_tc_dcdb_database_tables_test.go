@@ -18,10 +18,10 @@ func TestAccTencentCloudDCDBDatabaseTablesDataSource_basic(t *testing.T) {
 			{
 				Config: fmt.Sprintf(testAccDCDBDatabaseTablesDataSource, defaultDcdbInstanceId),
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckTencentCloudDataSourceID("data.cloud_dcdb_database_tables.database_tables"),
-					resource.TestCheckResourceAttrSet("data.cloud_dcdb_database_tables.database_tables", "cols.#"),
-					resource.TestCheckResourceAttr("data.cloud_dcdb_database_tables.database_tables", "db_name", "tf_test_db"),
-					resource.TestCheckResourceAttr("data.cloud_dcdb_database_tables.database_tables", "table", "tf_test_table"),
+					testAccCheckTencentCloudDataSourceID("data.tencentcloudenterprise_dcdb_database_tables.database_tables"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_dcdb_database_tables.database_tables", "cols.#"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_dcdb_database_tables.database_tables", "db_name", "tf_test_db"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_dcdb_database_tables.database_tables", "table", "tf_test_table"),
 				),
 			},
 		},

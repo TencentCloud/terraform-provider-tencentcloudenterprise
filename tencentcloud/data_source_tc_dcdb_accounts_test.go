@@ -18,17 +18,17 @@ func TestAccTencentCloudDCDBAccountsDataSource(t *testing.T) {
 			{
 				Config: fmt.Sprintf(testAccDataSourceDcdbAccounts, defaultDcdbInstanceId),
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckTencentCloudDataSourceID("data.cloud_dcdb_accounts.basic"),
-					resource.TestCheckResourceAttr("data.cloud_dcdb_accounts.basic", "list.#", "1"),
-					resource.TestCheckResourceAttrSet("data.cloud_dcdb_accounts.basic", "list.0.user_name"),
-					resource.TestCheckResourceAttr("data.cloud_dcdb_accounts.basic", "list.0.user_name", "mysql_ds"),
-					resource.TestCheckResourceAttr("data.cloud_dcdb_accounts.basic", "list.0.host", "127.0.0.1"),
-					resource.TestCheckResourceAttr("data.cloud_dcdb_accounts.basic", "list.0.description", "this is a test account"),
-					resource.TestCheckResourceAttrSet("data.cloud_dcdb_accounts.basic", "list.0.create_time"),
-					resource.TestCheckResourceAttrSet("data.cloud_dcdb_accounts.basic", "list.0.update_time"),
-					resource.TestCheckResourceAttr("data.cloud_dcdb_accounts.basic", "list.0.read_only", "0"),
-					resource.TestCheckResourceAttrSet("data.cloud_dcdb_accounts.basic", "list.0.delay_thresh"),
-					resource.TestCheckResourceAttrSet("data.cloud_dcdb_accounts.basic", "list.0.slave_const"),
+					testAccCheckTencentCloudDataSourceID("data.tencentcloudenterprise_dcdb_accounts.basic"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_dcdb_accounts.basic", "list.#", "1"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_dcdb_accounts.basic", "list.0.user_name"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_dcdb_accounts.basic", "list.0.user_name", "mysql_ds"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_dcdb_accounts.basic", "list.0.host", "127.0.0.1"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_dcdb_accounts.basic", "list.0.description", "this is a test account"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_dcdb_accounts.basic", "list.0.create_time"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_dcdb_accounts.basic", "list.0.update_time"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_dcdb_accounts.basic", "list.0.read_only", "0"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_dcdb_accounts.basic", "list.0.delay_thresh"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_dcdb_accounts.basic", "list.0.slave_const"),
 				),
 			},
 		},
@@ -47,7 +47,7 @@ resource "tencentcloudenterprise_dcdb_account" "basic" {
 }
 
 data "tencentcloudenterprise_dcdb_accounts" "basic" {
-  instance_id = cloud_dcdb_account.basic.instance_id
+  instance_id = tencentcloudenterprise_dcdb_account.basic.instance_id
 }
 
 `

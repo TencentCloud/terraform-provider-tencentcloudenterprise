@@ -16,67 +16,67 @@ func TestAccDataSourceTencentCloudVpcV3Subnets_basic(t *testing.T) {
 				Config: TestAccDataSourceTencentCloudVpcSubnets,
 				Check: resource.ComposeTestCheckFunc(
 					// id filter
-					testAccCheckTencentCloudDataSourceID("data.cloud_vpc_subnets.id_instances"),
-					resource.TestCheckResourceAttr("data.cloud_vpc_subnets.id_instances", "instance_list.#", "1"),
-					resource.TestCheckResourceAttr("data.cloud_vpc_subnets.id_instances", "instance_list.0.availability_zone", "ap-guangzhou-3"),
-					resource.TestCheckResourceAttr("data.cloud_vpc_subnets.id_instances", "instance_list.0.name", "guagua_vpc_subnet_test"),
-					resource.TestCheckResourceAttr("data.cloud_vpc_subnets.id_instances", "instance_list.0.cidr_block", "10.0.20.0/28"),
-					resource.TestCheckResourceAttr("data.cloud_vpc_subnets.id_instances", "instance_list.0.is_multicast", "false"),
-					resource.TestCheckResourceAttrSet("data.cloud_vpc_subnets.id_instances", "instance_list.0.vpc_id"),
-					resource.TestCheckResourceAttrSet("data.cloud_vpc_subnets.id_instances", "instance_list.0.subnet_id"),
-					resource.TestCheckResourceAttrSet("data.cloud_vpc_subnets.id_instances", "instance_list.0.route_table_id"),
-					resource.TestCheckResourceAttrSet("data.cloud_vpc_subnets.id_instances", "instance_list.0.is_default"),
-					resource.TestCheckResourceAttrSet("data.cloud_vpc_subnets.id_instances", "instance_list.0.available_ip_count"),
-					resource.TestCheckResourceAttrSet("data.cloud_vpc_subnets.id_instances", "instance_list.0.create_time"),
+					testAccCheckTencentCloudDataSourceID("data.tencentcloudenterprise_vpc_subnets.id_instances"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_vpc_subnets.id_instances", "instance_list.#", "1"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_vpc_subnets.id_instances", "instance_list.0.availability_zone", "ap-guangzhou-3"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_vpc_subnets.id_instances", "instance_list.0.name", "guagua_vpc_subnet_test"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_vpc_subnets.id_instances", "instance_list.0.cidr_block", "10.0.20.0/28"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_vpc_subnets.id_instances", "instance_list.0.is_multicast", "false"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_vpc_subnets.id_instances", "instance_list.0.vpc_id"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_vpc_subnets.id_instances", "instance_list.0.subnet_id"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_vpc_subnets.id_instances", "instance_list.0.route_table_id"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_vpc_subnets.id_instances", "instance_list.0.is_default"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_vpc_subnets.id_instances", "instance_list.0.available_ip_count"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_vpc_subnets.id_instances", "instance_list.0.create_time"),
 
 					// vpc_id filter ,Every subnet with the query vpc_id will be found
-					testAccCheckTencentCloudDataSourceID("data.cloud_vpc_subnets.vpc_instances"),
-					resource.TestCheckResourceAttrSet("data.cloud_vpc_subnets.vpc_instances", "instance_list.#"),
-					resource.TestCheckResourceAttrSet("data.cloud_vpc_subnets.vpc_instances", "instance_list.0.availability_zone"),
-					resource.TestCheckResourceAttrSet("data.cloud_vpc_subnets.vpc_instances", "instance_list.0.name"),
-					resource.TestCheckResourceAttrSet("data.cloud_vpc_subnets.vpc_instances", "instance_list.0.cidr_block"),
-					resource.TestCheckResourceAttrSet("data.cloud_vpc_subnets.vpc_instances", "instance_list.0.is_multicast"),
-					resource.TestCheckResourceAttrSet("data.cloud_vpc_subnets.vpc_instances", "instance_list.0.vpc_id"),
-					resource.TestCheckResourceAttrSet("data.cloud_vpc_subnets.vpc_instances", "instance_list.0.subnet_id"),
-					resource.TestCheckResourceAttrSet("data.cloud_vpc_subnets.vpc_instances", "instance_list.0.route_table_id"),
-					resource.TestCheckResourceAttrSet("data.cloud_vpc_subnets.vpc_instances", "instance_list.0.is_default"),
-					resource.TestCheckResourceAttrSet("data.cloud_vpc_subnets.vpc_instances", "instance_list.0.available_ip_count"),
-					resource.TestCheckResourceAttrSet("data.cloud_vpc_subnets.vpc_instances", "instance_list.0.create_time"),
+					testAccCheckTencentCloudDataSourceID("data.tencentcloudenterprise_vpc_subnets.vpc_instances"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_vpc_subnets.vpc_instances", "instance_list.#"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_vpc_subnets.vpc_instances", "instance_list.0.availability_zone"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_vpc_subnets.vpc_instances", "instance_list.0.name"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_vpc_subnets.vpc_instances", "instance_list.0.cidr_block"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_vpc_subnets.vpc_instances", "instance_list.0.is_multicast"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_vpc_subnets.vpc_instances", "instance_list.0.vpc_id"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_vpc_subnets.vpc_instances", "instance_list.0.subnet_id"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_vpc_subnets.vpc_instances", "instance_list.0.route_table_id"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_vpc_subnets.vpc_instances", "instance_list.0.is_default"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_vpc_subnets.vpc_instances", "instance_list.0.available_ip_count"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_vpc_subnets.vpc_instances", "instance_list.0.create_time"),
 
 					// name filter ,Every subnet with a "guagua_vpc_subnet_test" name will be found
-					testAccCheckTencentCloudDataSourceID("data.cloud_vpc_subnets.name_instances"),
-					resource.TestCheckResourceAttrSet("data.cloud_vpc_subnets.name_instances", "instance_list.#"),
-					resource.TestCheckResourceAttrSet("data.cloud_vpc_subnets.name_instances", "instance_list.0.availability_zone"),
-					resource.TestCheckResourceAttrSet("data.cloud_vpc_subnets.name_instances", "instance_list.0.name"),
-					resource.TestCheckResourceAttrSet("data.cloud_vpc_subnets.name_instances", "instance_list.0.cidr_block"),
-					resource.TestCheckResourceAttrSet("data.cloud_vpc_subnets.name_instances", "instance_list.0.is_multicast"),
-					resource.TestCheckResourceAttrSet("data.cloud_vpc_subnets.name_instances", "instance_list.0.vpc_id"),
-					resource.TestCheckResourceAttrSet("data.cloud_vpc_subnets.name_instances", "instance_list.0.subnet_id"),
-					resource.TestCheckResourceAttrSet("data.cloud_vpc_subnets.name_instances", "instance_list.0.route_table_id"),
-					resource.TestCheckResourceAttrSet("data.cloud_vpc_subnets.name_instances", "instance_list.0.is_default"),
-					resource.TestCheckResourceAttrSet("data.cloud_vpc_subnets.name_instances", "instance_list.0.available_ip_count"),
-					resource.TestCheckResourceAttrSet("data.cloud_vpc_subnets.name_instances", "instance_list.0.create_time"),
-					resource.TestCheckResourceAttr("data.cloud_vpc_subnets.name_instances", "instance_list.0.name", "guagua_vpc_subnet_test"),
+					testAccCheckTencentCloudDataSourceID("data.tencentcloudenterprise_vpc_subnets.name_instances"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_vpc_subnets.name_instances", "instance_list.#"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_vpc_subnets.name_instances", "instance_list.0.availability_zone"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_vpc_subnets.name_instances", "instance_list.0.name"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_vpc_subnets.name_instances", "instance_list.0.cidr_block"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_vpc_subnets.name_instances", "instance_list.0.is_multicast"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_vpc_subnets.name_instances", "instance_list.0.vpc_id"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_vpc_subnets.name_instances", "instance_list.0.subnet_id"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_vpc_subnets.name_instances", "instance_list.0.route_table_id"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_vpc_subnets.name_instances", "instance_list.0.is_default"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_vpc_subnets.name_instances", "instance_list.0.available_ip_count"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_vpc_subnets.name_instances", "instance_list.0.create_time"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_vpc_subnets.name_instances", "instance_list.0.name", "guagua_vpc_subnet_test"),
 
 					// tags filter ,Every subnet with a tag test:test will be found
-					testAccCheckTencentCloudDataSourceID("data.cloud_vpc_subnets.tags_instances"),
-					resource.TestCheckResourceAttrSet("data.cloud_vpc_subnets.tags_instances", "instance_list.#"),
-					resource.TestCheckResourceAttrSet("data.cloud_vpc_subnets.tags_instances", "instance_list.0.availability_zone"),
-					resource.TestCheckResourceAttrSet("data.cloud_vpc_subnets.tags_instances", "instance_list.0.name"),
-					resource.TestCheckResourceAttrSet("data.cloud_vpc_subnets.tags_instances", "instance_list.0.cidr_block"),
-					resource.TestCheckResourceAttrSet("data.cloud_vpc_subnets.tags_instances", "instance_list.0.is_multicast"),
-					resource.TestCheckResourceAttrSet("data.cloud_vpc_subnets.tags_instances", "instance_list.0.vpc_id"),
-					resource.TestCheckResourceAttrSet("data.cloud_vpc_subnets.tags_instances", "instance_list.0.subnet_id"),
-					resource.TestCheckResourceAttrSet("data.cloud_vpc_subnets.tags_instances", "instance_list.0.route_table_id"),
-					resource.TestCheckResourceAttrSet("data.cloud_vpc_subnets.tags_instances", "instance_list.0.is_default"),
-					resource.TestCheckResourceAttrSet("data.cloud_vpc_subnets.tags_instances", "instance_list.0.available_ip_count"),
-					resource.TestCheckResourceAttrSet("data.cloud_vpc_subnets.tags_instances", "instance_list.0.create_time"),
-					resource.TestCheckResourceAttr("data.cloud_vpc_subnets.tags_instances", "instance_list.0.tags.test", "test"),
+					testAccCheckTencentCloudDataSourceID("data.tencentcloudenterprise_vpc_subnets.tags_instances"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_vpc_subnets.tags_instances", "instance_list.#"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_vpc_subnets.tags_instances", "instance_list.0.availability_zone"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_vpc_subnets.tags_instances", "instance_list.0.name"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_vpc_subnets.tags_instances", "instance_list.0.cidr_block"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_vpc_subnets.tags_instances", "instance_list.0.is_multicast"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_vpc_subnets.tags_instances", "instance_list.0.vpc_id"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_vpc_subnets.tags_instances", "instance_list.0.subnet_id"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_vpc_subnets.tags_instances", "instance_list.0.route_table_id"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_vpc_subnets.tags_instances", "instance_list.0.is_default"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_vpc_subnets.tags_instances", "instance_list.0.available_ip_count"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_vpc_subnets.tags_instances", "instance_list.0.create_time"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_vpc_subnets.tags_instances", "instance_list.0.tags.test", "test"),
 
 					// name filter ,Every subnet with cidr_block "10.0.20.0/28" will be found
-					//testAccCheckTencentCloudDataSourceID("data.cloud_vpc_subnets.cidr_block_instances"),
-					//resource.TestCheckResourceAttrSet("data.cloud_vpc_subnets.cidr_block_instances", "instance_list.#"),
-					//resource.TestCheckResourceAttr("data.cloud_vpc_subnets.cidr_block_instances", "instance_list.0.cidr_block", "10.0.20.0/28"),
+					//testAccCheckTencentCloudDataSourceID("data.tencentcloudenterprise_vpc_subnets.cidr_block_instances"),
+					//resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_vpc_subnets.cidr_block_instances", "instance_list.#"),
+					//resource.TestCheckResourceAttr("data.tencentcloudenterprise_vpc_subnets.cidr_block_instances", "instance_list.0.cidr_block", "10.0.20.0/28"),
 				),
 			},
 		},
@@ -96,7 +96,7 @@ resource "tencentcloudenterprise_vpc" "foo" {
 resource "tencentcloudenterprise_vpc_subnet" "subnet" {
   availability_zone = var.availability_zone
   name              = "guagua_vpc_subnet_test"
-  vpc_id            = cloud_vpc.foo.id
+  vpc_id            = tencentcloudenterprise_vpc.foo.id
   cidr_block        = "10.0.20.0/28"
   is_multicast      = false
 
@@ -106,22 +106,22 @@ resource "tencentcloudenterprise_vpc_subnet" "subnet" {
 }
 
 data "tencentcloudenterprise_vpc_subnets" "vpc_instances" {
-  vpc_id = cloud_vpc_subnet.subnet.vpc_id
+  vpc_id = tencentcloudenterprise_vpc_subnet.subnet.vpc_id
 }
 
 data "tencentcloudenterprise_vpc_subnets" "id_instances" {
-  subnet_id = cloud_vpc_subnet.subnet.id
+  subnet_id = tencentcloudenterprise_vpc_subnet.subnet.id
 }
 
 data "tencentcloudenterprise_vpc_subnets" "cidr_block_instances" {
-  cidr_block = cloud_vpc_subnet.subnet.cidr_block
+  cidr_block = tencentcloudenterprise_vpc_subnet.subnet.cidr_block
 }
 
 data "tencentcloudenterprise_vpc_subnets" "name_instances" {
-  name = cloud_vpc_subnet.subnet.name
+  name = tencentcloudenterprise_vpc_subnet.subnet.name
 }
 
 data "tencentcloudenterprise_vpc_subnets" "tags_instances" {
-  tags = cloud_vpc_subnet.subnet.tags
+  tags = tencentcloudenterprise_vpc_subnet.subnet.tags
 }
 `

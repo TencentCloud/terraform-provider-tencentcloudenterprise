@@ -10,12 +10,12 @@ require (
 	github.com/aws/aws-sdk-go v1.44.122
 	github.com/bflad/tfproviderlint v0.14.0
 	github.com/client9/misspell v0.3.4
-	github.com/fatih/color v1.16.0
+	github.com/fatih/color v1.16.0 // indirect
 	github.com/golangci/golangci-lint v1.52.2
 	github.com/google/go-querystring v1.1.0 // indirect
 	github.com/hashicorp/errwrap v1.1.0 // indirect
 	github.com/hashicorp/go-multierror v1.1.1
-	github.com/hashicorp/hcl/v2 v2.13.0
+	github.com/hashicorp/hcl/v2 v2.13.0 // indirect
 	github.com/hashicorp/terraform-plugin-sdk/v2 v2.20.0
 	github.com/katbyte/terrafmt v0.2.0
 	github.com/mitchellh/go-homedir v1.1.0

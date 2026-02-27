@@ -18,7 +18,7 @@ Provide a resource to create a VPCDNS domain forward rule.
 Vpc subnet instance can be imported, e.g.
 
 ```
-$ terraform import cloud_vpcdns_forward_rule.test remark
+$ terraform import tencentcloudenterprise_vpcdns_forward_rule.test remark
 ```
 */
 package tencentcloud
@@ -93,7 +93,7 @@ func resourceTencentCloudVpcDnsForwardRule() *schema.Resource {
 }
 
 func resourceTencentCloudVpcDnsForwardRuleCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_vpcdns_forward_rule.create")()
+	defer logElapsed("resource.tencentcloudenterprise_vpcdns_forward_rule.create")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
@@ -133,7 +133,7 @@ func resourceTencentCloudVpcDnsForwardRuleCreate(d *schema.ResourceData, meta in
 }
 
 func resourceTencentCloudVpcDnsForwardRuleRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_vpcdns_forward_rule.read")()
+	defer logElapsed("resource.tencentcloudenterprise_vpcdns_forward_rule.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -167,7 +167,7 @@ func resourceTencentCloudVpcDnsForwardRuleRead(d *schema.ResourceData, meta inte
 }
 
 func resourceTencentCloudVpcDnsForwardRuleUpdate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_vpcdns_forward_rule.update")()
+	defer logElapsed("resource.tencentcloudenterprise_vpcdns_forward_rule.update")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
@@ -217,7 +217,7 @@ func resourceTencentCloudVpcDnsForwardRuleUpdate(d *schema.ResourceData, meta in
 }
 
 func resourceTencentCloudVpcDnsForwardRuleDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_vpcdns_forward_rule.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_vpcdns_forward_rule.delete")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)

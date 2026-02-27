@@ -15,8 +15,8 @@ func TestAccDataSourceTencentCloudVpcACL_Basic(t *testing.T) {
 			{
 				Config: TestAccDataSourceTencentCloudVpcACLInstances,
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckTencentCloudDataSourceID("data.cloud_vpc_acls.default"),
-					resource.TestCheckResourceAttr("data.cloud_vpc_acls.default", "name", "test_acl"),
+					testAccCheckTencentCloudDataSourceID("data.tencentcloudenterprise_vpc_acls.default"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_vpc_acls.default", "name", "test_acl"),
 				),
 			},
 		},
@@ -29,7 +29,7 @@ data "tencentcloudenterprise_vpc_instances" "test" {
 }
 
 resource "tencentcloudenterprise_vpc_acl" "foo" {  
-    vpc_id  = data.cloud_vpc_instances.test.instance_list.0.vpc_id
+    vpc_id  = data.tencentcloudenterprise_vpc_instances.test.instance_list.0.vpc_id
     name  	= "test_acl"
 	ingress = [
 		"ACCEPT#192.168.1.0/24#80#TCP",

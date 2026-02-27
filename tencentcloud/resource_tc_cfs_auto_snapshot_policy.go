@@ -47,7 +47,7 @@ use interval days
 cfs auto_snapshot_policy can be imported using the id, e.g.
 
 ```
-terraform import cloud_cfs_auto_snapshot_policy.auto_snapshot_policy auto_snapshot_policy_id
+terraform import tencentcloudenterprise_cfs_auto_snapshot_policy.auto_snapshot_policy auto_snapshot_policy_id
 ```
 */
 package tencentcloud
@@ -134,7 +134,7 @@ func resourceTencentCloudCfsAutoSnapshotPolicy() *schema.Resource {
 }
 
 func resourceTencentCloudCfsAutoSnapshotPolicyCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cfs_auto_snapshot_policy.create")()
+	defer logElapsed("resource.tencentcloudenterprise_cfs_auto_snapshot_policy.create")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -193,7 +193,7 @@ func resourceTencentCloudCfsAutoSnapshotPolicyCreate(d *schema.ResourceData, met
 }
 
 func resourceTencentCloudCfsAutoSnapshotPolicyRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cfs_auto_snapshot_policy.read")()
+	defer logElapsed("resource.tencentcloudenterprise_cfs_auto_snapshot_policy.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -249,7 +249,7 @@ func resourceTencentCloudCfsAutoSnapshotPolicyRead(d *schema.ResourceData, meta 
 }
 
 func resourceTencentCloudCfsAutoSnapshotPolicyUpdate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cfs_auto_snapshot_policy.update")()
+	defer logElapsed("resource.tencentcloudenterprise_cfs_auto_snapshot_policy.update")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -316,7 +316,7 @@ func resourceTencentCloudCfsAutoSnapshotPolicyUpdate(d *schema.ResourceData, met
 }
 
 func resourceTencentCloudCfsAutoSnapshotPolicyDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cfs_auto_snapshot_policy.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_cfs_auto_snapshot_policy.delete")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)

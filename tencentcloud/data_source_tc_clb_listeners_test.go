@@ -18,21 +18,21 @@ func TestAccTencentCloudClbListenersDataSource(t *testing.T) {
 				Config: testAccClbListenersDataSource,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					testAccCheckClbListenerExists("tencentcloudenterprise_clb_listener.listener"),
-					resource.TestCheckResourceAttr("data.cloud_clb_listeners.listeners", "listener_list.#", "1"),
-					resource.TestCheckResourceAttrSet("data.cloud_clb_listeners.listeners", "listener_list.0.clb_id"),
-					resource.TestCheckResourceAttrSet("data.cloud_clb_listeners.listeners", "listener_list.0.listener_id"),
-					resource.TestCheckResourceAttr("data.cloud_clb_listeners.listeners", "listener_list.0.listener_name", "mylistener1234"),
-					resource.TestCheckResourceAttr("data.cloud_clb_listeners.listeners", "listener_list.0.port", "1"),
-					resource.TestCheckResourceAttr("data.cloud_clb_listeners.listeners", "listener_list.0.protocol", "TCP"),
-					resource.TestCheckResourceAttr("data.cloud_clb_listeners.listeners", "listener_list.0.session_expire_time", "30"),
-					resource.TestCheckResourceAttr("data.cloud_clb_listeners.listeners", "listener_list.0.scheduler", "WRR"),
-					resource.TestCheckResourceAttr("data.cloud_clb_listeners.listeners", "listener_list.0.health_check_type", "HTTP"),
-					resource.TestCheckResourceAttr("data.cloud_clb_listeners.listeners", "listener_list.0.health_check_port", "0"),
-					resource.TestCheckResourceAttr("data.cloud_clb_listeners.listeners", "listener_list.0.health_check_http_code", "16"),
-					resource.TestCheckResourceAttr("data.cloud_clb_listeners.listeners", "listener_list.0.health_check_http_path", "/"),
-					resource.TestCheckResourceAttr("data.cloud_clb_listeners.listeners", "listener_list.0.health_check_http_domain", "www.tencent.com"),
-					resource.TestCheckResourceAttr("data.cloud_clb_listeners.listeners", "listener_list.0.health_check_http_method", "HEAD"),
-					resource.TestCheckResourceAttr("data.cloud_clb_listeners.listeners", "listener_list.0.health_check_http_version", "HTTP/1.1"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_clb_listeners.listeners", "listener_list.#", "1"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_clb_listeners.listeners", "listener_list.0.clb_id"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_clb_listeners.listeners", "listener_list.0.listener_id"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_clb_listeners.listeners", "listener_list.0.listener_name", "mylistener1234"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_clb_listeners.listeners", "listener_list.0.port", "1"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_clb_listeners.listeners", "listener_list.0.protocol", "TCP"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_clb_listeners.listeners", "listener_list.0.session_expire_time", "30"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_clb_listeners.listeners", "listener_list.0.scheduler", "WRR"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_clb_listeners.listeners", "listener_list.0.health_check_type", "HTTP"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_clb_listeners.listeners", "listener_list.0.health_check_port", "0"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_clb_listeners.listeners", "listener_list.0.health_check_http_code", "16"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_clb_listeners.listeners", "listener_list.0.health_check_http_path", "/"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_clb_listeners.listeners", "listener_list.0.health_check_http_domain", "www.tencent.com"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_clb_listeners.listeners", "listener_list.0.health_check_http_method", "HEAD"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_clb_listeners.listeners", "listener_list.0.health_check_http_version", "HTTP/1.1"),
 				),
 			},
 		},
@@ -46,7 +46,7 @@ resource "tencentcloudenterprise_clb_instance" "clb" {
 }
 
 resource "tencentcloudenterprise_clb_listener" "listener" {
-    clb_id                     = cloud_clb_instance.clb.id
+    clb_id                     = tencentcloudenterprise_clb_instance.clb.id
     port                       = 1
     protocol                   = "TCP"
     listener_name              = "mylistener1234"
@@ -61,7 +61,7 @@ resource "tencentcloudenterprise_clb_listener" "listener" {
 }
 
 data "tencentcloudenterprise_clb_listeners" "listeners" {
-    clb_id      = cloud_clb_instance.clb.id
-    listener_id = cloud_clb_listener.listener.listener_id
+    clb_id      = tencentcloudenterprise_clb_instance.clb.id
+    listener_id = tencentcloudenterprise_clb_listener.listener.listener_id
 }
 `

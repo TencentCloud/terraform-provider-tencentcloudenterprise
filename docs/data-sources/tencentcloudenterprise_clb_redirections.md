@@ -46,4 +46,3 @@ In addition to all arguments above, the following attributes are exported:
   * `target_listener_id` - ID of target listener.
   * `target_rule_id` - Rule ID of target listener.
 
-

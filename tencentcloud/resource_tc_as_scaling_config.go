@@ -54,7 +54,7 @@ Using SPOT charge type
 AutoScaling Configuration can be imported using the id, e.g.
 
 ```
-$ terraform import cloud_as_scaling_config.scaling_config asc-n32ymck2
+$ terraform import tencentcloudenterprise_as_scaling_config.scaling_config asc-n32ymck2
 ```
 */
 package tencentcloud
@@ -349,7 +349,7 @@ func resourceTencentCloudAsScalingConfig() *schema.Resource {
 }
 
 func resourceTencentCloudAsScalingConfigCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_as_scaling_config.create")()
+	defer logElapsed("resource.tencentcloudenterprise_as_scaling_config.create")()
 
 	logId := getLogId(contextNil)
 	request := as.NewCreateLaunchConfigurationRequest()
@@ -552,7 +552,7 @@ func resourceTencentCloudAsScalingConfigCreate(d *schema.ResourceData, meta inte
 }
 
 func resourceTencentCloudAsScalingConfigRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_as_scaling_config.read")()
+	defer logElapsed("resource.tencentcloudenterprise_as_scaling_config.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -629,7 +629,7 @@ func resourceTencentCloudAsScalingConfigRead(d *schema.ResourceData, meta interf
 }
 
 func resourceTencentCloudAsScalingConfigUpdate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_as_scaling_config.update")()
+	defer logElapsed("resource.tencentcloudenterprise_as_scaling_config.update")()
 
 	logId := getLogId(contextNil)
 	request := as.NewUpgradeLaunchConfigurationRequest()
@@ -832,7 +832,7 @@ func resourceTencentCloudAsScalingConfigUpdate(d *schema.ResourceData, meta inte
 }
 
 func resourceTencentCloudAsScalingConfigDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_as_scaling_config.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_as_scaling_config.delete")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)

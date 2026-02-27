@@ -2,7 +2,7 @@
 subcategory: "Tencent Service Framework(TSF)"
 layout: "tencentcloudenterprise"
 page_title: "TencentCloudEnterprise: tencentcloudenterprise_tsf_application_config"
-sidebar_current: "docs-tencentcloudenterprise-resources-tsf_application_config"
+sidebar_current: "docs-tencentcloudenterprise-resource-tsf_application_config"
 description: |-
   Provides a resource to create a tsf application_config
 ---
@@ -43,6 +43,5 @@ The following arguments are supported:
 In addition to all arguments above, the following attributes are exported:
 
 * `id` - ID of the resource.
-
 
 

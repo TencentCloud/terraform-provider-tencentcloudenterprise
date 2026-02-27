@@ -180,7 +180,7 @@ func dataSourceTencentCloudClbTargetHealth() *schema.Resource {
 }
 
 func dataSourceTencentCloudClbTargetHealthRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("data_source.cloud_clb_target_health.read")()
+	defer logElapsed("data_source.tencentcloudenterprise_clb_target_health.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)

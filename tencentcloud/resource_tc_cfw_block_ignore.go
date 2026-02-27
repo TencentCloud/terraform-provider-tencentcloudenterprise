@@ -38,13 +38,13 @@ cfw block_ignore_list can be imported using the id, e.g.
 If import ip rule
 
 ```
-terraform import cloud_cfw_block_ignore.example 1.1.1.1##0#1
+terraform import tencentcloudenterprise_cfw_block_ignore.example 1.1.1.1##0#1
 ```
 
 If import domain rule
 
 ```
-terraform import cloud_cfw_block_ignore.example domain.com##0#1
+terraform import tencentcloudenterprise_cfw_block_ignore.example domain.com##0#1
 ```
 */
 
@@ -133,7 +133,7 @@ func resourceTencentCloudCfwBlockIgnore() *schema.Resource {
 }
 
 func resourceTencentCloudCfwBlockIgnoreCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cfw_block_ignore.create")()
+	defer logElapsed("resource.tencentcloudenterprise_cfw_block_ignore.create")()
 	defer inconsistentCheck(d, meta)()
 
 	var (
@@ -203,7 +203,7 @@ func resourceTencentCloudCfwBlockIgnoreCreate(d *schema.ResourceData, meta inter
 }
 
 func resourceTencentCloudCfwBlockIgnoreRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cfw_block_ignore.read")()
+	defer logElapsed("resource.tencentcloudenterprise_cfw_block_ignore.read")()
 	defer inconsistentCheck(d, meta)()
 
 	var (
@@ -266,7 +266,7 @@ func resourceTencentCloudCfwBlockIgnoreRead(d *schema.ResourceData, meta interfa
 }
 
 func resourceTencentCloudCfwBlockIgnoreUpdate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cfw_block_ignore.update")()
+	defer logElapsed("resource.tencentcloudenterprise_cfw_block_ignore.update")()
 	defer inconsistentCheck(d, meta)()
 
 	var (
@@ -337,7 +337,7 @@ func resourceTencentCloudCfwBlockIgnoreUpdate(d *schema.ResourceData, meta inter
 }
 
 func resourceTencentCloudCfwBlockIgnoreDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cfw_block_ignore.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_cfw_block_ignore.delete")()
 	defer inconsistentCheck(d, meta)()
 
 	var (

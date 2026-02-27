@@ -2,7 +2,7 @@
 subcategory: "Tencent Service Framework(TSF)"
 layout: "tencentcloudenterprise"
 page_title: "TencentCloudEnterprise: tencentcloudenterprise_tsf_api_rate_limit_rule"
-sidebar_current: "docs-tencentcloudenterprise-resources-tsf_api_rate_limit_rule"
+sidebar_current: "docs-tencentcloudenterprise-resource-tsf_api_rate_limit_rule"
 description: |-
   Provides a resource to create a tsf api_rate_limit_rule
 ---
@@ -42,12 +42,15 @@ In addition to all arguments above, the following attributes are exported:
 * `tsf_rule_id` - Tsf Rule ID.
 * `updated_time` - Update time.
 
-
 ## Import
 
+tencentcloudenterprise_tsf_api_rate_limit_rule can be imported using the id, e.g.
+
+```
 tsf api_rate_limit_rule can be imported using the id, e.g.
 
 ```
 terraform import tencentcloudenterprise_tsf_api_rate_limit_rule.api_rate_limit_rule api_rate_limit_rule_id
+```
 ```
 

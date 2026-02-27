@@ -18,7 +18,7 @@
 // ckafka consumer_group can be imported using the id, e.g.
 //
 // ```
-// terraform import cloud_ckafka_consumer_group.consumer_group consumer_group_id
+// terraform import tencentcloudenterprise_ckafka_consumer_group.consumer_group consumer_group_id
 // ```
 // */
 package tencentcloud
@@ -73,7 +73,7 @@ package tencentcloud
 //}
 //
 //func resourceTencentCloudCkafkaConsumerGroupCreate(d *schema.ResourceData, meta interface{}) error {
-//	defer logElapsed("resource.cloud_ckafka_consumer_group.create")()
+//	defer logElapsed("resource.tencentcloudenterprise_ckafka_consumer_group.create")()
 //	defer inconsistentCheck(d, meta)()
 //
 //	logId := getLogId(contextNil)
@@ -121,7 +121,7 @@ package tencentcloud
 //}
 //
 //func resourceTencentCloudCkafkaConsumerGroupRead(d *schema.ResourceData, meta interface{}) error {
-//	defer logElapsed("resource.cloud_ckafka_consumer_group.read")()
+//	defer logElapsed("resource.tencentcloudenterprise_ckafka_consumer_group.read")()
 //	defer inconsistentCheck(d, meta)()
 //
 //	logId := getLogId(contextNil)
@@ -163,7 +163,7 @@ package tencentcloud
 //}
 //
 //func resourceTencentCloudCkafkaConsumerGroupDelete(d *schema.ResourceData, meta interface{}) error {
-//	defer logElapsed("resource.cloud_ckafka_consumer_group.delete")()
+//	defer logElapsed("resource.tencentcloudenterprise_ckafka_consumer_group.delete")()
 //	defer inconsistentCheck(d, meta)()
 //
 //	logId := getLogId(contextNil)

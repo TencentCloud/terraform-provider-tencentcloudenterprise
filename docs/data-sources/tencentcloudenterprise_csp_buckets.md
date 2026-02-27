@@ -1,5 +1,5 @@
 ---
-subcategory: "Cloud Storage Private(CSP)"
+subcategory: "Cloud Object Storage(CSP)"
 layout: "tencentcloudenterprise"
 page_title: "TencentCloudEnterprise: tencentcloudenterprise_csp_buckets"
 sidebar_current: "docs-tencentcloudenterprise-datasource-csp_buckets"
@@ -33,5 +33,4 @@ In addition to all arguments above, the following attributes are exported:
   * `create_date` - bucket create date.
   * `name` - bucket name.
 * `owner` - Information about the owner of the bucket, including the id and display_name fields, which represent the unique identifier and display name of the owner respectively.
-
 

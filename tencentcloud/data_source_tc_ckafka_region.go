@@ -98,7 +98,7 @@ package tencentcloud
 //}
 //
 ////func dataSourceTencentCloudCkafkaRegionRead(d *schema.ResourceData, meta interface{}) error {
-////	defer logElapsed("data_source.cloud_ckafka_region.read")()
+////	defer logElapsed("data_source.tencentcloudenterprise_ckafka_region.read")()
 ////	defer inconsistentCheck(d, meta)()
 ////
 ////	var result []*ckafka.Region

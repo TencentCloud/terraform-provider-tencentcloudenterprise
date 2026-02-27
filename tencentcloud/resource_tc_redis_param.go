@@ -36,7 +36,7 @@ Provides a resource to create a param
 redis param can be imported using the instanceId, e.g.
 
 ```
-terraform import cloud_redis_param.param crs-c1nl9rpv
+terraform import tencentcloudenterprise_redis_param.param crs-c1nl9rpv
 ```
 */
 package tencentcloud
@@ -90,7 +90,7 @@ func resourceTencentCloudRedisParam() *schema.Resource {
 }
 
 func resourceTencentCloudRedisParamCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_redis_param.create")()
+	defer logElapsed("resource.tencentcloudenterprise_redis_param.create")()
 	defer inconsistentCheck(d, meta)()
 
 	var (
@@ -106,7 +106,7 @@ func resourceTencentCloudRedisParamCreate(d *schema.ResourceData, meta interface
 }
 
 func resourceTencentCloudRedisParamRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_redis_param.read")()
+	defer logElapsed("resource.tencentcloudenterprise_redis_param.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -143,7 +143,7 @@ func resourceTencentCloudRedisParamRead(d *schema.ResourceData, meta interface{}
 }
 
 func resourceTencentCloudRedisParamUpdate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_redis_param.update")()
+	defer logElapsed("resource.tencentcloudenterprise_redis_param.update")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -222,7 +222,7 @@ func resourceTencentCloudRedisParamUpdate(d *schema.ResourceData, meta interface
 }
 
 func resourceTencentCloudRedisParamDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_redis_param.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_redis_param.delete")()
 	defer inconsistentCheck(d, meta)()
 
 	return nil

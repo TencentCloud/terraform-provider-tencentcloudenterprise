@@ -14,7 +14,7 @@ func TestAccTencentCloudCkafkaTopicFlowRankingDataSource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			{
 				Config: testAccCkafkaTopicFlowRankingDataSource,
-				Check:  resource.ComposeTestCheckFunc(testAccCheckTencentCloudDataSourceID("data.cloud_ckafka_topic_flow_ranking.topic_flow_ranking")),
+				Check:  resource.ComposeTestCheckFunc(testAccCheckTencentCloudDataSourceID("data.tencentcloudenterprise_ckafka_topic_flow_ranking.topic_flow_ranking")),
 			},
 		},
 	})

@@ -38,4 +38,3 @@ In addition to all arguments above, the following attributes are exported:
   * `private_ip_address_type` - Private `IP` type.
   * `private_ip_address` - `VPC` private `IP`.
 
-

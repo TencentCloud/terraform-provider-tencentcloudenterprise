@@ -128,7 +128,7 @@ func dataSourceTencentCloudSsmSecrets() *schema.Resource {
 }
 
 func dataSourceTencentCloudSsmSecretsRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("data_source.cloud_ssm_secrets.read")()
+	defer logElapsed("data_source.tencentcloudenterprise_ssm_secrets.read")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)

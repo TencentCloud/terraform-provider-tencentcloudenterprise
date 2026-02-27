@@ -14,7 +14,7 @@ func TestAccTencentCloudCkafkaTaskStatusDataSource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			{
 				Config: testAccCkafkaTaskStatusDataSource,
-				Check:  resource.ComposeTestCheckFunc(testAccCheckTencentCloudDataSourceID("data.cloud_ckafka_task_status.task_status")),
+				Check:  resource.ComposeTestCheckFunc(testAccCheckTencentCloudDataSourceID("data.tencentcloudenterprise_ckafka_task_status.task_status")),
 			},
 		},
 	})

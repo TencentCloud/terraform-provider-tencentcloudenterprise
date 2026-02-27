@@ -17,7 +17,7 @@ Provides a resource to create a turbofs auto_snapshot_policy_attachment
 turbofs auto_snapshot_policy_attachment can be imported using the id, e.g.
 
 ```
-terraform import cloud_turbofs_auto_snapshot_policy_attachment.auto_snapshot_policy_attachment auto_snapshot_policy_id#file_system_ids
+terraform import tencentcloudenterprise_turbofs_auto_snapshot_policy_attachment.auto_snapshot_policy_attachment auto_snapshot_policy_id#file_system_ids
 ```
 */
 package tencentcloud
@@ -72,7 +72,7 @@ func resourceTencentCloudTurbofsAutoSnapshotPolicyAttachment() *schema.Resource 
 }
 
 func resourceTencentCloudTurbofsAutoSnapshotPolicyAttachmentCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_turbofs_auto_snapshot_policy_attachment.create")()
+	defer logElapsed("resource.tencentcloudenterprise_turbofs_auto_snapshot_policy_attachment.create")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -112,7 +112,7 @@ func resourceTencentCloudTurbofsAutoSnapshotPolicyAttachmentCreate(d *schema.Res
 }
 
 func resourceTencentCloudTurbofsAutoSnapshotPolicyAttachmentRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_turbofs_auto_snapshot_policy_attachment.read")()
+	defer logElapsed("resource.tencentcloudenterprise_turbofs_auto_snapshot_policy_attachment.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -145,7 +145,7 @@ func resourceTencentCloudTurbofsAutoSnapshotPolicyAttachmentRead(d *schema.Resou
 }
 
 func resourceTencentCloudTurbofsAutoSnapshotPolicyAttachmentDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_turbofs_auto_snapshot_policy_attachment.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_turbofs_auto_snapshot_policy_attachment.delete")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)

@@ -105,7 +105,7 @@ func resourceTencentCloudAsSchedule() *schema.Resource {
 }
 
 func resourceTencentCloudAsScheduleCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_as_schedule.create")()
+	defer logElapsed("resource.tencentcloudenterprise_as_schedule.create")()
 
 	logId := getLogId(contextNil)
 
@@ -149,7 +149,7 @@ func resourceTencentCloudAsScheduleCreate(d *schema.ResourceData, meta interface
 }
 
 func resourceTencentCloudAsScheduleRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_as_schedule.read")()
+	defer logElapsed("resource.tencentcloudenterprise_as_schedule.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -191,7 +191,7 @@ func resourceTencentCloudAsScheduleRead(d *schema.ResourceData, meta interface{}
 }
 
 func resourceTencentCloudAsScheduleUpdate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_as_schedule.update")()
+	defer logElapsed("resource.tencentcloudenterprise_as_schedule.update")()
 
 	logId := getLogId(contextNil)
 
@@ -235,7 +235,7 @@ func resourceTencentCloudAsScheduleUpdate(d *schema.ResourceData, meta interface
 }
 
 func resourceTencentCloudAsScheduleDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_as_schedule.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_as_schedule.delete")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)

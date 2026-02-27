@@ -91,7 +91,7 @@ resource "tencentcloudenterprise_vpc_address_template" "template" {
 
 resource "tencentcloudenterprise_vpc_address_template_group" "group"{
 	name = "test"
-	template_ids = [cloud_vpc_address_template.template.id]
+	template_ids = [tencentcloudenterprise_vpc_address_template.template.id]
 }
 `
 
@@ -108,6 +108,6 @@ resource "tencentcloudenterprise_vpc_address_template" "templateB" {
 
 resource "tencentcloudenterprise_vpc_address_template_group" "group"{
 	name = "test_update"
-	template_ids = [cloud_vpc_address_template.templateB.id]
+	template_ids = [tencentcloudenterprise_vpc_address_template.templateB.id]
 }
 `

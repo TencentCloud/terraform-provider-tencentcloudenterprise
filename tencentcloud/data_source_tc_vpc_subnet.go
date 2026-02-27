@@ -3,7 +3,7 @@ Provides details about a specific VPC subnet.
 
 This resource can prove useful when a module accepts a subnet id as an input variable and needs to, for example, determine the id of the VPC that the subnet belongs to.
 
-~> **NOTE:** It has been deprecated and replaced by cloud_vpc_subnets.
+~> **NOTE:** It has been deprecated and replaced by tencentcloudenterprise_vpc_subnets.
 
 # Example Usage
 
@@ -22,9 +22,9 @@ variable "vpc_id" {}
 	}
 
 	resource "tencentcloudenterprise_vpc_security_group_rule" "subnet" {
-	  security_group_id = cloud_vpc_security_group.default.id
+	  security_group_id = tencentcloudenterprise_vpc_security_group.default.id
 	  type              = "ingress"
-	  cidr_ip           = data.cloud_vpc_subnet.selected.cidr_block
+	  cidr_ip           = data.tencentcloudenterprise_vpc_subnet.selected.cidr_block
 	  ip_protocol       = "tcp"
 	  port_range        = "80,8080"
 	  policy            = "accept"
@@ -82,7 +82,7 @@ func dataSourceTencentCloudSubnet() *schema.Resource {
 }
 
 func dataSourceTencentCloudSubnetRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("data_source.cloud_vpc_subnet.read")()
+	defer logElapsed("data_source.tencentcloudenterprise_vpc_subnet.read")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)

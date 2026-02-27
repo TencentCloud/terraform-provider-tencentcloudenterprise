@@ -42,7 +42,7 @@ Provides a resource to create a VPN connection.
 VPN connection can be imported using the id, e.g.
 
 ```
-$ terraform import cloud_vpn_connection.foo vpnx-nadifg3s
+$ terraform import tencentcloudenterprise_vpn_connection.foo vpnx-nadifg3s
 ```
 */
 package tencentcloud
@@ -369,7 +369,7 @@ func resourceTencentCloudVpnConnection() *schema.Resource {
 }
 
 func resourceTencentCloudVpnConnectionCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_vpn_connection.create")()
+	defer logElapsed("resource.tencentcloudenterprise_vpn_connection.create")()
 
 	var (
 		logId   = getLogId(contextNil)
@@ -619,7 +619,7 @@ func resourceTencentCloudVpnConnectionCreate(d *schema.ResourceData, meta interf
 }
 
 func resourceTencentCloudVpnConnectionRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_vpn_connection.read")()
+	defer logElapsed("resource.tencentcloudenterprise_vpn_connection.read")()
 	defer inconsistentCheck(d, meta)()
 
 	var (
@@ -748,7 +748,7 @@ func resourceTencentCloudVpnConnectionRead(d *schema.ResourceData, meta interfac
 }
 
 func resourceTencentCloudVpnConnectionUpdate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_vpn_connection.update")()
+	defer logElapsed("resource.tencentcloudenterprise_vpn_connection.update")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
@@ -954,7 +954,7 @@ func resourceTencentCloudVpnConnectionUpdate(d *schema.ResourceData, meta interf
 }
 
 func resourceTencentCloudVpnConnectionDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_vpn_connection.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_vpn_connection.delete")()
 
 	logId := getLogId(contextNil)
 

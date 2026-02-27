@@ -26,7 +26,7 @@ Provides a csp object resource to put an object(content or file) to the bucket.
 	}
 
 	resource "tencentcloudenterprise_csp_bucket_object" "myobject" {
-	  bucket  = cloud_csp_bucket.mycsp.bucket
+	  bucket  = tencentcloudenterprise_csp_bucket.mycsp.bucket
 	  key     = "new_object_key"
 	  content = "the content that you want to upload."
 	}
@@ -160,7 +160,7 @@ func resourceTencentCloudCspBucketObject() *schema.Resource {
 }
 
 func resourceTencentCloudCspBucketObjectCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_csp_bucket_object.create")()
+	defer logElapsed("resource.tencentcloudenterprise_csp_bucket_object.create")()
 
 	logId := getLogId(contextNil)
 
@@ -250,7 +250,7 @@ func resourceTencentCloudCspBucketObjectCreate(d *schema.ResourceData, meta inte
 }
 
 func resourceTencentCloudCspBucketObjectRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_csp_bucket_object.read")()
+	defer logElapsed("resource.tencentcloudenterprise_csp_bucket_object.read")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
@@ -297,7 +297,7 @@ func resourceTencentCloudCspBucketObjectRead(d *schema.ResourceData, meta interf
 }
 
 func resourceTencentCloudCspBucketObjectUpdate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_csp_bucket_object.update")()
+	defer logElapsed("resource.tencentcloudenterprise_csp_bucket_object.update")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
@@ -348,7 +348,7 @@ func resourceTencentCloudCspBucketObjectUpdate(d *schema.ResourceData, meta inte
 }
 
 func resourceTencentCloudCspBucketObjectDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_csp_bucket_object.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_csp_bucket_object.delete")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)

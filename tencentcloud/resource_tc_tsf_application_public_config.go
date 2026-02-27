@@ -109,7 +109,7 @@ func resourceTencentCloudTsfApplicationPublicConfig() *schema.Resource {
 }
 
 func resourceTencentCloudTsfApplicationPublicConfigCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_tsf_application_public_config.create")()
+	defer logElapsed("resource.tencentcloudenterprise_tsf_application_public_config.create")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -172,7 +172,7 @@ func resourceTencentCloudTsfApplicationPublicConfigCreate(d *schema.ResourceData
 }
 
 func resourceTencentCloudTsfApplicationPublicConfigRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_tsf_application_public_config.read")()
+	defer logElapsed("resource.tencentcloudenterprise_tsf_application_public_config.read")()
 	defer inconsistentCheck(d, meta)()
 
 	var (
@@ -243,7 +243,7 @@ func resourceTencentCloudTsfApplicationPublicConfigRead(d *schema.ResourceData, 
 }
 
 func resourceTencentCloudTsfApplicationPublicConfigDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_tsf_application_public_config.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_tsf_application_public_config.delete")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)

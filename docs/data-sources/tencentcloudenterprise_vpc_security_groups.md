@@ -44,4 +44,3 @@ In addition to all arguments above, the following attributes are exported:
   * `security_group_id` - ID of the security group.
   * `tags` - Tags of the security group.
 
-

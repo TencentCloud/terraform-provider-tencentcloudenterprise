@@ -1,7 +1,7 @@
 /*
 Provides a TencentCloud Container Cluster Instance resource.
 
-~> **NOTE:** It has been deprecated and replaced by cloud_tke_kubernetes_scale_worker.
+~> **NOTE:** It has been deprecated and replaced by tencentcloudenterprise_tke_kubernetes_scale_worker.
 
 # Example Usage
 
@@ -206,13 +206,13 @@ func resourceTencentCloudContainerClusterInstance() *schema.Resource {
 }
 
 func resourceTencentCloudContainerClusterInstancesUpdate(d *schema.ResourceData, m interface{}) error {
-	defer logElapsed("resource.cloud_container_cluster_instance.update")()
+	defer logElapsed("resource.tencentcloudenterprise_container_cluster_instance.update")()
 
 	return fmt.Errorf("the container cluster instance resource doesn't support update")
 }
 
 func resourceTencentCloudContainerClusterInstancesRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_container_cluster_instance.read")()
+	defer logElapsed("resource.tencentcloudenterprise_container_cluster_instance.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -290,7 +290,7 @@ func resourceTencentCloudContainerClusterInstancesRead(d *schema.ResourceData, m
 }
 
 func resourceTencentCloudContainerClusterInstancesCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_container_cluster_instance.create")()
+	defer logElapsed("resource.tencentcloudenterprise_container_cluster_instance.create")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
@@ -505,7 +505,7 @@ func resourceTencentCloudContainerClusterInstancesCreate(d *schema.ResourceData,
 }
 
 func resourceTencentCloudContainerClusterInstancesDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_container_cluster_instance.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_container_cluster_instance.delete")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)

@@ -17,7 +17,7 @@ Provides a resource to create a dcdb instance_config
 dcdb instance_config can be imported using the id, e.g.
 
 ```
-terraform import cloud_dcdb_instance_config.instance_config instance_config_id
+terraform import tencentcloudenterprise_dcdb_instance_config.instance_config instance_config_id
 ```
 */
 package tencentcloud
@@ -67,7 +67,7 @@ func resourceTencentCloudDcdbInstanceConfig() *schema.Resource {
 }
 
 func resourceTencentCloudDcdbInstanceConfigCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_dcdb_instance_config.create")()
+	defer logElapsed("resource.tencentcloudenterprise_dcdb_instance_config.create")()
 	defer inconsistentCheck(d, meta)()
 
 	var instanceId string
@@ -80,7 +80,7 @@ func resourceTencentCloudDcdbInstanceConfigCreate(d *schema.ResourceData, meta i
 }
 
 func resourceTencentCloudDcdbInstanceConfigRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_dcdb_instance_config.read")()
+	defer logElapsed("resource.tencentcloudenterprise_dcdb_instance_config.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -112,7 +112,7 @@ func resourceTencentCloudDcdbInstanceConfigRead(d *schema.ResourceData, meta int
 }
 
 func resourceTencentCloudDcdbInstanceConfigUpdate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_dcdb_instance_config.update")()
+	defer logElapsed("resource.tencentcloudenterprise_dcdb_instance_config.update")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -141,7 +141,7 @@ func resourceTencentCloudDcdbInstanceConfigUpdate(d *schema.ResourceData, meta i
 }
 
 func resourceTencentCloudDcdbInstanceConfigDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_dcdb_instance_config.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_dcdb_instance_config.delete")()
 	defer inconsistentCheck(d, meta)()
 
 	return nil

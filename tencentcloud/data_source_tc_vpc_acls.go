@@ -8,7 +8,7 @@ data "tencentcloudenterprise_vpc_instances" "foo" {
 }
 
 	data "tencentcloudenterprise_vpc_acls" "foo" {
-	  vpc_id            = data.cloud_vpc_instances.foo.instance_list.0.vpc_id
+	  vpc_id            = data.tencentcloudenterprise_vpc_instances.foo.instance_list.0.vpc_id
 	}
 
 	data "tencentcloudenterprise_vpc_acls" "foo" {
@@ -219,7 +219,7 @@ func dataSourceTencentCloudVpcAcls() *schema.Resource {
 }
 
 func dataSourceTencentCloudVpcACLRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("data_source.cloud_vpc_acls.read")()
+	defer logElapsed("data_source.tencentcloudenterprise_vpc_acls.read")()
 	var (
 		logId   = getLogId(contextNil)
 		ctx     = context.WithValue(context.TODO(), logIdKey, logId)

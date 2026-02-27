@@ -34,4 +34,3 @@ In addition to all arguments above, the following attributes are exported:
   * `limit_type` - Type of vpc limit.
   * `limit_value` - Value of vpc limit.
 
-

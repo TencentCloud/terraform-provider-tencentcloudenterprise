@@ -17,7 +17,7 @@
 // redis ssl can be imported using the instanceId, e.g.
 //
 // ```
-// terraform import cloud_redis_ssl.ssl crs-c1nl9rpv
+// terraform import tencentcloudenterprise_redis_ssl.ssl crs-c1nl9rpv
 // ```
 // */
 package tencentcloud
@@ -61,7 +61,7 @@ package tencentcloud
 //}
 //
 //func resourceTencentCloudRedisSslCreate(d *schema.ResourceData, meta interface{}) error {
-//	defer logElapsed("resource.cloud_redis_ssl.create")()
+//	defer logElapsed("resource.tencentcloudenterprise_redis_ssl.create")()
 //	defer inconsistentCheck(d, meta)()
 //
 //	var (
@@ -77,7 +77,7 @@ package tencentcloud
 //}
 //
 //func resourceTencentCloudRedisSslRead(d *schema.ResourceData, meta interface{}) error {
-//	defer logElapsed("resource.cloud_redis_ssl.read")()
+//	defer logElapsed("resource.tencentcloudenterprise_redis_ssl.read")()
 //	defer inconsistentCheck(d, meta)()
 //
 //	logId := getLogId(contextNil)
@@ -110,7 +110,7 @@ package tencentcloud
 //}
 //
 //func resourceTencentCloudRedisSslUpdate(d *schema.ResourceData, meta interface{}) error {
-//	defer logElapsed("resource.cloud_redis_ssl.update")()
+//	defer logElapsed("resource.tencentcloudenterprise_redis_ssl.update")()
 //	defer inconsistentCheck(d, meta)()
 //
 //	logId := getLogId(contextNil)
@@ -198,7 +198,7 @@ package tencentcloud
 //}
 //
 //func resourceTencentCloudRedisSslDelete(d *schema.ResourceData, meta interface{}) error {
-//	defer logElapsed("resource.cloud_redis_ssl.delete")()
+//	defer logElapsed("resource.tencentcloudenterprise_redis_ssl.delete")()
 //	defer inconsistentCheck(d, meta)()
 //
 //	return nil

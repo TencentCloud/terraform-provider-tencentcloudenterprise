@@ -2,7 +2,7 @@
 subcategory: "Virtual Private Cloud(VPC)"
 layout: "tencentcloudenterprise"
 page_title: "TencentCloudEnterprise: tencentcloudenterprise_vpc_ipv6_cidr_block"
-sidebar_current: "docs-tencentcloudenterprise-resources-vpc_ipv6_cidr_block"
+sidebar_current: "docs-tencentcloudenterprise-resource-vpc_ipv6_cidr_block"
 description: |-
   Provides a resource to create a vpc ipv6_cidr_block
 ---
@@ -38,12 +38,15 @@ In addition to all arguments above, the following attributes are exported:
 * `id` - ID of the resource.
 * `ipv6_cidr_block` - Ipv6 cidr block.
 
-
 ## Import
 
+tencentcloudenterprise_vpc_ipv6_cidr_block can be imported using the id, e.g.
+
+```
 vpc ipv6_cidr_block can be imported using the id, e.g.
 
 ```
 terraform import tencentcloudenterprise_vpc_ipv6_cidr_block.ipv6_cidr_block vpc_id
+```
 ```
 

@@ -28,7 +28,7 @@ Provide a resource to create a TDMQ role.
 
 	resource "tencentcloudenterprise_tdmq_role" "bar" {
 	  role_name = "example"
-	  cluster_id = cloud_tdmq_instance.foo.id
+	  cluster_id = tencentcloudenterprise_tdmq_instance.foo.id
 	  remark = "this is description world"
 	}
 
@@ -39,7 +39,7 @@ Provide a resource to create a TDMQ role.
 Tdmq instance can be imported, e.g.
 
 ```
-$ terraform import cloud_tdmq_instance.test tdmq_id
+$ terraform import tencentcloudenterprise_tdmq_instance.test tdmq_id
 ```
 */
 package tencentcloud
@@ -97,7 +97,7 @@ func resourceTencentCloudTdmqRole() *schema.Resource {
 }
 
 func resourceTencentCloudTdmqRoleCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_tdmq_role.create")()
+	defer logElapsed("resource.tencentcloudenterprise_tdmq_role.create")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
@@ -137,7 +137,7 @@ func resourceTencentCloudTdmqRoleCreate(d *schema.ResourceData, meta interface{}
 }
 
 func resourceTencentCloudTdmqRoleRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_tdmq_role.read")()
+	defer logElapsed("resource.tencentcloudenterprise_tdmq_role.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -169,7 +169,7 @@ func resourceTencentCloudTdmqRoleRead(d *schema.ResourceData, meta interface{}) 
 }
 
 func resourceTencentCloudTdmqRoleUpdate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_tdmq_role.update")()
+	defer logElapsed("resource.tencentcloudenterprise_tdmq_role.update")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
@@ -200,7 +200,7 @@ func resourceTencentCloudTdmqRoleUpdate(d *schema.ResourceData, meta interface{}
 }
 
 func resourceTencentCloudTdmqRoleDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_tdmq_role.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_tdmq_role.delete")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)

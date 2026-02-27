@@ -13,7 +13,7 @@ Use this data source to query detailed information of direct connect gateway ins
 
 	resource "tencentcloudenterprise_vpc_dc_gateway" "ccn_main" {
 	  name                = "ci-cdg-ccn-test"
-	  network_instance_id = cloud_ccn.main.id
+	  network_instance_id = tencentcloudenterprise_ccn.main.id
 	  network_type        = "CCN"
 	  gateway_type        = "NORMAL"
 	}
@@ -21,11 +21,11 @@ Use this data source to query detailed information of direct connect gateway ins
 #You need to sleep for a few seconds because there is a cache on the server
 
 	data "tencentcloudenterprise_dc_gateway_instances" "name_select" {
-	  name = cloud_vpc_dc_gateway.ccn_main.name
+	  name = tencentcloudenterprise_vpc_dc_gateway.ccn_main.name
 	}
 
 	data "tencentcloudenterprise_dc_gateway_instances" "id_select" {
-	  dcg_id = cloud_vpc_dc_gateway.ccn_main.id
+	  dcg_id = tencentcloudenterprise_vpc_dc_gateway.ccn_main.id
 	}
 
 ```
@@ -110,7 +110,7 @@ func dataSourceTencentCloudDcGatewayInstances() *schema.Resource {
 }
 
 func dataSourceTencentCloudDcGatewayInstancesRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("data_source.cloud_dc_gateway_instances.read")()
+	defer logElapsed("data_source.tencentcloudenterprise_dc_gateway_instances.read")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)

@@ -39,7 +39,7 @@ func init() {
 			"instance_list":      "实例的列表每个元素都包含以下属性：",
 			"redis_id":           "实例的ID",
 			"name":               "实例的名称",
-			"type_id":            "实例类型请参阅`data.ecloud_redis_zone_config.list.type_id`获取可用值",
+			"type_id":            "实例类型请参阅`data.etencentcloudenterprise_redis_zone_config.list.type_id`获取可用值",
 			"type":               "实例类型，1：Redis2.8集群版；2：Redis2.8主从版；3：CKV主从版（Redis3.2）；4：CKV集群版（Redis3.2）；5：Redis2.8单机版；6：Redis4.0主从版；7：Redis4.0集群版；",
 			"redis_shard_num":    "实例碎片的数量",
 			"redis_replicas_num": "实例副本数",
@@ -125,7 +125,7 @@ func dataSourceTencentRedisInstances() *schema.Resource {
 						"type_id": {
 							Type:        schema.TypeInt,
 							Computed:    true,
-							Description: "Instance type. Refer to `data.cloud_redis_zone_config.list.type_id` get available values.",
+							Description: "Instance type. Refer to `data.tencentcloudenterprise_redis_zone_config.list.type_id` get available values.",
 						},
 						"type": {
 							Type:        schema.TypeString,
@@ -221,7 +221,7 @@ func dataSourceTencentRedisInstances() *schema.Resource {
 }
 
 func dataSourceTencentRedisInstancesRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("data_source.cloud_redis_instances.read")()
+	defer logElapsed("data_source.tencentcloudenterprise_redis_instances.read")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)

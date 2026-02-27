@@ -228,7 +228,7 @@ func TestAccTencentCloudInstanceResource_WithKeyPairs(t *testing.T) {
 			{
 				PreConfig: func() { testAccStepPreConfigSetTempAKSK(t, ACCOUNT_TYPE_COMMON) },
 				Config: testAccTencentCloudInstanceWithKeyPair(
-					"[cloud_cvm_key_pair.key_pair_0.id, cloud_cvm_key_pair.key_pair_1.id]",
+					"[tencentcloudenterprise_cvm_key_pair.key_pair_0.id, tencentcloudenterprise_cvm_key_pair.key_pair_1.id]",
 				),
 				Check: resource.ComposeTestCheckFunc(
 					testAccCheckTencentCloudDataSourceID(id),
@@ -242,7 +242,7 @@ func TestAccTencentCloudInstanceResource_WithKeyPairs(t *testing.T) {
 					testAccStepPreConfigSetTempAKSK(t, ACCOUNT_TYPE_COMMON)
 					time.Sleep(time.Second * 5)
 				},
-				Config: testAccTencentCloudInstanceWithKeyPair("[cloud_cvm_key_pair.key_pair_2.id]"),
+				Config: testAccTencentCloudInstanceWithKeyPair("[tencentcloudenterprise_cvm_key_pair.key_pair_2.id]"),
 				Check: resource.ComposeTestCheckFunc(
 					testAccCheckTencentCloudDataSourceID(id),
 					testAccCheckTencentCloudInstanceExists(id),
@@ -389,7 +389,7 @@ func TestAccTencentCloudInstanceResource_WithSecurityGroup(t *testing.T) {
 		Steps: []resource.TestStep{
 			{
 				PreConfig: func() { testAccStepPreConfigSetTempAKSK(t, ACCOUNT_TYPE_COMMON) },
-				Config:    testAccTencentCloudInstanceWithSecurityGroup(`[cloud_vpc_security_group.foo.id]`),
+				Config:    testAccTencentCloudInstanceWithSecurityGroup(`[tencentcloudenterprise_vpc_security_group.foo.id]`),
 				Check: resource.ComposeTestCheckFunc(
 					testAccCheckTencentCloudDataSourceID(instanceId),
 					testAccCheckTencentCloudInstanceExists(instanceId),
@@ -405,8 +405,8 @@ func TestAccTencentCloudInstanceResource_WithSecurityGroup(t *testing.T) {
 			{
 				PreConfig: func() { testAccStepPreConfigSetTempAKSK(t, ACCOUNT_TYPE_COMMON) },
 				Config: testAccTencentCloudInstanceWithSecurityGroup(`[
-					cloud_vpc_security_group.foo.id,
-					cloud_vpc_security_group.bar.id
+					tencentcloudenterprise_vpc_security_group.foo.id,
+					tencentcloudenterprise_vpc_security_group.bar.id
 				]`),
 				Check: resource.ComposeTestCheckFunc(
 					testAccCheckTencentCloudDataSourceID(instanceId),
@@ -442,9 +442,9 @@ func TestAccTencentCloudInstanceResource_WithOrderlySecurityGroup(t *testing.T) 
 			{
 				PreConfig: func() { testAccStepPreConfigSetTempAKSK(t, ACCOUNT_TYPE_COMMON) },
 				Config: testAccTencentCloudInstanceOrderlySecurityGroups(`[
-					cloud_vpc_security_group.orderly_security_group1.id,
-					cloud_vpc_security_group.orderly_security_group2.id,
-					cloud_vpc_security_group.orderly_security_group3.id
+					tencentcloudenterprise_vpc_security_group.orderly_security_group1.id,
+					tencentcloudenterprise_vpc_security_group.orderly_security_group2.id,
+					tencentcloudenterprise_vpc_security_group.orderly_security_group3.id
 				]`),
 				Check: resource.ComposeTestCheckFunc(
 					testAccCheckTencentCloudInstanceExists(instanceId),
@@ -461,9 +461,9 @@ func TestAccTencentCloudInstanceResource_WithOrderlySecurityGroup(t *testing.T) 
 			{
 				PreConfig: func() { testAccStepPreConfigSetTempAKSK(t, ACCOUNT_TYPE_COMMON) },
 				Config: testAccTencentCloudInstanceOrderlySecurityGroups(`[
-					cloud_vpc_security_group.orderly_security_group3.id,
-					cloud_vpc_security_group.orderly_security_group2.id,
-					cloud_vpc_security_group.orderly_security_group1.id
+					tencentcloudenterprise_vpc_security_group.orderly_security_group3.id,
+					tencentcloudenterprise_vpc_security_group.orderly_security_group2.id,
+					tencentcloudenterprise_vpc_security_group.orderly_security_group1.id
 				]`),
 				Check: resource.ComposeTestCheckFunc(
 					testAccCheckTencentCloudInstanceExists(instanceId),
@@ -703,8 +703,8 @@ const testAccTencentCloudInstanceBasic = defaultInstanceVariable + `
 resource "tencentcloudenterprise_cvm_instance" "foo" {
   instance_name     = var.instance_name
   availability_zone = var.availability_cvm_zone
-  image_id          = data.cloud_cvm_images.default.images.0.image_id
-  instance_type     = data.cloud_cvm_instance_types.default.instance_types.0.instance_type
+  image_id          = data.tencentcloudenterprise_cvm_images.default.images.0.image_id
+  instance_type     = data.tencentcloudenterprise_cvm_instance_types.default.instance_types.0.instance_type
   vpc_id            = var.cvm_vpc_id
   subnet_id         = var.cvm_subnet_id
   system_disk_type  = "CLOUD_PREMIUM"
@@ -727,7 +727,7 @@ resource "tencentcloudenterprise_cvm_instance" "foo" {
   instance_name     = "` + defaultInsName + `"
   availability_zone = "` + defaultAZone + `"
   image_id          = "` + defaultTkeOSImageId + `"
-  instance_type     = data.cloud_cvm_instance_types.default.instance_types.0.instance_type
+  instance_type     = data.tencentcloudenterprise_cvm_instance_types.default.instance_types.0.instance_type
   system_disk_type  = "CLOUD_PREMIUM"
   force_delete = true
 }
@@ -748,7 +748,7 @@ resource "tencentcloudenterprise_cvm_instance" "foo" {
   instance_name     = "` + defaultInsName + `"
   availability_zone = "` + defaultAZone + `"
   image_id          = "` + defaultTkeOSImageId + `"
-  instance_type     = data.cloud_cvm_instance_types.default.instance_types.0.instance_type
+  instance_type     = data.tencentcloudenterprise_cvm_instance_types.default.instance_types.0.instance_type
   system_disk_type  = "CLOUD_PREMIUM"
   instance_charge_type       = "PREPAID"
   instance_charge_type_prepaid_period = 1
@@ -768,8 +768,8 @@ data "tencentcloudenterprise_cvm_instance_types" "new_type" {
 resource "tencentcloudenterprise_cvm_instance" "foo" {
   instance_name     = var.instance_name
   availability_zone = var.availability_cvm_zone
-  image_id          = data.cloud_cvm_images.default.images.0.image_id
-  instance_type     = data.cloud_cvm_instance_types.new_type.instance_types.0.instance_type
+  image_id          = data.tencentcloudenterprise_cvm_images.default.images.0.image_id
+  instance_type     = data.tencentcloudenterprise_cvm_instance_types.new_type.instance_types.0.instance_type
   vpc_id            = var.cvm_vpc_id
   subnet_id         = var.cvm_subnet_id
   system_disk_type  = "CLOUD_PREMIUM"
@@ -781,8 +781,8 @@ const testAccTencentCloudInstanceWithDataDisk = defaultInstanceVariable + `
 resource "tencentcloudenterprise_cvm_instance" "foo" {
   instance_name     = var.instance_name
   availability_zone = var.availability_cvm_zone
-  image_id          = data.cloud_cvm_images.default.images.0.image_id
-  instance_type     = data.cloud_cvm_instance_types.default.instance_types.0.instance_type
+  image_id          = data.tencentcloudenterprise_cvm_images.default.images.0.image_id
+  instance_type     = data.tencentcloudenterprise_cvm_instance_types.default.instance_types.0.instance_type
 
   system_disk_type = "CLOUD_PREMIUM"
   system_disk_size = 100
@@ -810,8 +810,8 @@ const testAccTencentCloudInstanceWithDataDiskUpdate = defaultInstanceVariable + 
 resource "tencentcloudenterprise_cvm_instance" "foo" {
   instance_name     = var.instance_name
   availability_zone = var.availability_cvm_zone
-  image_id          = data.cloud_cvm_images.default.images.0.image_id
-  instance_type     = data.cloud_cvm_instance_types.default.instance_types.0.instance_type
+  image_id          = data.tencentcloudenterprise_cvm_images.default.images.0.image_id
+  instance_type     = data.tencentcloudenterprise_cvm_instance_types.default.instance_types.0.instance_type
 
   system_disk_type = "CLOUD_PREMIUM"
   system_disk_size = 100
@@ -909,8 +909,8 @@ func testAccTencentCloudInstanceWithNetworkFalse(hasPublicIp string) string {
 resource "tencentcloudenterprise_cvm_instance" "foo" {
   instance_name              = var.instance_name
   availability_zone          = var.availability_cvm_zone
-  image_id                   = data.cloud_cvm_images.default.images.0.image_id
-  instance_type              = data.cloud_cvm_instance_types.default.instance_types.0.instance_type
+  image_id                   = data.tencentcloudenterprise_cvm_images.default.images.0.image_id
+  instance_type              = data.tencentcloudenterprise_cvm_instance_types.default.instance_types.0.instance_type
   allocate_public_ip         = %s
   system_disk_type           = "CLOUD_PREMIUM"
 }
@@ -925,8 +925,8 @@ func testAccTencentCloudInstanceWithNetwork(hasPublicIp string, maxBandWidthOut 
 resource "tencentcloudenterprise_cvm_instance" "foo" {
   instance_name              = var.instance_name
   availability_zone          = var.availability_cvm_zone
-  image_id                   = data.cloud_cvm_images.default.images.0.image_id
-  instance_type              = data.cloud_cvm_instance_types.default.instance_types.0.instance_type
+  image_id                   = data.tencentcloudenterprise_cvm_images.default.images.0.image_id
+  instance_type              = data.tencentcloudenterprise_cvm_instance_types.default.instance_types.0.instance_type
   internet_max_bandwidth_out = %d
   allocate_public_ip         = %s
   system_disk_type           = "CLOUD_PREMIUM"
@@ -940,8 +940,8 @@ const testAccTencentCloudInstanceWithPrivateIP = defaultInstanceVariable + `
 resource "tencentcloudenterprise_cvm_instance" "foo" {
   instance_name     = var.instance_name
   availability_zone = var.availability_cvm_zone
-  image_id          = data.cloud_cvm_images.default.images.0.image_id
-  instance_type     = data.cloud_cvm_instance_types.default.instance_types.0.instance_type
+  image_id          = data.tencentcloudenterprise_cvm_images.default.images.0.image_id
+  instance_type     = data.tencentcloudenterprise_cvm_instance_types.default.instance_types.0.instance_type
   system_disk_type  = "CLOUD_PREMIUM"
   vpc_id            = var.cvm_vpc_id
   subnet_id         = var.cvm_subnet_id
@@ -953,8 +953,8 @@ const testAccTencentCloudInstanceWithKeyPair_withoutKeyPair = defaultInstanceVar
 resource "tencentcloudenterprise_cvm_instance" "foo" {
 	instance_name     = var.instance_name
 	availability_zone = var.availability_cvm_zone
-	image_id          = data.cloud_cvm_images.default.images.0.image_id
-	instance_type     = data.cloud_cvm_instance_types.default.instance_types.0.instance_type
+	image_id          = data.tencentcloudenterprise_cvm_images.default.images.0.image_id
+	instance_type     = data.tencentcloudenterprise_cvm_instance_types.default.instance_types.0.instance_type
 	system_disk_type  = "CLOUD_PREMIUM"
 }
 `
@@ -981,8 +981,8 @@ resource "tencentcloudenterprise_cvm_key_pair" "key_pair_2" {
 resource "tencentcloudenterprise_cvm_instance" "foo" {
   instance_name     = var.instance_name
   availability_zone = var.availability_cvm_zone
-  image_id          = data.cloud_cvm_images.default.images.0.image_id
-  instance_type     = data.cloud_cvm_instance_types.default.instance_types.0.instance_type
+  image_id          = data.tencentcloudenterprise_cvm_images.default.images.0.image_id
+  instance_type     = data.tencentcloudenterprise_cvm_instance_types.default.instance_types.0.instance_type
   key_ids           = %s
   system_disk_type  = "CLOUD_PREMIUM"
 }
@@ -997,8 +997,8 @@ func testAccTencentCloudInstanceWithPassword(password string) string {
 resource "tencentcloudenterprise_cvm_instance" "foo" {
   instance_name              = var.instance_name
   availability_zone          = var.availability_cvm_zone
-  image_id                   = data.cloud_cvm_images.default.images.0.image_id
-  instance_type              = data.cloud_cvm_instance_types.default.instance_types.0.instance_type
+  image_id                   = data.tencentcloudenterprise_cvm_images.default.images.0.image_id
+  instance_type              = data.tencentcloudenterprise_cvm_instance_types.default.instance_types.0.instance_type
   password                   = "%s"
   system_disk_type           = "CLOUD_PREMIUM"
 }
@@ -1014,8 +1014,8 @@ data "tencentcloudenterprise_cvm_images" "zoo" {
 resource "tencentcloudenterprise_cvm_instance" "foo" {
   instance_name              = var.instance_name
   availability_zone          = var.availability_cvm_zone
-  image_id                   = data.cloud_cvm_images.zoo.images.0.image_id
-  instance_type              = data.cloud_cvm_instance_types.default.instance_types.0.instance_type
+  image_id                   = data.tencentcloudenterprise_cvm_images.zoo.images.0.image_id
+  instance_type              = data.tencentcloudenterprise_cvm_instance_types.default.instance_types.0.instance_type
   keep_image_login 			 = true
   system_disk_type           = "CLOUD_PREMIUM"
   disable_api_termination    = false
@@ -1028,8 +1028,8 @@ func testAccTencentCloudInstanceWithName(instanceName string) string {
 resource "tencentcloudenterprise_cvm_instance" "foo" {
   instance_name     = "%s"
   availability_zone = var.availability_cvm_zone
-  image_id          = data.cloud_cvm_images.default.images.0.image_id
-  instance_type     = data.cloud_cvm_instance_types.default.instance_types.0.instance_type
+  image_id          = data.tencentcloudenterprise_cvm_images.default.images.0.image_id
+  instance_type     = data.tencentcloudenterprise_cvm_instance_types.default.instance_types.0.instance_type
   system_disk_type  = "CLOUD_PREMIUM"
 }
 `,
@@ -1041,8 +1041,8 @@ const testAccTencentCloudInstanceWithHostname = defaultInstanceVariable + `
 resource "tencentcloudenterprise_cvm_instance" "foo" {
   instance_name     = var.instance_name
   availability_zone = var.availability_cvm_zone
-  image_id          = data.cloud_cvm_images.default.images.0.image_id
-  instance_type     = data.cloud_cvm_instance_types.default.instance_types.0.instance_type
+  image_id          = data.tencentcloudenterprise_cvm_images.default.images.0.image_id
+  instance_type     = data.tencentcloudenterprise_cvm_instance_types.default.instance_types.0.instance_type
   hostname          = var.instance_name
   system_disk_type  = "CLOUD_PREMIUM"
 }
@@ -1057,7 +1057,7 @@ resource "tencentcloudenterprise_vpc_security_group" "foo" {
 }
 
 resource "tencentcloudenterprise_vpc_security_group_rule" "foo" {
-  security_group_id = cloud_vpc_security_group.foo.id
+  security_group_id = tencentcloudenterprise_vpc_security_group.foo.id
   type              = "ingress"
   cidr_ip           = "0.0.0.0/0"
   ip_protocol       = "tcp"
@@ -1071,7 +1071,7 @@ resource "tencentcloudenterprise_vpc_security_group" "bar" {
 }
 
 resource "tencentcloudenterprise_vpc_security_group_rule" "bar" {
-  security_group_id = cloud_vpc_security_group.bar.id
+  security_group_id = tencentcloudenterprise_vpc_security_group.bar.id
   type              = "ingress"
   cidr_ip           = "0.0.0.0/0"
   ip_protocol       = "tcp"
@@ -1082,8 +1082,8 @@ resource "tencentcloudenterprise_vpc_security_group_rule" "bar" {
 resource "tencentcloudenterprise_cvm_instance" "foo" {
   instance_name              = var.instance_name
   availability_zone          = var.availability_cvm_zone
-  image_id                   = data.cloud_cvm_images.default.images.0.image_id
-  instance_type              = data.cloud_cvm_instance_types.default.instance_types.0.instance_type
+  image_id                   = data.tencentcloudenterprise_cvm_images.default.images.0.image_id
+  instance_type              = data.tencentcloudenterprise_cvm_instance_types.default.instance_types.0.instance_type
   system_disk_type           = "CLOUD_PREMIUM"
   security_groups            = %s
 }
@@ -1098,8 +1098,8 @@ func testAccTencentCloudInstanceWithTags(tags string) string {
 resource "tencentcloudenterprise_cvm_instance" "foo" {
   instance_name     = var.instance_name
   availability_zone = var.availability_cvm_zone
-  image_id          = data.cloud_cvm_images.default.images.0.image_id
-  instance_type     = data.cloud_cvm_instance_types.default.instance_types.0.instance_type
+  image_id          = data.tencentcloudenterprise_cvm_images.default.images.0.image_id
+  instance_type     = data.tencentcloudenterprise_cvm_instance_types.default.instance_types.0.instance_type
   system_disk_type  = "CLOUD_PREMIUM"
   data_disks {
     data_disk_type        = "CLOUD_PREMIUM"
@@ -1122,10 +1122,10 @@ resource "tencentcloudenterprise_bms_placement_group" "foo" {
 resource "tencentcloudenterprise_cvm_instance" "foo" {
   instance_name      = var.instance_name
   availability_zone  = var.availability_cvm_zone
-  image_id           = data.cloud_cvm_images.default.images.0.image_id
-  instance_type      = data.cloud_cvm_instance_types.default.instance_types.0.instance_type
+  image_id           = data.tencentcloudenterprise_cvm_images.default.images.0.image_id
+  instance_type      = data.tencentcloudenterprise_cvm_instance_types.default.instance_types.0.instance_type
   system_disk_type   = "CLOUD_PREMIUM"
-  placement_group_id = cloud_bms_placement_group.foo.id
+  placement_group_id = tencentcloudenterprise_bms_placement_group.foo.id
 }
 `
 
@@ -1133,8 +1133,8 @@ const testAccTencentCloudInstanceWithSpotpaid = defaultInstanceVariable + `
 resource "tencentcloudenterprise_cvm_instance" "foo" {
   instance_name        = var.instance_name
   availability_zone    = var.availability_cvm_zone
-  image_id             = data.cloud_cvm_images.default.images.0.image_id
-  instance_type        = data.cloud_cvm_instance_types.default.instance_types.0.instance_type
+  image_id             = data.tencentcloudenterprise_cvm_images.default.images.0.image_id
+  instance_type        = data.tencentcloudenterprise_cvm_instance_types.default.instance_types.0.instance_type
   system_disk_type     = "CLOUD_PREMIUM"
   instance_charge_type = "SPOTPAID"
   spot_instance_type   = "ONE-TIME"
@@ -1163,8 +1163,8 @@ resource "tencentcloudenterprise_vpc_security_group" "orderly_security_group3" {
 resource "tencentcloudenterprise_cvm_instance" "cvm_with_orderly_sg" {
 	instance_name              = "test-orderly-sg-cvm"
 	availability_zone          = var.availability_cvm_zone
-	image_id                   = data.cloud_cvm_images.default.images.0.image_id
-	instance_type              = data.cloud_cvm_instance_types.default.instance_types.0.instance_type
+	image_id                   = data.tencentcloudenterprise_cvm_images.default.images.0.image_id
+	instance_type              = data.tencentcloudenterprise_cvm_instance_types.default.instance_types.0.instance_type
 	system_disk_type           = "CLOUD_PREMIUM"
 	orderly_security_groups    = %s
 }

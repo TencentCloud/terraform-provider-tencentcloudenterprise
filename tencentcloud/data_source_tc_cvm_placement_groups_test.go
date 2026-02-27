@@ -17,10 +17,10 @@ func TestAccTencentCloudPlacementGroupsDataSource(t *testing.T) {
 				Config: testAccPlacementGroupDataSource,
 				Check: resource.ComposeTestCheckFunc(
 					testAccCheckPlacementGroupExists("tencentcloudenterprise_bms_placement_group.placement"),
-					resource.TestCheckResourceAttr("data.cloud_cvm_placement_groups.data_placement", "placement_group_list.#", "1"),
-					resource.TestCheckResourceAttrSet("data.cloud_cvm_placement_groups.data_placement", "placement_group_list.0.placement_group_id"),
-					resource.TestCheckResourceAttr("data.cloud_cvm_placement_groups.data_placement", "placement_group_list.0.name", "tf-test-placement"),
-					resource.TestCheckResourceAttr("data.cloud_cvm_placement_groups.data_placement", "placement_group_list.0.type", "HOST"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_cvm_placement_groups.data_placement", "placement_group_list.#", "1"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_cvm_placement_groups.data_placement", "placement_group_list.0.placement_group_id"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_cvm_placement_groups.data_placement", "placement_group_list.0.name", "tf-test-placement"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_cvm_placement_groups.data_placement", "placement_group_list.0.type", "HOST"),
 				),
 			},
 		},
@@ -34,6 +34,6 @@ resource "tencentcloudenterprise_bms_placement_group" "placement" {
 }
 
 data "tencentcloudenterprise_cvm_placement_groups" "data_placement" {
-  placement_group_id = cloud_bms_placement_group.placement.id
+  placement_group_id = tencentcloudenterprise_bms_placement_group.placement.id
 }
 `

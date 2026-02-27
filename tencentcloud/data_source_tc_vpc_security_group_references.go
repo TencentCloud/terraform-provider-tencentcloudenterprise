@@ -83,7 +83,7 @@ func dataSourceTencentCloudVpcSecurityGroupReferences() *schema.Resource {
 }
 
 func dataSourceTencentCloudVpcSecurityGroupReferencesRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("data_source.cloud_vpc_security_group_references.read")()
+	defer logElapsed("data_source.tencentcloudenterprise_vpc_security_group_references.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)

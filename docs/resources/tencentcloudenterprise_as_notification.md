@@ -2,7 +2,7 @@
 subcategory: "Auto Scaling(AS)"
 layout: "tencentcloudenterprise"
 page_title: "TencentCloudEnterprise: tencentcloudenterprise_as_notification"
-sidebar_current: "docs-tencentcloudenterprise-resources-as_notification"
+sidebar_current: "docs-tencentcloudenterprise-resource-as_notification"
 description: |-
   Provides a resource for an AS (Auto scaling) notification.
 ---
@@ -34,6 +34,5 @@ The following arguments are supported:
 In addition to all arguments above, the following attributes are exported:
 
 * `id` - ID of the resource.
-
 
 

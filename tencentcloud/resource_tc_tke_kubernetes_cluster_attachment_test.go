@@ -147,8 +147,8 @@ data "tencentcloudenterprise_cvm_instance_types" "ins_type" {
 }
 
 locals {
-  type1 = [for i in data.cloud_cvm_instance_types.ins_type.instance_types: i if lookup(i, "instance_charge_type") == "POSTPAID_BY_HOUR"][0].instance_type
-  type2 = [for i in data.cloud_cvm_instance_types.ins_type.instance_types: i if lookup(i, "instance_charge_type") == "POSTPAID_BY_HOUR"][1].instance_type
+  type1 = [for i in data.tencentcloudenterprise_cvm_instance_types.ins_type.instance_types: i if lookup(i, "instance_charge_type") == "POSTPAID_BY_HOUR"][0].instance_type
+  type2 = [for i in data.tencentcloudenterprise_cvm_instance_types.ins_type.instance_types: i if lookup(i, "instance_charge_type") == "POSTPAID_BY_HOUR"][1].instance_type
 }
 `
 
@@ -164,24 +164,24 @@ data "tencentcloudenterprise_vpc_instances" "vpcs" {
 }
 
 data "tencentcloudenterprise_vpc_subnets" "sub" {
-  vpc_id        = data.cloud_vpc_instances.vpcs.instance_list.0.vpc_id
+  vpc_id        = data.tencentcloudenterprise_vpc_instances.vpcs.instance_list.0.vpc_id
 }
 
 resource "tencentcloudenterprise_cvm_instance" "foo_attachment" {
   instance_name     = "tf-auto-test-1-1"
-  availability_zone = data.cloud_vpc_subnets.sub.instance_list.0.availability_zone
+  availability_zone = data.tencentcloudenterprise_vpc_subnets.sub.instance_list.0.availability_zone
   image_id          = var.default_img_id
   instance_type     = local.type1
   system_disk_type  = "CLOUD_PREMIUM"
   system_disk_size  = 50
-  vpc_id            = data.cloud_vpc_instances.vpcs.instance_list.0.vpc_id
-  subnet_id         =  data.cloud_vpc_subnets.sub.instance_list.0.subnet_id
-  tags = data.cloud_tke_kubernetes_clusters.tke.list.0.tags # new added node will passive add tag by cluster
+  vpc_id            = data.tencentcloudenterprise_vpc_instances.vpcs.instance_list.0.vpc_id
+  subnet_id         =  data.tencentcloudenterprise_vpc_subnets.sub.instance_list.0.subnet_id
+  tags = data.tencentcloudenterprise_tke_kubernetes_clusters.tke.list.0.tags # new added node will passive add tag by cluster
 }
 
 resource "tencentcloudenterprise_tke_kubernetes_cluster_attachment" "test_attach" {
   cluster_id  = local.cluster_id
-  instance_id = cloud_cvm_instance.foo_attachment.id
+  instance_id = tencentcloudenterprise_cvm_instance.foo_attachment.id
   password    = "Lo4wbdit"
   unschedulable = 0
 

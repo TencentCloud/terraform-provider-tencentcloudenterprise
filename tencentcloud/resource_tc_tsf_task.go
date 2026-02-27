@@ -33,7 +33,7 @@ Provides a resource to create a tsf task
 tsf task can be imported using the id, e.g.
 
 ```
-terraform import cloud_tsf_task.task task-y37eqq95
+terraform import tencentcloudenterprise_tsf_task.task task-y37eqq95
 ```
 */
 package tencentcloud
@@ -285,7 +285,7 @@ func resourceTencentCloudTsfTask() *schema.Resource {
 }
 
 func resourceTencentCloudTsfTaskCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_tsf_task.create")()
+	defer logElapsed("resource.tencentcloudenterprise_tsf_task.create")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -409,7 +409,7 @@ func resourceTencentCloudTsfTaskCreate(d *schema.ResourceData, meta interface{})
 }
 
 func resourceTencentCloudTsfTaskRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_tsf_task.read")()
+	defer logElapsed("resource.tencentcloudenterprise_tsf_task.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -559,7 +559,7 @@ func resourceTencentCloudTsfTaskRead(d *schema.ResourceData, meta interface{}) e
 }
 
 func resourceTencentCloudTsfTaskUpdate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_tsf_task.update")()
+	defer logElapsed("resource.tencentcloudenterprise_tsf_task.update")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -720,7 +720,7 @@ func resourceTencentCloudTsfTaskUpdate(d *schema.ResourceData, meta interface{})
 }
 
 func resourceTencentCloudTsfTaskDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_tsf_task.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_tsf_task.delete")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)

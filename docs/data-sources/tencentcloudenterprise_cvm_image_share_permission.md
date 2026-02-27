@@ -34,4 +34,3 @@ In addition to all arguments above, the following attributes are exported:
   * `account_id` - ID of the account with which the image is shared.
   * `created_time` - Time when an image was shared.
 
-

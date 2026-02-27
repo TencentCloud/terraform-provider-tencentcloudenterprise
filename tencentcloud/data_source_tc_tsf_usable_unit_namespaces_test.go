@@ -16,12 +16,12 @@ func TestAccTencentCloudTsfUsableUnitNamespacesDataSource_basic(t *testing.T) {
 			{
 				Config: testAccTsfUsableUnitNamespacesDataSource,
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckTencentCloudDataSourceID("data.cloud_tsf_usable_unit_namespaces.usable_unit_namespaces"),
-					resource.TestCheckResourceAttrSet("data.cloud_tsf_usable_unit_namespaces.usable_unit_namespaces", "result.#"),
-					resource.TestCheckResourceAttrSet("data.cloud_tsf_usable_unit_namespaces.usable_unit_namespaces", "result.0.total_count"),
-					resource.TestCheckResourceAttrSet("data.cloud_tsf_usable_unit_namespaces.usable_unit_namespaces", "result.0.content.#"),
-					resource.TestCheckResourceAttrSet("data.cloud_tsf_usable_unit_namespaces.usable_unit_namespaces", "result.0.content.0.namespace_id"),
-					resource.TestCheckResourceAttrSet("data.cloud_tsf_usable_unit_namespaces.usable_unit_namespaces", "result.0.content.0.namespace_name"),
+					testAccCheckTencentCloudDataSourceID("data.tencentcloudenterprise_tsf_usable_unit_namespaces.usable_unit_namespaces"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_tsf_usable_unit_namespaces.usable_unit_namespaces", "result.#"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_tsf_usable_unit_namespaces.usable_unit_namespaces", "result.0.total_count"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_tsf_usable_unit_namespaces.usable_unit_namespaces", "result.0.content.#"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_tsf_usable_unit_namespaces.usable_unit_namespaces", "result.0.content.0.namespace_id"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_tsf_usable_unit_namespaces.usable_unit_namespaces", "result.0.content.0.namespace_name"),
 				),
 			},
 		},

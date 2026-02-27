@@ -2,7 +2,7 @@
 subcategory: "Virtual Private Cloud(VPC)"
 layout: "tencentcloudenterprise"
 page_title: "TencentCloudEnterprise: tencentcloudenterprise_vpc_dnat"
-sidebar_current: "docs-tencentcloudenterprise-resources-vpc_dnat"
+sidebar_current: "docs-tencentcloudenterprise-resource-vpc_dnat"
 description: |-
   Provides a resource to create a NAT forwarding.
 ---
@@ -46,12 +46,15 @@ In addition to all arguments above, the following attributes are exported:
 * `id` - ID of the resource.
 
 
-
 ## Import
 
+tencentcloudenterprise_vpc_dnat can be imported using the id, e.g.
+
+```
 NAT forwarding can be imported using the id, e.g.
 
 ```
 $ terraform import tencentcloudenterprise_vpc_dnat.foo tcp://vpc-asg3sfa3:nat-1asg3t63@127.15.2.3:8080
+```
 ```
 

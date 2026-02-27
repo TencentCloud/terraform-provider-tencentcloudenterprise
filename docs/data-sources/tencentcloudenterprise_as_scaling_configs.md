@@ -58,4 +58,3 @@ In addition to all arguments above, the following attributes are exported:
   * `system_disk_type` - System disk category of the scaling configuration.
   * `user_data` - Base64-encoded User Data text.
 
-

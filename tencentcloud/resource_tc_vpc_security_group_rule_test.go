@@ -250,7 +250,7 @@ resource "tencentcloudenterprise_vpc_security_group" "foo" {
 }
 
 resource "tencentcloudenterprise_vpc_security_group_rule" "http-in" {
-  security_group_id = cloud_vpc_security_group.foo.id
+  security_group_id = tencentcloudenterprise_vpc_security_group.foo.id
   type              = "ingress"
   cidr_ip           = "1.1.1.1"
   ip_protocol       = "tcp"
@@ -267,7 +267,7 @@ resource "tencentcloudenterprise_vpc_security_group" "foo" {
 }
 
 resource "tencentcloudenterprise_vpc_security_group_rule" "ssh-in" {
-  security_group_id = cloud_vpc_security_group.foo.id
+  security_group_id = tencentcloudenterprise_vpc_security_group.foo.id
   type              = "INGRESS"
   cidr_ip           = "0.0.0.0/0"
   ip_protocol       = "TCP"
@@ -284,7 +284,7 @@ resource "tencentcloudenterprise_vpc_security_group" "foo" {
 }
 
 resource "tencentcloudenterprise_vpc_security_group_rule" "egress-drop" {
-  security_group_id = cloud_vpc_security_group.foo.id
+  security_group_id = tencentcloudenterprise_vpc_security_group.foo.id
   type              = "EGRESS"
   cidr_ip           = "10.2.3.0/24"
   ip_protocol       = "UDP"
@@ -305,9 +305,9 @@ resource "tencentcloudenterprise_vpc_security_group" "boo" {
 }
 
 resource "tencentcloudenterprise_vpc_security_group_rule" "sourcesgid-in" {
-  security_group_id = cloud_vpc_security_group.foo.id
+  security_group_id = tencentcloudenterprise_vpc_security_group.foo.id
   type              = "ingress"
-  source_sgid		= cloud_vpc_security_group.boo.id
+  source_sgid		= tencentcloudenterprise_vpc_security_group.boo.id
   ip_protocol       = "TCP"
   port_range        = "80,8080"
   policy            = "ACCEPT"
@@ -321,7 +321,7 @@ resource "tencentcloudenterprise_vpc_security_group" "foo" {
 }
 
 resource "tencentcloudenterprise_vpc_security_group_rule" "egress-drop" {
-  security_group_id = cloud_vpc_security_group.foo.id
+  security_group_id = tencentcloudenterprise_vpc_security_group.foo.id
   cidr_ip           = "0.0.0.0/0"
   type              = "ingress"
   policy            = "DROP"
@@ -341,26 +341,26 @@ resource "tencentcloudenterprise_vpc_address_template" "templateB" {
 
 resource "tencentcloudenterprise_vpc_address_template_group" "group"{
 	name = "test_update"
-	template_ids = [cloud_vpc_address_template.templateB.id]
+	template_ids = [tencentcloudenterprise_vpc_address_template.templateB.id]
 }
 
 resource "tencentcloudenterprise_vpc_security_group_rule" "address_template_group" {
-  security_group_id = cloud_vpc_security_group.foo.id
+  security_group_id = tencentcloudenterprise_vpc_security_group.foo.id
   type              = "ingress"
   policy            = "DROP"
 
   address_template  {
-		group_id = cloud_vpc_address_template_group.group.id
+		group_id = tencentcloudenterprise_vpc_address_template_group.group.id
 	}
 }
 
 resource "tencentcloudenterprise_vpc_security_group_rule" "address_template" {
-  security_group_id = cloud_vpc_security_group.foo.id
+  security_group_id = tencentcloudenterprise_vpc_security_group.foo.id
   type              = "INGRESS"
   policy            = "DROP"
 
   address_template  {
-		template_id = cloud_vpc_address_template.templateB.id
+		template_id = tencentcloudenterprise_vpc_address_template.templateB.id
 	}
 }
 `
@@ -378,50 +378,50 @@ resource "tencentcloudenterprise_protocol_template" "templateB" {
 
 resource "tencentcloudenterprise_protocol_template_group" "group"{
 	name = "test_update"
-	template_ids = [cloud_protocol_template.templateB.id]
+	template_ids = [tencentcloudenterprise_protocol_template.templateB.id]
 }
 
 resource "tencentcloudenterprise_vpc_security_group_rule" "protocol_template_group" {
-  security_group_id = cloud_vpc_security_group.foo.id
+  security_group_id = tencentcloudenterprise_vpc_security_group.foo.id
   type              = "ingress"
   policy            = "DROP"
   cidr_ip           = "0.0.0.0/0"
 
   protocol_template  {
-		group_id = cloud_protocol_template_group.group.id
+		group_id = tencentcloudenterprise_protocol_template_group.group.id
 	}
 }
 
 resource "tencentcloudenterprise_vpc_security_group_rule" "protocol_template1" {
-  security_group_id = cloud_vpc_security_group.foo.id
+  security_group_id = tencentcloudenterprise_vpc_security_group.foo.id
   type              = "INGRESS"
   policy            = "DROP"
   cidr_ip           = "0.0.0.0/0"
 
   protocol_template  {
-		template_id = cloud_protocol_template.templateB.id
+		template_id = tencentcloudenterprise_protocol_template.templateB.id
 	}
 }
 
 resource "tencentcloudenterprise_vpc_security_group_rule" "protocol_template2" {
-	security_group_id = cloud_vpc_security_group.foo.id
+	security_group_id = tencentcloudenterprise_vpc_security_group.foo.id
 	type              = "INGRESS"
 	policy            = "ACCEPT"
 	cidr_ip           = "0.0.0.0/0"
   
 	protocol_template  {
-		  template_id = cloud_protocol_template.templateB.id
+		  template_id = tencentcloudenterprise_protocol_template.templateB.id
 	  }
   }
 
   resource "tencentcloudenterprise_vpc_security_group_rule" "protocol_template3" {
-	security_group_id = cloud_vpc_security_group.foo.id
+	security_group_id = tencentcloudenterprise_vpc_security_group.foo.id
 	type              = "INGRESS"
 	policy            = "ACCEPT"
 	cidr_ip           = "10.0.0.0/12"
   
 	protocol_template  {
-		  template_id = cloud_protocol_template.templateB.id
+		  template_id = tencentcloudenterprise_protocol_template.templateB.id
 	  }
   }
 `

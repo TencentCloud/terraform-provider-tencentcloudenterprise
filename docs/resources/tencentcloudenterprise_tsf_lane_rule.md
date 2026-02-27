@@ -2,7 +2,7 @@
 subcategory: "Tencent Service Framework(TSF)"
 layout: "tencentcloudenterprise"
 page_title: "TencentCloudEnterprise: tencentcloudenterprise_tsf_lane_rule"
-sidebar_current: "docs-tencentcloudenterprise-resources-tsf_lane_rule"
+sidebar_current: "docs-tencentcloudenterprise-resource-tsf_lane_rule"
 description: |-
   Provides a resource to create a tsf lane_rule
 ---
@@ -58,5 +58,4 @@ In addition to all arguments above, the following attributes are exported:
 * `priority` - Priority.
 * `rule_id` - Rule id.
 * `update_time` - Update time.
-
 

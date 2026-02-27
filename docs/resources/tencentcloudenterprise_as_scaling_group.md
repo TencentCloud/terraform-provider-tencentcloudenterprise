@@ -2,7 +2,7 @@
 subcategory: "Auto Scaling(AS)"
 layout: "tencentcloudenterprise"
 page_title: "TencentCloudEnterprise: tencentcloudenterprise_as_scaling_group"
-sidebar_current: "docs-tencentcloudenterprise-resources-as_scaling_group"
+sidebar_current: "docs-tencentcloudenterprise-resource-as_scaling_group"
 description: |-
   Provides a resource to create a group of AS (Auto scaling) instances.
 ---
@@ -85,12 +85,15 @@ In addition to all arguments above, the following attributes are exported:
 * `instance_count` - Instance number of a scaling group.
 * `status` - Current status of a scaling group.
 
-
 ## Import
 
+tencentcloudenterprise_as_scaling_group can be imported using the id, e.g.
+
+```
 AutoScaling Groups can be imported using the id, e.g.
 
 ```
 $ terraform import tencentcloudenterprise_as_scaling_group.scaling_group asg-n32ymck2
+```
 ```
 

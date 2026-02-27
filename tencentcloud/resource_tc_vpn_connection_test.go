@@ -219,7 +219,7 @@ data "tencentcloudenterprise_vpc_instances" "foo" {
 
 resource "tencentcloudenterprise_vpn_gateway" "vpn" {
   name      = "terraform_update"
-  vpc_id    = data.cloud_vpc_instances.foo.instance_list.0.vpc_id
+  vpc_id    = data.tencentcloudenterprise_vpc_instances.foo.instance_list.0.vpc_id
   bandwidth = 5
   zone      = "ap-guangzhou-3"
 
@@ -229,16 +229,16 @@ resource "tencentcloudenterprise_vpn_gateway" "vpn" {
 }
 resource "tencentcloudenterprise_vpn_connection" "connection" {
   name                       = "vpn_connection_test"
-  vpc_id                     = data.cloud_vpc_instances.foo.instance_list.0.vpc_id
-  vpn_gateway_id             = cloud_vpn_gateway.vpn.id
-  customer_gateway_id        = cloud_vpn_customer_gateway.cgw.id
+  vpc_id                     = data.tencentcloudenterprise_vpc_instances.foo.instance_list.0.vpc_id
+  vpn_gateway_id             = tencentcloudenterprise_vpn_gateway.vpn.id
+  customer_gateway_id        = tencentcloudenterprise_vpn_customer_gateway.cgw.id
   pre_share_key              = "test"
   ike_proto_encry_algorithm  = "3DES-CBC"
   ike_proto_authen_algorithm = "MD5"
   ike_local_identity         = "ADDRESS"
-  ike_local_address          = cloud_vpn_gateway.vpn.public_ip_address
+  ike_local_address          = tencentcloudenterprise_vpn_gateway.vpn.public_ip_address
   ike_remote_identity        = "ADDRESS"
-  ike_remote_address         = cloud_vpn_customer_gateway.cgw.public_ip_address
+  ike_remote_address         = tencentcloudenterprise_vpn_customer_gateway.cgw.public_ip_address
   ike_dh_group_name          = "GROUP1"
   ike_sa_lifetime_seconds    = 86400
   ipsec_encrypt_algorithm    = "3DES-CBC"
@@ -275,7 +275,7 @@ data "tencentcloudenterprise_vpc_instances" "foo" {
 
 resource "tencentcloudenterprise_vpn_gateway" "vpn" {
   name      = "terraform_update"
-  vpc_id    = data.cloud_vpc_instances.foo.instance_list.0.vpc_id
+  vpc_id    = data.tencentcloudenterprise_vpc_instances.foo.instance_list.0.vpc_id
   bandwidth = 5
   zone      = "ap-guangzhou-3"
 
@@ -285,17 +285,17 @@ resource "tencentcloudenterprise_vpn_gateway" "vpn" {
 }
 resource "tencentcloudenterprise_vpn_connection" "connection" {
   name                       = "vpn_connection_test2"
-  vpc_id                     = data.cloud_vpc_instances.foo.instance_list.0.vpc_id
-  vpn_gateway_id             = cloud_vpn_gateway.vpn.id
-  customer_gateway_id        = cloud_vpn_customer_gateway.cgw.id
+  vpc_id                     = data.tencentcloudenterprise_vpc_instances.foo.instance_list.0.vpc_id
+  vpn_gateway_id             = tencentcloudenterprise_vpn_gateway.vpn.id
+  customer_gateway_id        = tencentcloudenterprise_vpn_customer_gateway.cgw.id
   pre_share_key              = "testt"
   ike_proto_encry_algorithm  = "3DES-CBC"
   ike_proto_authen_algorithm = "SHA"
   ike_local_identity         = "ADDRESS"
   ike_exchange_mode          = "AGGRESSIVE"
-  ike_local_address          = cloud_vpn_gateway.vpn.public_ip_address
+  ike_local_address          = tencentcloudenterprise_vpn_gateway.vpn.public_ip_address
   ike_remote_identity        = "ADDRESS"
-  ike_remote_address         = cloud_vpn_customer_gateway.cgw.public_ip_address
+  ike_remote_address         = tencentcloudenterprise_vpn_customer_gateway.cgw.public_ip_address
   ike_dh_group_name          = "GROUP2"
   ike_sa_lifetime_seconds    = 86401
   ipsec_encrypt_algorithm    = "3DES-CBC"
@@ -331,7 +331,7 @@ data "tencentcloudenterprise_vpc_instances" "foo" {
 
 resource "tencentcloudenterprise_vpn_gateway" "vpn" {
   name      = "terraform_update"
-  vpc_id    = data.cloud_vpc_instances.foo.instance_list.0.vpc_id
+  vpc_id    = data.tencentcloudenterprise_vpc_instances.foo.instance_list.0.vpc_id
   bandwidth = 5
   zone      = "ap-guangzhou-3"
 
@@ -341,17 +341,17 @@ resource "tencentcloudenterprise_vpn_gateway" "vpn" {
 }
 resource "tencentcloudenterprise_vpn_connection" "connection" {
   name                       = "vpn_connection_test2"
-  vpc_id                     = data.cloud_vpc_instances.foo.instance_list.0.vpc_id
-  vpn_gateway_id             = cloud_vpn_gateway.vpn.id
-  customer_gateway_id        = cloud_vpn_customer_gateway.cgw.id
+  vpc_id                     = data.tencentcloudenterprise_vpc_instances.foo.instance_list.0.vpc_id
+  vpn_gateway_id             = tencentcloudenterprise_vpn_gateway.vpn.id
+  customer_gateway_id        = tencentcloudenterprise_vpn_customer_gateway.cgw.id
   pre_share_key              = "testt"
   ike_proto_encry_algorithm  = "3DES-CBC"
   ike_proto_authen_algorithm = "SHA"
   ike_local_identity         = "ADDRESS"
   ike_exchange_mode          = "AGGRESSIVE"
-  ike_local_address          = cloud_vpn_gateway.vpn.public_ip_address
+  ike_local_address          = tencentcloudenterprise_vpn_gateway.vpn.public_ip_address
   ike_remote_identity        = "ADDRESS"
-  ike_remote_address         = cloud_vpn_customer_gateway.cgw.public_ip_address
+  ike_remote_address         = tencentcloudenterprise_vpn_customer_gateway.cgw.public_ip_address
   ike_dh_group_name          = "GROUP2"
   ike_sa_lifetime_seconds    = 86401
   ipsec_encrypt_algorithm    = "3DES-CBC"

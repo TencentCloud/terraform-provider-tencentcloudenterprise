@@ -127,7 +127,7 @@ func dataSourceTencentCloudRedisInstanceNodeInfo() *schema.Resource {
 }
 
 func dataSourceTencentCloudRedisInstanceNodeInfoRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("data_source.cloud_redis_instance_node_info.read")()
+	defer logElapsed("data_source.tencentcloudenterprise_redis_instance_node_info.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)

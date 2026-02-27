@@ -2,7 +2,7 @@
 subcategory: "Tencent Service Framework(TSF)"
 layout: "tencentcloudenterprise"
 page_title: "TencentCloudEnterprise: tencentcloudenterprise_tsf_namespace"
-sidebar_current: "docs-tencentcloudenterprise-resources-tsf_namespace"
+sidebar_current: "docs-tencentcloudenterprise-resource-tsf_namespace"
 description: |-
   Provides a resource to create a tsf namespace
 ---
@@ -46,5 +46,4 @@ In addition to all arguments above, the following attributes are exported:
 * `namespace_code` - Namespace encoding.
 * `namespace_status` - Namespace status.
 * `update_time` - Update time.
-
 

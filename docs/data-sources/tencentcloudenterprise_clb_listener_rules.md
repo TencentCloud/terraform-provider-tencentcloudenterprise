@@ -59,4 +59,3 @@ In addition to all arguments above, the following attributes are exported:
   * `scheduler` - Scheduling method of the CLB listener, and available values include 'WRR', 'IP_HASH' and 'LEAST_CONN'. The default is 'WRR'. NOTES: TCP/UDP/TCP_SSL listener allows direct configuration, HTTP/HTTPS listener needs to be configured in tencentcloudenterprise_clb_listener_rule.
   * `session_expire_time` - Time of session persistence within the CLB listener. NOTES: Available when scheduler is specified as 'WRR'. NOTES: TCP/UDP/TCP_SSL listener allows direct configuration, HTTP/HTTPS listener needs to be configured in tencentcloudenterprise_clb_listener_rule.
 
-

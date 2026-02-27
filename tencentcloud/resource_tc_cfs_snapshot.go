@@ -20,7 +20,7 @@ Provides a resource to create a cfs snapshot
 cfs snapshot can be imported using the id, e.g.
 
 ```
-terraform import cloud_cfs_snapshot.snapshot snapshot_id
+terraform import tencentcloudenterprise_cfs_snapshot.snapshot snapshot_id
 ```
 */
 package tencentcloud
@@ -83,7 +83,7 @@ func resourceTencentCloudCfsSnapshot() *schema.Resource {
 }
 
 func resourceTencentCloudCfsSnapshotCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cfs_snapshot.create")()
+	defer logElapsed("resource.tencentcloudenterprise_cfs_snapshot.create")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -158,7 +158,7 @@ func resourceTencentCloudCfsSnapshotCreate(d *schema.ResourceData, meta interfac
 }
 
 func resourceTencentCloudCfsSnapshotRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cfs_snapshot.read")()
+	defer logElapsed("resource.tencentcloudenterprise_cfs_snapshot.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -201,7 +201,7 @@ func resourceTencentCloudCfsSnapshotRead(d *schema.ResourceData, meta interface{
 }
 
 func resourceTencentCloudCfsSnapshotUpdate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cfs_snapshot.update")()
+	defer logElapsed("resource.tencentcloudenterprise_cfs_snapshot.update")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -251,7 +251,7 @@ func resourceTencentCloudCfsSnapshotUpdate(d *schema.ResourceData, meta interfac
 }
 
 func resourceTencentCloudCfsSnapshotDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cfs_snapshot.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_cfs_snapshot.delete")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)

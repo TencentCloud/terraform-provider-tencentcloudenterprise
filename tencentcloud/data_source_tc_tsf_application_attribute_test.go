@@ -16,11 +16,11 @@ func TestAccTencentCloudTsfApplicationAttributeDataSource_basic(t *testing.T) {
 			{
 				Config: testAccTsfApplicationAttributeDataSource,
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckTencentCloudDataSourceID("data.cloud_tsf_application_attribute.application_attribute"),
-					resource.TestCheckResourceAttrSet("data.cloud_tsf_application_attribute.application_attribute", "result.#"),
-					resource.TestCheckResourceAttrSet("data.cloud_tsf_application_attribute.application_attribute", "result.0.group_count"),
-					resource.TestCheckResourceAttrSet("data.cloud_tsf_application_attribute.application_attribute", "result.0.instance_count"),
-					resource.TestCheckResourceAttrSet("data.cloud_tsf_application_attribute.application_attribute", "result.0.run_instance_count"),
+					testAccCheckTencentCloudDataSourceID("data.tencentcloudenterprise_tsf_application_attribute.application_attribute"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_tsf_application_attribute.application_attribute", "result.#"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_tsf_application_attribute.application_attribute", "result.0.group_count"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_tsf_application_attribute.application_attribute", "result.0.instance_count"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_tsf_application_attribute.application_attribute", "result.0.run_instance_count"),
 				),
 			},
 		},

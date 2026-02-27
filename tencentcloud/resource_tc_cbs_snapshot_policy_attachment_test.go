@@ -110,7 +110,7 @@ resource "tencentcloudenterprise_cbs_snapshot_policy" "policy" {
 }
 
 resource "tencentcloudenterprise_cbs_snapshot_policy_attachment" "foo" {
-  storage_id = cloud_cbs_storage.foo.id 
-  snapshot_policy_id = cloud_cbs_snapshot_policy.policy.id
+  storage_id = tencentcloudenterprise_cbs_storage.foo.id 
+  snapshot_policy_id = tencentcloudenterprise_cbs_snapshot_policy.policy.id
 }
 `

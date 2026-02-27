@@ -20,7 +20,7 @@ Provides a resource to create a vpc end_point
 vpc end_point can be imported using the id, e.g.
 
 ```
-terraform import cloud_vpc_end_point.end_point end_point_id
+terraform import tencentcloudenterprise_vpc_end_point.end_point end_point_id
 ```
 */
 package tencentcloud
@@ -115,7 +115,7 @@ func resourceTencentCloudVpcEndPoint() *schema.Resource {
 }
 
 func resourceTencentCloudVpcEndPointCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_vpc_end_point.create")()
+	defer logElapsed("resource.tencentcloudenterprise_vpc_end_point.create")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -167,7 +167,7 @@ func resourceTencentCloudVpcEndPointCreate(d *schema.ResourceData, meta interfac
 }
 
 func resourceTencentCloudVpcEndPointRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_vpc_end_point.read")()
+	defer logElapsed("resource.tencentcloudenterprise_vpc_end_point.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -224,7 +224,7 @@ func resourceTencentCloudVpcEndPointRead(d *schema.ResourceData, meta interface{
 }
 
 func resourceTencentCloudVpcEndPointUpdate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_vpc_end_point.update")()
+	defer logElapsed("resource.tencentcloudenterprise_vpc_end_point.update")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -271,7 +271,7 @@ func resourceTencentCloudVpcEndPointUpdate(d *schema.ResourceData, meta interfac
 }
 
 func resourceTencentCloudVpcEndPointDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_vpc_end_point.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_vpc_end_point.delete")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)

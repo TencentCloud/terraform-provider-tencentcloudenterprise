@@ -2,7 +2,7 @@
 subcategory: "Tencent Service Framework(TSF)"
 layout: "tencentcloudenterprise"
 page_title: "TencentCloudEnterprise: tencentcloudenterprise_tsf_enable_unit_rule"
-sidebar_current: "docs-tencentcloudenterprise-resources-tsf_enable_unit_rule"
+sidebar_current: "docs-tencentcloudenterprise-resource-tsf_enable_unit_rule"
 description: |-
   Provides a resource to create a tsf enable_unit_rule
 ---
@@ -34,12 +34,15 @@ In addition to all arguments above, the following attributes are exported:
 * `id` - ID of the resource.
 
 
-
 ## Import
 
+tencentcloudenterprise_tsf_enable_unit_rule can be imported using the id, e.g.
+
+```
 tsf enable_unit_rule can be imported using the id, e.g.
 
 ```
 terraform import tencentcloudenterprise_tsf_enable_unit_rule.enable_unit_rule enable_unit_rule_id
+```
 ```
 

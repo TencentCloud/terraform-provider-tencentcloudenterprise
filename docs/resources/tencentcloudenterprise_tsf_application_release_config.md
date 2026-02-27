@@ -2,7 +2,7 @@
 subcategory: "Tencent Service Framework(TSF)"
 layout: "tencentcloudenterprise"
 page_title: "TencentCloudEnterprise: tencentcloudenterprise_tsf_application_release_config"
-sidebar_current: "docs-tencentcloudenterprise-resources-tsf_application_release_config"
+sidebar_current: "docs-tencentcloudenterprise-resource-tsf_application_release_config"
 description: |-
   Provides a resource to create a tsf application_release_config
 ---
@@ -45,12 +45,15 @@ In addition to all arguments above, the following attributes are exported:
 * `namespace_name` - Namespace name.
 * `release_time` - Release time.
 
-
 ## Import
 
+tencentcloudenterprise_tsf_application_release_config can be imported using the id, e.g.
+
+```
 tsf application_release_config can be imported using the configId#groupId#configReleaseId, e.g.
 
 ```
 terraform import tencentcloudenterprise_tsf_application_release_config.application_release_config dcfg-nalqbqwv#group-yxmz72gv#dcfgr-maeeq2ea
+```
 ```
 

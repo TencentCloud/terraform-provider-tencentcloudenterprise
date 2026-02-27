@@ -11,7 +11,7 @@ Provides a resource to create a tdmqRocketmq namespace
 	}
 
 	resource "tencentcloudenterprise_tdmq_rocketmq_namespace" "namespace" {
-	  cluster_id = cloud_tdmq_rocketmq_cluster.cluster.cluster_id
+	  cluster_id = tencentcloudenterprise_tdmq_rocketmq_cluster.cluster.cluster_id
 	  namespace_name = "test_namespace"
 	  ttl = 65000
 	  retention_time = 65000
@@ -23,7 +23,7 @@ Import
 
 tdmqRocketmq namespace can be imported using the id, e.g.
 ```
-$ terraform import cloud_tdmq_rocketmq_namespace.namespace namespace_id
+$ terraform import tencentcloudenterprise_tdmq_rocketmq_namespace.namespace namespace_id
 ```
 */
 package tencentcloud
@@ -112,7 +112,7 @@ func resourceTencentCloudTdmqRocketmqNamespace() *schema.Resource {
 }
 
 func resourceTencentCloudTdmqRocketmqNamespaceCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_tdmqRocketmq_namespace.create")()
+	defer logElapsed("resource.tencentcloudenterprise_tdmqRocketmq_namespace.create")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -165,7 +165,7 @@ func resourceTencentCloudTdmqRocketmqNamespaceCreate(d *schema.ResourceData, met
 }
 
 func resourceTencentCloudTdmqRocketmqNamespaceRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_tdmqRocketmq_namespace.read")()
+	defer logElapsed("resource.tencentcloudenterprise_tdmqRocketmq_namespace.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -203,7 +203,7 @@ func resourceTencentCloudTdmqRocketmqNamespaceRead(d *schema.ResourceData, meta 
 }
 
 func resourceTencentCloudTdmqRocketmqNamespaceUpdate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_tdmqRocketmq_namespace.update")()
+	defer logElapsed("resource.tencentcloudenterprise_tdmqRocketmq_namespace.update")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -273,7 +273,7 @@ func resourceTencentCloudTdmqRocketmqNamespaceUpdate(d *schema.ResourceData, met
 }
 
 func resourceTencentCloudTdmqRocketmqNamespaceDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_tdmqRocketmq_namespace.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_tdmqRocketmq_namespace.delete")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)

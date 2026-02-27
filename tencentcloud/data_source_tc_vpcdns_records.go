@@ -16,7 +16,7 @@ Provide a resource to query VPCDNS records.
 Vpc subnet instance can be imported, e.g.
 
 ```
-$ terraform import cloud_vpcdns_domain.test domain_id
+$ terraform import tencentcloudenterprise_vpcdns_domain.test domain_id
 ```
 */
 package tencentcloud

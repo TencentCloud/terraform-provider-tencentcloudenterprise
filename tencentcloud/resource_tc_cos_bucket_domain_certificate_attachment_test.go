@@ -105,8 +105,8 @@ data "tencentcloudenterprise_ssl_certificates" "foo1" {
 }
 
 locals {
-  publicKey = data.cloud_ssl_certificates.foo1.certificates.0.cert
-  privateKey = data.cloud_ssl_certificates.foo1.certificates.0.key
+  publicKey = data.tencentcloudenterprise_ssl_certificates.foo1.certificates.0.cert
+  privateKey = data.tencentcloudenterprise_ssl_certificates.foo1.certificates.0.key
 }
 
 `

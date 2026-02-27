@@ -1,5 +1,5 @@
 ---
-subcategory: "Cloud Distributed SQL For PostGreSQL(TBASE)"
+subcategory: "TDSQL PostgreSQL (Tbase)"
 layout: "tencentcloudenterprise"
 page_title: "TencentCloudEnterprise: tencentcloudenterprise_tbase_pg_instances"
 sidebar_current: "docs-tencentcloudenterprise-datasource-tbase_pg_instances"
@@ -32,5 +32,4 @@ The following arguments are supported:
 In addition to all arguments above, the following attributes are exported:
 
 * `list` - A list of tbase pg instances. Each element contains the following attributes.
-
 

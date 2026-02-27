@@ -15,7 +15,7 @@ Use this data source to query vpc route tables information.
 	}
 
 	resource "tencentcloudenterprise_route_table" "route_table" {
-	  vpc_id = cloud_vpc.foo.id
+	  vpc_id = tencentcloudenterprise_vpc.foo.id
 	  name   = "ci-temp-test-rt"
 
 	  tags = {
@@ -24,20 +24,20 @@ Use this data source to query vpc route tables information.
 	}
 
 	data "tencentcloudenterprise_vpc_route_tables" "id_instances" {
-	  route_table_id = cloud_route_table.route_table.id
+	  route_table_id = tencentcloudenterprise_route_table.route_table.id
 	}
 
 	data "tencentcloudenterprise_vpc_route_tables" "name_instances" {
-	  name = cloud_route_table.route_table.name
+	  name = tencentcloudenterprise_route_table.route_table.name
 	}
 
 	data "tencentcloudenterprise_vpc_route_tables" "vpc_default_instance" {
-	  vpc_id           = cloud_vpc.foo.id
+	  vpc_id           = tencentcloudenterprise_vpc.foo.id
 	  association_main = true
 	}
 
 	data "tencentcloudenterprise_vpc_route_tables" "tags_instances" {
-	  tags = cloud_route_table.route_table.tags
+	  tags = tencentcloudenterprise_route_table.route_table.tags
 	}
 
 ```
@@ -211,7 +211,7 @@ func dataSourceTencentCloudVpcRouteTables() *schema.Resource {
 }
 
 func dataSourceTencentCloudVpcRouteTablesRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("data_source.cloud_vpc_route_tables.read")()
+	defer logElapsed("data_source.tencentcloudenterprise_vpc_route_tables.read")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)

@@ -14,7 +14,7 @@ Provides a resource to create a cls config extra
 
 	resource "tencentcloudenterprise_cls_topic" "topic" {
 	  auto_split           = true
-	  logset_id            = cloud_cls_logset.logset.id
+	  logset_id            = tencentcloudenterprise_cls_logset.logset.id
 	  max_split_partitions = 20
 	  partition_count      = 1
 	  period               = 10
@@ -43,13 +43,13 @@ Provides a resource to create a cls config extra
 
 	resource "tencentcloudenterprise_cls_config_extra" "extra" {
 	  name        = "helloworld-test"
-	  topic_id    = cloud_cls_topic.topic.id
+	  topic_id    = tencentcloudenterprise_cls_topic.topic.id
 	  type        = "container_file"
 	  log_type    = "json_log"
 	  config_flag = "label_k8s"
-	  logset_id   = cloud_cls_logset.logset.id
-	  logset_name = cloud_cls_logset.logset.logset_name
-	  topic_name  = cloud_cls_topic.topic.topic_name
+	  logset_id   = tencentcloudenterprise_cls_logset.logset.id
+	  logset_name = tencentcloudenterprise_cls_logset.logset.logset_name
+	  topic_name  = tencentcloudenterprise_cls_topic.topic.topic_name
 	  container_file {
 	    container    = "nginx"
 	    file_pattern = "log"
@@ -62,7 +62,7 @@ Provides a resource to create a cls config extra
 	      namespace = "default"
 	    }
 	  }
-	  group_id = cloud_cls_machine_group.group.id
+	  group_id = tencentcloudenterprise_cls_machine_group.group.id
 	}
 
 ```
@@ -72,7 +72,7 @@ Provides a resource to create a cls config extra
 cls config_extra can be imported using the id, e.g.
 
 ```
-terraform import cloud_cls_config_extra.config_extra config_extra_id
+terraform import tencentcloudenterprise_cls_config_extra.config_extra config_extra_id
 ```
 */
 package tencentcloud
@@ -455,7 +455,7 @@ func resourceTencentCloudClsConfigExtra() *schema.Resource {
 }
 
 func resourceTencentCloudClsConfigExtraCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cls_config_extra.create")()
+	defer logElapsed("resource.tencentcloudenterprise_cls_config_extra.create")()
 
 	logId := getLogId(contextNil)
 
@@ -731,7 +731,7 @@ func resourceTencentCloudClsConfigExtraCreate(d *schema.ResourceData, meta inter
 }
 
 func resourceTencentCloudClsConfigExtraRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cls_config_extra.read")()
+	defer logElapsed("resource.tencentcloudenterprise_cls_config_extra.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -1009,7 +1009,7 @@ func resourceTencentCloudClsConfigExtraRead(d *schema.ResourceData, meta interfa
 }
 
 func resourceTencentCloudClsConfigExtraUpdate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cls_config_extra.update")()
+	defer logElapsed("resource.tencentcloudenterprise_cls_config_extra.update")()
 	logId := getLogId(contextNil)
 	request := cls.NewModifyConfigExtraRequest()
 
@@ -1301,7 +1301,7 @@ func resourceTencentCloudClsConfigExtraUpdate(d *schema.ResourceData, meta inter
 }
 
 func resourceTencentCloudClsConfigExtraDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cls_config.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_cls_config.delete")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)

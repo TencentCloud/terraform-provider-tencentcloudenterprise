@@ -2,7 +2,7 @@
 subcategory: "Cloud Object Storage(COS)"
 layout: "tencentcloudenterprise"
 page_title: "TencentCloudEnterprise: tencentcloudenterprise_cos_bucket_object"
-sidebar_current: "docs-tencentcloudenterprise-resources-cos_bucket_object"
+sidebar_current: "docs-tencentcloudenterprise-resource-cos_bucket_object"
 description: |-
   Provides a cos object resource to put an object(content or file) to the bucket.
 ---
@@ -59,6 +59,5 @@ The following arguments are supported:
 In addition to all arguments above, the following attributes are exported:
 
 * `id` - ID of the resource.
-
 
 

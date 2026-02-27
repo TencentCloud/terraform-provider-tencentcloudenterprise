@@ -63,4 +63,3 @@ In addition to all arguments above, the following attributes are exported:
   * `vpc_id` - ID of the vpc with which the instance is associated.
   * `zones` - A list of available zones.
 
-

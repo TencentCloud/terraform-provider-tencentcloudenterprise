@@ -1,5 +1,5 @@
 ---
-subcategory: "Cloud Storage Private(CSP)"
+subcategory: "Cloud Object Storage(CSP)"
 layout: "tencentcloudenterprise"
 page_title: "TencentCloudEnterprise: tencentcloudenterprise_csp_bucket_object"
 sidebar_current: "docs-tencentcloudenterprise-datasource-csp_bucket_object"
@@ -50,5 +50,4 @@ In addition to all arguments above, the following attributes are exported:
 * `is_truncated` - Specifies whether the returned object list is truncated.
 * `name` - Specifies the object name.
 * `next_marker` - Specifies the object name to start with when listing objects in a bucket. If the returned value of IsTruncated is true, the value of NextMarker is the object name that starts with the value of Marker in the request. If the returned value of IsTruncated is false, the value of NextMarker is null.
-
 

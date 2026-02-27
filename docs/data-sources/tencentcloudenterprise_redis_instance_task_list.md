@@ -1,5 +1,5 @@
 ---
-subcategory: "Cloud Redis®(Redis)"
+subcategory: "TencentDB for Redis(crs)"
 layout: "tencentcloudenterprise"
 page_title: "TencentCloudEnterprise: tencentcloudenterprise_redis_instance_task_list"
 sidebar_current: "docs-tencentcloudenterprise-datasource-redis_instance_task_list"
@@ -52,5 +52,4 @@ In addition to all arguments above, the following attributes are exported:
   * `start_time` - Start time.
   * `task_id` - Task ID.
   * `task_type` - Task type.
-
 

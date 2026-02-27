@@ -17,7 +17,7 @@ Provides a resource to create a vpc classic_link_attachment
 vpc classic_link_attachment can be imported using the id, e.g.
 
 ```
-terraform import cloud_vpc_classic_link_attachment.classic_link_attachment classic_link_attachment_id
+terraform import tencentcloudenterprise_vpc_classic_link_attachment.classic_link_attachment classic_link_attachment_id
 ```
 */
 package tencentcloud
@@ -76,7 +76,7 @@ func resourceTencentCloudVpcClassicLinkAttachment() *schema.Resource {
 }
 
 func resourceTencentCloudVpcClassicLinkAttachmentCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_vpc_classic_link_attachment.create")()
+	defer logElapsed("resource.tencentcloudenterprise_vpc_classic_link_attachment.create")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -119,7 +119,7 @@ func resourceTencentCloudVpcClassicLinkAttachmentCreate(d *schema.ResourceData, 
 }
 
 func resourceTencentCloudVpcClassicLinkAttachmentRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_vpc_classic_link_attachment.read")()
+	defer logElapsed("resource.tencentcloudenterprise_vpc_classic_link_attachment.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -158,7 +158,7 @@ func resourceTencentCloudVpcClassicLinkAttachmentRead(d *schema.ResourceData, me
 }
 
 func resourceTencentCloudVpcClassicLinkAttachmentDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_vpc_classic_link_attachment.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_vpc_classic_link_attachment.delete")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)

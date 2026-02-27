@@ -100,7 +100,7 @@ func dataSourceTencentCloudTurbofsFileSystemClients() *schema.Resource {
 }
 
 func dataSourceTencentCloudTurbofsFileSystemClientsRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("data_source.cloud_turbofs_file_system_clients.read")()
+	defer logElapsed("data_source.tencentcloudenterprise_turbofs_file_system_clients.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)

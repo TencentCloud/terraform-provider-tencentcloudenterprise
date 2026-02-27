@@ -17,7 +17,7 @@
 	resource "tencentcloudenterprise_vpc_subnet" "subnet" {
 	  availability_zone = var.availability_zone
 	  name              = "guagua_vpc_subnet_test"
-	  vpc_id            = cloud_vpc.foo.id
+	  vpc_id            = tencentcloudenterprise_vpc.foo.id
 	  cidr_block        = "10.0.20.0/28"
 	  is_multicast      = false
 
@@ -27,15 +27,15 @@
 	}
 
 	data "tencentcloudenterprise_vpc_subnets" "id_instances" {
-	  subnet_id = cloud_vpc_subnet.subnet.id
+	  subnet_id = tencentcloudenterprise_vpc_subnet.subnet.id
 	}
 
 	data "tencentcloudenterprise_vpc_subnets" "name_instances" {
-	  name = cloud_vpc_subnet.subnet.name
+	  name = tencentcloudenterprise_vpc_subnet.subnet.name
 	}
 
 	data "tencentcloudenterprise_vpc_subnets" "tags_instances" {
-	  tags = cloud_vpc_subnet.subnet.tags
+	  tags = tencentcloudenterprise_vpc_subnet.subnet.tags
 	}
 
 ```
@@ -204,7 +204,7 @@ func dataSourceTencentCloudVpcSubnets() *schema.Resource {
 }
 
 func dataSourceTencentCloudVpcSubnetsRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("data_source.cloud_vpc_subnets.read")()
+	defer logElapsed("data_source.tencentcloudenterprise_vpc_subnets.read")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)

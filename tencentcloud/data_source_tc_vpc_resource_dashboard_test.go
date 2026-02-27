@@ -16,7 +16,7 @@ func TestAccTencentCloudVpcResourceDashboardDataSource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			{
 				Config: testAccVpcResourceDashboardDataSource,
-				Check:  resource.ComposeTestCheckFunc(testAccCheckTencentCloudDataSourceID("data.cloud_vpc_resource_dashboard.resource_dashboard")),
+				Check:  resource.ComposeTestCheckFunc(testAccCheckTencentCloudDataSourceID("data.tencentcloudenterprise_vpc_resource_dashboard.resource_dashboard")),
 			},
 		},
 	})

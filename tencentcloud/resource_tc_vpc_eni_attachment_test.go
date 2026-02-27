@@ -118,7 +118,7 @@ resource "tencentcloudenterprise_vpc_eni" "foo" {
 }
 
 resource "tencentcloudenterprise_vpc_eni_attachment" "foo" {
-  eni_id      = cloud_vpc_eni.foo.id
-  instance_id = cloud_cvm_instance.default.id
+  eni_id      = tencentcloudenterprise_vpc_eni.foo.id
+  instance_id = tencentcloudenterprise_cvm_instance.default.id
 }
 `

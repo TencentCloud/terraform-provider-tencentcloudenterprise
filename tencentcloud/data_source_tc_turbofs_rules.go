@@ -101,7 +101,7 @@ func dataSourceTencentCloudTurbofsRules() *schema.Resource {
 }
 
 func dataSourceTencentCloudTurbofsAccessRulesRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("data_source.cloud_turbofs_rules.read")()
+	defer logElapsed("data_source.tencentcloudenterprise_turbofs_rules.read")()
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
 	turbofsService := TurbofsService{

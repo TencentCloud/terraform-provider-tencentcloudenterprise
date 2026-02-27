@@ -1,5 +1,5 @@
 ---
-subcategory: "Cloud Kafka(CKafka)"
+subcategory: "Cloud Kafka(ckafka)"
 layout: "tencentcloudenterprise"
 page_title: "TencentCloudEnterprise: tencentcloudenterprise_ckafka_group_offsets"
 sidebar_current: "docs-tencentcloudenterprise-datasource-ckafka_group_offsets"
@@ -43,5 +43,4 @@ In addition to all arguments above, the following attributes are exported:
     * `offset` - The offset of the position.
     * `partition` - Topic partitionId.
   * `topic` - TopicName.
-
 

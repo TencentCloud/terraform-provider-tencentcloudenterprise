@@ -1,8 +1,8 @@
 ---
-subcategory: "Virtual Private Cloud Domain Name System(VPCDNS)"
+subcategory: "Virtual Private Cloud DNS(VPCDNS)"
 layout: "tencentcloudenterprise"
 page_title: "TencentCloudEnterprise: tencentcloudenterprise_vpcdns_domain"
-sidebar_current: "docs-tencentcloudenterprise-resources-vpcdns_domain"
+sidebar_current: "docs-tencentcloudenterprise-resource-vpcdns_domain"
 description: |-
   Provide a resource to create a VPCDNS domain.
 ---
@@ -37,14 +37,17 @@ In addition to all arguments above, the following attributes are exported:
 
 * `id` - ID of the resource.
 * `create_time` - Creation time of VpcDns Domain.
-* `domain_id` - id of vpcdns domain.
-
+* `domain_id` - id of vpcdns domain
 
 ## Import
 
+tencentcloudenterprise_vpcdns_domain can be imported using the id, e.g.
+
+```
 Vpc subnet instance can be imported, e.g.
 
 ```
 $ terraform import tencentcloudenterprise_vpcdns_domain.test domain_id
+```
 ```
 

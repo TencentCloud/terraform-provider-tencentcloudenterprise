@@ -358,7 +358,7 @@ func dataSourceTencentCloudTsfCluster() *schema.Resource {
 }
 
 func dataSourceTencentCloudTsfClusterRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("data_source.cloud_tsf_cluster.read")()
+	defer logElapsed("data_source.tencentcloudenterprise_tsf_cluster.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)

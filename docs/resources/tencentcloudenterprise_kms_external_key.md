@@ -2,7 +2,7 @@
 subcategory: "Key Management Service(KMS)"
 layout: "tencentcloudenterprise"
 page_title: "TencentCloudEnterprise: tencentcloudenterprise_kms_external_key"
-sidebar_current: "docs-tencentcloudenterprise-resources-kms_external_key"
+sidebar_current: "docs-tencentcloudenterprise-resource-kms_external_key"
 description: |-
   Provide a resource to create a KMS external key.
 ---
@@ -45,12 +45,15 @@ In addition to all arguments above, the following attributes are exported:
 * `id` - ID of the resource.
 * `key_state` - State of CMK.
 
-
 ## Import
 
+tencentcloudenterprise_kms_external_key can be imported using the id, e.g.
+
+```
 KMS external keys can be imported using the id, e.g.
 
 ```
 $ terraform import tencentcloudenterprise_kms_external_key.foo 287e8f40-7cbb-11eb-9a3a-5254004f7f94
+```
 ```
 

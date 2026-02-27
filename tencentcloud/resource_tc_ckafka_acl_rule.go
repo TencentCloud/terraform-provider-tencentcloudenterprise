@@ -28,7 +28,7 @@
 // ckafka acl_rule can be imported using the id, e.g.
 //
 // ```
-// terraform import cloud_ckafka_acl_rule.acl_rule acl_rule_id
+// terraform import tencentcloudenterprise_ckafka_acl_rule.acl_rule acl_rule_id
 // ```
 // */
 package tencentcloud
@@ -137,7 +137,7 @@ package tencentcloud
 //}
 //
 //func resourceTencentCloudCkafkaAclRuleCreate(d *schema.ResourceData, meta interface{}) error {
-//	defer logElapsed("resource.cloud_ckafka_acl_rule.create")()
+//	defer logElapsed("resource.tencentcloudenterprise_ckafka_acl_rule.create")()
 //	defer inconsistentCheck(d, meta)()
 //
 //	logId := getLogId(contextNil)
@@ -213,7 +213,7 @@ package tencentcloud
 //}
 //
 //func resourceTencentCloudCkafkaAclRuleRead(d *schema.ResourceData, meta interface{}) error {
-//	defer logElapsed("resource.cloud_ckafka_acl_rule.read")()
+//	defer logElapsed("resource.tencentcloudenterprise_ckafka_acl_rule.read")()
 //	defer inconsistentCheck(d, meta)()
 //
 //	logId := getLogId(contextNil)
@@ -301,7 +301,7 @@ package tencentcloud
 //}
 //
 //func resourceTencentCloudCkafkaAclRuleUpdate(d *schema.ResourceData, meta interface{}) error {
-//	defer logElapsed("resource.cloud_ckafka_acl_rule.update")()
+//	defer logElapsed("resource.tencentcloudenterprise_ckafka_acl_rule.update")()
 //	defer inconsistentCheck(d, meta)()
 //
 //	logId := getLogId(contextNil)
@@ -348,7 +348,7 @@ package tencentcloud
 //}
 //
 //func resourceTencentCloudCkafkaAclRuleDelete(d *schema.ResourceData, meta interface{}) error {
-//	defer logElapsed("resource.cloud_ckafka_acl_rule.delete")()
+//	defer logElapsed("resource.tencentcloudenterprise_ckafka_acl_rule.delete")()
 //	defer inconsistentCheck(d, meta)()
 //
 //	logId := getLogId(contextNil)

@@ -17,7 +17,7 @@ Provides a resource to create a CBS snapshot.
 CBS snapshot can be imported using the id, e.g.
 
 ```
-$ terraform import cloud_cbs_snapshot.snapshot snap-3sa3f39b
+$ terraform import tencentcloudenterprise_cbs_snapshot.snapshot snap-3sa3f39b
 ```
 */
 package tencentcloud
@@ -111,7 +111,7 @@ func resourceTencentCloudCbsSnapshot() *schema.Resource {
 }
 
 func resourceTencentCloudCbsSnapshotCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cbs_snapshot.create")()
+	defer logElapsed("resource.tencentcloudenterprise_cbs_snapshot.create")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
@@ -177,7 +177,7 @@ func resourceTencentCloudCbsSnapshotCreate(d *schema.ResourceData, meta interfac
 }
 
 func resourceTencentCloudCbsSnapshotRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cbs_snapshot.read")()
+	defer logElapsed("resource.tencentcloudenterprise_cbs_snapshot.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -226,7 +226,7 @@ func resourceTencentCloudCbsSnapshotRead(d *schema.ResourceData, meta interface{
 }
 
 func resourceTencentCloudCbsSnapshotUpdate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cbs_snapshot.update")()
+	defer logElapsed("resource.tencentcloudenterprise_cbs_snapshot.update")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
@@ -269,7 +269,7 @@ func resourceTencentCloudCbsSnapshotUpdate(d *schema.ResourceData, meta interfac
 }
 
 func resourceTencentCloudCbsSnapshotDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cbs_snapshot.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_cbs_snapshot.delete")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)

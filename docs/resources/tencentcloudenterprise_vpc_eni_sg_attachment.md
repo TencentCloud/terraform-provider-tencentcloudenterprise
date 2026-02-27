@@ -2,7 +2,7 @@
 subcategory: "Virtual Private Cloud(VPC)"
 layout: "tencentcloudenterprise"
 page_title: "TencentCloudEnterprise: tencentcloudenterprise_vpc_eni_sg_attachment"
-sidebar_current: "docs-tencentcloudenterprise-resources-vpc_eni_sg_attachment"
+sidebar_current: "docs-tencentcloudenterprise-resource-vpc_eni_sg_attachment"
 description: |-
   Provides a resource to create a eni_sg_attachment
 ---
@@ -34,12 +34,15 @@ In addition to all arguments above, the following attributes are exported:
 * `id` - ID of the resource.
 
 
-
 ## Import
 
+tencentcloudenterprise_vpc_eni_sg_attachment can be imported using the id, e.g.
+
+```
 vpc eni_sg_attachment can be imported using the id, e.g.
 
 ```
 terraform import tencentcloudenterprise_vpc_eni_sg_attachment.eni_sg_attachment eni_sg_attachment_id
+```
 ```
 

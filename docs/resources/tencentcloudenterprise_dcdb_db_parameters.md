@@ -1,8 +1,8 @@
 ---
-subcategory: "Distributed Database For MySQL(DCDB)"
+subcategory: "TDSQL for MySQL(DCDB)"
 layout: "tencentcloudenterprise"
 page_title: "TencentCloudEnterprise: tencentcloudenterprise_dcdb_db_parameters"
-sidebar_current: "docs-tencentcloudenterprise-resources-dcdb_db_parameters"
+sidebar_current: "docs-tencentcloudenterprise-resource-dcdb_db_parameters"
 description: |-
   Provides a resource to create a dcdb db_parameters
 ---
@@ -46,12 +46,15 @@ In addition to all arguments above, the following attributes are exported:
 * `id` - ID of the resource.
 
 
-
 ## Import
 
+tencentcloudenterprise_dcdb_db_parameters can be imported using the id, e.g.
+
+```
 dcdb db_parameters can be imported using the id, e.g.
 
 ```
 terraform import tencentcloudenterprise_dcdb_db_parameters.db_parameters instanceId#paramName
+```
 ```
 

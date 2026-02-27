@@ -20,7 +20,7 @@ Provides a resource to create a vpc end_point_service
 vpc end_point_service can be imported using the id, e.g.
 
 ```
-terraform import cloud_vpc_end_point_service.end_point_service end_point_service_id
+terraform import tencentcloudenterprise_vpc_end_point_service.end_point_service end_point_service_id
 ```
 */
 package tencentcloud
@@ -123,7 +123,7 @@ func resourceTencentCloudVpcEndPointService() *schema.Resource {
 }
 
 func resourceTencentCloudVpcEndPointServiceCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_vpc_end_point_service.create")()
+	defer logElapsed("resource.tencentcloudenterprise_vpc_end_point_service.create")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -178,7 +178,7 @@ func resourceTencentCloudVpcEndPointServiceCreate(d *schema.ResourceData, meta i
 }
 
 func resourceTencentCloudVpcEndPointServiceRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_vpc_end_point_service.read")()
+	defer logElapsed("resource.tencentcloudenterprise_vpc_end_point_service.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -243,7 +243,7 @@ func resourceTencentCloudVpcEndPointServiceRead(d *schema.ResourceData, meta int
 }
 
 func resourceTencentCloudVpcEndPointServiceUpdate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_vpc_end_point_service.update")()
+	defer logElapsed("resource.tencentcloudenterprise_vpc_end_point_service.update")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -304,7 +304,7 @@ func resourceTencentCloudVpcEndPointServiceUpdate(d *schema.ResourceData, meta i
 }
 
 func resourceTencentCloudVpcEndPointServiceDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_vpc_end_point_service.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_vpc_end_point_service.delete")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)

@@ -1,8 +1,8 @@
 ---
-subcategory: "Cloud Redis®(Redis)"
+subcategory: "TencentDB for Redis(crs)"
 layout: "tencentcloudenterprise"
 page_title: "TencentCloudEnterprise: tencentcloudenterprise_redis_clear_instance_operation"
-sidebar_current: "docs-tencentcloudenterprise-resources-redis_clear_instance_operation"
+sidebar_current: "docs-tencentcloudenterprise-resource-redis_clear_instance_operation"
 description: |-
   Provides a resource to create a clear_instance_operation
 ---
@@ -32,6 +32,5 @@ The following arguments are supported:
 In addition to all arguments above, the following attributes are exported:
 
 * `id` - ID of the resource.
-
 
 

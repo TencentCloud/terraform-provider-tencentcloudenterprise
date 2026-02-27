@@ -16,7 +16,7 @@ func TestAccTencentCloudClsMachinesDataSource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			{
 				Config: testAccClsMachinesDataSource,
-				Check:  resource.ComposeTestCheckFunc(testAccCheckTencentCloudDataSourceID("data.cloud_cls_machines.machines")),
+				Check:  resource.ComposeTestCheckFunc(testAccCheckTencentCloudDataSourceID("data.tencentcloudenterprise_cls_machines.machines")),
 			},
 		},
 	})
@@ -41,7 +41,7 @@ resource "tencentcloudenterprise_cls_machine_group" "group" {
 }
 
 data "tencentcloudenterprise_cls_machines" "machines" {
-  group_id = cloud_cls_machine_group.group.id
+  group_id = tencentcloudenterprise_cls_machine_group.group.id
 }
 
 `

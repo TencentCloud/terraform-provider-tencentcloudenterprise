@@ -116,7 +116,7 @@ func resourceTencentCloudTsfConfigTemplate() *schema.Resource {
 }
 
 func resourceTencentCloudTsfConfigTemplateCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_tsf_config_template.create")()
+	defer logElapsed("resource.tencentcloudenterprise_tsf_config_template.create")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -172,7 +172,7 @@ func resourceTencentCloudTsfConfigTemplateCreate(d *schema.ResourceData, meta in
 }
 
 func resourceTencentCloudTsfConfigTemplateRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_tsf_config_template.read")()
+	defer logElapsed("resource.tencentcloudenterprise_tsf_config_template.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -240,7 +240,7 @@ func resourceTencentCloudTsfConfigTemplateRead(d *schema.ResourceData, meta inte
 }
 
 func resourceTencentCloudTsfConfigTemplateUpdate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_tsf_config_template.update")()
+	defer logElapsed("resource.tencentcloudenterprise_tsf_config_template.update")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -297,7 +297,7 @@ func resourceTencentCloudTsfConfigTemplateUpdate(d *schema.ResourceData, meta in
 }
 
 func resourceTencentCloudTsfConfigTemplateDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_tsf_config_template.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_tsf_config_template.delete")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)

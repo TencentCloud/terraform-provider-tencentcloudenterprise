@@ -154,14 +154,14 @@ resource "tencentcloudenterprise_eip" "foo" {
 resource "tencentcloudenterprise_cvm_instance" "foo" {
   instance_name      = var.instance_name
   availability_zone  = var.availability_cvm_zone
-  image_id           = data.cloud_cvm_images.default.images.0.image_id
-  instance_type      = data.cloud_cvm_instance_types.default.instance_types.0.instance_type
+  image_id           = data.tencentcloudenterprise_cvm_images.default.images.0.image_id
+  instance_type      = data.tencentcloudenterprise_cvm_instance_types.default.instance_types.0.instance_type
   system_disk_type   = "CLOUD_PREMIUM"
 }
 
 resource "tencentcloudenterprise_eip_association" "foo" {
-  eip_id      = cloud_eip.foo.id
-  instance_id = cloud_cvm_instance.foo.id
+  eip_id      = tencentcloudenterprise_eip.foo.id
+  instance_id = tencentcloudenterprise_cvm_instance.foo.id
 }
 `
 
@@ -179,8 +179,8 @@ resource "tencentcloudenterprise_vpc_eni" "foo" {
 }
 
 resource "tencentcloudenterprise_eip_association" "foo" {
-  eip_id               = cloud_eip.foo.id
-  network_interface_id = cloud_vpc_eni.foo.id
-  private_ip           = cloud_vpc_eni.foo.ipv4_info.0.ip
+  eip_id               = tencentcloudenterprise_eip.foo.id
+  network_interface_id = tencentcloudenterprise_vpc_eni.foo.id
+  private_ip           = tencentcloudenterprise_vpc_eni.foo.ipv4_info.0.ip
 }
 `

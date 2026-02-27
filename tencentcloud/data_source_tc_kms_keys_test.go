@@ -10,7 +10,7 @@ import (
 
 func TestAccTencentCloudKmsKeyDataSource(t *testing.T) {
 	t.Parallel()
-	dataSourceName := "data.cloud_kms_keys.test"
+	dataSourceName := "data.tencentcloudenterprise_kms_keys.test"
 	rName := fmt.Sprintf("tf-testacc-kms-key-%s", acctest.RandString(13))
 
 	resource.Test(t, resource.TestCase{
@@ -47,7 +47,7 @@ resource "tencentcloudenterprise_kms_key" "test" {
 	key_rotation_enabled = true
 }
 data "tencentcloudenterprise_kms_keys" "test" {
-  search_key_alias = cloud_kms_key.test.alias
+  search_key_alias = tencentcloudenterprise_kms_key.test.alias
 }
 `, rName)
 }

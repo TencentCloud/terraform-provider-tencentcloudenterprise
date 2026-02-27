@@ -70,4 +70,3 @@ In addition to all arguments above, the following attributes are exported:
     * `updated_time` - Group creation time, such as: 2019-06-20 15:51:28.Note: This field may return null, indicating that no valid values can be obtained.
   * `total_count` - Record count.
 
-

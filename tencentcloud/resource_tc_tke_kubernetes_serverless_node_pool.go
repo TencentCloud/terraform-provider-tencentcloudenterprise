@@ -5,7 +5,7 @@ Example Usage
 ```
 
 	resource "tencentcloudenterprise_kubernetes_serverless_node_pool" "example_serverless_node_pool" {
-	  cluster_id = cloud_tke_kubernetes_cluster.example.id
+	  cluster_id = tencentcloudenterprise_tke_kubernetes_cluster.example.id
 	  name               = "example_node_pool"
 	  serverless_nodes {
 	    display_name = "serverless_node1"
@@ -29,7 +29,7 @@ Example Usage
 serverless node pool can be imported, e.g.
 
 ```
-$ terraform import cloud_kubernetes_serverless_node_pool.test cls-xxx#np-xxx
+$ terraform import tencentcloudenterprise_kubernetes_serverless_node_pool.test cls-xxx#np-xxx
 ```
 */
 package tencentcloud
@@ -155,7 +155,7 @@ func resourceTkeServerLessNodePool() *schema.Resource {
 }
 
 func resourceTkeServerlessNodePoolRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_eks_cluster.read")()
+	defer logElapsed("resource.tencentcloudenterprise_eks_cluster.read")()
 
 	var (
 		items = strings.Split(d.Id(), FILED_SP)
@@ -206,7 +206,7 @@ func resourceTkeServerlessNodePoolRead(d *schema.ResourceData, meta interface{})
 }
 
 func resourceTkeServerlessNodePoolCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_kubernetes_serverless_node_pool.create")()
+	defer logElapsed("resource.tencentcloudenterprise_kubernetes_serverless_node_pool.create")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
@@ -228,7 +228,7 @@ func resourceTkeServerlessNodePoolCreate(d *schema.ResourceData, meta interface{
 }
 func resourceTkeServerlessNodePoolUpdate(d *schema.ResourceData, meta interface{}) error {
 	// currently only name, labels and taints can be modified
-	defer logElapsed("resource.cloud_kubernetes_serverless_node_pool.update")()
+	defer logElapsed("resource.tencentcloudenterprise_kubernetes_serverless_node_pool.update")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
@@ -268,7 +268,7 @@ func resourceTkeServerlessNodePoolUpdate(d *schema.ResourceData, meta interface{
 	return resourceTkeServerlessNodePoolRead(d, meta)
 }
 func resourceTkeServerlessNodePoolDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_kubernetes_serverless_node_pool.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_kubernetes_serverless_node_pool.delete")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)

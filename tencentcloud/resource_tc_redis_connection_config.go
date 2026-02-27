@@ -18,7 +18,7 @@ Provides a resource to create a redis connection_config
 Redis connectionConfig can be imported, e.g.
 
 ```
-$ terraform import cloud_redis_connection_config.connection_config instance_id
+$ terraform import tencentcloudenterprise_redis_connection_config.connection_config instance_id
 ```
 */
 package tencentcloud
@@ -100,7 +100,7 @@ package tencentcloud
 //}
 //
 //func resourceTencentCloudRedisConnectionConfigCreate(d *schema.ResourceData, meta interface{}) error {
-//	defer logElapsed("resource.cloud_redis_connection_config.create")()
+//	defer logElapsed("resource.tencentcloudenterprise_redis_connection_config.create")()
 //	defer inconsistentCheck(d, meta)()
 //
 //	var (
@@ -116,7 +116,7 @@ package tencentcloud
 //}
 //
 //func resourceTencentCloudRedisConnectionConfigRead(d *schema.ResourceData, meta interface{}) error {
-//	defer logElapsed("resource.cloud_redis_connection_config.read")()
+//	defer logElapsed("resource.tencentcloudenterprise_redis_connection_config.read")()
 //	defer inconsistentCheck(d, meta)()
 //
 //	logId := getLogId(contextNil)
@@ -179,7 +179,7 @@ package tencentcloud
 //}
 //
 //func resourceTencentCloudRedisConnectionConfigUpdate(d *schema.ResourceData, meta interface{}) error {
-//	defer logElapsed("resource.cloud_redis_connection_config.update")()
+//	defer logElapsed("resource.tencentcloudenterprise_redis_connection_config.update")()
 //	defer inconsistentCheck(d, meta)()
 //
 //	logId := getLogId(contextNil)
@@ -252,7 +252,7 @@ package tencentcloud
 //}
 //
 //func resourceTencentCloudRedisConnectionConfigDelete(d *schema.ResourceData, meta interface{}) error {
-//	defer logElapsed("resource.cloud_redis_connection_config.delete")()
+//	defer logElapsed("resource.tencentcloudenterprise_redis_connection_config.delete")()
 //	defer inconsistentCheck(d, meta)()
 //
 //	return nil

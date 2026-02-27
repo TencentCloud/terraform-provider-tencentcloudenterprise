@@ -86,7 +86,7 @@ func datasourceTencentCloudKubernetesClusterCommonNames() *schema.Resource {
 }
 
 func datasourceTencentCloudKubernetesClusterCommonNamesRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("datasource.cloud_tke_kubernetes_cluster_common_names.read")()
+	defer logElapsed("datasource.tencentcloudenterprise_tke_kubernetes_cluster_common_names.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)

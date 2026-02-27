@@ -6,8 +6,8 @@ Provides a CBS snapshot policy attachment resource.
 ```hcl
 
 	resource "tencentcloudenterprise_cbs_snapshot_policy_attachment" "foo" {
-	  storage_id         = cloud_cbs_storage.foo.id
-	  snapshot_policy_id = cloud_cbs_snapshot_policy.policy.id
+	  storage_id         = tencentcloudenterprise_cbs_storage.foo.id
+	  snapshot_policy_id = tencentcloudenterprise_cbs_snapshot_policy.policy.id
 	}
 
 ```
@@ -61,7 +61,7 @@ func resourceTencentCloudCbsSnapshotPolicyAttachment() *schema.Resource {
 }
 
 func resourceTencentCloudCbsSnapshotPolicyAttachmentCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cbs_snapshot_policy_attachment.create")()
+	defer logElapsed("resource.tencentcloudenterprise_cbs_snapshot_policy_attachment.create")()
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
 
@@ -87,7 +87,7 @@ func resourceTencentCloudCbsSnapshotPolicyAttachmentCreate(d *schema.ResourceDat
 }
 
 func resourceTencentCloudCbsSnapshotPolicyAttachmentRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cbs_snapshot_policy_attachment.read")()
+	defer logElapsed("resource.tencentcloudenterprise_cbs_snapshot_policy_attachment.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -127,7 +127,7 @@ func resourceTencentCloudCbsSnapshotPolicyAttachmentRead(d *schema.ResourceData,
 }
 
 func resourceTencentCloudCbsSnapshotPolicyAttachmentDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cbs_snapshot_policy_attachment.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_cbs_snapshot_policy_attachment.delete")()
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
 

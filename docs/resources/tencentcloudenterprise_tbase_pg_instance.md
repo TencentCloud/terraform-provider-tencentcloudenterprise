@@ -1,8 +1,8 @@
 ---
-subcategory: "Cloud Distributed SQL For PostGreSQL(TBASE)"
+subcategory: "TDSQL PostgreSQL (Tbase)"
 layout: "tencentcloudenterprise"
 page_title: "TencentCloudEnterprise: tencentcloudenterprise_tbase_pg_instance"
-sidebar_current: "docs-tencentcloudenterprise-resources-tbase_pg_instance"
+sidebar_current: "docs-tencentcloudenterprise-resource-tbase_pg_instance"
 description: |-
   Provides a resource to create a tbase instance.
 ---
@@ -47,7 +47,7 @@ The following arguments are supported:
 
 * `charset` - (Required, String) charset.
 * `cpu` - (Required, Int) Cpu.
-* `engine_type` - (Required, String) engine type. `PostgreSQL`, `TbaseXC`.
+* `engine_type` - (Required, String) engine type. `PostgreSQL`, `TbaseXC`
 * `engine_version` - (Required, String) Engine version.
 * `instance_count` - (Required, Int) instance count.
 * `instance_role` - (Required, String) instance role, current only support `master` type.
@@ -76,11 +76,14 @@ In addition to all arguments above, the following attributes are exported:
 * `id` - ID of the resource.
 
 
-
 ## Import
 
+tencentcloudenterprise_tbase_pg_instance can be imported using the id, e.g.
+
+```
 tbase instance can be imported using the id, e.g.
 ```
 $ terraform import tencentcloudenterprise_tbase_instance.instance cluster_id#instance_id
+```
 ```
 

@@ -35,7 +35,7 @@ Provides a resource to create a tsf contain_group
 tsf contain_group can be imported using the id, e.g.
 
 ```
-terraform import cloud_tsf_contain_group.contain_group contain_group_id
+terraform import tencentcloudenterprise_tsf_contain_group.contain_group contain_group_id
 ```
 */
 package tencentcloud
@@ -557,7 +557,7 @@ func resourceTencentCloudTsfContainGroup() *schema.Resource {
 }
 
 func resourceTencentCloudTsfContainGroupCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_tsf_contain_group.create")()
+	defer logElapsed("resource.tencentcloudenterprise_tsf_contain_group.create")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -701,7 +701,7 @@ func resourceTencentCloudTsfContainGroupCreate(d *schema.ResourceData, meta inte
 }
 
 func resourceTencentCloudTsfContainGroupRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_tsf_contain_group.read")()
+	defer logElapsed("resource.tencentcloudenterprise_tsf_contain_group.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -1075,7 +1075,7 @@ func resourceTencentCloudTsfContainGroupRead(d *schema.ResourceData, meta interf
 }
 
 func resourceTencentCloudTsfContainGroupUpdate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_tsf_contain_group.update")()
+	defer logElapsed("resource.tencentcloudenterprise_tsf_contain_group.update")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -1158,7 +1158,7 @@ func resourceTencentCloudTsfContainGroupUpdate(d *schema.ResourceData, meta inte
 }
 
 func resourceTencentCloudTsfContainGroupDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_tsf_contain_group.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_tsf_contain_group.delete")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)

@@ -2,7 +2,7 @@
 subcategory: "Auto Scaling(AS)"
 layout: "tencentcloudenterprise"
 page_title: "TencentCloudEnterprise: tencentcloudenterprise_as_protect_instances"
-sidebar_current: "docs-tencentcloudenterprise-resources-as_protect_instances"
+sidebar_current: "docs-tencentcloudenterprise-resource-as_protect_instances"
 description: |-
   Provides a resource to create a as protect_instances
 ---
@@ -34,6 +34,5 @@ The following arguments are supported:
 In addition to all arguments above, the following attributes are exported:
 
 * `id` - ID of the resource.
-
 
 

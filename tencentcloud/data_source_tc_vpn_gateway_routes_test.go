@@ -15,14 +15,14 @@ func TestAccTencentCloudNeedFixVpnGatewayRoutesDataSource(t *testing.T) {
 			{
 				Config: testAccTencentCloudVpnGatewayRoutesDataSourceConfig_basic,
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckTencentCloudDataSourceID("data.cloud_vpn_gateway_routes.routes"),
-					resource.TestCheckResourceAttr("data.cloud_vpn_gateway_routes.routes", "vpn_gateway_route_list.#", "1"),
-					resource.TestCheckResourceAttr("data.cloud_vpn_gateway_routes.routes", "vpn_gateway_route_list.0.destination_cidr_block", "10.0.0.0/16"),
-					resource.TestCheckResourceAttr("data.cloud_vpn_gateway_routes.routes", "vpn_gateway_route_list.0.instance_type", "VPNCONN"),
-					resource.TestCheckResourceAttr("data.cloud_vpn_gateway_routes.routes", "vpn_gateway_route_list.0.priority", "100"),
-					resource.TestCheckResourceAttr("data.cloud_vpn_gateway_routes.routes", "vpn_gateway_route_list.0.status", "ENABLE"),
-					resource.TestCheckResourceAttrSet("data.cloud_vpn_gateway_routes.routes", "vpn_gateway_route_list.0.type"),
-					resource.TestCheckResourceAttrSet("data.cloud_vpn_gateway_routes.routes", "vpn_gateway_route_list.0.route_id"),
+					testAccCheckTencentCloudDataSourceID("data.tencentcloudenterprise_vpn_gateway_routes.routes"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_vpn_gateway_routes.routes", "vpn_gateway_route_list.#", "1"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_vpn_gateway_routes.routes", "vpn_gateway_route_list.0.destination_cidr_block", "10.0.0.0/16"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_vpn_gateway_routes.routes", "vpn_gateway_route_list.0.instance_type", "VPNCONN"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_vpn_gateway_routes.routes", "vpn_gateway_route_list.0.priority", "100"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_vpn_gateway_routes.routes", "vpn_gateway_route_list.0.status", "ENABLE"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_vpn_gateway_routes.routes", "vpn_gateway_route_list.0.type"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_vpn_gateway_routes.routes", "vpn_gateway_route_list.0.route_id"),
 				),
 			},
 		},
@@ -31,15 +31,15 @@ func TestAccTencentCloudNeedFixVpnGatewayRoutesDataSource(t *testing.T) {
 
 const testAccTencentCloudVpnGatewayRoutesDataSourceConfig_basic = defaultVpnDataSource + `
 resource "tencentcloudenterprise_vpn_gateway_route" "route1" {
-  vpn_gateway_id = data.cloud_vpn_gateways.foo.gateway_list.0.id
+  vpn_gateway_id = data.tencentcloudenterprise_vpn_gateways.foo.gateway_list.0.id
   destination_cidr_block = "10.0.0.0/18"
   instance_type = "VPNCONN"
-  instance_id = data.cloud_vpn_connections.conns.connection_list.0.id
+  instance_id = data.tencentcloudenterprise_vpn_connections.conns.connection_list.0.id
   priority = "100"
   status = "ENABLE"
 }
 
 data "tencentcloudenterprise_vpn_gateway_routes" "routes" {
-  vpn_gateway_id = data.cloud_vpn_gateways.foo.gateway_list.0.id
+  vpn_gateway_id = data.tencentcloudenterprise_vpn_gateways.foo.gateway_list.0.id
 }
 `

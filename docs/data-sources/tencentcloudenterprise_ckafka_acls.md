@@ -1,5 +1,5 @@
 ---
-subcategory: "Cloud Kafka(CKafka)"
+subcategory: "Cloud Kafka(ckafka)"
 layout: "tencentcloudenterprise"
 page_title: "TencentCloudEnterprise: tencentcloudenterprise_ckafka_acls"
 sidebar_current: "docs-tencentcloudenterprise-datasource-ckafka_acls"
@@ -43,5 +43,4 @@ In addition to all arguments above, the following attributes are exported:
   * `principal` - User which can access. `*` means that any user can access.
   * `resource_name` - ACL resource name, which is related to `resource_type`.
   * `resource_type` - ACL resource type.
-
 

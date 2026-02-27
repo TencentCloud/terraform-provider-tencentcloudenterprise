@@ -2,7 +2,7 @@
 subcategory: "Cloud Elastic IP(EIP)"
 layout: "tencentcloudenterprise"
 page_title: "TencentCloudEnterprise: tencentcloudenterprise_eip_association"
-sidebar_current: "docs-tencentcloudenterprise-resources-eip_association"
+sidebar_current: "docs-tencentcloudenterprise-resource-eip_association"
 description: |-
   Provides an eip resource associated with other resource like CVM, ENI and CLB.
 ---
@@ -11,7 +11,7 @@ description: |-
 
 Provides an eip resource associated with other resource like CVM, ENI and CLB.
 
-~> **NOTE:** Please DO NOT define `allocate_public_ip` in `tencentcloudenterprise_cvm_instance` resource when using `tencentcloudenterprise_eip_association`.
+~> **NOTE:** Please DO NOT define `allocate_public_ip` in `cloud_cvm_instance` resource when using `cloud_eip_association`.
 
 ## Example Usage
 
@@ -48,12 +48,15 @@ In addition to all arguments above, the following attributes are exported:
 * `id` - ID of the resource.
 
 
-
 ## Import
 
+tencentcloudenterprise_eip_association can be imported using the id, e.g.
+
+```
 Eip association can be imported using the id, e.g.
 
 ```
 $ terraform import tencentcloudenterprise_eip_association.bar eip-41s6jwy4::ins-34jwj3
+```
 ```
 

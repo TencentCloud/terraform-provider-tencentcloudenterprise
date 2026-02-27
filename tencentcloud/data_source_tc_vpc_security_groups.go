@@ -6,7 +6,7 @@ Use this data source to query detailed information of security groups.
 ```hcl
 
 	data "tencentcloudenterprise_vpc_security_groups" "sglab" {
-	  security_group_id = cloud_vpc_security_group.sglab.id
+	  security_group_id = tencentcloudenterprise_vpc_security_group.sglab.id
 	}
 
 ```
@@ -145,7 +145,7 @@ func dataSourceTencentCloudSecurityGroups() *schema.Resource {
 }
 
 func dataSourceTencentCloudSecurityGroupsRead(d *schema.ResourceData, m interface{}) error {
-	defer logElapsed("data_source.cloud_vpc_security_groups.read")()
+	defer logElapsed("data_source.tencentcloudenterprise_vpc_security_groups.read")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)

@@ -115,10 +115,10 @@ resource "tencentcloudenterprise_ckafka_topic" "kafka_topic_acl" {
 resource "tencentcloudenterprise_ckafka_acl" foo {
   instance_id     = var.instance_id
   resource_type   = "TOPIC"
-  resource_name   = cloud_ckafka_topic.kafka_topic_acl.topic_name
+  resource_name   = tencentcloudenterprise_ckafka_topic.kafka_topic_acl.topic_name
   operation_type  = "WRITE"
   permission_type = "ALLOW"
   host            = "10.10.10.0"
-  principal       = cloud_ckafka_user.foo.account_name
+  principal       = tencentcloudenterprise_ckafka_user.foo.account_name
 }
 `

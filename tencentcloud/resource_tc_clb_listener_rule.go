@@ -32,7 +32,7 @@ Import
 CLB listener rule can be imported using the id (version >= 1.47.0), e.g.
 
 ```
-$ terraform import cloud_clb_listener_rule.foo lb-7a0t6zqb#lbl-hh141sn9#loc-agg236ys
+$ terraform import tencentcloudenterprise_clb_listener_rule.foo lb-7a0t6zqb#lbl-hh141sn9#loc-agg236ys
 ```
 */
 package tencentcloud
@@ -245,7 +245,7 @@ func resourceTencentCloudClbListenerRule() *schema.Resource {
 }
 
 func resourceTencentCloudClbListenerRuleCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_clb_listener_rule.create")()
+	defer logElapsed("resource.tencentcloudenterprise_clb_listener_rule.create")()
 
 	clbActionMu.Lock()
 	defer clbActionMu.Unlock()
@@ -411,7 +411,7 @@ func resourceTencentCloudClbListenerRuleCreate(d *schema.ResourceData, meta inte
 }
 
 func resourceTencentCloudClbListenerRuleRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_clb_listener_rule.read")()
+	defer logElapsed("resource.tencentcloudenterprise_clb_listener_rule.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -506,7 +506,7 @@ func resourceTencentCloudClbListenerRuleRead(d *schema.ResourceData, meta interf
 }
 
 func resourceTencentCloudClbListenerRuleUpdate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_clb_listener_rule.update")()
+	defer logElapsed("resource.tencentcloudenterprise_clb_listener_rule.update")()
 
 	clbActionMu.Lock()
 	defer clbActionMu.Unlock()
@@ -679,7 +679,7 @@ func resourceTencentCloudClbListenerRuleUpdate(d *schema.ResourceData, meta inte
 }
 
 func resourceTencentCloudClbListenerRuleDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_clb_listener_rule.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_clb_listener_rule.delete")()
 
 	clbActionMu.Lock()
 	defer clbActionMu.Unlock()

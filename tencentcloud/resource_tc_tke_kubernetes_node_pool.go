@@ -31,7 +31,7 @@ Provide a resource to create an auto scaling group for kubernetes cluster.
 //this is the cluster with empty worker config
 
 	resource "tencentcloudenterprise_tke_kubernetes_cluster" "managed_cluster" {
-	  vpc_id                  = data.cloud_vpc_subnets.vpc.instance_list.0.vpc_id
+	  vpc_id                  = data.tencentcloudenterprise_vpc_subnets.vpc.instance_list.0.vpc_id
 	  cluster_cidr            = var.cluster_cidr
 	  cluster_max_pod_num     = 32
 	  cluster_name            = "tf-tke-unit-test"
@@ -45,11 +45,11 @@ Provide a resource to create an auto scaling group for kubernetes cluster.
 
 	resource "tencentcloudenterprise_kubernetes_node_pool" "mynodepool" {
 	  name = "mynodepool"
-	  cluster_id = cloud_tke_kubernetes_cluster.managed_cluster.id
+	  cluster_id = tencentcloudenterprise_tke_kubernetes_cluster.managed_cluster.id
 	  max_size = 6
 	  min_size = 1
-	  vpc_id               = data.cloud_vpc_subnets.vpc.instance_list.0.vpc_id
-	  subnet_ids           = [data.cloud_vpc_subnets.vpc.instance_list.0.subnet_id]
+	  vpc_id               = data.tencentcloudenterprise_vpc_subnets.vpc.instance_list.0.vpc_id
+	  subnet_ids           = [data.tencentcloudenterprise_vpc_subnets.vpc.instance_list.0.subnet_id]
 	  retry_policy         = "INCREMENTAL_INTERVALS"
 	  desired_capacity     = 4
 	  enable_auto_scale    = true
@@ -107,11 +107,11 @@ Using Spot CVM Instance
 
 	resource "tencentcloudenterprise_kubernetes_node_pool" "mynodepool" {
 	  name = "mynodepool"
-	  cluster_id = cloud_tke_kubernetes_cluster.managed_cluster.id
+	  cluster_id = tencentcloudenterprise_tke_kubernetes_cluster.managed_cluster.id
 	  max_size = 6
 	  min_size = 1
-	  vpc_id               = data.cloud_vpc_subnets.vpc.instance_list.0.vpc_id
-	  subnet_ids           = [data.cloud_vpc_subnets.vpc.instance_list.0.subnet_id]
+	  vpc_id               = data.tencentcloudenterprise_vpc_subnets.vpc.instance_list.0.vpc_id
+	  subnet_ids           = [data.tencentcloudenterprise_vpc_subnets.vpc.instance_list.0.subnet_id]
 	  retry_policy         = "INCREMENTAL_INTERVALS"
 	  desired_capacity     = 4
 	  enable_auto_scale    = true
@@ -1056,7 +1056,7 @@ func desiredCapacityOutRange(d *schema.ResourceData) bool {
 }
 
 func resourceKubernetesNodePoolRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_kubernetes_node_pool.read")()
+	defer logElapsed("resource.tencentcloudenterprise_kubernetes_node_pool.read")()
 
 	var (
 		logId   = getLogId(contextNil)
@@ -1325,7 +1325,7 @@ func resourceKubernetesNodePoolRead(d *schema.ResourceData, meta interface{}) er
 }
 
 func resourceKubernetesNodePoolCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_kubernetes_node_pool.create")()
+	defer logElapsed("resource.tencentcloudenterprise_kubernetes_node_pool.create")()
 	var (
 		logId           = getLogId(contextNil)
 		ctx             = context.WithValue(context.TODO(), logIdKey, logId)
@@ -1415,7 +1415,7 @@ func resourceKubernetesNodePoolCreate(d *schema.ResourceData, meta interface{}) 
 }
 
 func resourceKubernetesNodePoolUpdate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_kubernetes_node_pool.update")()
+	defer logElapsed("resource.tencentcloudenterprise_kubernetes_node_pool.update")()
 
 	var (
 		logId     = getLogId(contextNil)
@@ -1607,7 +1607,7 @@ func resourceKubernetesNodePoolUpdate(d *schema.ResourceData, meta interface{}) 
 }
 
 func resourceKubernetesNodePoolDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_kubernetes_node_pool.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_kubernetes_node_pool.delete")()
 
 	var (
 		logId              = getLogId(contextNil)

@@ -28,7 +28,7 @@
 // ckafka connect_resource can be imported using the id, e.g.
 //
 // ```
-// terraform import cloud_ckafka_connect_resource.connect_resource connect_resource_id
+// terraform import tencentcloudenterprise_ckafka_connect_resource.connect_resource connect_resource_id
 // ```
 // */
 package tencentcloud
@@ -587,7 +587,7 @@ package tencentcloud
 //}
 //
 //func resourceTencentCloudCkafkaConnectResourceCreate(d *schema.ResourceData, meta interface{}) error {
-//	defer logElapsed("resource.cloud_ckafka_connect_resource.create")()
+//	defer logElapsed("resource.tencentcloudenterprise_ckafka_connect_resource.create")()
 //	defer inconsistentCheck(d, meta)()
 //
 //	logId := getLogId(contextNil)
@@ -920,7 +920,7 @@ package tencentcloud
 //}
 //
 //func resourceTencentCloudCkafkaConnectResourceRead(d *schema.ResourceData, meta interface{}) error {
-//	defer logElapsed("resource.cloud_ckafka_connect_resource.read")()
+//	defer logElapsed("resource.tencentcloudenterprise_ckafka_connect_resource.read")()
 //	defer inconsistentCheck(d, meta)()
 //
 //	logId := getLogId(contextNil)
@@ -1379,7 +1379,7 @@ package tencentcloud
 //}
 //
 //func resourceTencentCloudCkafkaConnectResourceUpdate(d *schema.ResourceData, meta interface{}) error {
-//	defer logElapsed("resource.cloud_ckafka_connect_resource.update")()
+//	defer logElapsed("resource.tencentcloudenterprise_ckafka_connect_resource.update")()
 //	defer inconsistentCheck(d, meta)()
 //
 //	logId := getLogId(contextNil)
@@ -1729,7 +1729,7 @@ package tencentcloud
 //}
 //
 //func resourceTencentCloudCkafkaConnectResourceDelete(d *schema.ResourceData, meta interface{}) error {
-//	defer logElapsed("resource.cloud_ckafka_connect_resource.delete")()
+//	defer logElapsed("resource.tencentcloudenterprise_ckafka_connect_resource.delete")()
 //	defer inconsistentCheck(d, meta)()
 //
 //	logId := getLogId(contextNil)

@@ -86,7 +86,7 @@ func dataSourceTencentCloudCkafkaUsers() *schema.Resource {
 }
 
 func dataSourceTencentCloudCkafkaUsersRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("data_source.cloud_ckafka_users.read")()
+	defer logElapsed("data_source.tencentcloudenterprise_ckafka_users.read")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)

@@ -121,7 +121,7 @@ resource "tencentcloudenterprise_tdmq_rocketmq_cluster" "cluster" {
 resource "tencentcloudenterprise_tdmq_rocketmq_role" "role" {
   role_name = "test_rocketmq_role"
   remark = "test rocketmq role"
-  cluster_id = cloud_tdmq_rocketmq_cluster.cluster.cluster_id
+  cluster_id = tencentcloudenterprise_tdmq_rocketmq_cluster.cluster.cluster_id
 }
 `
 
@@ -134,6 +134,6 @@ resource "tencentcloudenterprise_tdmq_rocketmq_cluster" "cluster" {
 resource "tencentcloudenterprise_tdmq_rocketmq_role" "role" {
   role_name = "test_rocketmq_role"
   remark = "test rocketmq role update"
-  cluster_id = cloud_tdmq_rocketmq_cluster.cluster.cluster_id
+  cluster_id = tencentcloudenterprise_tdmq_rocketmq_cluster.cluster.cluster_id
 }
 `

@@ -2,7 +2,7 @@
 subcategory: "Cloud Virtual Machine(CVM)"
 layout: "tencentcloudenterprise"
 page_title: "TencentCloudEnterprise: tencentcloudenterprise_cvm_launch_template"
-sidebar_current: "docs-tencentcloudenterprise-resources-cvm_launch_template"
+sidebar_current: "docs-tencentcloudenterprise-resource-cvm_launch_template"
 description: |-
   Provides a resource to create a cvm launch_template
 ---
@@ -193,6 +193,5 @@ The `virtual_private_cloud` object supports the following:
 In addition to all arguments above, the following attributes are exported:
 
 * `id` - ID of the resource.
-
 
 

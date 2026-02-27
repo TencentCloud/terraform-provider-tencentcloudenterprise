@@ -2,7 +2,7 @@
 subcategory: "Tencent Service Framework(TSF)"
 layout: "tencentcloudenterprise"
 page_title: "TencentCloudEnterprise: tencentcloudenterprise_tsf_application_public_config_release"
-sidebar_current: "docs-tencentcloudenterprise-resources-tsf_application_public_config_release"
+sidebar_current: "docs-tencentcloudenterprise-resource-tsf_application_public_config_release"
 description: |-
   Provides a resource to create a tsf application_public_config_release
 ---
@@ -36,12 +36,15 @@ In addition to all arguments above, the following attributes are exported:
 * `id` - ID of the resource.
 
 
-
 ## Import
 
+tencentcloudenterprise_tsf_application_public_config_release can be imported using the id, e.g.
+
+```
 tsf application_public_config_release can be imported using the id, e.g.
 
 ```
 terraform import tencentcloudenterprise_tsf_application_public_config_release.application_public_config_release application_public_config_attachment_id
+```
 ```
 

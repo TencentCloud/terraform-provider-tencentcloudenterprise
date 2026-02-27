@@ -1,5 +1,5 @@
 ---
-subcategory: "Tencent Distributed Message Queue(TDMQ)"
+subcategory: "TDMQ for RocketMQ(trocket)"
 layout: "tencentcloudenterprise"
 page_title: "TencentCloudEnterprise: tencentcloudenterprise_tdmq_rocketmq_group"
 sidebar_current: "docs-tencentcloudenterprise-datasource-tdmq_rocketmq_group"
@@ -72,5 +72,4 @@ In addition to all arguments above, the following attributes are exported:
   * `total_accumulative` - The total number of heaped messages.
   * `tps` - Consumption TPS.
   * `update_time` - Modification time in milliseconds.
-
 

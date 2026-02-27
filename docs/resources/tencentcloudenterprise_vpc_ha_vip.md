@@ -2,7 +2,7 @@
 subcategory: "Virtual Private Cloud(VPC)"
 layout: "tencentcloudenterprise"
 page_title: "TencentCloudEnterprise: tencentcloudenterprise_vpc_ha_vip"
-sidebar_current: "docs-tencentcloudenterprise-resources-vpc_ha_vip"
+sidebar_current: "docs-tencentcloudenterprise-resource-vpc_ha_vip"
 description: |-
   Provides a resource to create a HA VIP.
 ---
@@ -42,12 +42,15 @@ In addition to all arguments above, the following attributes are exported:
 * `network_interface_id` - Network interface ID that is associated.
 * `state` - State of the HA VIP. Valid value: `AVAILABLE`, `UNBIND`.
 
-
 ## Import
 
+tencentcloudenterprise_vpc_ha_vip can be imported using the id, e.g.
+
+```
 HA VIP can be imported using the id, e.g.
 
 ```
 $ terraform import tencentcloudenterprise_vpc_ha_vip.foo havip-kjqwe4ba
+```
 ```
 

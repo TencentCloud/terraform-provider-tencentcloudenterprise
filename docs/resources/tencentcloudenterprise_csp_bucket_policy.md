@@ -1,8 +1,8 @@
 ---
-subcategory: "Cloud Storage Private(CSP)"
+subcategory: "Cloud Object Storage(CSP)"
 layout: "tencentcloudenterprise"
 page_title: "TencentCloudEnterprise: tencentcloudenterprise_csp_bucket_policy"
-sidebar_current: "docs-tencentcloudenterprise-resources-csp_bucket_policy"
+sidebar_current: "docs-tencentcloudenterprise-resource-csp_bucket_policy"
 description: |-
   Provides a csp resource to create a Csp bucket policy and set its attributes.
 ---
@@ -58,12 +58,15 @@ In addition to all arguments above, the following attributes are exported:
 * `id` - ID of the resource.
 
 
-
 ## Import
 
+tencentcloudenterprise_csp_bucket_policy can be imported using the id, e.g.
+
+```
 csp bucket policy can be imported, e.g.
 
 ```
 $ terraform import tencentcloudenterprise_csp_bucket_policy.bucket bucket-name
+```
 ```
 

@@ -15,10 +15,10 @@ func TestAccTencentCloudNatsDataSource(t *testing.T) {
 			{
 				Config: testAccTencentCloudNatsDataSourceConfig_basic,
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckTencentCloudDataSourceID("data.cloud_nats.multi_nat"),
-					resource.TestCheckResourceAttr("data.cloud_nats.multi_nat", "nats.#", "2"),
-					resource.TestCheckResourceAttr("data.cloud_nats.multi_nat", "nats.0.name", "terraform_test_nats"),
-					resource.TestCheckResourceAttr("data.cloud_nats.multi_nat", "nats.1.bandwidth", "500"),
+					testAccCheckTencentCloudDataSourceID("data.tencentcloudenterprise_nats.multi_nat"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_nats.multi_nat", "nats.#", "2"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_nats.multi_nat", "nats.0.name", "terraform_test_nats"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_nats.multi_nat", "nats.1.bandwidth", "500"),
 				),
 			},
 		},
@@ -40,32 +40,32 @@ resource "tencentcloudenterprise_eip" "eip_test_dnat" {
 }
 
 resource "tencentcloudenterprise_vpc_nat_gateway" "dev_nat" {
-  vpc_id         = cloud_vpc.main.id
+  vpc_id         = tencentcloudenterprise_vpc.main.id
   name           = "terraform_test_nats"
   max_concurrent = 3000000
   bandwidth      = 500
 
   assigned_eip_set = [
-    cloud_eip.eip_dev_dnat.public_ip,
+    tencentcloudenterprise_eip.eip_dev_dnat.public_ip,
   ]
 }
 
 resource "tencentcloudenterprise_vpc_nat_gateway" "test_nat" {
-  vpc_id         = cloud_vpc.main.id
+  vpc_id         = tencentcloudenterprise_vpc.main.id
   name           = "terraform_test_nats"
   max_concurrent = 3000000
   bandwidth      = 500
 
   assigned_eip_set = [
-    cloud_eip.eip_test_dnat.public_ip,
+    tencentcloudenterprise_eip.eip_test_dnat.public_ip,
   ]
 }
 
 data "tencentcloudenterprise_nats" "multi_nat" {
   state          = 0
-  name           = cloud_vpc_nat_gateway.dev_nat.name
-  vpc_id         = cloud_vpc.main.id
-  max_concurrent = cloud_vpc_nat_gateway.test_nat.max_concurrent
-  bandwidth      = cloud_vpc_nat_gateway.test_nat.bandwidth
+  name           = tencentcloudenterprise_vpc_nat_gateway.dev_nat.name
+  vpc_id         = tencentcloudenterprise_vpc.main.id
+  max_concurrent = tencentcloudenterprise_vpc_nat_gateway.test_nat.max_concurrent
+  bandwidth      = tencentcloudenterprise_vpc_nat_gateway.test_nat.bandwidth
 }
 `

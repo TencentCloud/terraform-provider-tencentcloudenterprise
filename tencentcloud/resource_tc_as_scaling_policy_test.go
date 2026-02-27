@@ -109,7 +109,7 @@ resource "tencentcloudenterprise_vpc" "vpc" {
 }
 
 resource "tencentcloudenterprise_vpc_subnet" "subnet" {
-  vpc_id            = cloud_vpc.vpc.id
+  vpc_id            = tencentcloudenterprise_vpc.vpc.id
   name              = "tf-as-subnet"
   cidr_block        = "10.2.11.0/24"
   availability_zone = var.availability_zone
@@ -118,20 +118,20 @@ resource "tencentcloudenterprise_vpc_subnet" "subnet" {
 resource "tencentcloudenterprise_as_scaling_config" "launch_configuration" {
   configuration_name = "tf-as-configuration-policy"
   image_id           = "img-9qabwvbn"
-  instance_types     = [data.cloud_cvm_instance_types.default.instance_types.0.instance_type]
+  instance_types     = [data.tencentcloudenterprise_cvm_instance_types.default.instance_types.0.instance_type]
 }
 
 resource "tencentcloudenterprise_as_scaling_group" "scaling_group" {
   scaling_group_name = "tf-as-scaling-group-policy"
-  configuration_id   = cloud_as_scaling_config.launch_configuration.id
+  configuration_id   = tencentcloudenterprise_as_scaling_config.launch_configuration.id
   max_size           = 1
   min_size           = 0
-  vpc_id             = cloud_vpc.vpc.id
-  subnet_ids         = [cloud_vpc_subnet.subnet.id]
+  vpc_id             = tencentcloudenterprise_vpc.vpc.id
+  subnet_ids         = [tencentcloudenterprise_vpc_subnet.subnet.id]
 }
 
 resource "tencentcloudenterprise_as_scaling_policy" "scaling_policy" {
-  scaling_group_id    = cloud_as_scaling_group.scaling_group.id
+  scaling_group_id    = tencentcloudenterprise_as_scaling_group.scaling_group.id
   policy_name         = "tf-as-scaling-policy"
   adjustment_type     = "EXACT_CAPACITY"
   adjustment_value    = 0
@@ -154,7 +154,7 @@ resource "tencentcloudenterprise_vpc" "vpc" {
 }
 
 resource "tencentcloudenterprise_vpc_subnet" "subnet" {
-  vpc_id            = cloud_vpc.vpc.id
+  vpc_id            = tencentcloudenterprise_vpc.vpc.id
   name              = "tf-as-subnet"
   cidr_block        = "10.2.11.0/24"
   availability_zone = var.availability_zone
@@ -163,20 +163,20 @@ resource "tencentcloudenterprise_vpc_subnet" "subnet" {
 resource "tencentcloudenterprise_as_scaling_config" "launch_configuration" {
   configuration_name = "tf-as-configuration-policy"
   image_id           = "img-9qabwvbn"
-  instance_types     = [data.cloud_cvm_instance_types.default.instance_types.0.instance_type]
+  instance_types     = [data.tencentcloudenterprise_cvm_instance_types.default.instance_types.0.instance_type]
 }
 
 resource "tencentcloudenterprise_as_scaling_group" "scaling_group" {
   scaling_group_name = "tf-as-scaling-group-policy"
-  configuration_id   = cloud_as_scaling_config.launch_configuration.id
+  configuration_id   = tencentcloudenterprise_as_scaling_config.launch_configuration.id
   max_size           = 1
   min_size           = 0
-  vpc_id             = cloud_vpc.vpc.id
-  subnet_ids         = [cloud_vpc_subnet.subnet.id]
+  vpc_id             = tencentcloudenterprise_vpc.vpc.id
+  subnet_ids         = [tencentcloudenterprise_vpc_subnet.subnet.id]
 }
 
 resource "tencentcloudenterprise_as_scaling_policy" "scaling_policy" {
-  scaling_group_id    = cloud_as_scaling_group.scaling_group.id
+  scaling_group_id    = tencentcloudenterprise_as_scaling_group.scaling_group.id
   policy_name         = "tf-as-scaling-policy"
   adjustment_type     = "CHANGE_IN_CAPACITY"
   adjustment_value    = 1

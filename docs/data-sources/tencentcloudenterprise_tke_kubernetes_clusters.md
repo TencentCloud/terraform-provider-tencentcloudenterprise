@@ -82,4 +82,3 @@ In addition to all arguments above, the following attributes are exported:
     * `instance_state` - State of the cvm.
     * `lan_ip` - LAN IP of the cvm.
 
-

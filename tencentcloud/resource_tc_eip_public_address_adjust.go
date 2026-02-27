@@ -49,7 +49,7 @@ func resourceTencentCloudEipPublicAddressAdjust() *schema.Resource {
 }
 
 func resourceTencentCloudEipPublicAddressAdjustCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_vpc_public_address_adjust.create")()
+	defer logElapsed("resource.tencentcloudenterprise_vpc_public_address_adjust.create")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -99,14 +99,14 @@ func resourceTencentCloudEipPublicAddressAdjustCreate(d *schema.ResourceData, me
 }
 
 func resourceTencentCloudEipPublicAddressAdjustRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_eip_public_address_adjust.read")()
+	defer logElapsed("resource.tencentcloudenterprise_eip_public_address_adjust.read")()
 	defer inconsistentCheck(d, meta)()
 
 	return nil
 }
 
 func resourceTencentCloudEipPublicAddressAdjustDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_eip_public_address_adjust.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_eip_public_address_adjust.delete")()
 	defer inconsistentCheck(d, meta)()
 
 	return nil

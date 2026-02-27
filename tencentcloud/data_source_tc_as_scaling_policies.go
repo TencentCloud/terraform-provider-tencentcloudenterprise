@@ -147,7 +147,7 @@ func dataSourceTencentCloudAsScalingPolicies() *schema.Resource {
 }
 
 func dataSourceTencentCloudAsScalingPolicyRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("data_source.cloud_as_scaling_policies.read")()
+	defer logElapsed("data_source.tencentcloudenterprise_as_scaling_policies.read")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)

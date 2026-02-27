@@ -13,11 +13,11 @@ Provides a resource to create a tdmqRocketmq environment_role
 	resource "tencentcloudenterprise_tdmq_rocketmq_role" "role" {
 	  role_name = "test_rocketmq_role"
 	  remark = "test rocketmq role"
-	  cluster_id = cloud_tdmq_rocketmq_cluster.cluster.cluster_id
+	  cluster_id = tencentcloudenterprise_tdmq_rocketmq_cluster.cluster.cluster_id
 	}
 
 	resource "tencentcloudenterprise_tdmq_rocketmq_namespace" "namespace" {
-	  cluster_id = cloud_tdmq_rocketmq_cluster.cluster.cluster_id
+	  cluster_id = tencentcloudenterprise_tdmq_rocketmq_cluster.cluster.cluster_id
 	  namespace_name = "test_namespace"
 	  ttl = 65000
 	  retention_time = 65000
@@ -25,10 +25,10 @@ Provides a resource to create a tdmqRocketmq environment_role
 	}
 
 	resource "tencentcloudenterprise_tdmq_rocketmq_environment_role" "environment_role" {
-	  environment_name = cloud_tdmq_rocketmq_namespace.namespace.namespace_name
-	  role_name = cloud_tdmq_rocketmq_role.role.role_name
+	  environment_name = tencentcloudenterprise_tdmq_rocketmq_namespace.namespace.namespace_name
+	  role_name = tencentcloudenterprise_tdmq_rocketmq_role.role.role_name
 	  permissions = ["produce", "consume"]
-	  cluster_id = cloud_tdmq_rocketmq_cluster.cluster.cluster_id
+	  cluster_id = tencentcloudenterprise_tdmq_rocketmq_cluster.cluster.cluster_id
 	}
 
 ```
@@ -36,7 +36,7 @@ Import
 
 tdmqRocketmq environment_role can be imported using the id, e.g.
 ```
-$ terraform import cloud_tdmq_rocketmq_environment_role.environment_role environmentRole_id
+$ terraform import tencentcloudenterprise_tdmq_rocketmq_environment_role.environment_role environmentRole_id
 ```
 */
 package tencentcloud
@@ -107,7 +107,7 @@ func resourceTencentCloudTdmqRocketmqEnvironmentRole() *schema.Resource {
 }
 
 func resourceTencentCloudTdmqRocketmqEnvironmentRoleCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_tdmqRocketmq_environment_role.create")()
+	defer logElapsed("resource.tencentcloudenterprise_tdmqRocketmq_environment_role.create")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -163,7 +163,7 @@ func resourceTencentCloudTdmqRocketmqEnvironmentRoleCreate(d *schema.ResourceDat
 }
 
 func resourceTencentCloudTdmqRocketmqEnvironmentRoleRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_tdmqRocketmq_environment_role.read")()
+	defer logElapsed("resource.tencentcloudenterprise_tdmqRocketmq_environment_role.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -203,7 +203,7 @@ func resourceTencentCloudTdmqRocketmqEnvironmentRoleRead(d *schema.ResourceData,
 }
 
 func resourceTencentCloudTdmqRocketmqEnvironmentRoleUpdate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_tdmqRocketmq_environment_role.update")()
+	defer logElapsed("resource.tencentcloudenterprise_tdmqRocketmq_environment_role.update")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -271,7 +271,7 @@ func resourceTencentCloudTdmqRocketmqEnvironmentRoleUpdate(d *schema.ResourceDat
 }
 
 func resourceTencentCloudTdmqRocketmqEnvironmentRoleDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_tdmqRocketmq_environment_role.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_tdmqRocketmq_environment_role.delete")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)

@@ -1,5 +1,5 @@
 ---
-subcategory: "Distributed Database For MySQL(DCDB)"
+subcategory: "TDSQL for MySQL(DCDB)"
 layout: "tencentcloudenterprise"
 page_title: "TencentCloudEnterprise: tencentcloudenterprise_dcdb_parameters"
 sidebar_current: "docs-tencentcloudenterprise-datasource-dcdb_parameters"
@@ -43,5 +43,4 @@ In addition to all arguments above, the following attributes are exported:
   * `need_restart` - Need restart.
   * `param` - Parameter name.
   * `value` - Parameter value.
-
 

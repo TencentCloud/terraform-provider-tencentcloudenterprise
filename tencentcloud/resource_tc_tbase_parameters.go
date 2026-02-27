@@ -275,7 +275,7 @@ Import
 
 Tbase parameters can be imported using the id, e.g.
 ```
-$ terraform import cloud_Tbase_parameters.parameters tdsql-4pzs5b67
+$ terraform import tencentcloudenterprise_Tbase_parameters.parameters tdsql-4pzs5b67
 ```
 */
 package tencentcloud
@@ -327,7 +327,7 @@ func resourceTencentCloudTbaseParameters() *schema.Resource {
 }
 
 func resourceTencentCloudTbaseParametersCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_Tbase_parameters.create")()
+	defer logElapsed("resource.tencentcloudenterprise_Tbase_parameters.create")()
 	defer inconsistentCheck(d, meta)()
 
 	var instanceId string
@@ -340,7 +340,7 @@ func resourceTencentCloudTbaseParametersCreate(d *schema.ResourceData, meta inte
 }
 
 func resourceTencentCloudTbaseParametersRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_Tbase_parameters.read")()
+	defer logElapsed("resource.tencentcloudenterprise_Tbase_parameters.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -385,7 +385,7 @@ func resourceTencentCloudTbaseParametersRead(d *schema.ResourceData, meta interf
 }
 
 func resourceTencentCloudTbaseParametersUpdate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_Tbase_parameters.update")()
+	defer logElapsed("resource.tencentcloudenterprise_Tbase_parameters.update")()
 	defer inconsistentCheck(d, meta)()
 
 	//logId := getLogId(contextNil)
@@ -431,7 +431,7 @@ func resourceTencentCloudTbaseParametersUpdate(d *schema.ResourceData, meta inte
 }
 
 func resourceTencentCloudTbaseParametersDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_Tbase_parameters.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_Tbase_parameters.delete")()
 	defer inconsistentCheck(d, meta)()
 
 	return nil

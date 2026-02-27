@@ -204,7 +204,7 @@ data "tencentcloudenterprise_vpc_instances" "foo" {
 
 resource "tencentcloudenterprise_vpn_gateway" "my_cgw" {
   name      = "terraform_test"
-  vpc_id    = data.cloud_vpc_instances.foo.instance_list.0.vpc_id
+  vpc_id    = data.tencentcloudenterprise_vpc_instances.foo.instance_list.0.vpc_id
   bandwidth = 10
   zone      = "ap-guangzhou-3"
 
@@ -220,7 +220,7 @@ data "tencentcloudenterprise_vpc_instances" "foo" {
 }
 resource "tencentcloudenterprise_vpn_gateway" "my_cgw" {
   name      = "terraform_update"
-  vpc_id    = data.cloud_vpc_instances.foo.instance_list.0.vpc_id
+  vpc_id    = data.tencentcloudenterprise_vpc_instances.foo.instance_list.0.vpc_id
   bandwidth = 5
   zone      = "ap-guangzhou-3"
 

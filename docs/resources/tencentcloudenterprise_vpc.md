@@ -2,7 +2,7 @@
 subcategory: "Virtual Private Cloud(VPC)"
 layout: "tencentcloudenterprise"
 page_title: "TencentCloudEnterprise: tencentcloudenterprise_vpc"
-sidebar_current: "docs-tencentcloudenterprise-resources-vpc"
+sidebar_current: "docs-tencentcloudenterprise-resource-vpc"
 description: |-
   Provide a resource to create a VPC.
 ---
@@ -63,12 +63,15 @@ In addition to all arguments above, the following attributes are exported:
 * `is_default` - Indicates whether it is the default VPC for this region.
 * `vpc_id` - The ID of the VPC.
 
-
 ## Import
 
+tencentcloudenterprise_vpc can be imported using the id, e.g.
+
+```
 Vpc instance can be imported, e.g.
 
 ```
 $ terraform import tencentcloudenterprise_vpc.test vpc-id
+```
 ```
 

@@ -1,5 +1,5 @@
 ---
-subcategory: "Cloud Kafka(CKafka)"
+subcategory: "Cloud Kafka(ckafka)"
 layout: "tencentcloudenterprise"
 page_title: "TencentCloudEnterprise: tencentcloudenterprise_ckafka_topics"
 sidebar_current: "docs-tencentcloudenterprise-datasource-ckafka_topics"
@@ -62,5 +62,4 @@ In addition to all arguments above, the following attributes are exported:
   * `topic_id` - ID of the CKafka topic.
   * `topic_name` - Name of the CKafka topic.
   * `unclean_leader_election_enable` - Whether to allow unsynchronized replicas to be selected as leader, default is `false`, `true: `allowed, `false`: not allowed.
-
 

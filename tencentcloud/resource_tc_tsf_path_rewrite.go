@@ -20,7 +20,7 @@ Provides a resource to create a tsf path_rewrite
 tsf path_rewrite can be imported using the id, e.g.
 
 ```
-terraform import cloud_tsf_path_rewrite.path_rewrite rewrite-nygq33v2
+terraform import tencentcloudenterprise_tsf_path_rewrite.path_rewrite rewrite-nygq33v2
 ```
 */
 package tencentcloud
@@ -102,7 +102,7 @@ func resourceTencentCloudTsfPathRewrite() *schema.Resource {
 }
 
 func resourceTencentCloudTsfPathRewriteCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_tsf_path_rewrite.create")()
+	defer logElapsed("resource.tencentcloudenterprise_tsf_path_rewrite.create")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -157,7 +157,7 @@ func resourceTencentCloudTsfPathRewriteCreate(d *schema.ResourceData, meta inter
 }
 
 func resourceTencentCloudTsfPathRewriteRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_tsf_path_rewrite.read")()
+	defer logElapsed("resource.tencentcloudenterprise_tsf_path_rewrite.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -207,7 +207,7 @@ func resourceTencentCloudTsfPathRewriteRead(d *schema.ResourceData, meta interfa
 }
 
 func resourceTencentCloudTsfPathRewriteUpdate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_tsf_path_rewrite.update")()
+	defer logElapsed("resource.tencentcloudenterprise_tsf_path_rewrite.update")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -268,7 +268,7 @@ func resourceTencentCloudTsfPathRewriteUpdate(d *schema.ResourceData, meta inter
 }
 
 func resourceTencentCloudTsfPathRewriteDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_tsf_path_rewrite.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_tsf_path_rewrite.delete")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)

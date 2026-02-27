@@ -161,7 +161,7 @@ data "tencentcloudenterprise_vpc_security_groups" "internal" {
   }
   
   data "tencentcloudenterprise_vpc_subnets" "subnet" {
-	vpc_id = data.cloud_vpc_instances.vpc.instance_list.0.vpc_id
+	vpc_id = data.tencentcloudenterprise_vpc_instances.vpc.instance_list.0.vpc_id
   }
   
   resource "tencentcloudenterprise_vpc" "vpc" {
@@ -173,15 +173,15 @@ data "tencentcloudenterprise_vpc_security_groups" "internal" {
 	availability_zone = var.default_az
 	cidr_block        = "172.18.111.0/24"
 	name              = "test-pg-network-sub1"
-	vpc_id            = cloud_vpc.vpc.id
+	vpc_id            = tencentcloudenterprise_vpc.vpc.id
   }
   
   locals {
-	vpc_id        = data.cloud_vpc_subnets.subnet.instance_list.0.vpc_id
-	subnet_id     = data.cloud_vpc_subnets.subnet.instance_list.0.subnet_id
-	sg_id         = data.cloud_vpc_security_groups.internal.security_groups.0.security_group_id
-	new_vpc_id    = cloud_vpc_subnet.subnet.vpc_id
-	new_subnet_id = cloud_vpc_subnet.subnet.id
+	vpc_id        = data.tencentcloudenterprise_vpc_subnets.subnet.instance_list.0.vpc_id
+	subnet_id     = data.tencentcloudenterprise_vpc_subnets.subnet.instance_list.0.subnet_id
+	sg_id         = data.tencentcloudenterprise_vpc_security_groups.internal.security_groups.0.security_group_id
+	new_vpc_id    = tencentcloudenterprise_vpc_subnet.subnet.vpc_id
+	new_subnet_id = tencentcloudenterprise_vpc_subnet.subnet.id
   }  
 `
 

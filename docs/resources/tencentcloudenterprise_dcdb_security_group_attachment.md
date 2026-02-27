@@ -1,8 +1,8 @@
 ---
-subcategory: "Distributed Database For MySQL(DCDB)"
+subcategory: "TDSQL for MySQL(DCDB)"
 layout: "tencentcloudenterprise"
 page_title: "TencentCloudEnterprise: tencentcloudenterprise_dcdb_security_group_attachment"
-sidebar_current: "docs-tencentcloudenterprise-resources-dcdb_security_group_attachment"
+sidebar_current: "docs-tencentcloudenterprise-resource-dcdb_security_group_attachment"
 description: |-
   Provides a resource to create a dcdb security_group_attachment
 ---
@@ -34,11 +34,14 @@ In addition to all arguments above, the following attributes are exported:
 * `id` - ID of the resource.
 
 
-
 ## Import
 
+tencentcloudenterprise_dcdb_security_group_attachment can be imported using the id, e.g.
+
+```
 dcdb security_group_attachment can be imported using the id, e.g.
 ```
 $ terraform import tencentcloudenterprise_dcdb_security_group_attachment.security_group_attachment securityGroupAttachment_id
+```
 ```
 

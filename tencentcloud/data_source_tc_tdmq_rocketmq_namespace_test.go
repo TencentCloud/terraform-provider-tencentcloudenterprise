@@ -16,8 +16,8 @@ func TestAccTencentCloudTdmqRocketmqNamespaceDataSource(t *testing.T) {
 			{
 				Config: testAccDataSourceTdmqRocketmqNamespace,
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckTencentCloudDataSourceID("data.cloud_tdmq_rocketmq_namespace.namespace"),
-					resource.TestCheckResourceAttr("data.cloud_tdmq_rocketmq_namespace.namespace", "namespaces.#", "1"),
+					testAccCheckTencentCloudDataSourceID("data.tencentcloudenterprise_tdmq_rocketmq_namespace.namespace"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_tdmq_rocketmq_namespace.namespace", "namespaces.#", "1"),
 				),
 			},
 		},
@@ -31,7 +31,7 @@ resource "tencentcloudenterprise_tdmq_rocketmq_cluster" "cluster" {
 }
 
 resource "tencentcloudenterprise_tdmq_rocketmq_namespace" "namespacedata" {
-	cluster_id = cloud_tdmq_rocketmq_cluster.cluster.cluster_id
+	cluster_id = tencentcloudenterprise_tdmq_rocketmq_cluster.cluster.cluster_id
 	namespace_name = "test_namespace_datasource"
 	ttl = 65000
 	retention_time = 65000
@@ -39,7 +39,7 @@ resource "tencentcloudenterprise_tdmq_rocketmq_namespace" "namespacedata" {
 }
 
 data "tencentcloudenterprise_tdmq_rocketmq_namespace" "namespace" {
-	cluster_id = cloud_tdmq_rocketmq_cluster.cluster.cluster_id
-	name_keyword = cloud_tdmq_rocketmq_namespace.namespacedata.namespace_name
+	cluster_id = tencentcloudenterprise_tdmq_rocketmq_cluster.cluster.cluster_id
+	name_keyword = tencentcloudenterprise_tdmq_rocketmq_namespace.namespacedata.namespace_name
 }
 `

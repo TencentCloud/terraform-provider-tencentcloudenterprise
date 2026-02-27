@@ -17,7 +17,7 @@ Provide a resource to create a VPC subnet.
 	resource "tencentcloudenterprise_vpc_subnet" "subnet" {
 	  availability_zone = var.availability_zone
 	  name              = "guagua-ci-temp-test"
-	  vpc_id            = cloud_vpc.foo.id
+	  vpc_id            = tencentcloudenterprise_vpc.foo.id
 	  cidr_block        = "10.0.20.0/28"
 	  is_multicast      = false
 	}
@@ -29,7 +29,7 @@ Provide a resource to create a VPC subnet.
 Vpc subnet instance can be imported, e.g.
 
 ```
-$ terraform import cloud_vpc_subnet.test subnet_id
+$ terraform import tencentcloudenterprise_vpc_subnet.test subnet_id
 ```
 */
 package tencentcloud
@@ -152,7 +152,7 @@ func resourceTencentCloudVpcSubnet() *schema.Resource {
 }
 
 func resourceTencentCloudVpcSubnetCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_vpc_subnet.create")()
+	defer logElapsed("resource.tencentcloudenterprise_vpc_subnet.create")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
@@ -248,7 +248,7 @@ func resourceTencentCloudVpcSubnetCreate(d *schema.ResourceData, meta interface{
 }
 
 func resourceTencentCloudVpcSubnetRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_vpc_subnet.read")()
+	defer logElapsed("resource.tencentcloudenterprise_vpc_subnet.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -311,7 +311,7 @@ func resourceTencentCloudVpcSubnetRead(d *schema.ResourceData, meta interface{})
 }
 
 func resourceTencentCloudVpcSubnetUpdate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_vpc_subnet.update")()
+	defer logElapsed("resource.tencentcloudenterprise_vpc_subnet.update")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
@@ -386,7 +386,7 @@ func resourceTencentCloudVpcSubnetUpdate(d *schema.ResourceData, meta interface{
 }
 
 func resourceTencentCloudVpcSubnetDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_vpc_subnet.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_vpc_subnet.delete")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)

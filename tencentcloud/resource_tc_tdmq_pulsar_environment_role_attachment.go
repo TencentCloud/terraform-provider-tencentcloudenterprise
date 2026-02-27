@@ -66,7 +66,7 @@ func resourceTencentCloudTdmqPulsarEnvironmentRoleAttachment() *schema.Resource 
 }
 
 func resourceTencentCloudTdmqPulsarEnvironmentRoleAttachmentCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_tdmq_pulsar_envrionment_role_attachment.create")()
+	defer logElapsed("resource.tencentcloudenterprise_tdmq_pulsar_envrionment_role_attachment.create")()
 
 	var (
 		logId       = getLogId(contextNil)
@@ -116,7 +116,7 @@ func resourceTencentCloudTdmqPulsarEnvironmentRoleAttachmentCreate(d *schema.Res
 }
 
 func resourceTencentCloudTdmqPulsarEnvironmentRoleAttachmentRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_tdmq_pulsar_envrionment_role_attachment.read")()
+	defer logElapsed("resource.tencentcloudenterprise_tdmq_pulsar_envrionment_role_attachment.read")()
 	defer inconsistentCheck(d, meta)()
 
 	var (
@@ -159,7 +159,7 @@ func resourceTencentCloudTdmqPulsarEnvironmentRoleAttachmentRead(d *schema.Resou
 }
 
 func resourceTencentCloudTdmqPulsarEnvironmentRoleAttachmentUpdate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_tdmq_pulsar_envrionment_role_attachment.update")()
+	defer logElapsed("resource.tencentcloudenterprise_tdmq_pulsar_envrionment_role_attachment.update")()
 
 	var (
 		logId       = getLogId(contextNil)
@@ -207,7 +207,7 @@ func resourceTencentCloudTdmqPulsarEnvironmentRoleAttachmentUpdate(d *schema.Res
 }
 
 func resourceTencentCloudTdmqPulsarEnvironmentRoleAttachmentDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_tdmq_pulsar_envrionment_role_attachment.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_tdmq_pulsar_envrionment_role_attachment.delete")()
 
 	var (
 		logId   = getLogId(contextNil)

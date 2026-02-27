@@ -105,7 +105,7 @@ resource "tencentcloudenterprise_vpc" "vpc" {
 }
 
 resource "tencentcloudenterprise_vpc_subnet" "subnet" {
-  vpc_id            = cloud_vpc.vpc.id
+  vpc_id            = tencentcloudenterprise_vpc.vpc.id
   name              = "tf-as-subnet"
   cidr_block        = "10.2.11.0/24"
   availability_zone = "ap-guangzhou-3"
@@ -119,15 +119,15 @@ resource "tencentcloudenterprise_as_scaling_config" "launch_configuration" {
 
 resource "tencentcloudenterprise_as_scaling_group" "scaling_group" {
   scaling_group_name = "tf-as-scaling-group-schedule"
-  configuration_id   = cloud_as_scaling_config.launch_configuration.id
+  configuration_id   = tencentcloudenterprise_as_scaling_config.launch_configuration.id
   max_size           = 1
   min_size           = 0
-  vpc_id             = cloud_vpc.vpc.id
-  subnet_ids         = [cloud_vpc_subnet.subnet.id]
+  vpc_id             = tencentcloudenterprise_vpc.vpc.id
+  subnet_ids         = [tencentcloudenterprise_vpc_subnet.subnet.id]
 }
 
 resource "tencentcloudenterprise_as_schedule" "schedule" {
-  scaling_group_id     = cloud_as_scaling_group.scaling_group.id
+  scaling_group_id     = tencentcloudenterprise_as_scaling_group.scaling_group.id
   schedule_action_name = "tf-as-schedule"
   max_size             = 1
   min_size             = 0
@@ -147,7 +147,7 @@ resource "tencentcloudenterprise_vpc" "vpc" {
 }
 
 resource "tencentcloudenterprise_vpc_subnet" "subnet" {
-  vpc_id            = cloud_vpc.vpc.id
+  vpc_id            = tencentcloudenterprise_vpc.vpc.id
   name              = "tf-as-subnet"
   cidr_block        = "10.2.11.0/24"
   availability_zone = "ap-guangzhou-3"
@@ -161,15 +161,15 @@ resource "tencentcloudenterprise_as_scaling_config" "launch_configuration" {
 
 resource "tencentcloudenterprise_as_scaling_group" "scaling_group" {
   scaling_group_name = "tf-as-scaling-group-schedule"
-  configuration_id   = cloud_as_scaling_config.launch_configuration.id
+  configuration_id   = tencentcloudenterprise_as_scaling_config.launch_configuration.id
   max_size           = 1
   min_size           = 0
-  vpc_id             = cloud_vpc.vpc.id
-  subnet_ids         = [cloud_vpc_subnet.subnet.id]
+  vpc_id             = tencentcloudenterprise_vpc.vpc.id
+  subnet_ids         = [tencentcloudenterprise_vpc_subnet.subnet.id]
 }
 
 resource "tencentcloudenterprise_as_schedule" "schedule" {
-  scaling_group_id     = cloud_as_scaling_group.scaling_group.id
+  scaling_group_id     = tencentcloudenterprise_as_scaling_group.scaling_group.id
   schedule_action_name = "tf-as-schedule-update"
   max_size             = 2
   min_size             = 0

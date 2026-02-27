@@ -2,7 +2,7 @@
 subcategory: "Virtual Private Cloud(VPC)"
 layout: "tencentcloudenterprise"
 page_title: "TencentCloudEnterprise: tencentcloudenterprise_vpc_dc_gateway"
-sidebar_current: "docs-tencentcloudenterprise-resources-vpc_dc_gateway"
+sidebar_current: "docs-tencentcloudenterprise-resource-vpc_dc_gateway"
 description: |-
   Provides a resource to creating direct connect gateway instance.
 ---
@@ -46,12 +46,15 @@ In addition to all arguments above, the following attributes are exported:
 * `create_time` - Creation time of resource.
 * `enable_bgp` - Indicates whether the BGP is enabled.
 
-
 ## Import
 
+tencentcloudenterprise_vpc_dc_gateway can be imported using the id, e.g.
+
+```
 Direct connect gateway instance can be imported, e.g.
 
 ```
 $ terraform import tencentcloudenterprise_vpc_dc_gateway.instance dcg-id
+```
 ```
 

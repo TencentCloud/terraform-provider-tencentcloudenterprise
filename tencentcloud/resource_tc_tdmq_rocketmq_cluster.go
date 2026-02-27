@@ -15,7 +15,7 @@ Import
 
 tdmqRocketmq cluster can be imported using the id, e.g.
 ```
-$ terraform import cloud_tdmq_rocketmq_cluster.cluster cluster_id
+$ terraform import tencentcloudenterprise_tdmq_rocketmq_cluster.cluster cluster_id
 ```
 */
 package tencentcloud
@@ -146,7 +146,7 @@ func resourceTencentCloudTdmqRocketmqCluster() *schema.Resource {
 }
 
 func resourceTencentCloudTdmqRocketmqClusterCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_tdmqRocketmq_cluster.create")()
+	defer logElapsed("resource.tencentcloudenterprise_tdmqRocketmq_cluster.create")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -204,7 +204,7 @@ func resourceTencentCloudTdmqRocketmqClusterCreate(d *schema.ResourceData, meta 
 }
 
 func resourceTencentCloudTdmqRocketmqClusterRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_tdmqRocketmq_cluster.read")()
+	defer logElapsed("resource.tencentcloudenterprise_tdmqRocketmq_cluster.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -285,7 +285,7 @@ func resourceTencentCloudTdmqRocketmqClusterRead(d *schema.ResourceData, meta in
 }
 
 func resourceTencentCloudTdmqRocketmqClusterUpdate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_tdmqRocketmq_cluster.update")()
+	defer logElapsed("resource.tencentcloudenterprise_tdmqRocketmq_cluster.update")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -330,7 +330,7 @@ func resourceTencentCloudTdmqRocketmqClusterUpdate(d *schema.ResourceData, meta 
 }
 
 func resourceTencentCloudTdmqRocketmqClusterDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_tdmqRocketmq_cluster.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_tdmqRocketmq_cluster.delete")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)

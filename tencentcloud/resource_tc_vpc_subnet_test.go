@@ -227,7 +227,7 @@ resource "tencentcloudenterprise_vpc" "foo" {
 
 resource "tencentcloudenterprise_vpc_subnet" "subnet" {
   name              = var.instance_name
-  vpc_id            = cloud_vpc.foo.id
+  vpc_id            = tencentcloudenterprise_vpc.foo.id
   availability_zone = var.availability_zone
   cidr_block        = var.subnet_cidr
   is_multicast      = false
@@ -242,16 +242,16 @@ resource "tencentcloudenterprise_vpc" "foo" {
 
 resource "tencentcloudenterprise_route_table" "route_table" {
   name   = var.instance_name
-  vpc_id = cloud_vpc.foo.id
+  vpc_id = tencentcloudenterprise_vpc.foo.id
 }
 
 resource "tencentcloudenterprise_vpc_subnet" "subnet" {
   name              = var.instance_name_update
-  vpc_id            = cloud_vpc.foo.id
+  vpc_id            = tencentcloudenterprise_vpc.foo.id
   availability_zone = var.availability_zone
   cidr_block        = var.subnet_cidr_less
   is_multicast      = true
-  route_table_id    = cloud_route_table.route_table.id
+  route_table_id    = tencentcloudenterprise_route_table.route_table.id
 }
 `
 
@@ -263,7 +263,7 @@ resource "tencentcloudenterprise_vpc" "foo" {
 
 resource "tencentcloudenterprise_vpc_subnet" "subnet" {
   name              = var.instance_name
-  vpc_id            = cloud_vpc.foo.id
+  vpc_id            = tencentcloudenterprise_vpc.foo.id
   availability_zone = var.availability_zone
   cidr_block        = var.subnet_cidr
   is_multicast      = false
@@ -282,7 +282,7 @@ resource "tencentcloudenterprise_vpc" "foo" {
 
 resource "tencentcloudenterprise_vpc_subnet" "subnet" {
   name              = var.instance_name
-  vpc_id            = cloud_vpc.foo.id
+  vpc_id            = tencentcloudenterprise_vpc.foo.id
   availability_zone = var.availability_zone
   cidr_block        = var.subnet_cidr
   is_multicast      = false

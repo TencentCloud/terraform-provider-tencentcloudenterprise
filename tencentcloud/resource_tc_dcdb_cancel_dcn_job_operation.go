@@ -14,13 +14,13 @@ Provides a resource to create a dcdb cancel_dcn_job_operation
 	}
 
 	data "tencentcloudenterprise_vpc_subnets" "subnet" {
-		vpc_id = data.cloud_vpc_instances.vpc.instance_list.0.vpc_id
+		vpc_id = data.tencentcloudenterprise_vpc_instances.vpc.instance_list.0.vpc_id
 	}
 
 	locals {
-		vpc_id = data.cloud_vpc_subnets.subnet.instance_list.0.vpc_id
-		subnet_id = data.cloud_vpc_subnets.subnet.instance_list.0.subnet_id
-		sg_id = data.cloud_vpc_security_groups.internal.security_groups.0.security_group_id
+		vpc_id = data.tencentcloudenterprise_vpc_subnets.subnet.instance_list.0.vpc_id
+		subnet_id = data.tencentcloudenterprise_vpc_subnets.subnet.instance_list.0.subnet_id
+		sg_id = data.tencentcloudenterprise_vpc_security_groups.internal.security_groups.0.security_group_id
 	}
 
 	resource "tencentcloudenterprise_dcdb_instance" "hourdb_instance_dcn" {
@@ -43,7 +43,7 @@ Provides a resource to create a dcdb cancel_dcn_job_operation
 	}
 
 	locals {
-		dcn_dcdb_id = cloud_dcdb_instance.hourdb_instance_dcn.id
+		dcn_dcdb_id = tencentcloudenterprise_dcdb_instance.hourdb_instance_dcn.id
 	}
 
 	resource "tencentcloudenterprise_dcdb_cancel_dcn_job_operation" "cancel_operation" {
@@ -91,7 +91,7 @@ func resourceTencentCloudDcdbCancelDcnJobOperation() *schema.Resource {
 }
 
 func resourceTencentCloudDcdbCancelDcnJobOperationCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_dcdb_cancel_dcn_job_operation.create")()
+	defer logElapsed("resource.tencentcloudenterprise_dcdb_cancel_dcn_job_operation.create")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -135,14 +135,14 @@ func resourceTencentCloudDcdbCancelDcnJobOperationCreate(d *schema.ResourceData,
 }
 
 func resourceTencentCloudDcdbCancelDcnJobOperationRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_dcdb_cancel_dcn_job_operation.read")()
+	defer logElapsed("resource.tencentcloudenterprise_dcdb_cancel_dcn_job_operation.read")()
 	defer inconsistentCheck(d, meta)()
 
 	return nil
 }
 
 func resourceTencentCloudDcdbCancelDcnJobOperationDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_dcdb_cancel_dcn_job_operation.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_dcdb_cancel_dcn_job_operation.delete")()
 	defer inconsistentCheck(d, meta)()
 
 	return nil

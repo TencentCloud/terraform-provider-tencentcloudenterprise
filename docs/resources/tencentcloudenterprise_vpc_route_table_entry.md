@@ -2,7 +2,7 @@
 subcategory: "Virtual Private Cloud(VPC)"
 layout: "tencentcloudenterprise"
 page_title: "TencentCloudEnterprise: tencentcloudenterprise_vpc_route_table_entry"
-sidebar_current: "docs-tencentcloudenterprise-resources-vpc_route_table_entry"
+sidebar_current: "docs-tencentcloudenterprise-resource-vpc_route_table_entry"
 description: |-
   Provides a resource to create an entry of a routing table.
 ---
@@ -51,7 +51,7 @@ The following arguments are supported:
 
 * `destination_cidr_block` - (Required, String, ForceNew) Destination address block.
 * `next_hop` - (Required, String, ForceNew) ID of next-hop gateway. Note: when `next_type` is EIP, GatewayId should be `0`.
-* `next_type` - (Required, String, ForceNew) Type of next-hop. Valid values: `VPN`, `DIRECTCONNECT`, `PEERCONNECTION`, `HAVIP`, `NAT`, `NORMAL_CVM`, `EIP`.
+* `next_type` - (Required, String, ForceNew) Type of next-hop. Valid values: `VPN`, `DIRECTCONNECT`, `PEERCONNECTION`, `HAVIP`, `NAT`, `NORMAL_CVM`, `EIP` .
 * `route_table_id` - (Required, String, ForceNew) ID of routing table to which this entry belongs.
 * `description` - (Optional, String, ForceNew) Description of the routing table entry.
 * `disabled` - (Optional, Bool) Whether the entry is disabled, default is `false`.
@@ -63,12 +63,15 @@ In addition to all arguments above, the following attributes are exported:
 * `id` - ID of the resource.
 
 
-
 ## Import
 
+tencentcloudenterprise_vpc_route_table_entry can be imported using the id, e.g.
+
+```
 Route table entry can be imported using the id, e.g.
 
 ```
 $ terraform import tencentcloudenterprise_vpc_route_table_entry.foo 83517.rtb-mlhpg09u
+```
 ```
 

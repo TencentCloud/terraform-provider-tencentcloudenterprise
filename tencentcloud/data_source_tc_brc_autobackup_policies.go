@@ -208,7 +208,7 @@ func dataSourceTencentCloudBrcAutoBackupPolicies() *schema.Resource {
 }
 
 func dataSourceTencentCloudBrcAutoBackupPoliciesRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("data_source.cloud_brc_autobackup_policies.read")()
+	defer logElapsed("data_source.tencentcloudenterprise_brc_autobackup_policies.read")()
 
 	var (
 		logId      = getLogId(contextNil)

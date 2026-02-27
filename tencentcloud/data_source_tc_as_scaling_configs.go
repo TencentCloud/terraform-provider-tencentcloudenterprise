@@ -219,7 +219,7 @@ func dataSourceTencentCloudAsScalingConfigs() *schema.Resource {
 }
 
 func dataSourceTencentCloudAsScalingConfigRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("data_source.cloud_as_scaling_configs.read")()
+	defer logElapsed("data_source.tencentcloudenterprise_as_scaling_configs.read")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)

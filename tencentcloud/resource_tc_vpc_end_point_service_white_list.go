@@ -18,7 +18,7 @@ Provides a resource to create a vpc end_point_service_white_list
 vpc end_point_service_white_list can be imported using the id, e.g.
 
 ```
-terraform import cloud_vpc_end_point_service_white_list.end_point_service_white_list end_point_service_white_list_id
+terraform import tencentcloudenterprise_vpc_end_point_service_white_list.end_point_service_white_list end_point_service_white_list_id
 ```
 */
 package tencentcloud
@@ -92,7 +92,7 @@ func resourceTencentCloudVpcEndPointServiceWhiteList() *schema.Resource {
 }
 
 func resourceTencentCloudVpcEndPointServiceWhiteListCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_vpc_end_point_service_white_list.create")()
+	defer logElapsed("resource.tencentcloudenterprise_vpc_end_point_service_white_list.create")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -136,7 +136,7 @@ func resourceTencentCloudVpcEndPointServiceWhiteListCreate(d *schema.ResourceDat
 }
 
 func resourceTencentCloudVpcEndPointServiceWhiteListRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_vpc_end_point_service_white_list.read")()
+	defer logElapsed("resource.tencentcloudenterprise_vpc_end_point_service_white_list.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -186,7 +186,7 @@ func resourceTencentCloudVpcEndPointServiceWhiteListRead(d *schema.ResourceData,
 }
 
 func resourceTencentCloudVpcEndPointServiceWhiteListUpdate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_vpc_end_point_service_white_list.update")()
+	defer logElapsed("resource.tencentcloudenterprise_vpc_end_point_service_white_list.update")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -237,7 +237,7 @@ func resourceTencentCloudVpcEndPointServiceWhiteListUpdate(d *schema.ResourceDat
 }
 
 func resourceTencentCloudVpcEndPointServiceWhiteListDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_vpc_end_point_service_white_list.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_vpc_end_point_service_white_list.delete")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)

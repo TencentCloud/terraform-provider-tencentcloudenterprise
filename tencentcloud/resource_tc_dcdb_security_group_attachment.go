@@ -15,7 +15,7 @@ Import
 
 dcdb security_group_attachment can be imported using the id, e.g.
 ```
-$ terraform import cloud_dcdb_security_group_attachment.security_group_attachment securityGroupAttachment_id
+$ terraform import tencentcloudenterprise_dcdb_security_group_attachment.security_group_attachment securityGroupAttachment_id
 ```
 */
 package tencentcloud
@@ -70,7 +70,7 @@ func resourceTencentCloudDcdbSecurityGroupAttachment() *schema.Resource {
 }
 
 func resourceTencentCloudDcdbSecurityGroupAttachmentCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_dcdb_security_group_attachment.create")()
+	defer logElapsed("resource.tencentcloudenterprise_dcdb_security_group_attachment.create")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -116,7 +116,7 @@ func resourceTencentCloudDcdbSecurityGroupAttachmentCreate(d *schema.ResourceDat
 }
 
 func resourceTencentCloudDcdbSecurityGroupAttachmentRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_dcdb_security_group_attachment.read")()
+	defer logElapsed("resource.tencentcloudenterprise_dcdb_security_group_attachment.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -155,7 +155,7 @@ func resourceTencentCloudDcdbSecurityGroupAttachmentRead(d *schema.ResourceData,
 }
 
 func resourceTencentCloudDcdbSecurityGroupAttachmentDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_dcdb_security_group_attachment.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_dcdb_security_group_attachment.delete")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)

@@ -2,7 +2,7 @@
 subcategory: "Auto Scaling(AS)"
 layout: "tencentcloudenterprise"
 page_title: "TencentCloudEnterprise: tencentcloudenterprise_as_lifecycle_hook"
-sidebar_current: "docs-tencentcloudenterprise-resources-as_lifecycle_hook"
+sidebar_current: "docs-tencentcloudenterprise-resource-as_lifecycle_hook"
 description: |-
   Provides a resource for an AS (Auto scaling) lifecycle hook.
 ---
@@ -45,6 +45,5 @@ The following arguments are supported:
 In addition to all arguments above, the following attributes are exported:
 
 * `id` - ID of the resource.
-
 
 

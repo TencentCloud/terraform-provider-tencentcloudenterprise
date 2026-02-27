@@ -6,7 +6,7 @@ Provides a resource to create a brc auto_snapshot_policy binding
 ```hcl
 
 	resource "tencentcloudenterprise_brc_auto_backup_policy_binding" "example" {
-	  auto_backup_policy_id = cloud_brc_autobackup_policy.example.id
+	  auto_backup_policy_id = tencentcloudenterprise_brc_autobackup_policy.example.id
 	  instance_ids          = ["ins-21ahx7qj"]
 	  resource_type         = "INSTANCE"
 	}
@@ -132,7 +132,7 @@ func resourceTencentCloudBrcAutoBackupPolicyBinding() *schema.Resource {
 }
 
 func resourceTencentCloudBrcAutoBackupPolicyBindingCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_brc_auto_backup_policy_binding.create")()
+	defer logElapsed("resource.tencentcloudenterprise_brc_auto_backup_policy_binding.create")()
 
 	var (
 		logId              = getLogId(contextNil)
@@ -213,12 +213,12 @@ func resourceTencentCloudBrcAutoBackupPolicyBindingCreate(d *schema.ResourceData
 }
 
 func resourceTencentCloudBrcAutoBackupPolicyBindingRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_brc_auto_backup_policy_binding.read")()
+	defer logElapsed("resource.tencentcloudenterprise_brc_auto_backup_policy_binding.read")()
 	return nil
 }
 
 func resourceTencentCloudBrcAutoBackupPolicyBindingDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_brc_auto_backup_policy_binding.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_brc_auto_backup_policy_binding.delete")()
 
 	var (
 		logId              = getLogId(contextNil)

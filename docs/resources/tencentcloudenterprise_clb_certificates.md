@@ -2,7 +2,7 @@
 subcategory: "Cloud Load Balancer(CLB)"
 layout: "tencentcloudenterprise"
 page_title: "TencentCloudEnterprise: tencentcloudenterprise_clb_certificates"
-sidebar_current: "docs-tencentcloudenterprise-resources-clb_certificates"
+sidebar_current: "docs-tencentcloudenterprise-resource-clb_certificates"
 description: |-
   Provides a resource to create a SSL certificate.
 ---
@@ -46,14 +46,17 @@ In addition to all arguments above, the following attributes are exported:
 * `status` - Status of the SSL certificate.
 * `subject_names` - ALL domains included in the SSL certificate. Including the primary domain name.
 
-
 ## Import
 
+tencentcloudenterprise_clb_certificates can be imported using the id, e.g.
+
+```
 ssl certificate can be imported using the id, e.g.
 
 ```
 
 	$ terraform import tencentcloudenterprise_clb_certificates.cert GjTNRoK7
 
+```
 ```
 

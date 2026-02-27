@@ -2,7 +2,7 @@
 subcategory: "Tencent Service Framework(TSF)"
 layout: "tencentcloudenterprise"
 page_title: "TencentCloudEnterprise: tencentcloudenterprise_tsf_instances_attachment"
-sidebar_current: "docs-tencentcloudenterprise-resources-tsf_instances_attachment"
+sidebar_current: "docs-tencentcloudenterprise-resource-tsf_instances_attachment"
 description: |-
   Provides a resource to create a tsf instances_attachment
 ---
@@ -50,6 +50,5 @@ The `instance_advanced_settings` object supports the following:
 In addition to all arguments above, the following attributes are exported:
 
 * `id` - ID of the resource.
-
 
 

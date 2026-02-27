@@ -142,7 +142,7 @@ func dataSourceTencentCloudTdmqRabbitmqVipInstance() *schema.Resource {
 }
 
 func dataSourceTencentCloudTdmqRabbitmqVipInstanceRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("data_source.cloud_tdmq_rabbitmq_vip_instance.read")()
+	defer logElapsed("data_source.tencentcloudenterprise_tdmq_rabbitmq_vip_instance.read")()
 	defer inconsistentCheck(d, meta)()
 
 	var (

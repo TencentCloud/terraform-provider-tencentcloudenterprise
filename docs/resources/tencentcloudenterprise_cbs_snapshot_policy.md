@@ -2,7 +2,7 @@
 subcategory: "Cloud Block Storage(CBS)"
 layout: "tencentcloudenterprise"
 page_title: "TencentCloudEnterprise: tencentcloudenterprise_cbs_snapshot_policy"
-sidebar_current: "docs-tencentcloudenterprise-resources-cbs_snapshot_policy"
+sidebar_current: "docs-tencentcloudenterprise-resource-cbs_snapshot_policy"
 description: |-
   Provides a snapshot policy resource.
 ---
@@ -38,12 +38,15 @@ In addition to all arguments above, the following attributes are exported:
 * `id` - ID of the resource.
 
 
-
 ## Import
 
+tencentcloudenterprise_cbs_snapshot_policy can be imported using the id, e.g.
+
+```
 CBS snapshot policy can be imported using the id, e.g.
 
 ```
 $ terraform import tencentcloudenterprise_cbs_snapshot_policy.snapshot_policy asp-jliex1tn
+```
 ```
 

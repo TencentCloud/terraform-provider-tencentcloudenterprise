@@ -77,7 +77,7 @@ func dataSourceTencentCloudCvmImageSharePermission() *schema.Resource {
 }
 
 func dataSourceTencentCloudCvmImageSharePermissionRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("data_source.cloud_cvm_image_share_permission.read")()
+	defer logElapsed("data_source.tencentcloudenterprise_cvm_image_share_permission.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)

@@ -31,4 +31,3 @@ In addition to all arguments above, the following attributes are exported:
   * `attribute_name` - Attribute name.
   * `attribute_values` - Attribute values.
 
-

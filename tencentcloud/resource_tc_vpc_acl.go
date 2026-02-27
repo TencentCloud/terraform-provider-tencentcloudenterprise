@@ -8,7 +8,7 @@ data "tencentcloudenterprise_vpc_instances" "default" {
 }
 
 	resource "tencentcloudenterprise_vpc_acl" "foo" {
-	    vpc_id  = data.cloud_vpc_instances.default.instance_list.0.vpc_id
+	    vpc_id  = data.tencentcloudenterprise_vpc_instances.default.instance_list.0.vpc_id
 	    name  	= "test_acl_update"
 		ingress = [
 			"ACCEPT#192.168.1.0/24#800#TCP",
@@ -27,7 +27,7 @@ data "tencentcloudenterprise_vpc_instances" "default" {
 Vpc ACL can be imported, e.g.
 
 ```
-$ terraform import cloud_vpc_acl.default acl-id
+$ terraform import tencentcloudenterprise_vpc_acl.default acl-id
 ```
 */
 package tencentcloud
@@ -108,7 +108,7 @@ func resourceTencentCloudVpcACL() *schema.Resource {
 }
 
 func resourceTencentCloudVpcACLCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_vpc_acl.create")()
+	defer logElapsed("resource.tencentcloudenterprise_vpc_acl.create")()
 
 	var (
 		logId      = getLogId(contextNil)
@@ -174,7 +174,7 @@ func resourceTencentCloudVpcACLCreate(d *schema.ResourceData, meta interface{}) 
 }
 
 func resourceTencentCloudVpcACLRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_vpc_acl.read")()
+	defer logElapsed("resource.tencentcloudenterprise_vpc_acl.read")()
 	defer inconsistentCheck(d, meta)()
 
 	var (
@@ -245,7 +245,7 @@ func resourceTencentCloudVpcACLRead(d *schema.ResourceData, meta interface{}) er
 }
 
 func resourceTencentCloudVpcACLUpdate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_vpc_acl.update")()
+	defer logElapsed("resource.tencentcloudenterprise_vpc_acl.update")()
 
 	var (
 		logId   = getLogId(contextNil)
@@ -340,7 +340,7 @@ func resourceTencentCloudVpcACLUpdate(d *schema.ResourceData, meta interface{}) 
 }
 
 func resourceTencentCloudVpcACLDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_vpc_acl.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_vpc_acl.delete")()
 
 	var (
 		logId   = getLogId(contextNil)

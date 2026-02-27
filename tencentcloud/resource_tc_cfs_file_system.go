@@ -22,7 +22,7 @@ Provides a resource to create a cloud file system(CFS).
 Cloud file system can be imported using the id, e.g.
 
 ```
-$ terraform import cloud_cfs_file_system.foo cfs-6hgquxmj
+$ terraform import tencentcloudenterprise_cfs_file_system.foo cfs-6hgquxmj
 ```
 */
 package tencentcloud
@@ -156,7 +156,7 @@ func resourceTencentCloudCfsFileSystem() *schema.Resource {
 }
 
 func resourceTencentCloudCfsFileSystemCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cfs_file_system.create")()
+	defer logElapsed("resource.tencentcloudenterprise_cfs_file_system.create")()
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
 	cfsService := CfsService{
@@ -246,7 +246,7 @@ func resourceTencentCloudCfsFileSystemCreate(d *schema.ResourceData, meta interf
 }
 
 func resourceTencentCloudCfsFileSystemRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cfs_file_system.read")()
+	defer logElapsed("resource.tencentcloudenterprise_cfs_file_system.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -317,7 +317,7 @@ func resourceTencentCloudCfsFileSystemRead(d *schema.ResourceData, meta interfac
 }
 
 func resourceTencentCloudCfsFileSystemUpdate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cfs_file_system.update")()
+	defer logElapsed("resource.tencentcloudenterprise_cfs_file_system.update")()
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
 	fsId := d.Id()
@@ -376,7 +376,7 @@ func resourceTencentCloudCfsFileSystemUpdate(d *schema.ResourceData, meta interf
 }
 
 func resourceTencentCloudCfsFileSystemDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cfs_file_system.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_cfs_file_system.delete")()
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
 

@@ -420,7 +420,7 @@ func resourceTencentCloudTsfCluster() *schema.Resource {
 }
 
 func resourceTencentCloudTsfClusterCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_tsf_cluster.create")()
+	defer logElapsed("resource.tencentcloudenterprise_tsf_cluster.create")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -542,7 +542,7 @@ func resourceTencentCloudTsfClusterCreate(d *schema.ResourceData, meta interface
 }
 
 func resourceTencentCloudTsfClusterRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_tsf_cluster.read")()
+	defer logElapsed("resource.tencentcloudenterprise_tsf_cluster.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -792,7 +792,7 @@ func resourceTencentCloudTsfClusterRead(d *schema.ResourceData, meta interface{}
 }
 
 func resourceTencentCloudTsfClusterUpdate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_tsf_cluster.update")()
+	defer logElapsed("resource.tencentcloudenterprise_tsf_cluster.update")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -859,7 +859,7 @@ func resourceTencentCloudTsfClusterUpdate(d *schema.ResourceData, meta interface
 }
 
 func resourceTencentCloudTsfClusterDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_tsf_cluster.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_tsf_cluster.delete")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)

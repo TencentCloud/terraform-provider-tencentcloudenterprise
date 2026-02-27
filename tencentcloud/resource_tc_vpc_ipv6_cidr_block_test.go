@@ -36,7 +36,7 @@ resource "tencentcloudenterprise_vpc" "cidr-block" {
 }
 
 resource "tencentcloudenterprise_vpc_ipv6_cidr_block" "ipv6_cidr_block" {
-  vpc_id = cloud_vpc.cidr-block.id
+  vpc_id = tencentcloudenterprise_vpc.cidr-block.id
 }
 
 `

@@ -18,17 +18,17 @@ func TestAccTencentCloudKubernetesAvailableClusterVersionsDataSource_basic(t *te
 			{
 				Config: fmt.Sprintf(testAccKubernetesAvailableClusterVersionsDataSource_basic, defaultTkeClusterId),
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckTencentCloudDataSourceID("data.cloud_tke_kubernetes_available_cluster_versions.id"),
-					resource.TestCheckResourceAttrSet("data.cloud_tke_kubernetes_available_cluster_versions.id", "versions.#"),
-					resource.TestCheckResourceAttrSet("data.cloud_tke_kubernetes_available_cluster_versions.id", "clusters.#"),
+					testAccCheckTencentCloudDataSourceID("data.tencentcloudenterprise_tke_kubernetes_available_cluster_versions.id"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_tke_kubernetes_available_cluster_versions.id", "versions.#"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_tke_kubernetes_available_cluster_versions.id", "clusters.#"),
 				),
 			},
 			{
 				Config: fmt.Sprintf(testAccKubernetesAvailableClusterVersionsDataSource_multiple, defaultTkeClusterId),
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckTencentCloudDataSourceID("data.cloud_tke_kubernetes_available_cluster_versions.ids"),
-					resource.TestCheckResourceAttrSet("data.cloud_tke_kubernetes_available_cluster_versions.ids", "clusters.#"),
-					resource.TestCheckResourceAttr("data.cloud_tke_kubernetes_available_cluster_versions.ids", "clusters.0.cluster_id", defaultTkeClusterId),
+					testAccCheckTencentCloudDataSourceID("data.tencentcloudenterprise_tke_kubernetes_available_cluster_versions.ids"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_tke_kubernetes_available_cluster_versions.ids", "clusters.#"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_tke_kubernetes_available_cluster_versions.ids", "clusters.0.cluster_id", defaultTkeClusterId),
 				),
 			},
 		},
@@ -43,7 +43,7 @@ data "tencentcloudenterprise_tke_kubernetes_available_cluster_versions" "id" {
 }
 
 output "versions"{
-  value = data.cloud_tke_kubernetes_available_cluster_versions.id.versions
+  value = data.tencentcloudenterprise_tke_kubernetes_available_cluster_versions.id.versions
 }
 
 `

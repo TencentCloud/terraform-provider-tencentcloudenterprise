@@ -2,7 +2,7 @@
 subcategory: "Cloud Virtual Machine(CVM)"
 layout: "tencentcloudenterprise"
 page_title: "TencentCloudEnterprise: tencentcloudenterprise_cvm_image"
-sidebar_current: "docs-tencentcloudenterprise-resources-cvm_image"
+sidebar_current: "docs-tencentcloudenterprise-resource-cvm_image"
 description: |-
   Provide a resource to manage image.
 ---
@@ -42,12 +42,15 @@ In addition to all arguments above, the following attributes are exported:
 * `id` - ID of the resource.
 
 
-
 ## Import
 
+tencentcloudenterprise_cvm_image can be imported using the id, e.g.
+
+```
 image instance can be imported using the id, e.g.
 
 ```
 $ terraform import tencentcloudenterprise_cvm_image.image_snap img-gf7jspk6
+```
 ```
 

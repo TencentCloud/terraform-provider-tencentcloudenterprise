@@ -1,5 +1,5 @@
 ---
-subcategory: "Distributed Database For MySQL(DCDB)"
+subcategory: "TDSQL for MySQL(DCDB)"
 layout: "tencentcloudenterprise"
 page_title: "TencentCloudEnterprise: tencentcloudenterprise_dcdb_databases"
 sidebar_current: "docs-tencentcloudenterprise-datasource-dcdb_databases"
@@ -32,5 +32,4 @@ In addition to all arguments above, the following attributes are exported:
 
 * `list` - Database information.
   * `db_name` - Database Name.
-
 

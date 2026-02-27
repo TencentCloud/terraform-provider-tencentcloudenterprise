@@ -31,7 +31,7 @@ Provides a resource to create a brc resource backup
 brc backup_resource can be imported using the id, e.g.
 
 ```
-terraform import cloud_brc_backup_resource.example backup_id
+terraform import tencentcloudenterprise_brc_backup_resource.example backup_id
 ```
 */
 package tencentcloud
@@ -150,7 +150,7 @@ func resourceTencentCloudBrcBackupResource() *schema.Resource {
 }
 
 func resourceTencentCloudBrcBackupResourceCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_brc_backup_resource.create")()
+	defer logElapsed("resource.tencentcloudenterprise_brc_backup_resource.create")()
 
 	var (
 		logId        = getLogId(contextNil)
@@ -218,13 +218,13 @@ func resourceTencentCloudBrcBackupResourceCreate(d *schema.ResourceData, meta in
 }
 
 func resourceTencentCloudBrcBackupResourceRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_brc_backup_resource.read")()
+	defer logElapsed("resource.tencentcloudenterprise_brc_backup_resource.read")()
 
 	return nil
 }
 
 func resourceTencentCloudBrcBackupResourceDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_brc_backup_resource.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_brc_backup_resource.delete")()
 
 	var (
 		logId                 = getLogId(contextNil)

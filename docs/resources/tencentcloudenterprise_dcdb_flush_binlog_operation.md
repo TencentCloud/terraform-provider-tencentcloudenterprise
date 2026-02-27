@@ -1,8 +1,8 @@
 ---
-subcategory: "Distributed Database For MySQL(DCDB)"
+subcategory: "TDSQL for MySQL(DCDB)"
 layout: "tencentcloudenterprise"
 page_title: "TencentCloudEnterprise: tencentcloudenterprise_dcdb_flush_binlog_operation"
-sidebar_current: "docs-tencentcloudenterprise-resources-dcdb_flush_binlog_operation"
+sidebar_current: "docs-tencentcloudenterprise-resource-dcdb_flush_binlog_operation"
 description: |-
   Provides a resource to create a dcdb flush_binlog_operation
 ---
@@ -30,6 +30,5 @@ The following arguments are supported:
 In addition to all arguments above, the following attributes are exported:
 
 * `id` - ID of the resource.
-
 
 

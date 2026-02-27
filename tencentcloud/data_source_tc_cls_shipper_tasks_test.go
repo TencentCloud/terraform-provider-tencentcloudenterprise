@@ -16,7 +16,7 @@ func TestAccTencentCloudNeedFixClsShipperTasksDataSource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			{
 				Config: testAccClsShipperTasksDataSource,
-				Check:  resource.ComposeTestCheckFunc(testAccCheckTencentCloudDataSourceID("data.cloud_cls_shipper_tasks.shipper_tasks")),
+				Check:  resource.ComposeTestCheckFunc(testAccCheckTencentCloudDataSourceID("data.tencentcloudenterprise_cls_shipper_tasks.shipper_tasks")),
 			},
 		},
 	})

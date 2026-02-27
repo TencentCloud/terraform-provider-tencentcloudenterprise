@@ -210,7 +210,7 @@ func dataSourceTencentCloudCosBucketObject() *schema.Resource {
 // dataSourceTencentCloudCosBucketObjectsRead reads the metadata of an object stored inside a bucket.
 // api3: tcencent cos sdk GetBucket: https://cloud.tencent.com/document/product/436/7734
 func dataSourceTencentCloudCosBucketObjectsRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	defer logElapsed("data_source.cloud_cos_bucket_object.read")()
+	defer logElapsed("data_source.tencentcloudenterprise_cos_bucket_object.read")()
 
 	var diags diag.Diagnostics
 	bucket := d.Get("bucket").(string)

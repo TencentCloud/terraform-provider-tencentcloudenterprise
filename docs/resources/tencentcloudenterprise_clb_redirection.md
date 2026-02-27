@@ -2,7 +2,7 @@
 subcategory: "Cloud Load Balancer(CLB)"
 layout: "tencentcloudenterprise"
 page_title: "TencentCloudEnterprise: tencentcloudenterprise_clb_redirection"
-sidebar_current: "docs-tencentcloudenterprise-resources-clb_redirection"
+sidebar_current: "docs-tencentcloudenterprise-resource-clb_redirection"
 description: |-
   Provides a resource to create a CLB redirection.
 ---
@@ -55,12 +55,15 @@ In addition to all arguments above, the following attributes are exported:
 * `id` - ID of the resource.
 
 
-
 ## Import
 
+tencentcloudenterprise_clb_redirection can be imported using the id, e.g.
+
+```
 CLB redirection can be imported using the id, e.g.
 
 ```
 $ terraform import tencentcloudenterprise_clb_redirection.foo loc-ft8fmngv#loc-4xxr2cy7#lbl-jc1dx6ju#lbl-asj1hzuo#lb-p7olt9e5
+```
 ```
 

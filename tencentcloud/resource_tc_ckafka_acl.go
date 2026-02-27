@@ -14,7 +14,7 @@ Provides a resource to create a Ckafka Acl.
 	  operation_type  = "WRITE"
 	  permission_type = "ALLOW"
 	  host            = "*"
-	  principal       = cloud_ckafka_user.foo.account_name
+	  principal       = tencentcloudenterprise_ckafka_user.foo.account_name
 	}
 
 ```
@@ -24,7 +24,7 @@ Provides a resource to create a Ckafka Acl.
 Ckafka acl can be imported using the instance_id#permission_type#principal#host#operation_type#resource_type#resource_type_name, e.g.
 
 ```
-$ terraform import cloud_ckafka_acl.foo ckafka-f9ife4zz#ALLOW#test#*#WRITE#TOPIC#topic-tf-test
+$ terraform import tencentcloudenterprise_ckafka_acl.foo ckafka-f9ife4zz#ALLOW#test#*#WRITE#TOPIC#topic-tf-test
 ```
 */
 package tencentcloud
@@ -127,7 +127,7 @@ func resourceTencentCloudCkafkaAcl() *schema.Resource {
 }
 
 func resourceTencentCloudCkafkaAclCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_ckafka_acl.create")()
+	defer logElapsed("resource.tencentcloudenterprise_ckafka_acl.create")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
@@ -152,7 +152,7 @@ func resourceTencentCloudCkafkaAclCreate(d *schema.ResourceData, meta interface{
 }
 
 func resourceTencentCloudCkafkaAclRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_ckafka_acl.read")()
+	defer logElapsed("resource.tencentcloudenterprise_ckafka_acl.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -183,7 +183,7 @@ func resourceTencentCloudCkafkaAclRead(d *schema.ResourceData, meta interface{})
 }
 
 func resourceTencentCloudCkafkaAclDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_ckafka_user.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_ckafka_user.delete")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)

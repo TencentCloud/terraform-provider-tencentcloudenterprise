@@ -1,8 +1,8 @@
 ---
-subcategory: "Cloud Kafka(CKafka)"
+subcategory: "Cloud Kafka(ckafka)"
 layout: "tencentcloudenterprise"
 page_title: "TencentCloudEnterprise: tencentcloudenterprise_ckafka_topic"
-sidebar_current: "docs-tencentcloudenterprise-resources-ckafka_topic"
+sidebar_current: "docs-tencentcloudenterprise-resource-ckafka_topic"
 description: |-
   Use this resource to create ckafka topic.
 ---
@@ -60,12 +60,15 @@ In addition to all arguments above, the following attributes are exported:
 * `forward_status` - Data backup cos status. Valid values: `0`, `1`. `1`: do not open data backup, `0`: open data backup.
 * `segment_bytes` - Number of bytes rolled by shard.
 
-
 ## Import
 
+tencentcloudenterprise_ckafka_topic can be imported using the id, e.g.
+
+```
 ckafka topic can be imported using the instance_id#topic_name, e.g.
 
 ```
 $ terraform import tencentcloudenterprise_ckafka_topic.foo ckafka-f9ife4zz#example
+```
 ```
 

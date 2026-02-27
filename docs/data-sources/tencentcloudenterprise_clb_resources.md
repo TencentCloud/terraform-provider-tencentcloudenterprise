@@ -51,4 +51,3 @@ In addition to all arguments above, the following attributes are exported:
     * `zone_region` - Zone region of clb.
     * `zone` - Zone of clb.
 
-

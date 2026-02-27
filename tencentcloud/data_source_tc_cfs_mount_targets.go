@@ -135,7 +135,7 @@ func dataSourceTencentCloudCfsMountTargets() *schema.Resource {
 }
 
 func dataSourceTencentCloudCfsMountTargetsRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("data_source.cloud_cfs_mount_targets.read")()
+	defer logElapsed("data_source.tencentcloudenterprise_cfs_mount_targets.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)

@@ -83,7 +83,7 @@ func resourceTencentCloudTdmqPulsarEnvironment() *schema.Resource {
 }
 
 func resourceTencentCloudTdmqPulsarEnvironmentCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_tdmq_pulsar_environment.create")()
+	defer logElapsed("resource.tencentcloudenterprise_tdmq_pulsar_environment.create")()
 
 	var (
 		logId           = getLogId(contextNil)
@@ -134,7 +134,7 @@ func resourceTencentCloudTdmqPulsarEnvironmentCreate(d *schema.ResourceData, met
 }
 
 func resourceTencentCloudTdmqPulsarEnvironmentRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_tdmq_pulsar_environment.read")()
+	defer logElapsed("resource.tencentcloudenterprise_tdmq_pulsar_environment.read")()
 	defer inconsistentCheck(d, meta)()
 
 	var (
@@ -183,7 +183,7 @@ func resourceTencentCloudTdmqPulsarEnvironmentRead(d *schema.ResourceData, meta 
 }
 
 func resourceTencentCloudTdmqPulsarEnvironmentUpdate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_tdmq_pulsar_environment.update")()
+	defer logElapsed("resource.tencentcloudenterprise_tdmq_pulsar_environment.update")()
 
 	var (
 		logId           = getLogId(contextNil)
@@ -248,7 +248,7 @@ func resourceTencentCloudTdmqPulsarEnvironmentUpdate(d *schema.ResourceData, met
 }
 
 func resourceTencentCloudTdmqPulsarEnvironmentDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_tdmq_pulsar_environment.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_tdmq_pulsar_environment.delete")()
 
 	var (
 		logId   = getLogId(contextNil)

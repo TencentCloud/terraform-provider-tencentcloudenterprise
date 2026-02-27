@@ -19,7 +19,7 @@ Provide a resource to manage image.
 image instance can be imported using the id, e.g.
 
 ```
-$ terraform import cloud_cvm_image.image_snap img-gf7jspk6
+$ terraform import tencentcloudenterprise_cvm_image.image_snap img-gf7jspk6
 ```
 */
 package tencentcloud
@@ -122,7 +122,7 @@ func resourceTencentCloudImage() *schema.Resource {
 }
 
 func resourceTencentCloudImageCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cvm_image.create")()
+	defer logElapsed("resource.tencentcloudenterprise_cvm_image.create")()
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
 
@@ -234,7 +234,7 @@ func resourceTencentCloudImageCreate(d *schema.ResourceData, meta interface{}) e
 }
 
 func resourceTencentCloudImageRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cvm_image.read")()
+	defer logElapsed("resource.tencentcloudenterprise_cvm_image.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -289,7 +289,7 @@ func resourceTencentCloudImageRead(d *schema.ResourceData, meta interface{}) err
 }
 
 func resourceTencentCloudImageUpdate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cvm_image.update")()
+	defer logElapsed("resource.tencentcloudenterprise_cvm_image.update")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
@@ -326,7 +326,7 @@ func resourceTencentCloudImageUpdate(d *schema.ResourceData, meta interface{}) e
 }
 
 func resourceTencentCloudImageDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cvm_image.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_cvm_image.delete")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)

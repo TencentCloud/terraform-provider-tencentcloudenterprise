@@ -5,8 +5,7 @@ Provides a CVM instance resource.
 
 ~> **NOTE:** At present, 'PREPAID' instance cannot be deleted and must wait it to be outdated and released automatically.
 
-# Example Usage
-
+Example Usage
 ```hcl
 
 	data "tencentcloudenterprise_cvm_images" "my_favorite_image" {
@@ -35,8 +34,8 @@ data "tencentcloudenterprise_availability_zones" "my_favorite_zones" {
 	}
 
 	resource "tencentcloudenterprise_vpc_subnet" "app" {
-	  vpc_id            = cloud_vpc.app.id
-	  availability_zone = data.cloud_availability_zones.my_favorite_zones.zones.0.name
+	  vpc_id            = tencentcloudenterprise_vpc.app.id
+	  availability_zone = data.tencentcloudenterprise_availability_zones.my_favorite_zones.zones.0.name
 	  name              = "awesome_app_subnet"
 	  cidr_block        = "10.0.1.0/24"
 	}
@@ -45,15 +44,15 @@ data "tencentcloudenterprise_availability_zones" "my_favorite_zones" {
 
 	resource "tencentcloudenterprise_cvm_instance" "my_awesome_app" {
 	  instance_name              = "awesome_app"
-	  availability_zone          = data.cloud_availability_zones.my_favorite_zones.zones.0.name
-	  image_id                   = data.cloud_cvm_images.my_favorite_image.images.0.image_id
-	  instance_type              = data.cloud_cvm_instance_types.my_favorite_instance_types.instance_types.0.instance_type
+	  availability_zone          = data.tencentcloudenterprise_availability_zones.my_favorite_zones.zones.0.name
+	  image_id                   = data.tencentcloudenterprise_cvm_images.my_favorite_image.images.0.image_id
+	  instance_type              = data.tencentcloudenterprise_cvm_instance_types.my_favorite_instance_types.instance_types.0.instance_type
 	  system_disk_type           = "CLOUD_PREMIUM"
 	  system_disk_size           = 50
 	  hostname                   = "user"
 	  project_id                 = 0
-	  vpc_id                     = cloud_vpc.app.id
-	  subnet_id                  = cloud_vpc_subnet.app.id
+	  vpc_id                     = tencentcloudenterprise_vpc.app.id
+	  subnet_id                  = tencentcloudenterprise_vpc_subnet.app.id
 	  count                      = 2
 
 	  data_disks {
@@ -68,73 +67,10 @@ data "tencentcloudenterprise_availability_zones" "my_favorite_zones" {
 
 ```
 
-Create CVM instance based on CDH
-```hcl
-
-	variable "availability_zone" {
-	  default = "ap-shanghai-4"
-	}
-
-	resource "tencentcloudenterprise_cdh_instance" "foo" {
-	  availability_zone = var.availability_zone
-	  host_type = "HM50"
-	  charge_type = "PREPAID"
-	  instance_charge_type_prepaid_period = 1
-	  hostname = "test"
-	  prepaid_renew_flag = "DISABLE_NOTIFY_AND_MANUAL_RENEW"
-	}
-
-	data "tencentcloudenterprise_cdh_instances" "list" {
-	  availability_zone = var.availability_zone
-	  host_id = cloud_cdh_instance.foo.id
-	  hostname = "test"
-	  host_state = "RUNNING"
-	}
-
-	resource "tencentcloudenterprise_cvm_key_pair" "random_key" {
-	  key_ids   = ["tf_example_key6"]
-	  public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAAAgQDjd8fTnp7Dcuj4mLaQxf9Zs/ORgUL9fQxRCNKkPgP1paTy1I513maMX126i36Lxxl3+FUB52oVbo/FgwlIfX8hyCnv8MCxqnuSDozf1CD0/wRYHcTWAtgHQHBPCC2nJtod6cVC3kB18KeV4U7zsxmwFeBIxojMOOmcOBuh7+trRw=="
-	}
-
-	resource "tencentcloudenterprise_bms_placement_group" "foo" {
-	  name = "test"
-	  type = "HOST"
-	}
-
-	resource "tencentcloudenterprise_cvm_instance" "foo" {
-	  availability_zone = var.availability_zone
-	  instance_name     = "terraform-testing"
-	  image_id          = "img-ix05e4px"
-	  key_ids           = [cloud_cvm_key_pair.random_key.id]
-	  placement_group_id = cloud_bms_placement_group.foo.id
-	  security_groups               = ["sg-9c3f33xk"]
-	  system_disk_type  = "CLOUD_PREMIUM"
-
-	  instance_charge_type = "CDHPAID"
-	  cdh_instance_type     = "CDH_10C10G"
-	  cdh_host_id = cloud_cdh_instance.foo.id
-
-	  vpc_id                     = "vpc-31zmeluu"
-	  subnet_id                  = "subnet-aujc02np"
-	  allocate_public_ip    = true
-	  internet_max_bandwidth_out = 2
-	  count                      = 3
-
-	  data_disks {
-	    data_disk_type = "CLOUD_PREMIUM"
-	    data_disk_size = 50
-	    encrypt = false
-	  }
-	}
-
-```
-
-# Import
-
+Import
 CVM instance can be imported using the id, e.g.
-
 ```
-terraform import cloud_cvm_instance.foo ins-2qol3a80
+terraform import tencentcloudenterprise_cvm_instance.foo ins-2qol3a80
 ```
 */
 package tencentcloud
@@ -149,6 +85,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+
 	sdkErrors "terraform-provider-tencentcloudenterprise/sdk/common/errors"
 	cvm "terraform-provider-tencentcloudenterprise/sdk/cvm/v20170312"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
@@ -185,6 +122,7 @@ func init() {
 			"tags":                                    "标签",
 			"system_disk_size":                        "系统盘大小",
 			"force_delete":                            "强制删除",
+			"disable_api_termination":                 "是否开启实例删除保护",
 			"private_ip":                              "私有IP",
 			"orderly_security_groups":                 "有序安全组",
 			"cam_role_name":                           "CAM角色名",
@@ -545,12 +483,12 @@ func resourceTencentCloudInstance() *schema.Resource {
 				Default:     false,
 				Description: "Indicate whether to force delete the instance. Default is `false`. If set true, the instance will be permanently deleted instead of being moved into the recycle bin. Note: only works for `PREPAID` instance.",
 			},
-			// "disable_api_termination": {
-			// 	Type:        schema.TypeBool,
-			// 	Optional:    true,
-			// 	Default:     false,
-			// 	Description: "Whether the termination protection is enabled. Default is `false`. If set true, which means that this instance can not be deleted by an API action.",
-			// },
+			"disable_api_termination": {
+				Type:        schema.TypeBool,
+				Optional:    true,
+				Default:     false,
+				Description: "Whether the termination protection is enabled. Default is `false`. If set true, which means that this instance can not be deleted by an API action.",
+			},
 			// role
 			"cam_role_name": {
 				Type:        schema.TypeString,
@@ -589,7 +527,7 @@ func resourceTencentCloudInstance() *schema.Resource {
 }
 
 func resourceTencentCloudInstanceCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cvm_instance.create")()
+	defer logElapsed("resource.tencentcloudenterprise_cvm_instance.create")()
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
 	cvmService := CvmService{
@@ -807,11 +745,9 @@ func resourceTencentCloudInstanceCreate(d *schema.ResourceData, meta interface{}
 		request.UserData = &userData
 	}
 
-	/*
-		if v, ok := d.GetOkExists("disable_api_termination"); ok {
-			request.DisableApiTermination = helper.Bool(v.(bool))
-		}
-	*/
+	if v, ok := d.GetOkExists("disable_api_termination"); ok {
+		request.DisableApiTermination = helper.Bool(v.(bool))
+	}
 
 	if v := helper.GetTags(d, "tags"); len(v) > 0 {
 		tags := make([]*cvm.Tag, 0)
@@ -949,7 +885,7 @@ func resourceTencentCloudInstanceCreate(d *schema.ResourceData, meta interface{}
 }
 
 func resourceTencentCloudInstanceRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cvm_instance.read")()
+	defer logElapsed("resource.tencentcloudenterprise_cvm_instance.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -1032,7 +968,7 @@ func resourceTencentCloudInstanceRead(d *schema.ResourceData, meta interface{}) 
 	_ = d.Set("create_time", instance.CreatedTime)
 	_ = d.Set("expired_time", instance.ExpiredTime)
 	_ = d.Set("cam_role_name", instance.CamRoleName)
-	//_ = d.Set("disable_api_termination", instance.DisableApiTermination)
+	_ = d.Set("disable_api_termination", instance.DisableApiTermination)
 	_ = d.Set("instance_id", instance.InstanceId)
 
 	if *instance.InstanceChargeType == CVM_CHARGE_TYPE_CDHPAID {
@@ -1133,7 +1069,7 @@ func resourceTencentCloudInstanceRead(d *schema.ResourceData, meta interface{}) 
 }
 
 func resourceTencentCloudInstanceUpdate(d *schema.ResourceData, meta interface{}) (err error) {
-	defer logElapsed("resource.cloud_cvm_instance.update")()
+	defer logElapsed("resource.tencentcloudenterprise_cvm_instance.update")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
@@ -1600,7 +1536,7 @@ func resourceTencentCloudInstanceUpdate(d *schema.ResourceData, meta interface{}
 }
 
 func resourceTencentCloudInstanceDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cvm_instance.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_cvm_instance.delete")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)

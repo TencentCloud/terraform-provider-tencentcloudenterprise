@@ -140,7 +140,7 @@ func dataSourceTencentCloudVpcGatewayFlowMonitorDetail() *schema.Resource {
 }
 
 func dataSourceTencentCloudVpcGatewayFlowMonitorDetailRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("data_source.cloud_vpc_gateway_flow_monitor_detail.read")()
+	defer logElapsed("data_source.tencentcloudenterprise_vpc_gateway_flow_monitor_detail.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)

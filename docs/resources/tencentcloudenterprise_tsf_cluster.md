@@ -2,7 +2,7 @@
 subcategory: "Tencent Service Framework(TSF)"
 layout: "tencentcloudenterprise"
 page_title: "TencentCloudEnterprise: tencentcloudenterprise_tsf_cluster"
-sidebar_current: "docs-tencentcloudenterprise-resources-tsf_cluster"
+sidebar_current: "docs-tencentcloudenterprise-resource-tsf_cluster"
 description: |-
   Provides a resource to create a tsf cluster
 ---
@@ -85,5 +85,4 @@ In addition to all arguments above, the following attributes are exported:
 * `tsf_region_name` - Name of the TSF region to which the cluster belongs.
 * `tsf_zone_name` - The name of the TSF availability zone to which the cluster belongs.
 * `update_time` - Update time.
-
 

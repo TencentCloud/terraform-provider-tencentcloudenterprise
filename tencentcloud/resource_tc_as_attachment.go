@@ -60,7 +60,7 @@ func resourceTencentCloudAsAttachment() *schema.Resource {
 }
 
 func resourceTencentCloudAsAttachmentCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_as_attachment.create")()
+	defer logElapsed("resource.tencentcloudenterprise_as_attachment.create")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
@@ -80,7 +80,7 @@ func resourceTencentCloudAsAttachmentCreate(d *schema.ResourceData, meta interfa
 }
 
 func resourceTencentCloudAsAttachmentRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_as_attachment.read")()
+	defer logElapsed("resource.tencentcloudenterprise_as_attachment.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -111,7 +111,7 @@ func resourceTencentCloudAsAttachmentRead(d *schema.ResourceData, meta interface
 }
 
 func resourceTencentCloudAsAttachmentUpdate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_as_attachment.update")()
+	defer logElapsed("resource.tencentcloudenterprise_as_attachment.update")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
@@ -145,7 +145,7 @@ func resourceTencentCloudAsAttachmentUpdate(d *schema.ResourceData, meta interfa
 }
 
 func resourceTencentCloudAsAttachmentDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_as_attachment.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_as_attachment.delete")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)

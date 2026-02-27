@@ -9,8 +9,8 @@ import (
 func TestAccDataSourceTencentCloudDcgV3InstancesBasic(t *testing.T) {
 	t.Parallel()
 
-	var nameKey = "data.cloud_dc_gateway_instances.name_select"
-	var idKey = "data.cloud_dc_gateway_instances.id_select"
+	var nameKey = "data.tencentcloudenterprise_dc_gateway_instances.name_select"
+	var idKey = "data.tencentcloudenterprise_dc_gateway_instances.id_select"
 
 	resource.Test(t, resource.TestCase{
 		PreCheck:  func() { testAccPreCheck(t) },
@@ -49,16 +49,16 @@ resource "tencentcloudenterprise_ccn" "main" {
 
 resource "tencentcloudenterprise_vpc_dc_gateway" "ccn_main" {
   name                = "ci-cdg-ccn-test"
-  network_instance_id = cloud_ccn.main.id
+  network_instance_id = tencentcloudenterprise_ccn.main.id
   network_type        = "CCN"
   gateway_type        = "NORMAL"
 }
 
 data "tencentcloudenterprise_dc_gateway_instances" "name_select"{
-  name = cloud_vpc_dc_gateway.ccn_main.name
+  name = tencentcloudenterprise_vpc_dc_gateway.ccn_main.name
 }
 
 data "tencentcloudenterprise_dc_gateway_instances"  "id_select" {
-  dcg_id = cloud_vpc_dc_gateway.ccn_main.id
+  dcg_id = tencentcloudenterprise_vpc_dc_gateway.ccn_main.id
 }
 `

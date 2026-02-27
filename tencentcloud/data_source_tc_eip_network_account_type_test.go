@@ -16,7 +16,7 @@ func TestAccTencentCloudEipNetworkAccountTypeDataSource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			{
 				Config: testAccEipNetworkAccountTypeDataSource,
-				Check:  resource.ComposeTestCheckFunc(testAccCheckTencentCloudDataSourceID("data.cloud_eip_network_account_type.network_account_type")),
+				Check:  resource.ComposeTestCheckFunc(testAccCheckTencentCloudDataSourceID("data.tencentcloudenterprise_eip_network_account_type.network_account_type")),
 			},
 		},
 	})

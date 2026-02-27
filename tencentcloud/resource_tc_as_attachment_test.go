@@ -149,7 +149,7 @@ resource "tencentcloudenterprise_vpc" "vpc" {
 }
 
 resource "tencentcloudenterprise_vpc_subnet" "subnet" {
-  vpc_id            = cloud_vpc.vpc.id
+  vpc_id            = tencentcloudenterprise_vpc.vpc.id
   name              = "tf-as-subnet"
   cidr_block        = "10.2.11.0/24"
   availability_zone = var.availability_zone
@@ -158,31 +158,31 @@ resource "tencentcloudenterprise_vpc_subnet" "subnet" {
 resource "tencentcloudenterprise_as_scaling_config" "launch_configuration" {
   configuration_name = "tf-as-attachment-config"
   image_id           = "img-2lr9q49h"
-  instance_types     = [data.cloud_cvm_instance_types.default.instance_types.0.instance_type]
+  instance_types     = [data.tencentcloudenterprise_cvm_instance_types.default.instance_types.0.instance_type]
 }
 
 resource "tencentcloudenterprise_as_scaling_group" "scaling_group" {
   scaling_group_name = "tf-as-attachment-group"
-  configuration_id   = cloud_as_scaling_config.launch_configuration.id
+  configuration_id   = tencentcloudenterprise_as_scaling_config.launch_configuration.id
   max_size           = 5
   min_size           = 0
-  vpc_id             = cloud_vpc.vpc.id
-  subnet_ids         = [cloud_vpc_subnet.subnet.id]
+  vpc_id             = tencentcloudenterprise_vpc.vpc.id
+  subnet_ids         = [tencentcloudenterprise_vpc_subnet.subnet.id]
 }
 
 resource "tencentcloudenterprise_cvm_instance" "cvm_instance" {
   instance_name     = "tf_as_instance"
   availability_zone = var.availability_zone
   image_id          = "img-2lr9q49h"
-  instance_type     = data.cloud_cvm_instance_types.default.instance_types.0.instance_type
+  instance_type     = data.tencentcloudenterprise_cvm_instance_types.default.instance_types.0.instance_type
   system_disk_type  = "CLOUD_SSD"
-  vpc_id            = cloud_vpc.vpc.id
-  subnet_id         = cloud_vpc_subnet.subnet.id
+  vpc_id            = tencentcloudenterprise_vpc.vpc.id
+  subnet_id         = tencentcloudenterprise_vpc_subnet.subnet.id
 }
 
 resource "tencentcloudenterprise_as_attachment" "attachment" {
-  scaling_group_id = cloud_as_scaling_group.scaling_group.id
-  instance_ids     = [cloud_cvm_instance.cvm_instance.id]
+  scaling_group_id = tencentcloudenterprise_as_scaling_group.scaling_group.id
+  instance_ids     = [tencentcloudenterprise_cvm_instance.cvm_instance.id]
 }
 `
 }
@@ -195,7 +195,7 @@ resource "tencentcloudenterprise_vpc" "vpc" {
 }
 
 resource "tencentcloudenterprise_vpc_subnet" "subnet" {
-  vpc_id            = cloud_vpc.vpc.id
+  vpc_id            = tencentcloudenterprise_vpc.vpc.id
   name              = "tf-as-subnet"
   cidr_block        = "10.2.11.0/24"
   availability_zone = var.availability_zone
@@ -204,41 +204,41 @@ resource "tencentcloudenterprise_vpc_subnet" "subnet" {
 resource "tencentcloudenterprise_as_scaling_config" "launch_configuration" {
   configuration_name = "tf-as-attachment-config"
   image_id           = "img-2lr9q49h"
-  instance_types     = [data.cloud_cvm_instance_types.default.instance_types.0.instance_type]
+  instance_types     = [data.tencentcloudenterprise_cvm_instance_types.default.instance_types.0.instance_type]
 }
 
 resource "tencentcloudenterprise_as_scaling_group" "scaling_group" {
   scaling_group_name = "tf-as-attachment-group"
-  configuration_id   = cloud_as_scaling_config.launch_configuration.id
+  configuration_id   = tencentcloudenterprise_as_scaling_config.launch_configuration.id
   max_size           = 5
   min_size           = 0
-  vpc_id             = cloud_vpc.vpc.id
-  subnet_ids         = [cloud_vpc_subnet.subnet.id]
+  vpc_id             = tencentcloudenterprise_vpc.vpc.id
+  subnet_ids         = [tencentcloudenterprise_vpc_subnet.subnet.id]
 }
 
 resource "tencentcloudenterprise_cvm_instance" "cvm_instance" {
   instance_name     = "tf_as_instance"
   availability_zone = var.availability_zone
   image_id          = "img-2lr9q49h"
-  instance_type     = data.cloud_cvm_instance_types.default.instance_types.0.instance_type
+  instance_type     = data.tencentcloudenterprise_cvm_instance_types.default.instance_types.0.instance_type
   system_disk_type  = "CLOUD_SSD"
-  vpc_id            = cloud_vpc.vpc.id
-  subnet_id         = cloud_vpc_subnet.subnet.id
+  vpc_id            = tencentcloudenterprise_vpc.vpc.id
+  subnet_id         = tencentcloudenterprise_vpc_subnet.subnet.id
 }
 
 resource "tencentcloudenterprise_cvm_instance" "cvm_instance_1" {
   instance_name     = "tf_as_instance_1"
   availability_zone = var.availability_zone
   image_id          = "img-2lr9q49h"
-  instance_type     = data.cloud_cvm_instance_types.default.instance_types.0.instance_type
+  instance_type     = data.tencentcloudenterprise_cvm_instance_types.default.instance_types.0.instance_type
   system_disk_type  = "CLOUD_SSD"
-  vpc_id            = cloud_vpc.vpc.id
-  subnet_id         = cloud_vpc_subnet.subnet.id
+  vpc_id            = tencentcloudenterprise_vpc.vpc.id
+  subnet_id         = tencentcloudenterprise_vpc_subnet.subnet.id
 }
 
 resource "tencentcloudenterprise_as_attachment" "attachment" {
-  scaling_group_id = cloud_as_scaling_group.scaling_group.id
-  instance_ids     = [cloud_cvm_instance.cvm_instance.id, cloud_cvm_instance.cvm_instance_1.id]
+  scaling_group_id = tencentcloudenterprise_as_scaling_group.scaling_group.id
+  instance_ids     = [tencentcloudenterprise_cvm_instance.cvm_instance.id, tencentcloudenterprise_cvm_instance.cvm_instance_1.id]
 }
 `
 }

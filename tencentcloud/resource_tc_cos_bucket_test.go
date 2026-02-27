@@ -929,7 +929,7 @@ resource "tencentcloudenterprise_cos_bucket" "with_replication" {
   replica_rules {
 	id = "test-rep1"
     status = "Enabled"
-    destination_bucket = "qcs::cos:%s::${cloud_cos_bucket.replica1.bucket}"
+    destination_bucket = "qcs::cos:%s::${tencentcloudenterprise_cos_bucket.replica1.bucket}"
   }
 }
 `, userInfoData, defaultRegion)
@@ -954,7 +954,7 @@ resource "tencentcloudenterprise_cos_bucket" "with_replication" {
 	id = "test-rep1"
     status = "Disabled"
     prefix = "dist"
-    destination_bucket = "qcs::cos:%s::${cloud_cos_bucket.replica1.bucket}"
+    destination_bucket = "qcs::cos:%s::${tencentcloudenterprise_cos_bucket.replica1.bucket}"
   }
 }
 `, userInfoData, defaultRegion)

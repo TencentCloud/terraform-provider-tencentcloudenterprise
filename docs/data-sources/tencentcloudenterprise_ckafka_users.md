@@ -1,5 +1,5 @@
 ---
-subcategory: "Cloud Kafka(CKafka)"
+subcategory: "Cloud Kafka(ckafka)"
 layout: "tencentcloudenterprise"
 page_title: "TencentCloudEnterprise: tencentcloudenterprise_ckafka_users"
 sidebar_current: "docs-tencentcloudenterprise-datasource-ckafka_users"
@@ -36,5 +36,4 @@ In addition to all arguments above, the following attributes are exported:
   * `account_name` - Account name of user.
   * `create_time` - Creation time of the account.
   * `update_time` - The last update time of the account.
-
 

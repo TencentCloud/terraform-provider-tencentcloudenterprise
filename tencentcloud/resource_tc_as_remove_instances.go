@@ -6,7 +6,7 @@ Provides a resource to create a as remove_instances
 ```hcl
 
 	resource "tencentcloudenterprise_as_remove_instances" "remove_instances" {
-	  auto_scaling_group_id = cloud_as_scaling_group.scaling_group.id
+	  auto_scaling_group_id = tencentcloudenterprise_as_scaling_group.scaling_group.id
 	  instance_ids = ["ins-xxxxxx"]
 	}
 
@@ -61,7 +61,7 @@ func resourceTencentCloudAsRemoveInstances() *schema.Resource {
 }
 
 func resourceTencentCloudAsRemoveInstancesCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("data_source.cloud_as_remove_instances.create")()
+	defer logElapsed("data_source.tencentcloudenterprise_as_remove_instances.create")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -105,14 +105,14 @@ func resourceTencentCloudAsRemoveInstancesCreate(d *schema.ResourceData, meta in
 }
 
 func resourceTencentCloudAsRemoveInstancesRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_as_remove_instances.read")()
+	defer logElapsed("resource.tencentcloudenterprise_as_remove_instances.read")()
 	defer inconsistentCheck(d, meta)()
 
 	return nil
 }
 
 func resourceTencentCloudAsRemoveInstancesDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_as_remove_instances.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_as_remove_instances.delete")()
 	defer inconsistentCheck(d, meta)()
 
 	return nil

@@ -63,7 +63,7 @@ func datasourceTencentCloudUserInfo() *schema.Resource {
 }
 
 func datasourceTencentCloudUserInfoRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("datasource.cloud_user_info.read")()
+	defer logElapsed("datasource.tencentcloudenterprise_user_info.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)

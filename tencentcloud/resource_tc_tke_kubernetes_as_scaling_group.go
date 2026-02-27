@@ -699,7 +699,7 @@ func kubernetesAsScalingConfigParaSerial(dMap map[string]interface{}, meta inter
 }
 
 func resourceKubernetesAsScalingGroupRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_kubernetes_as_scaling_group.read")()
+	defer logElapsed("resource.tencentcloudenterprise_kubernetes_as_scaling_group.read")()
 
 	var (
 		logId   = getLogId(contextNil)
@@ -790,7 +790,7 @@ func resourceKubernetesAsScalingGroupRead(d *schema.ResourceData, meta interface
 
 func resourceKubernetesAsScalingGroupCreate(d *schema.ResourceData, meta interface{}) error {
 
-	defer logElapsed("resource.cloud_kubernetes_as_scaling_group.create")()
+	defer logElapsed("resource.tencentcloudenterprise_kubernetes_as_scaling_group.create")()
 	var (
 		logId       = getLogId(contextNil)
 		ctx         = context.WithValue(context.TODO(), logIdKey, logId)
@@ -853,7 +853,7 @@ func resourceKubernetesAsScalingGroupCreate(d *schema.ResourceData, meta interfa
 }
 
 func resourceKubernetesAsScalingGroupUpdate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_kubernetes_as_scaling_group.update")()
+	defer logElapsed("resource.tencentcloudenterprise_kubernetes_as_scaling_group.update")()
 
 	var (
 		logId   = getLogId(contextNil)
@@ -889,7 +889,7 @@ func resourceKubernetesAsScalingGroupUpdate(d *schema.ResourceData, meta interfa
 }
 
 func resourceKubernetesAsScalingGroupDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_kubernetes_as_scaling_group.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_kubernetes_as_scaling_group.delete")()
 
 	var (
 		logId     = getLogId(contextNil)

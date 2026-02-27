@@ -2,7 +2,7 @@
 subcategory: "Bare Metal Server(BMS)"
 layout: "tencentcloudenterprise"
 page_title: "TencentCloudEnterprise: tencentcloudenterprise_bms_instance"
-sidebar_current: "docs-tencentcloudenterprise-resources-bms_instance"
+sidebar_current: "docs-tencentcloudenterprise-resource-bms_instance"
 description: |-
   Provide a resource to create a bms instance
 ---
@@ -45,7 +45,7 @@ The following arguments are supported:
 * `vpc_id` - (Required, String) The ID of a VPC network.
 * `allocate_public_ip` - (Optional, Bool, ForceNew) Associate a public IP address with an instance in a VPC or Classic. Boolean value, Default is false.
 * `hostname` - (Optional, String) The hostname of the instance. The name should be a combination of 2 to 60 characters, supporting multiple periods (.). The piece between two periods is composed of letters (case insensitive), numbers, and hyphens (-). Modifying will cause the instance reset.
-* `internet_max_bandwidth_out` - (Optional, Int) Maximum outgoing bandwidth to the public network, measured in Mbps (Mega bits per second). This value does not need to be set when `allocate_public_ip` is false. The max values is 1000.
+* `internet_max_bandwidth_out` - (Optional, Int) Maximum outgoing bandwidth to the public network, measured in Mbps (Mega bits per second). This value does not need to be set when `allocate_public_ip` is false. The max values is 1000
 * `internet_service_provider` - (Optional, String) The Internet Service Provider (ISP) associated with the instance.
 * `ipv6_address` - (Optional, Bool) Whether to allocate an IPv6 address. Defaults to not allocating if not specified.
 * `placement_group_id` - (Optional, String, ForceNew) The ID of a placement group.
@@ -62,12 +62,15 @@ In addition to all arguments above, the following attributes are exported:
 * `create_time` - Create time of the instance.
 * `instance_status` - Current status of the instance.
 
-
 ## Import
 
+tencentcloudenterprise_bms_instance can be imported using the id, e.g.
+
+```
 Placement group can be imported using the id, e.g.
 
 ```
 $ terraform import tencentcloudenterprise_bms_placement_group.foo ps-ilan8vjf
+```
 ```
 

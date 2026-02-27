@@ -17,8 +17,8 @@ func TestAccTencentCloudHaVipEipAttachmentsDataSource_basic(t *testing.T) {
 				Config: testAccHaVipEipAttachmentsDataSource_basic,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					testAccCheckHaVipEipAttachmentExists("tencentcloudenterprise_vpc_ha_vip_eip_attachment.ha_vip_eip_attachment"),
-					resource.TestCheckResourceAttr("data.cloud_vpc_ha_vip_eip_attachments.ha_vip_eip_attachments", "ha_vip_eip_attachment_list.#", "1"),
-					resource.TestCheckResourceAttrSet("data.cloud_vpc_ha_vip_eip_attachments.ha_vip_eip_attachments", "ha_vip_eip_attachment_list.0.havip_id"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_vpc_ha_vip_eip_attachments.ha_vip_eip_attachments", "ha_vip_eip_attachment_list.#", "1"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_vpc_ha_vip_eip_attachments.ha_vip_eip_attachments", "ha_vip_eip_attachment_list.0.havip_id"),
 				),
 			},
 		},
@@ -36,11 +36,11 @@ resource "tencentcloudenterprise_vpc_ha_vip" "havip" {
   subnet_id  = var.subnet_id
 }
 resource "tencentcloudenterprise_vpc_ha_vip_eip_attachment" "ha_vip_eip_attachment" {
-  havip_id   = cloud_vpc_ha_vip.havip.id
-  address_ip = cloud_eip.eip.public_ip
+  havip_id   = tencentcloudenterprise_vpc_ha_vip.havip.id
+  address_ip = tencentcloudenterprise_eip.eip.public_ip
 }
 
 data "tencentcloudenterprise_vpc_ha_vip_eip_attachments" "ha_vip_eip_attachments" {
-  havip_id = cloud_vpc_ha_vip_eip_attachment.ha_vip_eip_attachment.havip_id
+  havip_id = tencentcloudenterprise_vpc_ha_vip_eip_attachment.ha_vip_eip_attachment.havip_id
 }
 `

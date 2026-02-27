@@ -2,7 +2,7 @@
 subcategory: "Bare Metal Server(BMS)"
 layout: "tencentcloudenterprise"
 page_title: "TencentCloudEnterprise: tencentcloudenterprise_bms_placement_group"
-sidebar_current: "docs-tencentcloudenterprise-resources-bms_placement_group"
+sidebar_current: "docs-tencentcloudenterprise-resource-bms_placement_group"
 description: |-
   Provide a resource to create a placement group.
 ---
@@ -35,12 +35,15 @@ In addition to all arguments above, the following attributes are exported:
 * `create_time` - Creation time of the placement group.
 * `current_num` - Number of hosts in the placement group.
 
-
 ## Import
 
+tencentcloudenterprise_bms_placement_group can be imported using the id, e.g.
+
+```
 Placement group can be imported using the id, e.g.
 
 ```
 $ terraform import tencentcloudenterprise_bms_placement_group.foo ps-ilan8vjf
+```
 ```
 

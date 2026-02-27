@@ -17,7 +17,7 @@ Provides a resource to create a cvm image_share_permission
 cvm image_share_permission can be imported using the id, e.g.
 
 ```
-terraform import cloud_cvm_image_share_permission.image_share_permission image_share_permission_id
+terraform import tencentcloudenterprise_cvm_image_share_permission.image_share_permission image_share_permission_id
 ```
 */
 package tencentcloud
@@ -73,7 +73,7 @@ func resourceTencentCloudCvmImageSharePermission() *schema.Resource {
 }
 
 func resourceTencentCloudCvmImageSharePermissionCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cvm_image_share_permission.create")()
+	defer logElapsed("resource.tencentcloudenterprise_cvm_image_share_permission.create")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -117,7 +117,7 @@ func resourceTencentCloudCvmImageSharePermissionCreate(d *schema.ResourceData, m
 }
 
 func resourceTencentCloudCvmImageSharePermissionUpdate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cvm_image_share_permission.update")()
+	defer logElapsed("resource.tencentcloudenterprise_cvm_image_share_permission.update")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -148,7 +148,7 @@ func resourceTencentCloudCvmImageSharePermissionUpdate(d *schema.ResourceData, m
 }
 
 func resourceTencentCloudCvmImageSharePermissionRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cvm_image_share_permission.read")()
+	defer logElapsed("resource.tencentcloudenterprise_cvm_image_share_permission.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -179,7 +179,7 @@ func resourceTencentCloudCvmImageSharePermissionRead(d *schema.ResourceData, met
 }
 
 func resourceTencentCloudCvmImageSharePermissionDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cvm_image_share_permission.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_cvm_image_share_permission.delete")()
 	defer inconsistentCheck(d, meta)()
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)

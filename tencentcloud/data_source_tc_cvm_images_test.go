@@ -15,36 +15,36 @@ func TestAccTencentCloudDataSourceImagesBase(t *testing.T) {
 			{
 				Config: testAccTencentCloudDataSourceImagesBase,
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckTencentCloudDataSourceID("data.cloud_cvm_images.foo"),
-					resource.TestCheckResourceAttrSet("data.cloud_cvm_images.foo", "images.#"),
+					testAccCheckTencentCloudDataSourceID("data.tencentcloudenterprise_cvm_images.foo"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_cvm_images.foo", "images.#"),
 				),
 			},
 			{
 				Config: testAccTencentCloudDataSourceImagesBaseWithFilter,
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckTencentCloudDataSourceID("data.cloud_cvm_images.foo"),
-					resource.TestCheckResourceAttrSet("data.cloud_cvm_images.foo", "images.#"),
+					testAccCheckTencentCloudDataSourceID("data.tencentcloudenterprise_cvm_images.foo"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_cvm_images.foo", "images.#"),
 				),
 			},
 			{
 				Config: testAccTencentCloudDataSourceImagesBaseWithOsName,
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckTencentCloudDataSourceID("data.cloud_cvm_images.foo"),
-					resource.TestCheckResourceAttrSet("data.cloud_cvm_images.foo", "images.#"),
+					testAccCheckTencentCloudDataSourceID("data.tencentcloudenterprise_cvm_images.foo"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_cvm_images.foo", "images.#"),
 				),
 			},
 			{
 				Config: testAccTencentCloudDataSourceImagesBaseWithImageNameRegex,
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckTencentCloudDataSourceID("data.cloud_cvm_images.foo"),
-					resource.TestCheckResourceAttrSet("data.cloud_cvm_images.foo", "images.#"),
+					testAccCheckTencentCloudDataSourceID("data.tencentcloudenterprise_cvm_images.foo"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_cvm_images.foo", "images.#"),
 				),
 			},
 			{
 				Config: testAccTencentCloudDataSourceImagesBaseWithInstanceType,
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckTencentCloudDataSourceID("data.cloud_cvm_images.foo"),
-					resource.TestCheckResourceAttrSet("data.cloud_cvm_images.foo", "images.#"),
+					testAccCheckTencentCloudDataSourceID("data.tencentcloudenterprise_cvm_images.foo"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_cvm_images.foo", "images.#"),
 				),
 			},
 		},

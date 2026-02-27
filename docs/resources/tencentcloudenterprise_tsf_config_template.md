@@ -2,7 +2,7 @@
 subcategory: "Tencent Service Framework(TSF)"
 layout: "tencentcloudenterprise"
 page_title: "TencentCloudEnterprise: tencentcloudenterprise_tsf_config_template"
-sidebar_current: "docs-tencentcloudenterprise-resources-tsf_config_template"
+sidebar_current: "docs-tencentcloudenterprise-resource-tsf_config_template"
 description: |-
   Provides a resource to create a tsf config_template
 ---
@@ -46,5 +46,4 @@ In addition to all arguments above, the following attributes are exported:
 * `config_template_id` - Template Id.
 * `create_time` - Creation time.
 * `update_time` - Update time.
-
 

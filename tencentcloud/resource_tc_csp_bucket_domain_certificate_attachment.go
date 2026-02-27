@@ -112,7 +112,7 @@ func resourceTencentCloudCspBucketDomainCertificateAttachment() *schema.Resource
 }
 
 func resourceTencentCloudCspBucketDomainCertificateAttachmentCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_csp_bucket_domain_certificate_attachment.create")()
+	defer logElapsed("resource.tencentcloudenterprise_csp_bucket_domain_certificate_attachment.create")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -176,7 +176,7 @@ func resourceTencentCloudCspBucketDomainCertificateAttachmentCreate(d *schema.Re
 }
 
 func resourceTencentCloudCspBucketDomainCertificateAttachmentRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cos_bucket_domain_certificate_attachment.read")()
+	defer logElapsed("resource.tencentcloudenterprise_cos_bucket_domain_certificate_attachment.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -204,7 +204,7 @@ func resourceTencentCloudCspBucketDomainCertificateAttachmentRead(d *schema.Reso
 
 func resourceTencentCloudCspBucketDomainCertificateAttachmentDelete(d *schema.ResourceData, meta interface{}) error {
 	id := d.Id()
-	defer logElapsed("resource.cloud_csp_bucket_domain_certificate_attachment.delete id:", id)()
+	defer logElapsed("resource.tencentcloudenterprise_csp_bucket_domain_certificate_attachment.delete id:", id)()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)

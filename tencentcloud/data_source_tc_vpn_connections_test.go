@@ -15,12 +15,12 @@ func TestAccTencentCloudVpnConnectionsDataSource(t *testing.T) {
 			{
 				Config: testAccTencentCloudVpnConnectionsDataSourceConfig_basic,
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckTencentCloudDataSourceID("data.cloud_vpn_connections.connections"),
-					resource.TestCheckResourceAttr("data.cloud_vpn_connections.connections", "connection_list.#", "1"),
-					resource.TestCheckResourceAttr("data.cloud_vpn_connections.connections", "connection_list.0.name", "vpn_connection_test"),
-					resource.TestCheckResourceAttr("data.cloud_vpn_connections.connections", "connection_list.0.ike_proto_authen_algorithm", "MD5"),
-					resource.TestCheckResourceAttr("data.cloud_vpn_connections.connections", "connection_list.0.tags.test", "test"),
-					resource.TestCheckResourceAttr("data.cloud_vpn_connections.connections", "connection_list.0.ipsec_sa_lifetime_traffic", "2560"),
+					testAccCheckTencentCloudDataSourceID("data.tencentcloudenterprise_vpn_connections.connections"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_vpn_connections.connections", "connection_list.#", "1"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_vpn_connections.connections", "connection_list.0.name", "vpn_connection_test"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_vpn_connections.connections", "connection_list.0.ike_proto_authen_algorithm", "MD5"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_vpn_connections.connections", "connection_list.0.tags.test", "test"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_vpn_connections.connections", "connection_list.0.ipsec_sa_lifetime_traffic", "2560"),
 				),
 			},
 		},
@@ -40,7 +40,7 @@ data "tencentcloudenterprise_vpc_instances" "foo" {
 
 resource "tencentcloudenterprise_vpn_gateway" "vpn" {
   name      = "terraform_update"
-  vpc_id    = data.cloud_vpc_instances.foo.instance_list.0.vpc_id
+  vpc_id    = data.tencentcloudenterprise_vpc_instances.foo.instance_list.0.vpc_id
   bandwidth = 5
   zone      = "ap-guangzhou-3"
 
@@ -50,16 +50,16 @@ resource "tencentcloudenterprise_vpn_gateway" "vpn" {
 }
 resource "tencentcloudenterprise_vpn_connection" "connection" {
   name                       = "vpn_connection_test"
-  vpc_id                     = data.cloud_vpc_instances.foo.instance_list.0.vpc_id
-  vpn_gateway_id             = cloud_vpn_gateway.vpn.id
-  customer_gateway_id        = cloud_vpn_customer_gateway.cgw.id
+  vpc_id                     = data.tencentcloudenterprise_vpc_instances.foo.instance_list.0.vpc_id
+  vpn_gateway_id             = tencentcloudenterprise_vpn_gateway.vpn.id
+  customer_gateway_id        = tencentcloudenterprise_vpn_customer_gateway.cgw.id
   pre_share_key              = "test"
   ike_proto_encry_algorithm  = "3DES-CBC"
   ike_proto_authen_algorithm = "MD5"
   ike_local_identity         = "ADDRESS"
-  ike_local_address          = cloud_vpn_gateway.vpn.public_ip_address
+  ike_local_address          = tencentcloudenterprise_vpn_gateway.vpn.public_ip_address
   ike_remote_identity        = "ADDRESS"
-  ike_remote_address         = cloud_vpn_customer_gateway.cgw.public_ip_address
+  ike_remote_address         = tencentcloudenterprise_vpn_customer_gateway.cgw.public_ip_address
   ike_dh_group_name          = "GROUP1"
   ike_sa_lifetime_seconds    = 86400
   ipsec_encrypt_algorithm    = "3DES-CBC"
@@ -78,6 +78,6 @@ resource "tencentcloudenterprise_vpn_connection" "connection" {
 }
 
 data "tencentcloudenterprise_vpn_connections" "connections" {
-  id = cloud_vpn_connection.connection.id
+  id = tencentcloudenterprise_vpn_connection.connection.id
 }
 `

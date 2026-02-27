@@ -173,7 +173,7 @@ func dataSourceTencentCloudKmsKeys() *schema.Resource {
 }
 
 func dataSourceTencentCloudKmsKeysRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("data_source.cloud_kms_keys.read")()
+	defer logElapsed("data_source.tencentcloudenterprise_kms_keys.read")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)

@@ -22,7 +22,7 @@ Provides a resource to create a tdmq subscription_attachment
 tdmq subscription_attachment can be imported using the id, e.g.
 
 ```
-terraform import cloud_tdmq_subscription_attachment.subscription_attachment subscription_attachment_id
+terraform import tencentcloudenterprise_tdmq_subscription_attachment.subscription_attachment subscription_attachment_id
 ```
 */
 package tencentcloud
@@ -128,7 +128,7 @@ func resourceTencentCloudTdmqSubscriptionAttachment() *schema.Resource {
 
 func resourceTencentCloudTdmqSubscriptionAttachmentCreate(ctx context.Context, d *schema.ResourceData,
 	meta interface{}) diag.Diagnostics {
-	defer logElapsed("resource.cloud_tdmq_subscription_attachment.create")()
+	defer logElapsed("resource.tencentcloudenterprise_tdmq_subscription_attachment.create")()
 	defer inconsistentCheck(d, meta)()
 
 	var (
@@ -202,7 +202,7 @@ func resourceTencentCloudTdmqSubscriptionAttachmentCreate(ctx context.Context, d
 
 func resourceTencentCloudTdmqSubscriptionAttachmentRead(ctx context.Context, d *schema.ResourceData,
 	meta interface{}) diag.Diagnostics {
-	defer logElapsed("resource.cloud_tdmq_subscription_attachment.read")()
+	defer logElapsed("resource.tencentcloudenterprise_tdmq_subscription_attachment.read")()
 	defer inconsistentCheck(d, meta)()
 
 	var (
@@ -260,7 +260,7 @@ func resourceTencentCloudTdmqSubscriptionAttachmentRead(ctx context.Context, d *
 
 func resourceTencentCloudTdmqSubscriptionAttachmentUpdate(ctx context.Context, d *schema.ResourceData,
 	meta interface{}) diag.Diagnostics {
-	defer logElapsed("resource.cloud_tdmq_subscription_attachment.update")()
+	defer logElapsed("resource.tencentcloudenterprise_tdmq_subscription_attachment.update")()
 	defer inconsistentCheck(d, meta)()
 
 	return nil
@@ -268,7 +268,7 @@ func resourceTencentCloudTdmqSubscriptionAttachmentUpdate(ctx context.Context, d
 
 func resourceTencentCloudTdmqSubscriptionAttachmentDelete(ctx context.Context, d *schema.ResourceData,
 	meta interface{}) diag.Diagnostics {
-	defer logElapsed("resource.cloud_tdmq_subscription_attachment.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_tdmq_subscription_attachment.delete")()
 	defer inconsistentCheck(d, meta)()
 
 	var (

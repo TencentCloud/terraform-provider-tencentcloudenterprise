@@ -33,7 +33,7 @@ Import
 turbofs auto_snapshot_policy can be imported using the id, e.g.
 
 ```
-terraform import cloud_turbofs_auto_snapshot_policy.auto_snapshot_policy auto_snapshot_policy_id
+terraform import tencentcloudenterprise_turbofs_auto_snapshot_policy.auto_snapshot_policy auto_snapshot_policy_id
 ```
 */
 package tencentcloud
@@ -119,7 +119,7 @@ func resourceTencentCloudTurbofsAutoSnapshotPolicy() *schema.Resource {
 }
 
 func resourceTencentCloudTurbofsAutoSnapshotPolicyCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_turbofs_auto_snapshot_policy.create")()
+	defer logElapsed("resource.tencentcloudenterprise_turbofs_auto_snapshot_policy.create")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -172,7 +172,7 @@ func resourceTencentCloudTurbofsAutoSnapshotPolicyCreate(d *schema.ResourceData,
 }
 
 func resourceTencentCloudTurbofsAutoSnapshotPolicyRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_turbofs_auto_snapshot_policy.read")()
+	defer logElapsed("resource.tencentcloudenterprise_turbofs_auto_snapshot_policy.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -219,7 +219,7 @@ func resourceTencentCloudTurbofsAutoSnapshotPolicyRead(d *schema.ResourceData, m
 }
 
 func resourceTencentCloudTurbofsAutoSnapshotPolicyUpdate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_turbofs_auto_snapshot_policy.update")()
+	defer logElapsed("resource.tencentcloudenterprise_turbofs_auto_snapshot_policy.update")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -280,7 +280,7 @@ func resourceTencentCloudTurbofsAutoSnapshotPolicyUpdate(d *schema.ResourceData,
 }
 
 func resourceTencentCloudTurbofsAutoSnapshotPolicyDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_turbofs_auto_snapshot_policy.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_turbofs_auto_snapshot_policy.delete")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)

@@ -143,7 +143,7 @@ func dataSourceTencentCloudTsfRepository() *schema.Resource {
 }
 
 func dataSourceTencentCloudTsfRepositoryRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("data_source.cloud_tsf_repository.read")()
+	defer logElapsed("data_source.tencentcloudenterprise_tsf_repository.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)

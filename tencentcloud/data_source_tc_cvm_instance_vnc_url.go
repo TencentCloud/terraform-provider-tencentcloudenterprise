@@ -62,7 +62,7 @@ func dataSourceTencentCloudCvmInstanceVncUrl() *schema.Resource {
 }
 
 func dataSourceTencentCloudCvmInstanceVncUrlRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("data_source.cloud_cvm_instance_vnc_url.read")()
+	defer logElapsed("data_source.tencentcloudenterprise_cvm_instance_vnc_url.read")()
 	defer inconsistentCheck(d, meta)()
 
 	var response *cvm.DescribeInstanceVncUrlResponse

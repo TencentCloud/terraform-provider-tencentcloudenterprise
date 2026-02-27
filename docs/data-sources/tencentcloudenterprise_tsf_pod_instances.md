@@ -50,4 +50,3 @@ In addition to all arguments above, the following attributes are exported:
     * `status` - Instance status. Please refer to the definition of instance and container status below. Starting (pod not ready): Starting; Running: Running; Abnormal: Abnormal; Stopped: Stopped;Note: This field may return null, which means no valid value was found.
   * `total_count` - Total number of records.Note: This field may return null, which means no valid value was found.
 
-

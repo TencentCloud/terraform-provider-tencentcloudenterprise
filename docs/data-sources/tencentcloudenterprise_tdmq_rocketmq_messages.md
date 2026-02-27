@@ -1,5 +1,5 @@
 ---
-subcategory: "Tencent Distributed Message Queue(TDMQ)"
+subcategory: "TDMQ for RocketMQ(trocket)"
 layout: "tencentcloudenterprise"
 page_title: "TencentCloudEnterprise: tencentcloudenterprise_tdmq_rocketmq_messages"
 sidebar_current: "docs-tencentcloudenterprise-datasource-tdmq_rocketmq_messages"
@@ -48,5 +48,4 @@ In addition to all arguments above, the following attributes are exported:
 * `producer_addr` - Producer address.
 * `properties` - Detailed parameters.
 * `show_topic_name` - The topic name displayed on the details pageNote: This field may return null, indicating that no valid value can be obtained.
-
 

@@ -37,8 +37,8 @@ data "tencentcloudenterprise_availability_zones" "my_favorite_zones" {
 	}
 
 	resource "tencentcloudenterprise_vpc_subnet" "app" {
-	  vpc_id            = cloud_vpc.app.id
-	  availability_zone = data.cloud_availability_zones.my_favorite_zones.zones.0.name
+	  vpc_id            = tencentcloudenterprise_vpc.app.id
+	  availability_zone = data.tencentcloudenterprise_availability_zones.my_favorite_zones.zones.0.name
 	  name              = "awesome_app_subnet"
 	  cidr_block        = "10.0.1.0/24"
 	}
@@ -54,15 +54,15 @@ data "tencentcloudenterprise_availability_zones" "my_favorite_zones" {
 
 	  instance_count             = 10
 	  instance_name              = "awesome_app"
-	  availability_zone          = data.cloud_availability_zones.my_favorite_zones.zones.0.name
-	  image_id                   = data.cloud_cvm_images.my_favorite_image.images.0.image_id
-	  instance_type              = data.cloud_cvm_instance_types.my_favorite_instance_types.instance_types.0.instance_type
+	  availability_zone          = data.tencentcloudenterprise_availability_zones.my_favorite_zones.zones.0.name
+	  image_id                   = data.tencentcloudenterprise_cvm_images.my_favorite_image.images.0.image_id
+	  instance_type              = data.tencentcloudenterprise_cvm_instance_types.my_favorite_instance_types.instance_types.0.instance_type
 	  system_disk_type           = "CLOUD_PREMIUM"
 	  system_disk_size           = 50
 	  hostname                   = "user"
 	  project_id                 = 0
-	  vpc_id                     = cloud_vpc.app.id
-	  subnet_id                  = cloud_vpc_subnet.app.id
+	  vpc_id                     = tencentcloudenterprise_vpc.app.id
+	  subnet_id                  = tencentcloudenterprise_vpc_subnet.app.id
 	}
 
 ```
@@ -468,7 +468,7 @@ func resourceTencentCloudInstanceSetDelete(d *schema.ResourceData, meta interfac
 }
 
 func doResourceTencentCloudInstanceSetCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cvm_instance_set.create")()
+	defer logElapsed("resource.tencentcloudenterprise_cvm_instance_set.create")()
 	logId := getLogId(contextNil)
 
 	var instanceCount int
@@ -649,7 +649,7 @@ func doResourceTencentCloudInstanceSetCreate(d *schema.ResourceData, meta interf
 }
 
 func doResourceTencentCloudInstanceSetRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cvm_instance_set.read")()
+	defer logElapsed("resource.tencentcloudenterprise_cvm_instance_set.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -720,7 +720,7 @@ func doResourceTencentCloudInstanceSetRead(d *schema.ResourceData, meta interfac
 }
 
 func doResourceTencentCloudInstanceSetUpdate(d *schema.ResourceData, meta interface{}) (err error) {
-	defer logElapsed("resource.cloud_cvm_instance_set.update")()
+	defer logElapsed("resource.tencentcloudenterprise_cvm_instance_set.update")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
@@ -960,7 +960,7 @@ func doResourceTencentCloudInstanceSetUpdate(d *schema.ResourceData, meta interf
 }
 
 func doResourceTencentCloudInstanceSetDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cvm_instance_set.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_cvm_instance_set.delete")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)

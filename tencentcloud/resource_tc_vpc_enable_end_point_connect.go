@@ -70,7 +70,7 @@ func resourceTencentCloudVpcEnableEndPointConnect() *schema.Resource {
 }
 
 func resourceTencentCloudVpcEnableEndPointConnectCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_vpc_enable_end_point_connect.create")()
+	defer logElapsed("resource.tencentcloudenterprise_vpc_enable_end_point_connect.create")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -117,14 +117,14 @@ func resourceTencentCloudVpcEnableEndPointConnectCreate(d *schema.ResourceData, 
 }
 
 func resourceTencentCloudVpcEnableEndPointConnectRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_vpc_enable_end_point_connect.read")()
+	defer logElapsed("resource.tencentcloudenterprise_vpc_enable_end_point_connect.read")()
 	defer inconsistentCheck(d, meta)()
 
 	return nil
 }
 
 func resourceTencentCloudVpcEnableEndPointConnectDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_vpc_enable_end_point_connect.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_vpc_enable_end_point_connect.delete")()
 	defer inconsistentCheck(d, meta)()
 
 	return nil

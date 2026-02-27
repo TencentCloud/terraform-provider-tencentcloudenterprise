@@ -25,7 +25,7 @@ Provides a resource to create a cloud firewall (cfw) vpc policy.
 Cloud firewall vpc policy can be imported using the id, e.g.
 
 ```
-$ terraform import cloud_cfw_vpc_policy.vpc_policy vpc_policy_id
+$ terraform import tencentcloudenterprise_cfw_vpc_policy.vpc_policy vpc_policy_id
 */
 package tencentcloud
 
@@ -178,7 +178,7 @@ func resourceTencentCloudCfwVpcPolicy() *schema.Resource {
 }
 
 func resourceTencentCloudCfwVpcPolicyCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cfw_vpc_policy.create")()
+	defer logElapsed("resource.tencentcloudenterprise_cfw_vpc_policy.create")()
 	defer inconsistentCheck(d, meta)()
 
 	var (
@@ -263,7 +263,7 @@ func resourceTencentCloudCfwVpcPolicyCreate(d *schema.ResourceData, meta interfa
 }
 
 func resourceTencentCloudCfwVpcPolicyRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cfw_vpc_policy.read")()
+	defer logElapsed("resource.tencentcloudenterprise_cfw_vpc_policy.read")()
 	defer inconsistentCheck(d, meta)()
 
 	var (
@@ -371,7 +371,7 @@ func resourceTencentCloudCfwVpcPolicyRead(d *schema.ResourceData, meta interface
 }
 
 func resourceTencentCloudCfwVpcPolicyUpdate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cfw_vpc_policy.update")()
+	defer logElapsed("resource.tencentcloudenterprise_cfw_vpc_policy.update")()
 	defer inconsistentCheck(d, meta)()
 
 	var (
@@ -448,7 +448,7 @@ func resourceTencentCloudCfwVpcPolicyUpdate(d *schema.ResourceData, meta interfa
 }
 
 func resourceTencentCloudCfwVpcPolicyDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cfw_vpc_policy.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_cfw_vpc_policy.delete")()
 	defer inconsistentCheck(d, meta)()
 
 	var (

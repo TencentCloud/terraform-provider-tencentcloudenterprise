@@ -2,7 +2,7 @@
 subcategory: "Virtual Private Cloud(VPC)"
 layout: "tencentcloudenterprise"
 page_title: "TencentCloudEnterprise: tencentcloudenterprise_vpc_route_table"
-sidebar_current: "docs-tencentcloudenterprise-resources-vpc_route_table"
+sidebar_current: "docs-tencentcloudenterprise-resource-vpc_route_table"
 description: |-
   Provides a resource to create a VPC routing table.
 ---
@@ -43,12 +43,15 @@ In addition to all arguments above, the following attributes are exported:
 * `route_entry_ids` - ID list of the routing entries.
 * `subnet_ids` - ID list of the subnets associated with this route table.
 
-
 ## Import
 
+tencentcloudenterprise_vpc_route_table can be imported using the id, e.g.
+
+```
 Vpc routetable instance can be imported, e.g.
 
 ```
 $ terraform import tencentcloudenterprise_route_table.test route_table_id
+```
 ```
 

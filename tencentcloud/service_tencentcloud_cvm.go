@@ -248,7 +248,7 @@ func (me *CvmService) ModifyDisableApiTermination(ctx context.Context, instanceI
 	logId := getLogId(ctx)
 	request := cvm.NewModifyInstancesAttributeRequest()
 	request.InstanceIds = []*string{&instanceId}
-	//request.DisableApiTermination = &disableApiTermination
+	request.DisableApiTermination = &disableApiTermination
 
 	ratelimit.Check(request.GetAction())
 	response, err := me.client.UseCvmClient().ModifyInstancesAttribute(request)

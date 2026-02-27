@@ -16,11 +16,11 @@ func TestAccTencentCloudCfsAccessGroupsDataSource(t *testing.T) {
 			{
 				Config: testAccCfsAccessGroupsDataSource,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr("data.cloud_cfs_access_groups.access_groups", "access_group_list.#", "1"),
-					resource.TestCheckResourceAttr("data.cloud_cfs_access_groups.access_groups", "access_group_list.0.name", "keep_access_group"),
-					resource.TestCheckResourceAttr("data.cloud_cfs_access_groups.access_groups", "access_group_list.0.description", "test"),
-					resource.TestCheckResourceAttrSet("data.cloud_cfs_access_groups.access_groups", "access_group_list.0.access_group_id"),
-					resource.TestCheckResourceAttrSet("data.cloud_cfs_access_groups.access_groups", "access_group_list.0.create_time"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_cfs_access_groups.access_groups", "access_group_list.#", "1"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_cfs_access_groups.access_groups", "access_group_list.0.name", "keep_access_group"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_cfs_access_groups.access_groups", "access_group_list.0.description", "test"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_cfs_access_groups.access_groups", "access_group_list.0.access_group_id"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_cfs_access_groups.access_groups", "access_group_list.0.create_time"),
 				),
 			},
 		},
@@ -33,7 +33,7 @@ data "tencentcloudenterprise_cfs_access_groups" "access_groups" {
 }
 
 locals {
-  cfs_access_group_id = data.cloud_cfs_access_groups.access_groups.access_group_list.0.access_group_id
+  cfs_access_group_id = data.tencentcloudenterprise_cfs_access_groups.access_groups.access_group_list.0.access_group_id
 }
 `
 

@@ -155,7 +155,7 @@ func dataSourceTencentCloudCfsAvailableZone() *schema.Resource {
 }
 
 func dataSourceTencentCloudCfsAvailableZoneRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("data_source.cloud_cfs_available_zone.read")()
+	defer logElapsed("data_source.tencentcloudenterprise_cfs_available_zone.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)

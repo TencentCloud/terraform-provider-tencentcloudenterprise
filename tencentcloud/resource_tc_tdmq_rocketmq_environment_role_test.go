@@ -124,11 +124,11 @@ resource "tencentcloudenterprise_tdmq_rocketmq_cluster" "cluster" {
 resource "tencentcloudenterprise_tdmq_rocketmq_role" "role" {
   role_name = "test_rocketmq_role"
   remark = "test rocketmq role"
-  cluster_id = cloud_tdmq_rocketmq_cluster.cluster.cluster_id
+  cluster_id = tencentcloudenterprise_tdmq_rocketmq_cluster.cluster.cluster_id
 }
 
 resource "tencentcloudenterprise_tdmq_rocketmq_namespace" "namespace" {
-  cluster_id = cloud_tdmq_rocketmq_cluster.cluster.cluster_id
+  cluster_id = tencentcloudenterprise_tdmq_rocketmq_cluster.cluster.cluster_id
   namespace_name = "test_namespace"
   ttl = 65000
   retention_time = 65000
@@ -136,10 +136,10 @@ resource "tencentcloudenterprise_tdmq_rocketmq_namespace" "namespace" {
 }
 
 resource "tencentcloudenterprise_tdmq_rocketmq_environment_role" "environment_role" {
-  environment_name = cloud_tdmq_rocketmq_namespace.namespace.namespace_name
-  role_name = cloud_tdmq_rocketmq_role.role.role_name
+  environment_name = tencentcloudenterprise_tdmq_rocketmq_namespace.namespace.namespace_name
+  role_name = tencentcloudenterprise_tdmq_rocketmq_role.role.role_name
   permissions = ["produce"]
-  cluster_id = cloud_tdmq_rocketmq_cluster.cluster.cluster_id
+  cluster_id = tencentcloudenterprise_tdmq_rocketmq_cluster.cluster.cluster_id
 }
 `
 
@@ -152,11 +152,11 @@ resource "tencentcloudenterprise_tdmq_rocketmq_cluster" "cluster" {
 resource "tencentcloudenterprise_tdmq_rocketmq_role" "role" {
   role_name = "test_rocketmq_role"
   remark = "test rocketmq role"
-  cluster_id = cloud_tdmq_rocketmq_cluster.cluster.cluster_id
+  cluster_id = tencentcloudenterprise_tdmq_rocketmq_cluster.cluster.cluster_id
 }
 
 resource "tencentcloudenterprise_tdmq_rocketmq_namespace" "namespace" {
-  cluster_id = cloud_tdmq_rocketmq_cluster.cluster.cluster_id
+  cluster_id = tencentcloudenterprise_tdmq_rocketmq_cluster.cluster.cluster_id
   namespace_name = "test_namespace"
   ttl = 65000
   retention_time = 65000
@@ -164,9 +164,9 @@ resource "tencentcloudenterprise_tdmq_rocketmq_namespace" "namespace" {
 }
 
 resource "tencentcloudenterprise_tdmq_rocketmq_environment_role" "environment_role" {
-  environment_name = cloud_tdmq_rocketmq_namespace.namespace.namespace_name
-  role_name = cloud_tdmq_rocketmq_role.role.role_name
+  environment_name = tencentcloudenterprise_tdmq_rocketmq_namespace.namespace.namespace_name
+  role_name = tencentcloudenterprise_tdmq_rocketmq_role.role.role_name
   permissions = ["produce", "consume"]
-  cluster_id = cloud_tdmq_rocketmq_cluster.cluster.cluster_id
+  cluster_id = tencentcloudenterprise_tdmq_rocketmq_cluster.cluster.cluster_id
 }
 `

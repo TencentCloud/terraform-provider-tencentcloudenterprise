@@ -18,7 +18,7 @@ Provides a resource to create a tsf api_rate_limit_rule
 tsf api_rate_limit_rule can be imported using the id, e.g.
 
 ```
-terraform import cloud_tsf_api_rate_limit_rule.api_rate_limit_rule api_rate_limit_rule_id
+terraform import tencentcloudenterprise_tsf_api_rate_limit_rule.api_rate_limit_rule api_rate_limit_rule_id
 ```
 */
 package tencentcloud
@@ -131,7 +131,7 @@ func resourceTencentCloudTsfApiRateLimitRule() *schema.Resource {
 }
 
 func resourceTencentCloudTsfApiRateLimitRuleCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_tsf_api_rate_limit_rule.create")()
+	defer logElapsed("resource.tencentcloudenterprise_tsf_api_rate_limit_rule.create")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -177,7 +177,7 @@ func resourceTencentCloudTsfApiRateLimitRuleCreate(d *schema.ResourceData, meta 
 }
 
 func resourceTencentCloudTsfApiRateLimitRuleRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_tsf_api_rate_limit_rule.read")()
+	defer logElapsed("resource.tencentcloudenterprise_tsf_api_rate_limit_rule.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -248,7 +248,7 @@ func resourceTencentCloudTsfApiRateLimitRuleRead(d *schema.ResourceData, meta in
 }
 
 func resourceTencentCloudTsfApiRateLimitRuleUpdate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_tsf_api_rate_limit_rule.update")()
+	defer logElapsed("resource.tencentcloudenterprise_tsf_api_rate_limit_rule.update")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -302,7 +302,7 @@ func resourceTencentCloudTsfApiRateLimitRuleUpdate(d *schema.ResourceData, meta 
 }
 
 func resourceTencentCloudTsfApiRateLimitRuleDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_tsf_api_rate_limit_rule.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_tsf_api_rate_limit_rule.delete")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)

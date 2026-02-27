@@ -16,7 +16,7 @@ func TestAccTencentCloudCvmImportImageOsDataSource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			{
 				Config: testAccCvmImportImageOsDataSource,
-				Check:  resource.ComposeTestCheckFunc(testAccCheckTencentCloudDataSourceID("data.cloud_cvm_import_image_os.import_image_os")),
+				Check:  resource.ComposeTestCheckFunc(testAccCheckTencentCloudDataSourceID("data.tencentcloudenterprise_cvm_import_image_os.import_image_os")),
 			},
 		},
 	})

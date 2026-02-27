@@ -18,7 +18,7 @@
 // redis maintenance_window can be imported using the id, e.g.
 //
 // ```
-// terraform import cloud_redis_maintenance_window.maintenance_window maintenance_window_id
+// terraform import tencentcloudenterprise_redis_maintenance_window.maintenance_window maintenance_window_id
 // ```
 // */
 package tencentcloud
@@ -66,7 +66,7 @@ package tencentcloud
 //}
 //
 //func resourceTencentCloudRedisMaintenanceWindowCreate(d *schema.ResourceData, meta interface{}) error {
-//	defer logElapsed("resource.cloud_redis_maintenance_window.create")()
+//	defer logElapsed("resource.tencentcloudenterprise_redis_maintenance_window.create")()
 //	defer inconsistentCheck(d, meta)()
 //
 //	var (
@@ -82,7 +82,7 @@ package tencentcloud
 //}
 //
 //func resourceTencentCloudRedisMaintenanceWindowRead(d *schema.ResourceData, meta interface{}) error {
-//	defer logElapsed("resource.cloud_redis_maintenance_window.read")()
+//	defer logElapsed("resource.tencentcloudenterprise_redis_maintenance_window.read")()
 //	defer inconsistentCheck(d, meta)()
 //
 //	logId := getLogId(contextNil)
@@ -118,7 +118,7 @@ package tencentcloud
 //}
 //
 //func resourceTencentCloudRedisMaintenanceWindowUpdate(d *schema.ResourceData, meta interface{}) error {
-//	defer logElapsed("resource.cloud_redis_maintenance_window.update")()
+//	defer logElapsed("resource.tencentcloudenterprise_redis_maintenance_window.update")()
 //	defer inconsistentCheck(d, meta)()
 //
 //	logId := getLogId(contextNil)
@@ -155,7 +155,7 @@ package tencentcloud
 //}
 //
 //func resourceTencentCloudRedisMaintenanceWindowDelete(d *schema.ResourceData, meta interface{}) error {
-//	defer logElapsed("resource.cloud_redis_maintenance_window.delete")()
+//	defer logElapsed("resource.tencentcloudenterprise_redis_maintenance_window.delete")()
 //	defer inconsistentCheck(d, meta)()
 //
 //	return nil

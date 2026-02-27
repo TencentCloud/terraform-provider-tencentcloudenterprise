@@ -453,13 +453,13 @@ type Instance struct {
 	// 镜像类型
 
 	ImageType *string `json:"ImageType,omitempty" name:"ImageType"`
-	// 键值对id
+	// 密钥id,&nbsp;数据来源为MC、BATCH、AS、tke、VPC_CGW，或者【请求里即没有Token又没有CamContext】时，会返回KeyPairIds字段，其他数据来源不会返回KeyPairIds字段
 
 	KeyPairIds []*string `json:"KeyPairIds,omitempty" name:"KeyPairIds"`
 	// 运行标志
 
 	RunFlag *int64 `json:"RunFlag,omitempty" name:"RunFlag"`
-	// 内部vpc Id
+	// 内部vpc&nbsp;Id
 
 	InnerVpcId *uint64 `json:"InnerVpcId,omitempty" name:"InnerVpcId"`
 	// 实例的Family
@@ -480,6 +480,74 @@ type Instance struct {
 	// 虚拟化
 
 	Hypervisor *int64 `json:"Hypervisor,omitempty" name:"Hypervisor"`
+	// 实例的最新操作错误信息。
+
+	LatestOperationErrorMsg *string `json:"LatestOperationErrorMsg,omitempty" name:"LatestOperationErrorMsg"`
+	// 包销实例到期时间。按照ISO8601标准表示，并且使用UTC时间。格式为：YYYY-MM-DDThh:mm:ssZ。注意：后付费模式本项为null
+
+	UnderwriteExpiredTime *string `json:"UnderwriteExpiredTime,omitempty" name:"UnderwriteExpiredTime"`
+	// 实例销毁保护标志，表示是否允许通过api接口删除实例。取值范围：&nbsp;&nbsp;true：表示开启实例保护，不允许通过api接口删除实例&nbsp;false：表示关闭实例保护，允许通过api接口删除实例&nbsp;&nbsp;默认取值：false。
+
+	DisableApiTermination *bool `json:"DisableApiTermination,omitempty" name:"DisableApiTermination"`
+	// 实例是否配置了休眠
+
+	HibernationOptions *HibernationOptions `json:"HibernationOptions,omitempty" name:"HibernationOptions"`
+	// 网卡Trunking状态
+
+	VmEniTrunking *string `json:"VmEniTrunking,omitempty" name:"VmEniTrunking"`
+	// 实例的启动模式
+
+	BootMode *string `json:"BootMode,omitempty" name:"BootMode"`
+	// CHC实例的类型
+
+	ChcInstanceType *string `json:"ChcInstanceType,omitempty" name:"ChcInstanceType"`
+	// 实例的交换盘信息列表
+
+	SwapDisks *SwapDisks `json:"SwapDisks,omitempty" name:"SwapDisks"`
+	// 最新操作的错误码，表示操作失败的原因。
+
+	LatestOperationCode *string `json:"LatestOperationCode,omitempty" name:"LatestOperationCode"`
+	// 置放群组列表
+
+	DisasterRecoverGroupIds []*string `json:"DisasterRecoverGroupIds,omitempty" name:"DisasterRecoverGroupIds"`
+	// 实例的操作系统许可类型
+
+	LicenseType *string `json:"LicenseType,omitempty" name:"LicenseType"`
+	// 是否启用Grid许可证
+
+	EnableGridLicence *string `json:"EnableGridLicence,omitempty" name:"EnableGridLicence"`
+}
+
+type HibernationOptions struct {
+
+	// 是否配置了休眠选项
+
+	Configured *bool `json:"Configured,omitempty" name:"Configured"`
+}
+
+type SwapDisks struct {
+
+	// 系统盘类型
+
+	DiskType *string `json:"DiskType,omitempty" name:"DiskType"`
+	// 系统盘大小（GB）
+
+	DiskSize *uint64 `json:"DiskSize,omitempty" name:"DiskSize"`
+	// 系统盘唯一标识
+
+	DiskId *string `json:"DiskId,omitempty" name:"DiskId"`
+	// 是否加密
+
+	Encrypt *bool `json:"Encrypt,omitempty" name:"Encrypt"`
+	// 加密密钥ID
+
+	KmsKeyId *string `json:"KmsKeyId,omitempty" name:"KmsKeyId"`
+	// 吞吐性能（MB/s）
+
+	ThroughputPerformance *uint64 `json:"ThroughputPerformance,omitempty" name:"ThroughputPerformance"`
+	// 独享集群ID
+
+	CdcId *string `json:"CdcId,omitempty" name:"CdcId"`
 }
 
 type CreateDisasterRecoverGroupResponse struct {
@@ -5615,7 +5683,7 @@ func (r *ModifyInstancesVpcAttributeResponse) FromJsonString(s string) error {
 type ModifyInstancesAttributeRequest struct {
 	*tchttp.BaseRequest
 
-	// 一个或多个待操作的实例ID。可通过[DescribeInstances](DescribeInstances) API返回值中的`InstanceId`获取。每次请求允许操作的实例数量上限是100。
+	// 一个或多个待操作的实例ID。可通过[DescribeInstances](DescribeInstances)&nbsp;API返回值中的`InstanceId`获取。每次请求允许操作的实例数量上限是100。
 
 	InstanceIds []*string `json:"InstanceIds,omitempty" name:"InstanceIds"`
 	// 实例显示名称。可任意命名，但不得超过60个字符。
@@ -5625,11 +5693,13 @@ type ModifyInstancesAttributeRequest struct {
 
 	UserData *string `json:"UserData,omitempty" name:"UserData"`
 	// 内部参数，安全组Id列表。
-
 	SecurityGroups []*string `json:"SecurityGroups,omitempty" name:"SecurityGroups"`
 	// 内部参数，未知。
 
 	ResetNewCreationIdentify *bool `json:"ResetNewCreationIdentify,omitempty" name:"ResetNewCreationIdentify"`
+	// 实例销毁保护标志，表示是否允许通过api接口删除实例。取值范围：<br><li>&nbsp;TRUE：表示开启实例保护，不允许通过api接口删除实例<br><li>&nbsp;FALSE：表示关闭实例保护，允许通过api接口删除实例&nbsp;<br>&nbsp;默认取值：FALSE。
+
+	DisableApiTermination *bool `json:"DisableApiTermination,omitempty" name:"DisableApiTermination"`
 }
 
 func (r *ModifyInstancesAttributeRequest) ToJsonString() string {
@@ -5843,10 +5913,10 @@ type SystemDisk struct {
 	// 系统盘类型。取值范围：<br><li>LOCAL_BASIC：本地硬盘<br><li>LOCAL_SSD：本地SSD硬盘<br><li>CLOUD_BASIC：普通云硬盘<br><li>CLOUD_SSD：SSD云硬盘<br><li>CLOUD_PREMIUM：高性能云盘<br><br>默认取值：LOCAL_BASIC。
 
 	DiskType *string `json:"DiskType,omitempty" name:"DiskType"`
-	// 系统盘ID。LOCAL_BASIC 和 LOCAL_SSD 类型没有ID。暂时不支持该参数。
+	// 系统盘ID。LOCAL_BASIC&nbsp;和&nbsp;LOCAL_SSD&nbsp;类型没有ID。暂时不支持该参数。
 
 	DiskId *string `json:"DiskId,omitempty" name:"DiskId"`
-	// 系统盘大小，单位：GB。默认值为 50
+	// 系统盘大小，单位：GB。默认值为&nbsp;50
 
 	DiskSize *int64 `json:"DiskSize,omitempty" name:"DiskSize"`
 	// 系统盘指定的存储池。
@@ -5855,6 +5925,18 @@ type SystemDisk struct {
 	// 云盘的自动备份策略id
 
 	AutoSnapshotPolicyId *string `json:"AutoSnapshotPolicyId,omitempty" name:"AutoSnapshotPolicyId"`
+	// 是否加密
+
+	Encrypt *bool `json:"Encrypt,omitempty" name:"Encrypt"`
+	// 加密密钥ID
+
+	KmsKeyId *string `json:"KmsKeyId,omitempty" name:"KmsKeyId"`
+	// 吞吐性能（MB/s）
+
+	ThroughputPerformance *uint64 `json:"ThroughputPerformance,omitempty" name:"ThroughputPerformance"`
+	// 独享集群ID
+
+	CdcId *string `json:"CdcId,omitempty" name:"CdcId"`
 }
 
 type DescribeKeyPairsResponse struct {
@@ -5993,7 +6075,7 @@ func (r *InquiryResourceResetInstancesTypeResponse) FromJsonString(s string) err
 type RunInstancesRequest struct {
 	*tchttp.BaseRequest
 
-	// 实例计费类型。<br><li>PREPAID：预付费，即包年包月<br><li>POSTPAID_BY_HOUR：按小时后付费<br><li>CDHPAID：独享母机付费（基于专用宿主机创建，宿主机部分的资源不收费），该付费模式下必须填写placement.hostid参数<br>默认值：POSTPAID_BY_HOUR。
+	// 实例计费类型。<br><li>POSTPAID_BY_HOUR：按小时后付费<br><li>CDHPAID：独享母机付费（基于专用宿主机创建，宿主机部分的资源不收费），该付费模式下必须填写placement.hostid参数<br>默认值：POSTPAID_BY_HOUR。
 
 	InstanceChargeType *string `json:"InstanceChargeType,omitempty" name:"InstanceChargeType"`
 	// 预付费模式，即包年包月相关参数设置。通过该参数可以指定包年包月实例的购买时长、是否设置自动续费等属性。若指定实例的付费模式为预付费则该参数必传。
@@ -6006,7 +6088,7 @@ type RunInstancesRequest struct {
 	// <br><li>对于付费模式为PREPAID或POSTPAID_BY_HOUR的子机创建，具体取值可通过调用接口[DescribeInstanceTypeConfigs](DescribeInstanceTypeConfigs)来获得最新的规格表或参见[实例类型](/tcloud/Compute/CVM/292128/484318/specification)描述。若不指定该参数，则默认机型为S1.SMALL1。<br><li>对于付费模式为CDHPAID的子机创建，该参数以"CDH_"为前缀，根据cpu和内存配置生成，具体形式为：CDH_XCXG，例如对于创建cpu为1核，内存为1G大小的专用宿主机的子机，该参数应该为CDH_1C1G。
 
 	InstanceType *string `json:"InstanceType,omitempty" name:"InstanceType"`
-	// 指定有效的[镜像](/tcloud/Compute/CVM/292128/835305/mirr_overview)ID，格式形如`img-xxx`。镜像类型分为三种：<br/><li>公共镜像</li><li>自定义镜像</li><li>共享镜像</li><li>可通过以下方式获取可用的镜像ID：<br/><li>`公共镜像`、`自定义镜像`、`共享镜像`的镜像ID可通过登录[控制台](//console.{{conf.main_domain}}/cvm/image/list?imageType=PUBLIC_IMAGE&pageIndex=1&pageSize=20)查询；</li><li>通过调用接口 [DescribeImages](../镜像相关接口/DescribeImages) ，取返回信息中的`ImageId`字段。</li>
+	// 指定有效的[镜像](/tcloud/Compute/CVM/292128/835305/mirr_overview)ID，格式形如`img-xxx`。镜像类型分为三种：<br/><li>公共镜像</li><li>自定义镜像</li><li>共享镜像</li><li>可通过以下方式获取可用的镜像ID：<br/><li>`公共镜像`、`自定义镜像`、`共享镜像`的镜像ID可通过登录[控制台](//console.{{conf.main_domain}}/cvm/image/list?imageType=PUBLIC_IMAGE&pageIndex=1&pageSize=20)查询；</li><li>通过调用接口&nbsp;[DescribeImages](../镜像相关接口/DescribeImages)&nbsp;，取返回信息中的`ImageId`字段。</li>
 
 	ImageId *string `json:"ImageId,omitempty" name:"ImageId"`
 	// 购买源
@@ -6027,7 +6109,7 @@ type RunInstancesRequest struct {
 	// 购买实例数量。取值范围：[1，100]。默认取值：1。指定购买实例的数量不能超过用户所能购买的剩余配额数量。
 
 	InstanceCount *int64 `json:"InstanceCount,omitempty" name:"InstanceCount"`
-	// 实例显示名称。如果不指定则默认显示. 最多只支持60个字符，点后面的名字都会过滤掉。
+	// 实例显示名称。如果不指定则默认显示.&nbsp;最多只支持60个字符，点后面的名字都会过滤掉。
 
 	InstanceName *string `json:"InstanceName,omitempty" name:"InstanceName"`
 	// 实例登录设置。通过该参数可以设置实例的登录方式密码、密钥或保持镜像的原始登录设置。默认情况下会随机生成密码，并以站内信方式知会到用户。
@@ -6045,10 +6127,10 @@ type RunInstancesRequest struct {
 	// 用于指定价格生产，当前主要用于竞价实例
 
 	SpotPrice *string `json:"SpotPrice,omitempty" name:"SpotPrice"`
-	// 云服务器的主机名。<br><li>点号（.）和短横线（-）不能作为 HostName 的首尾字符，不能连续使用。<br><li>Windows 实例：名字符长度为[2, 15]，允许字母（不限制大小写）、数字和短横线（-）组成，不支持点号（.），不能全是数字。<br><li>其他类型（Linux 等）实例：字符长度为[2, 31]，允许支持多个点号，点之间为一段，每段允许字母（不限制大小写）、数字和短横线（-）组成，不支持全数字;不支持.-(点和短横线放在一起)。
+	// 云服务器的主机名。<br><li>点号（.）和短横线（-）不能作为&nbsp;HostName&nbsp;的首尾字符，不能连续使用。<br><li>Windows&nbsp;实例：名字符长度为[2,&nbsp;15]，允许字母（不限制大小写）、数字和短横线（-）组成，不支持点号（.），不能全是数字。<br><li>其他类型（Linux&nbsp;等）实例：字符长度为[2,&nbsp;31]，允许支持多个点号，点之间为一段，每段允许字母（不限制大小写）、数字和短横线（-）组成，不支持全数字;不支持.-(点和短横线放在一起)。
 
 	HostName *string `json:"HostName,omitempty" name:"HostName"`
-	// 提供给实例使用的用户数据，需要以 base64 方式编码，支持的最大数据大小为 16KB。
+	// 提供给实例使用的用户数据，需要以&nbsp;base64&nbsp;方式编码，支持的最大数据大小为&nbsp;16KB。
 
 	UserData *string `json:"UserData,omitempty" name:"UserData"`
 	// 置放群组id，仅支持指定一个。
@@ -6060,6 +6142,12 @@ type RunInstancesRequest struct {
 	// 指定的项目id，仅能指定一个
 
 	ProjectSpecification *ProjectSpecification `json:"ProjectSpecification,omitempty" name:"ProjectSpecification"`
+	// 高性能计算集群ID。若创建的实例为高性能计算实例，需指定实例放置的集群，否则不可指定。
+
+	HpcClusterId *string `json:"HpcClusterId,omitempty" name:"HpcClusterId"`
+	// 实例销毁保护标志，表示是否允许通过api接口删除实例。取值范围：<br><li>&nbsp;TRUE：表示开启实例保护，不允许通过api接口删除实例<br><li>&nbsp;FALSE：表示关闭实例保护，允许通过api接口删除实例&nbsp;<br>&nbsp;默认取值：FALSE。
+
+	DisableApiTermination *bool `json:"DisableApiTermination,omitempty" name:"DisableApiTermination"`
 }
 
 func (r *RunInstancesRequest) ToJsonString() string {
@@ -6323,16 +6411,16 @@ type DescribeInstancesRequest struct {
 	// 按照一个或者多个实例ID查询。实例ID形如：`ins-11112222`。此参数的具体格式可参考API[简介](/document/api/213/11646)的`id.N`一节）。每次请求的实例的上限为100。参数不支持同时指定`InstanceIds`和`Filters`。
 
 	InstanceIds []*string `json:"InstanceIds,omitempty" name:"InstanceIds"`
-	// 过滤条件，详见下表：实例过滤条件表。每次请求的`Filters`的上限为10，`Filter.Values`的上限为5。参数不支持同时指定`InstanceIds`和`Filters`。zone按照【可用区】进行过滤。可用区形如：ap-guangzhou-1。类型：String必选：否可选项：可用区列表project-id按照【项目ID】进行过滤，可通过调用DescribeProject查询已创建的项目列表或登录控制台进行查看；也可以调用AddProject创建新的项目。项目ID形如：1002189。类型：Integer必选：否host-id按照【CDH ID】进行过滤。CDH ID形如：host-xxxxxxxx。类型：String必选：否vpc-id按照【VPC ID】进行过滤。VPC ID形如：vpc-xxxxxxxx。类型：String必选：否subnet-id按照【子网ID】进行过滤。子网ID形如：subnet-xxxxxxxx。类型：String必选：否instance-id按照【实例ID】进行过滤。实例ID形如：ins-xxxxxxxx。类型：String必选：否security-group-id按照【安全组ID】进行过滤。安全组ID形如: sg-8jlk3f3r。类型：String必选：否instance-name按照【实例名称】进行过滤。类型：String必选：否instance-charge-type按照【实例计费模式】进行过滤。(POSTPAID_BY_HOUR：表示后付费，即按量计费 | CDHPAID：表示CDH付费，即只对CDH计费，不对CDH上的实例计费。)类型：String必选：否instance-state按照【实例状态】进行过滤。PENDING：表示创建中LAUNCH_FAILED：表示创建失败RUNNING：表示运行中STOPPED：表示关机STARTING：表示开机中STOPPING：表示关机中REBOOTING：表示重启中SHUTDOWN：表示停止待销毁TERMINATING：表示销毁中。类型：String必选：否private-ip-address按照【实例主网卡的内网IP】进行过滤。类型：String必选：否public-ip-address按照【实例主网卡的公网IP】进行过滤，包含实例创建时自动分配的IP和实例创建后手动绑定的弹性IP。类型：String必选：否ipv6-address按照【实例的IPv6地址】进行过滤。类型：String必选：否tag-key按照【标签键】进行过滤。类型：String必选：否tag-value按照【标签值】进行过滤。类型：String必选：否tag:tag-key按照【标签键值对】进行过滤。tag-key使用具体的标签键进行替换。使用请参考示例2。类型：String必选：否。architectures  按照【架构】进行过滤。  类型：String  必选：否  instance-family  按照【主机类型】进行过滤。  类型：String  必选：否
+	// 过滤条件，详见下表：实例过滤条件表。每次请求的`Filters`的上限为10，`Filter.Values`的上限为5。参数不支持同时指定`InstanceIds`和`Filters`。zone按照【可用区】进行过滤。可用区形如：ap-region1-1。类型：String必选：否可选项：可用区列表project-id按照【项目ID】进行过滤，可通过调用DescribeProject查询已创建的项目列表或登录控制台进行查看；也可以调用AddProject创建新的项目。项目ID形如：1002189。类型：Integer必选：否host-id按照【CDH&nbsp;ID】进行过滤。CDH&nbsp;ID形如：host-xxxxxxxx。类型：String必选：否vpc-id按照【VPC&nbsp;ID】进行过滤。VPC&nbsp;ID形如：vpc-xxxxxxxx。类型：String必选：否subnet-id按照【子网ID】进行过滤。子网ID形如：subnet-xxxxxxxx。类型：String必选：否instance-id按照【实例ID】进行过滤。实例ID形如：ins-61dyt49hxxxx。类型：String必选：否security-group-id按照【安全组ID】进行过滤。安全组ID形如:&nbsp;sg-8jlk3f3r。类型：String必选：否instance-name按照【实例名称】进行过滤。类型：String必选：否instance-charge-type按照【实例计费模式】进行过滤。(POSTPAID_BY_HOUR：表示后付费，即按量计费&nbsp;|&nbsp;CDHPAID：表示CDH付费，即只对CDH计费，不对CDH上的实例计费。)类型：String必选：否instance-state按照【实例状态】进行过滤。PENDING：表示创建中LAUNCH_FAILED：表示创建失败RUNNING：表示运行中STOPPED：表示关机STARTING：表示开机中STOPPING：表示关机中REBOOTING：表示重启中SHUTDOWN：表示停止待销毁TERMINATING：表示销毁中。类型：String必选：否private-ip-address按照【实例主网卡的内网IP】进行过滤。类型：String必选：否public-ip-address按照【实例主网卡的公网IP】进行过滤，包含实例创建时自动分配的IP和实例创建后手动绑定的弹性IP。类型：String必选：否ipv6-address按照【实例的IPv6地址】进行过滤。类型：String必选：否tag-key按照【标签键】进行过滤。类型：String必选：否tag-value按照【标签值】进行过滤。类型：String必选：否tag:tag-key按照【标签键值对】进行过滤。tag-key使用具体的标签键进行替换。使用请参考示例2。类型：String必选：否。architectures&nbsp;&nbsp;按照【架构】进行过滤。&nbsp;&nbsp;类型：String&nbsp;&nbsp;必选：否&nbsp;&nbsp;instance-family&nbsp;&nbsp;按照【主机类型】进行过滤。&nbsp;&nbsp;类型：String&nbsp;&nbsp;必选：否
 
 	Filters []*Filter `json:"Filters,omitempty" name:"Filters"`
-	// 偏移量，默认为0。关于`Offset`的更进一步介绍请参考 API [简介](/document/api/213/11646#.E8.BE.93.E5.85.A5.E5.8F.82.E6.95.B0.E4.B8.8E.E8.BF.94.E5.9B.9E.E5.8F.82.E6.95.B0.E9.87.8A.E4.B9.89)中的相关小节。
+	// 偏移量，默认为0。关于`Offset`的更进一步介绍请参考&nbsp;API&nbsp;[简介](/document/api/213/11646#.E8.BE.93.E5.85.A5.E5.8F.82.E6.95.B0.E4.B8.8E.E8.BF.94.E5.9B.9E.E5.8F.82.E6.95.B0.E9.87.8A.E4.B9.89)中的相关小节。
 
 	Offset *int64 `json:"Offset,omitempty" name:"Offset"`
-	// 返回数量，默认为20，最大值为100。关于`Limit`的更进一步介绍请参考 API [简介](/document/api/213/11646#.E8.BE.93.E5.85.A5.E5.8F.82.E6.95.B0.E4.B8.8E.E8.BF.94.E5.9B.9E.E5.8F.82.E6.95.B0.E9.87.8A.E4.B9.89)中的相关小节。
+	// 返回数量，默认为20，最大值为100。关于`Limit`的更进一步介绍请参考&nbsp;API&nbsp;[简介](/document/api/213/11646#.E8.BE.93.E5.85.A5.E5.8F.82.E6.95.B0.E4.B8.8E.E8.BF.94.E5.9B.9E.E5.8F.82.E6.95.B0.E9.87.8A.E4.B9.89)中的相关小节。
 
 	Limit *int64 `json:"Limit,omitempty" name:"Limit"`
-	// 内部参数，数字型vpcId列表 。
+	// 内部参数，数字型vpcId列表&nbsp;。
 
 	InnerVpcIds []*int64 `json:"InnerVpcIds,omitempty" name:"InnerVpcIds"`
 	// 内部参数，数字型subnetId列表。

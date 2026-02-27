@@ -2,7 +2,7 @@
 subcategory: "Tencent Service Framework(TSF)"
 layout: "tencentcloudenterprise"
 page_title: "TencentCloudEnterprise: tencentcloudenterprise_tsf_api_group"
-sidebar_current: "docs-tencentcloudenterprise-resources-tsf_api_group"
+sidebar_current: "docs-tencentcloudenterprise-resource-tsf_api_group"
 description: |-
   Provides a resource to create a tsf api_group
 ---
@@ -61,12 +61,15 @@ In addition to all arguments above, the following attributes are exported:
 * `status` - Release status, drafted: Not published. released: released.
 * `updated_time` - Group update time such as: 2019-06-20 15:51:28.
 
-
 ## Import
 
+tencentcloudenterprise_tsf_api_group can be imported using the id, e.g.
+
+```
 tsf api_group can be imported using the id, e.g.
 
 ```
 terraform import tencentcloudenterprise_tsf_api_group.api_group api_group_id
+```
 ```
 

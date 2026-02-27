@@ -2,7 +2,7 @@
 subcategory: "Cloud Block Storage(CBS)"
 layout: "tencentcloudenterprise"
 page_title: "TencentCloudEnterprise: tencentcloudenterprise_cbs_storage_set"
-sidebar_current: "docs-tencentcloudenterprise-resources-cbs_storage_set"
+sidebar_current: "docs-tencentcloudenterprise-resource-cbs_storage_set"
 description: |-
   Provides a resource to create CBS set.
 ---
@@ -48,5 +48,4 @@ In addition to all arguments above, the following attributes are exported:
 * `attached` - Indicates whether the CBS is mounted the CVM.
 * `disk_ids` - Disk id list.
 * `storage_status` - Status of CBS. Valid values: UNATTACHED, ATTACHING, ATTACHED, DETACHING, EXPANDING, ROLLBACKING, TORECYCLE and DUMPING.
-
 

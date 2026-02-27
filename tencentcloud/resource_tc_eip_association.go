@@ -31,7 +31,7 @@ or
 Eip association can be imported using the id, e.g.
 
 ```
-$ terraform import cloud_eip_association.bar eip-41s6jwy4::ins-34jwj3
+$ terraform import tencentcloudenterprise_eip_association.bar eip-41s6jwy4::ins-34jwj3
 ```
 */
 package tencentcloud
@@ -118,7 +118,7 @@ func resourceTencentCloudEipAssociation() *schema.Resource {
 }
 
 func resourceTencentCloudEipAssociationCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_eip_association.create")()
+	defer logElapsed("resource.tencentcloudenterprise_eip_association.create")()
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
 	vpcService := VpcService{
@@ -237,7 +237,7 @@ func resourceTencentCloudEipAssociationCreate(d *schema.ResourceData, meta inter
 }
 
 func resourceTencentCloudEipAssociationRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_eip_association.read")()
+	defer logElapsed("resource.tencentcloudenterprise_eip_association.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -279,7 +279,7 @@ func resourceTencentCloudEipAssociationRead(d *schema.ResourceData, meta interfa
 }
 
 func resourceTencentCloudEipAssociationDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_eip_association.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_eip_association.delete")()
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
 	vpcService := VpcService{

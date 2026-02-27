@@ -8,7 +8,7 @@ Provides a resource to create a tbase instance.
 ```hcl
 
 	resource "tencentcloudenterprise_tbase_pg_instance_vip" "foo" {
-	  instance_id = cloud_tbase_pg_instance.example.id
+	  instance_id = tencentcloudenterprise_tbase_pg_instance.example.id
 	  uniq_subnet_id = "subnet-38oi34ta"
 	  uniq_vpc_id = "vpc-cs6ffr73"
 	}
@@ -18,7 +18,7 @@ Import
 
 tbase instance can be imported using the id, e.g.
 ```
-$ terraform import cloud_tbase_pg_instance_vip.instance cluster_id#instance_id
+$ terraform import tencentcloudenterprise_tbase_pg_instance_vip.instance cluster_id#instance_id
 ```
 */
 package tencentcloud
@@ -92,7 +92,7 @@ func resourceTencentCloudTbasePGInstanceVip() *schema.Resource {
 
 func resourceTencentCloudTbasePGInstanceVipCreate(ctx context.Context, d *schema.ResourceData,
 	meta interface{}) diag.Diagnostics {
-	defer logElapsed("resource.cloud_tbase_instance_vip.create")()
+	defer logElapsed("resource.tencentcloudenterprise_tbase_instance_vip.create")()
 	defer inconsistentCheck(d, meta)()
 
 	var (
@@ -130,7 +130,7 @@ func resourceTencentCloudTbasePGInstanceVipCreate(ctx context.Context, d *schema
 
 func resourceTencentCloudTbasePGInstanceVipRead(ctx context.Context, d *schema.ResourceData,
 	meta interface{}) diag.Diagnostics {
-	defer logElapsed("resource.cloud_tbase_instance_vip.read")()
+	defer logElapsed("resource.tencentcloudenterprise_tbase_instance_vip.read")()
 	defer inconsistentCheck(d, meta)()
 
 	var (
@@ -167,7 +167,7 @@ func resourceTencentCloudTbasePGInstanceVipRead(ctx context.Context, d *schema.R
 
 func resourceTencentCloudTbasePGInstanceVipUpdate(ctx context.Context, d *schema.ResourceData,
 	meta interface{}) diag.Diagnostics {
-	defer logElapsed("resource.cloud_tbase_instance_vip.update")()
+	defer logElapsed("resource.tencentcloudenterprise_tbase_instance_vip.update")()
 	defer inconsistentCheck(d, meta)()
 
 	return nil
@@ -175,7 +175,7 @@ func resourceTencentCloudTbasePGInstanceVipUpdate(ctx context.Context, d *schema
 
 func resourceTencentCloudTbasePGInstanceVipDelete(ctx context.Context, d *schema.ResourceData,
 	meta interface{}) diag.Diagnostics {
-	defer logElapsed("resource.cloud_tbase_pg_instance_vip.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_tbase_pg_instance_vip.delete")()
 	defer inconsistentCheck(d, meta)()
 
 	var (

@@ -15,10 +15,10 @@ func TestAccDataSourceTencentCloudSecurityGroup_basic(t *testing.T) {
 			{
 				Config: TestAccDataSourceTencentCloudSecurityGroupConfig,
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckTencentCloudDataSourceID("data.cloud_vpc_security_group.foo"),
-					resource.TestCheckResourceAttr("data.cloud_vpc_security_group.foo", "name", "tf-ci-test"),
-					resource.TestCheckResourceAttr("data.cloud_vpc_security_group.foo", "description", "terraform-ci-test"),
-					resource.TestCheckResourceAttr("data.cloud_vpc_security_group.foo", "be_associate_count", "0"),
+					testAccCheckTencentCloudDataSourceID("data.tencentcloudenterprise_vpc_security_group.foo"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_vpc_security_group.foo", "name", "tf-ci-test"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_vpc_security_group.foo", "description", "terraform-ci-test"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_vpc_security_group.foo", "be_associate_count", "0"),
 				),
 			},
 		},
@@ -32,7 +32,7 @@ resource "tencentcloudenterprise_vpc_security_group" "foo" {
 }
 
 resource "tencentcloudenterprise_vpc_security_group_lite_rule" "foo" {
-  security_group_id = cloud_vpc_security_group.foo.id
+  security_group_id = tencentcloudenterprise_vpc_security_group.foo.id
 
   ingress = [
     "ACCEPT#192.168.1.0/24#80#TCP",
@@ -44,6 +44,6 @@ resource "tencentcloudenterprise_vpc_security_group_lite_rule" "foo" {
 }
 
 data "tencentcloudenterprise_vpc_security_group" "foo" {
-  security_group_id = cloud_vpc_security_group.foo.id
+  security_group_id = tencentcloudenterprise_vpc_security_group.foo.id
 }
 `

@@ -1,5 +1,5 @@
 ---
-subcategory: "Cloud Kafka(CKafka)"
+subcategory: "Cloud Kafka(ckafka)"
 layout: "tencentcloudenterprise"
 page_title: "TencentCloudEnterprise: tencentcloudenterprise_ckafka_zone"
 sidebar_current: "docs-tencentcloudenterprise-datasource-ckafka_zone"
@@ -55,5 +55,4 @@ In addition to all arguments above, the following attributes are exported:
     * `zone_id` - Zone id.
     * `zone_name` - Zone name.
     * `zone_status` - Zone status.
-
 

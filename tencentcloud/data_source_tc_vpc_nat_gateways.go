@@ -132,7 +132,7 @@ func dataSourceTencentCloudNatGateways() *schema.Resource {
 }
 
 func dataSourceTencentCloudNatGatewaysRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("data_source.cloud_vpc_nat_gateways.read")()
+	defer logElapsed("data_source.tencentcloudenterprise_vpc_nat_gateways.read")()
 
 	logId := getLogId(contextNil)
 	request := vpc.NewDescribeNatGatewaysRequest()

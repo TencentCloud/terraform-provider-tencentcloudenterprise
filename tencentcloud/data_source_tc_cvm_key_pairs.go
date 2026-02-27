@@ -117,7 +117,7 @@ func dataSourceTencentCloudKeyPairs() *schema.Resource {
 }
 
 func dataSourceTencentCloudKeyPairsRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("data_source.cloud_cvm_key_pairs.read")()
+	defer logElapsed("data_source.tencentcloudenterprise_cvm_key_pairs.read")()
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
 	cvmService := CvmService{

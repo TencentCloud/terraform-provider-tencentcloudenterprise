@@ -46,7 +46,7 @@ func resourceTencentCloudCfsSignUpCfsService() *schema.Resource {
 }
 
 func resourceTencentCloudCfsSignUpCfsServiceCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("data_source.cloud_cfs_sign_up_cfs_service.create")()
+	defer logElapsed("data_source.tencentcloudenterprise_cfs_sign_up_cfs_service.create")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -78,7 +78,7 @@ func resourceTencentCloudCfsSignUpCfsServiceCreate(d *schema.ResourceData, meta 
 }
 
 func resourceTencentCloudCfsSignUpCfsServiceRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cfs_sign_up_cfs_service.read")()
+	defer logElapsed("resource.tencentcloudenterprise_cfs_sign_up_cfs_service.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -108,7 +108,7 @@ func resourceTencentCloudCfsSignUpCfsServiceRead(d *schema.ResourceData, meta in
 }
 
 func resourceTencentCloudCfsSignUpCfsServiceDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cfs_sign_up_cfs_service.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_cfs_sign_up_cfs_service.delete")()
 	defer inconsistentCheck(d, meta)()
 
 	return nil

@@ -36,7 +36,7 @@ Provides a resource to create a cvm import_image
 cvm import_image can be imported using the id, e.g.
 
 ```
-terraform import cloud_cvm_import_image.import_image import_image_id
+terraform import tencentcloudenterprise_cvm_import_image.import_image import_image_id
 ```
 */
 package tencentcloud
@@ -168,7 +168,7 @@ func resourceTencentCloudCvmImportImage() *schema.Resource {
 }
 
 func resourceTencentCloudCvmImportImageCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cvm_import_image.create")()
+	defer logElapsed("resource.tencentcloudenterprise_cvm_import_image.create")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -263,14 +263,14 @@ func resourceTencentCloudCvmImportImageCreate(d *schema.ResourceData, meta inter
 }
 
 func resourceTencentCloudCvmImportImageRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cvm_import_image.read")()
+	defer logElapsed("resource.tencentcloudenterprise_cvm_import_image.read")()
 	defer inconsistentCheck(d, meta)()
 
 	return nil
 }
 
 func resourceTencentCloudCvmImportImageDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cvm_import_image.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_cvm_import_image.delete")()
 	defer inconsistentCheck(d, meta)()
 
 	return nil

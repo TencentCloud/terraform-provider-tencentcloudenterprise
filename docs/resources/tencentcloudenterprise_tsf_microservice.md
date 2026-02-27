@@ -2,7 +2,7 @@
 subcategory: "Tencent Service Framework(TSF)"
 layout: "tencentcloudenterprise"
 page_title: "TencentCloudEnterprise: tencentcloudenterprise_tsf_microservice"
-sidebar_current: "docs-tencentcloudenterprise-resources-tsf_microservice"
+sidebar_current: "docs-tencentcloudenterprise-resource-tsf_microservice"
 description: |-
   Provides a resource to create a tsf microservice
 ---
@@ -40,12 +40,15 @@ In addition to all arguments above, the following attributes are exported:
 * `id` - ID of the resource.
 
 
-
 ## Import
 
+tencentcloudenterprise_tsf_microservice can be imported using the id, e.g.
+
+```
 tsf microservice can be imported using the namespaceId#microserviceId, e.g.
 
 ```
 terraform import tencentcloudenterprise_tsf_microservice.microservice namespace-vjlkzkgy#ms-vjeb43lw
+```
 ```
 

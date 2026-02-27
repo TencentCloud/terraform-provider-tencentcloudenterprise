@@ -19,7 +19,7 @@ Provides a resource to create a brc cfs backup
 brc backup_cfs can be imported using the id, e.g.
 
 ```
-terraform import cloud_brc_backup_cfs.example backup_id
+terraform import tencentcloudenterprise_brc_backup_cfs.example backup_id
 ```
 */
 package tencentcloud
@@ -161,7 +161,7 @@ func resourceTencentCloudBrcBackupCfs() *schema.Resource {
 }
 
 func resourceTencentCloudBrcBackupCfsCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_brc_backup_cfs.create")()
+	defer logElapsed("resource.tencentcloudenterprise_brc_backup_cfs.create")()
 	logId := getLogId(contextNil)
 
 	request := brc.NewCreateCfsBackupRequest()
@@ -254,7 +254,7 @@ func resourceTencentCloudBrcBackupCfsCreate(d *schema.ResourceData, meta interfa
 }
 
 func resourceTencentCloudBrcBackupCfsRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_brc_backup_cfs.read")()
+	defer logElapsed("resource.tencentcloudenterprise_brc_backup_cfs.read")()
 	defer inconsistentCheck(d, meta)()
 	//logId := getLogId(contextNil)
 	//ctx := context.WithValue(context.Background(), logIdKey, logId)
@@ -347,7 +347,7 @@ func resourceTencentCloudBrcBackupCfsRead(d *schema.ResourceData, meta interface
 }
 
 func resourceTencentCloudBrcBackupCfsDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_brc_backup_cfs.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_brc_backup_cfs.delete")()
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.Background(), logIdKey, logId)
 

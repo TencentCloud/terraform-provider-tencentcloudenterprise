@@ -7,7 +7,7 @@ Provides a resource to create a ckafka datahub_topic
 data "tencentcloudenterprise_user_info" "user" {}
 
 	resource "tencentcloudenterprise_ckafka_datahub_topic" "datahub_topic" {
-	  name = format("%s-tf", data.cloud_user_info.user.app_id)
+	  name = format("%s-tf", data.tencentcloudenterprise_user_info.user.app_id)
 	  partition_num = 20
 	  retention_ms = 60000
 	  note = "for test"
@@ -23,7 +23,7 @@ data "tencentcloudenterprise_user_info" "user" {}
 ckafka datahub_topic can be imported using the id, e.g.
 
 ```
-terraform import cloud_ckafka_datahub_topic.datahub_topic datahub_topic_name
+terraform import tencentcloudenterprise_ckafka_datahub_topic.datahub_topic datahub_topic_name
 ```
 */
 package tencentcloud
@@ -74,7 +74,7 @@ package tencentcloud
 //}
 //
 //func resourceTencentCloudCkafkaDatahubTopicCreate(d *schema.ResourceData, meta interface{}) error {
-//	defer logElapsed("resource.cloud_ckafka_datahub_topic.create")()
+//	defer logElapsed("resource.tencentcloudenterprise_ckafka_datahub_topic.create")()
 //	defer inconsistentCheck(d, meta)()
 //
 //	logId := getLogId(contextNil)
@@ -141,7 +141,7 @@ package tencentcloud
 //}
 //
 //func resourceTencentCloudCkafkaDatahubTopicRead(d *schema.ResourceData, meta interface{}) error {
-//	defer logElapsed("resource.cloud_ckafka_datahub_topic.read")()
+//	defer logElapsed("resource.tencentcloudenterprise_ckafka_datahub_topic.read")()
 //	defer inconsistentCheck(d, meta)()
 //
 //	logId := getLogId(contextNil)
@@ -191,7 +191,7 @@ package tencentcloud
 //}
 //
 //func resourceTencentCloudCkafkaDatahubTopicUpdate(d *schema.ResourceData, meta interface{}) error {
-//	defer logElapsed("resource.cloud_ckafka_datahub_topic.update")()
+//	defer logElapsed("resource.tencentcloudenterprise_ckafka_datahub_topic.update")()
 //	defer inconsistentCheck(d, meta)()
 //
 //	logId := getLogId(contextNil)
@@ -262,7 +262,7 @@ package tencentcloud
 //}
 //
 //func resourceTencentCloudCkafkaDatahubTopicDelete(d *schema.ResourceData, meta interface{}) error {
-//	defer logElapsed("resource.cloud_ckafka_datahub_topic.delete")()
+//	defer logElapsed("resource.tencentcloudenterprise_ckafka_datahub_topic.delete")()
 //	defer inconsistentCheck(d, meta)()
 //
 //	logId := getLogId(contextNil)

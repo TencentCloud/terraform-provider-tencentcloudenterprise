@@ -17,12 +17,12 @@ func TestAccTencentCloudCkafkaAclsDataSource(t *testing.T) {
 				Config: testAccTencentCloudDataSourceCkafkaAcl,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					testAccCheckCkafkaAclExists("tencentcloudenterprise_ckafka_acl.foo"),
-					resource.TestCheckResourceAttrSet("data.cloud_ckafka_acls.foo", "acl_list.0.operation_type"),
-					resource.TestCheckResourceAttrSet("data.cloud_ckafka_acls.foo", "acl_list.0.permission_type"),
-					resource.TestCheckResourceAttrSet("data.cloud_ckafka_acls.foo", "acl_list.0.resource_name"),
-					resource.TestCheckResourceAttrSet("data.cloud_ckafka_acls.foo", "acl_list.0.resource_type"),
-					resource.TestCheckResourceAttrSet("data.cloud_ckafka_acls.foo", "acl_list.0.host"),
-					resource.TestCheckResourceAttrSet("data.cloud_ckafka_acls.foo", "acl_list.0.principal"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_ckafka_acls.foo", "acl_list.0.operation_type"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_ckafka_acls.foo", "acl_list.0.permission_type"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_ckafka_acls.foo", "acl_list.0.resource_name"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_ckafka_acls.foo", "acl_list.0.resource_type"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_ckafka_acls.foo", "acl_list.0.host"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_ckafka_acls.foo", "acl_list.0.principal"),
 				),
 			},
 		},
@@ -55,16 +55,16 @@ resource "tencentcloudenterprise_ckafka_topic" "kafka_topic_acl" {
 resource "tencentcloudenterprise_ckafka_acl" foo {
   instance_id     = var.instance_id
   resource_type   = "TOPIC"
-  resource_name   = cloud_ckafka_topic.kafka_topic_acl.topic_name
+  resource_name   = tencentcloudenterprise_ckafka_topic.kafka_topic_acl.topic_name
   operation_type  = "WRITE"
   permission_type = "ALLOW"
   host            = "10.10.10.0"
-  principal       = cloud_ckafka_user.foo.account_name
+  principal       = tencentcloudenterprise_ckafka_user.foo.account_name
 }
 
 data "tencentcloudenterprise_ckafka_acls" "foo" {
-	instance_id   = cloud_ckafka_acl.foo.instance_id
-    resource_type = cloud_ckafka_acl.foo.resource_type
-	resource_name = cloud_ckafka_acl.foo.resource_name
+	instance_id   = tencentcloudenterprise_ckafka_acl.foo.instance_id
+    resource_type = tencentcloudenterprise_ckafka_acl.foo.resource_type
+	resource_name = tencentcloudenterprise_ckafka_acl.foo.resource_name
 }
 `

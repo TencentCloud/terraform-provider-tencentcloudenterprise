@@ -17,7 +17,7 @@ Provides a resource to create a cbs snapshot_share_permission
 cbs snapshot_share_permission can be imported using the id, e.g.
 
 ```
-terraform import cloud_cbs_snapshot_share_permission.snapshot_share_permission snap-xxxxxx
+terraform import tencentcloudenterprise_cbs_snapshot_share_permission.snapshot_share_permission snap-xxxxxx
 ```
 */
 package tencentcloud
@@ -70,7 +70,7 @@ func resourceTencentCloudCbsSnapshotSharePermission() *schema.Resource {
 }
 
 func resourceTencentCloudCbsSnapshotSharePermissionCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cbs_snapshot_share_permission.create")()
+	defer logElapsed("resource.tencentcloudenterprise_cbs_snapshot_share_permission.create")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -98,7 +98,7 @@ func resourceTencentCloudCbsSnapshotSharePermissionCreate(d *schema.ResourceData
 }
 
 func resourceTencentCloudCbsSnapshotSharePermissionRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cbs_snapshot_share_permission.read")()
+	defer logElapsed("resource.tencentcloudenterprise_cbs_snapshot_share_permission.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -125,7 +125,7 @@ func resourceTencentCloudCbsSnapshotSharePermissionRead(d *schema.ResourceData, 
 }
 
 func resourceTencentCloudCbsSnapshotSharePermissionUpdate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cbs_snapshot_share_permission.update")()
+	defer logElapsed("resource.tencentcloudenterprise_cbs_snapshot_share_permission.update")()
 	defer inconsistentCheck(d, meta)()
 
 	snapshotId := d.Id()
@@ -156,7 +156,7 @@ func resourceTencentCloudCbsSnapshotSharePermissionUpdate(d *schema.ResourceData
 }
 
 func resourceTencentCloudCbsSnapshotSharePermissionDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cbs_snapshot_share_permission.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_cbs_snapshot_share_permission.delete")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)

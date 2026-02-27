@@ -78,7 +78,7 @@ func dataSourceTencentCloudVpcTemplateLimits() *schema.Resource {
 }
 
 func dataSourceTencentCloudVpcTemplateLimitsRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("data_source.cloud_vpc_template_limits.read")()
+	defer logElapsed("data_source.tencentcloudenterprise_vpc_template_limits.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)

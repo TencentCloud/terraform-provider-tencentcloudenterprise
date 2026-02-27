@@ -16,7 +16,7 @@ func TestAccTencentCloudEipAddressQuotaDataSource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			{
 				Config: testAccEipAddressQuotaDataSource,
-				Check:  resource.ComposeTestCheckFunc(testAccCheckTencentCloudDataSourceID("data.cloud_eip_address_quota.address_quota")),
+				Check:  resource.ComposeTestCheckFunc(testAccCheckTencentCloudDataSourceID("data.tencentcloudenterprise_eip_address_quota.address_quota")),
 			},
 		},
 	})

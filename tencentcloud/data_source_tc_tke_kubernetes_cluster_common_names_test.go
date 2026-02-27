@@ -15,9 +15,9 @@ func TestAccTencentCloudKubernetesCommonNamesDataSource(t *testing.T) {
 			{
 				Config: testAccKubernetesCommonNamesWithSubAccount,
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttrSet("data.cloud_tke_kubernetes_cluster_common_names.foo", "cluster_id"),
-					//resource.TestCheckResourceAttr("data.cloud_tke_kubernetes_cluster_common_names.foo", "role_ids.#", "1"),
-					resource.TestCheckResourceAttrSet("data.cloud_tke_kubernetes_cluster_common_names.foo", "list.#"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_tke_kubernetes_cluster_common_names.foo", "cluster_id"),
+					//resource.TestCheckResourceAttr("data.tencentcloudenterprise_tke_kubernetes_cluster_common_names.foo", "role_ids.#", "1"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_tke_kubernetes_cluster_common_names.foo", "list.#"),
 				),
 			},
 		},
@@ -34,8 +34,8 @@ const testAccKubernetesCommonNamesBasic = KeepTkeCNRoleName + `
 data "tencentcloudenterprise_user_info" "info" {}
 
 locals {
-  app_id = data.cloud_user_info.info.app_id
-  uin    = data.cloud_user_info.info.uin
+  app_id = data.tencentcloudenterprise_user_info.info.app_id
+  uin    = data.tencentcloudenterprise_user_info.info.uin
 }
 
 data "tencentcloudenterprise_tke_kubernetes_clusters" "cls" {
@@ -47,8 +47,8 @@ data "tencentcloudenterprise_cam_roles" "role_basic" {
 }
 
 data "tencentcloudenterprise_tke_kubernetes_cluster_common_names" "foo" {
-  cluster_id = data.cloud_tke_kubernetes_clusters.cls.list.0.cluster_id
-  role_ids = [data.cloud_cam_roles.role_basic.role_list.0.role_id]
+  cluster_id = data.tencentcloudenterprise_tke_kubernetes_clusters.cls.list.0.cluster_id
+  role_ids = [data.tencentcloudenterprise_cam_roles.role_basic.role_list.0.role_id]
 }
 `
 

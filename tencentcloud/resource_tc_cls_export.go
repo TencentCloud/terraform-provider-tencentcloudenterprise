@@ -22,7 +22,7 @@ Provides a resource to create a cls export
 cls export can be imported using the id, e.g.
 
 ```
-terraform import cloud_cls_export.export topic_id#export_id
+terraform import tencentcloudenterprise_cls_export.export topic_id#export_id
 ```
 */
 package tencentcloud
@@ -124,7 +124,7 @@ func resourceTencentCloudClsExport() *schema.Resource {
 }
 
 func resourceTencentCloudClsExportCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cls_export.create")()
+	defer logElapsed("resource.tencentcloudenterprise_cls_export.create")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -186,7 +186,7 @@ func resourceTencentCloudClsExportCreate(d *schema.ResourceData, meta interface{
 }
 
 func resourceTencentCloudClsExportRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cls_export.read")()
+	defer logElapsed("resource.tencentcloudenterprise_cls_export.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -249,7 +249,7 @@ func resourceTencentCloudClsExportRead(d *schema.ResourceData, meta interface{})
 }
 
 func resourceTencentCloudClsExportDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cls_export.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_cls_export.delete")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)

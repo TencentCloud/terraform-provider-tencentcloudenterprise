@@ -16,7 +16,7 @@ func TestAccTencentCloudVpcRouteConflictsDataSource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			{
 				Config: testAccVpcRouteConflictsDataSource,
-				Check:  resource.ComposeTestCheckFunc(testAccCheckTencentCloudDataSourceID("data.cloud_vpc_route_conflicts.route_conflicts")),
+				Check:  resource.ComposeTestCheckFunc(testAccCheckTencentCloudDataSourceID("data.tencentcloudenterprise_vpc_route_conflicts.route_conflicts")),
 			},
 		},
 	})

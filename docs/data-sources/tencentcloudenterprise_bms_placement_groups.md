@@ -38,4 +38,3 @@ In addition to all arguments above, the following attributes are exported:
   * `type` - The type of the instance.
   * `update_time` - Update time of the instance.
 
-

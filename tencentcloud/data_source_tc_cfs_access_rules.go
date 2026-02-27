@@ -102,7 +102,7 @@ func dataSourceTencentCloudCfsAccessRules() *schema.Resource {
 }
 
 func dataSourceTencentCloudCfsAccessRulesRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("data_source.cloud_cfs_access_rules.read")()
+	defer logElapsed("data_source.tencentcloudenterprise_cfs_access_rules.read")()
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
 	cfsService := CfsService{

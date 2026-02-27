@@ -14,7 +14,7 @@ func TestAccTencentCloudCkafkaTopicSyncReplicaDataSource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			{
 				Config: testAccCkafkaTopicSyncReplicaDataSource,
-				Check:  resource.ComposeTestCheckFunc(testAccCheckTencentCloudDataSourceID("data.cloud_ckafka_topic_sync_replica.topic_sync_replica")),
+				Check:  resource.ComposeTestCheckFunc(testAccCheckTencentCloudDataSourceID("data.tencentcloudenterprise_ckafka_topic_sync_replica.topic_sync_replica")),
 			},
 		},
 	})

@@ -39,4 +39,3 @@ In addition to all arguments above, the following attributes are exported:
   * `application_name` - Application Name.
   * `pkg_version` - Application pkg version.
 
-

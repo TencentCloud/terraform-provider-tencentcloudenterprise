@@ -2,7 +2,7 @@
 subcategory: "Tencent Kubernetes Engine(TKE)"
 layout: "tencentcloudenterprise"
 page_title: "TencentCloudEnterprise: tencentcloudenterprise_tke_kubernetes_cluster_attachment"
-sidebar_current: "docs-tencentcloudenterprise-resources-tke_kubernetes_cluster_attachment"
+sidebar_current: "docs-tencentcloudenterprise-resource-tke_kubernetes_cluster_attachment"
 description: |-
   Provide a resource to attach an existing  cvm to kubernetes cluster.
 ---
@@ -138,5 +138,4 @@ In addition to all arguments above, the following attributes are exported:
 * `id` - ID of the resource.
 * `security_groups` - A list of security group IDs after attach to cluster.
 * `state` - State of the node.
-
 

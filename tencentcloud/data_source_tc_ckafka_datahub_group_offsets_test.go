@@ -14,7 +14,7 @@ func TestAccTencentCloudCkafkaDatahubGroupOffsetsDataSource_basic(t *testing.T) 
 		Steps: []resource.TestStep{
 			{
 				Config: testAccCkafkaDatahubGroupOffsetsDataSource,
-				Check:  resource.ComposeTestCheckFunc(testAccCheckTencentCloudDataSourceID("data.cloud_ckafka_datahub_group_offsets.datahub_group_offsets")),
+				Check:  resource.ComposeTestCheckFunc(testAccCheckTencentCloudDataSourceID("data.tencentcloudenterprise_ckafka_datahub_group_offsets.datahub_group_offsets")),
 			},
 		},
 	})

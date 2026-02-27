@@ -17,7 +17,7 @@ Provide a resource to create a placement group.
 Placement group can be imported using the id, e.g.
 
 ```
-$ terraform import cloud_cvm_placement_group.foo ps-ilan8vjf
+$ terraform import tencentcloudenterprise_cvm_placement_group.foo ps-ilan8vjf
 ```
 */
 package tencentcloud
@@ -99,7 +99,7 @@ func resourceTencentCloudPlacementGroup() *schema.Resource {
 }
 
 func resourceTencentCloudPlacementGroupCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cvm_placement_group.create")()
+	defer logElapsed("resource.tencentcloudenterprise_cvm_placement_group.create")()
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
 
@@ -135,7 +135,7 @@ func resourceTencentCloudPlacementGroupCreate(d *schema.ResourceData, meta inter
 }
 
 func resourceTencentCloudPlacementGroupRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cvm_placement_group.read")()
+	defer logElapsed("resource.tencentcloudenterprise_cvm_placement_group.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -172,7 +172,7 @@ func resourceTencentCloudPlacementGroupRead(d *schema.ResourceData, meta interfa
 }
 
 func resourceTencentCloudPlacementGroupUpdate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cvm_placement_group.update")()
+	defer logElapsed("resource.tencentcloudenterprise_cvm_placement_group.update")()
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
 
@@ -198,7 +198,7 @@ func resourceTencentCloudPlacementGroupUpdate(d *schema.ResourceData, meta inter
 }
 
 func resourceTencentCloudPlacementGroupDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cvm_placement_group.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_cvm_placement_group.delete")()
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
 

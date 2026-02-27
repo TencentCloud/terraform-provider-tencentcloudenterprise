@@ -18,7 +18,7 @@ Example Usage
 Import
 SSM secret can be imported using the secretName, e.g.
 ```
-$ terraform import cloud_ssm_secret.foo test
+$ terraform import tencentcloudenterprise_ssm_secret.foo test
 ```
 */
 package tencentcloud
@@ -108,7 +108,7 @@ func resourceTencentCloudSsmSecret() *schema.Resource {
 }
 
 func resourceTencentCloudSsmSecretCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_ssm_secret.create")()
+	defer logElapsed("resource.tencentcloudenterprise_ssm_secret.create")()
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
 	ssmService := SsmService{
@@ -191,7 +191,7 @@ func resourceTencentCloudSsmSecretCreate(d *schema.ResourceData, meta interface{
 }
 
 func resourceTencentCloudSsmSecretRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_ssm_secret.read")()
+	defer logElapsed("resource.tencentcloudenterprise_ssm_secret.read")()
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
 	ssmService := SsmService{
@@ -239,7 +239,7 @@ func resourceTencentCloudSsmSecretRead(d *schema.ResourceData, meta interface{})
 }
 
 func resourceTencentCloudSsmSecretUpdate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_ssm_secret.update")()
+	defer logElapsed("resource.tencentcloudenterprise_ssm_secret.update")()
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
 	ssmService := SsmService{
@@ -298,7 +298,7 @@ func resourceTencentCloudSsmSecretUpdate(d *schema.ResourceData, meta interface{
 }
 
 func resourceTencentCloudSsmSecretDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_ssm_secret.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_ssm_secret.delete")()
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
 	ssmService := SsmService{

@@ -21,7 +21,7 @@
 // redis account can be imported using the id, e.g.
 //
 // ```
-// terraform import cloud_redis_account.account crs-xxxxxx#account_test
+// terraform import tencentcloudenterprise_redis_account.account crs-xxxxxx#account_test
 // ```
 // */
 package tencentcloud
@@ -95,7 +95,7 @@ package tencentcloud
 //}
 //
 //func resourceTencentCloudRedisAccountCreate(d *schema.ResourceData, meta interface{}) error {
-//	defer logElapsed("resource.cloud_redis_account.create")()
+//	defer logElapsed("resource.tencentcloudenterprise_redis_account.create")()
 //	defer inconsistentCheck(d, meta)()
 //
 //	logId := getLogId(contextNil)
@@ -198,7 +198,7 @@ package tencentcloud
 //}
 //
 //func resourceTencentCloudRedisAccountRead(d *schema.ResourceData, meta interface{}) error {
-//	defer logElapsed("resource.cloud_redis_account.read")()
+//	defer logElapsed("resource.tencentcloudenterprise_redis_account.read")()
 //	defer inconsistentCheck(d, meta)()
 //
 //	logId := getLogId(contextNil)
@@ -252,7 +252,7 @@ package tencentcloud
 //}
 //
 //func resourceTencentCloudRedisAccountUpdate(d *schema.ResourceData, meta interface{}) error {
-//	defer logElapsed("resource.cloud_redis_account.update")()
+//	defer logElapsed("resource.tencentcloudenterprise_redis_account.update")()
 //	defer inconsistentCheck(d, meta)()
 //
 //	logId := getLogId(contextNil)
@@ -362,7 +362,7 @@ package tencentcloud
 //}
 //
 //func resourceTencentCloudRedisAccountDelete(d *schema.ResourceData, meta interface{}) error {
-//	defer logElapsed("resource.cloud_redis_account.delete")()
+//	defer logElapsed("resource.tencentcloudenterprise_redis_account.delete")()
 //	defer inconsistentCheck(d, meta)()
 //
 //	logId := getLogId(contextNil)

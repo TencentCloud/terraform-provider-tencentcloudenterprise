@@ -167,7 +167,7 @@ resource "tencentcloudenterprise_vpc" "foo" {
 
 resource "tencentcloudenterprise_route_table" "foo" {
   name   = var.instance_name
-  vpc_id = cloud_vpc.foo.id
+  vpc_id = tencentcloudenterprise_vpc.foo.id
 }
 `
 
@@ -179,7 +179,7 @@ resource "tencentcloudenterprise_vpc" "foo" {
 
 resource "tencentcloudenterprise_route_table" "foo" {
   name   = var.instance_name_update
-  vpc_id = cloud_vpc.foo.id
+  vpc_id = tencentcloudenterprise_vpc.foo.id
 }
 `
 
@@ -191,7 +191,7 @@ resource "tencentcloudenterprise_vpc" "foo" {
 
 resource "tencentcloudenterprise_route_table" "foo" {
   name   = var.instance_name
-  vpc_id = cloud_vpc.foo.id
+  vpc_id = tencentcloudenterprise_vpc.foo.id
 
   tags = {
     "test" = "test"
@@ -207,7 +207,7 @@ resource "tencentcloudenterprise_vpc" "foo" {
 
 resource "tencentcloudenterprise_route_table" "foo" {
   name   = var.instance_name
-  vpc_id = cloud_vpc.foo.id
+  vpc_id = tencentcloudenterprise_vpc.foo.id
 
   tags = {
     "abc" = "abc"

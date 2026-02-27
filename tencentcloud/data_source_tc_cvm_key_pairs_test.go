@@ -17,15 +17,15 @@ func TestAccTencentCloudKeyPairsDataSource(t *testing.T) {
 				Config: testAccKeyPairDataSource,
 				Check: resource.ComposeTestCheckFunc(
 					testAccCheckKeyPairExists("tencentcloudenterprise_cvm_key_pair.key"),
-					resource.TestCheckResourceAttr("data.cloud_cvm_key_pairs.data_key", "key_pair_list.#", "1"),
-					resource.TestCheckResourceAttrSet("data.cloud_cvm_key_pairs.data_key", "key_pair_list.0.key_id"),
-					resource.TestCheckResourceAttr("data.cloud_cvm_key_pairs.data_key", "key_pair_list.0.key_name", "tf_test_key"),
-					resource.TestCheckResourceAttr("data.cloud_cvm_key_pairs.data_key", "key_pair_list.0.project_id", "0"),
-					resource.TestCheckResourceAttrSet("data.cloud_cvm_key_pairs.data_key", "key_pair_list.0.public_key"),
-					resource.TestCheckResourceAttrSet("data.cloud_cvm_key_pairs.data_key", "key_pair_list.0.create_time"),
-					resource.TestCheckResourceAttr("data.cloud_cvm_key_pairs.key_name", "key_pair_list.#", "1"),
-					resource.TestCheckResourceAttrSet("data.cloud_cvm_key_pairs.key_name", "key_pair_list.0.key_id"),
-					resource.TestCheckResourceAttr("data.cloud_cvm_key_pairs.key_name", "key_pair_list.0.key_name", "tf_test_key"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_cvm_key_pairs.data_key", "key_pair_list.#", "1"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_cvm_key_pairs.data_key", "key_pair_list.0.key_id"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_cvm_key_pairs.data_key", "key_pair_list.0.key_name", "tf_test_key"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_cvm_key_pairs.data_key", "key_pair_list.0.project_id", "0"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_cvm_key_pairs.data_key", "key_pair_list.0.public_key"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_cvm_key_pairs.data_key", "key_pair_list.0.create_time"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_cvm_key_pairs.key_name", "key_pair_list.#", "1"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_cvm_key_pairs.key_name", "key_pair_list.0.key_id"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_cvm_key_pairs.key_name", "key_pair_list.0.key_name", "tf_test_key"),
 				),
 			},
 		},
@@ -39,10 +39,10 @@ resource "tencentcloudenterprise_cvm_key_pair" "key" {
 }
 
 data "tencentcloudenterprise_cvm_key_pairs" "data_key" {
-  key_id = cloud_cvm_key_pair.key.id
+  key_id = tencentcloudenterprise_cvm_key_pair.key.id
 }
 
 data "tencentcloudenterprise_cvm_key_pairs" "key_name" {
-  key_name = "^${cloud_cvm_key_pair.key.key_name}$"
+  key_name = "^${tencentcloudenterprise_cvm_key_pair.key.key_name}$"
 }
 `

@@ -23,7 +23,7 @@
 // redis backup_download_restriction can be imported using the id, e.g.
 //
 // ```
-// terraform import cloud_redis_backup_download_restriction.backup_download_restriction backup_download_restriction_id
+// terraform import tencentcloudenterprise_redis_backup_download_restriction.backup_download_restriction backup_download_restriction_id
 // ```
 // */
 package tencentcloud
@@ -104,7 +104,7 @@ package tencentcloud
 //}
 //
 //func resourceTencentCloudRedisBackupDownloadRestrictionCreate(d *schema.ResourceData, meta interface{}) error {
-//	defer logElapsed("resource.cloud_redis_backup_download_restriction.create")()
+//	defer logElapsed("resource.tencentcloudenterprise_redis_backup_download_restriction.create")()
 //	defer inconsistentCheck(d, meta)()
 //
 //	region := meta.(*TencentCloudClient).apiV3Conn.Region
@@ -115,7 +115,7 @@ package tencentcloud
 //}
 //
 //func resourceTencentCloudRedisBackupDownloadRestrictionRead(d *schema.ResourceData, meta interface{}) error {
-//	defer logElapsed("resource.cloud_redis_backup_download_restriction.read")()
+//	defer logElapsed("resource.tencentcloudenterprise_redis_backup_download_restriction.read")()
 //	defer inconsistentCheck(d, meta)()
 //
 //	logId := getLogId(contextNil)
@@ -174,7 +174,7 @@ package tencentcloud
 //}
 //
 //func resourceTencentCloudRedisBackupDownloadRestrictionUpdate(d *schema.ResourceData, meta interface{}) error {
-//	defer logElapsed("resource.cloud_redis_backup_download_restriction.update")()
+//	defer logElapsed("resource.tencentcloudenterprise_redis_backup_download_restriction.update")()
 //	defer inconsistentCheck(d, meta)()
 //
 //	logId := getLogId(contextNil)
@@ -239,7 +239,7 @@ package tencentcloud
 //}
 //
 //func resourceTencentCloudRedisBackupDownloadRestrictionDelete(d *schema.ResourceData, meta interface{}) error {
-//	defer logElapsed("resource.cloud_redis_backup_download_restriction.delete")()
+//	defer logElapsed("resource.tencentcloudenterprise_redis_backup_download_restriction.delete")()
 //	defer inconsistentCheck(d, meta)()
 //
 //	return nil

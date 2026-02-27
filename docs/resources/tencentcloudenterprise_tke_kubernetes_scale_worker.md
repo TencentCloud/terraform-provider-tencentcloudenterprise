@@ -2,7 +2,7 @@
 subcategory: "Tencent Kubernetes Engine(TKE)"
 layout: "tencentcloudenterprise"
 page_title: "TencentCloudEnterprise: tencentcloudenterprise_tke_kubernetes_scale_worker"
-sidebar_current: "docs-tencentcloudenterprise-resources-tke_kubernetes_scale_worker"
+sidebar_current: "docs-tencentcloudenterprise-resource-tke_kubernetes_scale_worker"
 description: |-
   Provide a resource to increase instance to cluster
 ---
@@ -28,7 +28,7 @@ variable "scale_instance_type" {
   default = "S2.LARGE16"
 }
 
-resource tencentcloudenterprise_tke_kubernetes_scale_worker test_scale {
+resource cloud_tke_kubernetes_scale_worker test_scale {
   cluster_id      = "cls-godovr32"
   desired_pod_num = 16
   labels = {
@@ -74,7 +74,7 @@ variable "scale_instance_type" {
   default = "S2.LARGE16"
 }
 
-resource tencentcloudenterprise_tke_kubernetes_scale_worker test_scale {
+resource cloud_tke_kubernetes_scale_worker test_scale {
   cluster_id = "cls-godovr32"
 
   extra_args = [
@@ -176,5 +176,4 @@ In addition to all arguments above, the following attributes are exported:
   * `instance_role` - Role of the cvm.
   * `instance_state` - State of the cvm.
   * `lan_ip` - LAN IP of the cvm.
-
 

@@ -2,7 +2,7 @@
 subcategory: "Virtual Private Cloud(VPC)"
 layout: "tencentcloudenterprise"
 page_title: "TencentCloudEnterprise: tencentcloudenterprise_vpc_eni"
-sidebar_current: "docs-tencentcloudenterprise-resources-vpc_eni"
+sidebar_current: "docs-tencentcloudenterprise-resource-vpc_eni"
 description: |-
   Provides a resource to create an ENI.
 ---
@@ -69,14 +69,17 @@ In addition to all arguments above, the following attributes are exported:
 * `primary` - Indicates whether the IP is primary.
 * `state` - State of the ENI.
 
-
 ## Import
 
+tencentcloudenterprise_vpc_eni can be imported using the id, e.g.
+
+```
 ENI can be imported using the id, e.g.
 
 ```
 
 	$ terraform import tencentcloudenterprise_vpc_eni.foo eni-qka182br
 
+```
 ```
 

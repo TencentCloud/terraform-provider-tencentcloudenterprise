@@ -26,7 +26,7 @@ Provides a resource to create a cloud firewall (cfw) policy.
 Cloud firewall nat policy can be imported using the id, e.g.
 
 ```
-$ terraform import cloud_cfw_nat_policy.example 134123
+$ terraform import tencentcloudenterprise_cfw_nat_policy.example 134123
 */
 package tencentcloud
 
@@ -153,7 +153,7 @@ func resourceTencentCloudCfwNatPolicy() *schema.Resource {
 }
 
 func resourceTencentCloudCfwNatPolicyCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cfw_nat_policy.create")()
+	defer logElapsed("resource.tencentcloudenterprise_cfw_nat_policy.create")()
 	defer inconsistentCheck(d, meta)()
 
 	var (
@@ -239,7 +239,7 @@ func resourceTencentCloudCfwNatPolicyCreate(d *schema.ResourceData, meta interfa
 }
 
 func resourceTencentCloudCfwNatPolicyRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cfw_nat_policy.read")()
+	defer logElapsed("resource.tencentcloudenterprise_cfw_nat_policy.read")()
 	defer inconsistentCheck(d, meta)()
 
 	var (
@@ -320,7 +320,7 @@ func resourceTencentCloudCfwNatPolicyRead(d *schema.ResourceData, meta interface
 }
 
 func resourceTencentCloudCfwNatPolicyUpdate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cfw_nat_policy.update")()
+	defer logElapsed("resource.tencentcloudenterprise_cfw_nat_policy.update")()
 	defer inconsistentCheck(d, meta)()
 
 	var (
@@ -411,7 +411,7 @@ func resourceTencentCloudCfwNatPolicyUpdate(d *schema.ResourceData, meta interfa
 }
 
 func resourceTencentCloudCfwNatPolicyDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cfw_nat_policy.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_cfw_nat_policy.delete")()
 	defer inconsistentCheck(d, meta)()
 
 	var (

@@ -15,11 +15,11 @@ func TestAccTencentCloudVpnGatewaysDataSource(t *testing.T) {
 			{
 				Config: testAccTencentCloudVpnGatewaysDataSourceConfig_basic,
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckTencentCloudDataSourceID("data.cloud_vpn_gateways.cgws"),
-					resource.TestCheckResourceAttr("data.cloud_vpn_gateways.cgws", "gateway_list.#", "1"),
-					resource.TestCheckResourceAttr("data.cloud_vpn_gateways.cgws", "gateway_list.0.name", "terraform_test"),
-					resource.TestCheckResourceAttr("data.cloud_vpn_gateways.cgws", "gateway_list.0.bandwidth", "10"),
-					resource.TestCheckResourceAttr("data.cloud_vpn_gateways.cgws", "gateway_list.0.tags.test", "tf"),
+					testAccCheckTencentCloudDataSourceID("data.tencentcloudenterprise_vpn_gateways.cgws"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_vpn_gateways.cgws", "gateway_list.#", "1"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_vpn_gateways.cgws", "gateway_list.0.name", "terraform_test"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_vpn_gateways.cgws", "gateway_list.0.bandwidth", "10"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_vpn_gateways.cgws", "gateway_list.0.tags.test", "tf"),
 				),
 			},
 		},
@@ -34,7 +34,7 @@ data "tencentcloudenterprise_vpc_instances" "foo" {
 
 resource "tencentcloudenterprise_vpn_gateway" "my_cgw" {
   name      = "terraform_test"
-  vpc_id    = data.cloud_vpc_instances.foo.instance_list.0.vpc_id
+  vpc_id    = data.tencentcloudenterprise_vpc_instances.foo.instance_list.0.vpc_id
   bandwidth = 10
   zone      = "ap-guangzhou-3"
 
@@ -44,6 +44,6 @@ resource "tencentcloudenterprise_vpn_gateway" "my_cgw" {
 }
 
 data "tencentcloudenterprise_vpn_gateways" "cgws" {
-  id = cloud_vpn_gateway.my_cgw.id
+  id = tencentcloudenterprise_vpn_gateway.my_cgw.id
 }
 `

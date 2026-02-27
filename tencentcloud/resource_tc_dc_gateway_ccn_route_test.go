@@ -132,13 +132,13 @@ resource "tencentcloudenterprise_ccn" "main" {
 
 resource "tencentcloudenterprise_vpc_dc_gateway" "ccn_main" {
   name                = "ci-cdg-ccn-test"
-  network_instance_id = cloud_ccn.main.id
+  network_instance_id = tencentcloudenterprise_ccn.main.id
   network_type        = "CCN"
   gateway_type        = "NORMAL"
 }
 
 resource "tencentcloudenterprise_dc_gateway_ccn_route" "route" {
-  dcg_id     = cloud_vpc_dc_gateway.ccn_main.id
+  dcg_id     = tencentcloudenterprise_vpc_dc_gateway.ccn_main.id
   cidr_block = "10.1.1.0/32"
 }
 

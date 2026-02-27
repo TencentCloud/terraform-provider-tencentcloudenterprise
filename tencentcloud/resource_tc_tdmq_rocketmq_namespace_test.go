@@ -121,7 +121,7 @@ resource "tencentcloudenterprise_tdmq_rocketmq_cluster" "cluster" {
 }
   
 resource "tencentcloudenterprise_tdmq_rocketmq_namespace" "namespace" {
-	cluster_id = cloud_tdmq_rocketmq_cluster.cluster.cluster_id
+	cluster_id = tencentcloudenterprise_tdmq_rocketmq_cluster.cluster.cluster_id
 	namespace_name = "test_namespace"
 	ttl = 65000
 	retention_time = 65000
@@ -136,7 +136,7 @@ resource "tencentcloudenterprise_tdmq_rocketmq_cluster" "cluster" {
 }
   
 resource "tencentcloudenterprise_tdmq_rocketmq_namespace" "namespace" {
-	cluster_id = cloud_tdmq_rocketmq_cluster.cluster.cluster_id
+	cluster_id = tencentcloudenterprise_tdmq_rocketmq_cluster.cluster.cluster_id
 	namespace_name = "test_namespace"
 	ttl = 66000
 	retention_time = 66000

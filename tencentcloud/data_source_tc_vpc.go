@@ -3,7 +3,7 @@ Provides details about a specific VPC.
 
 This resource can prove useful when a module accepts a vpc id as an input variable and needs to, for example, determine the CIDR block of that VPC.
 
-~> **NOTE:** It has been deprecated and replaced by cloud_vpc_instances.
+~> **NOTE:** It has been deprecated and replaced by tencentcloudenterprise_vpc_instances.
 
 # Example Usage
 
@@ -16,9 +16,9 @@ variable "vpc_id" {}
 
 	resource "tencentcloudenterprise_vpc_subnet" "main" {
 	  name              = "my test subnet"
-	  cidr_block        = cidrsubnet(data.cloud_vpc.selected.cidr_block, 4, 1)
+	  cidr_block        = cidrsubnet(data.tencentcloudenterprise_vpc.selected.cidr_block, 4, 1)
 	  availability_zone = "eu-frankfurt-1"
-	  vpc_id            = data.cloud_vpc.selected.id
+	  vpc_id            = data.tencentcloudenterprise_vpc.selected.id
 	}
 
 ```
@@ -83,7 +83,7 @@ func dataSourceTencentCloudVpc() *schema.Resource {
 }
 
 func dataSourceTencentCloudVpcRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("data_source.cloud_vpc.read")()
+	defer logElapsed("data_source.tencentcloudenterprise_vpc.read")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)

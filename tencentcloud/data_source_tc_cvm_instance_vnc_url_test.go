@@ -16,7 +16,7 @@ func TestAccTencentCloudCvmInstanceVncUrlDataSource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			{
 				Config: testAccCvmInstanceVncUrlDataSource,
-				Check:  resource.ComposeTestCheckFunc(testAccCheckTencentCloudDataSourceID("data.cloud_cvm_instance_vnc_url.instance_vnc_url")),
+				Check:  resource.ComposeTestCheckFunc(testAccCheckTencentCloudDataSourceID("data.tencentcloudenterprise_cvm_instance_vnc_url.instance_vnc_url")),
 			},
 		},
 	})

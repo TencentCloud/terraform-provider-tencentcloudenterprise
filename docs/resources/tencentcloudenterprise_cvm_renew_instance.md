@@ -2,7 +2,7 @@
 subcategory: "Cloud Virtual Machine(CVM)"
 layout: "tencentcloudenterprise"
 page_title: "TencentCloudEnterprise: tencentcloudenterprise_cvm_renew_instance"
-sidebar_current: "docs-tencentcloudenterprise-resources-cvm_renew_instance"
+sidebar_current: "docs-tencentcloudenterprise-resource-cvm_renew_instance"
 description: |-
   Provides a resource to create a cvm renew_instance
 ---
@@ -49,6 +49,5 @@ Default value: NOTIFY_AND_MANUAL_RENEW. If this parameter is specified as NOTIFY
 In addition to all arguments above, the following attributes are exported:
 
 * `id` - ID of the resource.
-
 
 

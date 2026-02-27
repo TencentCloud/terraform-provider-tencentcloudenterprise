@@ -84,7 +84,7 @@ func dataSourceTencentCloudTsfApplicationAttribute() *schema.Resource {
 }
 
 func dataSourceTencentCloudTsfApplicationAttributeRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("data_source.cloud_tsf_application_attribute.read")()
+	defer logElapsed("data_source.tencentcloudenterprise_tsf_application_attribute.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)

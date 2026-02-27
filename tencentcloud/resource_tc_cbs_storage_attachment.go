@@ -17,7 +17,7 @@ Provides a CBS storage attachment resource.
 CBS storage attachment can be imported using the id, e.g.
 
 ```
-$ terraform import cloud_cbs_storage_attachment.attachment disk-41s6jwy4
+$ terraform import tencentcloudenterprise_cbs_storage_attachment.attachment disk-41s6jwy4
 ```
 */
 package tencentcloud
@@ -71,7 +71,7 @@ func resourceTencentCloudCbsStorageAttachment() *schema.Resource {
 }
 
 func resourceTencentCloudCbsStorageAttachmentCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cbs_storage_attachment.create")()
+	defer logElapsed("resource.tencentcloudenterprise_cbs_storage_attachment.create")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
@@ -123,7 +123,7 @@ func resourceTencentCloudCbsStorageAttachmentCreate(d *schema.ResourceData, meta
 }
 
 func resourceTencentCloudCbsStorageAttachmentRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cbs_storage_attachment.read")()
+	defer logElapsed("resource.tencentcloudenterprise_cbs_storage_attachment.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -159,7 +159,7 @@ func resourceTencentCloudCbsStorageAttachmentRead(d *schema.ResourceData, meta i
 }
 
 func resourceTencentCloudCbsStorageAttachmentDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cbs_storage_attachment.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_cbs_storage_attachment.delete")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)

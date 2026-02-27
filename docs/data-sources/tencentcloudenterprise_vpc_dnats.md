@@ -59,4 +59,3 @@ In addition to all arguments above, the following attributes are exported:
   * `protocol` - Type of the network protocol. Valid values: `TCP` and `UDP`.
   * `vpc_id` - ID of the VPC.
 
-

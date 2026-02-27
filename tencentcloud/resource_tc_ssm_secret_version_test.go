@@ -127,7 +127,7 @@ resource "tencentcloudenterprise_ssm_secret" "secret" {
 }
 
 resource "tencentcloudenterprise_ssm_secret_version" "v1" {
-  secret_name = cloud_ssm_secret.secret.secret_name
+  secret_name = tencentcloudenterprise_ssm_secret.secret.secret_name
   version_id = "v1"
   secret_binary = "MTIzMTIzMTIzMTIzMTIzQQ=="
 }
@@ -144,7 +144,7 @@ resource "tencentcloudenterprise_ssm_secret" "secret" {
 }
 
 resource "tencentcloudenterprise_ssm_secret_version" "v1" {
-  secret_name = cloud_ssm_secret.secret.secret_name
+  secret_name = tencentcloudenterprise_ssm_secret.secret.secret_name
   version_id = "v1"
   secret_string = "123456"
 }

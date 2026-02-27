@@ -71,7 +71,7 @@ func dataSourceTencentCloudEipAddressQuota() *schema.Resource {
 }
 
 func dataSourceTencentCloudEipAddressQuotaRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("data_source.cloud_vpc_address_quota.read")()
+	defer logElapsed("data_source.tencentcloudenterprise_vpc_address_quota.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)

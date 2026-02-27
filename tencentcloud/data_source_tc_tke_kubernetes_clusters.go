@@ -305,7 +305,7 @@ func dataSourceTencentCloudKubernetesClusters() *schema.Resource {
 
 }
 func dataSourceTencentCloudKubernetesClustersRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("data_source.cloud_tke_kubernetes_clusters.read")()
+	defer logElapsed("data_source.tencentcloudenterprise_tke_kubernetes_clusters.read")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)

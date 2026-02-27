@@ -18,18 +18,18 @@ func TestAccTencentCloudClbInstancesDataSource_internal(t *testing.T) {
 				Config: testAccClbInstancesDataSource_internal,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					testAccCheckClbInstanceExists("tencentcloudenterprise_clb_instance.clb"),
-					resource.TestCheckResourceAttr("data.cloud_clb_instances.clbs", "clb_list.#", "1"),
-					resource.TestCheckResourceAttrSet("data.cloud_clb_instances.clbs", "clb_list.0.clb_id"),
-					resource.TestCheckResourceAttr("data.cloud_clb_instances.clbs", "clb_list.0.clb_name", "tf-clb-data-internal"),
-					resource.TestCheckResourceAttr("data.cloud_clb_instances.clbs", "clb_list.0.network_type", "INTERNAL"),
-					resource.TestCheckResourceAttr("data.cloud_clb_instances.clbs", "clb_list.0.clb_vips.#", "1"),
-					resource.TestCheckResourceAttrSet("data.cloud_clb_instances.clbs", "clb_list.0.vpc_id"),
-					resource.TestCheckResourceAttr("data.cloud_clb_instances.clbs", "clb_list.0.project_id", "0"),
-					resource.TestCheckResourceAttrSet("data.cloud_clb_instances.clbs", "clb_list.0.subnet_id"),
-					resource.TestCheckResourceAttrSet("data.cloud_clb_instances.clbs", "clb_list.0.create_time"),
-					resource.TestCheckResourceAttrSet("data.cloud_clb_instances.clbs", "clb_list.0.status_time"),
-					resource.TestCheckResourceAttrSet("data.cloud_clb_instances.clbs", "clb_list.0.status"),
-					resource.TestCheckResourceAttr("data.cloud_clb_instances.clbs", "clb_list.0.tags.test", "tf"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_clb_instances.clbs", "clb_list.#", "1"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_clb_instances.clbs", "clb_list.0.clb_id"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_clb_instances.clbs", "clb_list.0.clb_name", "tf-clb-data-internal"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_clb_instances.clbs", "clb_list.0.network_type", "INTERNAL"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_clb_instances.clbs", "clb_list.0.clb_vips.#", "1"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_clb_instances.clbs", "clb_list.0.vpc_id"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_clb_instances.clbs", "clb_list.0.project_id", "0"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_clb_instances.clbs", "clb_list.0.subnet_id"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_clb_instances.clbs", "clb_list.0.create_time"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_clb_instances.clbs", "clb_list.0.status_time"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_clb_instances.clbs", "clb_list.0.status"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_clb_instances.clbs", "clb_list.0.tags.test", "tf"),
 				),
 			},
 		},
@@ -48,20 +48,20 @@ func TestAccTencentCloudClbInstancesDataSource_open(t *testing.T) {
 				Config: testAccClbInstancesDataSource_open,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					testAccCheckClbInstanceExists("tencentcloudenterprise_clb_instance.clb"),
-					resource.TestCheckResourceAttr("data.cloud_clb_instances.clbs", "clb_list.#", "1"),
-					resource.TestCheckResourceAttrSet("data.cloud_clb_instances.clbs", "clb_list.0.clb_id"),
-					resource.TestCheckResourceAttrSet("data.cloud_clb_instances.clbs", "clb_list.0.clb_name"),
-					resource.TestCheckResourceAttr("data.cloud_clb_instances.clbs", "clb_list.0.network_type", "OPEN"),
-					resource.TestCheckResourceAttr("data.cloud_clb_instances.clbs", "clb_list.0.clb_vips.#", "1"),
-					resource.TestCheckResourceAttrSet("data.cloud_clb_instances.clbs", "clb_list.0.vpc_id"),
-					resource.TestCheckResourceAttr("data.cloud_clb_instances.clbs", "clb_list.0.project_id", "0"),
-					resource.TestCheckResourceAttrSet("data.cloud_clb_instances.clbs", "clb_list.0.create_time"),
-					resource.TestCheckResourceAttrSet("data.cloud_clb_instances.clbs", "clb_list.0.status_time"),
-					resource.TestCheckResourceAttrSet("data.cloud_clb_instances.clbs", "clb_list.0.status"),
-					resource.TestCheckResourceAttr("data.cloud_clb_instances.clbs", "clb_list.0.target_region_info_region", "ap-guangzhou"),
-					resource.TestCheckResourceAttrSet("data.cloud_clb_instances.clbs", "clb_list.0.target_region_info_vpc_id"),
-					resource.TestCheckResourceAttr("data.cloud_clb_instances.clbs", "clb_list.0.security_groups.#", "1"),
-					resource.TestCheckResourceAttr("data.cloud_clb_instances.clbs", "clb_list.0.tags.test", "tf"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_clb_instances.clbs", "clb_list.#", "1"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_clb_instances.clbs", "clb_list.0.clb_id"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_clb_instances.clbs", "clb_list.0.clb_name"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_clb_instances.clbs", "clb_list.0.network_type", "OPEN"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_clb_instances.clbs", "clb_list.0.clb_vips.#", "1"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_clb_instances.clbs", "clb_list.0.vpc_id"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_clb_instances.clbs", "clb_list.0.project_id", "0"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_clb_instances.clbs", "clb_list.0.create_time"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_clb_instances.clbs", "clb_list.0.status_time"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_clb_instances.clbs", "clb_list.0.status"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_clb_instances.clbs", "clb_list.0.target_region_info_region", "ap-guangzhou"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_clb_instances.clbs", "clb_list.0.target_region_info_vpc_id"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_clb_instances.clbs", "clb_list.0.security_groups.#", "1"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_clb_instances.clbs", "clb_list.0.tags.test", "tf"),
 				),
 			},
 		},
@@ -81,7 +81,7 @@ resource "tencentcloudenterprise_vpc" "foo" {
 resource "tencentcloudenterprise_vpc_subnet" "subnet" {
   availability_zone = var.availability_zone
   name              = "guagua-ci-temp-test"
-  vpc_id            = cloud_vpc.foo.id
+  vpc_id            = tencentcloudenterprise_vpc.foo.id
   cidr_block        = "10.0.20.0/28"
   is_multicast      = false
 }
@@ -89,8 +89,8 @@ resource "tencentcloudenterprise_vpc_subnet" "subnet" {
 resource "tencentcloudenterprise_clb_instance" "clb" {
   network_type = "INTERNAL"
   clb_name     = "tf-clb-data-internal"
-  vpc_id       = cloud_vpc.foo.id
-  subnet_id    = cloud_vpc_subnet.subnet.id
+  vpc_id       = tencentcloudenterprise_vpc.foo.id
+  subnet_id    = tencentcloudenterprise_vpc_subnet.subnet.id
   project_id   = 0
 
   tags = {
@@ -99,7 +99,7 @@ resource "tencentcloudenterprise_clb_instance" "clb" {
 }
 
 data "tencentcloudenterprise_clb_instances" "clbs" {
-  clb_id = cloud_clb_instance.clb.id
+  clb_id = tencentcloudenterprise_clb_instance.clb.id
 }
 `
 
@@ -121,10 +121,10 @@ resource "tencentcloudenterprise_clb_instance" "clb" {
   network_type              = "OPEN"
   clb_name                  = "tf-clb-data-open"
   project_id                = 0
-  vpc_id                    = cloud_vpc.foo.id
+  vpc_id                    = tencentcloudenterprise_vpc.foo.id
   target_region_info_region = "ap-guangzhou"
-  target_region_info_vpc_id = cloud_vpc.foo.id
-  security_groups           = [cloud_vpc_security_group.foo.id]
+  target_region_info_vpc_id = tencentcloudenterprise_vpc.foo.id
+  security_groups           = [tencentcloudenterprise_vpc_security_group.foo.id]
 
   tags = {
     test = "tf"
@@ -132,6 +132,6 @@ resource "tencentcloudenterprise_clb_instance" "clb" {
 }
 
 data "tencentcloudenterprise_clb_instances" "clbs" {
-  clb_id = cloud_clb_instance.clb.id
+  clb_id = tencentcloudenterprise_clb_instance.clb.id
 }
 `

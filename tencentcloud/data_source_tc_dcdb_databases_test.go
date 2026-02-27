@@ -18,12 +18,12 @@ func TestAccTencentCloudDCDBDatabasesDataSource(t *testing.T) {
 			{
 				Config: fmt.Sprintf(testAccDataSourceDcdbDatabases, defaultDcdbInstanceId),
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckTencentCloudDataSourceID("data.cloud_dcdb_databases.databases"),
-					resource.TestCheckResourceAttrSet("data.cloud_dcdb_databases.databases", "list.#"),
-					resource.TestCheckResourceAttr("data.cloud_dcdb_databases.databases", "list.0.db_name", "mysql"),
-					resource.TestCheckResourceAttr("data.cloud_dcdb_databases.databases", "list.1.db_name", "performance_schema"),
-					resource.TestCheckResourceAttr("data.cloud_dcdb_databases.databases", "list.2.db_name", "query_rewrite"),
-					resource.TestCheckResourceAttr("data.cloud_dcdb_databases.databases", "list.3.db_name", "sys"),
+					testAccCheckTencentCloudDataSourceID("data.tencentcloudenterprise_dcdb_databases.databases"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_dcdb_databases.databases", "list.#"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_dcdb_databases.databases", "list.0.db_name", "mysql"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_dcdb_databases.databases", "list.1.db_name", "performance_schema"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_dcdb_databases.databases", "list.2.db_name", "query_rewrite"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_dcdb_databases.databases", "list.3.db_name", "sys"),
 				),
 			},
 		},

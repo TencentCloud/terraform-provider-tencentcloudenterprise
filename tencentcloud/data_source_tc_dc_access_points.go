@@ -148,7 +148,7 @@ func dataSourceTencentCloudDcAccessPoints() *schema.Resource {
 }
 
 func dataSourceTencentCloudDcAccessPointsRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("data_source.cloud_dc_access_points.read")()
+	defer logElapsed("data_source.tencentcloudenterprise_dc_access_points.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)

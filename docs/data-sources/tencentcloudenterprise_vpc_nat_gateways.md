@@ -45,4 +45,3 @@ In addition to all arguments above, the following attributes are exported:
   * `tags` - The available tags within this NAT gateway.
   * `vpc_id` - ID of the VPC.
 
-

@@ -78,7 +78,7 @@ func resourceTencentCloudTdmqPulsarCluster() *schema.Resource {
 }
 
 func resourceTencentCloudTdmqPulsarClusterCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_tdmq_pulsar_cluster.create")()
+	defer logElapsed("resource.tencentcloudenterprise_tdmq_pulsar_cluster.create")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
@@ -141,7 +141,7 @@ func resourceTencentCloudTdmqPulsarClusterCreate(d *schema.ResourceData, meta in
 }
 
 func resourceTencentCloudTdmqPulsarClusterRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_tdmq_pulsar_cluster.read")()
+	defer logElapsed("resource.tencentcloudenterprise_tdmq_pulsar_cluster.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -182,7 +182,7 @@ func resourceTencentCloudTdmqPulsarClusterRead(d *schema.ResourceData, meta inte
 }
 
 func resourceTencentCloudTdmqPulsarClusterUpdate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_tdmq_pulsar_cluster.update")()
+	defer logElapsed("resource.tencentcloudenterprise_tdmq_pulsar_cluster.update")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
@@ -227,7 +227,7 @@ func resourceTencentCloudTdmqPulsarClusterUpdate(d *schema.ResourceData, meta in
 }
 
 func resourceTencentCloudTdmqPulsarClusterDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_tdmq_pulsar_cluster.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_tdmq_pulsar_cluster.delete")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)

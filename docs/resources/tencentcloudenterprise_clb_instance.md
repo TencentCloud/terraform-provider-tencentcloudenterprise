@@ -2,7 +2,7 @@
 subcategory: "Cloud Load Balancer(CLB)"
 layout: "tencentcloudenterprise"
 page_title: "TencentCloudEnterprise: tencentcloudenterprise_clb_instance"
-sidebar_current: "docs-tencentcloudenterprise-resources-clb_instance"
+sidebar_current: "docs-tencentcloudenterprise-resource-clb_instance"
 description: |-
   Provides a resource to create a CLB instance.
 ---
@@ -125,12 +125,15 @@ In addition to all arguments above, the following attributes are exported:
 * `instance_id` - CLB instance ID.
 * `vip_isp` - Network operator, only applicable to open CLB. Valid values are `CMCC`(China Mobile), `CTCC`(Telecom), `CUCC`(China Unicom) and `BGP`. If this ISP is specified, network billing method can only use the bandwidth package billing (BANDWIDTH_PACKAGE).
 
-
 ## Import
 
+tencentcloudenterprise_clb_instance can be imported using the id, e.g.
+
+```
 CLB instance can be imported using the id, e.g.
 
 ```
 $ terraform import tencentcloudenterprise_clb_instance.foo lb-7a0t6zqb
+```
 ```
 

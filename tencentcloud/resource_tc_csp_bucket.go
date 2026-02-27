@@ -40,7 +40,7 @@ Example Usage
 	}
 
 	output "endpoint_test" {
-	    value = cloud_csp_bucket.mycsp.website.0.endpoint
+	    value = tencentcloudenterprise_csp_bucket.mycsp.website.0.endpoint
 	}
 
 ```
@@ -144,8 +144,8 @@ EOF
 	}
 
 	resource "tencentcloudenterprise_cam_role_policy_attachment" "cspLogGrant" {
-	  role_id   = cloud_cam_role.cspLogGrant.id
-	  policy_id = data.cloud_cam_policies.cspAccess.policy_list.0.policy_id
+	  role_id   = tencentcloudenterprise_cam_role.cspLogGrant.id
+	  policy_id = data.tencentcloudenterprise_cam_policies.cspAccess.policy_list.0.policy_id
 	}
 
 	resource "tencentcloudenterprise_csp_bucket" "mylog" {
@@ -168,7 +168,7 @@ EOF
 csp bucket can be imported, e.g.
 
 ```
-$ terraform import cloud_csp_bucket.bucket bucket-name
+$ terraform import tencentcloudenterprise_csp_bucket.bucket bucket-name
 ```
 */
 package tencentcloud
@@ -726,7 +726,7 @@ func resourceTencentCloudCspBucket() *schema.Resource {
 }
 
 func resourceTencentCloudCspBucketCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_csp_bucket.create")()
+	defer logElapsed("resource.tencentcloudenterprise_csp_bucket.create")()
 
 	var err error
 
@@ -778,7 +778,7 @@ func resourceTencentCloudCspBucketCreate(d *schema.ResourceData, meta interface{
 }
 
 func resourceTencentCloudCspBucketRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_csp_bucket.read")()
+	defer logElapsed("resource.tencentcloudenterprise_csp_bucket.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -948,7 +948,7 @@ func resourceTencentCloudCspBucketRead(d *schema.ResourceData, meta interface{})
 }
 
 func resourceTencentCloudCspBucketUpdate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_csp_bucket.update")()
+	defer logElapsed("resource.tencentcloudenterprise_csp_bucket.update")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
@@ -1086,7 +1086,7 @@ func resourceTencentCloudCspBucketUpdate(d *schema.ResourceData, meta interface{
 }
 
 func resourceTencentCloudCspBucketDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_csp_bucket.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_csp_bucket.delete")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)

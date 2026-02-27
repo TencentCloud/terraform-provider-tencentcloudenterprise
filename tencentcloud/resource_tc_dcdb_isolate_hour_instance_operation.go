@@ -50,7 +50,7 @@ func resourceTencentCloudDcdbIsolateHourInstanceOperation() *schema.Resource {
 }
 
 func resourceTencentCloudDcdbIsolateHourInstanceOperationCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_dcdb_isolate_hour_instance_operation.create")()
+	defer logElapsed("resource.tencentcloudenterprise_dcdb_isolate_hour_instance_operation.create")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -84,14 +84,14 @@ func resourceTencentCloudDcdbIsolateHourInstanceOperationCreate(d *schema.Resour
 }
 
 func resourceTencentCloudDcdbIsolateHourInstanceOperationRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_dcdb_isolate_hour_instance_operation.read")()
+	defer logElapsed("resource.tencentcloudenterprise_dcdb_isolate_hour_instance_operation.read")()
 	defer inconsistentCheck(d, meta)()
 
 	return nil
 }
 
 func resourceTencentCloudDcdbIsolateHourInstanceOperationDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_dcdb_isolate_hour_instance_operation.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_dcdb_isolate_hour_instance_operation.delete")()
 	defer inconsistentCheck(d, meta)()
 
 	return nil

@@ -1,8 +1,8 @@
 ---
-subcategory: "Tencent Distributed Message Queue(TDMQ)"
+subcategory: "TDMQ for Pulsar(tpulsar)"
 layout: "tencentcloudenterprise"
 page_title: "TencentCloudEnterprise: tencentcloudenterprise_tdmq_pulsar_role"
-sidebar_current: "docs-tencentcloudenterprise-resources-tdmq_pulsar_role"
+sidebar_current: "docs-tencentcloudenterprise-resource-tdmq_pulsar_role"
 description: |-
   Provide a resource to create a TDMQ Pulsar role.
 ---
@@ -14,7 +14,7 @@ Provide a resource to create a TDMQ Pulsar role.
 ## Example Usage
 
 ```hcl
-resource "tencentcloudenterprise_tdmq_pulsar_cluster" "example" {
+resource "cloud_tdmq_pulsar_cluster" "example" {
   cluster_name = "tf_example"
   remark       = "remark."
   tags = {
@@ -22,9 +22,9 @@ resource "tencentcloudenterprise_tdmq_pulsar_cluster" "example" {
   }
 }
 
-resource "tencentcloudenterprise_tdmq_pulsar_role" "example" {
+resource "cloud_tdmq_pulsar_role" "example" {
   role_name  = "role_example"
-  cluster_id = tencentcloudenterprise_tdmq_pulsar_cluster.example.id
+  cluster_id = cloud_tdmq_pulsar_cluster.example.id
   remark     = "remark."
 }
 ```
@@ -42,6 +42,5 @@ The following arguments are supported:
 In addition to all arguments above, the following attributes are exported:
 
 * `id` - ID of the resource.
-
 
 

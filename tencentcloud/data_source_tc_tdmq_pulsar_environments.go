@@ -140,7 +140,7 @@ func dataSourceTencentCloudTdmqPulsarEnvironments() *schema.Resource {
 }
 
 func dataSourceTencentCloudTdmqPulsarEnvironmentsRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("data_source.cloud_tdmq_pulsar_environments.read")()
+	defer logElapsed("data_source.tencentcloudenterprise_tdmq_pulsar_environments.read")()
 	defer inconsistentCheck(d, meta)()
 
 	var (

@@ -16,7 +16,7 @@ func TestAccTencentCloudVpcGatewayFlowMonitorDetailDataSource_basic(t *testing.T
 		Steps: []resource.TestStep{
 			{
 				Config: testAccVpcGatewayFlowMonitorDetailDataSource,
-				Check:  resource.ComposeTestCheckFunc(testAccCheckTencentCloudDataSourceID("data.cloud_vpc_gateway_flow_monitor_detail.gateway_flow_monitor_detail")),
+				Check:  resource.ComposeTestCheckFunc(testAccCheckTencentCloudDataSourceID("data.tencentcloudenterprise_vpc_gateway_flow_monitor_detail.gateway_flow_monitor_detail")),
 			},
 		},
 	})

@@ -12,7 +12,7 @@ Provides a resource to creating direct connect gateway instance.
 
 	resource "tencentcloudenterprise_vpc_dc_gateway" "vpc_main" {
 	  name                = "ci-cdg-vpc-test"
-	  network_instance_id = cloud_vpc.main.id
+	  network_instance_id = tencentcloudenterprise_vpc.main.id
 	  network_type        = "VPC"
 	  gateway_type        = "NAT"
 	}
@@ -24,7 +24,7 @@ Provides a resource to creating direct connect gateway instance.
 Direct connect gateway instance can be imported, e.g.
 
 ```
-$ terraform import cloud_vpc_dc_gateway.instance dcg-id
+$ terraform import tencentcloudenterprise_vpc_dc_gateway.instance dcg-id
 ```
 */
 package tencentcloud
@@ -121,7 +121,7 @@ func resourceTencentCloudDcGatewayInstance() *schema.Resource {
 }
 
 func resourceTencentCloudDcGatewayCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_vpc_dc_gateway.create")()
+	defer logElapsed("resource.tencentcloudenterprise_vpc_dc_gateway.create")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
@@ -171,7 +171,7 @@ func resourceTencentCloudDcGatewayCreate(d *schema.ResourceData, meta interface{
 }
 
 func resourceTencentCloudDcGatewayRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_vpc_dc_gateway.read")()
+	defer logElapsed("resource.tencentcloudenterprise_vpc_dc_gateway.read")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
@@ -199,7 +199,7 @@ func resourceTencentCloudDcGatewayRead(d *schema.ResourceData, meta interface{})
 }
 
 func resourceTencentCloudDcGatewayUpdate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_vpc_dc_gateway.update")()
+	defer logElapsed("resource.tencentcloudenterprise_vpc_dc_gateway.update")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
@@ -215,7 +215,7 @@ func resourceTencentCloudDcGatewayUpdate(d *schema.ResourceData, meta interface{
 }
 
 func resourceTencentCloudDcGatewayDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_vpc_dc_gateway.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_vpc_dc_gateway.delete")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)

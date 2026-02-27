@@ -36,4 +36,3 @@ In addition to all arguments above, the following attributes are exported:
   * `cn` - The cn of the client certificate corresponding to the sub-account UIN.
   * `subaccount_uin` - User UIN.
 
-

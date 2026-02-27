@@ -24,7 +24,7 @@ Provides a resource to create a vpc net_detect
 vpc net_detect can be imported using the id, e.g.
 
 ```
-terraform import cloud_vpc_net_detect.net_detect net_detect_id
+terraform import tencentcloudenterprise_vpc_net_detect.net_detect net_detect_id
 ```
 */
 package tencentcloud
@@ -129,7 +129,7 @@ func resourceTencentCloudVpcNetDetect() *schema.Resource {
 }
 
 func resourceTencentCloudVpcNetDetectCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_vpc_net_detect.create")()
+	defer logElapsed("resource.tencentcloudenterprise_vpc_net_detect.create")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -193,7 +193,7 @@ func resourceTencentCloudVpcNetDetectCreate(d *schema.ResourceData, meta interfa
 }
 
 func resourceTencentCloudVpcNetDetectRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_vpc_net_detect.read")()
+	defer logElapsed("resource.tencentcloudenterprise_vpc_net_detect.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -247,7 +247,7 @@ func resourceTencentCloudVpcNetDetectRead(d *schema.ResourceData, meta interface
 }
 
 func resourceTencentCloudVpcNetDetectUpdate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_vpc_net_detect.update")()
+	defer logElapsed("resource.tencentcloudenterprise_vpc_net_detect.update")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -315,7 +315,7 @@ func resourceTencentCloudVpcNetDetectUpdate(d *schema.ResourceData, meta interfa
 }
 
 func resourceTencentCloudVpcNetDetectDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_vpc_net_detect.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_vpc_net_detect.delete")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)

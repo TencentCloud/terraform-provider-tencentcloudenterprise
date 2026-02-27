@@ -34,4 +34,3 @@ In addition to all arguments above, the following attributes are exported:
   * `referred_security_group_ids` - IDs of all referred security group instances.
   * `security_group_id` - Security group instance ID.
 
-

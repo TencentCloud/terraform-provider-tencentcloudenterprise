@@ -65,7 +65,7 @@ func resourceTencentCloudRedisClearInstanceOperation() *schema.Resource {
 }
 
 func resourceTencentCloudRedisClearInstanceOperationCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_redis_clear_instance_operation.create")()
+	defer logElapsed("resource.tencentcloudenterprise_redis_clear_instance_operation.create")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -129,14 +129,14 @@ func resourceTencentCloudRedisClearInstanceOperationCreate(d *schema.ResourceDat
 }
 
 func resourceTencentCloudRedisClearInstanceOperationRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_redis_clear_instance_operation.read")()
+	defer logElapsed("resource.tencentcloudenterprise_redis_clear_instance_operation.read")()
 	defer inconsistentCheck(d, meta)()
 
 	return nil
 }
 
 func resourceTencentCloudRedisClearInstanceOperationDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_redis_clear_instance_operation.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_redis_clear_instance_operation.delete")()
 	defer inconsistentCheck(d, meta)()
 
 	return nil

@@ -2,7 +2,7 @@
 subcategory: "Cloud Virtual Machine(CVM)"
 layout: "tencentcloudenterprise"
 page_title: "TencentCloudEnterprise: tencentcloudenterprise_cvm_key_pair"
-sidebar_current: "docs-tencentcloudenterprise-resources-cvm_key_pair"
+sidebar_current: "docs-tencentcloudenterprise-resource-cvm_key_pair"
 description: |-
   Provides a key pair resource.
 ---
@@ -40,12 +40,15 @@ In addition to all arguments above, the following attributes are exported:
 * `id` - ID of the resource.
 * `private_key` - The private key of the key pair.
 
-
 ## Import
 
+tencentcloudenterprise_cvm_key_pair can be imported using the id, e.g.
+
+```
 Key pair can be imported using the id, e.g.
 
 ```
 $ terraform import tencentcloudenterprise_cvm_key_pair.foo skey-17634f05
+```
 ```
 

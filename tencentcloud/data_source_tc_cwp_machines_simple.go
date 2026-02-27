@@ -271,7 +271,7 @@ func dataSourceTencentCloudCwpMachinesSimple() *schema.Resource {
 }
 
 func dataSourceTencentCloudCwpMachinesSimpleRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("data_source.cloud_cwp_machines_simple.read")()
+	defer logElapsed("data_source.tencentcloudenterprise_cwp_machines_simple.read")()
 	defer inconsistentCheck(d, meta)()
 
 	var (

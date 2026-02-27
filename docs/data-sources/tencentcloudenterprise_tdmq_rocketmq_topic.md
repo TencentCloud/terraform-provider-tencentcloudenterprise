@@ -1,5 +1,5 @@
 ---
-subcategory: "Tencent Distributed Message Queue(TDMQ)"
+subcategory: "TDMQ for RocketMQ(trocket)"
 layout: "tencentcloudenterprise"
 page_title: "TencentCloudEnterprise: tencentcloudenterprise_tdmq_rocketmq_topic"
 sidebar_current: "docs-tencentcloudenterprise-datasource-tdmq_rocketmq_topic"
@@ -62,5 +62,4 @@ In addition to all arguments above, the following attributes are exported:
   * `partition_num` - The number of read/write partitions.
   * `remark` - Topic name.
   * `update_time` - Update time in milliseconds.
-
 

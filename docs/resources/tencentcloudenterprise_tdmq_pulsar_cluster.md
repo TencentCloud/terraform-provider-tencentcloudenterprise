@@ -1,8 +1,8 @@
 ---
-subcategory: "Tencent Distributed Message Queue(TDMQ)"
+subcategory: "TDMQ for Pulsar(tpulsar)"
 layout: "tencentcloudenterprise"
 page_title: "TencentCloudEnterprise: tencentcloudenterprise_tdmq_pulsar_cluster"
-sidebar_current: "docs-tencentcloudenterprise-resources-tdmq_pulsar_cluster"
+sidebar_current: "docs-tencentcloudenterprise-resource-tdmq_pulsar_cluster"
 description: |-
   Provide a resource to create a TDMQ Pulsar cluster.
 ---
@@ -14,7 +14,7 @@ Provide a resource to create a TDMQ Pulsar cluster.
 ## Example Usage
 
 ```hcl
-resource "tencentcloudenterprise_tdmq_pulsar_cluster" "example" {
+resource "cloud_tdmq_pulsar_cluster" "example" {
   cluster_name = "tf_example"
   remark       = "remark."
   tags = {
@@ -41,12 +41,15 @@ In addition to all arguments above, the following attributes are exported:
 * `id` - ID of the resource.
 * `cluster_id` - The automatically generated ID of the TDMQ Pulsar cluster after creation.
 
-
 ## Import
 
+tencentcloudenterprise_tdmq_pulsar_cluster can be imported using the id, e.g.
+
+```
 Tdmq cluster can be imported, e.g.
 
 ```
-$ terraform import tencentcloudenterprise_tdmq_pulsar_cluster.example pulsar-78bwjaj8epxv
+$ terraform import cloud_tdmq_pulsar_cluster.example pulsar-78bwjaj8epxv
+```
 ```
 

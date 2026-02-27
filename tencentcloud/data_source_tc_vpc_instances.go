@@ -11,11 +11,11 @@ Use this data source to query vpc instances' information.
 	}
 
 	data "tencentcloudenterprise_vpc_instances" "id_instances" {
-	  vpc_id = cloud_vpc.foo.id
+	  vpc_id = tencentcloudenterprise_vpc.foo.id
 	}
 
 	data "tencentcloudenterprise_vpc_instances" "name_instances" {
-	  name = cloud_vpc.foo.name
+	  name = tencentcloudenterprise_vpc.foo.name
 	}
 
 ```
@@ -163,7 +163,7 @@ func dataSourceTencentCloudVpcInstances() *schema.Resource {
 }
 
 func dataSourceTencentCloudVpcInstancesRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("data_source.cloud_vpc_instances.read")()
+	defer logElapsed("data_source.tencentcloudenterprise_vpc_instances.read")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)

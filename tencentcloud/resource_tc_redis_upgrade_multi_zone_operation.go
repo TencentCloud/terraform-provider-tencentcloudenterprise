@@ -55,7 +55,7 @@ package tencentcloud
 //}
 //
 //func resourceTencentCloudRedisUpgradeMultiZoneOperationCreate(d *schema.ResourceData, meta interface{}) error {
-//	defer logElapsed("resource.cloud_redis_upgrade_multi_zone_operation.create")()
+//	defer logElapsed("resource.tencentcloudenterprise_redis_upgrade_multi_zone_operation.create")()
 //	defer inconsistentCheck(d, meta)()
 //
 //	logId := getLogId(contextNil)
@@ -119,14 +119,14 @@ package tencentcloud
 //}
 //
 //func resourceTencentCloudRedisUpgradeMultiZoneOperationRead(d *schema.ResourceData, meta interface{}) error {
-//	defer logElapsed("resource.cloud_redis_upgrade_multi_zone_operation.read")()
+//	defer logElapsed("resource.tencentcloudenterprise_redis_upgrade_multi_zone_operation.read")()
 //	defer inconsistentCheck(d, meta)()
 //
 //	return nil
 //}
 //
 //func resourceTencentCloudRedisUpgradeMultiZoneOperationDelete(d *schema.ResourceData, meta interface{}) error {
-//	defer logElapsed("resource.cloud_redis_upgrade_multi_zone_operation.delete")()
+//	defer logElapsed("resource.tencentcloudenterprise_redis_upgrade_multi_zone_operation.delete")()
 //	defer inconsistentCheck(d, meta)()
 //
 //	return nil

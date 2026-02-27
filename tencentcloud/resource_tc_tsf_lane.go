@@ -191,7 +191,7 @@ func resourceTencentCloudTsfLane() *schema.Resource {
 }
 
 func resourceTencentCloudTsfLaneCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_tsf_lane.create")()
+	defer logElapsed("resource.tencentcloudenterprise_tsf_lane.create")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -283,7 +283,7 @@ func resourceTencentCloudTsfLaneCreate(d *schema.ResourceData, meta interface{})
 }
 
 func resourceTencentCloudTsfLaneRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_tsf_lane.read")()
+	defer logElapsed("resource.tencentcloudenterprise_tsf_lane.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -398,7 +398,7 @@ func resourceTencentCloudTsfLaneRead(d *schema.ResourceData, meta interface{}) e
 }
 
 func resourceTencentCloudTsfLaneUpdate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_tsf_lane.update")()
+	defer logElapsed("resource.tencentcloudenterprise_tsf_lane.update")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -445,7 +445,7 @@ func resourceTencentCloudTsfLaneUpdate(d *schema.ResourceData, meta interface{})
 }
 
 func resourceTencentCloudTsfLaneDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_tsf_lane.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_tsf_lane.delete")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)

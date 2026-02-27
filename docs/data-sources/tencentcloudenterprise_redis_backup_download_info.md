@@ -1,5 +1,5 @@
 ---
-subcategory: "Cloud Redis®(Redis)"
+subcategory: "TencentDB for Redis(crs)"
 layout: "tencentcloudenterprise"
 page_title: "TencentCloudEnterprise: tencentcloudenterprise_redis_backup_download_info"
 sidebar_current: "docs-tencentcloudenterprise-datasource-redis_backup_download_info"
@@ -45,5 +45,4 @@ In addition to all arguments above, the following attributes are exported:
   * `file_name` - Backup file name.
   * `file_size` - The backup file size is in unit B, if it is 0, it is invalid.
   * `inner_download_url` - Backup file intranet download address (6 hours).
-
 

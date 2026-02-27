@@ -678,7 +678,7 @@ func dataSourceTencentCloudClbInstanceByCertId() *schema.Resource {
 }
 
 func dataSourceTencentCloudClbInstanceByCertIdRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("data_source.cloud_clb_instance_by_cert_id.read")()
+	defer logElapsed("data_source.tencentcloudenterprise_clb_instance_by_cert_id.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)

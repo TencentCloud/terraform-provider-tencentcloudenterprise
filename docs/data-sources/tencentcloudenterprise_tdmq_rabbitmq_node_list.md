@@ -1,5 +1,5 @@
 ---
-subcategory: "Tencent Distributed Message Queue(TDMQ)"
+subcategory: "TDMQ for RabbitMQ(trabbit)"
 layout: "tencentcloudenterprise"
 page_title: "TencentCloudEnterprise: tencentcloudenterprise_tdmq_rabbitmq_node_list"
 sidebar_current: "docs-tencentcloudenterprise-datasource-tdmq_rabbitmq_node_list"
@@ -14,7 +14,7 @@ Use this data source to query detailed information of tdmq rabbitmq_node_list
 ## Example Usage
 
 ```hcl
-data "tencentcloudenterprise_tdmq_rabbitmq_node_list" "rabbitmq_node_list" {
+data "cloud_tdmq_rabbitmq_node_list" "rabbitmq_node_list" {
   instance_id = "amqp-testtesttest"
   node_name   = "keep-node"
   filters {
@@ -53,5 +53,4 @@ In addition to all arguments above, the following attributes are exported:
   * `node_name` - Node nameNote: This field may return null, indicating that no valid value can be obtained.
   * `node_status` - Node statusNote: This field may return null, indicating that no valid value can be obtained.
   * `process_number` - Number of Erlang processes for RabbitmqNote: This field may return null, indicating that no valid value can be obtained.
-
 

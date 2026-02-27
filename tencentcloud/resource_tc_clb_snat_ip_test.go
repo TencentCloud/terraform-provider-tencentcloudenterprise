@@ -51,12 +51,12 @@ data "tencentcloudenterprise_vpc_instances" "gz3vpc" {
 }
 
 data "tencentcloudenterprise_vpc_subnets" "gz3" {
-  vpc_id = data.cloud_vpc_instances.gz3vpc.instance_list.0.vpc_id
+  vpc_id = data.tencentcloudenterprise_vpc_instances.gz3vpc.instance_list.0.vpc_id
 }
 
 locals {
-  keep_clb_subnets = [for subnet in data.cloud_vpc_subnets.gz3.instance_list: lookup(subnet, "subnet_id") if lookup(subnet, "name") == "keep-clb-sub"]
-  subnets = [for subnet in data.cloud_vpc_subnets.gz3.instance_list: lookup(subnet, "subnet_id") ]
+  keep_clb_subnets = [for subnet in data.tencentcloudenterprise_vpc_subnets.gz3.instance_list: lookup(subnet, "subnet_id") if lookup(subnet, "name") == "keep-clb-sub"]
+  subnets = [for subnet in data.tencentcloudenterprise_vpc_subnets.gz3.instance_list: lookup(subnet, "subnet_id") ]
   subnet_for_clb_snat = concat(local.keep_clb_subnets, local.subnets)
 }
 
@@ -66,7 +66,7 @@ resource "tencentcloudenterprise_clb_instance" "foo" {
 }
 
 resource "tencentcloudenterprise_clb_snat_ip" "snat_ips" {
-  clb_id = cloud_clb_instance.foo.id
+  clb_id = tencentcloudenterprise_clb_instance.foo.id
   ips {
     ip = "203.0.113.17"
 	subnet_id = local.subnet_for_clb_snat.0
@@ -89,12 +89,12 @@ data "tencentcloudenterprise_vpc_instances" "gz3vpc" {
 }
 
 data "tencentcloudenterprise_vpc_subnets" "gz3" {
-  vpc_id = data.cloud_vpc_instances.gz3vpc.instance_list.0.vpc_id
+  vpc_id = data.tencentcloudenterprise_vpc_instances.gz3vpc.instance_list.0.vpc_id
 }
 
 locals {
-  keep_clb_subnets = [for subnet in data.cloud_vpc_subnets.gz3.instance_list: lookup(subnet, "subnet_id") if lookup(subnet, "name") == "keep-clb-sub"]
-  subnets = [for subnet in data.cloud_vpc_subnets.gz3.instance_list: lookup(subnet, "subnet_id") ]
+  keep_clb_subnets = [for subnet in data.tencentcloudenterprise_vpc_subnets.gz3.instance_list: lookup(subnet, "subnet_id") if lookup(subnet, "name") == "keep-clb-sub"]
+  subnets = [for subnet in data.tencentcloudenterprise_vpc_subnets.gz3.instance_list: lookup(subnet, "subnet_id") ]
   subnet_for_clb_snat = concat(local.keep_clb_subnets, local.subnets)
 }
 
@@ -104,7 +104,7 @@ resource "tencentcloudenterprise_clb_instance" "foo" {
 }
 
 resource "tencentcloudenterprise_clb_snat_ip" "snat_ips" {
-  clb_id = cloud_clb_instance.foo.id
+  clb_id = tencentcloudenterprise_clb_instance.foo.id
   ips {
     ip = "203.0.113.17"
 	subnet_id = local.subnet_for_clb_snat.0
@@ -127,12 +127,12 @@ data "tencentcloudenterprise_vpc_instances" "gz3vpc" {
 }
 
 data "tencentcloudenterprise_vpc_subnets" "gz3" {
-  vpc_id = data.cloud_vpc_instances.gz3vpc.instance_list.0.vpc_id
+  vpc_id = data.tencentcloudenterprise_vpc_instances.gz3vpc.instance_list.0.vpc_id
 }
 
 locals {
-  keep_clb_subnets = [for subnet in data.cloud_vpc_subnets.gz3.instance_list: lookup(subnet, "subnet_id") if lookup(subnet, "name") == "keep-clb-sub"]
-  subnets = [for subnet in data.cloud_vpc_subnets.gz3.instance_list: lookup(subnet, "subnet_id") ]
+  keep_clb_subnets = [for subnet in data.tencentcloudenterprise_vpc_subnets.gz3.instance_list: lookup(subnet, "subnet_id") if lookup(subnet, "name") == "keep-clb-sub"]
+  subnets = [for subnet in data.tencentcloudenterprise_vpc_subnets.gz3.instance_list: lookup(subnet, "subnet_id") ]
   subnet_for_clb_snat = concat(local.keep_clb_subnets, local.subnets)
 }
 
@@ -142,7 +142,7 @@ resource "tencentcloudenterprise_clb_instance" "foo" {
 }
 
 resource "tencentcloudenterprise_clb_snat_ip" "snat_ips" {
-  clb_id = cloud_clb_instance.foo.id
+  clb_id = tencentcloudenterprise_clb_instance.foo.id
   ips {
     ip = "203.0.113.16"
 	subnet_id = local.subnet_for_clb_snat.0

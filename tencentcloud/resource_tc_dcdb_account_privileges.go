@@ -33,7 +33,7 @@ Provides a resource to create a dcdb account_privileges
 dcdb account_privileges can be imported using the id, e.g.
 
 ```
-terraform import cloud_dcdb_account_privileges.account_privileges instanceId#userName#host#dbName#tabName#viewName#colName
+terraform import tencentcloudenterprise_dcdb_account_privileges.account_privileges instanceId#userName#host#dbName#tabName#viewName#colName
 ```
 */
 package tencentcloud
@@ -241,14 +241,14 @@ func resourceTencentCloudDcdbAccountPrivileges() *schema.Resource {
 }
 
 func resourceTencentCloudDcdbAccountPrivilegesCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_dcdb_account_privileges.create")()
+	defer logElapsed("resource.tencentcloudenterprise_dcdb_account_privileges.create")()
 	defer inconsistentCheck(d, meta)()
 
 	return resourceTencentCloudDcdbAccountPrivilegesUpdate(d, meta)
 }
 
 func resourceTencentCloudDcdbAccountPrivilegesRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_dcdb_account_privileges.read")()
+	defer logElapsed("resource.tencentcloudenterprise_dcdb_account_privileges.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -439,7 +439,7 @@ func resourceTencentCloudDcdbAccountPrivilegesRead(d *schema.ResourceData, meta 
 }
 
 func resourceTencentCloudDcdbAccountPrivilegesUpdate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_dcdb_account_privileges.update")()
+	defer logElapsed("resource.tencentcloudenterprise_dcdb_account_privileges.update")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -619,7 +619,7 @@ func resourceTencentCloudDcdbAccountPrivilegesUpdate(d *schema.ResourceData, met
 }
 
 func resourceTencentCloudDcdbAccountPrivilegesDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_dcdb_account_privileges.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_dcdb_account_privileges.delete")()
 	defer inconsistentCheck(d, meta)()
 
 	return nil

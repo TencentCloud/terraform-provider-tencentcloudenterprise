@@ -8,7 +8,7 @@ import (
 
 func TestAccTencentCloudSsmSecretVersionsDataSource(t *testing.T) {
 	t.Parallel()
-	dataSourceName := "data.cloud_ssm_secret_versions.secret_version"
+	dataSourceName := "data.tencentcloudenterprise_ssm_secret_versions.secret_version"
 
 	resource.Test(t, resource.TestCase{
 		PreCheck:  func() { testAccPreCheck(t) },
@@ -37,13 +37,13 @@ resource "tencentcloudenterprise_ssm_secret" "secret" {
 }
 
 resource "tencentcloudenterprise_ssm_secret_version" "v1" {
-  secret_name = cloud_ssm_secret.secret.secret_name
+  secret_name = tencentcloudenterprise_ssm_secret.secret.secret_name
   version_id = "v1"
   secret_binary = "MTIzMTIzMTIzMTIzMTIzQQ=="
 }
 
 data "tencentcloudenterprise_ssm_secret_versions" "secret_version" {
-  secret_name = cloud_ssm_secret_version.v1.secret_name
-  version_id = cloud_ssm_secret_version.v1.version_id
+  secret_name = tencentcloudenterprise_ssm_secret_version.v1.secret_name
+  version_id = tencentcloudenterprise_ssm_secret_version.v1.version_id
 }
 `

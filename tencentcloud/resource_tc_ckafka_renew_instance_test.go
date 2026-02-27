@@ -47,7 +47,7 @@ resource "tencentcloudenterprise_ckafka_instance" "renew_instance" {
 }
 
 resource "tencentcloudenterprise_ckafka_renew_instance" "renew_instance" {
-  instance_id = cloud_ckafka_instance.renew_instance.id
+  instance_id = tencentcloudenterprise_ckafka_instance.renew_instance.id
   time_span = 1
 }
 

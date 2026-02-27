@@ -88,7 +88,7 @@ func resourceTencentCloudCfsAccessRule() *schema.Resource {
 }
 
 func resourceTencentCloudCfsAccessRuleCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cfs_access_rule.create")()
+	defer logElapsed("resource.tencentcloudenterprise_cfs_access_rule.create")()
 	logId := getLogId(contextNil)
 
 	request := cfs.NewCreateCfsRuleRequest()
@@ -124,7 +124,7 @@ func resourceTencentCloudCfsAccessRuleCreate(d *schema.ResourceData, meta interf
 }
 
 func resourceTencentCloudCfsAccessRuleRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cfs_access_rule.read")()
+	defer logElapsed("resource.tencentcloudenterprise_cfs_access_rule.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -165,7 +165,7 @@ func resourceTencentCloudCfsAccessRuleRead(d *schema.ResourceData, meta interfac
 }
 
 func resourceTencentCloudCfsAccessRuleUpdate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cfs_access_rule.update")()
+	defer logElapsed("resource.tencentcloudenterprise_cfs_access_rule.update")()
 	logId := getLogId(contextNil)
 
 	request := cfs.NewUpdateCfsRuleRequest()
@@ -205,7 +205,7 @@ func resourceTencentCloudCfsAccessRuleUpdate(d *schema.ResourceData, meta interf
 }
 
 func resourceTencentCloudCfsAccessRuleDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cfs_access_rule.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_cfs_access_rule.delete")()
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
 	cfsService := CfsService{

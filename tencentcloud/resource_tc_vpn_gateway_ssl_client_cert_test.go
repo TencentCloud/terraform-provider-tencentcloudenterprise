@@ -51,12 +51,12 @@ resource "tencentcloudenterprise_vpn_ssl_server" "server" {
 }
 
 resource "tencentcloudenterprise_vpn_ssl_client" "client" {
-  ssl_vpn_server_id = cloud_vpn_ssl_server.server.id
+  ssl_vpn_server_id = tencentcloudenterprise_vpn_ssl_server.server.id
   ssl_vpn_client_name = "tf-vpn-ssl-client"
 }
 
 resource "tencentcloudenterprise_vpn_gateway_ssl_client_cert" "vpn_gateway_ssl_client_cert" {
-  ssl_vpn_client_id = cloud_vpn_ssl_client.client.id
+  ssl_vpn_client_id = tencentcloudenterprise_vpn_ssl_client.client.id
   switch = "off"
 }
 
@@ -79,12 +79,12 @@ resource "tencentcloudenterprise_vpn_ssl_server" "server" {
 }
 
 resource "tencentcloudenterprise_vpn_ssl_client" "client" {
-  ssl_vpn_server_id = cloud_vpn_ssl_server.server.id
+  ssl_vpn_server_id = tencentcloudenterprise_vpn_ssl_server.server.id
   ssl_vpn_client_name = "tf-vpn-ssl-client"
 }
 
 resource "tencentcloudenterprise_vpn_gateway_ssl_client_cert" "vpn_gateway_ssl_client_cert" {
-  ssl_vpn_client_id = cloud_vpn_ssl_client.client.id
+  ssl_vpn_client_id = tencentcloudenterprise_vpn_ssl_client.client.id
   switch = "on"
 }
 

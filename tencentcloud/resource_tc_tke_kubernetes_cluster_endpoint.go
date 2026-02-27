@@ -17,7 +17,7 @@ resource "tencentcloudenterprise_kubernetes_node_pool" "pool1" {}
 	  ]
 	  cluster_intranet_subnet_id = "subnet-xxxxxxxx"
 	  depends_on = [
-		cloud_kubernetes_node_pool.pool1
+		tencentcloudenterprise_kubernetes_node_pool.pool1
 	  ]
 	}
 
@@ -27,7 +27,7 @@ resource "tencentcloudenterprise_kubernetes_node_pool" "pool1" {}
 
 KubernetesClusterEndpoint instance can be imported by passing cluster id, e.g.
 ```
-$ terraform import cloud_tke_kubernetes_cluster_endpoint.test cluster-id
+$ terraform import tencentcloudenterprise_tke_kubernetes_cluster_endpoint.test cluster-id
 ```
 */
 package tencentcloud
@@ -182,7 +182,7 @@ func resourceTencentCloudTkeClusterEndpoint() *schema.Resource {
 }
 
 func resourceTencentCloudTkeClusterEndpointRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_tke_kubernetes_cluster_endpoint.read")()
+	defer logElapsed("resource.tencentcloudenterprise_tke_kubernetes_cluster_endpoint.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -235,7 +235,7 @@ func resourceTencentCloudTkeClusterEndpointRead(d *schema.ResourceData, meta int
 }
 
 func resourceTencentCloudTkeClusterEndpointCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_tke_kubernetes_cluster_endpoint.create")()
+	defer logElapsed("resource.tencentcloudenterprise_tke_kubernetes_cluster_endpoint.create")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
@@ -300,7 +300,7 @@ func resourceTencentCloudTkeClusterEndpointCreate(d *schema.ResourceData, meta i
 }
 
 func resourceTencentCloudTkeClusterEndpointUpdate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_tke_kubernetes_cluster_endpoint.update")()
+	defer logElapsed("resource.tencentcloudenterprise_tke_kubernetes_cluster_endpoint.update")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
@@ -397,7 +397,7 @@ func resourceTencentCloudTkeClusterEndpointUpdate(d *schema.ResourceData, meta i
 }
 
 func resourceTencentCloudTkeClusterEndpointDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_tke_kubernetes_cluster_endpoint.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_tke_kubernetes_cluster_endpoint.delete")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)

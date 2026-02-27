@@ -290,7 +290,7 @@ func dataSourceTencentCloudTsfGroupConfigRelease() *schema.Resource {
 
 func dataSourceTencentCloudTsfGroupConfigReleaseRead(d *schema.ResourceData, meta interface{}) error {
 	/*
-		defer logElapsed("data_source.cloud_tsf_group_config_release.read")()
+		defer logElapsed("data_source.tencentcloudenterprise_tsf_group_config_release.read")()
 		defer inconsistentCheck(d, meta)()
 
 		logId := getLogId(contextNil)

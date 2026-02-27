@@ -37,7 +37,7 @@ It's more flexible than managing worker config directly with `cloud_tke_kubernet
 	}
 
 	resource "tencentcloudenterprise_tke_kubernetes_cluster" "managed_cluster" {
-	  vpc_id                                     = data.cloud_vpc_subnets.vpc_first.instance_list.0.vpc_id
+	  vpc_id                                     = data.tencentcloudenterprise_vpc_subnets.vpc_first.instance_list.0.vpc_id
 	  cluster_cidr                               = var.cluster_cidr
 	  cluster_max_pod_num                        = 32
 	  cluster_name                               = "test"
@@ -57,7 +57,7 @@ It's more flexible than managing worker config directly with `cloud_tke_kubernet
 	    internet_charge_type       = "TRAFFIC_POSTPAID_BY_HOUR"
 	    internet_max_bandwidth_out = 100
 	    public_ip_assigned         = true
-	    subnet_id                  = data.cloud_vpc_subnets.vpc_first.instance_list.0.subnet_id
+	    subnet_id                  = data.tencentcloudenterprise_vpc_subnets.vpc_first.instance_list.0.subnet_id
 		img_id                     = "img-rkiynh11"
 
 	    data_disk {
@@ -81,7 +81,7 @@ It's more flexible than managing worker config directly with `cloud_tke_kubernet
 	    internet_charge_type       = "TRAFFIC_POSTPAID_BY_HOUR"
 	    internet_max_bandwidth_out = 100
 	    public_ip_assigned         = true
-	    subnet_id                  = data.cloud_vpc_subnets.vpc_second.instance_list.0.subnet_id
+	    subnet_id                  = data.tencentcloudenterprise_vpc_subnets.vpc_second.instance_list.0.subnet_id
 
 	    data_disk {
 	      disk_type = "CLOUD_PREMIUM"
@@ -135,7 +135,7 @@ It's more flexible than managing worker config directly with `cloud_tke_kubernet
 	}
 
 	resource "tencentcloudenterprise_tke_kubernetes_cluster" "managed_cluster" {
-	  vpc_id                                     = data.cloud_vpc_subnets.vpc_first.instance_list.0.vpc_id
+	  vpc_id                                     = data.tencentcloudenterprise_vpc_subnets.vpc_first.instance_list.0.vpc_id
 	  cluster_cidr                               = var.cluster_cidr
 	  cluster_max_pod_num                        = 32
 	  cluster_name                               = "test"
@@ -154,7 +154,7 @@ It's more flexible than managing worker config directly with `cloud_tke_kubernet
 	    internet_charge_type       = "TRAFFIC_POSTPAID_BY_HOUR"
 	    internet_max_bandwidth_out = 100
 	    public_ip_assigned         = true
-	    subnet_id                  = data.cloud_vpc_subnets.vpc_first.instance_list.0.subnet_id
+	    subnet_id                  = data.tencentcloudenterprise_vpc_subnets.vpc_first.instance_list.0.subnet_id
 
 	    data_disk {
 	      disk_type = "CLOUD_PREMIUM"
@@ -177,7 +177,7 @@ It's more flexible than managing worker config directly with `cloud_tke_kubernet
 	    internet_charge_type       = "TRAFFIC_POSTPAID_BY_HOUR"
 	    internet_max_bandwidth_out = 100
 	    public_ip_assigned         = true
-	    subnet_id                  = data.cloud_vpc_subnets.vpc_second.instance_list.0.subnet_id
+	    subnet_id                  = data.tencentcloudenterprise_vpc_subnets.vpc_second.instance_list.0.subnet_id
 
 	    data_disk {
 	      disk_type = "CLOUD_PREMIUM"
@@ -229,13 +229,13 @@ It's more flexible than managing worker config directly with `cloud_tke_kubernet
 data "tencentcloudenterprise_tke_kubernetes_charts" "charts" {}
 
 	locals {
-	  chartNames = data.cloud_tke_kubernetes_charts.charts.chart_list.*.name
-	  chartVersions = data.cloud_tke_kubernetes_charts.charts.chart_list.*.latest_version
+	  chartNames = data.tencentcloudenterprise_tke_kubernetes_charts.charts.chart_list.*.name
+	  chartVersions = data.tencentcloudenterprise_tke_kubernetes_charts.charts.chart_list.*.latest_version
 	  chartMap = zipmap(local.chartNames, local.chartVersions)
 	}
 
 	resource "tencentcloudenterprise_tke_kubernetes_cluster" "cluster_with_addon" {
-	  vpc_id                                     = data.cloud_vpc_subnets.vpc_first.instance_list.0.vpc_id
+	  vpc_id                                     = data.tencentcloudenterprise_vpc_subnets.vpc_first.instance_list.0.vpc_id
 	  cluster_cidr                               = var.cluster_cidr
 	  cluster_max_pod_num                        = 32
 	  cluster_name                               = "test"
@@ -254,7 +254,7 @@ data "tencentcloudenterprise_tke_kubernetes_charts" "charts" {}
 	    internet_charge_type       = "TRAFFIC_POSTPAID_BY_HOUR"
 	    internet_max_bandwidth_out = 100
 	    public_ip_assigned         = true
-	    subnet_id                  = data.cloud_vpc_subnets.vpc_first.instance_list.0.subnet_id
+	    subnet_id                  = data.tencentcloudenterprise_vpc_subnets.vpc_first.instance_list.0.subnet_id
 	    img_id                     = "img-rkiynh11"
 	    enhanced_security_service = false
 	    enhanced_monitor_service  = false
@@ -2125,7 +2125,7 @@ func upgradeClusterInstances(tkeService TkeService, ctx context.Context, id stri
 }
 
 func resourceTencentCloudTkeClusterCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_tke_kubernetes_cluster.create")()
+	defer logElapsed("resource.tencentcloudenterprise_tke_kubernetes_cluster.create")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
@@ -2631,7 +2631,7 @@ func resourceTencentCloudTkeClusterCreate(d *schema.ResourceData, meta interface
 }
 
 func resourceTencentCloudTkeClusterRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_tke_kubernetes_cluster.read")()
+	defer logElapsed("resource.tencentcloudenterprise_tke_kubernetes_cluster.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -2846,7 +2846,7 @@ func resourceTencentCloudTkeClusterRead(d *schema.ResourceData, meta interface{}
 }
 
 func resourceTencentCloudTkeClusterUpdate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_tke_kubernetes_cluster.update")()
+	defer logElapsed("resource.tencentcloudenterprise_tke_kubernetes_cluster.update")()
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
 
@@ -3180,7 +3180,7 @@ func resourceTencentCloudTkeClusterUpdate(d *schema.ResourceData, meta interface
 }
 
 func resourceTencentCloudTkeClusterDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_tke_kubernetes_cluster.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_tke_kubernetes_cluster.delete")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)

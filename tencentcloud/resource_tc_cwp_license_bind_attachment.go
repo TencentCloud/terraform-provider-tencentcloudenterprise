@@ -101,7 +101,7 @@ func ResourceTencentCloudCwpLicenseBindAttachment() *schema.Resource {
 }
 
 func resourceTencentCloudCwpLicenseBindAttachmentCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cwp_license_bind_attachment.create")()
+	defer logElapsed("resource.tencentcloudenterprise_cwp_license_bind_attachment.create")()
 	defer inconsistentCheck(d, meta)()
 
 	var (
@@ -189,7 +189,7 @@ func resourceTencentCloudCwpLicenseBindAttachmentCreate(d *schema.ResourceData, 
 }
 
 func resourceTencentCloudCwpLicenseBindAttachmentRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cwp_license_bind_attachment.read")()
+	defer logElapsed("resource.tencentcloudenterprise_cwp_license_bind_attachment.read")()
 	defer inconsistentCheck(d, meta)()
 
 	var (
@@ -258,7 +258,7 @@ func resourceTencentCloudCwpLicenseBindAttachmentRead(d *schema.ResourceData, me
 }
 
 func resourceTencentCloudCwpLicenseBindAttachmentDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cwp_license_bind_attachment.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_cwp_license_bind_attachment.delete")()
 	defer inconsistentCheck(d, meta)()
 
 	var (

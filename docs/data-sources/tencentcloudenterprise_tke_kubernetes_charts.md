@@ -33,4 +33,3 @@ In addition to all arguments above, the following attributes are exported:
   * `latest_version` - Chart latest version.
   * `name` - Name of chart.
 
-

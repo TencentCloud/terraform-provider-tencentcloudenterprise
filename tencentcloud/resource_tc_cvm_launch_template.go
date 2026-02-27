@@ -734,7 +734,7 @@ func resourceTencentCloudCvmLaunchTemplate() *schema.Resource {
 }
 
 func resourceTencentCloudCvmLaunchTemplateCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cvm_launch_template.create")()
+	defer logElapsed("resource.tencentcloudenterprise_cvm_launch_template.create")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -1067,7 +1067,7 @@ func resourceTencentCloudCvmLaunchTemplateCreate(d *schema.ResourceData, meta in
 }
 
 func resourceTencentCloudCvmLaunchTemplateRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cvm_launch_template.read")()
+	defer logElapsed("resource.tencentcloudenterprise_cvm_launch_template.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -1409,7 +1409,7 @@ func resourceTencentCloudCvmLaunchTemplateRead(d *schema.ResourceData, meta inte
 }
 
 func resourceTencentCloudCvmLaunchTemplateDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cvm_launch_template.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_cvm_launch_template.delete")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)

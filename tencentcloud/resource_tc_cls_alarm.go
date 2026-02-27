@@ -52,7 +52,7 @@ Provides a resource to create a cls alarm
 cls alarm can be imported using the id, e.g.
 
 ```
-terraform import cloud_cls_alarm.alarm alarm_id
+terraform import tencentcloudenterprise_cls_alarm.alarm alarm_id
 ```
 */
 package tencentcloud
@@ -284,7 +284,7 @@ func resourceTencentCloudClsAlarm() *schema.Resource {
 }
 
 func resourceTencentCloudClsAlarmCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cls_alarm.create")()
+	defer logElapsed("resource.tencentcloudenterprise_cls_alarm.create")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -440,7 +440,7 @@ func resourceTencentCloudClsAlarmCreate(d *schema.ResourceData, meta interface{}
 }
 
 func resourceTencentCloudClsAlarmRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cls_alarm.read")()
+	defer logElapsed("resource.tencentcloudenterprise_cls_alarm.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -609,7 +609,7 @@ func resourceTencentCloudClsAlarmRead(d *schema.ResourceData, meta interface{}) 
 }
 
 func resourceTencentCloudClsAlarmUpdate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cls_alarm.update")()
+	defer logElapsed("resource.tencentcloudenterprise_cls_alarm.update")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -781,7 +781,7 @@ func resourceTencentCloudClsAlarmUpdate(d *schema.ResourceData, meta interface{}
 }
 
 func resourceTencentCloudClsAlarmDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cls_alarm.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_cls_alarm.delete")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)

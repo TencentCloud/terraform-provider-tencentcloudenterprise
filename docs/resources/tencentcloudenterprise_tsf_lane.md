@@ -2,7 +2,7 @@
 subcategory: "Tencent Service Framework(TSF)"
 layout: "tencentcloudenterprise"
 page_title: "TencentCloudEnterprise: tencentcloudenterprise_tsf_lane"
-sidebar_current: "docs-tencentcloudenterprise-resources-tsf_lane"
+sidebar_current: "docs-tencentcloudenterprise-resource-tsf_lane"
 description: |-
   Provides a resource to create a tsf lane
 ---
@@ -57,5 +57,4 @@ In addition to all arguments above, the following attributes are exported:
 * `lane_id` - Lane id.
 * `namespace_id_list` - A list of namespaces to which the swimlane has associated deployment groups.
 * `update_time` - Update time.
-
 

@@ -2,7 +2,7 @@
 subcategory: "Virtual Private Cloud(VPC)"
 layout: "tencentcloudenterprise"
 page_title: "TencentCloudEnterprise: tencentcloudenterprise_vpc_ha_vip_eip_attachment"
-sidebar_current: "docs-tencentcloudenterprise-resources-vpc_ha_vip_eip_attachment"
+sidebar_current: "docs-tencentcloudenterprise-resource-vpc_ha_vip_eip_attachment"
 description: |-
   Provides a resource to create a HA VIP EIP attachment.
 ---
@@ -34,12 +34,15 @@ In addition to all arguments above, the following attributes are exported:
 * `id` - ID of the resource.
 
 
-
 ## Import
 
+tencentcloudenterprise_vpc_ha_vip_eip_attachment can be imported using the id, e.g.
+
+```
 HA VIP EIP attachment can be imported using the id, e.g.
 
 ```
 $ terraform import tencentcloudenterprise_vpc_ha_vip_eip_attachment.foo havip-kjqwe4ba#1.1.1.1
+```
 ```
 

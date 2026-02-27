@@ -1,5 +1,5 @@
 ---
-subcategory: "Cloud Redis®(Redis)"
+subcategory: "TencentDB for Redis(crs)"
 layout: "tencentcloudenterprise"
 page_title: "TencentCloudEnterprise: tencentcloudenterprise_redis_instance_shards"
 sidebar_current: "docs-tencentcloudenterprise-datasource-redis_instance_shards"
@@ -42,5 +42,4 @@ In addition to all arguments above, the following attributes are exported:
   * `slots` - Slot information.
   * `storage_slope` - Capacity tilt.
   * `storage` - Used capacity.
-
 

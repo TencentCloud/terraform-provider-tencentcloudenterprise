@@ -128,7 +128,7 @@ func testAccCheckClbTGAttachmentInstanceExists(n string) resource.TestCheckFunc 
 const testAccClbTGAttachmentInstance_basic = instanceCommonTestCase + `
 
 data "tencentcloudenterprise_cvm_instances" "foo" {
-  instance_id = cloud_cvm_instance.default.id
+  instance_id = tencentcloudenterprise_cvm_instance.default.id
 }
 
 resource "tencentcloudenterprise_clb_target_group" "test"{
@@ -137,8 +137,8 @@ resource "tencentcloudenterprise_clb_target_group" "test"{
 }
 
 resource "tencentcloudenterprise_clb_target_group_instance_attachment" "test"{
-    target_group_id = cloud_clb_target_group.test.id
-    bind_ip         = data.cloud_cvm_instances.foo.instance_list[0].private_ip
+    target_group_id = tencentcloudenterprise_clb_target_group.test.id
+    bind_ip         = data.tencentcloudenterprise_cvm_instances.foo.instance_list[0].private_ip
     port            = 88
     weight          = 3
 }
@@ -147,7 +147,7 @@ resource "tencentcloudenterprise_clb_target_group_instance_attachment" "test"{
 const testAccClbTGAttachmentInstance_update = instanceCommonTestCase + `
 
 data "tencentcloudenterprise_cvm_instances" "foo" {
-  instance_id = cloud_cvm_instance.default.id
+  instance_id = tencentcloudenterprise_cvm_instance.default.id
 }
 
 resource "tencentcloudenterprise_clb_target_group" "test"{
@@ -156,8 +156,8 @@ resource "tencentcloudenterprise_clb_target_group" "test"{
 }
 
 resource "tencentcloudenterprise_clb_target_group_instance_attachment" "test"{
-    target_group_id = cloud_clb_target_group.test.id
-    bind_ip         = data.cloud_cvm_instances.foo.instance_list[0].private_ip
+    target_group_id = tencentcloudenterprise_clb_target_group.test.id
+    bind_ip         = data.tencentcloudenterprise_cvm_instances.foo.instance_list[0].private_ip
     port            = 88
     weight          = 5
 }

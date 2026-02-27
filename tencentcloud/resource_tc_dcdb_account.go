@@ -19,7 +19,7 @@ Import
 
 dcdb account can be imported using the id, e.g.
 ```
-$ terraform import cloud_dcdb_account.account account_id
+$ terraform import tencentcloudenterprise_dcdb_account.account account_id
 ```
 */
 package tencentcloud
@@ -114,7 +114,7 @@ func resourceTencentCloudDcdbAccount() *schema.Resource {
 }
 
 func resourceTencentCloudDcdbAccountCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_dcdb_account.create")()
+	defer logElapsed("resource.tencentcloudenterprise_dcdb_account.create")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -185,7 +185,7 @@ func resourceTencentCloudDcdbAccountCreate(d *schema.ResourceData, meta interfac
 }
 
 func resourceTencentCloudDcdbAccountRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_dcdb_account.read")()
+	defer logElapsed("resource.tencentcloudenterprise_dcdb_account.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -211,7 +211,7 @@ func resourceTencentCloudDcdbAccountRead(d *schema.ResourceData, meta interface{
 		return fmt.Errorf("resource `account` %s does not exist", instanceId)
 	}
 
-	log.Printf("[DEBUG]cloud_dcdb_account.read Users:%v", accounts[0])
+	log.Printf("[DEBUG]tencentcloudenterprise_dcdb_account.read Users:%v", accounts[0])
 	if accounts[0].UserName != nil {
 		_ = d.Set("user_name", accounts[0].UserName)
 	}
@@ -235,7 +235,7 @@ func resourceTencentCloudDcdbAccountRead(d *schema.ResourceData, meta interface{
 }
 
 func resourceTencentCloudDcdbAccountUpdate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_dcdb_account.update")()
+	defer logElapsed("resource.tencentcloudenterprise_dcdb_account.update")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -322,7 +322,7 @@ func resourceTencentCloudDcdbAccountUpdate(d *schema.ResourceData, meta interfac
 }
 
 func resourceTencentCloudDcdbAccountDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_dcdb_account.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_dcdb_account.delete")()
 	defer inconsistentCheck(d, meta)()
 	var host string
 	logId := getLogId(contextNil)

@@ -193,7 +193,7 @@ func dataSourceTencentCloudRedisInstanceTaskList() *schema.Resource {
 }
 
 func dataSourceTencentCloudRedisInstanceTaskListRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("data_source.cloud_redis_instance_task_list.read")()
+	defer logElapsed("data_source.tencentcloudenterprise_redis_instance_task_list.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)

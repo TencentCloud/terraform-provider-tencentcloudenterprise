@@ -36,7 +36,7 @@ Import
 
 tbase instance can be imported using the id, e.g.
 ```
-$ terraform import cloud_tbase_instance.instance cluster_id#instance_id
+$ terraform import tencentcloudenterprise_tbase_instance.instance cluster_id#instance_id
 ```
 */
 package tencentcloud
@@ -209,7 +209,7 @@ func resourceTencentCloudTbasePGInstance() *schema.Resource {
 }
 
 func resourceTencentCloudTbasePGInstanceCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	defer logElapsed("resource.cloud_tbase_instance.create")()
+	defer logElapsed("resource.tencentcloudenterprise_tbase_instance.create")()
 	defer inconsistentCheck(d, meta)()
 
 	var (
@@ -299,7 +299,7 @@ func resourceTencentCloudTbasePGInstanceCreate(ctx context.Context, d *schema.Re
 }
 
 func resourceTencentCloudTbasePGInstanceRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	defer logElapsed("resource.cloud_tbase_instance.read")()
+	defer logElapsed("resource.tencentcloudenterprise_tbase_instance.read")()
 	defer inconsistentCheck(d, meta)()
 
 	var (
@@ -351,7 +351,7 @@ func resourceTencentCloudTbasePGInstanceRead(ctx context.Context, d *schema.Reso
 
 func resourceTencentCloudTbasePGInstanceUpdate(ctx context.Context, d *schema.ResourceData,
 	meta interface{}) diag.Diagnostics {
-	defer logElapsed("resource.cloud_tbase_instance.update")()
+	defer logElapsed("resource.tencentcloudenterprise_tbase_instance.update")()
 	defer inconsistentCheck(d, meta)()
 
 	var (
@@ -400,7 +400,7 @@ func resourceTencentCloudTbasePGInstanceUpdate(ctx context.Context, d *schema.Re
 
 func resourceTencentCloudTbasePGInstanceDelete(ctx context.Context, d *schema.ResourceData,
 	meta interface{}) diag.Diagnostics {
-	defer logElapsed("resource.cloud_tbase.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_tbase.delete")()
 	defer inconsistentCheck(d, meta)()
 
 	var (

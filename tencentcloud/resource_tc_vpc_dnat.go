@@ -23,7 +23,7 @@ Provides a resource to create a NAT forwarding.
 NAT forwarding can be imported using the id, e.g.
 
 ```
-$ terraform import cloud_vpc_dnat.foo tcp://vpc-asg3sfa3:nat-1asg3t63@127.15.2.3:8080
+$ terraform import tencentcloudenterprise_vpc_dnat.foo tcp://vpc-asg3sfa3:nat-1asg3t63@127.15.2.3:8080
 ```
 */
 package tencentcloud
@@ -128,7 +128,7 @@ func resourceTencentCloudDnat() *schema.Resource {
 }
 
 func resourceTencentCloudDnatCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_vpc_dnat.create")()
+	defer logElapsed("resource.tencentcloudenterprise_vpc_dnat.create")()
 
 	logId := getLogId(contextNil)
 	request := vpc.NewCreateNatGatewayDestinationIpPortTranslationNatRuleRequest()
@@ -179,7 +179,7 @@ func resourceTencentCloudDnatCreate(d *schema.ResourceData, meta interface{}) er
 }
 
 func resourceTencentCloudDnatRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_vpc_dnat.read")()
+	defer logElapsed("resource.tencentcloudenterprise_vpc_dnat.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -230,7 +230,7 @@ func resourceTencentCloudDnatRead(d *schema.ResourceData, meta interface{}) erro
 }
 
 func resourceTencentCloudDnatUpdate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_vpc_dnat.update")()
+	defer logElapsed("resource.tencentcloudenterprise_vpc_dnat.update")()
 
 	logId := getLogId(contextNil)
 	//only modify description
@@ -304,7 +304,7 @@ func resourceTencentCloudDnatUpdate(d *schema.ResourceData, meta interface{}) er
 }
 
 func resourceTencentCloudDnatDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_vpc_dnat.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_vpc_dnat.delete")()
 
 	logId := getLogId(contextNil)
 	natForward, params, e := parseDnatId(d.Id())

@@ -81,4 +81,3 @@ In addition to all arguments above, the following attributes are exported:
   * `tags` - Tags of the routing table.
   * `vpc_id` - ID of the VPC.
 
-

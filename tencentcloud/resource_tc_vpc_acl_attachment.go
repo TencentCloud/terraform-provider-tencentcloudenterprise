@@ -8,7 +8,7 @@ data "tencentcloudenterprise_vpc_instances" "id_instances" {
 }
 
 	resource "tencentcloudenterprise_vpc_acl" "foo" {
-	    vpc_id  = data.cloud_vpc_instances.id_instances.instance_list.0.vpc_id
+	    vpc_id  = data.tencentcloudenterprise_vpc_instances.id_instances.instance_list.0.vpc_id
 	    name  	= "test_acl"
 		ingress = [
 			"ACCEPT#192.168.1.0/24#800#TCP",
@@ -21,8 +21,8 @@ data "tencentcloudenterprise_vpc_instances" "id_instances" {
 	}
 
 	resource "tencentcloudenterprise_vpc_acl_attachment" "attachment"{
-			acl_id = cloud_vpc_acl.foo.id
-			subnet_id = data.cloud_vpc_instances.id_instances.instance_list[0].subnet_ids[0]
+			acl_id = tencentcloudenterprise_vpc_acl.foo.id
+			subnet_id = data.tencentcloudenterprise_vpc_instances.id_instances.instance_list[0].subnet_ids[0]
 	}
 
 ```
@@ -32,7 +32,7 @@ data "tencentcloudenterprise_vpc_instances" "id_instances" {
 Acl attachment can be imported using the id, e.g.
 
 ```
-$ terraform import cloud_vpc_acl_attachment.attachment acl-eotx5qsg#subnet-91x0geu6
+$ terraform import tencentcloudenterprise_vpc_acl_attachment.attachment acl-eotx5qsg#subnet-91x0geu6
 ```
 */
 package tencentcloud
@@ -85,7 +85,7 @@ func resourceTencentCloudVpcAclAttachment() *schema.Resource {
 }
 
 func resourceTencentCloudVpcAclAttachmentCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_acl_attachment.create")()
+	defer logElapsed("resource.tencentcloudenterprise_acl_attachment.create")()
 	var (
 		logId     = getLogId(contextNil)
 		ctx       = context.WithValue(context.TODO(), logIdKey, logId)
@@ -109,7 +109,7 @@ func resourceTencentCloudVpcAclAttachmentCreate(d *schema.ResourceData, meta int
 }
 
 func resourceTencentCloudVpcAclAttachmentRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_acl_attachment.read")()
+	defer logElapsed("resource.tencentcloudenterprise_acl_attachment.read")()
 	defer inconsistentCheck(d, meta)()
 
 	var (
@@ -143,7 +143,7 @@ func resourceTencentCloudVpcAclAttachmentRead(d *schema.ResourceData, meta inter
 }
 
 func resourceTencentCloudVpcAclAttachmentDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_acl_attachment.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_acl_attachment.delete")()
 	var (
 		logId         = getLogId(contextNil)
 		ctx           = context.WithValue(context.TODO(), logIdKey, logId)

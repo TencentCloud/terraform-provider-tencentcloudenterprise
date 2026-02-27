@@ -103,7 +103,7 @@ data "tencentcloudenterprise_vpc_security_groups" "internal" {
 }
 	
 locals {
-	sg_id = data.cloud_vpc_security_groups.internal.security_groups.0.security_group_id
+	sg_id = data.tencentcloudenterprise_vpc_security_groups.internal.security_groups.0.security_group_id
 }
 `
 

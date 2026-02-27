@@ -18,7 +18,7 @@ func TestAccTencentCloudTdmqPublisherSummaryDataSource_basic(t *testing.T) {
 			{
 				Config: testAccTdmqPublisherSummaryDataSource,
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckTencentCloudDataSourceID("data.cloud_tdmq_publisher_summary.publisher_summary"),
+					testAccCheckTencentCloudDataSourceID("data.tencentcloudenterprise_tdmq_publisher_summary.publisher_summary"),
 				),
 			},
 		},

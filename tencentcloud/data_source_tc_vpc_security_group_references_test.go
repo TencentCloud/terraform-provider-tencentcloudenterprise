@@ -16,7 +16,7 @@ func TestAccTencentCloudVpcSecurityGroupReferencesDataSource_basic(t *testing.T)
 		Steps: []resource.TestStep{
 			{
 				Config: testAccVpcSecurityGroupReferencesDataSource,
-				Check:  resource.ComposeTestCheckFunc(testAccCheckTencentCloudDataSourceID("data.cloud_vpc_security_group_references.security_group_references")),
+				Check:  resource.ComposeTestCheckFunc(testAccCheckTencentCloudDataSourceID("data.tencentcloudenterprise_vpc_security_group_references.security_group_references")),
 			},
 		},
 	})

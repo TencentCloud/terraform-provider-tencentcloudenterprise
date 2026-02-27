@@ -16,7 +16,7 @@ func TestAccTencentCloudClbTargetHealthDataSource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			{
 				Config: testAccClbTargetHealthDataSource,
-				Check:  resource.ComposeTestCheckFunc(testAccCheckTencentCloudDataSourceID("data.cloud_clb_target_health.target_health")),
+				Check:  resource.ComposeTestCheckFunc(testAccCheckTencentCloudDataSourceID("data.tencentcloudenterprise_clb_target_health.target_health")),
 			},
 		},
 	})

@@ -69,7 +69,7 @@ data "tencentcloudenterprise_vpc_security_groups" "new_sg" {
 }
 
 locals {
-  new_sg = data.cloud_vpc_security_groups.new_sg.security_groups.0.security_group_id
+  new_sg = data.tencentcloudenterprise_vpc_security_groups.new_sg.security_groups.0.security_group_id
 }
 
 `
@@ -89,11 +89,11 @@ data "tencentcloudenterprise_vpc_instances" "vpcs" {
 }
 
 data "tencentcloudenterprise_vpc_subnets" "sub" {
-  vpc_id        = data.cloud_vpc_instances.vpcs.instance_list.0.vpc_id
+  vpc_id        = data.tencentcloudenterprise_vpc_instances.vpcs.instance_list.0.vpc_id
 }
 
 resource "tencentcloudenterprise_tke_kubernetes_cluster" "managed_cluster" {
-  vpc_id                  = data.cloud_vpc_subnets.sub.instance_list.0.vpc_id
+  vpc_id                  = data.tencentcloudenterprise_vpc_subnets.sub.instance_list.0.vpc_id
   cluster_cidr            = var.tke_cidr_a.3
   cluster_max_pod_num     = 32
   cluster_name            = "for-endpoint"
@@ -109,7 +109,7 @@ data "tencentcloudenterprise_vpc_security_groups" "sg" {
 }
 
 locals {
-  new_cluster_id = cloud_tke_kubernetes_cluster.managed_cluster.id
+  new_cluster_id = tencentcloudenterprise_tke_kubernetes_cluster.managed_cluster.id
 }
 
 resource "tencentcloudenterprise_kubernetes_node_pool" "np_test" {
@@ -117,8 +117,8 @@ resource "tencentcloudenterprise_kubernetes_node_pool" "np_test" {
   cluster_id = local.new_cluster_id
   max_size = 1
   min_size = 1
-  vpc_id               = data.cloud_vpc_subnets.sub.instance_list.0.vpc_id
-  subnet_ids           = [data.cloud_vpc_subnets.sub.instance_list.0.subnet_id]
+  vpc_id               = data.tencentcloudenterprise_vpc_subnets.sub.instance_list.0.vpc_id
+  subnet_ids           = [data.tencentcloudenterprise_vpc_subnets.sub.instance_list.0.subnet_id]
   retry_policy         = "INCREMENTAL_INTERVALS"
   desired_capacity     = 1
   enable_auto_scale    = true
@@ -161,9 +161,9 @@ resource "tencentcloudenterprise_tke_kubernetes_cluster_endpoint" "foo" {
   managed_cluster_internet_security_policies = [
     "192.168.0.0/24"
   ]
-  cluster_intranet_subnet_id = data.cloud_vpc_subnets.sub.instance_list.0.subnet_id
+  cluster_intranet_subnet_id = data.tencentcloudenterprise_vpc_subnets.sub.instance_list.0.subnet_id
   depends_on = [
-	cloud_kubernetes_node_pool.np_test
+	tencentcloudenterprise_kubernetes_node_pool.np_test
   ]
 }
 `
@@ -174,7 +174,7 @@ resource "tencentcloudenterprise_tke_kubernetes_cluster_endpoint" "foo" {
   cluster_internet = true
   cluster_intranet = true
   cluster_internet_security_group = local.new_sg
-  cluster_intranet_subnet_id = data.cloud_vpc_subnets.sub.instance_list.0.subnet_id
+  cluster_intranet_subnet_id = data.tencentcloudenterprise_vpc_subnets.sub.instance_list.0.subnet_id
   extensive_parameters = jsonencode({
     InternetAccessible = {
       InternetChargeType = "BANDWIDTH_POSTPAID_BY_HOUR"
@@ -182,7 +182,7 @@ resource "tencentcloudenterprise_tke_kubernetes_cluster_endpoint" "foo" {
     }
   })
   depends_on = [
-	cloud_kubernetes_node_pool.np_test
+	tencentcloudenterprise_kubernetes_node_pool.np_test
   ]
 }
 `
@@ -193,9 +193,9 @@ resource "tencentcloudenterprise_tke_kubernetes_cluster_endpoint" "foo" {
   cluster_internet = false
   cluster_intranet = true
   cluster_internet_security_group = local.new_sg
-  cluster_intranet_subnet_id = data.cloud_vpc_subnets.sub.instance_list.0.subnet_id
+  cluster_intranet_subnet_id = data.tencentcloudenterprise_vpc_subnets.sub.instance_list.0.subnet_id
   depends_on = [
-	cloud_kubernetes_node_pool.np_test
+	tencentcloudenterprise_kubernetes_node_pool.np_test
   ]
 }
 `

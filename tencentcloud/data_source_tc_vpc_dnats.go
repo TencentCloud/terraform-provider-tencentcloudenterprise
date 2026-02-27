@@ -161,7 +161,7 @@ func dataSourceTencentCloudDnats() *schema.Resource {
 }
 
 func dataSourceTencentCloudDnatsRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("data_source.cloud_vpc_dnats.read")()
+	defer logElapsed("data_source.tencentcloudenterprise_vpc_dnats.read")()
 
 	logId := getLogId(contextNil)
 	request := vpc.NewDescribeNatGatewayDestinationIpPortTranslationNatRulesRequest()

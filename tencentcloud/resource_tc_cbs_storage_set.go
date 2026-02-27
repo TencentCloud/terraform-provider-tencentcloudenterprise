@@ -149,7 +149,7 @@ func resourceTencentCloudCbsStorageSet() *schema.Resource {
 }
 
 func resourceTencentCloudCbsStorageSetCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cbs_storage_set.create")()
+	defer logElapsed("resource.tencentcloudenterprise_cbs_storage_set.create")()
 
 	logId := getLogId(contextNil)
 
@@ -219,7 +219,7 @@ func resourceTencentCloudCbsStorageSetCreate(d *schema.ResourceData, meta interf
 }
 
 func resourceTencentCloudCbsStorageSetRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cbs_storage_set.read")()
+	defer logElapsed("resource.tencentcloudenterprise_cbs_storage_set.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -260,13 +260,13 @@ func resourceTencentCloudCbsStorageSetRead(d *schema.ResourceData, meta interfac
 }
 
 func resourceTencentCloudCbsStorageSetUpdate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cbs_storage_set.update")()
+	defer logElapsed("resource.tencentcloudenterprise_cbs_storage_set.update")()
 
 	return fmt.Errorf("`cloud_cbs_storage_set` do not support change now.")
 }
 
 func resourceTencentCloudCbsStorageSetDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cbs_storage_set.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_cbs_storage_set.delete")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)

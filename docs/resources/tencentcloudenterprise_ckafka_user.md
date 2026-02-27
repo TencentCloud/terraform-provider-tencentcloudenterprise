@@ -1,8 +1,8 @@
 ---
-subcategory: "Cloud Kafka(CKafka)"
+subcategory: "Cloud Kafka(ckafka)"
 layout: "tencentcloudenterprise"
 page_title: "TencentCloudEnterprise: tencentcloudenterprise_ckafka_user"
-sidebar_current: "docs-tencentcloudenterprise-resources-ckafka_user"
+sidebar_current: "docs-tencentcloudenterprise-resource-ckafka_user"
 description: |-
   Provides a resource to create a Ckafka user.
 ---
@@ -39,12 +39,15 @@ In addition to all arguments above, the following attributes are exported:
 * `create_time` - Creation time of the account.
 * `update_time` - The last update time of the account.
 
-
 ## Import
 
+tencentcloudenterprise_ckafka_user can be imported using the id, e.g.
+
+```
 Ckafka user can be imported using the instance_id#account_name, e.g.
 
 ```
 $ terraform import tencentcloudenterprise_ckafka_user.foo ckafka-f9ife4zz#tf-test
+```
 ```
 

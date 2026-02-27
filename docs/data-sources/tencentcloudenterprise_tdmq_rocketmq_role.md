@@ -1,5 +1,5 @@
 ---
-subcategory: "Tencent Distributed Message Queue(TDMQ)"
+subcategory: "TDMQ for RocketMQ(trocket)"
 layout: "tencentcloudenterprise"
 page_title: "TencentCloudEnterprise: tencentcloudenterprise_tdmq_rocketmq_role"
 sidebar_current: "docs-tencentcloudenterprise-datasource-tdmq_rocketmq_role"
@@ -49,5 +49,4 @@ In addition to all arguments above, the following attributes are exported:
   * `role_name` - Role name.
   * `token` - Value of the role token.
   * `update_time` - Update time.
-
 

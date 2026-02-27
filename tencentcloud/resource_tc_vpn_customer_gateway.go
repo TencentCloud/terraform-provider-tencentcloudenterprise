@@ -21,7 +21,7 @@ Provides a resource to create a VPN customer gateway.
 VPN customer gateway can be imported using the id, e.g.
 
 ```
-$ terraform import cloud_vpn_customer_gateway.foo cgw-xfqag
+$ terraform import tencentcloudenterprise_vpn_customer_gateway.foo cgw-xfqag
 ```
 */
 package tencentcloud
@@ -89,7 +89,7 @@ func resourceTencentCloudVpnCustomerGateway() *schema.Resource {
 }
 
 func resourceTencentCloudVpnCustomerGatewayCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_vpn_customer_gateway.create")()
+	defer logElapsed("resource.tencentcloudenterprise_vpn_customer_gateway.create")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
@@ -157,7 +157,7 @@ func resourceTencentCloudVpnCustomerGatewayCreate(d *schema.ResourceData, meta i
 }
 
 func resourceTencentCloudVpnCustomerGatewayRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_vpn_customer_gateway.read")()
+	defer logElapsed("resource.tencentcloudenterprise_vpn_customer_gateway.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -215,7 +215,7 @@ func resourceTencentCloudVpnCustomerGatewayRead(d *schema.ResourceData, meta int
 }
 
 func resourceTencentCloudVpnCustomerGatewayUpdate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_vpn_customer_gateway.update")()
+	defer logElapsed("resource.tencentcloudenterprise_vpn_customer_gateway.update")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
@@ -261,7 +261,7 @@ func resourceTencentCloudVpnCustomerGatewayUpdate(d *schema.ResourceData, meta i
 }
 
 func resourceTencentCloudVpnCustomerGatewayDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_vpn_customer_gateway.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_vpn_customer_gateway.delete")()
 
 	logId := getLogId(contextNil)
 

@@ -74,7 +74,7 @@ func resourceTencentCloudAsNotification() *schema.Resource {
 }
 
 func resourceTencentCloudAsNotificationCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_as_notification.create")()
+	defer logElapsed("resource.tencentcloudenterprise_as_notification.create")()
 
 	logId := getLogId(contextNil)
 
@@ -109,7 +109,7 @@ func resourceTencentCloudAsNotificationCreate(d *schema.ResourceData, meta inter
 }
 
 func resourceTencentCloudAsNotificationRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_as_notification.read")()
+	defer logElapsed("resource.tencentcloudenterprise_as_notification.read")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
@@ -139,7 +139,7 @@ func resourceTencentCloudAsNotificationRead(d *schema.ResourceData, meta interfa
 }
 
 func resourceTencentCloudAsNotificationUpdate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_as_notification.update")()
+	defer logElapsed("resource.tencentcloudenterprise_as_notification.update")()
 
 	logId := getLogId(contextNil)
 
@@ -174,7 +174,7 @@ func resourceTencentCloudAsNotificationUpdate(d *schema.ResourceData, meta inter
 }
 
 func resourceTencentCloudAsNotificationDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_as_notification.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_as_notification.delete")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)

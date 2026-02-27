@@ -38,7 +38,7 @@ resource "tencentcloudenterprise_cls_logset" "logset" {
 
 resource "tencentcloudenterprise_cls_topic" "topic" {
   auto_split           = true
-  logset_id            = cloud_cls_logset.logset.id
+  logset_id            = tencentcloudenterprise_cls_logset.logset.id
   max_split_partitions = 20
   partition_count      = 1
   period               = 10
@@ -67,13 +67,13 @@ resource "tencentcloudenterprise_cls_machine_group" "group" {
 
 resource "tencentcloudenterprise_cls_config_extra" "extra" {
   name        = "helloworld"
-  topic_id    = cloud_cls_topic.topic.id
+  topic_id    = tencentcloudenterprise_cls_topic.topic.id
   type        = "container_file"
   log_type    = "json_log"
   config_flag = "label_k8s"
-  logset_id   = cloud_cls_logset.logset.id
-  logset_name = cloud_cls_logset.logset.logset_name
-  topic_name  = cloud_cls_topic.topic.topic_name
+  logset_id   = tencentcloudenterprise_cls_logset.logset.id
+  logset_name = tencentcloudenterprise_cls_logset.logset.logset_name
+  topic_name  = tencentcloudenterprise_cls_topic.topic.topic_name
   container_file {
     container    = "nginx"
     file_pattern = "log"
@@ -86,7 +86,7 @@ resource "tencentcloudenterprise_cls_config_extra" "extra" {
       namespace = "default"
     }
   }
-  group_id = cloud_cls_machine_group.group.id
+  group_id = tencentcloudenterprise_cls_machine_group.group.id
 }
 
 

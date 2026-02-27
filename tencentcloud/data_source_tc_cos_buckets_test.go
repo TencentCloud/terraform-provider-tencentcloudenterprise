@@ -20,11 +20,11 @@ func TestAccTencentCloudCosBucketDataSource_basic(t *testing.T) {
 				Config: testAccCosBucketDataSource_basic(appid),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					testAccCheckCosBucketExists("tencentcloudenterprise_cos_bucket.bucket_basic"),
-					resource.TestCheckResourceAttr("data.cloud_cos_buckets.bucket_list", "bucket_list.#", "1"),
-					resource.TestCheckResourceAttr("data.cloud_cos_buckets.bucket_list", "bucket_list.0.cors_rules.#", "0"),
-					resource.TestCheckResourceAttr("data.cloud_cos_buckets.bucket_list", "bucket_list.0.lifecycle_rules.#", "0"),
-					resource.TestCheckResourceAttr("data.cloud_cos_buckets.bucket_list", "bucket_list.0.website.#", "0"),
-					resource.TestCheckResourceAttrSet("data.cloud_cos_buckets.bucket_list", "bucket_list.0.cos_bucket_url"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_cos_buckets.bucket_list", "bucket_list.#", "1"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_cos_buckets.bucket_list", "bucket_list.0.cors_rules.#", "0"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_cos_buckets.bucket_list", "bucket_list.0.lifecycle_rules.#", "0"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_cos_buckets.bucket_list", "bucket_list.0.website.#", "0"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_cos_buckets.bucket_list", "bucket_list.0.cos_bucket_url"),
 				),
 			},
 		},
@@ -40,8 +40,8 @@ func TestAccTencentCloudCosBucketDataSource_tags(t *testing.T) {
 			{
 				Config: testAccCosBucketDataSource_tags(),
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestMatchResourceAttr("data.cloud_cos_buckets.bucket_list", "bucket_list.#", regexp.MustCompile(`^[1-9]\d*$`)),
-					resource.TestCheckResourceAttr("data.cloud_cos_buckets.bucket_list", "bucket_list.0.tags.fixed_resource", "do_not_remove"),
+					resource.TestMatchResourceAttr("data.tencentcloudenterprise_cos_buckets.bucket_list", "bucket_list.#", regexp.MustCompile(`^[1-9]\d*$`)),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_cos_buckets.bucket_list", "bucket_list.0.tags.fixed_resource", "do_not_remove"),
 				),
 			},
 		},
@@ -59,33 +59,33 @@ func TestAccTencentCloudCosBucketDataSource_full(t *testing.T) {
 				Config: testAccCosBucketDataSource_full(appid),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					testAccCheckCosBucketExists("tencentcloudenterprise_cos_bucket.bucket_full"),
-					resource.TestCheckResourceAttr("data.cloud_cos_buckets.bucket_list", "bucket_list.#", "1"),
-					resource.TestCheckResourceAttr("data.cloud_cos_buckets.bucket_list", "bucket_list.0.cors_rules.#", "1"),
-					resource.TestCheckResourceAttr("data.cloud_cos_buckets.bucket_list", "bucket_list.0.cors_rules.0.allowed_headers.#", "1"),
-					resource.TestCheckResourceAttr("data.cloud_cos_buckets.bucket_list", "bucket_list.0.cors_rules.0.allowed_headers.0", "*"),
-					resource.TestCheckResourceAttr("data.cloud_cos_buckets.bucket_list", "bucket_list.0.cors_rules.0.allowed_methods.#", "2"),
-					resource.TestCheckResourceAttr("data.cloud_cos_buckets.bucket_list", "bucket_list.0.cors_rules.0.allowed_methods.0", "GET"),
-					resource.TestCheckResourceAttr("data.cloud_cos_buckets.bucket_list", "bucket_list.0.cors_rules.0.allowed_methods.1", "POST"),
-					resource.TestCheckResourceAttr("data.cloud_cos_buckets.bucket_list", "bucket_list.0.cors_rules.0.allowed_origins.#", "1"),
-					resource.TestCheckResourceAttr("data.cloud_cos_buckets.bucket_list",
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_cos_buckets.bucket_list", "bucket_list.#", "1"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_cos_buckets.bucket_list", "bucket_list.0.cors_rules.#", "1"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_cos_buckets.bucket_list", "bucket_list.0.cors_rules.0.allowed_headers.#", "1"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_cos_buckets.bucket_list", "bucket_list.0.cors_rules.0.allowed_headers.0", "*"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_cos_buckets.bucket_list", "bucket_list.0.cors_rules.0.allowed_methods.#", "2"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_cos_buckets.bucket_list", "bucket_list.0.cors_rules.0.allowed_methods.0", "GET"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_cos_buckets.bucket_list", "bucket_list.0.cors_rules.0.allowed_methods.1", "POST"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_cos_buckets.bucket_list", "bucket_list.0.cors_rules.0.allowed_origins.#", "1"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_cos_buckets.bucket_list",
 						"bucket_list.0.cors_rules.0.allowed_origins.0", "https://www.test.com"),
-					resource.TestCheckResourceAttr("data.cloud_cos_buckets.bucket_list", "bucket_list.0.cors_rules.0.expose_headers.#", "1"),
-					resource.TestCheckResourceAttr("data.cloud_cos_buckets.bucket_list", "bucket_list.0.cors_rules.0.expose_headers.0", "x-cos-test"),
-					resource.TestCheckResourceAttr("data.cloud_cos_buckets.bucket_list", "bucket_list.0.cors_rules.0.max_age_seconds", "300"),
-					resource.TestCheckResourceAttr("data.cloud_cos_buckets.bucket_list", "bucket_list.0.lifecycle_rules.#", "1"),
-					resource.TestCheckResourceAttr("data.cloud_cos_buckets.bucket_list",
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_cos_buckets.bucket_list", "bucket_list.0.cors_rules.0.expose_headers.#", "1"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_cos_buckets.bucket_list", "bucket_list.0.cors_rules.0.expose_headers.0", "x-cos-test"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_cos_buckets.bucket_list", "bucket_list.0.cors_rules.0.max_age_seconds", "300"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_cos_buckets.bucket_list", "bucket_list.0.lifecycle_rules.#", "1"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_cos_buckets.bucket_list",
 						"bucket_list.0.lifecycle_rules.0.filter_prefix", "test/"),
-					resource.TestCheckResourceAttr("data.cloud_cos_buckets.bucket_list",
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_cos_buckets.bucket_list",
 						"bucket_list.0.lifecycle_rules.0.expiration.#", "1"),
-					resource.TestCheckResourceAttr("data.cloud_cos_buckets.bucket_list",
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_cos_buckets.bucket_list",
 						"bucket_list.0.lifecycle_rules.0.transition.#", "2"),
-					resource.TestCheckResourceAttr("data.cloud_cos_buckets.bucket_list",
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_cos_buckets.bucket_list",
 						"bucket_list.0.lifecycle_rules.0.non_current_expiration.#", "1"),
-					resource.TestCheckResourceAttr("data.cloud_cos_buckets.bucket_list",
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_cos_buckets.bucket_list",
 						"bucket_list.0.lifecycle_rules.0.non_current_transition.#", "2"),
-					resource.TestCheckResourceAttr("data.cloud_cos_buckets.bucket_list", "bucket_list.0.website.#", "1"),
-					resource.TestCheckResourceAttr("data.cloud_cos_buckets.bucket_list", "bucket_list.0.website.0.index_document", "index.html"),
-					resource.TestCheckResourceAttr("data.cloud_cos_buckets.bucket_list", "bucket_list.0.website.0.error_document", "error.html"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_cos_buckets.bucket_list", "bucket_list.0.website.#", "1"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_cos_buckets.bucket_list", "bucket_list.0.website.0.index_document", "index.html"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_cos_buckets.bucket_list", "bucket_list.0.website.0.error_document", "error.html"),
 				),
 			},
 		},
@@ -99,7 +99,7 @@ resource "tencentcloudenterprise_cos_bucket" "bucket_basic" {
 }
 
 data "tencentcloudenterprise_cos_buckets" "bucket_list" {
-  bucket_prefix = cloud_cos_bucket.bucket_basic.bucket
+  bucket_prefix = tencentcloudenterprise_cos_bucket.bucket_basic.bucket
 }
 `, acctest.RandInt(), appid)
 }
@@ -165,7 +165,7 @@ resource "tencentcloudenterprise_cos_bucket" "bucket_full" {
 }
 
 data "tencentcloudenterprise_cos_buckets" "bucket_list" {
-  bucket_prefix = cloud_cos_bucket.bucket_full.bucket
+  bucket_prefix = tencentcloudenterprise_cos_bucket.bucket_full.bucket
 }
 `, acctest.RandInt(), appid)
 }

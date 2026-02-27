@@ -63,7 +63,7 @@ func resourceTencentCloudTdmqRabbitmqVirtualHost() *schema.Resource {
 }
 
 func resourceTencentCloudTdmqRabbitmqVirtualHostCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_tdmq_rabbitmq_virtual_host.create")()
+	defer logElapsed("resource.tencentcloudenterprise_tdmq_rabbitmq_virtual_host.create")()
 	defer inconsistentCheck(d, meta)()
 
 	var (
@@ -115,7 +115,7 @@ func resourceTencentCloudTdmqRabbitmqVirtualHostCreate(d *schema.ResourceData, m
 }
 
 func resourceTencentCloudTdmqRabbitmqVirtualHostRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_tdmq_rabbitmq_virtual_host.read")()
+	defer logElapsed("resource.tencentcloudenterprise_tdmq_rabbitmq_virtual_host.read")()
 	defer inconsistentCheck(d, meta)()
 
 	var (
@@ -162,7 +162,7 @@ func resourceTencentCloudTdmqRabbitmqVirtualHostRead(d *schema.ResourceData, met
 }
 
 func resourceTencentCloudTdmqRabbitmqVirtualHostUpdate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_tdmq_rabbitmq_virtual_host.update")()
+	defer logElapsed("resource.tencentcloudenterprise_tdmq_rabbitmq_virtual_host.update")()
 	defer inconsistentCheck(d, meta)()
 
 	var (
@@ -218,7 +218,7 @@ func resourceTencentCloudTdmqRabbitmqVirtualHostUpdate(d *schema.ResourceData, m
 }
 
 func resourceTencentCloudTdmqRabbitmqVirtualHostDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_tdmq_rabbitmq_virtual_host.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_tdmq_rabbitmq_virtual_host.delete")()
 	defer inconsistentCheck(d, meta)()
 
 	var (

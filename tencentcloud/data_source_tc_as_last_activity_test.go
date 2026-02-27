@@ -16,7 +16,7 @@ func TestAccTencentCloudAsLastActivityDataSource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			{
 				Config: testAccAsLastActivityDataSource,
-				Check:  resource.ComposeTestCheckFunc(testAccCheckTencentCloudDataSourceID("data.cloud_as_last_activity.last_activity")),
+				Check:  resource.ComposeTestCheckFunc(testAccCheckTencentCloudDataSourceID("data.tencentcloudenterprise_as_last_activity.last_activity")),
 			},
 		},
 	})

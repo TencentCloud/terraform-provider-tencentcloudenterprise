@@ -60,7 +60,7 @@ resource "tencentcloudenterprise_cls_logset" "logset" {
 
 resource "tencentcloudenterprise_cls_topic" "topic" {
   auto_split           = true
-  logset_id            = cloud_cls_logset.logset.id
+  logset_id            = tencentcloudenterprise_cls_logset.logset.id
   max_split_partitions = 20
   partition_count      = 1
   period               = 10
@@ -73,7 +73,7 @@ resource "tencentcloudenterprise_cls_topic" "topic" {
 
 resource "tencentcloudenterprise_cls_config" "config" {
   name             = "config"
-  output           = cloud_cls_topic.topic.id
+  output           = tencentcloudenterprise_cls_topic.topic.id
   path             = "/var/log/kubernetes/**/kubernetes.audit"
   log_type         = "json_log"
   extract_rule {
@@ -109,7 +109,7 @@ resource "tencentcloudenterprise_cls_logset" "logset" {
 
 resource "tencentcloudenterprise_cls_topic" "topic" {
   auto_split           = true
-  logset_id            = cloud_cls_logset.logset.id
+  logset_id            = tencentcloudenterprise_cls_logset.logset.id
   max_split_partitions = 20
   partition_count      = 1
   period               = 10
@@ -122,7 +122,7 @@ resource "tencentcloudenterprise_cls_topic" "topic" {
 
 resource "tencentcloudenterprise_cls_config" "config" {
   name     = "tf-full-regex-config-test"
-  output   = cloud_cls_topic.topic.id
+  output   = tencentcloudenterprise_cls_topic.topic.id
   path     = "/var/log/nginx/**/access.log"
   log_type = "fullregex_log"
 

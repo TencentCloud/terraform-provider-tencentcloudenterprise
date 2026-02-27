@@ -2,7 +2,7 @@
 subcategory: "Auto Scaling(AS)"
 layout: "tencentcloudenterprise"
 page_title: "TencentCloudEnterprise: tencentcloudenterprise_as_remove_instances"
-sidebar_current: "docs-tencentcloudenterprise-resources-as_remove_instances"
+sidebar_current: "docs-tencentcloudenterprise-resource-as_remove_instances"
 description: |-
   Provides a resource to create a as remove_instances
 ---
@@ -32,6 +32,5 @@ The following arguments are supported:
 In addition to all arguments above, the following attributes are exported:
 
 * `id` - ID of the resource.
-
 
 

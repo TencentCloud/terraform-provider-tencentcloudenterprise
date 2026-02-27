@@ -10,7 +10,7 @@ Example Usage
 
 	output "versions_id"{
 	  description = "Query versions from id."
-	  value = data.cloud_tke_kubernetes_available_cluster_versions.query_by_id.versions
+	  value = data.tencentcloudenterprise_tke_kubernetes_available_cluster_versions.query_by_id.versions
 	}
 
 	data "tencentcloudenterprise_tke_kubernetes_available_cluster_versions" "query_by_ids" {
@@ -19,7 +19,7 @@ Example Usage
 
 	output "versions_ids"{
 	  description = "Query versions from ids."
-	  value = data.cloud_tke_kubernetes_available_cluster_versions.query_by_ids.clusters
+	  value = data.tencentcloudenterprise_tke_kubernetes_available_cluster_versions.query_by_ids.clusters
 	}
 
 ```
@@ -113,7 +113,7 @@ func dataSourceTencentCloudKubernetesAvailableClusterVersions() *schema.Resource
 }
 
 func dataSourceTencentCloudKubernetesAvailableClusterVersionsRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("data_source.cloud_tke_kubernetes_available_cluster_versions.read")()
+	defer logElapsed("data_source.tencentcloudenterprise_tke_kubernetes_available_cluster_versions.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)

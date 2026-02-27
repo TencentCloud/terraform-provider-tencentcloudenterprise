@@ -95,7 +95,7 @@ resource "tencentcloudenterprise_cls_index" "complete_index" {
 cls cos index can be imported using the id, e.g.
 
 ```
-$ terraform import cloud_cls_index.index 0937e56f-4008-49d2-ad2d-69c52a9f11cc
+$ terraform import tencentcloudenterprise_cls_index.index 0937e56f-4008-49d2-ad2d-69c52a9f11cc
 ```
 */
 package tencentcloud
@@ -364,7 +364,7 @@ func resourceTencentCloudClsIndex() *schema.Resource {
 }
 
 func resourceTencentCloudClsIndexCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cls_index.create")()
+	defer logElapsed("resource.tencentcloudenterprise_cls_index.create")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -516,7 +516,7 @@ func resourceTencentCloudClsIndexCreate(d *schema.ResourceData, meta interface{}
 }
 
 func resourceTencentCloudClsIndexRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cls_index.read")()
+	defer logElapsed("resource.tencentcloudenterprise_cls_index.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -671,7 +671,7 @@ func resourceTencentCloudClsIndexRead(d *schema.ResourceData, meta interface{}) 
 }
 
 func resourceTencentCloudClsIndexUpdate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cls_index.update")()
+	defer logElapsed("resource.tencentcloudenterprise_cls_index.update")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -826,7 +826,7 @@ func resourceTencentCloudClsIndexUpdate(d *schema.ResourceData, meta interface{}
 }
 
 func resourceTencentCloudClsIndexDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cls_cos_shipper.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_cls_cos_shipper.delete")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)

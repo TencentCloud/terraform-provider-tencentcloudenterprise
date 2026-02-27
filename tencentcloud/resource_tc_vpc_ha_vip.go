@@ -19,7 +19,7 @@ Provides a resource to create a HA VIP.
 HA VIP can be imported using the id, e.g.
 
 ```
-$ terraform import cloud_vpc_ha_vip.foo havip-kjqwe4ba
+$ terraform import tencentcloudenterprise_vpc_ha_vip.foo havip-kjqwe4ba
 ```
 */
 package tencentcloud
@@ -121,7 +121,7 @@ func resourceTencentCloudHaVip() *schema.Resource {
 }
 
 func resourceTencentCloudHaVipCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_vpc_ha_vip.create")()
+	defer logElapsed("resource.tencentcloudenterprise_vpc_ha_vip.create")()
 
 	logId := getLogId(contextNil)
 
@@ -157,7 +157,7 @@ func resourceTencentCloudHaVipCreate(d *schema.ResourceData, meta interface{}) e
 }
 
 func resourceTencentCloudHaVipRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_vpc_ha_vip.read")()
+	defer logElapsed("resource.tencentcloudenterprise_vpc_ha_vip.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -200,7 +200,7 @@ func resourceTencentCloudHaVipRead(d *schema.ResourceData, meta interface{}) err
 }
 
 func resourceTencentCloudHaVipUpdate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_vpc_ha_vip.update")()
+	defer logElapsed("resource.tencentcloudenterprise_vpc_ha_vip.update")()
 
 	logId := getLogId(contextNil)
 
@@ -226,7 +226,7 @@ func resourceTencentCloudHaVipUpdate(d *schema.ResourceData, meta interface{}) e
 }
 
 func resourceTencentCloudHaVipDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_vpc_ha_vip.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_vpc_ha_vip.delete")()
 
 	logId := getLogId(contextNil)
 

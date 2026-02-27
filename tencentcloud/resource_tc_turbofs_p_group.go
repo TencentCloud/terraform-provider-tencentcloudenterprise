@@ -17,7 +17,7 @@ Provides a resource to create a TurboFS permission group.
 TurboFS permission group can be imported using the id, e.g.
 
 ```
-$ terraform import cloud_turbofs_p_group.foo pgroup-7nx89k7l
+$ terraform import tencentcloudenterprise_turbofs_p_group.foo pgroup-7nx89k7l
 ```
 */
 package tencentcloud
@@ -90,7 +90,7 @@ func resourceTencentCloudTurbofsPGroup() *schema.Resource {
 }
 
 func resourceTencentCloudTurbofsPGroupCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_turbofs_p_group.create")()
+	defer logElapsed("resource.tencentcloudenterprise_turbofs_p_group.create")()
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
 	turbofsService := TurbofsService{
@@ -123,7 +123,7 @@ func resourceTencentCloudTurbofsPGroupCreate(d *schema.ResourceData, meta interf
 }
 
 func resourceTencentCloudTurbofsPGroupRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_turbofs_p_group.read")()
+	defer logElapsed("resource.tencentcloudenterprise_turbofs_p_group.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -162,7 +162,7 @@ func resourceTencentCloudTurbofsPGroupRead(d *schema.ResourceData, meta interfac
 }
 
 func resourceTencentCloudTurbofsPGroupUpdate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_turbofs_p_group.update")()
+	defer logElapsed("resource.tencentcloudenterprise_turbofs_p_group.update")()
 	logId := getLogId(contextNil)
 
 	request := turbofs.NewUpdateCfsPGroupRequest()
@@ -195,7 +195,7 @@ func resourceTencentCloudTurbofsPGroupUpdate(d *schema.ResourceData, meta interf
 }
 
 func resourceTencentCloudTurbofsPGroupDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_turbofs_p_group.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_turbofs_p_group.delete")()
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
 

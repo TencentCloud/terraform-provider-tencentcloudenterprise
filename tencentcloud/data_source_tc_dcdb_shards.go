@@ -221,7 +221,7 @@ func dataSourceTencentCloudDcdbShards() *schema.Resource {
 }
 
 func dataSourceTencentCloudDcdbShardsRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("data_source.cloud_dcdb_shards.read")()
+	defer logElapsed("data_source.tencentcloudenterprise_dcdb_shards.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)

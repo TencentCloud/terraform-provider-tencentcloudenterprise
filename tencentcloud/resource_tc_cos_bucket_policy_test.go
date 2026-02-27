@@ -94,7 +94,7 @@ resource "tencentcloudenterprise_cos_bucket" "bucket" {
 }
 
 resource "tencentcloudenterprise_cos_bucket_policy" "foo" {
-  bucket        = cloud_cos_bucket.bucket.bucket
+  bucket        = tencentcloudenterprise_cos_bucket.bucket.bucket
   policy        = <<EOF
 {
   "Statement": [
@@ -132,7 +132,7 @@ resource "tencentcloudenterprise_cos_bucket" "bucket" {
 }
 
 resource "tencentcloudenterprise_cos_bucket_policy" "foo" {
-  bucket        = cloud_cos_bucket.bucket.bucket
+  bucket        = tencentcloudenterprise_cos_bucket.bucket.bucket
   policy        = <<EOF
 {
   "Statement": [

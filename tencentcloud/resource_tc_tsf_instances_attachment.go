@@ -172,7 +172,7 @@ func resourceTencentCloudTsfInstancesAttachment() *schema.Resource {
 }
 
 func resourceTencentCloudTsfInstancesAttachmentCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_tsf_instances_attachment.create")()
+	defer logElapsed("resource.tencentcloudenterprise_tsf_instances_attachment.create")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -267,7 +267,7 @@ func resourceTencentCloudTsfInstancesAttachmentCreate(d *schema.ResourceData, me
 }
 
 func resourceTencentCloudTsfInstancesAttachmentRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_tsf_instances_attachment.read")()
+	defer logElapsed("resource.tencentcloudenterprise_tsf_instances_attachment.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -356,7 +356,7 @@ func resourceTencentCloudTsfInstancesAttachmentRead(d *schema.ResourceData, meta
 }
 
 func resourceTencentCloudTsfInstancesAttachmentDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_tsf_instances_attachment.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_tsf_instances_attachment.delete")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)

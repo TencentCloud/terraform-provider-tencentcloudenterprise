@@ -1,8 +1,8 @@
 ---
-subcategory: "Cloud Redis®(Redis)"
+subcategory: "TencentDB for Redis(crs)"
 layout: "tencentcloudenterprise"
 page_title: "TencentCloudEnterprise: tencentcloudenterprise_redis_instance"
-sidebar_current: "docs-tencentcloudenterprise-resources-redis_instance"
+sidebar_current: "docs-tencentcloudenterprise-resource-redis_instance"
 description: |-
   Provides a resource to create a instance and set its attributes.
 ---
@@ -75,7 +75,7 @@ The following arguments are supported:
 * `mem_size` - (Required, Int) The memory volume of an available instance(in MB), please refer to `tencentcloudenterprise_redis_zone_config.list[zone].shard_memories`. When redis is standard type, it represents total memory size of the instance; when Redis is cluster type, it represents memory size of per sharding.
 * `security_groups` - (Required, Set: [`String`]) ID of security group. If both vpc_id and subnet_id are not set, this argument should not be set either.
 * `subnet_id` - (Required, String) Specifies which subnet the instance should belong to. When the `operation_network` is `changeVpc` or `changeBaseToVpc`, this parameter needs to be configured.
-* `type_id` - (Required, Int, ForceNew) Instance type. Available values reference data source `tencentcloudenterprise_redis_zone_config` or [document](https://intl.cloud.tencent.com/document/product/239/32069), toggle immediately when modified.
+* `type_id` - (Required, Int, ForceNew) Instance type. Available values reference data source `cloud_redis_zone_config` or [document](https://intl.cloud.tencent.com/document/product/239/32069), toggle immediately when modified.
 * `vpc_id` - (Required, String) ID of the vpc with which the instance is to be associated. When the `operation_network` is `changeVpc` or `changeBaseToVpc`, this parameter needs to be configured.
 * `auto_renew_flag` - (Optional, Int, ForceNew) Auto-renew flag. 0 - default state (manual renewal); 1 - automatic renewal; 2 - explicit no automatic renewal.
 * `charge_type` - (Optional, String, ForceNew) The charge type of instance. Valid values: `PREPAID` and `POSTPAID`. Default value is `POSTPAID`. Note: TencentCloud International only supports `POSTPAID`. Caution that update operation on this field will delete old instances and create new with new charge type.
@@ -103,12 +103,15 @@ In addition to all arguments above, the following attributes are exported:
 * `create_time` - The time when the instance was created.
 * `status` - Current status of an instance, maybe: init, processing, online, isolate and todelete.
 
-
 ## Import
 
+tencentcloudenterprise_redis_instance can be imported using the id, e.g.
+
+```
 Redis instance can be imported, e.g.
 
 ```
 $ terraform import tencentcloudenterprise_redis_instance.redislab redis-id
+```
 ```
 

@@ -13,30 +13,30 @@ Provide a resource to create a TDMQ role.
 	resource "tencentcloudenterprise_tdmq_namespace" "bar" {
 	  environ_name = "example"
 	  msg_ttl = 300
-	  cluster_id = cloud_tdmq_instance.foo.id
+	  cluster_id = tencentcloudenterprise_tdmq_instance.foo.id
 	  remark = "this is description."
 	}
 
 	resource "tencentcloudenterprise_tdmq_topic" "bar" {
-	  environ_id = cloud_tdmq_namespace.bar.id
+	  environ_id = tencentcloudenterprise_tdmq_namespace.bar.id
 	  topic_name = "example"
 	  partitions = 6
 	  topic_type = 0
-	  cluster_id = cloud_tdmq_instance.foo.id
+	  cluster_id = tencentcloudenterprise_tdmq_instance.foo.id
 	  remark = "this is description."
 	}
 
 	resource "tencentcloudenterprise_tdmq_role" "bar" {
 	  role_name = "example"
-	  cluster_id = cloud_tdmq_instance.foo.id
+	  cluster_id = tencentcloudenterprise_tdmq_instance.foo.id
 	  remark = "this is description world"
 	}
 
 	resource "tencentcloudenterprise_tdmq_namespace_role_attachment" "bar" {
-	  environ_id = cloud_tdmq_namespace.bar.id
-	  role_name = cloud_tdmq_role.bar.role_name
+	  environ_id = tencentcloudenterprise_tdmq_namespace.bar.id
+	  role_name = tencentcloudenterprise_tdmq_role.bar.role_name
 	  permissions = ["produce", "consume"]
-	  cluster_id = cloud_tdmq_instance.foo.id
+	  cluster_id = tencentcloudenterprise_tdmq_instance.foo.id
 	}
 
 ```
@@ -115,7 +115,7 @@ func resourceTencentCloudTdmqNamespaceRoleAttachment() *schema.Resource {
 }
 
 func resourceTencentCloudTdmqNamespaceRoleAttachmentCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_tdmq_namespace_role_attachment.create")()
+	defer logElapsed("resource.tencentcloudenterprise_tdmq_namespace_role_attachment.create")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
@@ -166,7 +166,7 @@ func resourceTencentCloudTdmqNamespaceRoleAttachmentCreate(d *schema.ResourceDat
 }
 
 func resourceTencentCloudTdmqNamespaceRoleAttachmentRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_tdmq_namespace_role_attachment.read")()
+	defer logElapsed("resource.tencentcloudenterprise_tdmq_namespace_role_attachment.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -204,7 +204,7 @@ func resourceTencentCloudTdmqNamespaceRoleAttachmentRead(d *schema.ResourceData,
 }
 
 func resourceTencentCloudTdmqNamespaceRoleAttachmentUpdate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_tdmq_namespace_role_attachment.update")()
+	defer logElapsed("resource.tencentcloudenterprise_tdmq_namespace_role_attachment.update")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
@@ -244,7 +244,7 @@ func resourceTencentCloudTdmqNamespaceRoleAttachmentUpdate(d *schema.ResourceDat
 }
 
 func resourceTencentCloudTdmqNamespaceRoleAttachmentDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_tdmq_namespace_role_attachment.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_tdmq_namespace_role_attachment.delete")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)

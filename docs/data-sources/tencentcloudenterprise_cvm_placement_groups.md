@@ -43,4 +43,3 @@ In addition to all arguments above, the following attributes are exported:
   * `strategy` - Placement group strategy.
   * `type` - Type of the placement group.
 
-

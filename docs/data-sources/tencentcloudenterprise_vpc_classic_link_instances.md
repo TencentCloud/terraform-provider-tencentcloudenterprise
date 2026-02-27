@@ -42,4 +42,3 @@ In addition to all arguments above, the following attributes are exported:
   * `instance_id` - The unique ID of the CVM instance.
   * `vpc_id` - VPC instance ID.
 
-

@@ -24,7 +24,7 @@ Provides a resource to create a CBS.
 CBS storage can be imported using the id, e.g.
 
 ```
-$ terraform import cloud_cbs_storage.storage disk-41s6jwy4
+$ terraform import tencentcloudenterprise_cbs_storage.storage disk-41s6jwy4
 ```
 */
 package tencentcloud
@@ -184,7 +184,7 @@ func resourceTencentCloudCbsStorage() *schema.Resource {
 }
 
 func resourceTencentCloudCbsStorageCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cbs_storage.create")()
+	defer logElapsed("resource.tencentcloudenterprise_cbs_storage.create")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
@@ -302,7 +302,7 @@ func resourceTencentCloudCbsStorageCreate(d *schema.ResourceData, meta interface
 }
 
 func resourceTencentCloudCbsStorageRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cbs_storage.read")()
+	defer logElapsed("resource.tencentcloudenterprise_cbs_storage.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -362,7 +362,7 @@ func resourceTencentCloudCbsStorageRead(d *schema.ResourceData, meta interface{}
 }
 
 func resourceTencentCloudCbsStorageUpdate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cbs_storage.update")()
+	defer logElapsed("resource.tencentcloudenterprise_cbs_storage.update")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
@@ -591,7 +591,7 @@ func resourceTencentCloudCbsStorageUpdate(d *schema.ResourceData, meta interface
 }
 
 func resourceTencentCloudCbsStorageDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cbs_storage.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_cbs_storage.delete")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)

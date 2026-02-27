@@ -59,4 +59,3 @@ In addition to all arguments above, the following attributes are exported:
     * `update_time` - Update time.
   * `total_count` - The total number of applications.
 
-

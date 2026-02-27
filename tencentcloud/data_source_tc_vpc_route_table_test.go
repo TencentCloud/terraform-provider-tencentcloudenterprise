@@ -70,8 +70,8 @@ func TestAccDataSourceTencentCloudRouteTable_basic(t *testing.T) {
 			{
 				Config: testAccDataSourceTencentCloudRouteTableConfig,
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckTencentCloudDataSourceID("data.cloud_route_table.foo"),
-					resource.TestCheckResourceAttr("data.cloud_route_table.foo", "name", "tf-ci-test"),
+					testAccCheckTencentCloudDataSourceID("data.tencentcloudenterprise_route_table.foo"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_route_table.foo", "name", "tf-ci-test"),
 				),
 			},
 		},
@@ -89,11 +89,11 @@ resource "tencentcloudenterprise_vpc" "foo" {
 }
 
 resource "tencentcloudenterprise_route_table" "route_table" {
-  vpc_id = cloud_vpc.foo.id
+  vpc_id = tencentcloudenterprise_vpc.foo.id
   name   = "tf-ci-test"
 }
 
 data "tencentcloudenterprise_route_table" "foo" {
-  route_table_id = cloud_route_table.route_table.id
+  route_table_id = tencentcloudenterprise_route_table.route_table.id
 }
 `

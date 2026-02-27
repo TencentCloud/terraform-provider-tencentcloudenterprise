@@ -16,7 +16,7 @@ func TestAccTencentCloudDcAccessPointsDataSource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			{
 				Config: testAccDcAccessPointsDataSource,
-				Check:  resource.ComposeTestCheckFunc(testAccCheckTencentCloudDataSourceID("data.cloud_dc_access_points.access_points")),
+				Check:  resource.ComposeTestCheckFunc(testAccCheckTencentCloudDataSourceID("data.tencentcloudenterprise_dc_access_points.access_points")),
 			},
 		},
 	})

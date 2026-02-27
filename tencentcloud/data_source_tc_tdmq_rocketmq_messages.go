@@ -145,7 +145,7 @@ func dataSourceTencentCloudTdmqRocketmqMessages() *schema.Resource {
 }
 
 func dataSourceTencentCloudTdmqMessageRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("data_source.cloud_tdmq_rocketmq_messages.read")()
+	defer logElapsed("data_source.tencentcloudenterprise_tdmq_rocketmq_messages.read")()
 	defer inconsistentCheck(d, meta)()
 
 	var (

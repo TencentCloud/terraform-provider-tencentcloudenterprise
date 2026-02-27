@@ -92,7 +92,7 @@ func resourceTencentCloudTurbofsRule() *schema.Resource {
 }
 
 func resourceTencentCloudTurbofsRuleCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_turbofs_rule.create")()
+	defer logElapsed("resource.tencentcloudenterprise_turbofs_rule.create")()
 	logId := getLogId(contextNil)
 
 	var ruleId *string
@@ -144,7 +144,7 @@ func resourceTencentCloudTurbofsRuleCreate(d *schema.ResourceData, meta interfac
 }
 
 func resourceTencentCloudTurbofsRuleRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_turbofs_rule.read")()
+	defer logElapsed("resource.tencentcloudenterprise_turbofs_rule.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -185,7 +185,7 @@ func resourceTencentCloudTurbofsRuleRead(d *schema.ResourceData, meta interface{
 }
 
 func resourceTencentCloudTurbofsRuleUpdate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_turbofs_rule.update")()
+	defer logElapsed("resource.tencentcloudenterprise_turbofs_rule.update")()
 	logId := getLogId(contextNil)
 
 	request := turbofs.NewUpdateCfsRuleRequest()
@@ -225,7 +225,7 @@ func resourceTencentCloudTurbofsRuleUpdate(d *schema.ResourceData, meta interfac
 }
 
 func resourceTencentCloudTurbofsRuleDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_turbofs_rule.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_turbofs_rule.delete")()
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
 	turbofsService := TurbofsService{

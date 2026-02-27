@@ -1,8 +1,8 @@
 ---
-subcategory: "Distributed Database For MySQL(DCDB)"
+subcategory: "TDSQL for MySQL(DCDB)"
 layout: "tencentcloudenterprise"
 page_title: "TencentCloudEnterprise: tencentcloudenterprise_dcdb_instance"
-sidebar_current: "docs-tencentcloudenterprise-resources-dcdb_instance"
+sidebar_current: "docs-tencentcloudenterprise-resource-dcdb_instance"
 description: |-
   Provides a resource to create a dcdb hourdb_instance
 ---
@@ -85,11 +85,14 @@ In addition to all arguments above, the following attributes are exported:
 * `id` - ID of the resource.
 * `vport` - Intranet port.
 
-
 ## Import
 
+tencentcloudenterprise_dcdb_instance can be imported using the id, e.g.
+
+```
 dcdb hourdb_instance can be imported using the id, e.g.
 ```
 $ terraform import tencentcloudenterprise_dcdb_instance.hourdb_instance hourdbInstance_id
+```
 ```
 

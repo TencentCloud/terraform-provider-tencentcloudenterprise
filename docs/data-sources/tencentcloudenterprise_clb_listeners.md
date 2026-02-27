@@ -64,4 +64,3 @@ In addition to all arguments above, the following attributes are exported:
   * `session_expire_time` - Time of session persistence within the CLB listener. NOTES: TCP/UDP listener allows direct configuration, HTTP/HTTPS listener needs to be configured in tencentcloudenterprise_clb_listener_rule.
   * `sni_switch` - Indicates whether SNI is enabled. NOTES: Only supported by `HTTPS` protocol.
 
-

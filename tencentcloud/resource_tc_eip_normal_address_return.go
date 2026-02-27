@@ -52,7 +52,7 @@ func resourceTencentCloudEipNormalAddressReturn() *schema.Resource {
 }
 
 func resourceTencentCloudEipNormalAddressReturnCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_eip_normal_address_return.create")()
+	defer logElapsed("resource.tencentcloudenterprise_eip_normal_address_return.create")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -90,14 +90,14 @@ func resourceTencentCloudEipNormalAddressReturnCreate(d *schema.ResourceData, me
 }
 
 func resourceTencentCloudEipNormalAddressReturnRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_eip_normal_address_return.read")()
+	defer logElapsed("resource.tencentcloudenterprise_eip_normal_address_return.read")()
 	defer inconsistentCheck(d, meta)()
 
 	return nil
 }
 
 func resourceTencentCloudEipNormalAddressReturnDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_eip_normal_address_return.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_eip_normal_address_return.delete")()
 	defer inconsistentCheck(d, meta)()
 
 	return nil

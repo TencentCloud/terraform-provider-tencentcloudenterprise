@@ -16,7 +16,7 @@ func TestAccTencentCloudNeedFixVpcNetDetectStateCheckDataSource_basic(t *testing
 		Steps: []resource.TestStep{
 			{
 				Config: testAccVpcNetDetectStateCheckDataSource,
-				Check:  resource.ComposeTestCheckFunc(testAccCheckTencentCloudDataSourceID("data.cloud_vpc_net_detect_state_check.net_detect_state_check")),
+				Check:  resource.ComposeTestCheckFunc(testAccCheckTencentCloudDataSourceID("data.tencentcloudenterprise_vpc_net_detect_state_check.net_detect_state_check")),
 			},
 		},
 	})

@@ -6,7 +6,7 @@ Provides a resource to create a as protect_instances
 ```hcl
 
 	resource "tencentcloudenterprise_as_protect_instances" "protect_instances" {
-	  auto_scaling_group_id = cloud_as_scaling_group.scaling_group.id
+	  auto_scaling_group_id = tencentcloudenterprise_as_scaling_group.scaling_group.id
 	  instance_ids = ["ins-xxxxx"]
 	  protected_from_scale_in = true
 	}
@@ -70,7 +70,7 @@ func resourceTencentCloudAsProtectInstances() *schema.Resource {
 }
 
 func resourceTencentCloudAsProtectInstancesCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("data_source.cloud_as_protect_instances.create")()
+	defer logElapsed("data_source.tencentcloudenterprise_as_protect_instances.create")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -116,14 +116,14 @@ func resourceTencentCloudAsProtectInstancesCreate(d *schema.ResourceData, meta i
 }
 
 func resourceTencentCloudAsProtectInstancesRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_as_protect_instances.read")()
+	defer logElapsed("resource.tencentcloudenterprise_as_protect_instances.read")()
 	defer inconsistentCheck(d, meta)()
 
 	return nil
 }
 
 func resourceTencentCloudAsProtectInstancesDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_as_protect_instances.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_as_protect_instances.delete")()
 	defer inconsistentCheck(d, meta)()
 
 	return nil

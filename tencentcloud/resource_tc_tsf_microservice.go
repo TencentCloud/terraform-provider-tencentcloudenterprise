@@ -21,7 +21,7 @@ Provides a resource to create a tsf microservice
 tsf microservice can be imported using the namespaceId#microserviceId, e.g.
 
 ```
-terraform import cloud_tsf_microservice.microservice namespace-vjlkzkgy#ms-vjeb43lw
+terraform import tencentcloudenterprise_tsf_microservice.microservice namespace-vjlkzkgy#ms-vjeb43lw
 ```
 */
 package tencentcloud
@@ -89,7 +89,7 @@ func resourceTencentCloudTsfMicroservice() *schema.Resource {
 }
 
 func resourceTencentCloudTsfMicroserviceCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_tsf_microservice.create")()
+	defer logElapsed("resource.tencentcloudenterprise_tsf_microservice.create")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -157,7 +157,7 @@ func resourceTencentCloudTsfMicroserviceCreate(d *schema.ResourceData, meta inte
 }
 
 func resourceTencentCloudTsfMicroserviceRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_tsf_microservice.read")()
+	defer logElapsed("resource.tencentcloudenterprise_tsf_microservice.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -207,7 +207,7 @@ func resourceTencentCloudTsfMicroserviceRead(d *schema.ResourceData, meta interf
 }
 
 func resourceTencentCloudTsfMicroserviceUpdate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_tsf_microservice.update")()
+	defer logElapsed("resource.tencentcloudenterprise_tsf_microservice.update")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -267,7 +267,7 @@ func resourceTencentCloudTsfMicroserviceUpdate(d *schema.ResourceData, meta inte
 }
 
 func resourceTencentCloudTsfMicroserviceDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_tsf_microservice.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_tsf_microservice.delete")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)

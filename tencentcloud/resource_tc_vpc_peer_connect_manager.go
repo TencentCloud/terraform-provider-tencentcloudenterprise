@@ -20,7 +20,7 @@ Provides a resource to create and manage a VPC peering connection.
 VPC peering connection can be imported using the id, e.g.
 
 ```
-$ terraform import cloud_vpc_peer_connect_manager.foo pcx-1asg3t63
+$ terraform import tencentcloudenterprise_vpc_peer_connect_manager.foo pcx-1asg3t63
 ```
 */
 package tencentcloud
@@ -99,7 +99,7 @@ func resourceTencentCloudVpcPeerConnectManager() *schema.Resource {
 }
 
 func resourceTencentCloudVpcPeerConnectManagerCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_vpc_peer_connect_manager.create")()
+	defer logElapsed("resource.tencentcloudenterprise_vpc_peer_connect_manager.create")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -151,7 +151,7 @@ func resourceTencentCloudVpcPeerConnectManagerCreate(d *schema.ResourceData, met
 }
 
 func resourceTencentCloudVpcPeerConnectManagerRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_vpc_peer_connect_manager.read")()
+	defer logElapsed("resource.tencentcloudenterprise_vpc_peer_connect_manager.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -201,7 +201,7 @@ func resourceTencentCloudVpcPeerConnectManagerRead(d *schema.ResourceData, meta 
 }
 
 func resourceTencentCloudVpcPeerConnectManagerUpdate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_vpc_peer_connect_manager.update")()
+	defer logElapsed("resource.tencentcloudenterprise_vpc_peer_connect_manager.update")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -244,7 +244,7 @@ func resourceTencentCloudVpcPeerConnectManagerUpdate(d *schema.ResourceData, met
 }
 
 func resourceTencentCloudVpcPeerConnectManagerDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_vpc_peer_connect_manager.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_vpc_peer_connect_manager.delete")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)

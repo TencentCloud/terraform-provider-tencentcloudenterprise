@@ -171,7 +171,7 @@ func resourceTencentCloudTsfNamespace() *schema.Resource {
 }
 
 func resourceTencentCloudTsfNamespaceCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_tsf_namespace.create")()
+	defer logElapsed("resource.tencentcloudenterprise_tsf_namespace.create")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -243,7 +243,7 @@ func resourceTencentCloudTsfNamespaceCreate(d *schema.ResourceData, meta interfa
 }
 
 func resourceTencentCloudTsfNamespaceRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_tsf_namespace.read")()
+	defer logElapsed("resource.tencentcloudenterprise_tsf_namespace.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -333,7 +333,7 @@ func resourceTencentCloudTsfNamespaceRead(d *schema.ResourceData, meta interface
 }
 
 func resourceTencentCloudTsfNamespaceUpdate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_tsf_namespace.update")()
+	defer logElapsed("resource.tencentcloudenterprise_tsf_namespace.update")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -388,7 +388,7 @@ func resourceTencentCloudTsfNamespaceUpdate(d *schema.ResourceData, meta interfa
 }
 
 func resourceTencentCloudTsfNamespaceDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_tsf_namespace.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_tsf_namespace.delete")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)

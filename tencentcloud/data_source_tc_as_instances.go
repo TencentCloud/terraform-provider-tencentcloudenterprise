@@ -21,7 +21,7 @@ Use this data source to query detailed information of as instances
 	data "tencentcloudenterprise_as_instances" "instances" {
 	  filters {
 		name = "auto-scaling-group-id"
-		values = [cloud_as_scaling_group.scaling_group.id]
+		values = [tencentcloudenterprise_as_scaling_group.scaling_group.id]
 	  }
 	}
 
@@ -187,7 +187,7 @@ func dataSourceTencentCloudAsInstances() *schema.Resource {
 }
 
 func dataSourceTencentCloudAsInstancesRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("data_source.cloud_as_instances.read")()
+	defer logElapsed("data_source.tencentcloudenterprise_as_instances.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)

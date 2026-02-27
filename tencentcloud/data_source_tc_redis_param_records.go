@@ -95,7 +95,7 @@ func dataSourceTencentCloudRedisRecordsParam() *schema.Resource {
 }
 
 func dataSourceTencentCloudRedisParamRecordsRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("data_source.cloud_redis_param_records.read")()
+	defer logElapsed("data_source.tencentcloudenterprise_redis_param_records.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)

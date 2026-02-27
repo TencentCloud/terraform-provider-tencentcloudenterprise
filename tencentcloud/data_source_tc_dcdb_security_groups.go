@@ -154,7 +154,7 @@ func dataSourceTencentCloudDcdbSecurityGroups() *schema.Resource {
 }
 
 func dataSourceTencentCloudDcdbSecurityGroupsRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("data_source.cloud_dcdb_security_groups.read")()
+	defer logElapsed("data_source.tencentcloudenterprise_dcdb_security_groups.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)

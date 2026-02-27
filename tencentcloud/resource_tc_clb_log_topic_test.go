@@ -60,7 +60,7 @@ resource "tencentcloudenterprise_clb_log_set" "set1" {
 }
 
 resource "tencentcloudenterprise_clb_log_topic" "topic" {
-    log_set_id = cloud_clb_log_set.set1.id
+    log_set_id = tencentcloudenterprise_clb_log_set.set1.id
     topic_name="clb-topic-test"
 }
 `

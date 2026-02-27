@@ -24,7 +24,7 @@ Provides a resource to create a NAT gateway.
 NAT gateway can be imported using the id, e.g.
 
 ```
-$ terraform import cloud_vpc_nat_gateway.foo nat-1asg3t63
+$ terraform import tencentcloudenterprise_vpc_nat_gateway.foo nat-1asg3t63
 ```
 */
 package tencentcloud
@@ -127,7 +127,7 @@ func resourceTencentCloudNatGateway() *schema.Resource {
 }
 
 func resourceTencentCloudNatGatewayCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_vpc_nat_gateway.create")()
+	defer logElapsed("resource.tencentcloudenterprise_vpc_nat_gateway.create")()
 
 	logId := getLogId(contextNil)
 	request := vpc.NewCreateNatGatewayRequest()
@@ -228,7 +228,7 @@ func resourceTencentCloudNatGatewayCreate(d *schema.ResourceData, meta interface
 }
 
 func resourceTencentCloudNatGatewayRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_vpc_nat_gateway.read")()
+	defer logElapsed("resource.tencentcloudenterprise_vpc_nat_gateway.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -278,7 +278,7 @@ func resourceTencentCloudNatGatewayRead(d *schema.ResourceData, meta interface{}
 }
 
 func resourceTencentCloudNatGatewayUpdate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_vpc_nat_gateway.update")()
+	defer logElapsed("resource.tencentcloudenterprise_vpc_nat_gateway.update")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
@@ -491,7 +491,7 @@ func resourceTencentCloudNatGatewayUpdate(d *schema.ResourceData, meta interface
 }
 
 func resourceTencentCloudNatGatewayDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_vpc_nat_gateway.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_vpc_nat_gateway.delete")()
 
 	logId := getLogId(contextNil)
 

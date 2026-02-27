@@ -189,7 +189,7 @@ func dataSourceTencentCloudCkafkaTopics() *schema.Resource {
 }
 
 func dataSourceTencentCloudCkafkaTopicsRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("data_source.cloud_ckafka_topics.read")()
+	defer logElapsed("data_source.tencentcloudenterprise_ckafka_topics.read")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)

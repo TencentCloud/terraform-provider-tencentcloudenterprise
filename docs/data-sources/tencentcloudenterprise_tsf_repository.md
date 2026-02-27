@@ -45,4 +45,3 @@ In addition to all arguments above, the following attributes are exported:
     * `repository_type` - Repository type (default Repository: default, private Repository: private).
   * `total_count` - Total Repository.
 
-

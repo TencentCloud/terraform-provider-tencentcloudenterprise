@@ -25,7 +25,7 @@ Provides a resource to create a tsf api_group
 tsf api_group can be imported using the id, e.g.
 
 ```
-terraform import cloud_tsf_api_group.api_group api_group_id
+terraform import tencentcloudenterprise_tsf_api_group.api_group api_group_id
 ```
 */
 package tencentcloud
@@ -229,7 +229,7 @@ func resourceTencentCloudTsfApiGroup() *schema.Resource {
 }
 
 func resourceTencentCloudTsfApiGroupCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_tsf_api_group.create")()
+	defer logElapsed("resource.tencentcloudenterprise_tsf_api_group.create")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -301,7 +301,7 @@ func resourceTencentCloudTsfApiGroupCreate(d *schema.ResourceData, meta interfac
 }
 
 func resourceTencentCloudTsfApiGroupRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_tsf_api_group.read")()
+	defer logElapsed("resource.tencentcloudenterprise_tsf_api_group.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -432,7 +432,7 @@ func resourceTencentCloudTsfApiGroupRead(d *schema.ResourceData, meta interface{
 }
 
 func resourceTencentCloudTsfApiGroupUpdate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_tsf_api_group.update")()
+	defer logElapsed("resource.tencentcloudenterprise_tsf_api_group.update")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -511,7 +511,7 @@ func resourceTencentCloudTsfApiGroupUpdate(d *schema.ResourceData, meta interfac
 }
 
 func resourceTencentCloudTsfApiGroupDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_tsf_api_group.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_tsf_api_group.delete")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)

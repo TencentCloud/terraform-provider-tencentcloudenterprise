@@ -35,7 +35,7 @@ Provides a resource to create a CLB redirection.
 CLB redirection can be imported using the id, e.g.
 
 ```
-$ terraform import cloud_clb_redirection.foo loc-ft8fmngv#loc-4xxr2cy7#lbl-jc1dx6ju#lbl-asj1hzuo#lb-p7olt9e5
+$ terraform import tencentcloudenterprise_clb_redirection.foo loc-ft8fmngv#loc-4xxr2cy7#lbl-jc1dx6ju#lbl-asj1hzuo#lb-p7olt9e5
 ```
 */
 package tencentcloud
@@ -130,7 +130,7 @@ func resourceTencentCloudClbRedirection() *schema.Resource {
 }
 
 func resourceTencentCloudClbRedirectionCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_clb_redirection.create")()
+	defer logElapsed("resource.tencentcloudenterprise_clb_redirection.create")()
 
 	clbActionMu.Lock()
 	defer clbActionMu.Unlock()
@@ -354,7 +354,7 @@ func resourceTencentCloudClbRedirectionCreate(d *schema.ResourceData, meta inter
 }
 
 func resourceTencentCloudClbRedirectionRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_clb_redirection.read")()
+	defer logElapsed("resource.tencentcloudenterprise_clb_redirection.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -398,14 +398,14 @@ func resourceTencentCloudClbRedirectionRead(d *schema.ResourceData, meta interfa
 }
 
 func resourceTencentCloudClbRedirectionUpdate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_clb_redirection.update")()
+	defer logElapsed("resource.tencentcloudenterprise_clb_redirection.update")()
 	defer inconsistentCheck(d, meta)()
 	// this nil update method works for the only filed `delete_all_auto_rewrite`
 	return resourceTencentCloudClbRedirectionRead(d, meta)
 }
 
 func resourceTencentCloudClbRedirectionDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_clb_redirection.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_clb_redirection.delete")()
 
 	clbActionMu.Lock()
 	defer clbActionMu.Unlock()

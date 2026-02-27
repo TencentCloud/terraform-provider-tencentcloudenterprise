@@ -1,5 +1,5 @@
 ---
-subcategory: "Distributed Database For MySQL(DCDB)"
+subcategory: "TDSQL for MySQL(DCDB)"
 layout: "tencentcloudenterprise"
 page_title: "TencentCloudEnterprise: tencentcloudenterprise_dcdb_accounts"
 sidebar_current: "docs-tencentcloudenterprise-datasource-dcdb_accounts"
@@ -38,5 +38,4 @@ In addition to all arguments above, the following attributes are exported:
   * `read_only` - Read-only flag, 0: No, 1: The SQL request of this account is preferentially executed on the standby machine, and the host is selected for execution when the standby machine is unavailable. 2: The standby machine is preferentially selected for execution, and the operation fails when the standby machine is unavailable.
   * `update_time` - Last update time.
   * `user_name` - User Name.
-
 

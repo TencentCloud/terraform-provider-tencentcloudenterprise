@@ -1,8 +1,8 @@
 ---
-subcategory: "Cloud Redis®(Redis)"
+subcategory: "TencentDB for Redis(crs)"
 layout: "tencentcloudenterprise"
 page_title: "TencentCloudEnterprise: tencentcloudenterprise_redis_replica_readonly"
-sidebar_current: "docs-tencentcloudenterprise-resources-redis_replica_readonly"
+sidebar_current: "docs-tencentcloudenterprise-resource-redis_replica_readonly"
 description: |-
   Provides a resource to create a replica_readonly
 ---
@@ -32,6 +32,5 @@ The following arguments are supported:
 In addition to all arguments above, the following attributes are exported:
 
 * `id` - ID of the resource.
-
 
 

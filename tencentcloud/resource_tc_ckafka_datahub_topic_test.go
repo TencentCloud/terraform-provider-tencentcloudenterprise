@@ -40,7 +40,7 @@ const testAccCkafkaDatahubTopic = `
 data "tencentcloudenterprise_user_info" "user" {}
 
 resource "tencentcloudenterprise_ckafka_datahub_topic" "datahub_topic" {
-  name = format("%s-tf", data.cloud_user_info.user.app_id)
+  name = format("%s-tf", data.tencentcloudenterprise_user_info.user.app_id)
   partition_num = 20
   retention_ms = 60000
   note = "for test"
@@ -56,7 +56,7 @@ const testAccCkafkaDatahubTopicUpdate = `
 data "tencentcloudenterprise_user_info" "user" {}
 
 resource "tencentcloudenterprise_ckafka_datahub_topic" "datahub_topic" {
-  name = format("%s-tf", data.cloud_user_info.user.app_id)
+  name = format("%s-tf", data.tencentcloudenterprise_user_info.user.app_id)
   partition_num = 20
   retention_ms = 120000
   note = "for test 123"

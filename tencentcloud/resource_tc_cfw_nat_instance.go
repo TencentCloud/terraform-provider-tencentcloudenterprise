@@ -27,7 +27,7 @@ Import
 Cloud firewall nat instance can be imported using the id, e.g.
 
 ```
-$ terraform import cloud_cfw_nat_instance.example cfwnat-54a21421```
+$ terraform import tencentcloudenterprise_cfw_nat_instance.example cfwnat-54a21421```
 */
 
 package tencentcloud
@@ -195,7 +195,7 @@ func resourceTencentCloudCfwNatInstance() *schema.Resource {
 }
 
 func resourceTencentCloudCfwNatInstanceCreate(d *schema.ResourceData, meta interface{}) error {
-	logElapsed("resource.cloud_cfw_nat_instance.create")()
+	logElapsed("resource.tencentcloudenterprise_cfw_nat_instance.create")()
 	inconsistentCheck(d, meta)()
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
@@ -389,7 +389,7 @@ func resourceTencentCloudCfwNatInstanceCreate(d *schema.ResourceData, meta inter
 }
 
 func resourceTencentCloudCfwNatInstanceRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cfw_nat_instance.read")()
+	defer logElapsed("resource.tencentcloudenterprise_cfw_nat_instance.read")()
 	defer inconsistentCheck(d, meta)()
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
@@ -527,7 +527,7 @@ func resourceTencentCloudCfwNatInstanceRead(d *schema.ResourceData, meta interfa
 }
 
 func resourceTencentCloudCfwNatInstanceUpdate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cfw_nat_instance.update")()
+	defer logElapsed("resource.tencentcloudenterprise_cfw_nat_instance.update")()
 	defer inconsistentCheck(d, meta)()
 	logId := getLogId(contextNil)
 	var (
@@ -569,7 +569,7 @@ func resourceTencentCloudCfwNatInstanceUpdate(d *schema.ResourceData, meta inter
 }
 
 func resourceTencentCloudCfwNatInstanceDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cfw_nat_instance.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_cfw_nat_instance.delete")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)

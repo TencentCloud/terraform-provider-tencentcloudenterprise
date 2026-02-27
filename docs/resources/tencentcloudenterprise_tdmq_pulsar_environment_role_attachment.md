@@ -1,8 +1,8 @@
 ---
-subcategory: "Tencent Distributed Message Queue(TDMQ)"
+subcategory: "TDMQ for Pulsar(tpulsar)"
 layout: "tencentcloudenterprise"
 page_title: "TencentCloudEnterprise: tencentcloudenterprise_tdmq_pulsar_environment_role_attachment"
-sidebar_current: "docs-tencentcloudenterprise-resources-tdmq_pulsar_environment_role_attachment"
+sidebar_current: "docs-tencentcloudenterprise-resource-tdmq_pulsar_environment_role_attachment"
 description: |-
   Provide a resource to create a TDMQ environment role.
 ---
@@ -14,7 +14,7 @@ Provide a resource to create a TDMQ environment role.
 ## Example Usage
 
 ```hcl
-resource "tencentcloudenterprise_tdmq_pulsar_cluster" "example" {
+resource "cloud_tdmq_pulsar_cluster" "example" {
   cluster_name = "tf_example"
   remark       = "remark."
   tags = {
@@ -22,10 +22,10 @@ resource "tencentcloudenterprise_tdmq_pulsar_cluster" "example" {
   }
 }
 
-resource "tencentcloudenterprise_tdmq_pulsar_environment" "example" {
+resource "cloud_tdmq_pulsar_environment" "example" {
   environ_name = "tf_example"
   msg_ttl      = 300
-  cluster_id   = tencentcloudenterprise_tdmq_pulsar_cluster.example.id
+  cluster_id   = cloud_tdmq_pulsar_cluster.example.id
   retention_policy {
     time_in_minutes = 60
     size_in_mb      = 10
@@ -33,17 +33,17 @@ resource "tencentcloudenterprise_tdmq_pulsar_environment" "example" {
   remark = "remark."
 }
 
-resource "tencentcloudenterprise_tdmq_pulsar_role" "example" {
+resource "cloud_tdmq_pulsar_role" "example" {
   role_name  = "tf_example"
-  cluster_id = tencentcloudenterprise_tdmq_pulsar_cluster.example.id
+  cluster_id = cloud_tdmq_pulsar_cluster.example.id
   remark     = "remark."
 }
 
-resource "tencentcloudenterprise_tdmq_pulsar_environment_role_attachment" "example" {
-  environ_id  = tencentcloudenterprise_tdmq_pulsar_environment.example.environ_name
-  role_name   = tencentcloudenterprise_tdmq_pulsar_role.example.role_name
+resource "cloud_tdmq_pulsar_environment_role_attachment" "example" {
+  environ_id  = cloud_tdmq_pulsar_environment.example.environ_name
+  role_name   = cloud_tdmq_pulsar_role.example.role_name
   permissions = ["produce", "consume"]
-  cluster_id  = tencentcloudenterprise_tdmq_pulsar_cluster.example.id
+  cluster_id  = cloud_tdmq_pulsar_cluster.example.id
 }
 ```
 
@@ -62,5 +62,4 @@ In addition to all arguments above, the following attributes are exported:
 
 * `id` - ID of the resource.
 * `create_time` - Creation time of resource.
-
 

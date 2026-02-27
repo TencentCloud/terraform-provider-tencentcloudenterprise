@@ -34,7 +34,7 @@ Provides a resource to create a cls alarm_notice
 cls alarm_notice can be imported using the id, e.g.
 
 ```
-terraform import cloud_cls_alarm_notice.alarm_notice alarm_notice_id
+terraform import tencentcloudenterprise_cls_alarm_notice.alarm_notice alarm_notice_id
 ```
 */
 package tencentcloud
@@ -186,7 +186,7 @@ func resourceTencentCloudClsAlarmNotice() *schema.Resource {
 }
 
 func resourceTencentCloudClsAlarmNoticeCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cls_alarm_notice.create")()
+	defer logElapsed("resource.tencentcloudenterprise_cls_alarm_notice.create")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -300,7 +300,7 @@ func resourceTencentCloudClsAlarmNoticeCreate(d *schema.ResourceData, meta inter
 }
 
 func resourceTencentCloudClsAlarmNoticeRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cls_alarm_notice.read")()
+	defer logElapsed("resource.tencentcloudenterprise_cls_alarm_notice.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -414,7 +414,7 @@ func resourceTencentCloudClsAlarmNoticeRead(d *schema.ResourceData, meta interfa
 }
 
 func resourceTencentCloudClsAlarmNoticeUpdate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cls_alarm_notice.update")()
+	defer logElapsed("resource.tencentcloudenterprise_cls_alarm_notice.update")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -540,7 +540,7 @@ func resourceTencentCloudClsAlarmNoticeUpdate(d *schema.ResourceData, meta inter
 }
 
 func resourceTencentCloudClsAlarmNoticeDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cls_alarm_notice.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_cls_alarm_notice.delete")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)

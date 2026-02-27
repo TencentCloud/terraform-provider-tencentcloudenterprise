@@ -13,7 +13,7 @@ Provides a resource to create a tdmqRocketmq role
 	resource "tencentcloudenterprise_tdmq_rocketmq_role" "role" {
 	  role_name = "test_rocketmq_role"
 	  remark = "test rocketmq role"
-	  cluster_id = cloud_tdmq_rocketmq_cluster.cluster.cluster_id
+	  cluster_id = tencentcloudenterprise_tdmq_rocketmq_cluster.cluster.cluster_id
 	}
 
 ```
@@ -21,7 +21,7 @@ Import
 
 tdmqRocketmq role can be imported using the id, e.g.
 ```
-$ terraform import cloud_tdmq_rocketmq_role.role role_id
+$ terraform import tencentcloudenterprise_tdmq_rocketmq_role.role role_id
 ```
 */
 package tencentcloud
@@ -106,7 +106,7 @@ func resourceTencentCloudTdmqRocketmqRole() *schema.Resource {
 }
 
 func resourceTencentCloudTdmqRocketmqRoleCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_tdmqRocketmq_role.create")()
+	defer logElapsed("resource.tencentcloudenterprise_tdmqRocketmq_role.create")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -152,7 +152,7 @@ func resourceTencentCloudTdmqRocketmqRoleCreate(d *schema.ResourceData, meta int
 }
 
 func resourceTencentCloudTdmqRocketmqRoleRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_tdmqRocketmq_role.read")()
+	defer logElapsed("resource.tencentcloudenterprise_tdmqRocketmq_role.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -189,7 +189,7 @@ func resourceTencentCloudTdmqRocketmqRoleRead(d *schema.ResourceData, meta inter
 }
 
 func resourceTencentCloudTdmqRocketmqRoleUpdate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_tdmqRocketmq_role.update")()
+	defer logElapsed("resource.tencentcloudenterprise_tdmqRocketmq_role.update")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -245,7 +245,7 @@ func resourceTencentCloudTdmqRocketmqRoleUpdate(d *schema.ResourceData, meta int
 }
 
 func resourceTencentCloudTdmqRocketmqRoleDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_tdmqRocketmq_role.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_tdmqRocketmq_role.delete")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)

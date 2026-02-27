@@ -22,7 +22,7 @@ Use this data source to query detailed information of cls machines
 	}
 
 	data "tencentcloudenterprise_cls_machines" "machines" {
-	  group_id = cloud_cls_machine_group.group.id
+	  group_id = tencentcloudenterprise_cls_machine_group.group.id
 	}
 
 ```
@@ -121,7 +121,7 @@ func dataSourceTencentCloudClsMachines() *schema.Resource {
 }
 
 func dataSourceTencentCloudClsMachinesRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("data_source.cloud_cls_machines.read")()
+	defer logElapsed("data_source.tencentcloudenterprise_cls_machines.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)

@@ -44,4 +44,3 @@ In addition to all arguments above, the following attributes are exported:
   * `system_disk` - The system disk of the flavor.
   * `zone` - The zone of the flavor.
 
-

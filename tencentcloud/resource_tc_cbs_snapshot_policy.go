@@ -19,7 +19,7 @@ Provides a snapshot policy resource.
 CBS snapshot policy can be imported using the id, e.g.
 
 ```
-$ terraform import cloud_cbs_snapshot_policy.snapshot_policy asp-jliex1tn
+$ terraform import tencentcloudenterprise_cbs_snapshot_policy.snapshot_policy asp-jliex1tn
 ```
 */
 package tencentcloud
@@ -94,7 +94,7 @@ func resourceTencentCloudCbsSnapshotPolicy() *schema.Resource {
 }
 
 func resourceTencentCloudCbsSnapshotPolicyCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cbs_snapshot_policy.create")()
+	defer logElapsed("resource.tencentcloudenterprise_cbs_snapshot_policy.create")()
 
 	logId := getLogId(contextNil)
 
@@ -141,7 +141,7 @@ func resourceTencentCloudCbsSnapshotPolicyCreate(d *schema.ResourceData, meta in
 }
 
 func resourceTencentCloudCbsSnapshotPolicyRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cbs_snapshot_policy.read")()
+	defer logElapsed("resource.tencentcloudenterprise_cbs_snapshot_policy.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -181,7 +181,7 @@ func resourceTencentCloudCbsSnapshotPolicyRead(d *schema.ResourceData, meta inte
 }
 
 func resourceTencentCloudCbsSnapshotPolicyUpdate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cbs_snapshot_policy.update")()
+	defer logElapsed("resource.tencentcloudenterprise_cbs_snapshot_policy.update")()
 
 	logId := getLogId(contextNil)
 
@@ -228,7 +228,7 @@ func resourceTencentCloudCbsSnapshotPolicyUpdate(d *schema.ResourceData, meta in
 }
 
 func resourceTencentCloudCbsSnapshotPolicyDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cbs_snapshot_policy.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_cbs_snapshot_policy.delete")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)

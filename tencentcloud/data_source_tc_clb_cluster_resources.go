@@ -150,7 +150,7 @@ func dataSourceTencentCloudClbClusterResources() *schema.Resource {
 }
 
 func dataSourceTencentCloudClbClusterResourcesRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("data_source.cloud_clb_cluster_resources.read")()
+	defer logElapsed("data_source.tencentcloudenterprise_clb_cluster_resources.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)

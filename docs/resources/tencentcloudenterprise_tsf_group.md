@@ -2,7 +2,7 @@
 subcategory: "Tencent Service Framework(TSF)"
 layout: "tencentcloudenterprise"
 page_title: "TencentCloudEnterprise: tencentcloudenterprise_tsf_group"
-sidebar_current: "docs-tencentcloudenterprise-resources-tsf_group"
+sidebar_current: "docs-tencentcloudenterprise-resource-tsf_group"
 description: |-
   Provides a resource to create a tsf group
 ---
@@ -46,12 +46,15 @@ In addition to all arguments above, the following attributes are exported:
 * `id` - ID of the resource.
 * `group_resource_type` - Deployment Group Resource Type.
 
-
 ## Import
 
+tencentcloudenterprise_tsf_group can be imported using the id, e.g.
+
+```
 tsf group can be imported using the id, e.g.
 
 ```
 terraform import tencentcloudenterprise_tsf_group.group group-axxx
+```
 ```
 

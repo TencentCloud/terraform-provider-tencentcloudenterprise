@@ -1,5 +1,5 @@
 ---
-subcategory: "Cloud Kafka(CKafka)"
+subcategory: "Cloud Kafka(ckafka)"
 layout: "tencentcloudenterprise"
 page_title: "TencentCloudEnterprise: tencentcloudenterprise_ckafka_instances"
 sidebar_current: "docs-tencentcloudenterprise-datasource-ckafka_instances"
@@ -69,5 +69,4 @@ In addition to all arguments above, the following attributes are exported:
   * `vport` - Virtual PORT.
   * `zone_id` - Availability Zone ID.
   * `zone_ids` - Across Availability Zones. Note: This field may return null, indicating that a valid value could not be retrieved.
-
 

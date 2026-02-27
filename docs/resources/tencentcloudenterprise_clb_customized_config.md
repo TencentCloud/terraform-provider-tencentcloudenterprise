@@ -2,7 +2,7 @@
 subcategory: "Cloud Load Balancer(CLB)"
 layout: "tencentcloudenterprise"
 page_title: "TencentCloudEnterprise: tencentcloudenterprise_clb_customized_config"
-sidebar_current: "docs-tencentcloudenterprise-resources-clb_customized_config"
+sidebar_current: "docs-tencentcloudenterprise-resource-clb_customized_config"
 description: |-
   Provides a resource to create a CLB customized config.
 ---
@@ -40,12 +40,15 @@ In addition to all arguments above, the following attributes are exported:
 * `create_time` - Create time of Customized Config.
 * `update_time` - Update time of Customized Config.
 
-
 ## Import
 
+tencentcloudenterprise_clb_customized_config can be imported using the id, e.g.
+
+```
 CLB customized config can be imported using the id, e.g.
 
 ```
 $ terraform import tencentcloudenterprise_clb_customized_config.foo pz-diowqstq
+```
 ```
 

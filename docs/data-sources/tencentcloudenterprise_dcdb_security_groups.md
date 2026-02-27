@@ -1,5 +1,5 @@
 ---
-subcategory: "Distributed Database For MySQL(DCDB)"
+subcategory: "TDSQL for MySQL(DCDB)"
 layout: "tencentcloudenterprise"
 page_title: "TencentCloudEnterprise: tencentcloudenterprise_dcdb_security_groups"
 sidebar_current: "docs-tencentcloudenterprise-datasource-dcdb_security_groups"
@@ -45,5 +45,4 @@ In addition to all arguments above, the following attributes are exported:
   * `project_id` - Project id.
   * `security_group_id` - Security group id.
   * `security_group_name` - Security group name.
-
 

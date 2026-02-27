@@ -109,7 +109,7 @@ func resourceTencentCloudVpnCustomerGatewayConfigurationDownload() *schema.Resou
 }
 
 func resourceTencentCloudVpnCustomerGatewayConfigurationDownloadCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("data_source.cloud_vpn_customer_gateway_configuration_download.read")()
+	defer logElapsed("data_source.tencentcloudenterprise_vpn_customer_gateway_configuration_download.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -171,14 +171,14 @@ func resourceTencentCloudVpnCustomerGatewayConfigurationDownloadCreate(d *schema
 }
 
 func resourceTencentCloudVpnCustomerGatewayConfigurationDownloadRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_vpn_customer_gateway_configuration_download.read")()
+	defer logElapsed("resource.tencentcloudenterprise_vpn_customer_gateway_configuration_download.read")()
 	defer inconsistentCheck(d, meta)()
 
 	return nil
 }
 
 func resourceTencentCloudVpnCustomerGatewayConfigurationDownloadDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_vpn_customer_gateway_configuration_download.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_vpn_customer_gateway_configuration_download.delete")()
 	defer inconsistentCheck(d, meta)()
 
 	return nil

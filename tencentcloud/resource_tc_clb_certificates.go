@@ -20,7 +20,7 @@ ssl certificate can be imported using the id, e.g.
 
 ```
 
-	$ terraform import cloud_clb_certificates.cert GjTNRoK7
+	$ terraform import tencentcloudenterprise_clb_certificates.cert GjTNRoK7
 
 ```
 */
@@ -176,7 +176,7 @@ func resourceTencentCloudClbCertificate() *schema.Resource {
 }
 
 func resourceTencentCloudClbCertCreate(d *schema.ResourceData, m interface{}) error {
-	defer logElapsed("resource.cloud_ssl_certificate.create")()
+	defer logElapsed("resource.tencentcloudenterprise_ssl_certificate.create")()
 
 	var (
 		logId      = getLogId(contextNil)
@@ -217,7 +217,7 @@ func resourceTencentCloudClbCertCreate(d *schema.ResourceData, m interface{}) er
 }
 
 func resourceTencentCloudClbCertRead(d *schema.ResourceData, m interface{}) error {
-	defer logElapsed("resource.cloud_ssl_certificate.read")()
+	defer logElapsed("resource.tencentcloudenterprise_ssl_certificate.read")()
 	defer inconsistentCheck(d, m)()
 
 	var (
@@ -291,7 +291,7 @@ func resourceTencentCloudClbCertRead(d *schema.ResourceData, m interface{}) erro
 }
 
 func resourceTencentCloudClbCertUpdate(d *schema.ResourceData, m interface{}) error {
-	defer logElapsed("resource.cloud_ssl_certificate.update")()
+	defer logElapsed("resource.tencentcloudenterprise_ssl_certificate.update")()
 
 	var (
 		logId      = getLogId(contextNil)
@@ -330,7 +330,7 @@ func resourceTencentCloudClbCertUpdate(d *schema.ResourceData, m interface{}) er
 }
 
 func resourceTencentCloudClbCertDelete(d *schema.ResourceData, m interface{}) error {
-	defer logElapsed("resource.cloud_ssl_certificate.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_ssl_certificate.delete")()
 	var (
 		logId         = getLogId(contextNil)
 		ctx           = context.WithValue(context.TODO(), logIdKey, logId)

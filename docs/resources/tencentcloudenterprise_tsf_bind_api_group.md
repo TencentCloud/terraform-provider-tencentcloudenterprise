@@ -2,7 +2,7 @@
 subcategory: "Tencent Service Framework(TSF)"
 layout: "tencentcloudenterprise"
 page_title: "TencentCloudEnterprise: tencentcloudenterprise_tsf_bind_api_group"
-sidebar_current: "docs-tencentcloudenterprise-resources-tsf_bind_api_group"
+sidebar_current: "docs-tencentcloudenterprise-resource-tsf_bind_api_group"
 description: |-
   Provides a resource to create a tsf bind_api_group
 ---
@@ -34,12 +34,15 @@ In addition to all arguments above, the following attributes are exported:
 * `id` - ID of the resource.
 
 
-
 ## Import
 
+tencentcloudenterprise_tsf_bind_api_group can be imported using the id, e.g.
+
+```
 tsf bind_api_group can be imported using the id, e.g.
 
 ```
 terraform import tencentcloudenterprise_tsf_bind_api_group.bind_api_group bind_api_group_id
+```
 ```
 

@@ -16,7 +16,7 @@ func TestAccTencentCloudCfsAvailableZoneDataSource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			{
 				Config: testAccCfsAvailableZoneDataSource,
-				Check:  resource.ComposeTestCheckFunc(testAccCheckTencentCloudDataSourceID("data.cloud_cfs_available_zone.available_zone")),
+				Check:  resource.ComposeTestCheckFunc(testAccCheckTencentCloudDataSourceID("data.tencentcloudenterprise_cfs_available_zone.available_zone")),
 			},
 		},
 	})

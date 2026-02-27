@@ -18,7 +18,7 @@ func TestAccTencentCloudTdmqEnvironmentAttributesDataSource_basic(t *testing.T) 
 			{
 				Config: testAccTdmqEnvironmentAttributesDataSource,
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckTencentCloudDataSourceID("data.cloud_tdmq_environment_attributes.environment_attributes"),
+					testAccCheckTencentCloudDataSourceID("data.tencentcloudenterprise_tdmq_environment_attributes.environment_attributes"),
 				),
 			},
 		},

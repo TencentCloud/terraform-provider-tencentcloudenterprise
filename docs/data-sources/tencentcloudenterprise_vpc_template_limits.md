@@ -33,4 +33,3 @@ In addition to all arguments above, the following attributes are exported:
   * `service_template_group_member_limit` - Service template group member limit.
   * `service_template_member_limit` - Service template member limit.
 
-

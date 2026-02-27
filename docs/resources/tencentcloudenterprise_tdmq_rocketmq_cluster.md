@@ -1,8 +1,8 @@
 ---
-subcategory: "Tencent Distributed Message Queue(TDMQ)"
+subcategory: "TDMQ for RocketMQ(trocket)"
 layout: "tencentcloudenterprise"
 page_title: "TencentCloudEnterprise: tencentcloudenterprise_tdmq_rocketmq_cluster"
-sidebar_current: "docs-tencentcloudenterprise-resources-tdmq_rocketmq_cluster"
+sidebar_current: "docs-tencentcloudenterprise-resource-tdmq_rocketmq_cluster"
 description: |-
   Provides a resource to create a tdmqRocketmq cluster
 ---
@@ -44,11 +44,14 @@ In addition to all arguments above, the following attributes are exported:
   * `subnet_id` - Subnet ID.
   * `vpc_id` - Vpc ID.
 
-
 ## Import
 
+tencentcloudenterprise_tdmq_rocketmq_cluster can be imported using the id, e.g.
+
+```
 tdmqRocketmq cluster can be imported using the id, e.g.
 ```
 $ terraform import tencentcloudenterprise_tdmq_rocketmq_cluster.cluster cluster_id
+```
 ```
 

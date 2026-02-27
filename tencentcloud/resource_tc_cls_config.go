@@ -41,7 +41,7 @@ Provides a resource to create a cls config
 cls config can be imported using the id, e.g.
 
 ```
-terraform import cloud_cls_config.config config_id
+terraform import tencentcloudenterprise_cls_config.config config_id
 ```
 */
 package tencentcloud
@@ -364,7 +364,7 @@ func resourceTencentCloudClsConfig() *schema.Resource {
 }
 
 func resourceTencentCloudClsConfigCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cls_config.create")()
+	defer logElapsed("resource.tencentcloudenterprise_cls_config.create")()
 
 	logId := getLogId(contextNil)
 
@@ -556,7 +556,7 @@ func resourceTencentCloudClsConfigCreate(d *schema.ResourceData, meta interface{
 }
 
 func resourceTencentCloudClsConfigRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cls_config.read")()
+	defer logElapsed("resource.tencentcloudenterprise_cls_config.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -799,7 +799,7 @@ func resourceTencentCloudClsConfigRead(d *schema.ResourceData, meta interface{})
 }
 
 func resourceTencentCloudClsConfigUpdate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cls_config.update")()
+	defer logElapsed("resource.tencentcloudenterprise_cls_config.update")()
 	logId := getLogId(contextNil)
 	request := cls.NewModifyConfigRequest()
 
@@ -1011,7 +1011,7 @@ func resourceTencentCloudClsConfigUpdate(d *schema.ResourceData, meta interface{
 }
 
 func resourceTencentCloudClsConfigDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cls_config.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_cls_config.delete")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)

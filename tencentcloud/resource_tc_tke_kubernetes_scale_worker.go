@@ -323,7 +323,7 @@ func resourceTencentCloudTkeScaleWorker() *schema.Resource {
 }
 
 func resourceTencentCloudTkeScaleWorkerCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_tke_kubernetes_scale_worker.create")()
+	defer logElapsed("resource.tencentcloudenterprise_tke_kubernetes_scale_worker.create")()
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
 
@@ -439,7 +439,7 @@ func resourceTencentCloudTkeScaleWorkerCreate(d *schema.ResourceData, meta inter
 
 func resourceTencentCloudTkeScaleWorkerRead(d *schema.ResourceData, meta interface{}) error {
 
-	defer logElapsed("resource.cloud_tke_kubernetes_scale_worker.read")()
+	defer logElapsed("resource.tencentcloudenterprise_tke_kubernetes_scale_worker.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -550,7 +550,7 @@ func resourceTencentCloudTkeScaleWorkerRead(d *schema.ResourceData, meta interfa
 }
 func resourceTencentCloudTkeScaleWorkerDelete(d *schema.ResourceData, meta interface{}) error {
 
-	defer logElapsed("resource.cloud_tke_kubernetes_scale_worker.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_tke_kubernetes_scale_worker.delete")()
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
 

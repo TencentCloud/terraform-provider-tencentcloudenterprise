@@ -16,7 +16,7 @@ func TestAccTencentCloudCfsMountTargetsDataSource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			{
 				Config: testAccCfsMountTargetsDataSource,
-				Check:  resource.ComposeTestCheckFunc(testAccCheckTencentCloudDataSourceID("data.cloud_cfs_mount_targets.mount_targets")),
+				Check:  resource.ComposeTestCheckFunc(testAccCheckTencentCloudDataSourceID("data.tencentcloudenterprise_cfs_mount_targets.mount_targets")),
 			},
 		},
 	})

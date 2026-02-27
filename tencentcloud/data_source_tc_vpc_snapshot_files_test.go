@@ -16,7 +16,7 @@ func TestAccTencentCloudNeedFixVpcSnapshotFilesDataSource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			{
 				Config: testAccVpcSnapshotFilesDataSource,
-				Check:  resource.ComposeTestCheckFunc(testAccCheckTencentCloudDataSourceID("data.cloud_vpc_snapshot_files.snapshot_files")),
+				Check:  resource.ComposeTestCheckFunc(testAccCheckTencentCloudDataSourceID("data.tencentcloudenterprise_vpc_snapshot_files.snapshot_files")),
 			},
 		},
 	})

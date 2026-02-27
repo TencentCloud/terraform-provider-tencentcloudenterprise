@@ -115,7 +115,7 @@ func resourceTencentCloudAsLifecycleHook() *schema.Resource {
 }
 
 func resourceTencentCloudAsLifecycleHookCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_as_lifecycle_hook.create")()
+	defer logElapsed("resource.tencentcloudenterprise_as_lifecycle_hook.create")()
 
 	logId := getLogId(contextNil)
 
@@ -170,7 +170,7 @@ func resourceTencentCloudAsLifecycleHookCreate(d *schema.ResourceData, meta inte
 }
 
 func resourceTencentCloudAsLifecycleHookRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_as_lifecycle_hook.read")()
+	defer logElapsed("resource.tencentcloudenterprise_as_lifecycle_hook.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -219,7 +219,7 @@ func resourceTencentCloudAsLifecycleHookRead(d *schema.ResourceData, meta interf
 }
 
 func resourceTencentCloudAsLifecycleHookUpdate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_as_lifecycle_hook.update")()
+	defer logElapsed("resource.tencentcloudenterprise_as_lifecycle_hook.update")()
 
 	logId := getLogId(contextNil)
 
@@ -269,7 +269,7 @@ func resourceTencentCloudAsLifecycleHookUpdate(d *schema.ResourceData, meta inte
 }
 
 func resourceTencentCloudAsLifecycleHookDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_as_lifecycle_hook.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_as_lifecycle_hook.delete")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)

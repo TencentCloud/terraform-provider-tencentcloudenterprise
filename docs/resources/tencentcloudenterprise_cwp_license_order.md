@@ -14,7 +14,7 @@ Provides a resource to create a cwp license_order
 ## Example Usage
 
 ```hcl
-resource "tencentcloud_cwp_license_order" "example" {
+resource "tencentcloudenterprise_cwp_license_order" "example" {
   alias        = "tf_example"
   license_type = 0
   license_num  = 1
@@ -51,6 +51,6 @@ In addition to all arguments above, the following attributes are exported:
 cwp license_order can be imported using the id, e.g.
 
 ```
-terraform import tencentcloud_cwp_license_order.example cwplic-130715d2#1
+terraform import tencenttencentcloudenterprise_cwp_license_order.example cwplic-130715d2#1
 ```
 

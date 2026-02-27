@@ -16,13 +16,13 @@ func TestAccDataSourceTencentCloudSecurityGroups_basic(t *testing.T) {
 			{
 				Config: TestAccDataSourceTencentCloudSecurityGroupsConfig,
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckTencentCloudDataSourceID("data.cloud_vpc_security_groups.foo"),
-					resource.TestCheckResourceAttr("data.cloud_vpc_security_groups.foo", "security_groups.#", "1"),
-					resource.TestCheckResourceAttr("data.cloud_vpc_security_groups.foo", "security_groups.0.name", "ci-temp-security-groups-test"),
-					resource.TestCheckResourceAttr("data.cloud_vpc_security_groups.foo", "security_groups.0.description", "ci-temp-security-groups-test"),
-					resource.TestCheckResourceAttr("data.cloud_vpc_security_groups.foo", "security_groups.0.be_associate_count", "0"),
-					resource.TestCheckResourceAttr("data.cloud_vpc_security_groups.foo", "security_groups.0.ingress.#", "0"),
-					resource.TestCheckResourceAttr("data.cloud_vpc_security_groups.foo", "security_groups.0.egress.#", "0"),
+					testAccCheckTencentCloudDataSourceID("data.tencentcloudenterprise_vpc_security_groups.foo"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_vpc_security_groups.foo", "security_groups.#", "1"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_vpc_security_groups.foo", "security_groups.0.name", "ci-temp-security-groups-test"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_vpc_security_groups.foo", "security_groups.0.description", "ci-temp-security-groups-test"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_vpc_security_groups.foo", "security_groups.0.be_associate_count", "0"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_vpc_security_groups.foo", "security_groups.0.ingress.#", "0"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_vpc_security_groups.foo", "security_groups.0.egress.#", "0"),
 				),
 			},
 		},
@@ -38,8 +38,8 @@ func TestAccDataSourceTencentCloudSecurityGroups_searchByName(t *testing.T) {
 			{
 				Config: TestAccDataSourceTencentCloudSecurityGroupsConfigSearchByName,
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckTencentCloudDataSourceID("data.cloud_vpc_security_groups.foo"),
-					resource.TestMatchResourceAttr("data.cloud_vpc_security_groups.foo", "security_groups.#", regexp.MustCompile(`^[1-9]\d*$`)),
+					testAccCheckTencentCloudDataSourceID("data.tencentcloudenterprise_vpc_security_groups.foo"),
+					resource.TestMatchResourceAttr("data.tencentcloudenterprise_vpc_security_groups.foo", "security_groups.#", regexp.MustCompile(`^[1-9]\d*$`)),
 				),
 			},
 		},
@@ -55,10 +55,10 @@ func TestAccDataSourceTencentCloudSecurityGroups_emptyResult(t *testing.T) {
 			{
 				Config: TestAccDataSourceTencentCloudSecurityGroupsConfigEmptyResult,
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckTencentCloudDataSourceID("data.cloud_vpc_security_groups.foo"),
-					testAccCheckTencentCloudDataSourceID("data.cloud_vpc_security_groups.bar"),
-					resource.TestCheckResourceAttr("data.cloud_vpc_security_groups.foo", "security_groups.#", "0"),
-					resource.TestCheckResourceAttr("data.cloud_vpc_security_groups.bar", "security_groups.#", "0"),
+					testAccCheckTencentCloudDataSourceID("data.tencentcloudenterprise_vpc_security_groups.foo"),
+					testAccCheckTencentCloudDataSourceID("data.tencentcloudenterprise_vpc_security_groups.bar"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_vpc_security_groups.foo", "security_groups.#", "0"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_vpc_security_groups.bar", "security_groups.#", "0"),
 				),
 			},
 		},
@@ -74,9 +74,9 @@ func TestAccDataSourceTencentCloudSecurityGroups_tags(t *testing.T) {
 			{
 				Config: TestAccDataSourceTencentCloudSecurityGroupsTags,
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckTencentCloudDataSourceID("data.cloud_vpc_security_groups.foo"),
-					resource.TestMatchResourceAttr("data.cloud_vpc_security_groups.foo", "security_groups.#", regexp.MustCompile(`^[1-9]\d*$`)),
-					resource.TestCheckResourceAttr("data.cloud_vpc_security_groups.foo", "security_groups.0.tags.test", "test"),
+					testAccCheckTencentCloudDataSourceID("data.tencentcloudenterprise_vpc_security_groups.foo"),
+					resource.TestMatchResourceAttr("data.tencentcloudenterprise_vpc_security_groups.foo", "security_groups.#", regexp.MustCompile(`^[1-9]\d*$`)),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_vpc_security_groups.foo", "security_groups.0.tags.test", "test"),
 				),
 			},
 		},
@@ -91,9 +91,9 @@ func TestAccDataSourceTencentCloudSecurityGroups_searchByProjectId(t *testing.T)
 			{
 				Config: TestAccDataSourceTencentCloudSecurityGroupsConfigSearchByProjectId,
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckTencentCloudDataSourceID("data.cloud_vpc_security_groups.foo"),
-					resource.TestMatchResourceAttr("data.cloud_vpc_security_groups.foo", "security_groups.#", regexp.MustCompile(`^[1-9]\d*$`)),
-					resource.TestCheckResourceAttr("data.cloud_vpc_security_groups.foo", "security_groups.0.project_id", "0"),
+					testAccCheckTencentCloudDataSourceID("data.tencentcloudenterprise_vpc_security_groups.foo"),
+					resource.TestMatchResourceAttr("data.tencentcloudenterprise_vpc_security_groups.foo", "security_groups.#", regexp.MustCompile(`^[1-9]\d*$`)),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_vpc_security_groups.foo", "security_groups.0.project_id", "0"),
 				),
 			},
 		},
@@ -107,7 +107,7 @@ resource "tencentcloudenterprise_vpc_security_group" "foo" {
 }
 
 data "tencentcloudenterprise_vpc_security_groups" "foo" {
-  security_group_id = cloud_vpc_security_group.foo.id
+  security_group_id = tencentcloudenterprise_vpc_security_group.foo.id
 }
 `
 
@@ -118,7 +118,7 @@ resource "tencentcloudenterprise_vpc_security_group" "foo" {
 }
 
 data "tencentcloudenterprise_vpc_security_groups" "foo" {
-  name = cloud_vpc_security_group.foo.name
+  name = tencentcloudenterprise_vpc_security_group.foo.name
 }
 `
 
@@ -143,7 +143,7 @@ resource "tencentcloudenterprise_vpc_security_group" "foo" {
 }
 
 data "tencentcloudenterprise_vpc_security_groups" "foo" {
-  tags = cloud_vpc_security_group.foo.tags
+  tags = tencentcloudenterprise_vpc_security_group.foo.tags
 }
 `
 
@@ -155,6 +155,6 @@ resource "tencentcloudenterprise_vpc_security_group" "foo" {
 }
 
 data "tencentcloudenterprise_vpc_security_groups" "foo" {
-  project_id = cloud_vpc_security_group.foo.project_id
+  project_id = tencentcloudenterprise_vpc_security_group.foo.project_id
 }
 `

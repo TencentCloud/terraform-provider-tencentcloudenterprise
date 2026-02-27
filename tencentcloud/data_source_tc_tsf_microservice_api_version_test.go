@@ -16,11 +16,11 @@ func TestAccTencentCloudTsfMicroserviceApiVersionDataSource_basic(t *testing.T) 
 			{
 				Config: testAccTsfMicroserviceApiVersionDataSource,
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckTencentCloudDataSourceID("data.cloud_tsf_microservice_api_version.microservice_api_version"),
-					resource.TestCheckResourceAttrSet("data.cloud_tsf_microservice_api_version.microservice_api_version", "result.#"),
-					resource.TestCheckResourceAttrSet("data.cloud_tsf_microservice_api_version.microservice_api_version", "result.0.application_id"),
-					resource.TestCheckResourceAttrSet("data.cloud_tsf_microservice_api_version.microservice_api_version", "result.0.application_name"),
-					resource.TestCheckResourceAttrSet("data.cloud_tsf_microservice_api_version.microservice_api_version", "result.0.pkg_version"),
+					testAccCheckTencentCloudDataSourceID("data.tencentcloudenterprise_tsf_microservice_api_version.microservice_api_version"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_tsf_microservice_api_version.microservice_api_version", "result.#"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_tsf_microservice_api_version.microservice_api_version", "result.0.application_id"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_tsf_microservice_api_version.microservice_api_version", "result.0.application_name"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_tsf_microservice_api_version.microservice_api_version", "result.0.pkg_version"),
 				),
 			},
 		},

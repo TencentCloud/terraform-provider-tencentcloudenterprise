@@ -102,7 +102,7 @@ resource "tencentcloudenterprise_redis_instance" "redis_instance_test" {
   subnet_id			 = local.subnet_id
 }
 resource "tencentcloudenterprise_redis_backup_config" "redis_backup_config" {
-  redis_id      = cloud_redis_instance.redis_instance_test.id
+  redis_id      = tencentcloudenterprise_redis_instance.redis_instance_test.id
   backup_time   = "01:00-02:00"
 }`
 }
@@ -119,7 +119,7 @@ resource "tencentcloudenterprise_redis_instance" "redis_instance_test" {
   subnet_id			 = local.subnet_id
 }
 resource "tencentcloudenterprise_redis_backup_config" "redis_backup_config" {
-  redis_id      = cloud_redis_instance.redis_instance_test.id
+  redis_id      = tencentcloudenterprise_redis_instance.redis_instance_test.id
   backup_time   = "06:00-07:00"
 }`
 }

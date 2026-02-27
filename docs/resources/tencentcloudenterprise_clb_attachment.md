@@ -2,7 +2,7 @@
 subcategory: "Cloud Load Balancer(CLB)"
 layout: "tencentcloudenterprise"
 page_title: "TencentCloudEnterprise: tencentcloudenterprise_clb_attachment"
-sidebar_current: "docs-tencentcloudenterprise-resources-clb_attachment"
+sidebar_current: "docs-tencentcloudenterprise-resource-clb_attachment"
 description: |-
   Provides a resource to create a CLB attachment.
 ---
@@ -51,12 +51,15 @@ In addition to all arguments above, the following attributes are exported:
 * `id` - ID of the resource.
 * `protocol_type` - Type of protocol within the listener.
 
-
 ## Import
 
+tencentcloudenterprise_clb_attachment can be imported using the id, e.g.
+
+```
 CLB attachment can be imported using the id, e.g.
 
 ```
 $ terraform import tencentcloudenterprise_clb_attachment.foo loc-4xxr2cy7#lbl-hh141sn9#lb-7a0t6zqb
+```
 ```
 

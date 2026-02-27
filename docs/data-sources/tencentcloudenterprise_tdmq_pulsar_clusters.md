@@ -1,5 +1,5 @@
 ---
-subcategory: "Tencent Distributed Message Queue(TDMQ)"
+subcategory: "TDMQ for Pulsar(tpulsar)"
 layout: "tencentcloudenterprise"
 page_title: "TencentCloudEnterprise: tencentcloudenterprise_tdmq_pulsar_clusters"
 sidebar_current: "docs-tencentcloudenterprise-datasource-tdmq_pulsar_clusters"
@@ -14,7 +14,7 @@ Use this data source to query detailed information of tdmq pro_instances
 ## Example Usage
 
 ```hcl
-data "tencentcloudenterprise_tdmq_pulsar_clusters" "pro_instances_filter" {
+data "cloud_tdmq_pulsar_clusters" "pro_instances_filter" {
   filters {
     name   = "InstanceName"
     values = ["keep"]
@@ -59,5 +59,4 @@ In addition to all arguments above, the following attributes are exported:
   * `used_storage_budget` - Used storage budget in MB.
   * `version` - Cluster version.
   * `vpc_end_point` - VPC endpoint.
-
 

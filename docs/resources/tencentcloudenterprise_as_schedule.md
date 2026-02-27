@@ -2,7 +2,7 @@
 subcategory: "Auto Scaling(AS)"
 layout: "tencentcloudenterprise"
 page_title: "TencentCloudEnterprise: tencentcloudenterprise_as_schedule"
-sidebar_current: "docs-tencentcloudenterprise-resources-as_schedule"
+sidebar_current: "docs-tencentcloudenterprise-resource-as_schedule"
 description: |-
   Provides a resource for an AS (Auto scaling) schedule.
 ---
@@ -44,6 +44,5 @@ The following arguments are supported:
 In addition to all arguments above, the following attributes are exported:
 
 * `id` - ID of the resource.
-
 
 

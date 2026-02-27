@@ -16,7 +16,7 @@ func TestAccTencentCloudCvmChcDeniedActionsDataSource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			{
 				Config: testAccCvmChcDeniedActionsDataSource,
-				Check:  resource.ComposeTestCheckFunc(testAccCheckTencentCloudDataSourceID("data.cloud_cvm_chc_denied_actions.chc_denied_actions")),
+				Check:  resource.ComposeTestCheckFunc(testAccCheckTencentCloudDataSourceID("data.tencentcloudenterprise_cvm_chc_denied_actions.chc_denied_actions")),
 			},
 		},
 	})

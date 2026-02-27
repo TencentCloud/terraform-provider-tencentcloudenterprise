@@ -1,5 +1,5 @@
 ---
-subcategory: "Tencent Distributed Message Queue(TDMQ)"
+subcategory: "TDMQ for RocketMQ(trocket)"
 layout: "tencentcloudenterprise"
 page_title: "TencentCloudEnterprise: tencentcloudenterprise_tdmq_rocketmq_cluster"
 sidebar_current: "docs-tencentcloudenterprise-datasource-tdmq_rocketmq_cluster"
@@ -58,5 +58,4 @@ In addition to all arguments above, the following attributes are exported:
       * `subnet_id` - Subnet ID.
       * `vpc_id` - Vpc ID.
   * `status` - Cluster status. `0`: Creating; `1`: Normal; `2`: Terminating; `3`: Deleted; `4`: Isolated; `5`: Creation failed; `6`: Deletion failed.
-
 

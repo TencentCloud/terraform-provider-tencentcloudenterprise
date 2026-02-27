@@ -340,8 +340,8 @@ data "tencentcloudenterprise_vpc_subnets" "gz3" {
 }
 
 locals {
-  vpc_id = data.cloud_vpc_subnets.gz3.instance_list.0.vpc_id
-  subnet_id = data.cloud_vpc_subnets.gz3.instance_list.0.subnet_id
+  vpc_id = data.tencentcloudenterprise_vpc_subnets.gz3.instance_list.0.vpc_id
+  subnet_id = data.tencentcloudenterprise_vpc_subnets.gz3.instance_list.0.subnet_id
 }`
 
 const defaultSecurityGroupData = fixedTagVariable + `
@@ -356,8 +356,8 @@ data "tencentcloudenterprise_vpc_security_groups" "exclusive" {
 
 locals {
   # local.sg_id
-  sg_id = data.cloud_vpc_security_groups.internal.security_groups.0.security_group_id
-  sg_id2 = data.cloud_vpc_security_groups.exclusive.security_groups.0.security_group_id
+  sg_id = data.tencentcloudenterprise_vpc_security_groups.internal.security_groups.0.security_group_id
+  sg_id2 = data.tencentcloudenterprise_vpc_security_groups.exclusive.security_groups.0.security_group_id
 }
 `
 
@@ -380,7 +380,7 @@ data "tencentcloudenterprise_mysql_instance" "mysql" {
 }
 
 locals {
-  mysql_id = data.cloud_mysql_instance.mysql.instance_list.0.mysql_id
+  mysql_id = data.tencentcloudenterprise_mysql_instance.mysql.instance_list.0.mysql_id
 }
 `
 
@@ -399,7 +399,7 @@ data "tencentcloudenterprise_sqlserver_instances" "sqlserver" {
 
 locals {
   # local.sqlserver_id
-  sqlserver_id = data.cloud_sqlserver_instances.sqlserver.instance_list.0.id
+  sqlserver_id = data.tencentcloudenterprise_sqlserver_instances.sqlserver.instance_list.0.id
   sqlserver_db = "` + defaultSQLServerDB + `"
 }
 `
@@ -412,8 +412,8 @@ data "tencentcloudenterprise_sqlserver_accounts" "test"{
 
 locals {
   # local.sqlserver_id
-  sqlserver_account = data.cloud_sqlserver_accounts.test.list.0.name
-  sqlserver_pwd = data.cloud_sqlserver_accounts.test.list.0.name
+  sqlserver_account = data.tencentcloudenterprise_sqlserver_accounts.test.list.0.name
+  sqlserver_pwd = data.tencentcloudenterprise_sqlserver_accounts.test.list.0.name
 }
 `
 
@@ -424,8 +424,8 @@ data "tencentcloudenterprise_availability_zones" "zone" {
 
 locals {
   # local.az, local.az1
-  az = data.cloud_availability_zones.zone.zones[0].name
-  az1 = data.cloud_availability_zones.zone.zones[1].name
+  az = data.tencentcloudenterprise_availability_zones.zone.zones[0].name
+  az1 = data.tencentcloudenterprise_availability_zones.zone.zones[1].name
 }
 `
 
@@ -438,8 +438,8 @@ data "tencentcloudenterprise_sqlserver_instances" "sub_sqlserver" {
 }
 
 locals {
-  pub_sqlserver_id = data.cloud_sqlserver_instances.pub_sqlserver.instance_list.0.id
-  sub_sqlserver_id = data.cloud_sqlserver_instances.sub_sqlserver.instance_list.0.id
+  pub_sqlserver_id = data.tencentcloudenterprise_sqlserver_instances.pub_sqlserver.instance_list.0.id
+  sub_sqlserver_id = data.tencentcloudenterprise_sqlserver_instances.sub_sqlserver.instance_list.0.id
   sqlserver_pubsub_db = "` + defaultSQLServerPubSubDB + `"
 }
 `
@@ -448,8 +448,8 @@ const instanceCommonTestCase = defaultInstanceVariable + `
 resource "tencentcloudenterprise_cvm_instance" "default" {
   instance_name              = var.instance_name
   availability_zone          = var.availability_cvm_zone
-  image_id                   = data.cloud_cvm_images.default.images.0.image_id
-  instance_type              = data.cloud_cvm_instance_types.default.instance_types.0.instance_type
+  image_id                   = data.tencentcloudenterprise_cvm_images.default.images.0.image_id
+  instance_type              = data.tencentcloudenterprise_cvm_instance_types.default.instance_types.0.instance_type
   system_disk_type           = "CLOUD_PREMIUM"
   system_disk_size           = 50
   allocate_public_ip         = true
@@ -471,15 +471,15 @@ data "tencentcloudenterprise_postgresql_instances" "foo" {
 data "tencentcloudenterprise_postgresql_readonly_groups" "ro_groups" {
   filters {
 	name = "db-master-instance-id"
-	values = [data.cloud_postgresql_instances.foo.instance_list.0.id]
+	values = [data.tencentcloudenterprise_postgresql_instances.foo.instance_list.0.id]
   }
   order_by = "CreateTime"
   order_by_type = "asc"
 }
 
 locals {
-  pgsql_id = data.cloud_postgresql_instances.foo.instance_list.0.id
-  pgrogroup_id = data.cloud_postgresql_readonly_groups.ro_groups.read_only_group_list.0.read_only_group_id
+  pgsql_id = data.tencentcloudenterprise_postgresql_instances.foo.instance_list.0.id
+  pgrogroup_id = data.tencentcloudenterprise_postgresql_readonly_groups.ro_groups.read_only_group_list.0.read_only_group_id
 }
 `
 const defaultPGSQLName = "keep-postgresql"
@@ -489,7 +489,7 @@ data "tencentcloudenterprise_postgresql_instances" "foo" {
 }
 
 locals {
-  pgsql_id = data.cloud_postgresql_instances.foo.instance_list.0.id
+  pgsql_id = data.tencentcloudenterprise_postgresql_instances.foo.instance_list.0.id
 }
 `
 
@@ -502,9 +502,9 @@ data "tencentcloudenterprise_cvm_instances" "instance" {
 }
 
 locals {
-  cvm_id = data.cloud_cvm_instances.instance.instance_list.0.instance_id
+  cvm_id = data.tencentcloudenterprise_cvm_instances.instance.instance_list.0.instance_id
   cvm_az = "` + defaultAZone + `"
-  cvm_private_ip = data.cloud_cvm_instances.instance.instance_list.0.private_ip
+  cvm_private_ip = data.tencentcloudenterprise_cvm_instances.instance.instance_list.0.private_ip
 }
 `
 
@@ -512,9 +512,9 @@ const userInfoData = `
 data "tencentcloudenterprise_user_info" "info" {}
 
 locals {
-  app_id = data.cloud_user_info.info.app_id
-  uin = data.cloud_user_info.info.uin
-  owner_uin = data.cloud_user_info.info.owner_uin
+  app_id = data.tencentcloudenterprise_user_info.info.app_id
+  uin = data.tencentcloudenterprise_user_info.info.uin
+  owner_uin = data.tencentcloudenterprise_user_info.info.owner_uin
 }
 `
 
@@ -522,12 +522,12 @@ const defaultSCFCosBucket = `
 data "tencentcloudenterprise_user_info" "info" {}
 
 data "tencentcloudenterprise_cos_buckets" "buckets" {
-  bucket_prefix = "preset-scf-bucket-${data.cloud_user_info.info.app_id}"
+  bucket_prefix = "preset-scf-bucket-${data.tencentcloudenterprise_user_info.info.app_id}"
 }
 
 locals {
-  bucket_name = data.cloud_cos_buckets.buckets.bucket_list.0.bucket
-  bucket_url = data.cloud_cos_buckets.buckets.bucket_list.0.cos_bucket_url
+  bucket_name = data.tencentcloudenterprise_cos_buckets.buckets.bucket_list.0.bucket
+  bucket_url = data.tencentcloudenterprise_cos_buckets.buckets.bucket_list.0.cos_bucket_url
 }
 `
 
@@ -546,7 +546,7 @@ variable "mount_id" {
 }
 
 locals {
-  cfs = data.cloud_cfs_file_systems.fs.file_system_list.0
+  cfs = data.tencentcloudenterprise_cfs_file_systems.fs.file_system_list.0
   cfs_id = local.cfs.file_system_id
 }`
 
@@ -595,7 +595,7 @@ data "tencentcloudenterprise_tcr_instances" "tcr" {
 }
 
 locals {
-  tcr_id = data.cloud_tcr_instances.tcr.instance_list.0.id
+  tcr_id = data.tencentcloudenterprise_tcr_instances.tcr.instance_list.0.id
 }
 `
 
@@ -635,7 +635,7 @@ data "tencentcloudenterprise_tcaplus_clusters" "tcaplus" {
 }
 
 data "tencentcloudenterprise_tcaplus_tablegroups" "group" {
-  cluster_id = data.cloud_tcaplus_clusters.tcaplus.list.0.cluster_id
+  cluster_id = data.tencentcloudenterprise_tcaplus_clusters.tcaplus.list.0.cluster_id
   tablegroup_name = var.tcaplus_table_group
 }
 
@@ -644,16 +644,16 @@ data "tencentcloudenterprise_tcaplus_clusters" "tdr_tcaplus" {
 }
   
 data "tencentcloudenterprise_tcaplus_tablegroups" "tdr_group" {
-  cluster_id = data.cloud_tcaplus_clusters.tdr_tcaplus.list.0.cluster_id
+  cluster_id = data.tencentcloudenterprise_tcaplus_clusters.tdr_tcaplus.list.0.cluster_id
   tablegroup_name = "keep_tdr_table_group"
 }
 
 locals {
-  tcaplus_id = data.cloud_tcaplus_clusters.tcaplus.list.0.cluster_id
-  tcr_tcaplus_id = data.cloud_tcaplus_clusters.tdr_tcaplus.list.0.cluster_id
+  tcaplus_id = data.tencentcloudenterprise_tcaplus_clusters.tcaplus.list.0.cluster_id
+  tcr_tcaplus_id = data.tencentcloudenterprise_tcaplus_clusters.tdr_tcaplus.list.0.cluster_id
   tcaplus_table_group = var.tcaplus_table_group
-  tcaplus_table_group_id = data.cloud_tcaplus_tablegroups.group.list.0.tablegroup_id
-  tcr_tcaplus_table_group_id = data.cloud_tcaplus_tablegroups.tdr_group.list.0.tablegroup_id
+  tcaplus_table_group_id = data.tencentcloudenterprise_tcaplus_tablegroups.group.list.0.tablegroup_id
+  tcr_tcaplus_table_group_id = data.tencentcloudenterprise_tcaplus_tablegroups.tdr_group.list.0.tablegroup_id
   tcaplus_table = var.tcaplus_table
 }
 `
@@ -711,8 +711,8 @@ data "tencentcloudenterprise_cvm_instance_types" "ins_type" {
 
 locals {
   ins_az = "` + defaultCvmAZone + `"
-  type1 = [for i in data.cloud_cvm_instance_types.ins_type.instance_types: i if lookup(i, "instance_charge_type") == "POSTPAID_BY_HOUR"]
-  type2 = [for i in data.cloud_cvm_instance_types.ins_type.instance_types: i]
+  type1 = [for i in data.tencentcloudenterprise_cvm_instance_types.ins_type.instance_types: i if lookup(i, "instance_charge_type") == "POSTPAID_BY_HOUR"]
+  type2 = [for i in data.tencentcloudenterprise_cvm_instance_types.ins_type.instance_types: i]
   final_type = concat(local.type1, local.type2)[0].instance_type
 }
 `
@@ -723,7 +723,7 @@ data "tencentcloudenterprise_vpc_instances" "vpc" {
 }
 
 data "tencentcloudenterprise_vpc_subnets" "subnet" {
-  vpc_id = data.cloud_vpc_instances.vpc.instance_list.0.vpc_id
+  vpc_id = data.tencentcloudenterprise_vpc_instances.vpc.instance_list.0.vpc_id
 }
 
 data "tencentcloudenterprise_cvm_instance_types" "default" {
@@ -740,9 +740,9 @@ data "tencentcloudenterprise_cvm_instance_types" "default" {
 }
 
 locals {
-  vpc_id = data.cloud_vpc_subnets.subnet.instance_list.0.vpc_id
-  subnet_id = data.cloud_vpc_subnets.subnet.instance_list.0.subnet_id
-  scale_instance_type = data.cloud_cvm_instance_types.default.instance_types.0.instance_type
+  vpc_id = data.tencentcloudenterprise_vpc_subnets.subnet.instance_list.0.vpc_id
+  subnet_id = data.tencentcloudenterprise_vpc_subnets.subnet.instance_list.0.subnet_id
+  scale_instance_type = data.tencentcloudenterprise_cvm_instance_types.default.instance_types.0.instance_type
 }
 `
 
@@ -752,7 +752,7 @@ data "tencentcloudenterprise_tke_kubernetes_clusters" "tke" {
 }
 
 locals {
-  cluster_id = data.cloud_tke_kubernetes_clusters.tke.list.0.cluster_id
+  cluster_id = data.tencentcloudenterprise_tke_kubernetes_clusters.tke.list.0.cluster_id
 }
 `
 
@@ -787,8 +787,8 @@ variable "subnet_id" {
 }
 
 locals {
-  filtered_spec = [for i in data.cloud_mongodb_zone_config.zone_config.list: i if lookup(i, "machine_type") == "HIO10G" && lookup(i, "engine_version") != "3.2"]
-  spec = concat(local.filtered_spec, data.cloud_mongodb_zone_config.zone_config.list)
+  filtered_spec = [for i in data.tencentcloudenterprise_mongodb_zone_config.zone_config.list: i if lookup(i, "machine_type") == "HIO10G" && lookup(i, "engine_version") != "3.2"]
+  spec = concat(local.filtered_spec, data.tencentcloudenterprise_mongodb_zone_config.zone_config.list)
   machine_type = local.spec.0.machine_type
   cluster_type = local.spec.0.cluster_type
   memory = local.spec.0.memory / 1024
@@ -797,8 +797,8 @@ locals {
 }
 
 locals {
-  filtered_sharding_spec = [for i in data.cloud_mongodb_zone_config.zone_config.list: i if lookup(i, "cluster_type") == "SHARD" && lookup(i, "min_replicate_set_num") > 0 && lookup(i, "machine_type") == "HIO10G" && lookup(i, "engine_version") != "3.2"]
-  sharding_spec = concat(local.filtered_sharding_spec, [for i in data.cloud_mongodb_zone_config.zone_config.list: i if lookup(i, "cluster_type") == "SHARD" && lookup(i, "min_replicate_set_num") > 0])
+  filtered_sharding_spec = [for i in data.tencentcloudenterprise_mongodb_zone_config.zone_config.list: i if lookup(i, "cluster_type") == "SHARD" && lookup(i, "min_replicate_set_num") > 0 && lookup(i, "machine_type") == "HIO10G" && lookup(i, "engine_version") != "3.2"]
+  sharding_spec = concat(local.filtered_sharding_spec, [for i in data.tencentcloudenterprise_mongodb_zone_config.zone_config.list: i if lookup(i, "cluster_type") == "SHARD" && lookup(i, "min_replicate_set_num") > 0])
   sharding_machine_type = local.sharding_spec.0.machine_type
   sharding_memory = local.sharding_spec.0.memory / 1024
   sharding_volume = local.sharding_spec.0.min_storage / 1024
@@ -855,7 +855,7 @@ data "tencentcloudenterprise_dcdb_instances" "dcdb" {
 }
 
 locals {
-  dcdb_id = data.cloud_dcdb_instances.dcdb.list.0.instance_id
+  dcdb_id = data.tencentcloudenterprise_dcdb_instances.dcdb.list.0.instance_id
 }
 `
 

@@ -18,14 +18,14 @@ func TestAccTencentCloudDataSourceInstancesBase(t *testing.T) {
 				Config: testAccTencentCloudDataSourceInstancesBase_1,
 				Check: resource.ComposeTestCheckFunc(
 					//testAccCheckTencentCloudInstanceExists("tencentcloudenterprise_cvm_instance.default"),
-					resource.TestCheckResourceAttrSet("data.cloud_cvm_instances.foo", "instance_list.0.instance_id"),
-					//resource.TestCheckResourceAttr("data.cloud_cvm_instances.foo", "instance_list.0.instance_name", defaultInsName),
-					resource.TestCheckResourceAttrSet("data.cloud_cvm_instances.foo", "instance_list.0.instance_type"),
-					resource.TestCheckResourceAttrSet("data.cloud_cvm_instances.foo", "instance_list.0.cpu"),
-					resource.TestCheckResourceAttrSet("data.cloud_cvm_instances.foo", "instance_list.0.memory"),
-					resource.TestCheckResourceAttrSet("data.cloud_cvm_instances.foo", "instance_list.0.availability_zone"),
-					resource.TestCheckResourceAttr("data.cloud_cvm_instances.foo", "instance_list.0.project_id", "0"),
-					resource.TestCheckResourceAttrSet("data.cloud_cvm_instances.foo", "instance_list.0.system_disk_type"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_cvm_instances.foo", "instance_list.0.instance_id"),
+					//resource.TestCheckResourceAttr("data.tencentcloudenterprise_cvm_instances.foo", "instance_list.0.instance_name", defaultInsName),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_cvm_instances.foo", "instance_list.0.instance_type"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_cvm_instances.foo", "instance_list.0.cpu"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_cvm_instances.foo", "instance_list.0.memory"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_cvm_instances.foo", "instance_list.0.availability_zone"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_cvm_instances.foo", "instance_list.0.project_id", "0"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_cvm_instances.foo", "instance_list.0.system_disk_type"),
 				),
 			},
 		},
@@ -34,8 +34,8 @@ func TestAccTencentCloudDataSourceInstancesBase(t *testing.T) {
 
 const testAccTencentCloudDataSourceInstancesBase = instanceCommonTestCase + `
 data "tencentcloudenterprise_cvm_instances" "foo" {
-  instance_id = cloud_cvm_instance.default.id
-  instance_name = cloud_cvm_instance.default.instance_name
+  instance_id = tencentcloudenterprise_cvm_instance.default.id
+  instance_name = tencentcloudenterprise_cvm_instance.default.instance_name
 }
 `
 const testAccTencentCloudDataSourceInstancesBase_1 = `

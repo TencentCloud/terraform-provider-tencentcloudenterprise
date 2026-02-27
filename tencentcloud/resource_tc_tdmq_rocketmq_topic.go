@@ -11,7 +11,7 @@ Provides a resource to create a tdmqRocketmq topic
 	}
 
 	resource "tencentcloudenterprise_tdmq_rocketmq_namespace" "namespace" {
-	  cluster_id = cloud_tdmq_rocketmq_cluster.cluster.cluster_id
+	  cluster_id = tencentcloudenterprise_tdmq_rocketmq_cluster.cluster.cluster_id
 	  namespace_name = "test_namespace"
 	  ttl = 65000
 	  retention_time = 65000
@@ -20,9 +20,9 @@ Provides a resource to create a tdmqRocketmq topic
 
 	resource "tencentcloudenterprise_tdmq_rocketmq_topic" "topic" {
 	  topic_name = "test_rocketmq_topic"
-	  namespace_name = cloud_tdmq_rocketmq_namespace.namespace.namespace_name
+	  namespace_name = tencentcloudenterprise_tdmq_rocketmq_namespace.namespace.namespace_name
 	  type = "Normal"
-	  cluster_id = cloud_tdmq_rocketmq_cluster.cluster.cluster_id
+	  cluster_id = tencentcloudenterprise_tdmq_rocketmq_cluster.cluster.cluster_id
 	  remark = "test rocketmq topic"
 	}
 
@@ -31,7 +31,7 @@ Import
 
 tdmqRocketmq topic can be imported using the id, e.g.
 ```
-$ terraform import cloud_tdmq_rocketmq_topic.topic topic_id
+$ terraform import tencentcloudenterprise_tdmq_rocketmq_topic.topic topic_id
 ```
 */
 package tencentcloud
@@ -131,7 +131,7 @@ func resourceTencentCloudTdmqRocketmqTopic() *schema.Resource {
 }
 
 func resourceTencentCloudTdmqRocketmqTopicCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_tdmqRocketmq_topic.create")()
+	defer logElapsed("resource.tencentcloudenterprise_tdmqRocketmq_topic.create")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -194,7 +194,7 @@ func resourceTencentCloudTdmqRocketmqTopicCreate(d *schema.ResourceData, meta in
 }
 
 func resourceTencentCloudTdmqRocketmqTopicRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_tdmqRocketmq_topic.read")()
+	defer logElapsed("resource.tencentcloudenterprise_tdmqRocketmq_topic.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -236,7 +236,7 @@ func resourceTencentCloudTdmqRocketmqTopicRead(d *schema.ResourceData, meta inte
 }
 
 func resourceTencentCloudTdmqRocketmqTopicUpdate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_tdmqRocketmq_topic.update")()
+	defer logElapsed("resource.tencentcloudenterprise_tdmqRocketmq_topic.update")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -313,7 +313,7 @@ func resourceTencentCloudTdmqRocketmqTopicUpdate(d *schema.ResourceData, meta in
 }
 
 func resourceTencentCloudTdmqRocketmqTopicDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_tdmqRocketmq_topic.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_tdmqRocketmq_topic.delete")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)

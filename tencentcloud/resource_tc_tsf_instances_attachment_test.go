@@ -123,7 +123,7 @@ data "tencentcloudenterprise_cvm_instance_types" "default" {
 	instance_name     = "tf-tsf-test"
 	availability_zone = "ap-guangzhou-3"
 	image_id          = var.image_id
-	instance_type     = data.cloud_cvm_instance_types.default.instance_types.0.instance_type
+	instance_type     = data.tencentcloudenterprise_cvm_instance_types.default.instance_types.0.instance_type
 	system_disk_type  = "CLOUD_PREMIUM"
 	instance_charge_type       = "PREPAID"
 	instance_charge_type_prepaid_period = 1
@@ -133,7 +133,7 @@ data "tencentcloudenterprise_cvm_instance_types" "default" {
 
 resource "tencentcloudenterprise_tsf_instances_attachment" "instances_attachment" {
 	cluster_id = var.cluster_id
-	instance_id = cloud_cvm_instance.foo.id
+	instance_id = tencentcloudenterprise_cvm_instance.foo.id
 	# os_name = "CentOS Stream 8"
 	image_id = var.image_id
 	password = "MyP@ssw0rd"

@@ -16,13 +16,13 @@ Provides a resource to create a dcdb encrypt_attributes_config
 	}
 
 	data "tencentcloudenterprise_vpc_subnets" "subnet" {
-		vpc_id = data.cloud_vpc_instances.vpc.instance_list.0.vpc_id
+		vpc_id = data.tencentcloudenterprise_vpc_instances.vpc.instance_list.0.vpc_id
 	}
 
 	locals {
-		vpc_id = data.cloud_vpc_subnets.subnet.instance_list.0.vpc_id
-		subnet_id = data.cloud_vpc_subnets.subnet.instance_list.0.subnet_id
-		sg_id = data.cloud_vpc_security_groups.internal.security_groups.0.security_group_id
+		vpc_id = data.tencentcloudenterprise_vpc_subnets.subnet.instance_list.0.vpc_id
+		subnet_id = data.tencentcloudenterprise_vpc_subnets.subnet.instance_list.0.subnet_id
+		sg_id = data.tencentcloudenterprise_vpc_security_groups.internal.security_groups.0.security_group_id
 	}
 
 	resource "tencentcloudenterprise_dcdb_db_instance" "prepaid_instance" {
@@ -61,8 +61,8 @@ Provides a resource to create a dcdb encrypt_attributes_config
 	}
 
 	locals {
-		prepaid_dcdb_id = cloud_dcdb_db_instance.prepaid_instance.id
-		hourdb_dcdb_id = cloud_dcdb_instance.hourdb_instance.id
+		prepaid_dcdb_id = tencentcloudenterprise_dcdb_db_instance.prepaid_instance.id
+		hourdb_dcdb_id = tencentcloudenterprise_dcdb_instance.hourdb_instance.id
 	}
 
 // for postpaid instance
@@ -86,7 +86,7 @@ Provides a resource to create a dcdb encrypt_attributes_config
 dcdb encrypt_attributes_config can be imported using the id, e.g.
 
 ```
-terraform import cloud_dcdb_encrypt_attributes_config.encrypt_attributes_config encrypt_attributes_config_id
+terraform import tencentcloudenterprise_dcdb_encrypt_attributes_config.encrypt_attributes_config encrypt_attributes_config_id
 ```
 */
 package tencentcloud
@@ -139,7 +139,7 @@ func resourceTencentCloudDcdbEncryptAttributesConfig() *schema.Resource {
 }
 
 func resourceTencentCloudDcdbEncryptAttributesConfigCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_dcdb_encrypt_attributes_config.create")()
+	defer logElapsed("resource.tencentcloudenterprise_dcdb_encrypt_attributes_config.create")()
 	defer inconsistentCheck(d, meta)()
 
 	var instanceId string
@@ -152,7 +152,7 @@ func resourceTencentCloudDcdbEncryptAttributesConfigCreate(d *schema.ResourceDat
 }
 
 func resourceTencentCloudDcdbEncryptAttributesConfigRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_dcdb_encrypt_attributes_config.read")()
+	defer logElapsed("resource.tencentcloudenterprise_dcdb_encrypt_attributes_config.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -184,7 +184,7 @@ func resourceTencentCloudDcdbEncryptAttributesConfigRead(d *schema.ResourceData,
 }
 
 func resourceTencentCloudDcdbEncryptAttributesConfigUpdate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_dcdb_encrypt_attributes_config.update")()
+	defer logElapsed("resource.tencentcloudenterprise_dcdb_encrypt_attributes_config.update")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -219,7 +219,7 @@ func resourceTencentCloudDcdbEncryptAttributesConfigUpdate(d *schema.ResourceDat
 }
 
 func resourceTencentCloudDcdbEncryptAttributesConfigDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_dcdb_encrypt_attributes_config.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_dcdb_encrypt_attributes_config.delete")()
 	defer inconsistentCheck(d, meta)()
 
 	return nil

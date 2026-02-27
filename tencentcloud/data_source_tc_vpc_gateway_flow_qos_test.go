@@ -16,7 +16,7 @@ func TestAccTencentCloudVpcGatewayFlowQosDataSource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			{
 				Config: testAccVpcGatewayFlowQosDataSource,
-				Check:  resource.ComposeTestCheckFunc(testAccCheckTencentCloudDataSourceID("data.cloud_vpc_gateway_flow_qos.gateway_flow_qos")),
+				Check:  resource.ComposeTestCheckFunc(testAccCheckTencentCloudDataSourceID("data.tencentcloudenterprise_vpc_gateway_flow_qos.gateway_flow_qos")),
 			},
 		},
 	})

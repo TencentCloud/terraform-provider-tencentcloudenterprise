@@ -6,7 +6,7 @@ Provides a resource to create a cls config attachment
 ```hcl
 
 	resource "tencentcloudenterprise_cls_config_attachment" "attach" {
-	  config_id = cloud_cls_config.config.id
+	  config_id = tencentcloudenterprise_cls_config.config.id
 	  group_id = "27752a9b-9918-440a-8ee7-9c84a14a47ed"
 	}
 
@@ -15,7 +15,7 @@ Provides a resource to create a cls config attachment
 cls config_attachment can be imported using the id, e.g.
 
 ```
-terraform import cloud_cls_config_attachment.attach config_id#group_id
+terraform import tencentcloudenterprise_cls_config_attachment.attach config_id#group_id
 ```
 
 ```
@@ -72,7 +72,7 @@ func resourceTencentCloudClsConfigAttachment() *schema.Resource {
 }
 
 func resourceTencentCloudClsConfigAttachmentCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cls_config_attachment.create")()
+	defer logElapsed("resource.tencentcloudenterprise_cls_config_attachment.create")()
 
 	logId := getLogId(contextNil)
 
@@ -114,7 +114,7 @@ func resourceTencentCloudClsConfigAttachmentCreate(d *schema.ResourceData, meta 
 }
 
 func resourceTencentCloudClsConfigAttachmentRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cls_config_attachment.read")()
+	defer logElapsed("resource.tencentcloudenterprise_cls_config_attachment.read")()
 
 	idSplit := strings.Split(d.Id(), FILED_SP)
 	if len(idSplit) != 2 {
@@ -145,7 +145,7 @@ func resourceTencentCloudClsConfigAttachmentRead(d *schema.ResourceData, meta in
 }
 
 func resourceTencentCloudClsConfigAttachmentDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cls_config_attachment.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_cls_config_attachment.delete")()
 
 	logId := getLogId(contextNil)
 	request := cls.NewDeleteConfigFromMachineGroupRequest()

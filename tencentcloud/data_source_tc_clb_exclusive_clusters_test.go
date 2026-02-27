@@ -16,7 +16,7 @@ func TestAccTencentCloudClbExclusiveClustersDataSource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			{
 				Config: testAccClbExclusiveClustersDataSource,
-				Check:  resource.ComposeTestCheckFunc(testAccCheckTencentCloudDataSourceID("data.cloud_clb_exclusive_clusters.exclusive_clusters")),
+				Check:  resource.ComposeTestCheckFunc(testAccCheckTencentCloudDataSourceID("data.tencentcloudenterprise_clb_exclusive_clusters.exclusive_clusters")),
 			},
 		},
 	})

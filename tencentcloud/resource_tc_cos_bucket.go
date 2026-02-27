@@ -40,7 +40,7 @@ Example Usage
 	}
 
 	output "endpoint_test" {
-	    value = cloud_cos_bucket.mycos.website.0.endpoint
+	    value = tencentcloudenterprise_cos_bucket.mycos.website.0.endpoint
 	}
 
 ```
@@ -184,8 +184,8 @@ EOF
 	}
 
 	resource "tencentcloudenterprise_cam_role_policy_attachment" "cosLogGrant" {
-	  role_id   = cloud_cam_role.cosLogGrant.id
-	  policy_id = data.cloud_cam_policies.cosAccess.policy_list.0.policy_id
+	  role_id   = tencentcloudenterprise_cam_role.cosLogGrant.id
+	  policy_id = data.tencentcloudenterprise_cam_policies.cosAccess.policy_list.0.policy_id
 	}
 
 	resource "tencentcloudenterprise_cos_bucket" "mylog" {
@@ -208,7 +208,7 @@ EOF
 COS bucket can be imported, e.g.
 
 ```
-$ terraform import cloud_cos_bucket.bucket bucket-name
+$ terraform import tencentcloudenterprise_cos_bucket.bucket bucket-name
 ```
 */
 package tencentcloud
@@ -776,7 +776,7 @@ func resourceTencentCloudCosBucket() *schema.Resource {
 }
 
 func resourceTencentCloudCosBucketCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cos_bucket.create")()
+	defer logElapsed("resource.tencentcloudenterprise_cos_bucket.create")()
 
 	var err error
 
@@ -828,7 +828,7 @@ func resourceTencentCloudCosBucketCreate(d *schema.ResourceData, meta interface{
 }
 
 func resourceTencentCloudCosBucketRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cos_bucket.read")()
+	defer logElapsed("resource.tencentcloudenterprise_cos_bucket.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -997,7 +997,7 @@ func resourceTencentCloudCosBucketRead(d *schema.ResourceData, meta interface{})
 }
 
 func resourceTencentCloudCosBucketUpdate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cos_bucket.update")()
+	defer logElapsed("resource.tencentcloudenterprise_cos_bucket.update")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
@@ -1135,7 +1135,7 @@ func resourceTencentCloudCosBucketUpdate(d *schema.ResourceData, meta interface{
 }
 
 func resourceTencentCloudCosBucketDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_cos_bucket.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_cos_bucket.delete")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)

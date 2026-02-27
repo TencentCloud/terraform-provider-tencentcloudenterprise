@@ -22,7 +22,7 @@ Import
 CLB attachment can be imported using the id, e.g.
 
 ```
-$ terraform import cloud_clb_attachment.foo loc-4xxr2cy7#lbl-hh141sn9#lb-7a0t6zqb
+$ terraform import tencentcloudenterprise_clb_attachment.foo loc-4xxr2cy7#lbl-hh141sn9#lb-7a0t6zqb
 ```
 */
 package tencentcloud
@@ -143,7 +143,7 @@ func resourceTencentCloudClbServerAttachment() *schema.Resource {
 }
 
 func resourceTencentCloudClbServerAttachmentCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_clb_attachment.create")()
+	defer logElapsed("resource.tencentcloudenterprise_clb_attachment.create")()
 
 	clbActionMu.Lock()
 	defer clbActionMu.Unlock()
@@ -214,7 +214,7 @@ func resourceTencentCloudClbServerAttachmentCreate(d *schema.ResourceData, meta 
 }
 
 func resourceTencentCloudClbServerAttachmentDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_clb_attachment.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_clb_attachment.delete")()
 
 	clbActionMu.Lock()
 	defer clbActionMu.Unlock()
@@ -292,7 +292,7 @@ func resourceTencentCloudClbServerAttachmentDelete(d *schema.ResourceData, meta 
 }
 
 func resourceTencentCloudClbServerAttachmentRemove(d *schema.ResourceData, meta interface{}, remove []interface{}) error {
-	defer logElapsed("resource.cloud_clb_attachment.remove")()
+	defer logElapsed("resource.tencentcloudenterprise_clb_attachment.remove")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
@@ -337,7 +337,7 @@ func resourceTencentCloudClbServerAttachmentRemove(d *schema.ResourceData, meta 
 }
 
 func resourceTencentCloudClbServerAttachmentAdd(d *schema.ResourceData, meta interface{}, add []interface{}) error {
-	defer logElapsed("resource.cloud_clb_attachment.add")()
+	defer logElapsed("resource.tencentcloudenterprise_clb_attachment.add")()
 	logId := getLogId(contextNil)
 
 	listenerId := d.Get("listener_id").(string)
@@ -382,7 +382,7 @@ func resourceTencentCloudClbServerAttachmentAdd(d *schema.ResourceData, meta int
 }
 
 func resourceTencentCloudClbServerAttachmentUpdate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_clb_attachment.update")()
+	defer logElapsed("resource.tencentcloudenterprise_clb_attachment.update")()
 
 	clbActionMu.Lock()
 	defer clbActionMu.Unlock()
@@ -437,7 +437,7 @@ func resourceTencentCloudClbServerAttachmentUpdate(d *schema.ResourceData, meta 
 }
 
 func resourceTencentCloudClbServerAttachmentRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_clb_attachment.read")()
+	defer logElapsed("resource.tencentcloudenterprise_clb_attachment.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)

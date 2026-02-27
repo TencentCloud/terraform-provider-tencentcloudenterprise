@@ -24,7 +24,7 @@ Provides a resource to create a tsf group
 tsf group can be imported using the id, e.g.
 
 ```
-terraform import cloud_tsf_group.group group-axxx
+terraform import tencentcloudenterprise_tsf_group.group group-axxx
 ```
 */
 package tencentcloud
@@ -120,7 +120,7 @@ func resourceTencentCloudTsfGroup() *schema.Resource {
 }
 
 func resourceTencentCloudTsfGroupCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_tsf_group.create")()
+	defer logElapsed("resource.tencentcloudenterprise_tsf_group.create")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -190,7 +190,7 @@ func resourceTencentCloudTsfGroupCreate(d *schema.ResourceData, meta interface{}
 }
 
 func resourceTencentCloudTsfGroupRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_tsf_group.read")()
+	defer logElapsed("resource.tencentcloudenterprise_tsf_group.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -252,7 +252,7 @@ func resourceTencentCloudTsfGroupRead(d *schema.ResourceData, meta interface{}) 
 }
 
 func resourceTencentCloudTsfGroupUpdate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_tsf_group.update")()
+	defer logElapsed("resource.tencentcloudenterprise_tsf_group.update")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -319,7 +319,7 @@ func resourceTencentCloudTsfGroupUpdate(d *schema.ResourceData, meta interface{}
 }
 
 func resourceTencentCloudTsfGroupDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_tsf_group.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_tsf_group.delete")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)

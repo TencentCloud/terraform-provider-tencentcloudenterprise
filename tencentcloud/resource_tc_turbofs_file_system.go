@@ -23,7 +23,7 @@ Provides a resource to create a parallel file system(TurboFS).
 Cloud file system can be imported using the id, e.g.
 
 ```
-$ terraform import cloud_turbofs_file_system.foo turbofs-6hgquxmj
+$ terraform import tencentcloudenterprise_turbofs_file_system.foo turbofs-6hgquxmj
 ```
 */
 package tencentcloud
@@ -267,7 +267,7 @@ func resourceTencentCloudTurbofsFileSystem() *schema.Resource {
 }
 
 func resourceTencentCloudTurbofsFileSystemCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_turbofs_file_system.create")()
+	defer logElapsed("resource.tencentcloudenterprise_turbofs_file_system.create")()
 	logId := getLogId(contextNil)
 	request := turbofs.NewCreateCfsFileSystemRequest()
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
@@ -395,7 +395,7 @@ func resourceTencentCloudTurbofsFileSystemCreate(d *schema.ResourceData, meta in
 }
 
 func resourceTencentCloudTurbofsFileSystemRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_turbofs_file_system.read")()
+	defer logElapsed("resource.tencentcloudenterprise_turbofs_file_system.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -516,7 +516,7 @@ func resourceTencentCloudTurbofsFileSystemRead(d *schema.ResourceData, meta inte
 }
 
 func resourceTencentCloudTurbofsFileSystemUpdate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_turbofs_file_system.update")()
+	defer logElapsed("resource.tencentcloudenterprise_turbofs_file_system.update")()
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
 	fsId := d.Id()
@@ -595,7 +595,7 @@ func resourceTencentCloudTurbofsFileSystemUpdate(d *schema.ResourceData, meta in
 }
 
 func resourceTencentCloudTurbofsFileSystemDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_turbofs_file_system.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_turbofs_file_system.delete")()
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
 

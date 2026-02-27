@@ -15,9 +15,9 @@ func TestAccTencentCloudNatGatewayTransRuleDataSource(t *testing.T) {
 			{
 				Config: testAccTencentCloudDataSourceDnatsBase,
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckTencentCloudDataSourceID("data.cloud_vpc_dnats.multi_dnats"),
-					resource.TestCheckResourceAttr("data.cloud_vpc_dnats.multi_dnats", "dnat_list.#", "1"),
-					resource.TestCheckResourceAttr("data.cloud_vpc_dnats.multi_dnats", "dnat_list.0.description", defaultInsName),
+					testAccCheckTencentCloudDataSourceID("data.tencentcloudenterprise_vpc_dnats.multi_dnats"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_vpc_dnats.multi_dnats", "dnat_list.#", "1"),
+					resource.TestCheckResourceAttr("data.tencentcloudenterprise_vpc_dnats.multi_dnats", "dnat_list.0.description", defaultInsName),
 				),
 			},
 		},
@@ -42,25 +42,25 @@ resource "tencentcloudenterprise_vpc_nat_gateway" "my_nat" {
   bandwidth      = 500
 
   assigned_eip_set = [
-    cloud_eip.eip_dev_dnat.public_ip,
-    cloud_eip.eip_test_dnat.public_ip,
+    tencentcloudenterprise_eip.eip_dev_dnat.public_ip,
+    tencentcloudenterprise_eip.eip_test_dnat.public_ip,
   ]
 }
 
 # Add DNAT Entry
 resource "tencentcloudenterprise_vpc_dnat" "dev_dnat" {
-  vpc_id       = cloud_vpc_nat_gateway.my_nat.vpc_id
-  nat_id       = cloud_vpc_nat_gateway.my_nat.id
+  vpc_id       = tencentcloudenterprise_vpc_nat_gateway.my_nat.vpc_id
+  nat_id       = tencentcloudenterprise_vpc_nat_gateway.my_nat.id
   protocol     = "TCP"
-  elastic_ip   = cloud_eip.eip_dev_dnat.public_ip
+  elastic_ip   = tencentcloudenterprise_eip.eip_dev_dnat.public_ip
   elastic_port = "80"
-  private_ip   = cloud_cvm_instance.default.private_ip
+  private_ip   = tencentcloudenterprise_cvm_instance.default.private_ip
   private_port = "9001"
   description  = var.instance_name
 }
 
 data "tencentcloudenterprise_vpc_dnats" "multi_dnats" {
-  nat_id = cloud_vpc_dnat.dev_dnat.nat_id
-  vpc_id = cloud_vpc_dnat.dev_dnat.vpc_id
+  nat_id = tencentcloudenterprise_vpc_dnat.dev_dnat.nat_id
+  vpc_id = tencentcloudenterprise_vpc_dnat.dev_dnat.vpc_id
 }
 `

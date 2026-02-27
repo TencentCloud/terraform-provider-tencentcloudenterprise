@@ -23,7 +23,7 @@ Provide a resource to create a TDMQ instance.
 Tdmq instance can be imported, e.g.
 
 ```
-$ terraform import cloud_tdmq_instance.test tdmq_id
+$ terraform import tencentcloudenterprise_tdmq_instance.test tdmq_id
 ```
 */
 package tencentcloud
@@ -100,7 +100,7 @@ func resourceTencentCloudTdmqInstance() *schema.Resource {
 }
 
 func resourceTencentCloudTdmqCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_tdmq_instance.create")()
+	defer logElapsed("resource.tencentcloudenterprise_tdmq_instance.create")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
@@ -163,7 +163,7 @@ func resourceTencentCloudTdmqCreate(d *schema.ResourceData, meta interface{}) er
 }
 
 func resourceTencentCloudTdmqRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_tdmq_instance.read")()
+	defer logElapsed("resource.tencentcloudenterprise_tdmq_instance.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -203,7 +203,7 @@ func resourceTencentCloudTdmqRead(d *schema.ResourceData, meta interface{}) erro
 }
 
 func resourceTencentCloudTdmqUpdate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_tdmq_instance.update")()
+	defer logElapsed("resource.tencentcloudenterprise_tdmq_instance.update")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
@@ -248,7 +248,7 @@ func resourceTencentCloudTdmqUpdate(d *schema.ResourceData, meta interface{}) er
 }
 
 func resourceTencentCloudTdmqDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_tdmq_instance.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_tdmq_instance.delete")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)

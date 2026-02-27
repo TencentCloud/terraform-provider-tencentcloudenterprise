@@ -1,8 +1,8 @@
 ---
-subcategory: "Tencent Distributed Message Queue(TDMQ)"
+subcategory: "TDMQ for RabbitMQ(trabbit)"
 layout: "tencentcloudenterprise"
 page_title: "TencentCloudEnterprise: tencentcloudenterprise_tdmq_rabbitmq_virtual_host"
-sidebar_current: "docs-tencentcloudenterprise-resources-tdmq_rabbitmq_virtual_host"
+sidebar_current: "docs-tencentcloudenterprise-resource-tdmq_rabbitmq_virtual_host"
 description: |-
   Provides a resource to create a tdmq rabbitmq_virtual_host
 ---
@@ -14,30 +14,30 @@ Provides a resource to create a tdmq rabbitmq_virtual_host
 ## Example Usage
 
 ```hcl
-data "tencentcloudenterprise_availability_zones" "zones" {
+data "cloud_availability_zones" "zones" {
   name = "ap-guangzhou-6"
 }
 
 # create vpc
-resource "tencentcloudenterprise_vpc" "vpc" {
+resource "cloud_vpc" "vpc" {
   name       = "vpc"
   cidr_block = "10.0.0.0/16"
 }
 
 # create vpc subnet
-resource "tencentcloudenterprise_vpc_subnet" "subnet" {
+resource "cloud_vpc_subnet" "subnet" {
   name              = "subnet"
-  vpc_id            = tencentcloudenterprise_vpc.vpc.id
+  vpc_id            = cloud_vpc.vpc.id
   availability_zone = "ap-guangzhou-6"
   cidr_block        = "10.0.20.0/28"
   is_multicast      = false
 }
 
 # create rabbitmq instance
-resource "tencentcloudenterprise_tdmq_rabbitmq_vip_instance" "example" {
-  zone_ids                              = [data.tencentcloudenterprise_availability_zones.zones.zones.0.id]
-  vpc_id                                = tencentcloudenterprise_vpc.vpc.id
-  subnet_id                             = tencentcloudenterprise_vpc_subnet.subnet.id
+resource "cloud_tdmq_rabbitmq_vip_instance" "example" {
+  zone_ids                              = [data.cloud_availability_zones.zones.zones.0.id]
+  vpc_id                                = cloud_vpc.vpc.id
+  subnet_id                             = cloud_vpc_subnet.subnet.id
   cluster_name                          = "tf-example-rabbitmq-vip-instance"
   node_spec                             = "rabbit-vip-basic-1"
   node_num                              = 1
@@ -48,8 +48,8 @@ resource "tencentcloudenterprise_tdmq_rabbitmq_vip_instance" "example" {
 }
 
 # create virtual host
-resource "tencentcloudenterprise_tdmq_rabbitmq_virtual_host" "example" {
-  instance_id  = tencentcloudenterprise_tdmq_rabbitmq_vip_instance.example.id
+resource "cloud_tdmq_rabbitmq_virtual_host" "example" {
+  instance_id  = cloud_tdmq_rabbitmq_vip_instance.example.id
   virtual_host = "tf-example-vhost"
   description  = "desc."
   trace_flag   = true
@@ -72,12 +72,15 @@ In addition to all arguments above, the following attributes are exported:
 * `id` - ID of the resource.
 
 
-
 ## Import
 
+tencentcloudenterprise_tdmq_rabbitmq_virtual_host can be imported using the id, e.g.
+
+```
 tdmq rabbitmq_virtual_host can be imported using the id, e.g.
 
 ```
-terraform import tencentcloudenterprise_tdmq_rabbitmq_virtual_host.example amqp-pbavw2wd#tf-example-vhost
+terraform import cloud_tdmq_rabbitmq_virtual_host.example amqp-pbavw2wd#tf-example-vhost
+```
 ```
 

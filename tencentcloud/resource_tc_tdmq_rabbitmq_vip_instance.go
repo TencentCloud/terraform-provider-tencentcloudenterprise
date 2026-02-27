@@ -146,7 +146,7 @@ func resourceTencentCloudTdmqRabbitmqVipInstance() *schema.Resource {
 }
 
 func resourceTencentCloudTdmqRabbitmqVipInstanceCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_tdmq_rabbitmq_vip_instance.create")()
+	defer logElapsed("resource.tencentcloudenterprise_tdmq_rabbitmq_vip_instance.create")()
 	defer inconsistentCheck(d, meta)()
 
 	var (
@@ -273,7 +273,7 @@ func resourceTencentCloudTdmqRabbitmqVipInstanceCreate(d *schema.ResourceData, m
 }
 
 func resourceTencentCloudTdmqRabbitmqVipInstanceRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_tdmq_rabbitmq_vip_instance.read")()
+	defer logElapsed("resource.tencentcloudenterprise_tdmq_rabbitmq_vip_instance.read")()
 	defer inconsistentCheck(d, meta)()
 
 	var (
@@ -387,7 +387,7 @@ func resourceTencentCloudTdmqRabbitmqVipInstanceRead(d *schema.ResourceData, met
 }
 
 func resourceTencentCloudTdmqRabbitmqVipInstanceUpdate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_tdmq_rabbitmq_vip_instance.update")()
+	defer logElapsed("resource.tencentcloudenterprise_tdmq_rabbitmq_vip_instance.update")()
 	defer inconsistentCheck(d, meta)()
 
 	var (
@@ -436,7 +436,7 @@ func resourceTencentCloudTdmqRabbitmqVipInstanceUpdate(d *schema.ResourceData, m
 }
 
 func resourceTencentCloudTdmqRabbitmqVipInstanceDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_tdmq_rabbitmq_vip_instance.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_tdmq_rabbitmq_vip_instance.delete")()
 	defer inconsistentCheck(d, meta)()
 
 	var (

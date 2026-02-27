@@ -1,8 +1,8 @@
 ---
-subcategory: "Distributed Database For MySQL(DCDB)"
+subcategory: "TDSQL for MySQL(DCDB)"
 layout: "tencentcloudenterprise"
 page_title: "TencentCloudEnterprise: tencentcloudenterprise_dcdb_account"
-sidebar_current: "docs-tencentcloudenterprise-resources-dcdb_account"
+sidebar_current: "docs-tencentcloudenterprise-resource-dcdb_account"
 description: |-
   Provides a resource to create a dcdb account
 ---
@@ -43,11 +43,14 @@ In addition to all arguments above, the following attributes are exported:
 * `id` - ID of the resource.
 
 
-
 ## Import
 
+tencentcloudenterprise_dcdb_account can be imported using the id, e.g.
+
+```
 dcdb account can be imported using the id, e.g.
 ```
 $ terraform import tencentcloudenterprise_dcdb_account.account account_id
+```
 ```
 

@@ -157,7 +157,7 @@ func dataSourceTencentCloudCvmInstancesModification() *schema.Resource {
 }
 
 func dataSourceTencentCloudCvmInstancesModificationRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("data_source.cloud_cvm_instances_modification.read")()
+	defer logElapsed("data_source.tencentcloudenterprise_cvm_instances_modification.read")()
 	logId := getLogId(contextNil)
 
 	var (

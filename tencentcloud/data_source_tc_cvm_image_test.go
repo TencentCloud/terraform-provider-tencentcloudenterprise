@@ -16,33 +16,33 @@ func TestAccTencentCloudDataSourceImageBase(t *testing.T) {
 			{
 				Config: testAccTencentCloudDataSourceImageBase,
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckTencentCloudDataSourceID("data.cloud_cvm_image.public_image"),
-					resource.TestMatchResourceAttr("data.cloud_cvm_image.public_image", "image_id", regexp.MustCompile("^img-")),
-					resource.TestCheckResourceAttrSet("data.cloud_cvm_image.public_image", "image_name"),
+					testAccCheckTencentCloudDataSourceID("data.tencentcloudenterprise_cvm_image.public_image"),
+					resource.TestMatchResourceAttr("data.tencentcloudenterprise_cvm_image.public_image", "image_id", regexp.MustCompile("^img-")),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_cvm_image.public_image", "image_name"),
 				),
 			},
 			{
 				Config: testAccTencentCloudDataSourceImageBaseWithFilter,
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckTencentCloudDataSourceID("data.cloud_cvm_image.public_image"),
-					resource.TestMatchResourceAttr("data.cloud_cvm_image.public_image", "image_id", regexp.MustCompile("^img-")),
-					resource.TestCheckResourceAttrSet("data.cloud_cvm_image.public_image", "image_name"),
+					testAccCheckTencentCloudDataSourceID("data.tencentcloudenterprise_cvm_image.public_image"),
+					resource.TestMatchResourceAttr("data.tencentcloudenterprise_cvm_image.public_image", "image_id", regexp.MustCompile("^img-")),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_cvm_image.public_image", "image_name"),
 				),
 			},
 			{
 				Config: testAccTencentCloudDataSourceImageBaseWithOsName,
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckTencentCloudDataSourceID("data.cloud_cvm_image.public_image"),
-					resource.TestMatchResourceAttr("data.cloud_cvm_image.public_image", "image_id", regexp.MustCompile("^img-")),
-					resource.TestCheckResourceAttrSet("data.cloud_cvm_image.public_image", "image_name"),
+					testAccCheckTencentCloudDataSourceID("data.tencentcloudenterprise_cvm_image.public_image"),
+					resource.TestMatchResourceAttr("data.tencentcloudenterprise_cvm_image.public_image", "image_id", regexp.MustCompile("^img-")),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_cvm_image.public_image", "image_name"),
 				),
 			},
 			{
 				Config: testAccTencentCloudDataSourceImageBaseWithImageNameRegex,
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckTencentCloudDataSourceID("data.cloud_cvm_image.public_image"),
-					resource.TestMatchResourceAttr("data.cloud_cvm_image.public_image", "image_id", regexp.MustCompile("^img-")),
-					resource.TestCheckResourceAttrSet("data.cloud_cvm_image.public_image", "image_name"),
+					testAccCheckTencentCloudDataSourceID("data.tencentcloudenterprise_cvm_image.public_image"),
+					resource.TestMatchResourceAttr("data.tencentcloudenterprise_cvm_image.public_image", "image_id", regexp.MustCompile("^img-")),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_cvm_image.public_image", "image_name"),
 				),
 			},
 		},

@@ -14,7 +14,7 @@ func TestAccTencentCloudCkafkaTopicProduceConnectionDataSource_basic(t *testing.
 		Steps: []resource.TestStep{
 			{
 				Config: testAccCkafkaTopicProduceConnectionDataSource,
-				Check:  resource.ComposeTestCheckFunc(testAccCheckTencentCloudDataSourceID("data.cloud_ckafka_topic_produce_connection.topic_produce_connection")),
+				Check:  resource.ComposeTestCheckFunc(testAccCheckTencentCloudDataSourceID("data.tencentcloudenterprise_ckafka_topic_produce_connection.topic_produce_connection")),
 			},
 		},
 	})

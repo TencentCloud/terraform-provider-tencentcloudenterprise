@@ -16,7 +16,7 @@ func TestAccTencentCloudVpcSecurityGroupLimitsDataSource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			{
 				Config: testAccVpcSecurityGroupLimitsDataSource,
-				Check:  resource.ComposeTestCheckFunc(testAccCheckTencentCloudDataSourceID("data.cloud_vpc_security_group_limits.security_group_limits")),
+				Check:  resource.ComposeTestCheckFunc(testAccCheckTencentCloudDataSourceID("data.tencentcloudenterprise_vpc_security_group_limits.security_group_limits")),
 			},
 		},
 	})
