@@ -1,18 +1,16 @@
 /*
 Use this data source to query detailed information of tsf application_config
 
-# Example Usage
+Example Usage
 
 ```hcl
-
-	data "tencentcloudenterprise_tsf_application_config" "application_config" {
-	  application_id = "app-123456"
-	  config_id = "config-123456"
-	  config_id_list =
-	  config_name = "test-config"
-	  config_version = "1.0"
-	}
-
+data "tencentcloudenterprise_tsf_application_config" "application_config" {
+  application_id = "app-123456"
+  config_id = "config-123456"
+  config_id_list =
+  config_name = "test-config"
+  config_version = "1.0"
+}
 ```
 */
 package tencentcloud
@@ -20,10 +18,10 @@ package tencentcloud
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	tsf "terraform-provider-tencentcloudenterprise/sdk/tsf/v20180326"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func init() {
@@ -45,7 +43,7 @@ func init() {
 func dataSourceTencentCloudTsfApplicationConfig() *schema.Resource {
 	return &schema.Resource{
 		Description: "Use this data source to query detailed information of tsf application_config.",
-		Read:        dataSourceTencentCloudTsfApplicationConfigRead,
+		Read: dataSourceTencentCloudTsfApplicationConfigRead,
 		Schema: map[string]*schema.Schema{
 			"application_id": {
 				Optional:    true,

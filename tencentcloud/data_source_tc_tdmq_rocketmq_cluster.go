@@ -1,7 +1,7 @@
 /*
 Use this data source to query detailed information of tdmqRocketmq cluster
 
-# Example Usage
+Example Usage
 
 ```hcl
 
@@ -17,10 +17,10 @@ import (
 	"context"
 	"log"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	rocketmq "terraform-provider-tencentcloudenterprise/sdk/tdmq/v20200217"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func init() {

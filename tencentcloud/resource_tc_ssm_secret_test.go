@@ -8,13 +8,13 @@ import (
 
 	ssm "github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/ssm/v20190923"
 
+	"terraform-provider-tencentcloudenterprise/sdk/common/errors"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
-	"terraform-provider-tencentcloudenterprise/sdk/common/errors"
 )
 
 func init() {
-	// go test -v ./tencentcloud -sweep=ap-guangzhou -sweep-run=cloud_ssm_secret
+	// go test -v ./tencentcloud -sweep=ap-guangzhou -sweep-run=tencentcloudenterprise_ssm_secret
 	resource.AddTestSweepers("tencentcloudenterprise_ssm_secret", &resource.Sweeper{
 		Name: "tencentcloudenterprise_ssm_secret",
 		F: func(r string) error {

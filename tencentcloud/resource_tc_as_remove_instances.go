@@ -1,15 +1,13 @@
 /*
 Provides a resource to create a as remove_instances
 
-# Example Usage
+Example Usage
 
 ```hcl
-
-	resource "tencentcloudenterprise_as_remove_instances" "remove_instances" {
-	  auto_scaling_group_id = tencentcloudenterprise_as_scaling_group.scaling_group.id
-	  instance_ids = ["ins-xxxxxx"]
-	}
-
+resource "tencentcloudenterprise_as_remove_instances" "remove_instances" {
+  auto_scaling_group_id = tencentcloudenterprise_as_scaling_group.scaling_group.id
+  instance_ids = ["ins-xxxxxx"]
+}
 ```
 */
 package tencentcloud
@@ -17,10 +15,10 @@ package tencentcloud
 import (
 	"log"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	as "terraform-provider-tencentcloudenterprise/sdk/as/v20180419"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func init() {

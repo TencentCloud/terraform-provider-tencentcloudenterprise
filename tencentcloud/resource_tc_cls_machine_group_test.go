@@ -74,6 +74,9 @@ func TestAccTencentCloudClsMachineGroup_basic(t *testing.T) {
 				Check: resource.ComposeTestCheckFunc(
 					testAccCheckClsMachineGroupExists("tencentcloudenterprise_cls_machine_group.group"),
 					resource.TestCheckResourceAttr("tencentcloudenterprise_cls_machine_group.group", "group_name", "tf-basic-group"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_cls_machine_group.group", "delay_cleanup_time", "7"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_cls_machine_group.group", "os_type", "0"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_cls_machine_group.group", "meta_tags.#", "1"),
 				),
 			},
 			{
@@ -119,12 +122,19 @@ resource "tencentcloudenterprise_cls_machine_group" "group" {
   auto_update       = true
   update_end_time   = "19:05:00"
   update_start_time = "17:05:00"
+  delay_cleanup_time = 7
+  os_type            = 0
+
+  meta_tags {
+    key   = "env"
+    value = "test"
+  }
 
   machine_group_type {
     type   = "ip"
     values = [
-      "203.0.113.101",
-      "203.0.113.102",
+      "192.168.1.1",
+      "192.168.1.2",
     ]
   }
 }

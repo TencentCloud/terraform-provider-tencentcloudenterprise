@@ -3,8 +3,8 @@ Provide a resource to create a kubernetes cluster.
 
 ~> **NOTE:** To use the custom Kubernetes component startup parameter function (parameter `extra_args`), you need to submit a ticket for application.
 
-~> **NOTE:** We recommend this usage that uses the `cloud_tke_kubernetes_cluster` resource to create a cluster without any `worker_config`, then adds nodes by the `cloud_kubernetes_node_pool` resource.
-It's more flexible than managing worker config directly with `cloud_tke_kubernetes_cluster`, `cloud_tke_kubernetes_scale_worker`, or existing node management of `cloud_kubernetes_attachment`. The reason is that `worker_config` is unchangeable and may cause the whole cluster resource to `ForceNew`.
+~> **NOTE:** We recommend this usage that uses the `tencentcloudenterprise_tke_kubernetes_cluster` resource to create a cluster without any `worker_config`, then adds nodes by the `tencentcloudenterprise_kubernetes_node_pool` resource.
+It's more flexible than managing worker config directly with `tencentcloudenterprise_tke_kubernetes_cluster`, `tencentcloudenterprise_tke_kubernetes_scale_worker`, or existing node management of `tencentcloudenterprise_kubernetes_attachment`. The reason is that `worker_config` is unchangeable and may cause the whole cluster resource to `ForceNew`.
 
 # Example Usage
 
@@ -37,16 +37,13 @@ It's more flexible than managing worker config directly with `cloud_tke_kubernet
 	}
 
 	resource "tencentcloudenterprise_tke_kubernetes_cluster" "managed_cluster" {
-	  vpc_id                                     = data.tencentcloudenterprise_vpc_subnets.vpc_first.instance_list.0.vpc_id
-	  cluster_cidr                               = var.cluster_cidr
-	  cluster_max_pod_num                        = 32
-	  cluster_name                               = "test"
-	  cluster_desc                               = "test cluster desc"
-	  cluster_max_service_num                    = 32
-	  cluster_internet                           = true
-	  # managed_cluster_internet_security_policies = ["3.3.3.3", "1.1.1.1"]
-	  cluster_deploy_type                        = "MANAGED_CLUSTER"
-	  # node_pool_id							   	 = "xxx"
+	  vpc_id                  = data.tencentcloudenterprise_vpc_subnets.vpc_first.instance_list.0.vpc_id
+	  cluster_cidr            = var.cluster_cidr
+	  cluster_max_pod_num     = 32
+	  cluster_name            = "test"
+	  cluster_desc            = "test cluster desc"
+	  cluster_max_service_num = 32
+	  cluster_deploy_type     = "MANAGED_CLUSTER"
 
 	  worker_config {
 	    count                      = 1
@@ -58,7 +55,7 @@ It's more flexible than managing worker config directly with `cloud_tke_kubernet
 	    internet_max_bandwidth_out = 100
 	    public_ip_assigned         = true
 	    subnet_id                  = data.tencentcloudenterprise_vpc_subnets.vpc_first.instance_list.0.subnet_id
-		img_id                     = "img-rkiynh11"
+	    img_id                     = "img-rkiynh11"
 
 	    data_disk {
 	      disk_type = "CLOUD_PREMIUM"
@@ -69,7 +66,8 @@ It's more flexible than managing worker config directly with `cloud_tke_kubernet
 	    enhanced_monitor_service  = false
 	    user_data                 = "dGVzdA=="
 	    # password                  = "ZZXXccvv1212" // Optional, should be set if key_ids not set.
-	    key_ids                   = "skey-11112222"
+	    key_ids                   = ["skey-11112222"]
+	    security_group_ids        = ["sg-xxxxxxxx"]
 	  }
 
 	  worker_config {
@@ -92,13 +90,13 @@ It's more flexible than managing worker config directly with `cloud_tke_kubernet
 	    enhanced_monitor_service  = false
 	    user_data                 = "dGVzdA=="
 	    # password                  = "ZZXXccvv1212" // Optional, should be set if key_ids not set.
-	    key_ids                   = "skey-11112222"
-		cam_role_name			  = "CVM_QcsRole"
+	    key_ids                   = ["skey-11112222"]
+	    security_group_ids        = ["sg-xxxxxxxx"]
 	  }
 
-	  labels = {
-	    "test1" = "test1",
-	    "test2" = "test2",
+	  tags = {
+	    "test1" = "test1"
+	    "test2" = "test2"
 	  }
 	}
 
@@ -135,15 +133,13 @@ It's more flexible than managing worker config directly with `cloud_tke_kubernet
 	}
 
 	resource "tencentcloudenterprise_tke_kubernetes_cluster" "managed_cluster" {
-	  vpc_id                                     = data.tencentcloudenterprise_vpc_subnets.vpc_first.instance_list.0.vpc_id
-	  cluster_cidr                               = var.cluster_cidr
-	  cluster_max_pod_num                        = 32
-	  cluster_name                               = "test"
-	  cluster_desc                               = "test cluster desc"
-	  cluster_max_service_num                    = 32
-	  cluster_internet                           = true
-	  # managed_cluster_internet_security_policies = ["3.3.3.3", "1.1.1.1"]
-	  cluster_deploy_type                        = "MANAGED_CLUSTER"
+	  vpc_id                  = data.tencentcloudenterprise_vpc_subnets.vpc_first.instance_list.0.vpc_id
+	  cluster_cidr            = var.cluster_cidr
+	  cluster_max_pod_num     = 32
+	  cluster_name            = "test"
+	  cluster_desc            = "test cluster desc"
+	  cluster_max_service_num = 32
+	  cluster_deploy_type     = "MANAGED_CLUSTER"
 
 	  worker_config {
 	    count                      = 1
@@ -165,7 +161,8 @@ It's more flexible than managing worker config directly with `cloud_tke_kubernet
 	    enhanced_monitor_service  = false
 	    user_data                 = "dGVzdA=="
 	    # password                  = "ZZXXccvv1212" // Optional, should be set if key_ids not set.
-	    key_ids                   = "skey-11112222"
+	    key_ids                   = ["skey-11112222"]
+	    security_group_ids        = ["sg-xxxxxxxx"]
 	  }
 
 	  worker_config {
@@ -188,182 +185,18 @@ It's more flexible than managing worker config directly with `cloud_tke_kubernet
 	    enhanced_monitor_service  = false
 	    user_data                 = "dGVzdA=="
 	    # password                  = "ZZXXccvv1212" // Optional, should be set if key_ids not set.
-		cam_role_name			  = "CVM_QcsRole"
-	    key_ids                   = "skey-11112222"
+	    key_ids                   = ["skey-11112222"]
+	    security_group_ids        = ["sg-xxxxxxxx"]
 	  }
 
-	  labels = {
-	    "test1" = "test1",
-	    "test2" = "test2",
+	  tags = {
+	    "test1" = "test1"
+	    "test2" = "test2"
 	  }
 
 	  extra_args = [
 	 	"root-dir=/var/lib/kubelet"
 	  ]
-	}
-
-```
-
-# Use extension addons
-
-```hcl
-
-	variable "availability_zone_first" {
-	  default = "ap-guangzhou-3"
-	}
-
-	variable "cluster_cidr" {
-	  default = "10.31.0.0/16"
-	}
-
-	variable "default_instance_type" {
-	  default = "S5.SMALL1"
-	}
-
-	data "tencentcloudenterprise_vpc_subnets" "vpc_first" {
-	  is_default        = true
-	  availability_zone = var.availability_zone_first
-	}
-
-# fetch latest addon(chart) versions
-data "tencentcloudenterprise_tke_kubernetes_charts" "charts" {}
-
-	locals {
-	  chartNames = data.tencentcloudenterprise_tke_kubernetes_charts.charts.chart_list.*.name
-	  chartVersions = data.tencentcloudenterprise_tke_kubernetes_charts.charts.chart_list.*.latest_version
-	  chartMap = zipmap(local.chartNames, local.chartVersions)
-	}
-
-	resource "tencentcloudenterprise_tke_kubernetes_cluster" "cluster_with_addon" {
-	  vpc_id                                     = data.tencentcloudenterprise_vpc_subnets.vpc_first.instance_list.0.vpc_id
-	  cluster_cidr                               = var.cluster_cidr
-	  cluster_max_pod_num                        = 32
-	  cluster_name                               = "test"
-	  cluster_desc                               = "test cluster desc"
-	  cluster_max_service_num                    = 32
-	  cluster_internet                           = true
-	  # managed_cluster_internet_security_policies = ["3.3.3.3", "1.1.1.1"]
-	  cluster_deploy_type                        = "MANAGED_CLUSTER"
-
-	  worker_config {
-	    count                      = 1
-	    availability_zone          = var.availability_zone_first
-	    instance_type              = var.default_instance_type
-	    system_disk_type           = "CLOUD_SSD"
-	    system_disk_size           = 60
-	    internet_charge_type       = "TRAFFIC_POSTPAID_BY_HOUR"
-	    internet_max_bandwidth_out = 100
-	    public_ip_assigned         = true
-	    subnet_id                  = data.tencentcloudenterprise_vpc_subnets.vpc_first.instance_list.0.subnet_id
-	    img_id                     = "img-rkiynh11"
-	    enhanced_security_service = false
-	    enhanced_monitor_service  = false
-	    user_data                 = "dGVzdA=="
-	    # password                  = "ZZXXccvv1212" // Optional, should be set if key_ids not set.
-	    key_ids                   = "skey-11112222"
-	  }
-
-	  extension_addon {
-	    name  = "COS"
-	    param = jsonencode({
-	      "kind" : "App", "spec" : {
-	        "chart" : { "chartName" : "cos", "chartVersion" : local.chartMap["cos"] },
-	        "values" : { "values" : [], "rawValues" : "e30=", "rawValuesType" : "json" }
-	      }
-	    })
-	  }
-	  extension_addon {
-	    name  = "SecurityGroupPolicy"
-	    param = jsonencode({
-	      "kind" : "App", "spec" : { "chart" : { "chartName" : "securitygrouppolicy", "chartVersion" : local.chartMap["securitygrouppolicy"] } }
-	    })
-	  }
-	  extension_addon {
-	    name  = "OOMGuard"
-	    param = jsonencode({
-	      "kind" : "App", "spec" : { "chart" : { "chartName" : "oomguard", "chartVersion" : local.chartMap["oomguard"] } }
-	    })
-	  }
-	  extension_addon {
-	    name  = "OLM"
-	    param = jsonencode({
-	      "kind" : "App", "spec" : { "chart" : { "chartName" : "olm", "chartVersion" : local.chartMap["olm"] } }
-	    })
-	  }
-	}
-
-```
-
-# Use node pool global config
-
-```hcl
-
-	variable "availability_zone" {
-	  default = "ap-guangzhou-3"
-	}
-
-	variable "vpc" {
-	  default = "vpc-dk8zmwuf"
-	}
-
-	variable "subnet" {
-	  default = "subnet-pqfek0t8"
-	}
-
-	variable "default_instance_type" {
-	  default = "SA1.LARGE8"
-	}
-
-	resource "tencentcloudenterprise_tke_kubernetes_cluster" "test_node_pool_global_config" {
-	  vpc_id                                     = var.vpc
-	  cluster_cidr                               = "10.1.0.0/16"
-	  cluster_max_pod_num                        = 32
-	  cluster_name                               = "test"
-	  cluster_desc                               = "test cluster desc"
-	  cluster_max_service_num                    = 32
-	  cluster_internet                           = true
-	  # managed_cluster_internet_security_policies = ["3.3.3.3", "1.1.1.1"]
-	  cluster_deploy_type                        = "MANAGED_CLUSTER"
-
-	  worker_config {
-	    count                      = 1
-	    availability_zone          = var.availability_zone
-	    instance_type              = var.default_instance_type
-	    system_disk_type           = "CLOUD_SSD"
-	    system_disk_size           = 60
-	    internet_charge_type       = "TRAFFIC_POSTPAID_BY_HOUR"
-	    internet_max_bandwidth_out = 100
-	    public_ip_assigned         = true
-	    subnet_id                  = var.subnet
-
-	    data_disk {
-	      disk_type = "CLOUD_PREMIUM"
-	      disk_size = 50
-	    }
-
-	    enhanced_security_service = false
-	    enhanced_monitor_service  = false
-	    user_data                 = "dGVzdA=="
-	    # password                  = "ZZXXccvv1212" // Optional, should be set if key_ids not set.
-	    key_ids                   = "skey-11112222"
-	  }
-
-	  node_pool_global_config {
-	    is_scale_in_enabled = true
-	    expander = "random"
-	    ignore_daemon_sets_utilization = true
-	    max_concurrent_scale_in = 5
-	    scale_in_delay = 15
-	    scale_in_unneeded_time = 15
-	    scale_in_utilization_threshold = 30
-	    skip_nodes_with_local_storage = false
-	    skip_nodes_with_system_pods = true
-	  }
-
-	  labels = {
-	    "test1" = "test1",
-	    "test2" = "test2",
-	  }
 	}
 
 ```
@@ -384,17 +217,15 @@ Using VPC-CNI network type
 	}
 
 	resource "tencentcloudenterprise_tke_kubernetes_cluster" "managed_cluster" {
-	  vpc_id                                     = var.vpc
-	  cluster_max_pod_num                        = 32
-	  cluster_name                               = "test"
-	  cluster_desc                               = "test cluster desc"
-	  cluster_max_service_num                    = 256
-	  cluster_internet                           = true
-	  # managed_cluster_internet_security_policies = ["3.3.3.3", "1.1.1.1"]
-	  cluster_deploy_type                        = "MANAGED_CLUSTER"
-	  network_type								 = "VPC-CNI"
-	  eni_subnet_ids							 = ["subnet-bk1etlyu"]
-	  service_cidr								 = "10.1.0.0/24"
+	  vpc_id                  = var.vpc
+	  cluster_max_pod_num     = 32
+	  cluster_name            = "test"
+	  cluster_desc            = "test cluster desc"
+	  cluster_max_service_num = 256
+	  cluster_deploy_type     = "MANAGED_CLUSTER"
+	  network_type            = "VPC-CNI"
+	  eni_subnet_ids          = ["subnet-bk1etlyu"]
+	  service_cidr            = "10.1.0.0/24"
 
 	  worker_config {
 	    count                      = 1
@@ -416,38 +247,13 @@ Using VPC-CNI network type
 	    enhanced_monitor_service  = false
 	    user_data                 = "dGVzdA=="
 	    # password                  = "ZZXXccvv1212" // Optional, should be set if key_ids not set.
-	    key_ids                   = "skey-11112222"
+	    key_ids                   = ["skey-11112222"]
+	    security_group_ids        = ["sg-xxxxxxxx"]
 	  }
 
-	  labels = {
-	    "test1" = "test1",
-	    "test2" = "test2",
-	  }
-	}
-
-```
-
-Using ops options
-```
-
-	resource "tencentcloudenterprise_tke_kubernetes_cluster" "managed_cluster" {
-	  # ...your basic fields
-
-	  log_agent {
-	    enabled = true
-	    kubelet_root_dir = "" # optional
-	  }
-
-	  event_persistence {
-	    enabled = true
-		log_set_id = "" # optional
-	    log_set_topic = "" # optional
-	  }
-
-	  cluster_audit {
-	    enabled = true
-		log_set_id = "" # optional
-	    log_set_topic = "" # optional
+	  tags = {
+	    "test1" = "test1"
+	    "test2" = "test2"
 	  }
 	}
 
@@ -457,6 +263,7 @@ package tencentcloud
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"log"
 	"math"
@@ -465,12 +272,12 @@ import (
 	"strings"
 	"time"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"terraform-provider-tencentcloudenterprise/sdk/common/errors"
 	cvm "terraform-provider-tencentcloudenterprise/sdk/cvm/v20170312"
 	tke "terraform-provider-tencentcloudenterprise/sdk/tke/v20180525"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func init() {
@@ -479,11 +286,11 @@ func init() {
 		DescriptionCN:   "提供Kubernetes集群资源，用于创建和管理TKE集群。",
 		AttributesCN: map[string]string{
 			"cluster_id":           "集群ID",
+			"cluster_arch":         "集群CPU架构",
 			"cluster_name":         "集群名称",
 			"cluster_desc":         "集群描述",
 			"cluster_os":           "集群版本",
 			"cluster_os_type":      "集群系统类型",
-			"cluster_arch":         "集群CPU架构",
 			"auto_upgrade_cluster": "是否开启集群自动升级",
 			"network_type":         "网络类型",
 			//"managed_cluster_internet_security_policies": "集群公网访问白名单",
@@ -496,44 +303,55 @@ func init() {
 			"label":                           "标签",
 			"upgrade_instance_follow_cluster": "是否开启节点自动升级",
 			"eni_subnet_ids":                  "ENI子网ID",
+			"vpc_cni_type":                    "VPC-CNI类型",
 			"mount_target":                    "挂载目标",
 			"container_runtime":               "容器运行时",
+			"runtime_version":                 "运行时版本",
+			"enable_customized_pod_cidr":      "是否开启自定义Pod CIDR",
+			"deletion_protection":             "是否开启删除保护",
+			"kube_proxy_mode":                 "kube-proxy模式",
+			"audit_enabled":                   "是否开启审计",
+			"audit_logset_id":                 "审计日志集ID",
+			"audit_log_topic_id":              "审计日志主题ID",
+			"data_plane_v2":                   "是否使用数据平面V2",
+			"qgpu_share_enable":               "是否开启QGPU共享",
+			"is_dual_stack":                   "是否双栈集群",
+			"extension_addon":                 "扩展组件",
 			//"cluster_intranet_domain":                    "集群内网域名",
 			"node_pool_id": "节点池ID",
 			//"acquire_cluster_admin_role": "是否获取集群管理员角色",
-			//"enable_customized_pod_cidr":                 "是否开启自定义Pod CIDR",
 			"claim_expired_seconds": "认领过期时间",
 			//"cluster_intranet":      "集群内网",
-			"cluster_cidr": "集群CIDR",
-			//"ignore_cluster_cidr_conflict": "是否忽略CIDR冲突",
-			//"globe_desired_pod_num":        "全局期望Pod数",
-			"base_pod_num": "基础Pod数",
-			//"kube_proxy_mode":         "kube-proxy模式",
-			"project_id":              "项目ID",
-			"unschedulable":           "是否不可调度",
-			"cluster_max_service_num": "集群最大服务数",
-			"cluster_ipvs":            "集群IPVS",
+			"cluster_cidr":                 "集群CIDR",
+			"ignore_cluster_cidr_conflict": "是否忽略CIDR冲突",
+			"ignore_service_cidr_conflict": "是否忽略ServiceCIDR冲突",
+			"globe_desired_pod_num":        "全局期望Pod数",
+			"base_pod_num":                 "基础Pod数",
+			"project_id":                   "项目ID",
+			"need_work_security_group":     "是否开启默认节点安全组",
+			"unschedulable":                "是否不可调度",
+			"cluster_max_service_num":      "集群最大服务数",
+			"cluster_ipvs":                 "集群IPVS",
 			//"cluster_internet":             "集群公网",
 			"service_cidr": "服务CIDR",
-			//"runtime_version":                         "运行时版本",
 			//"cluster_as_enabled":              "是否开启集群自动伸缩",
 			"vpc_id": "VPC ID",
 			//"cluster_internet_domain":    "集群公网域名",
-			"extra_args":     "额外参数",
-			"cluster_level":  "集群等级",
-			"node_name_type": "节点名称类型",
-			//"deletion_protection":        "是否开启删除保护",
-			"cluster_max_pod_num": "集群最大Pod数",
-			//"log_agent":           "日志代理",
-			"master_config": "主节点配置",
+			"extra_args":             "额外参数",
+			"cluster_level":          "集群等级",
+			"instance_data_disks":    "节点数据盘配置",
+			"run_instances_for_node": "RunInstancesForNode配置",
+			"node_name_type":         "节点名称类型",
+			"cluster_max_pod_num":    "集群最大Pod数",
+			"log_agent":              "日志代理",
+			"master_config":          "主节点配置",
 			//"node_pool_global_config": "节点池全局配置",
-			"worker_config": "工作节点配置",
-			//"event_persistence": "事件持久化",
+			"worker_config":     "工作节点配置",
+			"event_persistence": "事件持久化",
 			//"exist_instance":    "已有实例",
-			//"extension_addon":         "扩展插件",
 			"cluster_extra_args": "集群额外参数",
 			//"auth_options":            "认证选项",
-			//"cluster_audit":              "集群审计",
+			"cluster_audit":              "集群审计",
 			"cluster_node_num":           "集群节点数",
 			"user_name":                  "用户名",
 			"password":                   "密码",
@@ -622,6 +440,229 @@ func init() {
 			"lan_ip":                                  "LAN IP",
 		},
 	})
+}
+
+func expandInstanceDataDisks(raw []interface{}) ([]*tke.DataDisk, error) {
+	if len(raw) == 0 {
+		return nil, nil
+	}
+	dataDisks := make([]*tke.DataDisk, 0, len(raw))
+	for _, item := range raw {
+		diskMap, ok := item.(map[string]interface{})
+		if !ok {
+			return nil, fmt.Errorf("instance_data_disks should be a map")
+		}
+		dataDisk := &tke.DataDisk{}
+		if v, ok := diskMap["disk_type"].(string); ok && v != "" {
+			dataDisk.DiskType = helper.String(v)
+		}
+		if v, ok := diskMap["disk_size"]; ok {
+			dataDisk.DiskSize = helper.IntInt64(v.(int))
+		}
+		if v, ok := diskMap["disk_id"].(string); ok && v != "" {
+			dataDisk.DiskId = helper.String(v)
+		}
+		if v, ok := diskMap["disk_partition"].(string); ok && v != "" {
+			dataDisk.DiskPartition = helper.String(v)
+		}
+		if v, ok := diskMap["file_system"].(string); ok && v != "" {
+			dataDisk.FileSystem = helper.String(v)
+		}
+		if v, ok := diskMap["auto_format_and_mount"]; ok {
+			dataDisk.AutoFormatAndMount = helper.Bool(v.(bool))
+		}
+		if v, ok := diskMap["mount_target"].(string); ok && v != "" {
+			dataDisk.MountTarget = helper.String(v)
+		}
+		dataDisks = append(dataDisks, dataDisk)
+	}
+	return dataDisks, nil
+}
+
+func expandInstanceAdvancedSettingsOverride(raw map[string]interface{}) (*tke.InstanceAdvancedSettings, error) {
+	override := &tke.InstanceAdvancedSettings{}
+	if v, ok := raw["docker_graph_path"].(string); ok && v != "" {
+		override.DockerGraphPath = helper.String(v)
+	}
+	if v, ok := raw["unschedulable"]; ok {
+		override.Unschedulable = helper.IntInt64(v.(int))
+	}
+	if v, ok := raw["pre_start_user_script"].(string); ok && v != "" {
+		override.PreStartUserScript = helper.String(v)
+	}
+	if v, ok := raw["user_script"].(string); ok && v != "" {
+		override.UserScript = helper.String(v)
+	}
+	if v, ok := raw["labels"]; ok {
+		labelList := v.([]interface{})
+		labels := make([]*tke.Label, 0, len(labelList))
+		for _, item := range labelList {
+			labelMap, ok := item.(map[string]interface{})
+			if !ok {
+				return nil, fmt.Errorf("instance_advanced_settings_overrides.labels should be a map")
+			}
+			name, _ := labelMap["name"].(string)
+			value, _ := labelMap["value"].(string)
+			labels = append(labels, &tke.Label{Name: helper.String(name), Value: helper.String(value)})
+		}
+		if len(labels) > 0 {
+			override.Labels = labels
+		}
+	}
+	if v, ok := raw["taints"]; ok {
+		taintList := v.([]interface{})
+		taints := make([]*tke.Taint, 0, len(taintList))
+		for _, item := range taintList {
+			taintMap, ok := item.(map[string]interface{})
+			if !ok {
+				return nil, fmt.Errorf("instance_advanced_settings_overrides.taints should be a map")
+			}
+			key, _ := taintMap["key"].(string)
+			value, _ := taintMap["value"].(string)
+			effect, _ := taintMap["effect"].(string)
+			taints = append(taints, &tke.Taint{Key: helper.String(key), Value: helper.String(value), Effect: helper.String(effect)})
+		}
+		if len(taints) > 0 {
+			override.Taints = taints
+		}
+	}
+	if v, ok := raw["extra_args"]; ok {
+		argsList := v.([]interface{})
+		if len(argsList) > 0 {
+			extraArgs := tke.InstanceExtraArgs{}
+			for _, arg := range argsList {
+				if s, ok := arg.(string); ok && s != "" {
+					extraArgs.Kubelet = append(extraArgs.Kubelet, helper.String(s))
+				}
+			}
+			override.ExtraArgs = &extraArgs
+		}
+	}
+	if v, ok := raw["data_disks"]; ok {
+		dataDisks, err := expandInstanceDataDisks(v.([]interface{}))
+		if err != nil {
+			return nil, err
+		}
+		if len(dataDisks) > 0 {
+			override.DataDisks = dataDisks
+		}
+	}
+	if v, ok := raw["desired_pod_number"]; ok {
+		override.DesiredPodNumber = helper.IntInt64(v.(int))
+	}
+	if v, ok := raw["gpu_args"]; ok && len(v.([]interface{})) > 0 {
+		rawElem := v.([]interface{})[0]
+		if rawElem != nil {
+			if gpuArgs, ok := rawElem.(map[string]interface{}); ok {
+				tkeGpuArgs := &tke.GPUArgs{}
+				if migEnable, ok := gpuArgs["mig_enable"]; ok {
+					migEnabled := migEnable.(bool)
+					tkeGpuArgs.MIGEnable = &migEnabled
+				}
+				if raw, ok := gpuArgs["driver"]; ok && raw != nil {
+					if driver, ok := raw.(map[string]interface{}); ok && len(driver) > 0 {
+						version, hasVersion := driver["version"].(string)
+						name, hasName := driver["name"].(string)
+						if hasVersion || hasName {
+							tkeGpuArgs.Driver = &tke.DriverVersion{
+								Version: helper.String(version),
+								Name:    helper.String(name),
+							}
+						}
+					}
+				}
+				if raw, ok := gpuArgs["cuda"]; ok && raw != nil {
+					if cuda, ok := raw.(map[string]interface{}); ok && len(cuda) > 0 {
+						version, hasVersion := cuda["version"].(string)
+						name, hasName := cuda["name"].(string)
+						if hasVersion || hasName {
+							tkeGpuArgs.CUDA = &tke.DriverVersion{
+								Version: helper.String(version),
+								Name:    helper.String(name),
+							}
+						}
+					}
+				}
+				if raw, ok := gpuArgs["cudnn"]; ok && raw != nil {
+					if cudnn, ok := raw.(map[string]interface{}); ok && len(cudnn) > 0 {
+						version, hasVersion := cudnn["version"].(string)
+						name, hasName := cudnn["name"].(string)
+						if hasVersion || hasName {
+							tkeGpuArgs.CUDNN = &tke.CUDNN{
+								Version: helper.String(version),
+								Name:    helper.String(name),
+							}
+						}
+						if docName, ok := cudnn["doc_name"].(string); ok && tkeGpuArgs.CUDNN != nil {
+							tkeGpuArgs.CUDNN.DocName = helper.String(docName)
+						}
+						if devName, ok := cudnn["dev_name"].(string); ok && tkeGpuArgs.CUDNN != nil {
+							tkeGpuArgs.CUDNN.DevName = helper.String(devName)
+						}
+					}
+				}
+				if raw, ok := gpuArgs["custom_driver"]; ok && raw != nil {
+					if customDriver, ok := raw.(map[string]interface{}); ok && len(customDriver) > 0 {
+						if address, ok := customDriver["address"].(string); ok {
+							tkeGpuArgs.CustomDriver = &tke.CustomDriver{
+								Address: helper.String(address),
+							}
+						}
+					}
+				}
+				override.GPUArgs = tkeGpuArgs
+			}
+		}
+	}
+	return override, nil
+}
+
+func expandRunInstancesForNode(raw []interface{}) ([]*tke.RunInstancesForNode, error) {
+	if len(raw) == 0 {
+		return nil, fmt.Errorf("run_instances_for_node must not be empty")
+	}
+	nodes := make([]*tke.RunInstancesForNode, 0, len(raw))
+	for _, item := range raw {
+		nodeMap, ok := item.(map[string]interface{})
+		if !ok {
+			return nil, fmt.Errorf("run_instances_for_node should be a map")
+		}
+		node := &tke.RunInstancesForNode{}
+		if v, ok := nodeMap["node_role"].(string); ok {
+			node.NodeRole = helper.String(v)
+		}
+		if v, ok := nodeMap["run_instances_para"]; ok {
+			paraList := v.([]interface{})
+			node.RunInstancesPara = make([]*string, 0, len(paraList))
+			for _, para := range paraList {
+				if s, ok := para.(string); ok {
+					node.RunInstancesPara = append(node.RunInstancesPara, helper.String(s))
+				}
+			}
+		}
+		if len(node.RunInstancesPara) == 0 {
+			return nil, fmt.Errorf("run_instances_para must be set when using run_instances_for_node")
+		}
+		if v, ok := nodeMap["instance_advanced_settings_overrides"]; ok {
+			overrideList := v.([]interface{})
+			for _, overrideItem := range overrideList {
+				overrideMap, ok := overrideItem.(map[string]interface{})
+				if !ok {
+					return nil, fmt.Errorf("instance_advanced_settings_overrides should be a map")
+				}
+				override, err := expandInstanceAdvancedSettingsOverride(overrideMap)
+				if err != nil {
+					return nil, err
+				}
+				node.InstanceAdvancedSettingsOverrides = append(node.InstanceAdvancedSettingsOverrides, override)
+			}
+			if len(node.InstanceAdvancedSettingsOverrides) > 0 && len(node.InstanceAdvancedSettingsOverrides) != len(node.RunInstancesPara) {
+				return nil, fmt.Errorf("instance_advanced_settings_overrides length must match run_instances_para length")
+			}
+		}
+		nodes = append(nodes, node)
+	}
+	return nodes, nil
 }
 
 func tkeCvmState() map[string]*schema.Schema {
@@ -786,6 +827,20 @@ func TkeCvmCreateInfo() map[string]*schema.Schema {
 			Description: "Configurations of data disk.",
 			Elem: &schema.Resource{
 				Schema: map[string]*schema.Schema{
+					"disk_id": {
+						Type:         schema.TypeString,
+						ForceNew:     true,
+						Required:     true,
+						ValidateFunc: validateNotEmpty,
+						Description:  "Data disk ID.",
+					},
+					"disk_partition": {
+						Type:         schema.TypeString,
+						ForceNew:     true,
+						Required:     true,
+						ValidateFunc: validateNotEmpty,
+						Description:  "The device or partition name to mount.",
+					},
 					"disk_type": {
 						Type:         schema.TypeString,
 						ForceNew:     true,
@@ -837,10 +892,11 @@ func TkeCvmCreateInfo() map[string]*schema.Schema {
 						Description: "Indicate whether to auto format and mount or not. Default is `false`.",
 					},
 					"mount_target": {
-						Type:        schema.TypeString,
-						ForceNew:    true,
-						Optional:    true,
-						Description: "Mount target.",
+						Type:         schema.TypeString,
+						ForceNew:     true,
+						Required:     true,
+						ValidateFunc: validateNotEmpty,
+						Description:  "Mount target.",
 					},
 					// "disk_partition": {
 					// 	Type:        schema.TypeString,
@@ -894,7 +950,8 @@ func TkeCvmCreateInfo() map[string]*schema.Schema {
 		},
 		"security_group_ids": {
 			Type:        schema.TypeList,
-			Required:    true,
+			Optional:    true,
+			ForceNew:    true,
 			Elem:        &schema.Schema{Type: schema.TypeString},
 			Description: "Security groups to which a CVM instance belongs.",
 		},
@@ -918,12 +975,12 @@ func TkeCvmCreateInfo() map[string]*schema.Schema {
 			Optional:    true,
 			Description: "Ase64-encoded User Data text, the length limit is 16KB.",
 		},
-		// "cam_role_name": {
-		// 	Type:        schema.TypeString,
-		// 	ForceNew:    true,
-		// 	Optional:    true,
-		// 	Description: "CAM role name authorized to access.",
-		// },
+		"cam_role_name": {
+			Type:        schema.TypeString,
+			ForceNew:    true,
+			Optional:    true,
+			Description: "CAM role name authorized to access.",
+		},
 		"hostname": {
 			Type:     schema.TypeString,
 			ForceNew: true,
@@ -948,14 +1005,14 @@ func TkeCvmCreateInfo() map[string]*schema.Schema {
 			Description:  "The valid image id, format of img-xxx.",
 		},
 		// InstanceAdvancedSettingsOverrides
-		//"desired_pod_num": {
-		//	Type:     schema.TypeInt,
-		//	ForceNew: true,
-		//	Optional: true,
-		//	Default:  DefaultDesiredPodNum,
-		//	Description: "Indicate to set desired pod number in node. valid when enable_customized_pod_cidr=true, " +
-		//		"and it override `[globe_]desired_pod_num` for current node. Either all the fields `desired_pod_num` or none.",
-		//},
+		"desired_pod_num": {
+			Type:     schema.TypeInt,
+			ForceNew: true,
+			Optional: true,
+			Default:  DefaultDesiredPodNum,
+			Description: "Indicate to set desired pod number in node. valid when enable_customized_pod_cidr=true, " +
+				"and it override `[globe_]desired_pod_num` for current node. Either all the fields `desired_pod_num` or none.",
+		},
 		// "hpc_cluster_id": {
 		// 	Type:        schema.TypeString,
 		// 	Optional:    true,
@@ -986,6 +1043,55 @@ func TkeExistCvmCreateInfo() map[string]*schema.Schema {
 						Required:    true,
 						Elem:        &schema.Schema{Type: schema.TypeString},
 						Description: "Cluster IDs.",
+					},
+					"security_group_ids": {
+						Type:        schema.TypeList,
+						ForceNew:    true,
+						Optional:    true,
+						Elem:        &schema.Schema{Type: schema.TypeString},
+						Description: "Security groups to which a CVM instance belongs.",
+					},
+					"enhanced_service": {
+						Type:     schema.TypeList,
+						ForceNew: true,
+						Optional: true,
+						MaxItems: 1,
+						Elem: &schema.Resource{
+							Schema: map[string]*schema.Schema{
+								"security_service": {
+									Type:        schema.TypeBool,
+									ForceNew:    true,
+									Optional:    true,
+									Description: "Enable cloud security service.",
+								},
+								"monitor_service": {
+									Type:        schema.TypeBool,
+									ForceNew:    true,
+									Optional:    true,
+									Description: "Enable cloud monitor service.",
+								},
+								"automation_service": {
+									Type:        schema.TypeBool,
+									ForceNew:    true,
+									Optional:    true,
+									Description: "Enable automation service.",
+								},
+							},
+						},
+						Description: "Enhanced service settings.",
+					},
+					"host_name": {
+						Type:        schema.TypeString,
+						ForceNew:    true,
+						Optional:    true,
+						Description: "Host name of the instance.",
+					},
+					"skip_options": {
+						Type:        schema.TypeList,
+						ForceNew:    true,
+						Optional:    true,
+						Elem:        &schema.Schema{Type: schema.TypeString},
+						Description: "Skip options for existing instances.",
 					},
 				},
 			},
@@ -1083,12 +1189,11 @@ func resourceTencentCloudTkeCluster() *schema.Resource {
 			Description: "Description of the cluster.",
 		},
 		"cluster_os": {
-			Type:     schema.TypeString,
-			ForceNew: true,
-			Optional: true,
-			Default:  TKE_CLUSTER_OS_LINUX24,
-			Description: "Operating system of the cluster, the available values include: '" + strings.Join(TKE_CLUSTER_OS, "','") +
-				"'. Default is '" + TKE_CLUSTER_OS_LINUX24 + "'.",
+			Type:        schema.TypeString,
+			ForceNew:    true,
+			Optional:    true,
+			Default:     TKE_CLUSTER_OS_LINUX24,
+			Description: "Cluster operating system, supports setting public images (image Name) and custom images (image ID).",
 		},
 		"cluster_os_type": {
 			Type:         schema.TypeString,
@@ -1098,6 +1203,12 @@ func resourceTencentCloudTkeCluster() *schema.Resource {
 			ValidateFunc: validateAllowedStringValue(TKE_CLUSTER_OS_TYPES),
 			Description: "Image type of the cluster os, the available values include: '" + strings.Join(TKE_CLUSTER_OS_TYPES, "','") +
 				"'. Default is '" + TKE_CLUSTER_OS_TYPE_GENERAL + "'.",
+		},
+		"cluster_subnet_id": {
+			Type:        schema.TypeString,
+			ForceNew:    true,
+			Optional:    true,
+			Description: "Control Plane Subnet Information. Required for some network plugins (for example, CiliumOverlay).",
 		},
 		"container_runtime": {
 			Type:         schema.TypeString,
@@ -1121,7 +1232,7 @@ func resourceTencentCloudTkeCluster() *schema.Resource {
 			Type:        schema.TypeString,
 			Optional:    true,
 			Default:     "1.10.5",
-			Description: "Version of the cluster, Default is '1.10.5'. Use `cloud_tke_kubernetes_available_cluster_versions` to get the available versions.",
+			Description: "Version of the cluster, Default is '1.10.5'. Use `tencentcloudenterprise_tke_kubernetes_available_cluster_versions` to get the available versions.",
 		},
 		//"upgrade_instances_follow_cluster": {
 		//	Type:        schema.TypeBool,
@@ -1148,13 +1259,13 @@ func resourceTencentCloudTkeCluster() *schema.Resource {
 			Type:        schema.TypeString,
 			Optional:    true,
 			Computed:    true,
-			Description: "Specify cluster level, valid for managed cluster, use data source `cloud_kubernetes_cluster_levels` to query available levels. Available value examples `L5`, `L20`, `L50`, `L100`, etc.",
+			Description: "Specify cluster level, valid for managed cluster, use data source `tencentcloudenterprise_kubernetes_cluster_levels` to query available levels. Available value examples `L5`, `L20`, `L50`, `L100`, etc.",
 		},
-		//"auto_upgrade_cluster_level": {
-		//	Type:        schema.TypeBool,
-		//	Optional:    true,
-		//	Description: "Whether the cluster level auto upgraded, valid for managed cluster.",
-		//},
+		"auto_upgrade_cluster_level": {
+			Type:        schema.TypeBool,
+			Optional:    true,
+			Description: "Whether the cluster level auto upgraded, valid for managed cluster.",
+		},
 		//"acquire_cluster_admin_role": {
 		//	Type:        schema.TypeBool,
 		//	Optional:    true,
@@ -1237,19 +1348,70 @@ func resourceTencentCloudTkeCluster() *schema.Resource {
 			Default:     false,
 			Description: "Indicates whether non-static ip mode is enabled. Default is false.",
 		},
-		//"deletion_protection": {
-		//	Type:        schema.TypeBool,
-		//	Optional:    true,
-		//	Default:     false,
-		//	Description: "Indicates whether cluster deletion protection is enabled. Default is false.",
-		//},
-		//"kube_proxy_mode": {
-		//	Type:     schema.TypeString,
-		//	Optional: true,
-		//	Default:  "",
-		//	Description: "Cluster kube-proxy mode, the available values include: 'kube-proxy-bpf'. Default is not set." +
-		//		"When set to kube-proxy-bpf, cluster version greater than 1.14 and with Linux 2.4 is required.",
-		//},
+		"deletion_protection": {
+			Type:        schema.TypeBool,
+			Optional:    true,
+			Default:     false,
+			Description: "Indicates whether cluster deletion protection is enabled. Default is false.",
+		},
+		"kube_proxy_mode": {
+			Type:     schema.TypeString,
+			ForceNew: true,
+			Optional: true,
+			Default:  "",
+			Description: "Cluster kube-proxy mode, the available values include: 'kube-proxy-bpf'. Default is not set." +
+				"When set to kube-proxy-bpf, cluster version greater than 1.14 and with Linux 2.4 is required.",
+		},
+		"runtime_version": {
+			Type:        schema.TypeString,
+			ForceNew:    true,
+			Optional:    true,
+			Description: "Container runtime version.",
+		},
+		"enable_customized_pod_cidr": {
+			Type:        schema.TypeBool,
+			ForceNew:    true,
+			Optional:    true,
+			Default:     false,
+			Description: "Whether to enable the custom mode of node podCIDR size. Default is false.",
+		},
+		"audit_enabled": {
+			Type:        schema.TypeBool,
+			Optional:    true,
+			Default:     false,
+			Description: "Indicates whether cluster audit is enabled. Default is false.",
+		},
+		"audit_logset_id": {
+			Type:        schema.TypeString,
+			Optional:    true,
+			Description: "Audit log logset ID.",
+		},
+		"audit_log_topic_id": {
+			Type:        schema.TypeString,
+			Optional:    true,
+			Description: "Audit log topic ID.",
+		},
+		"data_plane_v2": {
+			Type:        schema.TypeBool,
+			ForceNew:    true,
+			Optional:    true,
+			Default:     false,
+			Description: "Whether to use data plane V2 (cilium v2). Default is false.",
+		},
+		"qgpu_share_enable": {
+			Type:        schema.TypeBool,
+			ForceNew:    true,
+			Optional:    true,
+			Default:     false,
+			Description: "Indicates whether QGPU sharing is enabled. Default is false.",
+		},
+		"is_dual_stack": {
+			Type:        schema.TypeBool,
+			ForceNew:    true,
+			Optional:    true,
+			Default:     false,
+			Description: "Indicates whether the cluster is dual stack (IPv4/IPv6). Default is false.",
+		},
 		"vpc_id": {
 			Type:         schema.TypeString,
 			ForceNew:     true,
@@ -1295,7 +1457,7 @@ func resourceTencentCloudTkeCluster() *schema.Resource {
 		//	Optional:   true,
 		//	Elem:       &schema.Schema{Type: schema.TypeString},
 		//	Deprecated: "this argument was deprecated, use `cluster_internet_security_group` instead.",
-		//	Description: "Security policies for managed cluster internet, like:'192.168.1.0/24' or '203.0.113.27', '0.0.0.0/0' means all." +
+		//	Description: "Security policies for managed cluster internet, like:'192.168.1.0/24' or '113.116.51.27', '0.0.0.0/0' means all." +
 		//		" This field can only set when field `cluster_deploy_type` is 'MANAGED_CLUSTER' and `cluster_internet` is true." +
 		//		" `managed_cluster_internet_security_policies` can not delete or empty once be set.",
 		//},
@@ -1310,11 +1472,17 @@ func resourceTencentCloudTkeCluster() *schema.Resource {
 			Optional:    true,
 			Description: "Project ID, default value is 0.",
 		},
+		"need_work_security_group": {
+			Type:        schema.TypeBool,
+			Optional:    true,
+			ForceNew:    true,
+			Default:     false,
+			Description: "Indicates whether to enable the default node security group. Default is false.",
+		},
 		"cluster_cidr": {
-			Type:     schema.TypeString,
-			Required: true,
+			Type: schema.TypeString,
 			//ForceNew:    true,
-			//Optional:    true,
+			Optional:    true,
 			Description: "A network address block of the cluster. Different from vpc cidr and cidr of other clusters within this vpc. Must be in  10./192.168/172.[16-31] segments.",
 			ValidateFunc: func(v interface{}, k string) (ws []string, errors []error) {
 				value := v.(string)
@@ -1350,13 +1518,13 @@ func resourceTencentCloudTkeCluster() *schema.Resource {
 				return
 			},
 		},
-		//"ignore_cluster_cidr_conflict": {
-		//	Type:        schema.TypeBool,
-		//	ForceNew:    true,
-		//	Optional:    true,
-		//	Default:     false,
-		//	Description: "Indicates whether to ignore the cluster cidr conflict error. Default is false.",
-		//},
+		"ignore_cluster_cidr_conflict": {
+			Type:        schema.TypeBool,
+			ForceNew:    true,
+			Optional:    true,
+			Default:     false,
+			Description: "Indicates whether to ignore the cluster cidr conflict error. Default is false.",
+		},
 		"cluster_max_pod_num": {
 			Type:        schema.TypeInt,
 			ForceNew:    true,
@@ -1410,6 +1578,13 @@ func resourceTencentCloudTkeCluster() *schema.Resource {
 				return
 			},
 		},
+		"ignore_service_cidr_conflict": {
+			Type:        schema.TypeBool,
+			ForceNew:    true,
+			Optional:    true,
+			Default:     false,
+			Description: "Indicates whether to ignore the service cidr conflict error. Only valid in VPC-CNI mode. Default is false.",
+		},
 		"eni_subnet_ids": {
 			Type:     schema.TypeList,
 			Optional: true,
@@ -1417,6 +1592,13 @@ func resourceTencentCloudTkeCluster() *schema.Resource {
 			Description: "Subnet Ids for cluster with VPC-CNI network mode." +
 				" This field can only set when field `network_type` is 'VPC-CNI'." +
 				" `eni_subnet_ids` can not empty once be set.",
+		},
+		"vpc_cni_type": {
+			Type:         schema.TypeString,
+			Optional:     true,
+			Computed:     true,
+			Description:  "Distinguish between shared network card multi-IP mode and independent network card mode. Fill in `tke-route-eni` for shared network card multi-IP mode and `tke-direct-eni` for independent network card mode. The default is shared network card mode.",
+			ValidateFunc: validateAllowedStringValue([]string{"tke-route-eni", "tke-direct-eni"}),
 		},
 		"claim_expired_seconds": {
 			Type:     schema.TypeInt,
@@ -1450,47 +1632,204 @@ func resourceTencentCloudTkeCluster() *schema.Resource {
 			Elem: &schema.Resource{
 				Schema: TkeCvmCreateInfo(),
 			},
-			Description: "Deploy the machine configuration information of the 'WORKER' service, and create <=20 units for common users. The other 'WORK' service are added by 'cloud_kubernetes_worker'.",
+			Description: "Deploy the machine configuration information of the 'WORKER' service, and create <=20 units for common users. The other 'WORK' service are added by 'tencentcloudenterprise_kubernetes_worker'.",
 		},
-		//"exist_instance": {
-		//	Type:     schema.TypeList,
-		//	ForceNew: true,
-		//	Optional: true,
-		//	Elem: &schema.Resource{
-		//		Schema: TkeExistCvmCreateInfo(),
-		//	},
-		//	Description: "Create tke cluster by existed instances.",
-		//},
-		//"auth_options": {
-		//	Type:     schema.TypeList,
-		//	Optional: true,
-		//	MaxItems: 1,
-		//	Elem: &schema.Resource{
-		//		Schema: map[string]*schema.Schema{
-		//			"use_tke_default": {
-		//				Type:        schema.TypeBool,
-		//				Optional:    true,
-		//				Description: "If set to `true`, the issuer and jwks_uri will be generated automatically by tke, please do not set issuer and jwks_uri, and they will be ignored.",
-		//			},
-		//			"jwks_uri": {
-		//				Type:        schema.TypeString,
-		//				Optional:    true,
-		//				Description: "Specify service-account-jwks-uri. If use_tke_default is set to `true`, please do not set this field, it will be ignored anyway.",
-		//			},
-		//			"issuer": {
-		//				Type:        schema.TypeString,
-		//				Optional:    true,
-		//				Description: "Specify service-account-issuer. If use_tke_default is set to `true`, please do not set this field, it will be ignored anyway.",
-		//			},
-		//			"auto_create_discovery_anonymous_auth": {
-		//				Type:        schema.TypeBool,
-		//				Optional:    true,
-		//				Description: "If set to `true`, the rbac rule will be created automatically which allow anonymous user to access '/.well-known/openid-configuration' and '/openid/v1/jwks'.",
-		//			},
-		//		},
-		//	},
-		//	Description: "Specify cluster authentication configuration. Only available for managed cluster and `cluster_version` >= 1.20.",
-		//},
+		"exist_instance": {
+			Type:     schema.TypeList,
+			ForceNew: true,
+			Optional: true,
+			Elem: &schema.Resource{
+				Schema: TkeExistCvmCreateInfo(),
+			},
+			Description: "Create tke cluster by existed instances.",
+		},
+		"run_instances_for_node": {
+			Type:        schema.TypeList,
+			Optional:    true,
+			ForceNew:    true,
+			Description: "RunInstancesForNode settings to build CreateCluster request directly.",
+			Elem: &schema.Resource{
+				Schema: map[string]*schema.Schema{
+					"node_role": {
+						Type:        schema.TypeString,
+						Required:    true,
+						Description: "Node role, value: MASTER_ETCD or WORKER.",
+					},
+					"run_instances_para": {
+						Type:        schema.TypeList,
+						Required:    true,
+						Description: "CVM run instances parameters in JSON string format.",
+						Elem: &schema.Schema{
+							Type: schema.TypeString,
+						},
+					},
+					"instance_advanced_settings_overrides": {
+						Type:        schema.TypeList,
+						Optional:    true,
+						Description: "Per-node instance advanced settings overrides. Order must match run_instances_para.",
+						Elem: &schema.Resource{
+							Schema: map[string]*schema.Schema{
+								"docker_graph_path": {
+									Type:        schema.TypeString,
+									Optional:    true,
+									Description: "Docker graph path.",
+								},
+								"unschedulable": {
+									Type:        schema.TypeInt,
+									Optional:    true,
+									Description: "Sets whether the joining node participates in the schedule.",
+								},
+								"pre_start_user_script": {
+									Type:        schema.TypeString,
+									Optional:    true,
+									Description: "Base64-encoded user script, executed before initializing the node.",
+								},
+								"user_script": {
+									Type:        schema.TypeString,
+									Optional:    true,
+									Description: "Base64-encoded user script executed after initializing the node.",
+								},
+								"labels": {
+									Type:        schema.TypeList,
+									Optional:    true,
+									Description: "Node label list.",
+									Elem: &schema.Resource{
+										Schema: map[string]*schema.Schema{
+											"name": {
+												Type:        schema.TypeString,
+												Optional:    true,
+												Description: "Label name.",
+											},
+											"value": {
+												Type:        schema.TypeString,
+												Optional:    true,
+												Description: "Label value.",
+											},
+										},
+									},
+								},
+								"taints": {
+									Type:        schema.TypeList,
+									Optional:    true,
+									Description: "Node taint.",
+									Elem: &schema.Resource{
+										Schema: map[string]*schema.Schema{
+											"key": {
+												Type:        schema.TypeString,
+												Optional:    true,
+												Description: "Key of the taint.",
+											},
+											"value": {
+												Type:        schema.TypeString,
+												Optional:    true,
+												Description: "Value of the taint.",
+											},
+											"effect": {
+												Type:        schema.TypeString,
+												Optional:    true,
+												Description: "Effect of the taint.",
+											},
+										},
+									},
+								},
+								"extra_args": {
+									Type:        schema.TypeList,
+									Optional:    true,
+									Description: "Custom parameter information related to the node.",
+									Elem: &schema.Schema{
+										Type: schema.TypeString,
+									},
+								},
+								"data_disks": {
+									Type:        schema.TypeList,
+									Optional:    true,
+									Description: "Data disks for instance advanced settings override.",
+									Elem: &schema.Resource{
+										Schema: map[string]*schema.Schema{
+											"disk_type": {
+												Type:        schema.TypeString,
+												Optional:    true,
+												Description: "Types of disk.",
+											},
+											"disk_size": {
+												Type:        schema.TypeInt,
+												Optional:    true,
+												Description: "Volume of disk in GB.",
+											},
+											"disk_id": {
+												Type:        schema.TypeString,
+												Optional:    true,
+												Description: "Data disk ID.",
+											},
+											"disk_partition": {
+												Type:        schema.TypeString,
+												Optional:    true,
+												Description: "The name of the device or partition to mount.",
+											},
+											"file_system": {
+												Type:        schema.TypeString,
+												Optional:    true,
+												Description: "File system, e.g. `ext3/ext4/xfs`.",
+											},
+											"auto_format_and_mount": {
+												Type:        schema.TypeBool,
+												Optional:    true,
+												Description: "Indicate whether to auto format and mount or not.",
+											},
+											"mount_target": {
+												Type:        schema.TypeString,
+												Required:    true,
+												Description: "Mount target.",
+											},
+										},
+									},
+								},
+								"desired_pod_number": {
+									Type:        schema.TypeInt,
+									Optional:    true,
+									Description: "Indicate to set desired pod number in node. valid when the cluster is podCIDR.",
+								},
+								"gpu_args": {
+									Type:        schema.TypeList,
+									Optional:    true,
+									MaxItems:    1,
+									Description: "GPU driver parameters.",
+									Elem: &schema.Resource{
+										Schema: map[string]*schema.Schema{
+											"mig_enable": {
+												Type:        schema.TypeBool,
+												Optional:    true,
+												Description: "Whether to enable MIG.",
+											},
+											"driver": {
+												Type:        schema.TypeMap,
+												Optional:    true,
+												Description: "GPU driver version. Format like: `{ version: String, name: String }`. `version`: Version of GPU driver or CUDA; `name`: Name of GPU driver or CUDA.",
+											},
+											"cuda": {
+												Type:        schema.TypeMap,
+												Optional:    true,
+												Description: "CUDA  version. Format like: `{ version: String, name: String }`. `version`: Version of GPU driver or CUDA; `name`: Name of GPU driver or CUDA.",
+											},
+											"cudnn": {
+												Type:        schema.TypeMap,
+												Optional:    true,
+												Description: "cuDNN version. Format like: `{ version: String, name: String, doc_name: String, dev_name: String }`. `version`: cuDNN version; `name`: cuDNN name; `doc_name`: Doc name of cuDNN; `dev_name`: Dev name of cuDNN.",
+											},
+											"custom_driver": {
+												Type:        schema.TypeMap,
+												Optional:    true,
+												Description: "Custom GPU driver. Format like: `{address: String}`. `address`: URL of custom GPU driver address.",
+											},
+										},
+									},
+								},
+							},
+						},
+					},
+				},
+			},
+		},
 		//"extension_addon": {
 		//	Type:        schema.TypeList,
 		//	Optional:    true,
@@ -1511,93 +1850,113 @@ func resourceTencentCloudTkeCluster() *schema.Resource {
 		//		},
 		//	},
 		//},
-		//"log_agent": {
-		//	Type:        schema.TypeList,
-		//	Optional:    true,
-		//	MaxItems:    1,
-		//	Description: "Specify cluster log agent config.",
-		//	Elem: &schema.Resource{
-		//		Schema: map[string]*schema.Schema{
-		//			"enabled": {
-		//				Type:        schema.TypeBool,
-		//				Required:    true,
-		//				Description: "Whether the log agent enabled.",
-		//			},
-		//			"kubelet_root_dir": {
-		//				Type:        schema.TypeString,
-		//				Optional:    true,
-		//				Description: "Kubelet root directory as the literal.",
-		//			},
-		//		},
-		//	},
-		//},
-		//"event_persistence": {
-		//	Type:        schema.TypeList,
-		//	Optional:    true,
-		//	MaxItems:    1,
-		//	Description: "Specify cluster Event Persistence config. NOTE: Please make sure your TKE CamRole have permission to access CLS service.",
-		//	Elem: &schema.Resource{
-		//		Schema: map[string]*schema.Schema{
-		//			"enabled": {
-		//				Type:        schema.TypeBool,
-		//				Required:    true,
-		//				Description: "Specify weather the Event Persistence enabled.",
-		//			},
-		//			"log_set_id": {
-		//				Type:        schema.TypeString,
-		//				Optional:    true,
-		//				Description: "Specify id of existing CLS log set, or auto create a new set by leave it empty.",
-		//			},
-		//			"topic_id": {
-		//				Type:        schema.TypeString,
-		//				Optional:    true,
-		//				Description: "Specify id of existing CLS log topic, or auto create a new topic by leave it empty.",
-		//			},
-		//			"delete_event_log_and_topic": {
-		//				Type:     schema.TypeBool,
-		//				Optional: true,
-		//				Description: "When you want to close the cluster event persistence or delete the cluster, you can use this parameter to determine " +
-		//					"whether the event persistence log set and topic created by default will be deleted.",
-		//			},
-		//		},
-		//	},
-		//},
-		//"cluster_audit": {
-		//	Type:        schema.TypeList,
-		//	Optional:    true,
-		//	MaxItems:    1,
-		//	Description: "Specify Cluster Audit config. NOTE: Please make sure your TKE CamRole have permission to access CLS service.",
-		//	Elem: &schema.Resource{
-		//		Schema: map[string]*schema.Schema{
-		//			"enabled": {
-		//				Type:        schema.TypeBool,
-		//				Required:    true,
-		//				Description: "Specify weather the Cluster Audit enabled. NOTE: Enable Cluster Audit will also auto install Log Agent.",
-		//			},
-		//			"log_set_id": {
-		//				Type:        schema.TypeString,
-		//				Optional:    true,
-		//				Description: "Specify id of existing CLS log set, or auto create a new set by leave it empty.",
-		//			},
-		//			"topic_id": {
-		//				Type:        schema.TypeString,
-		//				Optional:    true,
-		//				Description: "Specify id of existing CLS log topic, or auto create a new topic by leave it empty.",
-		//			},
-		//			"delete_audit_log_and_topic": {
-		//				Type:     schema.TypeBool,
-		//				Optional: true,
-		//				Description: "When you want to close the cluster audit log or delete the cluster, you can use " +
-		//					"this parameter to determine whether the audit log set and topic created by default will" +
-		//					" be deleted.",
-		//			},
-		//		},
-		//	},
-		//},
+		"log_agent": {
+			Type:        schema.TypeList,
+			Optional:    true,
+			MaxItems:    1,
+			Description: "Specify cluster log agent config.",
+			Elem: &schema.Resource{
+				Schema: map[string]*schema.Schema{
+					"enabled": {
+						Type:        schema.TypeBool,
+						Required:    true,
+						Description: "Whether the log agent enabled.",
+					},
+					"kubelet_root_dir": {
+						Type:        schema.TypeString,
+						Optional:    true,
+						Description: "Kubelet root directory as the literal.",
+					},
+				},
+			},
+		},
+		"event_persistence": {
+			Type:        schema.TypeList,
+			Optional:    true,
+			MaxItems:    1,
+			Description: "Specify cluster Event Persistence config. NOTE: Please make sure your TKE CamRole have permission to access CLS service.",
+			Elem: &schema.Resource{
+				Schema: map[string]*schema.Schema{
+					"enabled": {
+						Type:        schema.TypeBool,
+						Required:    true,
+						Description: "Specify weather the Event Persistence enabled.",
+					},
+					"log_set_id": {
+						Type:        schema.TypeString,
+						Optional:    true,
+						Description: "Specify id of existing CLS log set, or auto create a new set by leave it empty.",
+					},
+					"topic_id": {
+						Type:        schema.TypeString,
+						Optional:    true,
+						Description: "Specify id of existing CLS log topic, or auto create a new topic by leave it empty.",
+					},
+					"delete_event_log_and_topic": {
+						Type:     schema.TypeBool,
+						Optional: true,
+						Description: "When you want to close the cluster event persistence or delete the cluster, you can use this parameter to determine " +
+							"whether the event persistence log set and topic created by default will be deleted.",
+					},
+				},
+			},
+		},
+		"cluster_audit": {
+			Type:        schema.TypeList,
+			Optional:    true,
+			MaxItems:    1,
+			Description: "Specify Cluster Audit config. NOTE: Please make sure your TKE CamRole have permission to access CLS service.",
+			Elem: &schema.Resource{
+				Schema: map[string]*schema.Schema{
+					"enabled": {
+						Type:        schema.TypeBool,
+						Required:    true,
+						Description: "Specify weather the Cluster Audit enabled. NOTE: Enable Cluster Audit will also auto install Log Agent.",
+					},
+					"log_set_id": {
+						Type:        schema.TypeString,
+						Optional:    true,
+						Description: "Specify id of existing CLS log set, or auto create a new set by leave it empty.",
+					},
+					"topic_id": {
+						Type:        schema.TypeString,
+						Optional:    true,
+						Description: "Specify id of existing CLS log topic, or auto create a new topic by leave it empty.",
+					},
+					"delete_audit_log_and_topic": {
+						Type:     schema.TypeBool,
+						Optional: true,
+						Description: "When you want to close the cluster audit log or delete the cluster, you can use " +
+							"this parameter to determine whether the audit log set and topic created by default will" +
+							" be deleted.",
+					},
+				},
+			},
+		},
 		"tags": {
 			Type:        schema.TypeMap,
 			Optional:    true,
 			Description: "The tags of the cluster.",
+		},
+		"extension_addon": {
+			Type:     schema.TypeList,
+			Optional: true,
+			ForceNew: true,
+			Elem: &schema.Resource{
+				Schema: map[string]*schema.Schema{
+					"name": {
+						Type:        schema.TypeString,
+						Required:    true,
+						Description: "Add-on name.",
+					},
+					"param": {
+						Type:        schema.TypeString,
+						Optional:    true,
+						Description: "Add-on parameters (JSON string format), please check the example at the top of page for reference.",
+					},
+				},
+			},
+			Description: "List of extension add-ons to be installed.",
 		},
 
 		// Computed values
@@ -1615,12 +1974,12 @@ func resourceTencentCloudTkeCluster() *schema.Resource {
 			Description: "An information list of cvm within the 'WORKER' clusters. Each element contains the following attributes:",
 		},
 		//advanced instance setting
-		//"labels": {
-		//	Type:        schema.TypeMap,
-		//	Optional:    true,
-		//	ForceNew:    true,
-		//	Description: "Labels of tke cluster nodes.",
-		//},
+		"labels": {
+			Type:        schema.TypeMap,
+			Optional:    true,
+			ForceNew:    true,
+			Description: "Labels of tke cluster nodes.",
+		},
 		"unschedulable": {
 			Type:     schema.TypeInt,
 			Optional: true,
@@ -1641,12 +2000,12 @@ func resourceTencentCloudTkeCluster() *schema.Resource {
 			ForceNew:    true,
 			Description: "Mount target. Default is not mounting.",
 		},
-		//"globe_desired_pod_num": {
-		//	Type:        schema.TypeInt,
-		//	ForceNew:    true,
-		//	Optional:    true,
-		//	Description: "Indicate to set desired pod number in node. valid when enable_customized_pod_cidr=true, and it takes effect for all nodes.",
-		//},
+		"globe_desired_pod_num": {
+			Type:        schema.TypeInt,
+			ForceNew:    true,
+			Optional:    true,
+			Description: "Indicate to set desired pod number in node. valid when enable_customized_pod_cidr=true, and it takes effect for all nodes.",
+		},
 		"docker_graph_path": {
 			Type:     schema.TypeString,
 			Optional: true,
@@ -1659,7 +2018,65 @@ func resourceTencentCloudTkeCluster() *schema.Resource {
 					return old == new
 				}
 			},
-			Description: "Docker graph path. Default is `/var/lib/docker`.",
+			ValidateFunc: validateNotEmpty,
+			Description:  "Docker graph path. Default is `/var/lib/docker`.",
+		},
+		"pre_start_user_script": {
+			Type:        schema.TypeString,
+			Optional:    true,
+			ForceNew:    true,
+			Description: "Base64-encoded user script, executed before initializing the node, currently only effective for adding existing nodes.",
+		},
+		"user_script": {
+			Type:        schema.TypeString,
+			Optional:    true,
+			ForceNew:    true,
+			Description: "Base64-encoded user script executed after initializing the node.",
+		},
+		"instance_data_disks": {
+			Type:        schema.TypeList,
+			Optional:    true,
+			ForceNew:    true,
+			Description: "Data disks for instance advanced settings.",
+			Elem: &schema.Resource{
+				Schema: map[string]*schema.Schema{
+					"disk_type": {
+						Type:        schema.TypeString,
+						Optional:    true,
+						Description: "Types of disk.",
+					},
+					"disk_size": {
+						Type:        schema.TypeInt,
+						Optional:    true,
+						Description: "Volume of disk in GB.",
+					},
+					"disk_id": {
+						Type:        schema.TypeString,
+						Optional:    true,
+						Description: "Data disk ID.",
+					},
+					"disk_partition": {
+						Type:        schema.TypeString,
+						Optional:    true,
+						Description: "The name of the device or partition to mount.",
+					},
+					"file_system": {
+						Type:        schema.TypeString,
+						Optional:    true,
+						Description: "File system, e.g. `ext3/ext4/xfs`.",
+					},
+					"auto_format_and_mount": {
+						Type:        schema.TypeBool,
+						Optional:    true,
+						Description: "Indicate whether to auto format and mount or not.",
+					},
+					"mount_target": {
+						Type:        schema.TypeString,
+						Optional:    true,
+						Description: "Mount target.",
+					},
+				},
+			},
 		},
 		"extra_args": {
 			Type:        schema.TypeList,
@@ -1667,6 +2084,31 @@ func resourceTencentCloudTkeCluster() *schema.Resource {
 			ForceNew:    true,
 			Elem:        &schema.Schema{Type: schema.TypeString},
 			Description: "Custom parameter information related to the node.",
+		},
+		"taints": {
+			Type:     schema.TypeList,
+			Optional: true,
+			ForceNew: true,
+			Elem: &schema.Resource{
+				Schema: map[string]*schema.Schema{
+					"key": {
+						Type:        schema.TypeString,
+						Optional:    true,
+						Description: "Key of the taint.",
+					},
+					"value": {
+						Type:        schema.TypeString,
+						Optional:    true,
+						Description: "Value of the taint.",
+					},
+					"effect": {
+						Type:        schema.TypeString,
+						Optional:    true,
+						Description: "Effect of the taint. Valid values are: `NoSchedule`, `PreferNoSchedule`, `NoExecute`.",
+					},
+				},
+			},
+			Description: "Node taint.",
 		},
 		//"runtime_version": {
 		//	Type:        schema.TypeString,
@@ -1762,12 +2204,10 @@ func tkeGetCvmRunInstancesPara(dMap map[string]interface{}, meta interface{},
 		request.SystemDisk.DiskStoragePoolGroup = helper.String(v.(string))
 	}
 
-	/*
-		if v, ok := dMap["cam_role_name"]; ok {
-			request.CamRoleName = helper.String(v.(string))
-		}
-
-	*/
+	camRoleName := ""
+	if v, ok := dMap["cam_role_name"]; ok {
+		camRoleName = v.(string)
+	}
 
 	if v, ok := dMap["data_disk"]; ok {
 
@@ -1914,9 +2354,9 @@ func tkeGetCvmRunInstancesPara(dMap map[string]interface{}, meta interface{},
 			Enabled: &monitorService,
 		}
 	}
-	// if v, ok := dMap["user_data"]; ok {
-	// 	request.UserData = helper.String(v.(string))
-	// }
+	if v, ok := dMap["user_data"]; ok {
+		request.UserData = helper.String(v.(string))
+	}
 	if v, ok := dMap["instance_charge_type"]; ok {
 		instanceChargeType := v.(string)
 		request.InstanceChargeType = &instanceChargeType
@@ -1964,6 +2404,16 @@ func tkeGetCvmRunInstancesPara(dMap map[string]interface{}, meta interface{},
 
 	cvmJson = strings.Replace(cvmJson, `"Password":"",`, "", -1)
 
+	if camRoleName != "" {
+		var cvmMap map[string]interface{}
+		if err := json.Unmarshal([]byte(cvmJson), &cvmMap); err == nil {
+			cvmMap["CamRoleName"] = camRoleName
+			if b, err := json.Marshal(cvmMap); err == nil {
+				cvmJson = string(b)
+			}
+		}
+	}
+
 	return
 }
 
@@ -1980,6 +2430,71 @@ func tkeGetCvmExistInstancesPara(dMap map[string]interface{}) (tke.ExistedInstan
 			inst.ExistedInstancesPara.InstanceIds = make([]*string, 0)
 			for _, v := range instanceIds {
 				inst.ExistedInstancesPara.InstanceIds = append(inst.ExistedInstancesPara.InstanceIds, helper.String(v.(string)))
+			}
+			if temp, ok := paraMap["security_group_ids"]; ok {
+				sgs := temp.([]interface{})
+				inst.ExistedInstancesPara.SecurityGroupIds = make([]*string, 0, len(sgs))
+				for _, v := range sgs {
+					inst.ExistedInstancesPara.SecurityGroupIds = append(inst.ExistedInstancesPara.SecurityGroupIds, helper.String(v.(string)))
+				}
+			}
+			if temp, ok := paraMap["host_name"]; ok {
+				hostName := temp.(string)
+				if hostName != "" {
+					inst.ExistedInstancesPara.HostName = helper.String(hostName)
+				}
+			}
+			if temp, ok := paraMap["skip_options"]; ok {
+				options := temp.([]interface{})
+				inst.ExistedInstancesPara.SkipOptions = make([]*string, 0, len(options))
+				for _, v := range options {
+					inst.ExistedInstancesPara.SkipOptions = append(inst.ExistedInstancesPara.SkipOptions, helper.String(v.(string)))
+				}
+			}
+			if temp, ok := paraMap["login_settings"]; ok {
+				loginList := temp.([]interface{})
+				if len(loginList) > 0 {
+					loginMap := loginList[0].(map[string]interface{})
+					login := &tke.LoginSettings{}
+					if v, ok := loginMap["password"]; ok && v.(string) != "" {
+						login.Password = helper.String(v.(string))
+					}
+					if v, ok := loginMap["key_ids"]; ok {
+						keyIds := v.([]interface{})
+						login.KeyIds = make([]*string, 0, len(keyIds))
+						for _, key := range keyIds {
+							login.KeyIds = append(login.KeyIds, helper.String(key.(string)))
+						}
+					}
+					if v, ok := loginMap["keep_image_login"]; ok {
+						if v.(bool) {
+							login.KeepImageLogin = helper.String(CVM_IMAGE_LOGIN)
+						} else {
+							login.KeepImageLogin = helper.String(CVM_IMAGE_LOGIN_NOT)
+						}
+					}
+					inst.ExistedInstancesPara.LoginSettings = login
+				}
+			}
+			if temp, ok := paraMap["enhanced_service"]; ok {
+				serviceList := temp.([]interface{})
+				if len(serviceList) > 0 {
+					serviceMap := serviceList[0].(map[string]interface{})
+					enhanced := &tke.EnhancedService{}
+					if v, ok := serviceMap["security_service"]; ok {
+						enabled := v.(bool)
+						enhanced.SecurityService = &tke.RunSecurityServiceEnabled{Enabled: &enabled}
+					}
+					if v, ok := serviceMap["monitor_service"]; ok {
+						enabled := v.(bool)
+						enhanced.MonitorService = &tke.RunMonitorServiceEnabled{Enabled: &enabled}
+					}
+					if v, ok := serviceMap["automation_service"]; ok {
+						enabled := v.(bool)
+						enhanced.AutomationService = &tke.RunAutomationServiceEnabled{Enabled: &enabled}
+					}
+					inst.ExistedInstancesPara.EnhancedService = enhanced
+				}
 			}
 		}
 	}
@@ -2034,42 +2549,6 @@ func tkeGetNodePoolGlobalConfig(d *schema.ResourceData) *tke.ModifyClusterAsGrou
 	request.ClusterAsGroupOption = clusterAsGroupOption
 	return request
 }
-
-//func tkeGetAuthOptions(d *schema.ResourceData) *tke.ModifyClusterAuthenticationOptionsRequest {
-//	raw, ok := d.GetOk("auth_options")
-//	options := raw.([]interface{})
-//
-//	request := tke.NewModifyClusterAuthenticationOptionsRequest()
-//	request.ClusterId = helper.String(d.Id())
-//	request.ServiceAccounts = &tke.ServiceAccountAuthenticationOptions{
-//		AutoCreateDiscoveryAnonymousAuth: helper.Bool(false),
-//	}
-//
-//	if !ok || len(options) == 0 {
-//		request.ServiceAccounts.JWKSURI = helper.String("")
-//		return request
-//	}
-//
-//	option := options[0].(map[string]interface{})
-//
-//	if v, ok := option["auto_create_discovery_anonymous_auth"]; ok {
-//		request.ServiceAccounts.AutoCreateDiscoveryAnonymousAuth = helper.Bool(v.(bool))
-//	}
-//
-//	if v, ok := option["use_tke_default"]; ok && v.(bool) {
-//		request.ServiceAccounts.UseTKEDefault = helper.Bool(true)
-//	} else {
-//		if v, ok := option["issuer"]; ok {
-//			request.ServiceAccounts.Issuer = helper.String(v.(string))
-//		}
-//
-//		if v, ok := option["jwks_uri"]; ok {
-//			request.ServiceAccounts.JWKSURI = helper.String(v.(string))
-//		}
-//	}
-//
-//	return request
-//}
 
 // upgradeClusterInstances upgrade instances, upgrade type try seq:major, hot.
 func upgradeClusterInstances(tkeService TkeService, ctx context.Context, id string) error {
@@ -2131,13 +2610,15 @@ func resourceTencentCloudTkeClusterCreate(d *schema.ResourceData, meta interface
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
 
 	var (
-		basic              ClusterBasicSetting
-		advanced           ClusterAdvancedSettings
-		cvms               RunInstancesForNode
-		iAdvanced          InstanceAdvancedSettings
-		iDiskMountSettings []*tke.InstanceDataDiskMountSetting
-		cidrSet            ClusterCidrSettings
-		//extensionAddons              []*tke.ExtensionAddon
+		basic               ClusterBasicSetting
+		advanced            ClusterAdvancedSettings
+		cvms                RunInstancesForNode
+		iAdvanced           InstanceAdvancedSettings
+		iDiskMountSettings  []*tke.InstanceDataDiskMountSetting
+		cidrSet             tke.ClusterCIDRSettings
+		extensionAddons     []*tke.ExtensionAddon
+		runInstancesForNode []*tke.RunInstancesForNode
+		clusterArch         string
 		//clusterInternet              = d.Get("cluster_internet").(bool)
 		//clusterIntranet              = d.Get("cluster_intranet").(bool)
 		//intranetSubnetId             = d.Get("cluster_intranet_subnet_id").(string)
@@ -2145,13 +2626,29 @@ func resourceTencentCloudTkeClusterCreate(d *schema.ResourceData, meta interface
 		//clusterInternetDomain        = d.Get("cluster_internet_domain").(string)
 		//clusterIntranetDomain        = d.Get("cluster_intranet_domain").(string)
 		// nodePoolId                   = d.Get("node_pool_id").(string)
-		clusterArch string
 	)
 	if v, ok := d.GetOk("cluster_arch"); ok {
 		clusterArch = v.(string)
 	}
 
 	clusterDeployType := d.Get("cluster_deploy_type").(string)
+	runInstancesForNodeRaw, runInstancesForNodeOk := d.GetOk("run_instances_for_node")
+	if runInstancesForNodeOk {
+		if _, ok := d.GetOk("master_config"); ok {
+			return fmt.Errorf("`run_instances_for_node` can not be used with `master_config`")
+		}
+		if _, ok := d.GetOk("worker_config"); ok {
+			return fmt.Errorf("`run_instances_for_node` can not be used with `worker_config`")
+		}
+		if _, ok := d.GetOk("exist_instance"); ok {
+			return fmt.Errorf("`run_instances_for_node` can not be used with `exist_instance`")
+		}
+		nodes, err := expandRunInstancesForNode(runInstancesForNodeRaw.([]interface{}))
+		if err != nil {
+			return err
+		}
+		runInstancesForNode = nodes
+	}
 
 	//if clusterIntranet && intranetSubnetId == "" {
 	//	return fmt.Errorf("`cluster_intranet_subnet_id` must set when `cluster_intranet` is true")
@@ -2166,6 +2663,7 @@ func resourceTencentCloudTkeClusterCreate(d *schema.ResourceData, meta interface
 	}
 
 	basic.ProjectId = int64(d.Get("project_id").(int))
+	basic.NeedWorkSecurityGroup = d.Get("need_work_security_group").(bool)
 
 	cluster_os := d.Get("cluster_os").(string)
 
@@ -2190,24 +2688,48 @@ func resourceTencentCloudTkeClusterCreate(d *schema.ResourceData, meta interface
 	if v, ok := d.GetOk("cluster_desc"); ok {
 		basic.ClusterDescription = v.(string)
 	}
+	if v, ok := d.GetOk("cluster_subnet_id"); ok {
+		basic.SubnetId = v.(string)
+	}
 
-	// if v, ok := d.GetOk("cluster_level"); ok {
-	// 	basic.ClusterLevel = helper.String(v.(string))
-	// }
-
-	// if v, ok := d.GetOkExists("auto_upgrade_cluster_level"); ok {
-	// 	basic.AutoUpgradeClusterLevel = helper.Bool(v.(bool))
-	// }
+	if v, ok := d.GetOk("cluster_level"); ok {
+		basic.ClusterLevel = helper.String(v.(string))
+	}
+	if v, ok := d.GetOkExists("auto_upgrade_cluster_level"); ok {
+		basic.AutoUpgradeClusterLevel = helper.Bool(v.(bool))
+	}
 
 	advanced.Ipvs = d.Get("cluster_ipvs").(bool)
 	//advanced.AsEnabled = d.Get("cluster_as_enabled").(bool)
 	advanced.ContainerRuntime = d.Get("container_runtime").(string)
+	if v, ok := d.GetOk("runtime_version"); ok {
+		advanced.RuntimeVersion = v.(string)
+	}
 	advanced.NodeNameType = d.Get("node_name_type").(string)
 	advanced.NetworkType = d.Get("network_type").(string)
 	advanced.IsNonStaticIpMode = d.Get("is_non_static_ip_mode").(bool)
-	//advanced.DeletionProtection = d.Get("deletion_protection").(bool)
-	//advanced.KubeProxyMode = d.Get("kube_proxy_mode").(string)
-	//advanced.EnableCustomizedPodCIDR = d.Get("enable_customized_pod_cidr").(bool)
+	if advanced.NetworkType == TKE_CLUSTER_NETWORK_TYPE_VPC_CNI {
+		if v, ok := d.GetOk("vpc_cni_type"); ok {
+			advanced.VpcCniType = v.(string)
+		} else {
+			advanced.VpcCniType = "tke-route-eni"
+		}
+	}
+	advanced.DeletionProtection = d.Get("deletion_protection").(bool)
+	if v, ok := d.GetOk("kube_proxy_mode"); ok {
+		advanced.KubeProxyMode = v.(string)
+	}
+	advanced.EnableCustomizedPodCIDR = d.Get("enable_customized_pod_cidr").(bool)
+	advanced.AuditEnabled = d.Get("audit_enabled").(bool)
+	if v, ok := d.GetOk("audit_logset_id"); ok {
+		advanced.AuditLogsetId = v.(string)
+	}
+	if v, ok := d.GetOk("audit_log_topic_id"); ok {
+		advanced.AuditLogTopicId = v.(string)
+	}
+	advanced.DataPlaneV2 = d.Get("data_plane_v2").(bool)
+	advanced.QGPUShareEnable = d.Get("qgpu_share_enable").(bool)
+	advanced.IsDualStack = d.Get("is_dual_stack").(bool)
 	if v, ok := d.GetOk("base_pod_num"); ok {
 		advanced.BasePodNumber = int64(v.(int))
 	}
@@ -2215,7 +2737,14 @@ func resourceTencentCloudTkeClusterCreate(d *schema.ResourceData, meta interface
 	if extraArgs, ok := d.GetOk("cluster_extra_args"); ok {
 		extraArgList := extraArgs.([]interface{})
 		for index := range extraArgList {
-			extraArg := extraArgList[index].(map[string]interface{})
+			raw := extraArgList[index]
+			if raw == nil {
+				continue
+			}
+			extraArg, ok := raw.(map[string]interface{})
+			if !ok || extraArg == nil {
+				continue
+			}
 			if apiserverArgs, exist := extraArg["kube_apiserver"]; exist {
 				args := apiserverArgs.([]interface{})
 				for index := range args {
@@ -2236,29 +2765,59 @@ func resourceTencentCloudTkeClusterCreate(d *schema.ResourceData, meta interface
 			}
 		}
 	}
-	cidrSet.ClusterCidr = d.Get("cluster_cidr").(string)
-	//cidrSet.IgnoreClusterCidrConflict = d.Get("ignore_cluster_cidr_conflict").(bool)
-	cidrSet.MaxClusterServiceNum = int64(d.Get("cluster_max_service_num").(int))
-	cidrSet.MaxNodePodNum = int64(d.Get("cluster_max_pod_num").(int))
-	cidrSet.ServiceCIDR = d.Get("service_cidr").(string)
-	cidrSet.ClaimExpiredSeconds = int64(d.Get("claim_expired_seconds").(int))
+
+	// Parse extension_addon
+	if v, ok := d.GetOk("extension_addon"); ok {
+		addonList := v.([]interface{})
+		for _, addon := range addonList {
+			addonMap := addon.(map[string]interface{})
+			extensionAddon := &tke.ExtensionAddon{
+				AddonName: helper.String(addonMap["name"].(string)),
+			}
+			if addonParam, ok := addonMap["param"]; ok && addonParam.(string) != "" {
+				extensionAddon.AddonParam = helper.String(addonParam.(string))
+			}
+			extensionAddons = append(extensionAddons, extensionAddon)
+		}
+	}
+
+	clusterCIDR := d.Get("cluster_cidr").(string)
+	if clusterCIDR != "" {
+		cidrSet.ClusterCIDR = helper.String(clusterCIDR)
+	}
+	if v, ok := d.GetOkExists("ignore_cluster_cidr_conflict"); ok {
+		cidrSet.IgnoreClusterCIDRConflict = helper.Bool(v.(bool))
+	}
+	maxNodePodNum := d.Get("cluster_max_pod_num").(int)
+	cidrSet.MaxNodePodNum = helper.Uint64(uint64(maxNodePodNum))
+	serviceCIDR := d.Get("service_cidr").(string)
+	if serviceCIDR != "" {
+		cidrSet.ServiceCIDR = helper.String(serviceCIDR)
+	}
+	if v, ok := d.GetOkExists("cluster_max_service_num"); ok {
+		cidrSet.MaxClusterServiceNum = helper.Uint64(uint64(v.(int)))
+	}
+	if v, ok := d.GetOkExists("ignore_service_cidr_conflict"); ok {
+		cidrSet.IgnoreServiceCIDRConflict = helper.Bool(v.(bool))
+	}
+	cidrSet.ClaimExpiredSeconds = helper.Int64(int64(d.Get("claim_expired_seconds").(int)))
 
 	if advanced.NetworkType == TKE_CLUSTER_NETWORK_TYPE_VPC_CNI {
 		// VPC-CNI cluster need to set eni subnet and service cidr.
 		eniSubnetIdList := d.Get("eni_subnet_ids").([]interface{})
 		for index := range eniSubnetIdList {
 			subnetId := eniSubnetIdList[index].(string)
-			cidrSet.EniSubnetIds = append(cidrSet.EniSubnetIds, subnetId)
+			cidrSet.EniSubnetIds = append(cidrSet.EniSubnetIds, helper.String(subnetId))
 		}
-		if cidrSet.ServiceCIDR == "" || len(cidrSet.EniSubnetIds) == 0 {
+		if serviceCIDR == "" || len(cidrSet.EniSubnetIds) == 0 {
 			return fmt.Errorf("`service_cidr` must be set and `eni_subnet_ids` must be set when cluster `network_type` is VPC-CNI.")
 		}
 	} else {
 		// GR cluster
-		if cidrSet.ClusterCidr == "" {
+		if clusterCIDR == "" {
 			return fmt.Errorf("`cluster_cidr` must be set when cluster `network_type` is GR")
 		}
-		items := strings.Split(cidrSet.ClusterCidr, "/")
+		items := strings.Split(clusterCIDR, "/")
 		if len(items) != 2 {
 			return fmt.Errorf("`cluster_cidr` must be network segment ")
 		}
@@ -2269,7 +2828,7 @@ func resourceTencentCloudTkeClusterCreate(d *schema.ResourceData, meta interface
 			return fmt.Errorf("`cluster_cidr` must be network segment ")
 		}
 
-		if math.Pow(2, float64(32-bitNumber)) <= float64(cidrSet.MaxNodePodNum) {
+		if math.Pow(2, float64(32-bitNumber)) <= float64(maxNodePodNum) {
 			return fmt.Errorf("`cluster_cidr` Network segment range is too small, can not cover cluster_max_service_num")
 		}
 	}
@@ -2282,97 +2841,104 @@ func resourceTencentCloudTkeClusterCreate(d *schema.ResourceData, meta interface
 		Master: make([]tke.InstanceAdvancedSettings, 0),
 		Work:   make([]tke.InstanceAdvancedSettings, 0),
 	}
-	if masters, ok := d.GetOk("master_config"); ok {
-		if clusterDeployType == TKE_DEPLOY_TYPE_MANAGED {
-			return fmt.Errorf("if `cluster_deploy_type` is `MANAGED_CLUSTER` , You don't need define the master yourself")
-		}
-		var masterCount int64 = 0
-		masterList := masters.([]interface{})
-		for index := range masterList {
-			master := masterList[index].(map[string]interface{})
-			paraJson, count, err := tkeGetCvmRunInstancesPara(master, meta, vpcId, basic.ProjectId)
-			if err != nil {
-				return err
+	if !runInstancesForNodeOk {
+		if masters, ok := d.GetOk("master_config"); ok {
+			if clusterDeployType == TKE_DEPLOY_TYPE_MANAGED {
+				return fmt.Errorf("if `cluster_deploy_type` is `MANAGED_CLUSTER` , You don't need define the master yourself")
 			}
-
-			cvms.Master = append(cvms.Master, paraJson)
-			masterCount += count
-
-			if v, ok := master["desired_pod_num"]; ok {
-				dpNum := int64(v.(int))
-				if dpNum != DefaultDesiredPodNum {
-					//overrideSettings.Master = append(overrideSettings.Master, tke.InstanceAdvancedSettings{DesiredPodNumber: helper.Int64(dpNum)})
-				}
-			}
-		}
-		if masterCount < 3 {
-			return fmt.Errorf("if `cluster_deploy_type` is `TKE_DEPLOY_TYPE_INDEPENDENT` len(master_config) should >=3")
-		}
-	} else if clusterDeployType == TKE_DEPLOY_TYPE_INDEPENDENT {
-		return fmt.Errorf("if `cluster_deploy_type` is `TKE_DEPLOY_TYPE_INDEPENDENT` , You need define the master yourself")
-	}
-
-	if workers, ok := d.GetOk("worker_config"); ok {
-		workerList := workers.([]interface{})
-		for index := range workerList {
-			worker := workerList[index].(map[string]interface{})
-			paraJson, _, err := tkeGetCvmRunInstancesPara(worker, meta, vpcId, basic.ProjectId)
-			if err != nil {
-				return err
-			}
-			cvms.Work = append(cvms.Work, paraJson)
-
-			if v, ok := worker["desired_pod_num"]; ok {
-				dpNum := int64(v.(int))
-				if dpNum != DefaultDesiredPodNum {
-					//overrideSettings.Work = append(overrideSettings.Work, tke.InstanceAdvancedSettings{DesiredPodNumber: helper.Int64(dpNum)})
-				}
-			}
-
-			if v, ok := worker["data_disk"]; ok {
-				var (
-					instanceType = worker["instance_type"].(string)
-					zone         = worker["availability_zone"].(string)
-				)
-				iDiskMountSetting := &tke.InstanceDataDiskMountSetting{
-					InstanceType: &instanceType,
-					Zone:         &zone,
+			var masterCount int64 = 0
+			masterList := masters.([]interface{})
+			for index := range masterList {
+				master := masterList[index].(map[string]interface{})
+				paraJson, count, err := tkeGetCvmRunInstancesPara(master, meta, vpcId, basic.ProjectId)
+				if err != nil {
+					return err
 				}
 
-				diskList := v.([]interface{})
-				for _, d := range diskList {
+				cvms.Master = append(cvms.Master, paraJson)
+				masterCount += count
+
+				if v, ok := master["desired_pod_num"]; ok {
+					dpNum := int64(v.(int))
+					if dpNum != DefaultDesiredPodNum {
+						overrideSettings.Master = append(overrideSettings.Master, tke.InstanceAdvancedSettings{DesiredPodNumber: helper.Int64(dpNum)})
+					}
+				}
+			}
+			if masterCount < 3 {
+				return fmt.Errorf("if `cluster_deploy_type` is `TKE_DEPLOY_TYPE_INDEPENDENT` len(master_config) should >=3")
+			}
+		} else if clusterDeployType == TKE_DEPLOY_TYPE_INDEPENDENT {
+			return fmt.Errorf("if `cluster_deploy_type` is `TKE_DEPLOY_TYPE_INDEPENDENT` , You need define the master yourself")
+		}
+
+		if workers, ok := d.GetOk("worker_config"); ok {
+			workerList := workers.([]interface{})
+			for index := range workerList {
+				worker := workerList[index].(map[string]interface{})
+				paraJson, _, err := tkeGetCvmRunInstancesPara(worker, meta, vpcId, basic.ProjectId)
+				if err != nil {
+					return err
+				}
+				cvms.Work = append(cvms.Work, paraJson)
+
+				if v, ok := worker["desired_pod_num"]; ok {
+					dpNum := int64(v.(int))
+					if dpNum != DefaultDesiredPodNum {
+						overrideSettings.Work = append(overrideSettings.Work, tke.InstanceAdvancedSettings{DesiredPodNumber: helper.Int64(dpNum)})
+					}
+				}
+
+				if v, ok := worker["data_disk"]; ok {
 					var (
-						disk               = d.(map[string]interface{})
-						diskType           = disk["disk_type"].(string)
-						diskSize           = int64(disk["disk_size"].(int))
-						fileSystem         = disk["file_system"].(string)
-						autoFormatAndMount = disk["auto_format_and_mount"].(bool)
-						mountTarget        = disk["mount_target"].(string)
-						//diskPartition      = disk["disk_partition"].(string)
+						instanceType = worker["instance_type"].(string)
+						zone         = worker["availability_zone"].(string)
 					)
-
-					dataDisk := &tke.DataDisk{
-						DiskType:           &diskType,
-						DiskSize:           &diskSize,
-						AutoFormatAndMount: &autoFormatAndMount,
+					iDiskMountSetting := &tke.InstanceDataDiskMountSetting{
+						InstanceType: &instanceType,
+						Zone:         &zone,
 					}
 
-					if fileSystem != "" {
-						dataDisk.FileSystem = &fileSystem
+					diskList := v.([]interface{})
+					for _, d := range diskList {
+						var (
+							disk               = d.(map[string]interface{})
+							diskId             = disk["disk_id"].(string)
+							diskPartition      = disk["disk_partition"].(string)
+							diskType           = disk["disk_type"].(string)
+							diskSize           = int64(disk["disk_size"].(int))
+							fileSystem         = disk["file_system"].(string)
+							autoFormatAndMount = disk["auto_format_and_mount"].(bool)
+							mountTarget        = disk["mount_target"].(string)
+						)
+
+						dataDisk := &tke.DataDisk{
+							DiskType:           &diskType,
+							DiskSize:           &diskSize,
+							AutoFormatAndMount: &autoFormatAndMount,
+						}
+
+						if diskId != "" {
+							dataDisk.DiskId = &diskId
+						}
+
+						if diskPartition != "" {
+							dataDisk.DiskPartition = &diskPartition
+						}
+
+						if fileSystem != "" {
+							dataDisk.FileSystem = &fileSystem
+						}
+
+						if mountTarget != "" {
+							dataDisk.MountTarget = &mountTarget
+						}
+
+						iDiskMountSetting.DataDisks = append(iDiskMountSetting.DataDisks, dataDisk)
 					}
 
-					if mountTarget != "" {
-						dataDisk.MountTarget = &mountTarget
-					}
-
-					//if diskPartition != "" {
-					//	dataDisk.DiskPartition = &diskPartition
-					//}
-
-					iDiskMountSetting.DataDisks = append(iDiskMountSetting.DataDisks, dataDisk)
+					iDiskMountSettings = append(iDiskMountSettings, iDiskMountSetting)
 				}
-
-				iDiskMountSettings = append(iDiskMountSettings, iDiskMountSetting)
 			}
 		}
 	}
@@ -2393,21 +2959,38 @@ func resourceTencentCloudTkeClusterCreate(d *schema.ResourceData, meta interface
 	if temp, ok := d.GetOk("docker_graph_path"); ok {
 		iAdvanced.DockerGraphPath = temp.(string)
 	}
+	if temp, ok := d.GetOk("pre_start_user_script"); ok {
+		iAdvanced.PreStartUserScript = temp.(string)
+	}
+	if temp, ok := d.GetOk("user_script"); ok {
+		iAdvanced.UserScript = temp.(string)
+	}
 	if temp, ok := d.GetOk("mount_target"); ok {
 		iAdvanced.MountTarget = temp.(string)
 	}
-	if temp, ok := d.GetOk("globe_desired_pod_num"); ok {
+	if temp, ok := d.GetOkExists("globe_desired_pod_num"); ok {
 		iAdvanced.DesiredPodNum = int64(temp.(int))
+		iAdvanced.DesiredPodNumSet = true
 	}
+	if v, ok := d.GetOk("instance_data_disks"); ok {
+		dataDisks, err := expandInstanceDataDisks(v.([]interface{}))
+		if err != nil {
+			return err
+		}
+		iAdvanced.DataDisks = dataDisks
+	}
+	iAdvanced.Taints = GetTkeTaints(d, "taints")
 
 	// ExistedInstancesForNode
 	existInstances := make([]*tke.ExistedInstancesForNode, 0)
-	if instances, ok := d.GetOk("exist_instance"); ok {
-		instanceList := instances.([]interface{})
-		for index := range instanceList {
-			instance := instanceList[index].(map[string]interface{})
-			existedInstance, _ := tkeGetCvmExistInstancesPara(instance)
-			existInstances = append(existInstances, &existedInstance)
+	if !runInstancesForNodeOk {
+		if instances, ok := d.GetOk("exist_instance"); ok {
+			instanceList := instances.([]interface{})
+			for index := range instanceList {
+				instance := instanceList[index].(map[string]interface{})
+				existedInstance, _ := tkeGetCvmExistInstancesPara(instance)
+				existInstances = append(existInstances, &existedInstance)
+			}
 		}
 	}
 
@@ -2430,8 +3013,8 @@ func resourceTencentCloudTkeClusterCreate(d *schema.ResourceData, meta interface
 	//}
 
 	service := TkeService{client: meta.(*TencentCloudClient).apiV3Conn}
-	id, err := service.CreateCluster(ctx, basic, advanced, cvms, iAdvanced, cidrSet, tags, existInstances,
-		&overrideSettings, iDiskMountSettings, clusterArch)
+	id, err := service.CreateCluster(ctx, basic, advanced, cvms, runInstancesForNode, clusterDeployType, iAdvanced, cidrSet, tags, existInstances,
+		&overrideSettings, iDiskMountSettings, clusterArch, extensionAddons, "")
 	if err != nil {
 		return err
 	}
@@ -2551,41 +3134,12 @@ func resourceTencentCloudTkeClusterCreate(d *schema.ResourceData, meta interface
 		}
 
 		return resource.NonRetryableError(
-			fmt.Errorf("%s create cluster error ,status is %s,message is %s", id, info.ClusterStatus, has))
+			fmt.Errorf("%s create cluster error ,status is %s,message is %v", id, info.ClusterStatus, has))
 	})
 
 	if err != nil {
 		return err
 	}
-
-	//Modify node pool global config
-	if _, ok := d.GetOk("node_pool_global_config"); ok {
-		request := tkeGetNodePoolGlobalConfig(d)
-		err = resource.Retry(writeRetryTimeout, func() *resource.RetryError {
-			inErr := service.ModifyClusterNodePoolGlobalConfig(ctx, request)
-			if inErr != nil {
-				return retryError(inErr)
-			}
-			return nil
-		})
-		if err != nil {
-			return err
-		}
-	}
-
-	if v, ok := d.GetOk("acquire_cluster_admin_role"); ok && v.(bool) {
-		err := service.AcquireClusterAdminRole(ctx, id)
-		if err != nil {
-			return err
-		}
-	}
-
-	//if _, ok := d.GetOk("auth_options"); ok {
-	//	request := tkeGetAuthOptions(d)
-	//	if err := service.ModifyClusterAuthenticationOptions(ctx, request); err != nil {
-	//		return err
-	//	}
-	//}
 
 	if v, ok := helper.InterfacesHeadMap(d, "log_agent"); ok {
 		enabled := v["enabled"].(bool)
@@ -2599,17 +3153,17 @@ func resourceTencentCloudTkeClusterCreate(d *schema.ResourceData, meta interface
 		}
 	}
 
-	//if v, ok := helper.InterfacesHeadMap(d, "event_persistence"); ok {
-	//	enabled := v["enabled"].(bool)
-	//	logSetId := v["log_set_id"].(string)
-	//	topicId := v["topic_id"].(string)
-	//	if enabled {
-	//		err := service.SwitchEventPersistence(ctx, id, logSetId, topicId, enabled, false)
-	//		if err != nil {
-	//			return err
-	//		}
-	//	}
-	//}
+	if v, ok := helper.InterfacesHeadMap(d, "event_persistence"); ok {
+		enabled := v["enabled"].(bool)
+		logSetId := v["log_set_id"].(string)
+		topicId := v["topic_id"].(string)
+		if enabled {
+			err := service.SwitchEventPersistence(ctx, id, logSetId, topicId, enabled, false)
+			if err != nil {
+				return err
+			}
+		}
+	}
 
 	if v, ok := helper.InterfacesHeadMap(d, "cluster_audit"); ok {
 		enabled := v["enabled"].(bool)
@@ -2676,19 +3230,19 @@ func resourceTencentCloudTkeClusterRead(d *schema.ResourceData, meta interface{}
 	_ = d.Set("vpc_id", info.VpcId)
 	_ = d.Set("project_id", info.ProjectId)
 	_ = d.Set("cluster_cidr", info.ClusterCidr)
-	//_ = d.Set("ignore_cluster_cidr_conflict", info.IgnoreClusterCidrConflict)
+	_ = d.Set("ignore_cluster_cidr_conflict", info.IgnoreClusterCidrConflict)
 	_ = d.Set("cluster_max_pod_num", info.MaxNodePodNum)
 	_ = d.Set("cluster_max_service_num", info.MaxClusterServiceNum)
 	_ = d.Set("cluster_node_num", info.ClusterNodeNum)
 	_ = d.Set("tags", info.Tags)
 
-	// if _, ok := d.GetOk("cluster_level"); ok {
-	// 	_ = d.Set("cluster_level", info.ClusterLevel)
-	// }
+	if _, ok := d.GetOk("cluster_level"); ok && info.ClusterLevel != nil {
+		_ = d.Set("cluster_level", info.ClusterLevel)
+	}
 
-	// if _, ok := d.GetOkExists("auto_upgrade_cluster_level"); ok {
-	// 	_ = d.Set("auto_upgrade_cluster_level", info.AutoUpgradeClusterLevel)
-	// }
+	if _, ok := d.GetOkExists("auto_upgrade_cluster_level"); ok && info.AutoUpgradeClusterLevel != nil {
+		_ = d.Set("auto_upgrade_cluster_level", *info.AutoUpgradeClusterLevel)
+	}
 
 	config, err := service.DescribeClusterConfig(ctx, d.Id(), true)
 	if err != nil {
@@ -2724,10 +3278,10 @@ func resourceTencentCloudTkeClusterRead(d *schema.ResourceData, meta interface{}
 
 	_ = d.Set("kube_config_intranet", intranetConfig)
 
-	_, workers, err := service.DescribeClusterInstances(ctx, d.Id())
+	masters, workers, err := service.DescribeClusterInstances(ctx, d.Id())
 	if err != nil {
 		err = resource.Retry(10*readRetryTimeout, func() *resource.RetryError {
-			_, workers, err = service.DescribeClusterInstances(ctx, d.Id())
+			masters, workers, err = service.DescribeClusterInstances(ctx, d.Id())
 
 			if e, ok := err.(*errors.CloudSDKError); ok {
 				if e.GetCode() == "InternalError.ClusterNotFound" {
@@ -2756,6 +3310,83 @@ func resourceTencentCloudTkeClusterRead(d *schema.ResourceData, meta interface{}
 	}
 
 	_ = d.Set("worker_instances_list", workerInstancesList)
+
+	// 回读 master_config（仅 INDEPENDENT_CLUSTER）
+	if info.DeployType == TKE_DEPLOY_TYPE_INDEPENDENT {
+		masterInstanceIds := make([]*string, 0, len(masters))
+		for _, m := range masters {
+			id := m.InstanceId
+			masterInstanceIds = append(masterInstanceIds, &id)
+		}
+		if len(masterInstanceIds) > 0 {
+			cvmService := CvmService{client: meta.(*TencentCloudClient).apiV3Conn}
+			var cvmInstances []*cvm.Instance
+			err = resource.Retry(readRetryTimeout, func() *resource.RetryError {
+				var inErr error
+				cvmInstances, inErr = cvmService.DescribeInstanceByFilter(ctx, masterInstanceIds, nil)
+				if inErr != nil {
+					return retryError(inErr)
+				}
+				return nil
+			})
+			if err != nil {
+				log.Printf("[WARN] master_config: DescribeInstanceByFilter failed: %s", err.Error())
+			} else {
+				masterList := make([]interface{}, 0, len(cvmInstances))
+				for _, instance := range cvmInstances {
+					mapping := map[string]interface{}{
+						"count":                               1,
+						"instance_charge_type_prepaid_period": 1,
+						"instance_type":                       helper.PString(instance.InstanceType),
+						"subnet_id":                           helper.PString(instance.VirtualPrivateCloud.SubnetId),
+						"availability_zone":                   helper.PString(instance.Placement.Zone),
+						"instance_name":                       helper.PString(instance.InstanceName),
+						"instance_charge_type":                helper.PString(instance.InstanceChargeType),
+						"system_disk_type":                    helper.PString(instance.SystemDisk.DiskType),
+						"system_disk_size":                    helper.PInt64(instance.SystemDisk.DiskSize),
+						"internet_charge_type":                helper.PString(instance.InternetAccessible.InternetChargeType),
+						"internet_max_bandwidth_out":          helper.PInt64(instance.InternetAccessible.InternetMaxBandwidthOut),
+						"security_group_ids":                  helper.StringsInterfaces(instance.SecurityGroupIds),
+						"img_id":                              helper.PString(instance.ImageId),
+						"enhanced_security_service":           true,
+						"enhanced_monitor_service":            true,
+					}
+					if instance.RenewFlag != nil && helper.PString(instance.InstanceChargeType) == "PREPAID" {
+						mapping["instance_charge_type_prepaid_renew_flag"] = helper.PString(instance.RenewFlag)
+					} else {
+						mapping["instance_charge_type_prepaid_renew_flag"] = ""
+					}
+					if helper.PInt64(instance.InternetAccessible.InternetMaxBandwidthOut) > 0 {
+						mapping["public_ip_assigned"] = true
+					} else {
+						mapping["public_ip_assigned"] = false
+					}
+					if instance.CamRoleName != nil {
+						mapping["cam_role_name"] = helper.PString(instance.CamRoleName)
+					}
+					if instance.LoginSettings != nil {
+						if len(instance.LoginSettings.KeyIds) > 0 {
+							mapping["key_ids"] = helper.StringsInterfaces(instance.LoginSettings.KeyIds)
+						}
+					}
+					if instance.DisasterRecoverGroupId != nil && helper.PString(instance.DisasterRecoverGroupId) != "" {
+						mapping["disaster_recover_group_ids"] = []string{helper.PString(instance.DisasterRecoverGroupId)}
+					}
+					dataDisks := make([]interface{}, 0, len(instance.DataDisks))
+					for _, v := range instance.DataDisks {
+						dataDisk := map[string]interface{}{
+							"disk_type": helper.PString(v.DiskType),
+							"disk_size": helper.PInt64(v.DiskSize),
+						}
+						dataDisks = append(dataDisks, dataDisk)
+					}
+					mapping["data_disk"] = dataDisks
+					masterList = append(masterList, mapping)
+				}
+				_ = d.Set("master_config", masterList)
+			}
+		}
+	}
 
 	securityRet, err := service.DescribeClusterSecurity(ctx, d.Id())
 
@@ -2869,69 +3500,6 @@ func resourceTencentCloudTkeClusterUpdate(d *schema.ResourceData, meta interface
 
 	}
 
-	var (
-		clusterInternet = d.Get("cluster_internet").(bool)
-		//clusterIntranet              = d.Get("cluster_intranet").(bool)
-		//intranetSubnetId             = d.Get("cluster_intranet_subnet_id").(string)
-		clusterInternetSecurityGroup = d.Get("cluster_internet_security_group").(string)
-		clusterInternetDomain        = d.Get("cluster_internet_domain").(string)
-		//clusterIntranetDomain        = d.Get("cluster_intranet_domain").(string)
-	)
-
-	//if clusterIntranet && intranetSubnetId == "" {
-	//	return fmt.Errorf("`cluster_intranet_subnet_id` must set when `cluster_intranet` is true")
-	//}
-
-	//if d.HasChange("cluster_intranet_subnet_id") && !d.HasChange("cluster_intranet") {
-	//	return fmt.Errorf("`cluster_intranet_subnet_id` must modified with `cluster_intranet`")
-	//}
-
-	if d.HasChange("cluster_internet_security_group") && !d.HasChange("cluster_internet") {
-		if clusterInternet {
-			err := tkeService.ModifyClusterEndpointSG(ctx, id, clusterInternetSecurityGroup)
-			if err != nil {
-				return err
-			}
-		}
-	}
-
-	//if d.HasChange("cluster_intranet") {
-	//	if err := ModifyClusterInternetOrIntranetAccess(ctx, d, &tkeService, TKE_CLUSTER_INTRANET, clusterIntranet, clusterInternetSecurityGroup, intranetSubnetId, clusterIntranetDomain); err != nil {
-	//		return err
-	//	}
-	//
-	//}
-
-	if d.HasChange("cluster_internet") {
-		if err := ModifyClusterInternetOrIntranetAccess(ctx, d, &tkeService, TKE_CLUSTER_INTERNET, clusterInternet, clusterInternetSecurityGroup, "", clusterInternetDomain); err != nil {
-			return err
-		}
-	}
-
-	// situation when only domain changed
-	//if !d.HasChange("cluster_intranet") && clusterIntranet && d.HasChange("cluster_intranet_domain") {
-	//	// recreate the cluster intranet endpoint using new domain
-	//	// first close
-	//	if err := ModifyClusterInternetOrIntranetAccess(ctx, d, &tkeService, TKE_CLUSTER_INTRANET, TKE_CLUSTER_CLOSE_ACCESS, clusterInternetSecurityGroup, intranetSubnetId, clusterIntranetDomain); err != nil {
-	//		return err
-	//	}
-	//	// then reopen
-	//	if err := ModifyClusterInternetOrIntranetAccess(ctx, d, &tkeService, TKE_CLUSTER_INTRANET, TKE_CLUSTER_OPEN_ACCESS, clusterInternetSecurityGroup, intranetSubnetId, clusterIntranetDomain); err != nil {
-	//		return err
-	//	}
-	//}
-	if !d.HasChange("cluster_internet") && clusterInternet && d.HasChange("cluster_internet_domain") {
-		// recreate the cluster internet endpoint using new domain
-		// first close
-		if err := ModifyClusterInternetOrIntranetAccess(ctx, d, &tkeService, TKE_CLUSTER_INTERNET, TKE_CLUSTER_CLOSE_ACCESS, clusterInternetSecurityGroup, "", clusterInternetDomain); err != nil {
-			return err
-		}
-		// then reopen
-		if err := ModifyClusterInternetOrIntranetAccess(ctx, d, &tkeService, TKE_CLUSTER_INTERNET, TKE_CLUSTER_OPEN_ACCESS, clusterInternetSecurityGroup, "", clusterInternetDomain); err != nil {
-			return err
-		}
-	}
-
 	if d.HasChange("project_id") || d.HasChange("cluster_name") || d.HasChange("cluster_desc") || d.HasChange("cluster_level") || d.HasChange("auto_upgrade_cluster_level") {
 		projectId := int64(d.Get("project_id").(int))
 		clusterName := d.Get("cluster_name").(string)
@@ -2945,7 +3513,7 @@ func resourceTencentCloudTkeClusterUpdate(d *schema.ResourceData, meta interface
 		}
 
 		//ignore same cluster level if same
-		if *ins.ClusterLevel == clusterLevel {
+		if ins.ClusterLevel != nil && *ins.ClusterLevel == clusterLevel {
 			clusterLevel = ""
 		}
 
@@ -3035,21 +3603,6 @@ func resourceTencentCloudTkeClusterUpdate(d *schema.ResourceData, meta interface
 
 	}
 
-	//if d.HasChange("auth_options") {
-	//	request := tkeGetAuthOptions(d)
-	//	err := resource.Retry(3*writeRetryTimeout, func() *resource.RetryError {
-	//		inErr := tkeService.ModifyClusterAuthenticationOptions(ctx, request)
-	//		if inErr != nil {
-	//			return retryError(inErr)
-	//		}
-	//		return nil
-	//	})
-	//	if err != nil {
-	//		return err
-	//	}
-	//
-	//}
-
 	//if d.HasChange("deletion_protection") {
 	//	enable := d.Get("deletion_protection").(bool)
 	//	if err := tkeService.ModifyDeletionProtection(ctx, id, enable); err != nil {
@@ -3083,24 +3636,24 @@ func resourceTencentCloudTkeClusterUpdate(d *schema.ResourceData, meta interface
 		}
 	}
 
-	//if d.HasChange("event_persistence") {
-	//	v, ok := helper.InterfacesHeadMap(d, "event_persistence")
-	//	enabled := false
-	//	logSetId := ""
-	//	topicId := ""
-	//	deleteEventLog := false
-	//	if ok {
-	//		enabled = v["enabled"].(bool)
-	//		logSetId = v["log_set_id"].(string)
-	//		topicId = v["topic_id"].(string)
-	//		deleteEventLog = v["delete_event_log_and_topic"].(bool)
-	//	}
-	//
-	//	err := tkeService.SwitchEventPersistence(ctx, id, logSetId, topicId, enabled, deleteEventLog)
-	//	if err != nil {
-	//		return err
-	//	}
-	//}
+	if d.HasChange("event_persistence") {
+		v, ok := helper.InterfacesHeadMap(d, "event_persistence")
+		enabled := false
+		logSetId := ""
+		topicId := ""
+		deleteEventLog := false
+		if ok {
+			enabled = v["enabled"].(bool)
+			logSetId = v["log_set_id"].(string)
+			topicId = v["topic_id"].(string)
+			deleteEventLog = v["delete_event_log_and_topic"].(bool)
+		}
+
+		err := tkeService.SwitchEventPersistence(ctx, id, logSetId, topicId, enabled, deleteEventLog)
+		if err != nil {
+			return err
+		}
+	}
 
 	if d.HasChange("cluster_audit") {
 		v, ok := helper.InterfacesHeadMap(d, "cluster_audit")
@@ -3185,30 +3738,30 @@ func resourceTencentCloudTkeClusterDelete(d *schema.ResourceData, meta interface
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
 	service := TkeService{client: meta.(*TencentCloudClient).apiV3Conn}
-	//deleteEventLogSetAndTopic := false
-	//enableEventLog := false
+	deleteEventLogSetAndTopic := false
+	enableEventLog := false
 	deleteAuditLogSetAndTopic := false
-	//if v, ok := helper.InterfacesHeadMap(d, "event_persistence"); ok {
-	//	deleteEventLogSetAndTopic = v["delete_event_log_and_topic"].(bool)
-	//	// get cluster current enabled status
-	//	enableEventLog = v["enabled"].(bool)
-	//}
+	if v, ok := helper.InterfacesHeadMap(d, "event_persistence"); ok {
+		deleteEventLogSetAndTopic = v["delete_event_log_and_topic"].(bool)
+		// get cluster current enabled status
+		enableEventLog = v["enabled"].(bool)
+	}
 
 	if v, ok := helper.InterfacesHeadMap(d, "cluster_audit"); ok {
 		deleteAuditLogSetAndTopic = v["delete_audit_log_and_topic"].(bool)
 	}
 
 	err := resource.Retry(writeRetryTimeout, func() *resource.RetryError {
-		//if deleteEventLogSetAndTopic && enableEventLog {
-		//	err := service.SwitchEventPersistence(ctx, d.Id(), "", "", false, true)
-		//	if e, ok := err.(*errors.CloudSDKError); ok {
-		//		if e.GetCode() != "FailedOperation.ClusterNotFound" {
-		//			return retryError(err, InternalError)
-		//		}
-		//	} else if err != nil {
-		//		return retryError(err, InternalError)
-		//	}
-		//}
+		if deleteEventLogSetAndTopic && enableEventLog {
+			err := service.SwitchEventPersistence(ctx, d.Id(), "", "", false, true)
+			if e, ok := err.(*errors.CloudSDKError); ok {
+				if e.GetCode() != "ResourceNotFound.ClusterNotFound" {
+					return retryError(err, InternalError)
+				}
+			} else if err != nil {
+				return retryError(err, InternalError)
+			}
+		}
 		if deleteAuditLogSetAndTopic {
 			err := service.SwitchClusterAudit(ctx, d.Id(), "", "", false, true)
 			if e, ok := err.(*errors.CloudSDKError); ok {
@@ -3219,7 +3772,7 @@ func resourceTencentCloudTkeClusterDelete(d *schema.ResourceData, meta interface
 				return retryError(err, InternalError)
 			}
 		}
-		err := service.DeleteCluster(ctx, d.Id())
+		err := service.DeleteCluster(ctx, d.Id(), "", nil)
 
 		if e, ok := err.(*errors.CloudSDKError); ok {
 			if e.GetCode() == "InternalError.ClusterNotFound" {

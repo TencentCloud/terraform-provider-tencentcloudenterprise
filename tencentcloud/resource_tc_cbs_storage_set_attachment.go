@@ -1,16 +1,15 @@
 /*
 Provides a CBS storage set attachment resource.
 
-# Example Usage
+Example Usage
 
 ```hcl
-
-	resource "tencentcloudenterprise_cbs_storage_set_attachment" "attachment" {
-	  storage_id  = "disk-kdt0sq6m"
-	  instance_id = "ins-jqlegd42"
-	}
-
+resource "tencentcloudenterprise_cbs_storage_set_attachment" "attachment" {
+  storage_id  = "disk-kdt0sq6m"
+  instance_id = "ins-jqlegd42"
+}
 ```
+
 */
 package tencentcloud
 
@@ -22,9 +21,9 @@ import (
 
 	sdkErrors "terraform-provider-tencentcloudenterprise/sdk/common/errors"
 
+	cbs "terraform-provider-tencentcloudenterprise/sdk/cbs/v20170312"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	cbs "terraform-provider-tencentcloudenterprise/sdk/cbs/v20170312"
 )
 
 func init() {

@@ -1,21 +1,19 @@
 /*
 Provides a resource to create a Ckafka user.
 
-# Example Usage
+Example Usage
 
-# Ckafka User
+Ckafka User
 
 ```hcl
-
-	resource "tencentcloudenterprise_ckafka_user" "foo" {
-	  instance_id  = "ckafka-f9ife4zz"
-	  account_name = "tf-test"
-	  password     = "test1234"
-	}
-
+resource "tencentcloudenterprise_ckafka_user" "foo" {
+  instance_id  = "ckafka-f9ife4zz"
+  account_name = "tf-test"
+  password     = "test1234"
+}
 ```
 
-# Import
+Import
 
 Ckafka user can be imported using the instance_id#account_name, e.g.
 

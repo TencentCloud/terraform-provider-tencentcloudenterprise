@@ -3,13 +3,14 @@ package tencentcloud
 import (
 	"context"
 	"fmt"
-	"log"
 	sdkErrors "terraform-provider-tencentcloudenterprise/sdk/common/errors"
+	"log"
 	"testing"
 	"time"
 
 	"github.com/stretchr/testify/assert"
 
+	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/unitest"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 )
@@ -18,7 +19,7 @@ var testTkeClusterName = "tencentcloudenterprise_tke_kubernetes_cluster"
 var testTkeClusterResourceKey = testTkeClusterName + ".managed_cluster"
 
 func init() {
-	// go test -v ./tencentcloud -sweep=ap-guangzhou -sweep-run=cloud_tke_kubernetes_cluster
+	// go test -v ./tencentcloud -sweep=ap-guangzhou -sweep-run=tencentcloudenterprise_tke_kubernetes_cluster
 	resource.AddTestSweepers("tencentcloudenterprise_tke_kubernetes_cluster", &resource.Sweeper{
 		Name: "tencentcloudenterprise_tke_kubernetes_cluster",
 		F: func(r string) error {
@@ -33,15 +34,15 @@ func init() {
 			}
 
 			for _, v := range clusters {
-				id := v.ClusterId
+				//id := v.ClusterId
 				name := v.ClusterName
 				createdTime, _ := time.Parse(time.RFC3339, v.CreatedTime)
 				if isResourcePersist(name, &createdTime) {
 					continue
 				}
-				if err := service.DeleteCluster(ctx, id); err != nil {
-					return err
-				}
+				//if err := service.DeleteCluster(ctx, id); err != nil {
+				//	return err
+				//}
 			}
 
 			return nil
@@ -665,3 +666,61 @@ resource "tencentcloudenterprise_tke_kubernetes_cluster" "managed_cluster" {
     delete_audit_log_and_topic = true
   }
 }`
+
+// ─── auth_options 单元测试 ──────────────────────────────────────────────────────
+
+func TestBuildTkeAuthOptions_withIssuerAndJwksUri(t *testing.T) {
+	d := unitest.MakeResourceData(t, resourceTencentCloudTkeCluster(), map[string]interface{}{
+		"auth_options": []interface{}{
+			map[string]interface{}{
+				"issuer":                               "https://example.com",
+				"jwks_uri":                             "https://example.com/.well-known/jwks.json",
+				"use_tke_default":                      false,
+				"auto_create_discovery_anonymous_auth": true,
+			},
+		},
+	})
+
+	req := tkeGetAuthOptions(d, "cls-test123")
+
+	assert.NotNil(t, req)
+	assert.Equal(t, "cls-test123", *req.ClusterId)
+	assert.NotNil(t, req.ServiceAccounts)
+	assert.Equal(t, "https://example.com", *req.ServiceAccounts.Issuer)
+	assert.Equal(t, "https://example.com/.well-known/jwks.json", *req.ServiceAccounts.JWKSURI)
+	assert.Equal(t, true, *req.ServiceAccounts.AutoCreateDiscoveryAnonymousAuth)
+}
+
+func TestBuildTkeAuthOptions_useTKEDefault(t *testing.T) {
+	d := unitest.MakeResourceData(t, resourceTencentCloudTkeCluster(), map[string]interface{}{
+		"auth_options": []interface{}{
+			map[string]interface{}{
+				"use_tke_default":                      true,
+				"issuer":                               "",
+				"jwks_uri":                             "",
+				"auto_create_discovery_anonymous_auth": false,
+			},
+		},
+	})
+
+	req := tkeGetAuthOptions(d, "cls-test456")
+
+	assert.NotNil(t, req)
+	assert.Equal(t, "cls-test456", *req.ClusterId)
+	assert.NotNil(t, req.ServiceAccounts)
+	assert.NotNil(t, req.ServiceAccounts.UseTKEDefault)
+	assert.Equal(t, true, *req.ServiceAccounts.UseTKEDefault)
+	assert.Equal(t, false, *req.ServiceAccounts.AutoCreateDiscoveryAnonymousAuth)
+}
+
+func TestBuildTkeAuthOptions_empty(t *testing.T) {
+	d := unitest.MakeResourceData(t, resourceTencentCloudTkeCluster(), map[string]interface{}{})
+
+	req := tkeGetAuthOptions(d, "cls-test789")
+
+	assert.NotNil(t, req)
+	assert.Equal(t, "cls-test789", *req.ClusterId)
+	assert.NotNil(t, req.ServiceAccounts)
+	assert.Equal(t, "", *req.ServiceAccounts.JWKSURI)
+	assert.Equal(t, false, *req.ServiceAccounts.AutoCreateDiscoveryAnonymousAuth)
+}

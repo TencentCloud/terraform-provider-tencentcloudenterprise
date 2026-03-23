@@ -8,22 +8,57 @@ import (
 	"strconv"
 	"time"
 
+	common2 "terraform-provider-tencentcloudenterprise/sdk/common"
+	profile2 "terraform-provider-tencentcloudenterprise/sdk/common/profile"
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/credentials"
 	"github.com/aws/aws-sdk-go/aws/endpoints"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/s3"
 	"github.com/tencentyun/cos-go-sdk-v5"
-	common2 "terraform-provider-tencentcloudenterprise/sdk/common"
-	profile2 "terraform-provider-tencentcloudenterprise/sdk/common/profile"
 
+	account20181225 "terraform-provider-tencentcloudenterprise/sdk/account/v20181225"
+	account "terraform-provider-tencentcloudenterprise/sdk/account/v20190325"
+	apm "terraform-provider-tencentcloudenterprise/sdk/apm/v20210622"
+	as "terraform-provider-tencentcloudenterprise/sdk/as/v20180419"
+	bms "terraform-provider-tencentcloudenterprise/sdk/bms/v20180813"
+	brc "terraform-provider-tencentcloudenterprise/sdk/brc/v20220516"
+	cam "terraform-provider-tencentcloudenterprise/sdk/cam/v20190116"
+	cbs "terraform-provider-tencentcloudenterprise/sdk/cbs/v20170312"
+	ccn "terraform-provider-tencentcloudenterprise/sdk/ccn/v20170312"
+	cdc "terraform-provider-tencentcloudenterprise/sdk/cdc/v20201214"
+	cfs "terraform-provider-tencentcloudenterprise/sdk/cfs/v20190719"
+	cfw "terraform-provider-tencentcloudenterprise/sdk/cfw/v20190904"
+	cic "terraform-provider-tencentcloudenterprise/sdk/cic/v20210331"
+	ckafka "terraform-provider-tencentcloudenterprise/sdk/ckafka/v20190819"
+	clb "terraform-provider-tencentcloudenterprise/sdk/clb/v20180317"
+	cls "terraform-provider-tencentcloudenterprise/sdk/cls/v20201016"
+	csp "terraform-provider-tencentcloudenterprise/sdk/csp/v20200107"
+	cvm "terraform-provider-tencentcloudenterprise/sdk/cvm/v20170312"
+	cwp "terraform-provider-tencentcloudenterprise/sdk/cwp/v20180228"
+	dc "terraform-provider-tencentcloudenterprise/sdk/dc/v20180410"
+	dcdb "terraform-provider-tencentcloudenterprise/sdk/dcdb/v20180411"
+	drc "terraform-provider-tencentcloudenterprise/sdk/drc/v20230615"
+	location "terraform-provider-tencentcloudenterprise/sdk/location/v20191128"
+	ngwaf "terraform-provider-tencentcloudenterprise/sdk/ngwaf/v20180125"
+	open "terraform-provider-tencentcloudenterprise/sdk/open/v20201202"
+	organization "terraform-provider-tencentcloudenterprise/sdk/organization/v20220508"
+	redis "terraform-provider-tencentcloudenterprise/sdk/redis/v20180412"
+	tag "terraform-provider-tencentcloudenterprise/sdk/tag/v20180813"
+	tbase "terraform-provider-tencentcloudenterprise/sdk/tbase/v20190107"
+	tcr "terraform-provider-tencentcloudenterprise/sdk/tcr/v20190924"
+	tdmq "terraform-provider-tencentcloudenterprise/sdk/tdmq/v20200217"
+	tke "terraform-provider-tencentcloudenterprise/sdk/tke/v20180525"
+	tke2 "terraform-provider-tencentcloudenterprise/sdk/tke/v20220501"
+	tsf "terraform-provider-tencentcloudenterprise/sdk/tsf/v20180326"
+	turbofs "terraform-provider-tencentcloudenterprise/sdk/turbofs/v20190719"
+	vpc "terraform-provider-tencentcloudenterprise/sdk/vpc/v20170312"
+	vpcdns "terraform-provider-tencentcloudenterprise/sdk/vpcdns/v20191025"
 	intlProfile "github.com/tencentcloud/tencentcloud-sdk-go-intl-en/tencentcloud/common/profile"
 	mdl "github.com/tencentcloud/tencentcloud-sdk-go-intl-en/tencentcloud/mdl/v20200326"
 	antiddos "github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/antiddos/v20200309"
 	api "github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/api/v20201106"
 	apigateway "github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/apigateway/v20180808"
-	apm "github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/apm/v20210622"
-	cam "github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/cam/v20190116"
 	cat "github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/cat/v20180409"
 	cdb "github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/cdb/v20170320"
 	cdn "github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/cdn/v20180606"
@@ -63,33 +98,6 @@ import (
 	tdcpg "github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/tdcpg/v20211118"
 	teo "github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/teo/v20220901"
 	ssl "github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/wss/v20180426"
-	as "terraform-provider-tencentcloudenterprise/sdk/as/v20180419"
-	bms "terraform-provider-tencentcloudenterprise/sdk/bms/v20180813"
-	brc "terraform-provider-tencentcloudenterprise/sdk/brc/v20220516"
-	cbs "terraform-provider-tencentcloudenterprise/sdk/cbs/v20170312"
-	cfs "terraform-provider-tencentcloudenterprise/sdk/cfs/v20190719"
-	cfw "terraform-provider-tencentcloudenterprise/sdk/cfw/v20190904"
-	cic "terraform-provider-tencentcloudenterprise/sdk/cic/v20210331"
-	ckafka "terraform-provider-tencentcloudenterprise/sdk/ckafka/v20190819"
-	clb "terraform-provider-tencentcloudenterprise/sdk/clb/v20180317"
-	cls "terraform-provider-tencentcloudenterprise/sdk/cls/v20201016"
-	csp "terraform-provider-tencentcloudenterprise/sdk/csp/v20200107"
-	cvm "terraform-provider-tencentcloudenterprise/sdk/cvm/v20170312"
-	cwp "terraform-provider-tencentcloudenterprise/sdk/cwp/v20180228"
-	dc "terraform-provider-tencentcloudenterprise/sdk/dc/v20180410"
-	dcdb "terraform-provider-tencentcloudenterprise/sdk/dcdb/v20180411"
-	drc "terraform-provider-tencentcloudenterprise/sdk/drc/v20230615"
-	organization "terraform-provider-tencentcloudenterprise/sdk/organization/v20220508"
-	redis "terraform-provider-tencentcloudenterprise/sdk/redis/v20180412"
-	tag "terraform-provider-tencentcloudenterprise/sdk/tag/v20180813"
-	tbase "terraform-provider-tencentcloudenterprise/sdk/tbase/v20190107"
-	tcr "terraform-provider-tencentcloudenterprise/sdk/tcr/v20190924"
-	tdmq "terraform-provider-tencentcloudenterprise/sdk/tdmq/v20200217"
-	tke "terraform-provider-tencentcloudenterprise/sdk/tke/v20180525"
-	tsf "terraform-provider-tencentcloudenterprise/sdk/tsf/v20180326"
-	turbofs "terraform-provider-tencentcloudenterprise/sdk/turbofs/v20190719"
-	vpc "terraform-provider-tencentcloudenterprise/sdk/vpc/v20170312"
-	vpcdns "terraform-provider-tencentcloudenterprise/sdk/vpcdns/v20191025"
 )
 
 const (
@@ -99,86 +107,94 @@ const (
 
 // TencentCloudClient is client for all TencentCloud service
 type TencentCloudClient struct {
-	Credential         *common.Credential
-	CredentialTce      *common2.Credential
-	Region             string
-	Protocol           string
-	Domain             string
-	CspDomain          string
-	CosDomain          string
-	cosConn            *s3.S3
-	tencentCosConn     *cos.Client
-	mysqlConn          *cdb.Client
-	redisConn          *redis.Client
-	asConn             *as.Client
-	bmsConn            *bms.Client
-	vpcConn            *vpc.Client
-	vpcdnsConn         *vpcdns.Client
-	cbsConn            *cbs.Client
-	cvmConn            *cvm.Client
-	clbConn            *clb.Client
-	cspConn            *csp.Client
-	drcConn            *drc.Client
-	dayuConn           *dayu.Client
-	dcConn             *dc.Client
-	tagConn            *tag.Client
-	mongodbConn        *mongodb.Client
-	tkeConn            *tke.Client
-	tdmqConn           *tdmq.Client
-	tcrConn            *tcr.Client
-	camConn            *cam.Client
-	stsConn            *sts.Client
-	gaapConn           *gaap.Client
-	sslConn            *ssl.Client
-	cfsConn            *cfs.Client
-	turbofsConn        *turbofs.Client
-	tcaplusConn        *tcaplusdb.Client
-	cdnConn            *cdn.Client
-	monitorConn        *monitor.Client
-	esConn             *es.Client
-	sqlserverConn      *sqlserver.Client
-	postgreConn        *postgre.Client
-	ckafkaConn         *ckafka.Client
-	auditConn          *audit.Client
-	cynosConn          *cynosdb.Client
-	apiGatewayConn     *apigateway.Client
-	sslCertificateConn *sslCertificate.Client
-	kmsConn            *kms.Client
-	ssmConn            *ssm.Client
-	apiConn            *api.Client
-	emrConn            *emr.Client
-	clsConn            *cls.Client
-	dnsPodConn         *dnspod.Client
-	privateDnsConn     *privatedns.Client
-	antiddosConn       *antiddos.Client
-	domainConn         *domain.Client
-	lighthouseConn     *lighthouse.Client
-	teoConn            *teo.Client
-	tcmConn            *tcm.Client
-	cssConn            *css.Client
-	sesConn            *ses.Client
-	dcdbConn           *dcdb.Client
-	smsConn            *sms.Client
-	catConn            *cat.Client
-	mariadbConn        *mariadb.Client
-	rumConn            *rum.Client
-	ptsConn            *pts.Client
-	tatConn            *tat.Client
-	tbaseConn          *tbase.Client
-	organizationConn   *organization.Client
-	tdcpgConn          *tdcpg.Client
-	dbbrainConn        *dbbrain.Client
-	dtsConn            *dts.Client
-	ciConn             *cos.Client
-	tsfConn            *tsf.Client
-	mpsConn            *mps.Client
-	cwpConn            *cwp.Client
-	chdfsConn          *chdfs.Client
-	mdlConn            *mdl.Client
-	apmConn            *apm.Client
-	cfwConn            *cfw.Client
-	brcConn            *brc.Client
-	cicConn            *cic.Client
+	Credential          *common.Credential
+	CredentialTce       *common2.Credential
+	Region              string
+	Protocol            string
+	Domain              string
+	CspDomain           string
+	CosDomain           string
+	cosConn             *s3.S3
+	tencentCosConn      *cos.Client
+	mysqlConn           *cdb.Client
+	redisConn           *redis.Client
+	asConn              *as.Client
+	bmsConn             *bms.Client
+	vpcConn             *vpc.Client
+	vpcdnsConn          *vpcdns.Client
+	cbsConn             *cbs.Client
+	cvmConn             *cvm.Client
+	clbConn             *clb.Client
+	cspConn             *csp.Client
+	drcConn             *drc.Client
+	dayuConn            *dayu.Client
+	dcConn              *dc.Client
+	tagConn             *tag.Client
+	mongodbConn         *mongodb.Client
+	tkeConn             *tke.Client
+	tke2Conn            *tke2.Client
+	tdmqConn            *tdmq.Client
+	tcrConn             *tcr.Client
+	camConn             *cam.Client
+	accountConn         *account.Client
+	account20181225Conn *account20181225.Client
+	openConn            *open.Client
+	stsConn             *sts.Client
+	gaapConn            *gaap.Client
+	sslConn             *ssl.Client
+	cfsConn             *cfs.Client
+	turbofsConn         *turbofs.Client
+	tcaplusConn         *tcaplusdb.Client
+	cdnConn             *cdn.Client
+	monitorConn         *monitor.Client
+	esConn              *es.Client
+	sqlserverConn       *sqlserver.Client
+	postgreConn         *postgre.Client
+	ckafkaConn          *ckafka.Client
+	auditConn           *audit.Client
+	cynosConn           *cynosdb.Client
+	apiGatewayConn      *apigateway.Client
+	sslCertificateConn  *sslCertificate.Client
+	kmsConn             *kms.Client
+	ssmConn             *ssm.Client
+	apiConn             *api.Client
+	emrConn             *emr.Client
+	clsConn             *cls.Client
+	dnsPodConn          *dnspod.Client
+	privateDnsConn      *privatedns.Client
+	antiddosConn        *antiddos.Client
+	domainConn          *domain.Client
+	lighthouseConn      *lighthouse.Client
+	teoConn             *teo.Client
+	tcmConn             *tcm.Client
+	cssConn             *css.Client
+	sesConn             *ses.Client
+	dcdbConn            *dcdb.Client
+	smsConn             *sms.Client
+	catConn             *cat.Client
+	mariadbConn         *mariadb.Client
+	rumConn             *rum.Client
+	ptsConn             *pts.Client
+	tatConn             *tat.Client
+	tbaseConn           *tbase.Client
+	organizationConn    *organization.Client
+	tdcpgConn           *tdcpg.Client
+	dbbrainConn         *dbbrain.Client
+	dtsConn             *dts.Client
+	ciConn              *cos.Client
+	tsfConn             *tsf.Client
+	mpsConn             *mps.Client
+	cwpConn             *cwp.Client
+	chdfsConn           *chdfs.Client
+	mdlConn             *mdl.Client
+	apmConn             *apm.Client
+	cfwConn             *cfw.Client
+	brcConn             *brc.Client
+	cdcConn             *cdc.Client
+	cicConn             *cic.Client
+	locationConn        *location.Client
+	ngwafConn           *ngwaf.Client
+	ccnConn             *ccn.Client
 }
 
 // NewClientProfile returns a new ClientProfile
@@ -246,6 +262,17 @@ func (me *TencentCloudClient) UseBmsClient() *bms.Client {
 	return me.bmsConn
 }
 
+// UseCcnClient returns ccn client for service
+func (me *TencentCloudClient) UseCcnClient() *ccn.Client {
+	if me.ccnConn != nil {
+		return me.ccnConn
+	}
+	cpf := me.NewClientProfileTce(300)
+	me.ccnConn, _ = ccn.NewClient(me.CredentialTce, me.Region, cpf)
+	me.ccnConn.WithHttpTransport(&LogRoundTripper{})
+	return me.ccnConn
+}
+
 // UseCosClient returns cos client for service
 func (me *TencentCloudClient) UseCosClient() *s3.S3 {
 	if me.cosConn != nil {
@@ -262,11 +289,16 @@ func (me *TencentCloudClient) UseCosClient() *s3.S3 {
 	}
 
 	creds := credentials.NewStaticCredentials(me.Credential.SecretId, me.Credential.SecretKey, me.Credential.Token)
-	sess := session.Must(session.NewSession(&aws.Config{
+
+	awsCfg := &aws.Config{
 		Credentials:      creds,
 		Region:           aws.String(me.Region),
 		EndpointResolver: endpoints.ResolverFunc(resolver),
-	}))
+		// HTTPClient:       httpClient,
+		S3ForcePathStyle: aws.Bool(true),
+	}
+
+	sess := session.Must(session.NewSession(awsCfg))
 
 	return s3.New(sess)
 }
@@ -295,11 +327,15 @@ func (me *TencentCloudClient) UseCosS3Client(useCsp bool) *s3.S3 {
 	}
 
 	creds := credentials.NewStaticCredentials(me.Credential.SecretId, me.Credential.SecretKey, me.Credential.Token)
-	sess := session.Must(session.NewSession(&aws.Config{
+
+	awsCfg := &aws.Config{
 		Credentials:      creds,
 		Region:           aws.String(me.Region),
 		EndpointResolver: endpoints.ResolverFunc(resolver),
-	}))
+		S3ForcePathStyle: aws.Bool(true),
+	}
+
+	sess := session.Must(session.NewSession(awsCfg))
 
 	return s3.New(sess)
 }
@@ -318,19 +354,16 @@ func (me *TencentCloudClient) UseTbaseClient() *tbase.Client {
 
 // UseTencentCosClient tencent cloud own client for service instead of aws
 func (me *TencentCloudClient) UseTencentCosClient(bucket string) *cos.Client {
-	u, _ := url.Parse(fmt.Sprintf("%s://%s.cos.%s.%s", me.Protocol, bucket, me.Region, me.CosDomain))
-	u2, _ := url.Parse(fmt.Sprintf("%s://cos.%s.%s", me.Protocol, me.Region, me.CosDomain))
-	return me.GetTencentCosClient(u, u2, bucket)
+	svc, _ := url.Parse(fmt.Sprintf("%s://cos.%s.%s", me.Protocol, me.Region, me.CosDomain))
+	bkt, _ := url.Parse(fmt.Sprintf("%s://%s.cos.%s.%s", me.Protocol, bucket, me.Region, me.CosDomain))
+	return me.GetTencentCosClient(bkt, svc, bucket)
 }
 
 // UseTencentCspClient tencent cloud own client for service instead of aws
 func (me *TencentCloudClient) UseTencentCspClient(bucket string) *cos.Client {
-	//u, _ := url.Parse(fmt.Sprintf("http://%s.cos.chongqing.csp.yfm18.tcepoc.fsphere.cn", bucket))
-	u, _ := url.Parse(fmt.Sprintf("%s://%s.cos.%s.%s", me.Protocol, bucket, me.Region, me.CspDomain))
-	// serviceUrl
-	u2, _ := url.Parse(fmt.Sprintf("%s://cos.%s.%s", me.Protocol, me.Region, me.CspDomain))
-	//u2, _ := url.Parse("http://cos.chongqing.csp.yfm18.tcepoc.fsphere.cn")
-	return me.GetTencentCosClient(u, u2, bucket)
+	svc, _ := url.Parse(fmt.Sprintf("%s://cos.%s.%s", me.Protocol, me.Region, me.CspDomain))
+	bkt, _ := url.Parse(fmt.Sprintf("%s://%s.cos.%s.%s", me.Protocol, bucket, me.Region, me.CspDomain))
+	return me.GetTencentCosClient(bkt, svc, bucket)
 }
 
 // GetTencentCosClient tencent cloud own client for service instead of aws
@@ -514,6 +547,19 @@ func (me *TencentCloudClient) UseTkeClient() *tke.Client {
 	return me.tkeConn
 }
 
+// UseTke2Client returns tke v20220501 client for service (native node pool)
+func (me *TencentCloudClient) UseTke2Client() *tke2.Client {
+	if me.tke2Conn != nil {
+		return me.tke2Conn
+	}
+
+	cpf := me.NewClientProfileTce(300)
+	me.tke2Conn, _ = tke2.NewClient(me.CredentialTce, me.Region, cpf)
+	me.tke2Conn.WithHttpTransport(&LogRoundTripper{})
+
+	return me.tke2Conn
+}
+
 // UseTdmqClient returns Tdmq client for service
 func (me *TencentCloudClient) UseTdmqClient(iacExtInfo ...IacExtInfo) *tdmq.Client {
 	var logRoundTripper LogRoundTripper
@@ -565,8 +611,8 @@ func (me *TencentCloudClient) UseCamClient() *cam.Client {
 		return me.camConn
 	}
 
-	cpf := me.NewClientProfile(300)
-	me.camConn, _ = cam.NewClient(me.Credential, me.Region, cpf)
+	cpf := me.NewClientProfileTce(300)
+	me.camConn, _ = cam.NewClient(me.CredentialTce, me.Region, cpf)
 	me.camConn.WithHttpTransport(&LogRoundTripper{})
 
 	return me.camConn
@@ -1179,9 +1225,8 @@ func (me *TencentCloudClient) UseApmClient() *apm.Client {
 		return me.apmConn
 	}
 
-	cpf := me.NewClientProfile(300)
-	cpf.Language = "zh-CN"
-	me.apmConn, _ = apm.NewClient(me.Credential, me.Region, cpf)
+	cpf := me.NewClientProfileTce(300)
+	me.apmConn, _ = apm.NewClient(me.CredentialTce, me.Region, cpf)
 	me.apmConn.WithHttpTransport(&LogRoundTripper{})
 
 	return me.apmConn
@@ -1251,6 +1296,89 @@ func (me *TencentCloudClient) UseBrcClient() *brc.Client {
 	me.brcConn.WithHttpTransport(&LogRoundTripper{})
 
 	return me.brcConn
+}
+
+// UseNgwafClient returns ngwaf client for service
+func (me *TencentCloudClient) UseNgwafClient() *ngwaf.Client {
+	if me.ngwafConn != nil {
+		return me.ngwafConn
+	}
+
+	cpf := me.NewClientProfileTce(300)
+	cpf.Language = "zh-CN"
+	me.ngwafConn, _ = ngwaf.NewClient(me.CredentialTce, me.Region, cpf)
+	me.ngwafConn.WithHttpTransport(&LogRoundTripper{})
+
+	return me.ngwafConn
+}
+
+// UseLocationClient returns location client for service
+func (me *TencentCloudClient) UseLocationClient() *location.Client {
+	if me.locationConn != nil {
+		return me.locationConn
+	}
+
+	cpf := me.NewClientProfileTce(300)
+	me.locationConn, _ = location.NewClient(me.CredentialTce, me.Region, cpf)
+	me.locationConn.WithHttpTransport(&LogRoundTripper{})
+
+	return me.locationConn
+}
+
+// UseCdcClient returns cdc client for service
+func (me *TencentCloudClient) UseCdcClient() *cdc.Client {
+	if me.cdcConn != nil {
+		return me.cdcConn
+	}
+
+	cpf := me.NewClientProfileTce(300)
+	me.cdcConn, _ = cdc.NewClient(me.CredentialTce, me.Region, cpf)
+	me.cdcConn.WithHttpTransport(&LogRoundTripper{})
+
+	return me.cdcConn
+}
+
+// UseCdcV20201214Client returns cdc client for service (alias for compatibility)
+func (me *TencentCloudClient) UseCdcV20201214Client() *cdc.Client {
+	return me.UseCdcClient()
+}
+
+// UseAccountClient returns account client for service
+func (me *TencentCloudClient) UseAccountClient() *account.Client {
+	if me.accountConn != nil {
+		return me.accountConn
+	}
+
+	cpf := me.NewClientProfileTce(300)
+	me.accountConn, _ = account.NewClient(me.CredentialTce, me.Region, cpf)
+	me.accountConn.WithHttpTransport(&LogRoundTripper{})
+
+	return me.accountConn
+}
+
+// UseAccount20181225Client returns account client for v20181225
+func (me *TencentCloudClient) UseAccount20181225Client() *account20181225.Client {
+	if me.account20181225Conn != nil {
+		return me.account20181225Conn
+	}
+
+	cpf := me.NewClientProfileTce(300)
+	me.account20181225Conn, _ = account20181225.NewClient(me.CredentialTce, me.Region, cpf)
+	me.account20181225Conn.WithHttpTransport(&LogRoundTripper{})
+
+	return me.account20181225Conn
+}
+
+func (me *TencentCloudClient) UseOpenClient() *open.Client {
+	if me.openConn != nil {
+		return me.openConn
+	}
+
+	cpf := me.NewClientProfileTce(300)
+	me.openConn, _ = open.NewClient(me.CredentialTce, me.Region, cpf)
+	me.openConn.WithHttpTransport(&LogRoundTripper{})
+
+	return me.openConn
 }
 
 func getEnvDefault(key string, defVal int) int {

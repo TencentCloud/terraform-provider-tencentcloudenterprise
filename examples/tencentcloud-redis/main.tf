@@ -51,7 +51,7 @@ data "tencentcloudenterprise_redis_instance_node_info" "nodes" {
 resource "tencentcloudenterprise_redis_instance" "standard" {
   # Required fields
   availability_zone = "ap-guangzhou-3"
-  type_id           = 6  # Redis 5.0 Standard, refer to cloud_redis_zone_config
+  type_id           = 6  # Redis 5.0 Standard, refer to tencentcloudenterprise_redis_zone_config
   mem_size          = 2048  # Memory size in MB
   vpc_id            = "vpc-xxxxx"
   subnet_id         = "subnet-xxxxx"
@@ -74,7 +74,7 @@ resource "tencentcloudenterprise_redis_instance" "standard" {
 resource "tencentcloudenterprise_redis_instance" "cluster" {
   # Required fields
   availability_zone = "ap-guangzhou-3"
-  type_id           = 7  # Redis Cluster, refer to cloud_redis_zone_config
+  type_id           = 7  # Redis Cluster, refer to tencentcloudenterprise_redis_zone_config
   mem_size          = 2048
   vpc_id            = "vpc-xxxxx"
   subnet_id         = "subnet-xxxxx"
@@ -117,14 +117,14 @@ resource "tencentcloudenterprise_redis_instance" "multi_zone" {
 
 # Redis Backup Config
 resource "tencentcloudenterprise_redis_backup_config" "backup" {
-  redis_id      = cloud_redis_instance.standard.id
+  redis_id      = tencentcloudenterprise_redis_instance.standard.id
   backup_time   = "02:00-03:00"
   backup_period = ["Monday", "Wednesday", "Friday"]
 }
 
 # Redis Param
 resource "tencentcloudenterprise_redis_param" "param" {
-  instance_id = cloud_redis_instance.standard.id
+  instance_id = tencentcloudenterprise_redis_instance.standard.id
   instance_params = {
     "timeout"                    = "300"
     "maxmemory-policy"           = "allkeys-lru"
@@ -134,18 +134,18 @@ resource "tencentcloudenterprise_redis_param" "param" {
 
 # Redis Replica Readonly
 resource "tencentcloudenterprise_redis_replica_readonly" "readonly" {
-  instance_id     = cloud_redis_instance.multi_zone.id
+  instance_id     = tencentcloudenterprise_redis_instance.multi_zone.id
   readonly_policy = ["master", "slave"]
   operate         = "enable"
 }
 
 # Redis Clear Instance Operation
 resource "tencentcloudenterprise_redis_clear_instance_operation" "clear" {
-  instance_id = cloud_redis_instance.standard.id
+  instance_id = tencentcloudenterprise_redis_instance.standard.id
   password    = "Test12345"
 }
 
 # Redis Startup Instance Operation
 resource "tencentcloudenterprise_redis_startup_instance_operation" "startup" {
-  instance_id = cloud_redis_instance.standard.id
+  instance_id = tencentcloudenterprise_redis_instance.standard.id
 }

@@ -1,19 +1,17 @@
 /*
 Provides a resource to create a vpc ipv6_eni_address
 
-# Example Usage
+Example Usage
 
 ```hcl
-
-	resource "tencentcloudenterprise_vpc_ipv6_eni_address" "ipv6_eni_address" {
-	  vpc_id = "vpc-7w3kgnpl"
-	  network_interface_id = "eni-pzl7fz37"
-	  ipv6_addresses {
-	    address = "2402:4e00:1019:6a7b:0:994e:7cd7:fb46"
-	    description = "test123"
-	  }
-	}
-
+resource "tencentcloudenterprise_vpc_ipv6_eni_address" "ipv6_eni_address" {
+  vpc_id = "vpc-7w3kgnpl"
+  network_interface_id = "eni-pzl7fz37"
+  ipv6_addresses {
+    address = "2402:4e00:1019:6a7b:0:994e:7cd7:fb46"
+    description = "test123"
+  }
+}
 ```
 */
 package tencentcloud
@@ -25,10 +23,10 @@ import (
 	"strings"
 	"time"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	vpc "terraform-provider-tencentcloudenterprise/sdk/vpc/v20170312"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func init() {

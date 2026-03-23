@@ -13,7 +13,7 @@ import (
 )
 
 func init() {
-	// go test -v ./tencentcloud -sweep=ap-guangzhou -sweep-run=cloud_ckafka_topic
+	// go test -v ./tencentcloud -sweep=ap-guangzhou -sweep-run=tencentcloudenterprise_ckafka_topic
 	resource.AddTestSweepers("tencentcloudenterprise_ckafka_topic", &resource.Sweeper{
 		Name: "tencentcloudenterprise_ckafka_topic",
 		F: func(r string) error {
@@ -75,7 +75,7 @@ func TestAccTencentCloudCkafkaTopicResource_Basic(t *testing.T) {
 					resource.TestCheckResourceAttr("tencentcloudenterprise_ckafka_topic.kafka_topic", "partition_num", "2"),
 					resource.TestCheckResourceAttr("tencentcloudenterprise_ckafka_topic.kafka_topic", "enable_white_list", "true"),
 					resource.TestCheckResourceAttr("tencentcloudenterprise_ckafka_topic.kafka_topic", "ip_white_list.#", "1"),
-					resource.TestCheckResourceAttr("tencentcloudenterprise_ckafka_topic.kafka_topic", "ip_white_list.0", "203.0.113.101"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_ckafka_topic.kafka_topic", "ip_white_list.0", "192.168.1.1"),
 					resource.TestCheckResourceAttr("tencentcloudenterprise_ckafka_topic.kafka_topic", "clean_up_policy", "delete"),
 					resource.TestCheckResourceAttr("tencentcloudenterprise_ckafka_topic.kafka_topic", "sync_replica_min_num", "1"),
 					resource.TestCheckResourceAttrSet("tencentcloudenterprise_ckafka_topic.kafka_topic", "unclean_leader_election_enable"),
@@ -181,7 +181,7 @@ resource "tencentcloudenterprise_ckafka_topic" "kafka_topic" {
 	replica_num                         = 2
 	partition_num                       = 2
 	enable_white_list                   = true
-	ip_white_list                       = ["203.0.113.101"]
+	ip_white_list                       = ["192.168.1.1"]
 	clean_up_policy                     = "delete"
 	sync_replica_min_num                = 1
 	unclean_leader_election_enable      = false
@@ -199,7 +199,7 @@ resource "tencentcloudenterprise_ckafka_topic" "kafka_topic" {
 	replica_num                         = 1
 	partition_num                       = 3
 	enable_white_list                   = true
-	ip_white_list                       = ["203.0.113.102"]
+	ip_white_list                       = ["192.168.1.2"]
 	clean_up_policy                     = "compact"
 	sync_replica_min_num                = 2
 	unclean_leader_election_enable      = true

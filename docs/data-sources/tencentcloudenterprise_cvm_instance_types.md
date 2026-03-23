@@ -20,7 +20,7 @@ data "tencentcloudenterprise_cvm_instance_types" "foo" {
   memory_size       = 4
 }
 
-data cloud_cvm_instance_types "t1c1g" {
+data tencentcloudenterprise_cvm_instance_types "t1c1g" {
   cpu_core_count   = 1
   memory_size      = 1
   exclude_sold_out = true

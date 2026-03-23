@@ -1,7 +1,7 @@
 /*
 Use this data source to query detailed information of cfs file_system_clients
 
-# Example Usage
+Example Usage
 
 ```hcl
 
@@ -16,9 +16,9 @@ package tencentcloud
 import (
 	"context"
 
+	cfs "terraform-provider-tencentcloudenterprise/sdk/cfs/v20190719"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	cfs "terraform-provider-tencentcloudenterprise/sdk/cfs/v20190719"
 )
 
 func init() {

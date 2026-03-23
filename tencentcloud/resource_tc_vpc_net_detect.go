@@ -1,25 +1,23 @@
 /*
 Provides a resource to create a vpc net_detect
 
-# Example Usage
+Example Usage
 
 ```hcl
-
-	resource "tencentcloudenterprise_vpc_net_detect" "net_detect" {
-	  net_detect_name       = "terrform-test"
-	  vpc_id                = "vpc-4owdpnwr"
-	  subnet_id             = "subnet-c1l35990"
-	  next_hop_destination  = "203.0.113.57"
-	  next_hop_type         = "NORMAL_CVM"
-	  detect_destination_ip = [
-	    "203.0.113.1",
-	    "203.0.113.2",
-	  ]
-	}
-
+resource "tencentcloudenterprise_vpc_net_detect" "net_detect" {
+  net_detect_name       = "terrform-test"
+  vpc_id                = "vpc-4owdpnwr"
+  subnet_id             = "subnet-c1l35990"
+  next_hop_destination  = "172.16.128.57"
+  next_hop_type         = "NORMAL_CVM"
+  detect_destination_ip = [
+    "10.0.0.1",
+    "10.0.0.2",
+  ]
+}
 ```
 
-# Import
+Import
 
 vpc net_detect can be imported using the id, e.g.
 
@@ -33,10 +31,10 @@ import (
 	"context"
 	"log"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	vpc "terraform-provider-tencentcloudenterprise/sdk/vpc/v20170312"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func init() {
@@ -116,7 +114,7 @@ func resourceTencentCloudVpcNetDetect() *schema.Resource {
 					"If the next hop type is DIRECTCONNECT, and the value is the private line gateway ID, such as: dcg-12345678; " +
 					"If the next hop type is PEERCONNECTION, which takes the value of the peer connection ID, such as: pcx-12345678;" +
 					"If the next hop type is NAT, and the value is Nat gateway, such as: nat-12345678; " +
-					"If the next hop type is NORMAL_CVM, which takes the IPv4 address of the cloud server, such as: 203.0.113.12.",
+					"If the next hop type is NORMAL_CVM, which takes the IPv4 address of the cloud server, such as: 10.0.0.12.",
 			},
 
 			"net_detect_description": {

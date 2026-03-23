@@ -13,7 +13,7 @@ import (
 )
 
 func init() {
-	// go test -v ./tencentcloud -sweep=ap-guangzhou -sweep-run=cloud_clb_target_group
+	// go test -v ./tencentcloud -sweep=ap-guangzhou -sweep-run=tencentcloudenterprise_clb_target_group
 	resource.AddTestSweepers("tencentcloudenterprise_clb_target_group", &resource.Sweeper{
 		Name: "tencentcloudenterprise_clb_target_group",
 		F: func(r string) error {
@@ -79,7 +79,7 @@ func TestAccTencentCloudClbInstanceTargetGroup(t *testing.T) {
 					testAccCheckClbTargetGroupExists("tencentcloudenterprise_clb_target_group.target_group"),
 					resource.TestCheckResourceAttr("tencentcloudenterprise_clb_target_group.target_group", "target_group_name", "tgt_grp_test"),
 					resource.TestCheckResourceAttr("tencentcloudenterprise_clb_target_group.target_group", "port", "33"),
-					//resource.TestCheckResourceAttr("tencentcloudenterprise_clb_target_group.target_group", "target_group_instances.bind_ip", "203.0.113.4"),
+					//resource.TestCheckResourceAttr("tencentcloudenterprise_clb_target_group.target_group", "target_group_instances.bind_ip", "10.0.0.4"),
 					//resource.TestCheckResourceAttr("tencentcloudenterprise_clb_target_group.target_group", "target_group_instances.port", "33"),
 				),
 			},
@@ -89,7 +89,7 @@ func TestAccTencentCloudClbInstanceTargetGroup(t *testing.T) {
 					testAccCheckClbTargetGroupExists("tencentcloudenterprise_clb_target_group.target_group"),
 					resource.TestCheckResourceAttr("tencentcloudenterprise_clb_target_group.target_group", "target_group_name", "tgt_grp_test"),
 					resource.TestCheckResourceAttr("tencentcloudenterprise_clb_target_group.target_group", "port", "44"),
-					//resource.TestCheckResourceAttr("tencentcloudenterprise_clb_target_group.target_group", "target_group_instances.bind_ip", "203.0.113.4"),
+					//resource.TestCheckResourceAttr("tencentcloudenterprise_clb_target_group.target_group", "target_group_instances.bind_ip", "10.0.0.4"),
 					//resource.TestCheckResourceAttr("tencentcloudenterprise_clb_target_group.target_group", "target_group_instances.port", "44"),
 				),
 			},

@@ -3,7 +3,7 @@ Provide a resource to increase instance to cluster
 
 ~> **NOTE:** To use the custom Kubernetes component startup parameter function (parameter `extra_args`), you need to submit a ticket for application.
 
-# Example Usage
+Example Usage
 
 ```hcl
 
@@ -19,7 +19,7 @@ Provide a resource to increase instance to cluster
 	  default = "S2.LARGE16"
 	}
 
-	resource cloud_tke_kubernetes_scale_worker test_scale {
+	resource tencentcloudenterprise_tke_kubernetes_scale_worker test_scale {
 	  cluster_id = "cls-godovr32"
 	  desired_pod_num = 16
 	  labels = {
@@ -51,7 +51,7 @@ Provide a resource to increase instance to cluster
 
 ```
 
-# Use Kubelet
+Use Kubelet
 
 ```hcl
 
@@ -67,7 +67,7 @@ Provide a resource to increase instance to cluster
 	  default = "S2.LARGE16"
 	}
 
-	resource cloud_tke_kubernetes_scale_worker test_scale {
+	resource tencentcloudenterprise_tke_kubernetes_scale_worker test_scale {
 	  cluster_id = "cls-godovr32"
 
 	  extra_args = [
@@ -116,10 +116,10 @@ import (
 
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"terraform-provider-tencentcloudenterprise/sdk/common/errors"
 	tke "terraform-provider-tencentcloudenterprise/sdk/tke/v20180525"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func init() {

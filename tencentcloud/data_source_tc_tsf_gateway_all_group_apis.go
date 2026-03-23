@@ -1,15 +1,13 @@
 /*
 Use this data source to query detailed information of tsf gateway_all_group_apis
 
-# Example Usage
+Example Usage
 
 ```hcl
-
-	data "tencentcloudenterprise_tsf_gateway_all_group_apis" "gateway_all_group_apis" {
-	  gateway_deploy_group_id = "group-aeoej4qy"
-	  search_word = "user"
-	}
-
+data "tencentcloudenterprise_tsf_gateway_all_group_apis" "gateway_all_group_apis" {
+  gateway_deploy_group_id = "group-aeoej4qy"
+  search_word = "user"
+}
 ```
 */
 package tencentcloud
@@ -17,10 +15,10 @@ package tencentcloud
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	tsf "terraform-provider-tencentcloudenterprise/sdk/tsf/v20180326"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func init() {

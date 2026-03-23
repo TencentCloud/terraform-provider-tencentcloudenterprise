@@ -1,7 +1,7 @@
 /*
 Use this data source to query detailed information of tsf api_detail
 
-# Example Usage
+Example Usage
 
 ```hcl
 
@@ -21,10 +21,10 @@ import (
 	"context"
 	"strings"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	tsf "terraform-provider-tencentcloudenterprise/sdk/tsf/v20180326"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func init() {
@@ -45,7 +45,7 @@ func init() {
 			"can_run":              "是否可调试",
 			"status":               "API状态",
 			"description":          "API描述",
-			"result_output_file":   "结果输出文件",
+			"result_output_file":   "结果输出文件", 
 		},
 	})
 }
@@ -53,7 +53,7 @@ func init() {
 func dataSourceTencentCloudTsfApiDetail() *schema.Resource {
 	return &schema.Resource{
 		Description: "Use this data source to query detailed information of tsf api_detail",
-		Read:        dataSourceTencentCloudTsfApiDetailRead,
+		Read: dataSourceTencentCloudTsfApiDetailRead,
 		Schema: map[string]*schema.Schema{
 			"microservice_id": {
 				Required:    true,

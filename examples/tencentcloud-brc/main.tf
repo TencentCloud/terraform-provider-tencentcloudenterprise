@@ -39,7 +39,7 @@ resource "tencentcloudenterprise_brc_auto_backup_policy" "policy" {
 
 # BRC Auto Backup Policy Binding
 resource "tencentcloudenterprise_brc_auto_backup_policy_binding" "binding" {
-  auto_backup_policy_id = cloud_brc_auto_backup_policy.policy.id
+  auto_backup_policy_id = tencentcloudenterprise_brc_auto_backup_policy.policy.id
   resource_type         = "CVM"
   resource_ids          = ["ins-xxxxx"]
 }

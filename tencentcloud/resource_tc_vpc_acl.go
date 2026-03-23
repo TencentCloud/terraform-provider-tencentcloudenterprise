@@ -1,28 +1,27 @@
 /*
 Provide a resource to create a VPC ACL instance.
 
-# Example Usage
+Example Usage
 
 ```hcl
 data "tencentcloudenterprise_vpc_instances" "default" {
 }
 
-	resource "tencentcloudenterprise_vpc_acl" "foo" {
-	    vpc_id  = data.tencentcloudenterprise_vpc_instances.default.instance_list.0.vpc_id
-	    name  	= "test_acl_update"
-		ingress = [
-			"ACCEPT#192.168.1.0/24#800#TCP",
-			"ACCEPT#192.168.1.0/24#800-900#TCP",
-		]
-		egress = [
-	    	"ACCEPT#192.168.1.0/24#800#TCP",
-	    	"ACCEPT#192.168.1.0/24#800-900#TCP",
-		]
-	}
-
+resource "tencentcloudenterprise_vpc_acl" "foo" {
+    vpc_id  = data.tencentcloudenterprise_vpc_instances.default.instance_list.0.vpc_id
+    name  	= "test_acl_update"
+	ingress = [
+		"ACCEPT#192.168.1.0/24#800#TCP",
+		"ACCEPT#192.168.1.0/24#800-900#TCP",
+	]
+	egress = [
+    	"ACCEPT#192.168.1.0/24#800#TCP",
+    	"ACCEPT#192.168.1.0/24#800-900#TCP",
+	]
+}
 ```
 
-# Import
+Import
 
 Vpc ACL can be imported, e.g.
 
@@ -38,8 +37,8 @@ import (
 	"log"
 	"strings"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func init() {

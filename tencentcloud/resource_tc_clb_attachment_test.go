@@ -90,7 +90,7 @@ func testAccCheckClbServerAttachmentDestroy(s *terraform.State) error {
 		time.Sleep(5 * time.Second)
 		items := strings.Split(rs.Primary.ID, "#")
 		if len(items) != 3 {
-			return fmt.Errorf("[CHECK][CLB attachment][Destroy] check: id %s of resource.cloud_clb_attachment is not match loc-xxx#lbl-xxx#lb-xxx", rs.Primary.ID)
+			return fmt.Errorf("[CHECK][CLB attachment][Destroy] check: id %s of resource.tencentcloudenterprise_clb_attachment is not match loc-xxx#lbl-xxx#lb-xxx", rs.Primary.ID)
 		}
 		locationId := items[0]
 		listenerId := items[1]
@@ -146,7 +146,7 @@ func testAccCheckClbServerAttachmentExists(n string) resource.TestCheckFunc {
 		}
 		items := strings.Split(rs.Primary.ID, "#")
 		if len(items) != 3 {
-			return fmt.Errorf("[CHECK][CLB attachment][Exists] check: id %s of resource.cloud_clb_attachment is not match loc-xxx#lbl-xxx#lb-xxx", rs.Primary.ID)
+			return fmt.Errorf("[CHECK][CLB attachment][Exists] check: id %s of resource.tencentcloudenterprise_clb_attachment is not match loc-xxx#lbl-xxx#lb-xxx", rs.Primary.ID)
 		}
 		locationId := items[0]
 		listenerId := items[1]

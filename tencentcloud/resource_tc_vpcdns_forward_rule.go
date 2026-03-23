@@ -1,7 +1,7 @@
 /*
 Provide a resource to create a VPCDNS domain forward rule.
 
-# Example Usage
+Example Usage
 
 ```hcl
 
@@ -13,7 +13,7 @@ Provide a resource to create a VPCDNS domain forward rule.
 
 ```
 
-# Import
+Import
 
 Vpc subnet instance can be imported, e.g.
 
@@ -26,9 +26,9 @@ package tencentcloud
 import (
 	"context"
 	"errors"
+	sdkError "terraform-provider-tencentcloudenterprise/sdk/common/errors"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	sdkError "terraform-provider-tencentcloudenterprise/sdk/common/errors"
 	"time"
 )
 
@@ -38,7 +38,7 @@ func init() {
 		DescriptionCN:   "提供VPCDNS转发规则资源，用于创建和管理DNS转发规则。",
 		AttributesCN: map[string]string{
 			"remark":          "转发规则名称",
-			"domain_id":       "转发域名id",
+			"domain_id":  	   "转发域名id",
 			"forward_address": "dns地址",
 			"create_time":     "创建时间",
 			"rule_id":         "转发规则id",
@@ -144,7 +144,7 @@ func resourceTencentCloudVpcDnsForwardRuleRead(d *schema.ResourceData, meta inte
 	// only filter by DomainId and DomainName
 	domainId := d.Get("domain_id").(string)
 	filterMap := map[string][]string{
-		"DomainId": {domainId},
+		"DomainId" : {domainId},
 	}
 
 	err := resource.Retry(readRetryTimeout, func() *resource.RetryError {

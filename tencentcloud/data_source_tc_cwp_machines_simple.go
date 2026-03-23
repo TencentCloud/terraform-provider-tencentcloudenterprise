@@ -4,10 +4,10 @@ import (
 	"context"
 	"log"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	cwp "terraform-provider-tencentcloudenterprise/sdk/cwp/v20180228"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func init() {
@@ -38,7 +38,7 @@ func dataSourceTencentCloudCwpMachinesSimple() *schema.Resource {
 			"machine_region": {
 				Required:    true,
 				Type:        schema.TypeString,
-				Description: "The area where the machine belongs,Such as: ap-guangzhou, ap-shanghai, all-regions: All server region types.",
+				Description: "The area where the machine belongs, all-regions: All server region types.",
 			},
 			"filters": {
 				Optional:    true,

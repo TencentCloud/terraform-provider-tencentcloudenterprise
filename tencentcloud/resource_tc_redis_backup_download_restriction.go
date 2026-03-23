@@ -1,31 +1,29 @@
-// /*
-// Provides a resource to create a redis backup_download_restriction
+///*
+//Provides a resource to create a redis backup_download_restriction
 //
-// # Example Usage
+//Example Usage
 //
-// ```hcl
-//
-//	resource "tencentcloudenterprise_redis_backup_download_restriction" "backup_download_restriction" {
-//		limit_type = "Customize"
-//		vpc_comparison_symbol = "In"
-//		ip_comparison_symbol = "In"
-//		limit_vpc {
-//			  region = "ap-guangzhou"
-//			  vpc_list = [var.vpc_id]
-//		}
-//		limit_ip = ["203.0.113.12", "203.0.113.13"]
+//```hcl
+//resource "tencentcloudenterprise_redis_backup_download_restriction" "backup_download_restriction" {
+//	limit_type = "Customize"
+//	vpc_comparison_symbol = "In"
+//	ip_comparison_symbol = "In"
+//	limit_vpc {
+//		  region = "ap-guangzhou"
+//		  vpc_list = [var.vpc_id]
 //	}
+//	limit_ip = ["10.1.1.12", "10.1.1.13"]
+//}
+//```
 //
-// ```
+//Import
 //
-// # Import
+//redis backup_download_restriction can be imported using the id, e.g.
 //
-// redis backup_download_restriction can be imported using the id, e.g.
-//
-// ```
-// terraform import tencentcloudenterprise_redis_backup_download_restriction.backup_download_restriction backup_download_restriction_id
-// ```
-// */
+//```
+//terraform import tencentcloudenterprise_redis_backup_download_restriction.backup_download_restriction backup_download_restriction_id
+//```
+//*/
 package tencentcloud
 
 // 专有云不支持此接口

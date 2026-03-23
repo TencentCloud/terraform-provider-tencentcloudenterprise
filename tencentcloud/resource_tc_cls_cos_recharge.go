@@ -49,10 +49,10 @@ import (
 	"log"
 	"strings"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	cls "terraform-provider-tencentcloudenterprise/sdk/cls/v20201016"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func init() {
@@ -69,6 +69,8 @@ func init() {
 			"prefix":                  "COS对象前缀",
 			"log_type":                "日志类型",
 			"compress":                "压缩格式，支持无压缩，gzip，lzop，snappy。默认值为无压缩。",
+			"task_type":               "COS导入任务类型。1：一次性导入任务；2：持续性导入任务。",
+			"metadata":                "元数据。支持 bucket，object。",
 			"extract_rule_info":       "日志提取规则",
 			"time_key":                "时间字段的key名字",
 			"time_format":             "时间字段的格式",
@@ -158,6 +160,21 @@ func resourceTencentCloudClsCosRecharge() *schema.Resource {
 				Optional:    true,
 				Type:        schema.TypeString,
 				Description: "Supported gzip, lzop, snappy.",
+			},
+
+			"task_type": {
+				Optional:    true,
+				Type:        schema.TypeInt,
+				Description: "Cos recharge task type. 1: one-time import, 2: continuous import.",
+			},
+
+			"metadata": {
+				Type:        schema.TypeList,
+				Optional:    true,
+				Description: "Metadata. Supported: bucket, object.",
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
 			},
 
 			"extract_rule_info": {
@@ -378,6 +395,14 @@ func resourceTencentCloudClsCosRechargeCreate(d *schema.ResourceData, meta inter
 		request.Compress = helper.String(v.(string))
 	}
 
+	if v, ok := d.GetOk("task_type"); ok {
+		request.TaskType = helper.IntUint64(v.(int))
+	}
+
+	if v, ok := d.GetOk("metadata"); ok {
+		request.Metadata = helper.InterfacesStringsPoint(v.([]interface{}))
+	}
+
 	if dMap, ok := helper.InterfacesHeadMap(d, "extract_rule_info"); ok {
 		extractRuleInfo := cls.ExtractRuleInfo{}
 		if v, ok := dMap["time_key"]; ok {
@@ -461,7 +486,7 @@ func resourceTencentCloudClsCosRechargeCreate(d *schema.ResourceData, meta inter
 		if v, ok := dMap["event_log_rules"]; ok {
 			for _, item := range v.([]interface{}) {
 				eventLogRulesMap := item.(map[string]interface{})
-				eventLogRule := cls.EventLogRuleInfo{}
+				eventLogRule := cls.EventLog{}
 				if v, ok := eventLogRulesMap["event_channel"]; ok {
 					eventLogRule.EventChannel = helper.String(v.(string))
 				}
@@ -563,6 +588,14 @@ func resourceTencentCloudClsCosRechargeRead(d *schema.ResourceData, meta interfa
 
 	if cosRecharge.Compress != nil {
 		_ = d.Set("compress", cosRecharge.Compress)
+	}
+
+	if cosRecharge.TaskType != nil {
+		_ = d.Set("task_type", int(*cosRecharge.TaskType))
+	}
+
+	if cosRecharge.Metadata != nil {
+		_ = d.Set("metadata", helper.StringsInterfaces(cosRecharge.Metadata))
 	}
 
 	// Set the recharge ID
@@ -728,6 +761,7 @@ func resourceTencentCloudClsCosRechargeUpdate(d *schema.ResourceData, meta inter
 	immutableArgs := []string{
 		"logset_id", "bucket", "bucket_region", "prefix",
 		"log_type", "compress", "extract_rule_info",
+		"task_type", "metadata",
 	}
 
 	for _, v := range immutableArgs {

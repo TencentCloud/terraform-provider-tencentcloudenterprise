@@ -13,7 +13,7 @@ import (
 )
 
 func init() {
-	// go test -v ./tencentcloud -sweep=ap-guangzhou -sweep-run=cloud_cvm_key_pair
+	// go test -v ./tencentcloud -sweep=ap-guangzhou -sweep-run=tencentcloudenterprise_cvm_key_pair
 	resource.AddTestSweepers("tencentcloudenterprise_cvm_key_pair", &resource.Sweeper{
 		Name: "tencentcloudenterprise_cvm_key_pair",
 		F: func(region string) error {

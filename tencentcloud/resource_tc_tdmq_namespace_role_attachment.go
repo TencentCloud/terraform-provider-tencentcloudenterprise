@@ -1,43 +1,43 @@
 /*
 Provide a resource to create a TDMQ role.
 
-# Example Usage
-
+Example Usage
 ```hcl
 
-	resource "tencentcloudenterprise_tdmq_instance" "foo" {
-	  cluster_name = "example"
-	  remark = "this is description."
-	}
+		resource "tencentcloudenterprise_tdmq_instance" "foo" {
+		  cluster_name = "example"
+		  remark = "this is description."
+	      bind_cluster_name = "default"
+		}
 
-	resource "tencentcloudenterprise_tdmq_namespace" "bar" {
-	  environ_name = "example"
-	  msg_ttl = 300
-	  cluster_id = tencentcloudenterprise_tdmq_instance.foo.id
-	  remark = "this is description."
-	}
+		resource "tencentcloudenterprise_tdmq_namespace" "bar" {
+		  environ_name = "example"
+		  msg_ttl = 300
+		  cluster_id = tencentcloudenterprise_tdmq_instance.foo.id
+		  remark = "this is description."
+		}
 
-	resource "tencentcloudenterprise_tdmq_topic" "bar" {
-	  environ_id = tencentcloudenterprise_tdmq_namespace.bar.id
-	  topic_name = "example"
-	  partitions = 6
-	  topic_type = 0
-	  cluster_id = tencentcloudenterprise_tdmq_instance.foo.id
-	  remark = "this is description."
-	}
+		resource "tencentcloudenterprise_tdmq_topic" "bar" {
+		  environ_id = tencentcloudenterprise_tdmq_namespace.bar.id
+		  topic_name = "example"
+		  partitions = 6
+		  topic_type = 0
+		  cluster_id = tencentcloudenterprise_tdmq_instance.foo.id
+		  remark = "this is description."
+		}
 
-	resource "tencentcloudenterprise_tdmq_role" "bar" {
-	  role_name = "example"
-	  cluster_id = tencentcloudenterprise_tdmq_instance.foo.id
-	  remark = "this is description world"
-	}
+		resource "tencentcloudenterprise_tdmq_role" "bar" {
+		  role_name = "example"
+		  cluster_id = tencentcloudenterprise_tdmq_instance.foo.id
+		  remark = "this is description world"
+		}
 
-	resource "tencentcloudenterprise_tdmq_namespace_role_attachment" "bar" {
-	  environ_id = tencentcloudenterprise_tdmq_namespace.bar.id
-	  role_name = tencentcloudenterprise_tdmq_role.bar.role_name
-	  permissions = ["produce", "consume"]
-	  cluster_id = tencentcloudenterprise_tdmq_instance.foo.id
-	}
+		resource "tencentcloudenterprise_tdmq_namespace_role_attachment" "bar" {
+		  environ_id = tencentcloudenterprise_tdmq_namespace.bar.id
+		  role_name = tencentcloudenterprise_tdmq_role.bar.role_name
+		  permissions = ["produce", "consume"]
+		  cluster_id = tencentcloudenterprise_tdmq_instance.foo.id
+		}
 
 ```
 */
@@ -50,6 +50,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+
 	"terraform-provider-tencentcloudenterprise/sdk/common/errors"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
 )

@@ -136,6 +136,7 @@ func NewAttachInstancesResponse() (response *AttachInstancesResponse) {
 }
 
 // 本接口（AttachInstances）用于将 CVM 实例添加到伸缩组。
+//
 func (c *Client) AttachInstances(request *AttachInstancesRequest) (response *AttachInstancesResponse, err error) {
 	if request == nil {
 		request = NewAttachInstancesRequest()
@@ -268,6 +269,7 @@ func NewPreviewPaiDomainNameResponse() (response *PreviewPaiDomainNameResponse) 
 }
 
 // 本接口（PreviewPaiDomainName）用于预览PAI实例域名。
+//
 func (c *Client) PreviewPaiDomainName(request *PreviewPaiDomainNameRequest) (response *PreviewPaiDomainNameResponse, err error) {
 	if request == nil {
 		request = NewPreviewPaiDomainNameRequest()
@@ -420,6 +422,7 @@ func NewCompleteLifecycleActionResponse() (response *CompleteLifecycleActionResp
 // 本接口（CompleteLifecycleAction）用于完成生命周期动作。
 //
 // * 用户通过调用本接口，指定一个具体的生命周期挂钩的结果（“CONITNUE”或者“ABANDON”）。如果一直不调用本接口，则生命周期挂钩会在超时后按照“DefaultResult”进行处理。
+//
 func (c *Client) CompleteLifecycleAction(request *CompleteLifecycleActionRequest) (response *CompleteLifecycleActionResponse, err error) {
 	if request == nil {
 		request = NewCompleteLifecycleActionRequest()
@@ -447,6 +450,7 @@ func NewUpgradeLifecycleHookResponse() (response *UpgradeLifecycleHookResponse) 
 // 本接口（UpgradeLifecycleHook）用于升级生命周期挂钩。
 //
 // * 本接口用于升级生命周期挂钩，采用“完全覆盖”风格，无论之前参数如何，统一按照接口参数设置为新的配置。对于非必填字段，不填写则按照默认值赋值。
+//
 func (c *Client) UpgradeLifecycleHook(request *UpgradeLifecycleHookRequest) (response *UpgradeLifecycleHookResponse, err error) {
 	if request == nil {
 		request = NewUpgradeLifecycleHookRequest()
@@ -557,6 +561,7 @@ func NewCreateLaunchConfigurationResponse() (response *CreateLaunchConfiguration
 // * 启动配置，可以通过 `ModifyLaunchConfigurationAttributes` 修改少量字段。如需使用新的启动配置，建议重新创建启动配置。
 //
 // * 每个项目最多只能创建20个启动配置，详见[使用限制](/tcloud/Compute/AS/64096/pdtlimit)。
+//
 func (c *Client) CreateLaunchConfiguration(request *CreateLaunchConfigurationRequest) (response *CreateLaunchConfigurationResponse, err error) {
 	if request == nil {
 		request = NewCreateLaunchConfigurationRequest()
@@ -689,21 +694,19 @@ func NewCreateLifecycleHookResponse() (response *CreateLifecycleHookResponse) {
 // * 您可以为生命周期挂钩配置消息通知，弹性伸缩会通知您的CMQ消息队列，通知内容形如：
 //
 // ```
-//
-//	{
-//		"Service": "Tencent Cloud Auto Scaling",
-//		"Time": "2019-03-14T10:15:11Z",
-//		"AppId": "1251783334",
-//		"ActivityId": "asa-fznnvrja",
-//		"AutoScalingGroupId": "asg-rrrrtttt",
-//		"LifecycleHookId": "ash-xxxxyyyy",
-//		"LifecycleHookName": "my-hook",
-//		"LifecycleActionToken": "3080e1c9-0efe-4dd7-ad3b-90cd6618298f",
-//		"InstanceId": "ins-aaaabbbb",
-//		"LifecycleTransition": "INSTANCE_LAUNCHING",
-//		"NotificationMetadata": ""
-//	}
-//
+// {
+// 	"Service": "Tencent Cloud Auto Scaling",
+// 	"Time": "2019-03-14T10:15:11Z",
+// 	"AppId": "1251783334",
+// 	"ActivityId": "asa-fznnvrja",
+// 	"AutoScalingGroupId": "asg-rrrrtttt",
+// 	"LifecycleHookId": "ash-xxxxyyyy",
+// 	"LifecycleHookName": "my-hook",
+// 	"LifecycleActionToken": "3080e1c9-0efe-4dd7-ad3b-90cd6618298f",
+// 	"InstanceId": "ins-aaaabbbb",
+// 	"LifecycleTransition": "INSTANCE_LAUNCHING",
+// 	"NotificationMetadata": ""
+// }
 // ```
 func (c *Client) CreateLifecycleHook(request *CreateLifecycleHookRequest) (response *CreateLifecycleHookResponse, err error) {
 	if request == nil {
@@ -1150,6 +1153,7 @@ func NewDeleteLaunchConfigurationResponse() (response *DeleteLaunchConfiguration
 // 本接口（DeleteLaunchConfiguration）用于删除启动配置。
 //
 // * 若启动配置在伸缩组中属于生效状态，则该启动配置不允许删除。
+//
 func (c *Client) DeleteLaunchConfiguration(request *DeleteLaunchConfigurationRequest) (response *DeleteLaunchConfigurationResponse, err error) {
 	if request == nil {
 		request = NewDeleteLaunchConfigurationRequest()

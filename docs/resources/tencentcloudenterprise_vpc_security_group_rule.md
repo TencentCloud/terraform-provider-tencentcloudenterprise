@@ -11,7 +11,7 @@ description: |-
 
 Provides a resource to create security group rule.
 
-~> **NOTE:** Single security rule is hardly ordered, use cloud_vpc_security_group_lite_rule instead.
+~> **NOTE:** Single security rule is hardly ordered, use tencentcloudenterprise_vpc_security_group_lite_rule instead.
 
 ## Example Usage
 

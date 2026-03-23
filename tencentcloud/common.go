@@ -15,6 +15,7 @@ import (
 	"sync/atomic"
 	"time"
 
+	"github.com/aws/aws-sdk-go/aws/awserr"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/mitchellh/go-homedir"
@@ -47,21 +48,21 @@ var logFirstTime = ""
 var logAtomicId int64 = 0
 
 // readRetryTimeout is read retry timeout
-// const readRetryTimeout = 3 * time.Minute
+//const readRetryTimeout = 3 * time.Minute
 var readRetry = getEnvDefault(PROVIDER_READ_RETRY_TIMEOUT, 3)
 var readRetryTimeout = time.Duration(readRetry) * time.Minute
 
 // writeRetryTimeout is write retry timeout
-// const writeRetryTimeout = 5 * time.Minute
+//const writeRetryTimeout = 5 * time.Minute
 var writeRetry = getEnvDefault(PROVIDER_WRITE_RETRY_TIMEOUT, 5)
 var writeRetryTimeout = time.Duration(writeRetry) * time.Minute
 
 // writeRetryTimeout is write retry timeout
-// const writeRetryTimeout = 5 * time.Minute
+//const writeRetryTimeout = 5 * time.Minute
 var waitRead = getEnvDefault(PROVIDER_WAIT_READ_TIMEOUT, 1)
 var waitReadTimeout = time.Duration(waitRead) * time.Second
 
-// const writeRetryTimeout = 5 * time.Minute
+//const writeRetryTimeout = 5 * time.Minute
 var needProtect = getEnvDefault(SWEEPER_NEED_PROTECT, 0)
 
 // InternalError common internalError, do not add in retryableErrorCode,
@@ -91,6 +92,7 @@ var retryableErrorCode = []string{
 var nonRetryableErrorCode = []string{
 	"FailedOperation.DisableQuitSelfCreatedOrganization",
 	"FailedOperation.OrganizationExistAlready",
+	"FailedOperation.InvalidRequest",
 }
 
 // retryableCosErrorCode is retryable error code for COS/CI SDK
@@ -196,36 +198,43 @@ func retryError(err error, additionRetryableError ...string) *resource.RetryErro
 	case *sdkErrors.CloudSDKError:
 
 		if isExpectError(realErr, nonRetryableErrorCode) {
-			log.Printf("[CRITAL] NonRetryable defined error: %v", err)
+			log.Printf("[CRITICAL] NonRetryable defined error: %v", err)
 			return resource.NonRetryableError(err)
 		}
 
 		if isExpectError(realErr, retryableErrorCode) {
-			log.Printf("[CRITAL] Retryable defined error: %v", err)
+			log.Printf("[CRITICAL] Retryable defined error: %v", err)
 			return resource.RetryableError(err)
 		}
 
 		if len(additionRetryableError) > 0 {
 			if isExpectError(realErr, additionRetryableError) {
-				log.Printf("[CRITAL] Retryable addition error: %v", err)
+				log.Printf("[CRITICAL] Retryable addition error: %v", err)
 				return resource.RetryableError(err)
 			}
 		}
 	case *cos.ErrorResponse:
 		if isCosExpectedError(realErr, retryableCosErrorCode) {
-			log.Printf("[CRITAL] Retryable defined error: %v", err)
+			log.Printf("[CRITICAL] Retryable defined error: %v", err)
 			return resource.RetryableError(err)
 		}
 		if len(additionRetryableError) > 0 {
 			if isCosExpectedError(realErr, additionRetryableError) {
-				log.Printf("[CRITAL] Retryable additional error: %v", err)
+				log.Printf("[CRITICAL] Retryable additional error: %v", err)
 				return resource.RetryableError(err)
 			}
+		}
+	case awserr.RequestFailure:
+		status := realErr.StatusCode()
+		switch status {
+		case 301, 429, 500, 502, 503, 504:
+			log.Printf("[CRITICAL] Retryable cos status error: %v", err)
+			return resource.RetryableError(err)
 		}
 	default:
 	}
 
-	log.Printf("[CRITAL] NonRetryable error: %v", err)
+	log.Printf("[CRITICAL] NonRetryable error: %v", err)
 	return resource.NonRetryableError(err)
 }
 
@@ -361,12 +370,12 @@ func writeToFile(filePath string, data interface{}) error {
 func ReadFromFile(file string) ([]byte, error) {
 	fileName, err := homedir.Expand(file)
 	if err != nil {
-		log.Printf("[CRITAL] wrong file path, error: %v", err)
+		log.Printf("[CRITICAL] wrong file path, error: %v", err)
 		return nil, err
 	}
 	content, err := ioutil.ReadFile(fileName)
 	if err != nil {
-		log.Printf("[CRITAL] file read failed, error: %v", err)
+		log.Printf("[CRITICAL] file read failed, error: %v", err)
 		return nil, err
 	}
 	return content, nil
@@ -518,7 +527,7 @@ func GetListDiffs(o []int, n []int) (adds []int, lacks []int) {
 	return
 }
 
-// GoRoutine Limit
+//GoRoutine Limit
 type GoRoutineLimit struct {
 	Count int
 	Chan  chan struct{}

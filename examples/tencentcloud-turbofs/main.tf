@@ -35,7 +35,7 @@ resource "tencentcloudenterprise_turbofs_p_group" "group" {
 
 # TurboFS Rule
 resource "tencentcloudenterprise_turbofs_rule" "rule" {
-  p_group_id      = cloud_turbofs_p_group.group.id
+  p_group_id      = tencentcloudenterprise_turbofs_p_group.group.id
   auth_client_ip  = "10.0.0.0/24"
   priority        = 1
   rw_permission   = "RO"
@@ -51,7 +51,7 @@ resource "tencentcloudenterprise_turbofs_file_system" "fs" {
   storage_type      = "TB"
   vpc_id            = "vpc-xxxxx"
   subnet_id         = "subnet-xxxxx"
-  p_group_id        = cloud_turbofs_p_group.group.id
+  p_group_id        = tencentcloudenterprise_turbofs_p_group.group.id
   
   tags = {
     env = "production"
@@ -69,6 +69,6 @@ resource "tencentcloudenterprise_turbofs_auto_snapshot_policy" "policy" {
 
 # TurboFS Auto Snapshot Policy Attachment
 resource "tencentcloudenterprise_turbofs_auto_snapshot_policy_attachment" "attachment" {
-  auto_snapshot_policy_id = cloud_turbofs_auto_snapshot_policy.policy.id
-  file_system_ids         = [cloud_turbofs_file_system.fs.id]
+  auto_snapshot_policy_id = tencentcloudenterprise_turbofs_auto_snapshot_policy.policy.id
+  file_system_ids         = [tencentcloudenterprise_turbofs_file_system.fs.id]
 }

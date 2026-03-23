@@ -1,17 +1,15 @@
 /*
 Provides a resource to create a eip address_transform
 
-# Example Usage
+Example Usage
 
 ```hcl
-
-	resource "tencentcloudenterprise_eip_address_transform" "address_transform" {
-	  instance_id = ""
-	}
-
+resource "tencentcloudenterprise_eip_address_transform" "address_transform" {
+  instance_id = ""
+}
 ```
 
-# Import
+Import
 
 eip address_transform can be imported using the id, e.g.
 
@@ -22,13 +20,13 @@ terraform import tencentcloudenterprise_eip_address_transform.address_transform 
 package tencentcloud
 
 import (
-	"log"
 	vpc "terraform-provider-tencentcloudenterprise/sdk/vpc/v20170312"
+	"log"
 	"time"
 
+	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
 )
 
 func init() {

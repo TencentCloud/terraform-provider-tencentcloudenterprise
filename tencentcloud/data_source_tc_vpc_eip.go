@@ -5,17 +5,15 @@ The EIP data source fetch proper EIP from user's EIP pool.
 
 ~> **NOTE:** It has been deprecated and replaced by tencentcloudenterprise_eips.
 
-# Example Usage
+Example Usage
 
 ```hcl
-
-	data "tencentcloudenterprise_eip" "my_eip" {
-	  filter {
-	    name   = "address-status"
-	    values = ["UNBIND"]
-	  }
-	}
-
+data "tencentcloudenterprise_eip" "my_eip" {
+  filter {
+    name   = "address-status"
+    values = ["UNBIND"]
+  }
+}
 ```
 */
 package tencentcloud
@@ -24,9 +22,9 @@ import (
 	"context"
 	"errors"
 
+	vpc "terraform-provider-tencentcloudenterprise/sdk/vpc/v20170312"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	vpc "terraform-provider-tencentcloudenterprise/sdk/vpc/v20170312"
 )
 
 var (
@@ -35,7 +33,7 @@ var (
 
 func dataSourceTencentCloudEip() *schema.Resource {
 	return &schema.Resource{
-		DeprecationMessage: "This data source has been deprecated in Terraform TencentCloud provider version 1.20.0. Please use 'cloud_eips' instead.",
+		DeprecationMessage: "This data source has been deprecated in Terraform TencentCloud provider version 1.20.0. Please use 'tencentcloudenterprise_eips' instead.",
 		Read:               dataSourceTencentCloudEipRead,
 
 		Schema: map[string]*schema.Schema{

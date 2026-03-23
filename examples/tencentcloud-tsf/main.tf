@@ -141,7 +141,7 @@ resource "tencentcloudenterprise_tsf_cluster" "cluster" {
 # TSF Namespace
 resource "tencentcloudenterprise_tsf_namespace" "namespace" {
   namespace_name = "example-namespace"
-  cluster_id     = cloud_tsf_cluster.cluster.id
+  cluster_id     = tencentcloudenterprise_tsf_cluster.cluster.id
   namespace_desc = "Example namespace"
 }
 
@@ -155,17 +155,17 @@ resource "tencentcloudenterprise_tsf_application" "app" {
 
 # TSF Microservice
 resource "tencentcloudenterprise_tsf_microservice" "microservice" {
-  namespace_id     = cloud_tsf_namespace.namespace.id
+  namespace_id     = tencentcloudenterprise_tsf_namespace.namespace.id
   microservice_name = "example-microservice"
   microservice_desc = "Example microservice"
 }
 
 # TSF Group
 resource "tencentcloudenterprise_tsf_group" "group" {
-  application_id = cloud_tsf_application.app.id
-  namespace_id   = cloud_tsf_namespace.namespace.id
+  application_id = tencentcloudenterprise_tsf_application.app.id
+  namespace_id   = tencentcloudenterprise_tsf_namespace.namespace.id
   group_name     = "example-group"
-  cluster_id     = cloud_tsf_cluster.cluster.id
+  cluster_id     = tencentcloudenterprise_tsf_cluster.cluster.id
   group_desc     = "Example deployment group"
 }
 
@@ -183,14 +183,14 @@ resource "tencentcloudenterprise_tsf_application_config" "config" {
       }
     }
   })
-  application_id  = cloud_tsf_application.app.id
+  application_id  = tencentcloudenterprise_tsf_application.app.id
   config_version_desc = "Initial version"
 }
 
 # TSF Application Release Config
 resource "tencentcloudenterprise_tsf_application_release_config" "release" {
-  config_id = cloud_tsf_application_config.config.id
-  group_id  = cloud_tsf_group.group.id
+  config_id = tencentcloudenterprise_tsf_application_config.config.id
+  group_id  = tencentcloudenterprise_tsf_group.group.id
   release_desc = "Release to production"
 }
 
@@ -203,15 +203,15 @@ resource "tencentcloudenterprise_tsf_application_file_config" "file_config" {
       port = 8080
     }
   }))
-  application_id   = cloud_tsf_application.app.id
+  application_id   = tencentcloudenterprise_tsf_application.app.id
   config_file_path = "/config"
   config_version_desc = "Config file"
 }
 
 # TSF Application File Config Release
 resource "tencentcloudenterprise_tsf_application_file_config_release" "file_release" {
-  config_id = cloud_tsf_application_file_config.file_config.id
-  group_id  = cloud_tsf_group.group.id
+  config_id = tencentcloudenterprise_tsf_application_file_config.file_config.id
+  group_id  = tencentcloudenterprise_tsf_group.group.id
   release_desc = "Release config file"
 }
 
@@ -229,8 +229,8 @@ resource "tencentcloudenterprise_tsf_application_public_config" "public_config" 
 
 # TSF Application Public Config Release
 resource "tencentcloudenterprise_tsf_application_public_config_release" "public_release" {
-  config_id    = cloud_tsf_application_public_config.public_config.id
-  namespace_id = cloud_tsf_namespace.namespace.id
+  config_id    = tencentcloudenterprise_tsf_application_public_config.public_config.id
+  namespace_id = tencentcloudenterprise_tsf_namespace.namespace.id
   release_desc = "Release public config"
 }
 
@@ -257,7 +257,7 @@ resource "tencentcloudenterprise_tsf_api_group" "api_group" {
 resource "tencentcloudenterprise_tsf_bind_api_group" "bind" {
   group_gateway_list {
     gateway_deploy_group_id = "group-xxxxx"
-    group_id                = cloud_tsf_api_group.api_group.id
+    group_id                = tencentcloudenterprise_tsf_api_group.api_group.id
   }
 }
 
@@ -283,7 +283,7 @@ resource "tencentcloudenterprise_tsf_lane" "lane" {
   lane_name    = "example-lane"
   remark       = "Example lane for canary deployment"
   lane_group_list {
-    group_id     = cloud_tsf_group.group.id
+    group_id     = tencentcloudenterprise_tsf_group.group.id
     entrance     = true
   }
 }
@@ -298,7 +298,7 @@ resource "tencentcloudenterprise_tsf_lane_rule" "lane_rule" {
     tag_operator  = "EQUAL"
     tag_value     = "v2"
   }
-  lane_id = cloud_tsf_lane.lane.id
+  lane_id = tencentcloudenterprise_tsf_lane.lane.id
   enable  = true
 }
 
@@ -309,7 +309,7 @@ resource "tencentcloudenterprise_tsf_unit_rule" "unit_rule" {
   description         = "Example unit rule"
   unit_rule_item_list {
     relationship = "AND"
-    dest_namespace_id = cloud_tsf_namespace.namespace.id
+    dest_namespace_id = tencentcloudenterprise_tsf_namespace.namespace.id
     priority      = 1
     unit_rule_tag_list {
       tag_type      = "U"
@@ -322,7 +322,7 @@ resource "tencentcloudenterprise_tsf_unit_rule" "unit_rule" {
 
 # TSF Enable Unit Rule
 resource "tencentcloudenterprise_tsf_enable_unit_rule" "enable" {
-  rule_id = cloud_tsf_unit_rule.unit_rule.id
+  rule_id = tencentcloudenterprise_tsf_unit_rule.unit_rule.id
 }
 
 # TSF Task
@@ -330,7 +330,7 @@ resource "tencentcloudenterprise_tsf_task" "task" {
   task_name    = "example-task"
   task_content = base64encode("#!/bin/bash\necho 'Hello TSF'")
   task_type    = "execute-script"
-  group_id     = cloud_tsf_group.group.id
+  group_id     = tencentcloudenterprise_tsf_group.group.id
   time_out     = 60
   retry_count  = 3
   retry_interval = 10
@@ -338,13 +338,13 @@ resource "tencentcloudenterprise_tsf_task" "task" {
 
 # TSF Instances Attachment
 resource "tencentcloudenterprise_tsf_instances_attachment" "attachment" {
-  cluster_id  = cloud_tsf_cluster.cluster.id
+  cluster_id  = tencentcloudenterprise_tsf_cluster.cluster.id
   instance_id = "ins-xxxxx"
 }
 
 # TSF Deploy Container Group
 resource "tencentcloudenterprise_tsf_deploy_container_group" "deploy" {
-  group_id        = cloud_tsf_group.group.id
+  group_id        = tencentcloudenterprise_tsf_group.group.id
   server          = "ccr.ccs.tencentyun.com"
   reponame        = "example/app"
   tag_name        = "v1.0.0"
@@ -357,7 +357,7 @@ resource "tencentcloudenterprise_tsf_deploy_container_group" "deploy" {
 
 # TSF Deploy VM Group
 resource "tencentcloudenterprise_tsf_deploy_vm_group" "deploy_vm" {
-  group_id    = cloud_tsf_group.group.id
+  group_id    = tencentcloudenterprise_tsf_group.group.id
   pkg_id      = "pkg-xxxxx"
   startup_parameters = "-Xms512m -Xmx1024m"
   update_type = 0
@@ -366,25 +366,25 @@ resource "tencentcloudenterprise_tsf_deploy_vm_group" "deploy_vm" {
 
 # TSF Release API Group
 resource "tencentcloudenterprise_tsf_release_api_group" "release_api" {
-  group_id = cloud_tsf_api_group.api_group.id
+  group_id = tencentcloudenterprise_tsf_api_group.api_group.id
 }
 
 # TSF Operate Container Group
 resource "tencentcloudenterprise_tsf_operate_container_group" "operate" {
-  group_id  = cloud_tsf_group.group.id
+  group_id  = tencentcloudenterprise_tsf_group.group.id
   operate   = "start"
 }
 
 # TSF Operate Group (VM)
 resource "tencentcloudenterprise_tsf_operate_group" "operate_vm" {
-  group_id  = cloud_tsf_group.group.id
+  group_id  = tencentcloudenterprise_tsf_group.group.id
   operate   = "start"
 }
 
 # TSF Unit Namespace
 resource "tencentcloudenterprise_tsf_unit_namespace" "unit_ns" {
   gateway_instance_id = "gateway-xxxxx"
-  namespace_id        = cloud_tsf_namespace.namespace.id
+  namespace_id        = tencentcloudenterprise_tsf_namespace.namespace.id
   namespace_name      = "example-unit-namespace"
   description         = "Example unit namespace"
 }

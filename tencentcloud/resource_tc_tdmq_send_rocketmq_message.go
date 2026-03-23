@@ -1,31 +1,29 @@
 /*
 Provides a resource to create a tdmq send_rocketmq_message
 
-# Example Usage
+Example Usage
 
 ```hcl
-
-	resource "tencentcloudenterprise_tdmq_send_rocketmq_message" "send_rocketmq_message" {
-	  cluster_id   = "rocketmq-7k45z9dkpnne"
-	  namespace_id = "test_ns"
-	  topic_name   = "test_topic"
-	  msg_body     = "msg key"
-	  msg_key      = "msg tag"
-	  msg_tag      = "msg value"
-	}
-
+resource "tencentcloudenterprise_tdmq_send_rocketmq_message" "send_rocketmq_message" {
+  cluster_id   = "rocketmq-7k45z9dkpnne"
+  namespace_id = "test_ns"
+  topic_name   = "test_topic"
+  msg_body     = "msg key"
+  msg_key      = "msg tag"
+  msg_tag      = "msg value"
+}
 ```
 */
 package tencentcloud
 
 import (
 	"fmt"
-	"log"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
+	"log"
 
+	tdmq "terraform-provider-tencentcloudenterprise/sdk/tdmq/v20200217"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	tdmq "terraform-provider-tencentcloudenterprise/sdk/tdmq/v20200217"
 )
 
 func init() {

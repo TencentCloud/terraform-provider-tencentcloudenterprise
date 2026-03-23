@@ -9,35 +9,50 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 )
 
-func TestAccTencentCloudClbInstanceTopic(t *testing.T) {
+func TestAccTencentCloudClbLogTopic_basic(t *testing.T) {
+	t.Parallel()
 
 	resource.Test(t, resource.TestCase{
-		PreCheck:     func() { testAccPreCheck(t) },
-		Providers:    testAccProviders,
-		CheckDestroy: testAccCheckClbListenerRuleDestroy,
+		PreCheck:  func() { testAccPreCheck(t) },
+		Providers: testAccProviders,
 		Steps: []resource.TestStep{
 			{
-				Config: testAccClbInstanceTopic,
+				Config: testAccClbLogTopic_basic,
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckClbInstanceTopicExists("tencentcloudenterprise_clb_log_topic.topic"),
+					testAccCheckClbLogTopicExists("tencentcloudenterprise_clb_log_topic.topic"),
 					resource.TestCheckResourceAttr("tencentcloudenterprise_clb_log_topic.topic", "topic_name", "clb-topic-test"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_clb_log_topic.topic", "status", "true"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_clb_log_topic.topic", "create_time"),
 				),
+			},
+			{
+				Config: testAccClbLogTopic_update,
+				Check: resource.ComposeTestCheckFunc(
+					testAccCheckClbLogTopicExists("tencentcloudenterprise_clb_log_topic.topic"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_clb_log_topic.topic", "topic_name", "clb-topic-test"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_clb_log_topic.topic", "status", "false"),
+				),
+			},
+			{
+				ResourceName:      "tencentcloudenterprise_clb_log_topic.topic",
+				ImportState:       true,
+				ImportStateVerify: true,
 			},
 		},
 	})
 }
 
-func testAccCheckClbInstanceTopicExists(n string) resource.TestCheckFunc {
+func testAccCheckClbLogTopicExists(n string) resource.TestCheckFunc {
 	return func(s *terraform.State) error {
 		logId := getLogId(contextNil)
 		ctx := context.WithValue(context.TODO(), logIdKey, logId)
 
 		rs, ok := s.RootModule().Resources[n]
 		if !ok {
-			return fmt.Errorf("[CHECK][CLB topic][Exists] check: CLB topic %s is not found", n)
+			return fmt.Errorf("[CHECK][CLB log topic][Exists] check: CLB log topic %s is not found", n)
 		}
 		if rs.Primary.ID == "" {
-			return fmt.Errorf("[CHECK][CLB topic][Exists] check: CLB topic id is not set")
+			return fmt.Errorf("[CHECK][CLB log topic][Exists] check: CLB log topic id is not set")
 		}
 		clsService := ClsService{
 			client: testAccProvider.Meta().(*TencentCloudClient).apiV3Conn,
@@ -46,21 +61,32 @@ func testAccCheckClbInstanceTopicExists(n string) resource.TestCheckFunc {
 		if err != nil {
 			return err
 		}
-
 		if instance == nil {
-			return fmt.Errorf("[CHECK][CLB topic][Exists] id %s is not exist", rs.Primary.ID)
+			return fmt.Errorf("[CHECK][CLB log topic][Exists] id %s is not exist", rs.Primary.ID)
 		}
 		return nil
 	}
 }
 
-const testAccClbInstanceTopic = `
-resource "tencentcloudenterprise_clb_log_set" "set1" {
-    period = 7
+const testAccClbLogTopic_basic = `
+resource "tencentcloudenterprise_clb_log_set" "set" {
+  period = 7
 }
 
 resource "tencentcloudenterprise_clb_log_topic" "topic" {
-    log_set_id = tencentcloudenterprise_clb_log_set.set1.id
-    topic_name="clb-topic-test"
+  log_set_id = tencentcloudenterprise_clb_log_set.set.id
+  topic_name = "clb-topic-test"
+}
+`
+
+const testAccClbLogTopic_update = `
+resource "tencentcloudenterprise_clb_log_set" "set" {
+  period = 7
+}
+
+resource "tencentcloudenterprise_clb_log_topic" "topic" {
+  log_set_id = tencentcloudenterprise_clb_log_set.set.id
+  topic_name = "clb-topic-test"
+  status     = false
 }
 `

@@ -510,6 +510,7 @@ func NewQueryAvailableZoneInfoResponse() (response *QueryAvailableZoneInfoRespon
 }
 
 // 本接口（QueryAvailableZoneInfo）用于查询区域的可用情况。
+//
 func (c *Client) QueryAvailableZoneInfo(request *QueryAvailableZoneInfoRequest) (response *QueryAvailableZoneInfoResponse, err error) {
 	if request == nil {
 		request = NewQueryAvailableZoneInfoRequest()

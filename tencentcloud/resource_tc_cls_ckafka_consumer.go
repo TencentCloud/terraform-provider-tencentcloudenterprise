@@ -15,7 +15,7 @@ Provides a resource to create a cls ckafka_consumer
 	    instance_name = "ckafka-instance"
 	    topic_id      = "topic-c6tm4kpm"
 	    topic_name    = "name"
-	    vip           = "203.0.113.23"
+	    vip           = "172.16.112.23"
 	    vport         = "9092"
 	  }
 
@@ -49,10 +49,10 @@ import (
 	"context"
 	"log"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	cls "terraform-provider-tencentcloudenterprise/sdk/cls/v20201016"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func init() {
@@ -60,21 +60,26 @@ func init() {
 		TerraformTypeCN: "CLS Ckafka消费者",
 		DescriptionCN:   "提供CLS Ckafka消费者资源，用于创建和管理日志服务Ckafka消费者。",
 		AttributesCN: map[string]string{
-			"topic_id":           "投递任务绑定的日志主题 ID",
-			"ckafka":             "CKafka的描述",
-			"compression":        "投递时压缩方式，取值0，2，3。[0：NONE；2：SNAPPY；3：LZ4]",
-			"content":            "如果需要投递元数据信息，元数据信息的描述",
-			"need_content":       "是否投递日志的元数据信息，默认为 true。 当NeedContent为true时：字段Content有效。 当NeedContent为false时：字段Content无效。",
-			"enable_tag":         "是否投递 TAG 信息。 当EnableTag为true时，表示投递TAG元信息。",
-			"meta_fields":        "需要投递的元数据列表，目前仅支持：__SOURCE__，__FILENAME__，__TIMESTAMP__，__HOSTNAME__和__PKGID__",
-			"tag_json_not_tiled": "当EnableTag为true时，必须填写TagJsonNotTiled字段。 TagJsonNotTiled用于标识tag信息是否json平铺。  TagJsonNotTiled为true时不平铺，示例： TAG信息：{\"__TAG__\":{\"fieldA\":200,\"fieldB\":\"text\"}} 不平铺：{\"__TAG__\":{\"fieldA\":200,\"fieldB\":\"text\"}}  TagJsonNotTiled为false时平铺，示例： TAG信息：{\"__TAG__\":{\"fieldA\":200,\"fieldB\":\"text\"}} 平铺：{\"__TAG__.fieldA\":200,\"__TAG__.fieldB\":\"text\"}",
-			"timestamp_accuracy": "投递时间戳精度，可选项 [1：秒；2：毫秒] ，默认是1。",
-			"json_type":          "投递Json格式。 JsonType为0：和原始日志一致，不转义。示例： 日志原文：{\"a\":\"aa\", \"b\":{\"b1\":\"b1b1\", \"c1\":\"c1c1\"}} 投递到Ckafka：{\"a\":\"aa\", \"b\":{\"b1\":\"b1b1\", \"c1\":\"c1c1\"}}  JsonType为1：转义。示例： 日志原文：{\"a\":\"aa\", \"b\":{\"b1\":\"b1b1\", \"c1\":\"c1c1\"}} 投递到Ckafka：{\"a\":\"aa\",\"b\":\"{\\\"b1\\\":\\\"b1b1\\\", \\\"c1\\\":\\\"c1c1\\\"}\"}",
-			"vip":                "Ckafka 的 Vip",
-			"vport":              "Ckafka 的 Vport",
-			"instance_id":        "Ckafka 的 InstanceId",
-			"instance_name":      "Ckafka 的 InstanceName",
-			"topic_name":         "Ckafka 的 TopicName",
+			"topic_id":              "投递任务绑定的日志主题 ID",
+			"ckafka":                "CKafka的描述",
+			"compression":           "投递时压缩方式，取值0，2，3。[0：NONE；2：SNAPPY；3：LZ4]",
+			"content":               "如果需要投递元数据信息，元数据信息的描述",
+			"need_content":          "是否投递日志的元数据信息，默认为 true。 当NeedContent为true时：字段Content有效。 当NeedContent为false时：字段Content无效。",
+			"enable_tag":            "是否投递 TAG 信息。 当EnableTag为true时，表示投递TAG元信息。",
+			"meta_fields":           "需要投递的元数据列表，目前仅支持：__SOURCE__，__FILENAME__，__TIMESTAMP__，__HOSTNAME__和__PKGID__",
+			"tag_json_not_tiled":    "当EnableTag为true时，必须填写TagJsonNotTiled字段。 TagJsonNotTiled用于标识tag信息是否json平铺。  TagJsonNotTiled为true时不平铺，示例： TAG信息：{\"__TAG__\":{\"fieldA\":200,\"fieldB\":\"text\"}} 不平铺：{\"__TAG__\":{\"fieldA\":200,\"fieldB\":\"text\"}}  TagJsonNotTiled为false时平铺，示例： TAG信息：{\"__TAG__\":{\"fieldA\":200,\"fieldB\":\"text\"}} 平铺：{\"__TAG__.fieldA\":200,\"__TAG__.fieldB\":\"text\"}",
+			"timestamp_accuracy":    "投递时间戳精度，可选项 [1：秒；2：毫秒] ，默认是1。",
+			"json_type":             "投递Json格式。 JsonType为0：和原始日志一致，不转义。示例： 日志原文：{\"a\":\"aa\", \"b\":{\"b1\":\"b1b1\", \"c1\":\"c1c1\"}} 投递到Ckafka：{\"a\":\"aa\", \"b\":{\"b1\":\"b1b1\", \"c1\":\"c1c1\"}}  JsonType为1：转义。示例： 日志原文：{\"a\":\"aa\", \"b\":{\"b1\":\"b1b1\", \"c1\":\"c1c1\"}} 投递到Ckafka：{\"a\":\"aa\",\"b\":\"{\\\"b1\\\":\\\"b1b1\\\", \\\"c1\\\":\\\"c1c1\\\"}\"}",
+			"vip":                   "Ckafka 的 Vip",
+			"vport":                 "Ckafka 的 Vport",
+			"instance_id":           "Ckafka 的 InstanceId",
+			"instance_name":         "Ckafka 的 InstanceName",
+			"topic_name":            "Ckafka 的 TopicName",
+			"role_arn":              "角色访问描述名",
+			"external_id":           "外部ID",
+			"advanced_config":       "高级配置项",
+			"partition_hash_status": "Ckafka分区hash状态",
+			"partition_fields":      "需要计算hash的字段列表",
 		},
 	})
 }
@@ -143,7 +148,7 @@ func resourceTencentCloudClsCkafkaConsumer() *schema.Resource {
 			},
 
 			"ckafka": {
-				Required:    true,
+				Optional:    true,
 				Type:        schema.TypeList,
 				MaxItems:    1,
 				Description: "CKafka description.",
@@ -187,6 +192,37 @@ func resourceTencentCloudClsCkafkaConsumer() *schema.Resource {
 				Optional:    true,
 				Type:        schema.TypeInt,
 				Description: "Compression method for delivery. Values: 0 (NONE), 2 (SNAPPY), 3 (LZ4).",
+			},
+			"role_arn": {
+				Optional:    true,
+				Type:        schema.TypeString,
+				Description: "Role access descriptor name.",
+			},
+			"external_id": {
+				Optional:    true,
+				Type:        schema.TypeString,
+				Description: "External ID.",
+			},
+			"advanced_config": {
+				Optional:    true,
+				Type:        schema.TypeList,
+				MaxItems:    1,
+				Description: "Advanced configuration.",
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						"partition_hash_status": {
+							Optional:    true,
+							Type:        schema.TypeBool,
+							Description: "Partition hash status for CKafka.",
+						},
+						"partition_fields": {
+							Optional:    true,
+							Type:        schema.TypeList,
+							Elem:        &schema.Schema{Type: schema.TypeString},
+							Description: "Fields used for partition hash.",
+						},
+					},
+				},
 			},
 		},
 	}
@@ -258,6 +294,28 @@ func resourceTencentCloudClsCkafkaConsumerCreate(d *schema.ResourceData, meta in
 		request.Compression = helper.IntInt64(v.(int))
 	}
 
+	if v, ok := d.GetOk("role_arn"); ok {
+		request.RoleArn = helper.String(v.(string))
+	}
+
+	if v, ok := d.GetOk("external_id"); ok {
+		request.ExternalId = helper.String(v.(string))
+	}
+
+	if dMap, ok := helper.InterfacesHeadMap(d, "advanced_config"); ok {
+		advancedConfig := cls.AdvancedConsumerConfiguration{}
+		if v, ok := dMap["partition_hash_status"]; ok {
+			advancedConfig.PartitionHashStatus = helper.Bool(v.(bool))
+		}
+		if v, ok := dMap["partition_fields"]; ok {
+			partitionFields := v.([]interface{})
+			for _, field := range partitionFields {
+				advancedConfig.PartitionFields = append(advancedConfig.PartitionFields, helper.String(field.(string)))
+			}
+		}
+		request.AdvancedConfig = &advancedConfig
+	}
+
 	err := resource.Retry(writeRetryTimeout, func() *resource.RetryError {
 		result, e := meta.(*TencentCloudClient).apiV3Conn.UseClsClient().CreateConsumer(request)
 		if e != nil {
@@ -294,72 +352,98 @@ func resourceTencentCloudClsCkafkaConsumerRead(d *schema.ResourceData, meta inte
 		return err
 	}
 
-	if ckafkaConsumer == nil {
+	if ckafkaConsumer == nil || ckafkaConsumer.Response == nil {
 		d.SetId("")
 		log.Printf("[WARN]%s resource `ClsCkafkaConsumer` [%s] not found, please check if it has been deleted.\n", logId, d.Id())
 		return nil
 	}
 
+	consumer := ckafkaConsumer.Response
 	_ = d.Set("topic_id", topicId)
 
-	if ckafkaConsumer.NeedContent != nil {
-		_ = d.Set("need_content", ckafkaConsumer.NeedContent)
+	if consumer.NeedContent != nil {
+		_ = d.Set("need_content", consumer.NeedContent)
 	}
 
-	if ckafkaConsumer.Content != nil {
+	if consumer.Content != nil {
 		contentMap := map[string]interface{}{}
 
-		if ckafkaConsumer.Content.EnableTag != nil {
-			contentMap["enable_tag"] = ckafkaConsumer.Content.EnableTag
+		if consumer.Content.EnableTag != nil {
+			contentMap["enable_tag"] = consumer.Content.EnableTag
 		}
 
-		if ckafkaConsumer.Content.MetaFields != nil {
-			contentMap["meta_fields"] = ckafkaConsumer.Content.MetaFields
+		if consumer.Content.MetaFields != nil {
+			contentMap["meta_fields"] = consumer.Content.MetaFields
 		}
 
-		if ckafkaConsumer.Content.TagJsonNotTiled != nil {
-			contentMap["tag_json_not_tiled"] = ckafkaConsumer.Content.TagJsonNotTiled
+		if consumer.Content.TagJsonNotTiled != nil {
+			contentMap["tag_json_not_tiled"] = consumer.Content.TagJsonNotTiled
 		}
 
-		if ckafkaConsumer.Content.TimestampAccuracy != nil {
-			contentMap["timestamp_accuracy"] = ckafkaConsumer.Content.TimestampAccuracy
+		if consumer.Content.TimestampAccuracy != nil {
+			contentMap["timestamp_accuracy"] = consumer.Content.TimestampAccuracy
 		}
 
 		_ = d.Set("content", []interface{}{contentMap})
 	}
 
-	if ckafkaConsumer.Ckafka != nil {
+	if consumer.Ckafka != nil {
 		ckafkaMap := map[string]interface{}{}
 
-		if ckafkaConsumer.Ckafka.Vip != nil {
-			ckafkaMap["vip"] = ckafkaConsumer.Ckafka.Vip
+		if consumer.Ckafka.Vip != nil {
+			ckafkaMap["vip"] = consumer.Ckafka.Vip
 		}
 
-		if ckafkaConsumer.Ckafka.Vport != nil {
-			ckafkaMap["vport"] = ckafkaConsumer.Ckafka.Vport
+		if consumer.Ckafka.Vport != nil {
+			ckafkaMap["vport"] = consumer.Ckafka.Vport
 		}
 
-		if ckafkaConsumer.Ckafka.InstanceId != nil {
-			ckafkaMap["instance_id"] = ckafkaConsumer.Ckafka.InstanceId
+		if consumer.Ckafka.InstanceId != nil {
+			ckafkaMap["instance_id"] = consumer.Ckafka.InstanceId
 		}
 
-		if ckafkaConsumer.Ckafka.InstanceName != nil {
-			ckafkaMap["instance_name"] = ckafkaConsumer.Ckafka.InstanceName
+		if consumer.Ckafka.InstanceName != nil {
+			ckafkaMap["instance_name"] = consumer.Ckafka.InstanceName
 		}
 
-		if ckafkaConsumer.Ckafka.TopicId != nil {
-			ckafkaMap["topic_id"] = ckafkaConsumer.Ckafka.TopicId
+		if consumer.Ckafka.TopicId != nil {
+			ckafkaMap["topic_id"] = consumer.Ckafka.TopicId
 		}
 
-		if ckafkaConsumer.Ckafka.TopicName != nil {
-			ckafkaMap["topic_name"] = ckafkaConsumer.Ckafka.TopicName
+		if consumer.Ckafka.TopicName != nil {
+			ckafkaMap["topic_name"] = consumer.Ckafka.TopicName
 		}
 
 		_ = d.Set("ckafka", []interface{}{ckafkaMap})
 	}
 
-	if ckafkaConsumer.Compression != nil {
-		_ = d.Set("compression", ckafkaConsumer.Compression)
+	if consumer.Compression != nil {
+		_ = d.Set("compression", consumer.Compression)
+	}
+
+	if consumer.RoleArn != nil {
+		_ = d.Set("role_arn", consumer.RoleArn)
+	}
+
+	if consumer.ExternalId != nil {
+		_ = d.Set("external_id", consumer.ExternalId)
+	}
+
+	if consumer.AdvancedConfig != nil {
+		advancedConfig := map[string]interface{}{}
+		if consumer.AdvancedConfig.PartitionHashStatus != nil {
+			advancedConfig["partition_hash_status"] = consumer.AdvancedConfig.PartitionHashStatus
+		}
+		if consumer.AdvancedConfig.PartitionFields != nil {
+			fields := make([]string, 0, len(consumer.AdvancedConfig.PartitionFields))
+			for _, field := range consumer.AdvancedConfig.PartitionFields {
+				if field != nil {
+					fields = append(fields, *field)
+				}
+			}
+			advancedConfig["partition_fields"] = fields
+		}
+		_ = d.Set("advanced_config", []interface{}{advancedConfig})
 	}
 
 	return nil
@@ -378,7 +462,7 @@ func resourceTencentCloudClsCkafkaConsumerUpdate(d *schema.ResourceData, meta in
 	request.TopicId = &topicId
 
 	needChange := false
-	mutableArgs := []string{"need_content", "content", "ckafka", "compression"}
+	mutableArgs := []string{"need_content", "content", "ckafka", "compression", "role_arn", "external_id", "advanced_config"}
 
 	for _, v := range mutableArgs {
 		if d.HasChange(v) {
@@ -438,6 +522,28 @@ func resourceTencentCloudClsCkafkaConsumerUpdate(d *schema.ResourceData, meta in
 
 		if v, ok := d.GetOkExists("compression"); ok {
 			request.Compression = helper.IntInt64(v.(int))
+		}
+
+		if v, ok := d.GetOk("role_arn"); ok {
+			request.RoleArn = helper.String(v.(string))
+		}
+
+		if v, ok := d.GetOk("external_id"); ok {
+			request.ExternalId = helper.String(v.(string))
+		}
+
+		if dMap, ok := helper.InterfacesHeadMap(d, "advanced_config"); ok {
+			advancedConfig := cls.AdvancedConsumerConfiguration{}
+			if v, ok := dMap["partition_hash_status"]; ok {
+				advancedConfig.PartitionHashStatus = helper.Bool(v.(bool))
+			}
+			if v, ok := dMap["partition_fields"]; ok {
+				partitionFields := v.([]interface{})
+				for _, field := range partitionFields {
+					advancedConfig.PartitionFields = append(advancedConfig.PartitionFields, helper.String(field.(string)))
+				}
+			}
+			request.AdvancedConfig = &advancedConfig
 		}
 
 		err := resource.Retry(writeRetryTimeout, func() *resource.RetryError {

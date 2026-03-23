@@ -1,7 +1,7 @@
 /*
 Provides a resource to create a CFS access group.
 
-# Example Usage
+Example Usage
 
 ```hcl
 
@@ -12,7 +12,7 @@ Provides a resource to create a CFS access group.
 
 ```
 
-# Import
+Import
 
 CFS access group can be imported using the id, e.g.
 
@@ -26,11 +26,11 @@ import (
 	"context"
 	"log"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	cfs "terraform-provider-tencentcloudenterprise/sdk/cfs/v20190719"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/ratelimit"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func init() {

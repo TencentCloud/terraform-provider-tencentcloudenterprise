@@ -1,17 +1,17 @@
-// /*
-// Use this data source to query detailed information of ckafka topic_subscribe_group
+///*
+//Use this data source to query detailed information of ckafka topic_subscribe_group
 //
-// # Example Usage
+//Example Usage
 //
-// ```hcl
+//```hcl
 //
 //	data "tencentcloudenterprise_ckafka_topic_subscribe_group" "topic_subscribe_group" {
 //	  instance_id = "ckafka-xxxxxx"
 //	  topic_name = "xxxxxx"
 //	}
 //
-// ```
-// */
+//```
+//*/
 package tencentcloud
 
 //

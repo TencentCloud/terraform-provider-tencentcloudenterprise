@@ -22,11 +22,11 @@ func TestAccTencentCloudSecurityGroupRuleSetResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr("tencentcloudenterprise_vpc_security_group_rule_set.base", "ingress.#", "5"),
 					resource.TestCheckResourceAttr("tencentcloudenterprise_vpc_security_group_rule_set.base", "ingress.0.cidr_block", "10.0.0.0/22"),
 					resource.TestCheckResourceAttr("tencentcloudenterprise_vpc_security_group_rule_set.base", "ingress.0.action", "ACCEPT"),
-					resource.TestCheckResourceAttr("tencentcloudenterprise_vpc_security_group_rule_set.base", "ingress.1.cidr_block", "203.0.113.21"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_vpc_security_group_rule_set.base", "ingress.1.cidr_block", "10.0.2.1"),
 					resource.TestCheckResourceAttr("tencentcloudenterprise_vpc_security_group_rule_set.base", "ingress.1.action", "ACCEPT"),
-					resource.TestCheckResourceAttr("tencentcloudenterprise_vpc_security_group_rule_set.base", "ingress.2.cidr_block", "203.0.113.21"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_vpc_security_group_rule_set.base", "ingress.2.cidr_block", "10.0.2.1"),
 					resource.TestCheckResourceAttr("tencentcloudenterprise_vpc_security_group_rule_set.base", "ingress.2.action", "ACCEPT"),
-					resource.TestCheckResourceAttr("tencentcloudenterprise_vpc_security_group_rule_set.base", "ingress.3.cidr_block", "203.0.113.182"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_vpc_security_group_rule_set.base", "ingress.3.cidr_block", "172.18.1.2"),
 					resource.TestCheckResourceAttr("tencentcloudenterprise_vpc_security_group_rule_set.base", "ingress.3.action", "ACCEPT"),
 					resource.TestCheckResourceAttr("tencentcloudenterprise_vpc_security_group_rule_set.base", "ingress.4.description", "E:Block relative"),
 					resource.TestCheckResourceAttr("tencentcloudenterprise_vpc_security_group_rule_set.base", "ingress.4.action", "DROP"),
@@ -51,7 +51,7 @@ func TestAccTencentCloudSecurityGroupRuleSetResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet("tencentcloudenterprise_vpc_security_group_rule_set.base", "ingress.0.source_security_id"),
 					resource.TestCheckResourceAttr("tencentcloudenterprise_vpc_security_group_rule_set.base", "ingress.1.port", "80-90"),
 					resource.TestCheckResourceAttr("tencentcloudenterprise_vpc_security_group_rule_set.base", "ingress.1.description", "A:Allow Ips and 80-90"),
-					resource.TestCheckResourceAttr("tencentcloudenterprise_vpc_security_group_rule_set.base", "ingress.2.cidr_block", "203.0.113.21"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_vpc_security_group_rule_set.base", "ingress.2.cidr_block", "10.0.2.1"),
 					resource.TestCheckResourceAttr("tencentcloudenterprise_vpc_security_group_rule_set.base", "ingress.2.description", "B:Allow UDP 8080"),
 					resource.TestCheckResourceAttr("tencentcloudenterprise_vpc_security_group_rule_set.base", "ingress.3.protocol", "ALL"),
 					resource.TestCheckResourceAttr("tencentcloudenterprise_vpc_security_group_rule_set.base", "ingress.4.protocol", "UDP"),
@@ -119,7 +119,7 @@ resource "tencentcloudenterprise_vpc_security_group" "relative" {
 
 resource "tencentcloudenterprise_vpc_address_template" "foo" {
   name      = "test-set-aTemp"
-  addresses = ["203.0.113.1", "10.0.1.0/24", "203.0.113.1-203.0.113.100"]
+  addresses = ["10.0.0.1", "10.0.1.0/24", "10.0.0.1-10.0.0.100"]
 }
 
 resource "tencentcloudenterprise_vpc_address_template_group" "foo" {
@@ -142,7 +142,7 @@ resource "tencentcloudenterprise_vpc_security_group_rule_set" "base" {
 
   ingress {
     action      = "ACCEPT"
-    cidr_block  = "203.0.113.21"
+    cidr_block  = "10.0.2.1"
     protocol    = "UDP"
     port        = "8080"
     description = "B:Allow UDP 8080"
@@ -150,7 +150,7 @@ resource "tencentcloudenterprise_vpc_security_group_rule_set" "base" {
 
   ingress {
     action      = "ACCEPT"
-    cidr_block  = "203.0.113.21"
+    cidr_block  = "10.0.2.1"
     protocol    = "UDP"
     port        = "8080"
     description = "C:Allow UDP 8080"
@@ -158,7 +158,7 @@ resource "tencentcloudenterprise_vpc_security_group_rule_set" "base" {
 
   ingress {
     action      = "ACCEPT"
-    cidr_block  = "203.0.113.182"
+    cidr_block  = "172.18.1.2"
     protocol    = "ALL"
     port        = "ALL"
     description = "D:Allow ALL"
@@ -215,7 +215,7 @@ resource "tencentcloudenterprise_vpc_security_group_rule_set" "base" {
 
   ingress {
     action      = "ACCEPT"
-    cidr_block  = "203.0.113.21"
+    cidr_block  = "10.0.2.1"
     protocol    = "UDP"
     port        = "8080"
     description = "B:Allow UDP 8080"
@@ -223,7 +223,7 @@ resource "tencentcloudenterprise_vpc_security_group_rule_set" "base" {
 
   ingress {
     action      = "ACCEPT"
-    cidr_block  = "203.0.113.182"
+    cidr_block  = "172.18.1.2"
     protocol    = "ALL"
     port        = "ALL"
     description = "D:Allow ALL"
@@ -231,7 +231,7 @@ resource "tencentcloudenterprise_vpc_security_group_rule_set" "base" {
 
   ingress {
     action      = "ACCEPT"
-    cidr_block  = "203.0.113.21"
+    cidr_block  = "10.0.2.1"
     protocol    = "UDP"
     port        = "8080"
     description = "C:Allow UDP 8080"
@@ -272,7 +272,7 @@ resource "tencentcloudenterprise_vpc_security_group_rule_set" "base" {
 
   ingress {
     action      = "ACCEPT"
-    cidr_block  = "203.0.113.21"
+    cidr_block  = "10.0.2.1"
     protocol    = "UDP"
     port        = "8080"
     description = "C:Allow UDP 8080"
@@ -295,7 +295,7 @@ resource "tencentcloudenterprise_vpc_security_group_rule_set" "base" {
 
   egress {
     action      = "DROP"
-    cidr_block  = "203.0.113.182"
+    cidr_block  = "172.18.1.2"
     protocol    = "ICMP"
     description = "A:Block ping4"
   }

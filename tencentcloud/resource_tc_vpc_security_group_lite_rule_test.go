@@ -301,12 +301,12 @@ resource "tencentcloudenterprise_vpc_security_group" "group1" {
 
 resource "tencentcloudenterprise_vpc_address_template" "addr-foo" {
   name      = "tf-test-addr"
-  addresses = ["203.0.113.1", "10.0.1.0/24", "203.0.113.1-203.0.113.100"]
+  addresses = ["10.0.0.1", "10.0.1.0/24", "10.0.0.1-10.0.0.100"]
 }
 
 resource "tencentcloudenterprise_vpc_address_template" "addr-bar" {
   name      = "cam-user-test"
-  addresses = ["203.0.113.21", "10.0.3.0/24"]
+  addresses = ["10.0.2.1", "10.0.3.0/24"]
 }
 
 resource "tencentcloudenterprise_vpc_address_template_group" "foo" {

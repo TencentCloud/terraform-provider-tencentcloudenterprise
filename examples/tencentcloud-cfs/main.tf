@@ -43,7 +43,7 @@ resource "tencentcloudenterprise_cfs_access_group" "group" {
 
 # CFS Access Rule
 resource "tencentcloudenterprise_cfs_access_rule" "rule" {
-  access_group_id = cloud_cfs_access_group.group.id
+  access_group_id = tencentcloudenterprise_cfs_access_group.group.id
   auth_client_ip  = "10.0.0.0/24"
   priority        = 1
   rw_permission   = "RO"
@@ -58,7 +58,7 @@ resource "tencentcloudenterprise_cfs_file_system" "fs" {
   storage_type      = "SD"
   vpc_id            = "vpc-xxxxx"
   subnet_id         = "subnet-xxxxx"
-  pgroup_id         = cloud_cfs_access_group.group.id
+  pgroup_id         = tencentcloudenterprise_cfs_access_group.group.id
   
   tags = {
     env = "test"
@@ -76,13 +76,13 @@ resource "tencentcloudenterprise_cfs_auto_snapshot_policy" "policy" {
 
 # CFS Auto Snapshot Policy Attachment
 resource "tencentcloudenterprise_cfs_auto_snapshot_policy_attachment" "attachment" {
-  auto_snapshot_policy_id = cloud_cfs_auto_snapshot_policy.policy.id
-  file_system_ids         = [cloud_cfs_file_system.fs.id]
+  auto_snapshot_policy_id = tencentcloudenterprise_cfs_auto_snapshot_policy.policy.id
+  file_system_ids         = [tencentcloudenterprise_cfs_file_system.fs.id]
 }
 
 # CFS Snapshot
 resource "tencentcloudenterprise_cfs_snapshot" "snapshot" {
-  file_system_id = cloud_cfs_file_system.fs.id
+  file_system_id = tencentcloudenterprise_cfs_file_system.fs.id
   snapshot_name  = "example-snapshot"
   tags = {
     type = "manual"

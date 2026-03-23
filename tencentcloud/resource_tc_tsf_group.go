@@ -1,25 +1,23 @@
 /*
 Provides a resource to create a tsf group
 
-# Example Usage
+Example Usage
 
 ```hcl
-
-	resource "tencentcloudenterprise_tsf_group" "group" {
-	  application_id = "application-xxx"
-	  namespace_id = "namespace-aemrxxx"
-	  group_name = "terraform-test"
-	  cluster_id = "cluster-vwgjxxxx"
-	  group_desc = "terraform desc"
-	  // alias = "terraform test"
-	  tags = {
-	    "createdBy" = "terraform"
-	  }
-	}
-
+resource "tencentcloudenterprise_tsf_group" "group" {
+  application_id = "application-xxx"
+  namespace_id = "namespace-aemrxxx"
+  group_name = "terraform-test"
+  cluster_id = "cluster-vwgjxxxx"
+  group_desc = "terraform desc"
+  // alias = "terraform test"
+  tags = {
+    "createdBy" = "terraform"
+  }
+}
 ```
 
-# Import
+Import
 
 tsf group can be imported using the id, e.g.
 
@@ -32,11 +30,11 @@ package tencentcloud
 import (
 	"context"
 	"fmt"
+	tsf "terraform-provider-tencentcloudenterprise/sdk/tsf/v20180326"
+	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"log"
-	tsf "terraform-provider-tencentcloudenterprise/sdk/tsf/v20180326"
-	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
 )
 
 func init() {
@@ -44,14 +42,14 @@ func init() {
 		TerraformTypeCN: "部署组",
 		DescriptionCN:   "提供TSF部署组资源，用于创建和管理TSF部署组。",
 		AttributesCN: map[string]string{
-			"application_id":             "应用ID",
-			"namespace_id":               "命名空间ID",
-			"group_name":                 "部署组名称",
-			"cluster_id":                 "集群ID",
-			"group_desc":                 "部署组描述",
-			"tags":                       "标签",
-			"alias":                      "部署组备注",
-			"group_resource_type":        "部署组资源类型",
+			"application_id": "应用ID",
+			"namespace_id":   "命名空间ID",
+			"group_name":     "部署组名称",
+			"cluster_id":     "集群ID",
+			"group_desc":     "部署组描述",
+			"tags":           "标签",
+			"alias":          "部署组备注",
+			"group_resource_type": "部署组资源类型",
 			"instance_advanced_settings": "部署组实例高级设置",
 		},
 	})

@@ -1,19 +1,17 @@
 /*
 Provides a resource to create a tsf application_release_config
 
-# Example Usage
+Example Usage
 
 ```hcl
-
-	resource "tencentcloudenterprise_tsf_application_release_config" "application_release_config" {
-	  config_id = "dcfg-nalqbqwv"
-	  group_id = "group-yxmz72gv"
-	  release_desc = "terraform-test"
-	}
-
+resource "tencentcloudenterprise_tsf_application_release_config" "application_release_config" {
+  config_id = "dcfg-nalqbqwv"
+  group_id = "group-yxmz72gv"
+  release_desc = "terraform-test"
+}
 ```
 
-# Import
+Import
 
 tsf application_release_config can be imported using the configId#groupId#configReleaseId, e.g.
 
@@ -26,12 +24,12 @@ package tencentcloud
 import (
 	"context"
 	"fmt"
+	tsf "terraform-provider-tencentcloudenterprise/sdk/tsf/v20180326"
+	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"log"
 	"strings"
-	tsf "terraform-provider-tencentcloudenterprise/sdk/tsf/v20180326"
-	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
 )
 
 func init() {

@@ -8,11 +8,11 @@ import (
 	"strings"
 	"testing"
 
+	tke "terraform-provider-tencentcloudenterprise/sdk/tke/v20180525"
+	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 	"github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/common"
-	tke "terraform-provider-tencentcloudenterprise/sdk/tke/v20180525"
-	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
 )
 
 var (
@@ -24,7 +24,7 @@ const (
 )
 
 func init() {
-	// go test -v ./tencentcloud -sweep=ap-guangzhou -sweep-run=cloud_serverless_node_pool
+	// go test -v ./tencentcloud -sweep=ap-guangzhou -sweep-run=tencentcloudenterprise_serverless_node_pool
 	resource.AddTestSweepers("tencentcloudenterprise_serverless_node_pool", &resource.Sweeper{
 		Name: "tencentcloudenterprise_serverless_node_pool",
 		F:    testServerlessNodePoolSweep,

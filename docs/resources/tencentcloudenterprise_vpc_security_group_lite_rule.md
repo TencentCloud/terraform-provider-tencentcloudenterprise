@@ -11,7 +11,7 @@ description: |-
 
 Provide a resource to create security group some lite rules quickly.
 
--> **NOTE:** It can't be used with cloud_vpc_security_group_rule, and don't create multiple cloud_vpc_security_group_rule resources, otherwise it may cause problems.
+-> **NOTE:** It can't be used with tencentcloudenterprise_vpc_security_group_rule, and don't create multiple tencentcloudenterprise_vpc_security_group_rule resources, otherwise it may cause problems.
 
 ## Example Usage
 

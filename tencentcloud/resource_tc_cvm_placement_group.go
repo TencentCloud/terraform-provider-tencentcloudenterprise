@@ -1,18 +1,16 @@
 /*
 Provide a resource to create a placement group.
 
-# Example Usage
+Example Usage
 
 ```hcl
-
-	resource "tencentcloudenterprise_cvm_placement_group" "foo" {
-	  name = "test"
-	  type = "HOST"
-	}
-
+resource "tencentcloudenterprise_cvm_placement_group" "foo" {
+  name = "test"
+  type = "HOST"
+}
 ```
 
-# Import
+Import
 
 Placement group can be imported using the id, e.g.
 
@@ -25,9 +23,9 @@ package tencentcloud
 import (
 	"context"
 
+	cvm "terraform-provider-tencentcloudenterprise/sdk/cvm/v20170312"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	cvm "terraform-provider-tencentcloudenterprise/sdk/cvm/v20170312"
 )
 
 func init() {
@@ -35,8 +33,8 @@ func init() {
 		TerraformTypeCN: "置放群组",
 		DescriptionCN:   "提供置放群组资源，用于创建和管理云服务器的置放群组。",
 		AttributesCN: map[string]string{
-			"name": "分散置放群组名称，长度1-60个字符，支持中、英文",
-			"type": "分散置放群组类型，取值范围：HOST：物理机, SW：交换机, RACK：机架",
+			"name":     "分散置放群组名称，长度1-60个字符，支持中、英文",
+			"type":     "分散置放群组类型，取值范围：HOST：物理机, SW：交换机, RACK：机架",
 			// "strategy": "置放群组类型：分散置放群组；分区置放群组；强亲和置放群组",
 			"strategy": "置放群组类型：`SPREAD`：分散置放群组；`WEAK_SPREAD`：弱分散置放群组；`AFFINITY`：亲和置放群组；`WEAK_AFFINITY`：弱亲和置放群组",
 

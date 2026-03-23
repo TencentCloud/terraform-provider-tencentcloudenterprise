@@ -1,17 +1,17 @@
-// /*
-// Use this data source to query detailed information of ckafka topic_produce_connection
+///*
+//Use this data source to query detailed information of ckafka topic_produce_connection
 //
-// # Example Usage
+//Example Usage
 //
-// ```hcl
+//```hcl
 //
 //	data "tencentcloudenterprise_ckafka_topic_produce_connection" "topic_produce_connection" {
 //	  instance_id = "ckafka-xxxxxx"
 //	  topic_name = "topic-xxxxxx"
 //	}
 //
-// ```
-// */
+//```
+//*/
 package tencentcloud
 
 //

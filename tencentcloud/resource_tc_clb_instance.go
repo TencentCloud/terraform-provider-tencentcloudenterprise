@@ -101,6 +101,7 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"strings"
 	"sync"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
@@ -118,28 +119,63 @@ func init() {
 		TerraformTypeCN: "CLB实例",
 		DescriptionCN:   "提供负载均衡CLB实例资源，用于创建和管理腾讯云负载均衡实例。",
 		AttributesCN: map[string]string{
-			"network_type":               "网络类型",
-			"clb_name":                   "CLB名称",
-			"clb_vips":                   "CLB的VIP",
-			"project_id":                 "项目ID",
-			"vpc_id":                     "VPC ID",
-			"subnet_id":                  "子网 ID",
-			"address_ip_version":         "IP版本",
-			"internet_charge_type":       "网络计费类型",
-			"internet_bandwidth_max_out": "最大出带宽",
-			"security_groups":            "安全组",
-			// "snat_pro":                   "是否开启SnatPro",
-			// "snat_ips":       "Snat IP列表",
-			"tags":                      "标签",
-			"vip_isp":                   "运营商",
-			"master_zone_id":            "主可用区ID",
-			"zone_id":                   "可用区ID",
-			"slave_zone_id":             "备可用区ID",
-			"log_set_id":                "日志集ID",
-			"log_topic_id":              "日志主题ID",
-			"instance_id":               "CLB实例ID",
-			"target_region_info_vpc_id": "目标VPC ID",
-			"target_region_info_region": "目标地域",
+			"network_type":                 "网络类型",
+			"clb_name":                     "CLB名称",
+			"clb_vips":                     "CLB的VIP",
+			"project_id":                   "项目ID",
+			"vpc_id":                       "VPC ID",
+			"subnet_id":                    "子网 ID",
+			"address_ip_version":           "IP版本",
+			"internet_charge_type":         "网络计费类型",
+			"internet_bandwidth_max_out":   "最大出带宽",
+			"security_groups":              "安全组",
+			"snat_pro":                     "是否开启SnatPro",
+			"snat_ips":                     "Snat IP列表",
+			"tags":                         "标签",
+			"vip_isp":                      "运营商",
+			"master_zone_id":               "主可用区ID",
+			"zone_id":                      "可用区ID",
+			"slave_zone_id":                "备可用区ID",
+			"log_set_id":                   "日志集ID",
+			"log_topic_id":                 "日志主题ID",
+			"instance_id":                  "CLB实例ID",
+			"target_region_info_vpc_id":    "目标VPC ID",
+			"target_region_info_region":    "目标地域",
+			"eip_address_id":               "EIP的唯一ID，仅IPv4内网CLB",
+			"forward":                      "负载均衡实例类型",
+			"number":                       "创建负载均衡的个数",
+			"anycast_zone":                 "Anycast的发布域",
+			"bandwidth_package_id":         "带宽包ID",
+			"tgw_group_name":               "TGW独占集群名称",
+			"vip":                          "指定VIP申请负载均衡",
+			"tgw_set_labels":               "四层集群标签",
+			"stgw_set_labels":              "七层集群标签",
+			"cluster_ids":                  "本地专用集群ID",
+			"ipv6_decouple_vpc":            "是否从VPC侧申请v6地址",
+			"domain":                       "负载均衡域名",
+			"status":                       "实例状态",
+			"create_time":                  "创建时间",
+			"status_time":                  "状态转换时间",
+			"snat":                         "是否开启snat",
+			"isolation":                    "是否被隔离",
+			"isolated_time":                "隔离时间",
+			"expire_time":                  "过期时间",
+			"charge_type":                  "计费类型",
+			"address_ipv6":                 "IPv6地址",
+			"is_ddos":                      "是否可绑定高防包",
+			"config_id":                    "个性化配置ID",
+			"load_balancer_pass_to_target": "是否放通LB流量",
+			"ipv6_mode":                    "IPv6模式",
+			"sla_type":                     "性能保障规格",
+			"is_block":                     "VIP是否被封堵",
+			"is_block_time":                "封堵时间",
+			"local_bgp":                    "是否本地BGP",
+			"cluster_tag":                  "7层独占标签",
+			"mix_ip_target":                "是否支持混绑IPv4/IPv6",
+			"zones":                        "可用区列表",
+			"nfv_info":                     "是否为NFV",
+			"health_log_set_id":            "健康检查日志集ID",
+			"health_log_topic_id":          "健康检查日志主题ID",
 		},
 	})
 }
@@ -163,10 +199,10 @@ func resourceTencentCloudClbInstance() *schema.Resource {
 				Description:  "Type of CLB instance. Valid values: `OPEN` and `INTERNAL`.",
 			},
 			"clb_name": {
-				Type:         schema.TypeString,
-				Required:     true,
-				ValidateFunc: validateStringLengthInRange(1, 60),
-				Description:  "Name of the CLB. The name can only contain Chinese characters, English letters, numbers, underscore and hyphen '-'.",
+				Type:        schema.TypeString,
+				Optional:    true,
+				Computed:    true,
+				Description: "Name of the CLB. The name can only contain English letters, numbers, underscore and hyphen '-'.",
 			},
 
 			// Computed
@@ -198,9 +234,21 @@ func resourceTencentCloudClbInstance() *schema.Resource {
 				Description:  "Subnet ID of the CLB. Effective only for CLB within the VPC.",
 			},
 			"address_ip_version": {
-				Type:         schema.TypeString,
-				Optional:     true,
-				Computed:     true,
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				DiffSuppressFunc: func(k, old, new string, d *schema.ResourceData) bool {
+					// Ignore case differences: ipv4 == IPV4 == IPv4
+					if strings.EqualFold(old, new) {
+						return true
+					}
+					// Suppress diff between ipv6 and IPv6FullChain
+					if (strings.EqualFold(old, "ipv6") && strings.EqualFold(new, "IPv6FullChain")) ||
+						(strings.EqualFold(old, "IPv6FullChain") && strings.EqualFold(new, "ipv6")) {
+						return true
+					}
+					return false
+				},
 				ValidateFunc: validateAllowedStringValue(CLB_ADDRESS_IP_VERSION),
 				Description: "IP version, only applicable to open CLB. Valid values are `IPV4`, " +
 					"`IPV6` and `IPv6FullChain`, Default is IPV4.",
@@ -240,7 +288,7 @@ func resourceTencentCloudClbInstance() *schema.Resource {
 			// "snat_ips": {
 			// 	Type:        schema.TypeList,
 			// 	Optional:    true,
-			// 	Description: "Snat Ip List, required with `snat_pro=true`. NOTE: This argument cannot be read and modified here because dynamic ip is untraceable, please import resource `cloud_clb_snat_ip` to handle fixed ips.",
+			// 	Description: "Snat Ip List, required with `snat_pro=true`. NOTE: This argument cannot be read and modified here because dynamic ip is untraceable, please import resource `tencentcloudenterprise_clb_snat_ip` to handle fixed ips.",
 			// 	Elem: &schema.Resource{
 			// 		Schema: map[string]*schema.Schema{
 			// 			"ip": {
@@ -264,7 +312,7 @@ func resourceTencentCloudClbInstance() *schema.Resource {
 			"vip_isp": {
 				Type:        schema.TypeString,
 				Computed:    true,
-				Description: "Network operator, only applicable to open CLB. Valid values are `CMCC`(China Mobile), `CTCC`(Telecom), `CUCC`(China Unicom) and `BGP`. If this ISP is specified, network billing method can only use the bandwidth package billing (BANDWIDTH_PACKAGE).",
+				Description: "Network operator, only applicable to open CLB. If this ISP is specified, network billing method can only use the bandwidth package billing (BANDWIDTH_PACKAGE).",
 			},
 			"master_zone_id": {
 				Type:        schema.TypeString,
@@ -303,6 +351,11 @@ func resourceTencentCloudClbInstance() *schema.Resource {
 				Computed:    true,
 				Description: "Region of the target region for cross-region CLB.",
 			},
+			"eip_address_id": {
+				Type:        schema.TypeString,
+				Optional:    true,
+				Description: "The unique ID of EIP, e.g. `eip-11112222`. Only available for INTERNAL CLB instance to bind EIP.",
+			},
 		},
 	}
 }
@@ -316,18 +369,21 @@ func resourceTencentCloudClbInstanceCreate(d *schema.ResourceData, meta interfac
 	logId := getLogId(contextNil)
 
 	networkType := d.Get("network_type").(string)
-	clbName := d.Get("clb_name").(string)
-	flag, e := checkSameName(clbName, meta)
-	if e != nil {
-		return e
-	}
-	if flag {
-		return fmt.Errorf("[CHECK][CLB instance][Create] check: Same CLB name %s exists!", clbName)
-	}
 
 	request := clb.NewCreateLoadBalancerRequest()
 	request.LoadBalancerType = helper.String(networkType)
-	request.LoadBalancerName = helper.String(clbName)
+
+	if v, ok := d.GetOk("clb_name"); ok {
+		clbName := v.(string)
+		flag, e := checkSameName(clbName, meta)
+		if e != nil {
+			return e
+		}
+		if flag {
+			return fmt.Errorf("[CHECK][CLB instance][Create] check: Same CLB name %s exists!", clbName)
+		}
+		request.LoadBalancerName = helper.String(clbName)
+	}
 	if v, ok := d.GetOk("vpc_id"); ok {
 		request.VpcId = helper.String(v.(string))
 	}
@@ -361,30 +417,6 @@ func resourceTencentCloudClbInstanceCreate(d *schema.ResourceData, meta interfac
 		request.SubnetId = helper.String(v.(string))
 	}
 
-	/*
-		if v, ok := d.GetOk("snat_pro"); ok {
-			request.SnatPro = helper.Bool(v.(bool))
-		}
-
-	*/
-
-	/*
-		if v, ok := d.Get("snat_ips").([]interface{}); ok && len(v) > 0 {
-			for i := range v {
-				item := v[i].(map[string]interface{})
-				subnetId := item["subnet_id"].(string)
-				snatIp := &clb.SnatIp{
-					SubnetId: &subnetId,
-				}
-				if v, ok := item["ip"].(string); ok && v != "" {
-					snatIp.Ip = &v
-				}
-				request.SnatIps = append(request.SnatIps, snatIp)
-			}
-		}
-
-	*/
-
 	v, ok := d.GetOk("internet_charge_type")
 	bv, bok := d.GetOk("internet_bandwidth_max_out")
 
@@ -411,6 +443,13 @@ func resourceTencentCloudClbInstanceCreate(d *schema.ResourceData, meta interfac
 		// 		"INTERNAL network_type do not support master zone id setting")
 		// }
 		request.MasterZoneId = helper.String(v.(string))
+	}
+
+	if v, ok := d.GetOk("eip_address_id"); ok {
+		if networkType != CLB_NETWORK_TYPE_INTERNAL {
+			return fmt.Errorf("[CHECK][CLB instance][Create] check: eip_address_id only supports INTERNAL network_type")
+		}
+		request.EipAddressId = helper.String(v.(string))
 	}
 
 	if v, ok := d.GetOk("zone_id"); ok {
@@ -568,16 +607,36 @@ func resourceTencentCloudClbInstanceRead(d *schema.ResourceData, meta interface{
 		return nil
 	}
 
-	_ = d.Set("network_type", instance.LoadBalancerType)
-	_ = d.Set("clb_name", instance.LoadBalancerName)
-	_ = d.Set("clb_vips", helper.StringsInterfaces(instance.LoadBalancerVips))
-	_ = d.Set("subnet_id", instance.SubnetId)
-	_ = d.Set("vpc_id", instance.VpcId)
-	_ = d.Set("target_region_info_region", instance.TargetRegionInfo.Region)
-	_ = d.Set("target_region_info_vpc_id", instance.TargetRegionInfo.VpcId)
-	_ = d.Set("project_id", instance.ProjectId)
-	_ = d.Set("security_groups", helper.StringsInterfaces(instance.SecureGroups))
-	_ = d.Set("instance_id", instance.LoadBalancerId)
+	if instance.LoadBalancerType != nil {
+		_ = d.Set("network_type", instance.LoadBalancerType)
+	}
+	if instance.LoadBalancerName != nil {
+		_ = d.Set("clb_name", instance.LoadBalancerName)
+	}
+	if instance.LoadBalancerVips != nil {
+		_ = d.Set("clb_vips", helper.StringsInterfaces(instance.LoadBalancerVips))
+	}
+	if instance.SubnetId != nil {
+		_ = d.Set("subnet_id", instance.SubnetId)
+	}
+	if instance.VpcId != nil {
+		_ = d.Set("vpc_id", instance.VpcId)
+	}
+	if instance.TargetRegionInfo != nil && instance.TargetRegionInfo.Region != nil {
+		_ = d.Set("target_region_info_region", instance.TargetRegionInfo.Region)
+	}
+	if instance.TargetRegionInfo != nil && instance.TargetRegionInfo.VpcId != nil {
+		_ = d.Set("target_region_info_vpc_id", instance.TargetRegionInfo.VpcId)
+	}
+	if instance.ProjectId != nil {
+		_ = d.Set("project_id", instance.ProjectId)
+	}
+	if instance.SecureGroups != nil {
+		_ = d.Set("security_groups", helper.StringsInterfaces(instance.SecureGroups))
+	}
+	if instance.LoadBalancerId != nil {
+		_ = d.Set("instance_id", instance.LoadBalancerId)
+	}
 
 	if instance.VipIsp != nil {
 		_ = d.Set("vip_isp", instance.VipIsp)
@@ -593,9 +652,12 @@ func resourceTencentCloudClbInstanceRead(d *schema.ResourceData, meta interface{
 	//_ = d.Set("master_zone_id", instance.MasterZone.ZoneId)
 	//_ = d.Set("zone_id", instance.Zones)
 	//_ = d.Set("slave_zone_id", instance.MasterZone)
-	_ = d.Set("log_set_id", instance.LogSetId)
-	_ = d.Set("log_topic_id", instance.LogTopicId)
-
+	if instance.LogSetId != nil {
+		_ = d.Set("log_set_id", instance.LogSetId)
+	}
+	if instance.LogTopicId != nil {
+		_ = d.Set("log_topic_id", instance.LogTopicId)
+	}
 	// if _, ok := d.GetOk("snat_pro"); ok {
 	// 	_ = d.Set("snat_pro", instance.SnatPro)
 	// }
@@ -608,6 +670,31 @@ func resourceTencentCloudClbInstanceRead(d *schema.ResourceData, meta interface{
 	}
 
 	_ = d.Set("tags", tags)
+
+	// Query EIP binding information
+	vpcService := VpcService{
+		client: meta.(*TencentCloudClient).apiV3Conn,
+	}
+	var eipId *string
+	err = resource.Retry(readRetryTimeout, func() *resource.RetryError {
+		eips, e := vpcService.DescribeAddressesByFilter(ctx, map[string]string{
+			"instance-id": clbId,
+		})
+		if e != nil {
+			return retryError(e)
+		}
+		if len(eips) > 0 {
+			eipId = eips[0].AddressId
+		}
+		return nil
+	})
+	if err != nil {
+		log.Printf("[WARN]%s read CLB instance EIP binding failed, reason:%+v", logId, err)
+	}
+	if eipId != nil {
+		_ = d.Set("eip_address_id", eipId)
+	}
+
 	return nil
 }
 
@@ -763,6 +850,52 @@ func resourceTencentCloudClbInstanceUpdate(d *schema.ResourceData, meta interfac
 		if err != nil {
 			log.Printf("[CRITAL]%s set CLB instance log failed, reason:%+v", logId, err)
 			return err
+		}
+	}
+
+	if d.HasChange("eip_address_id") {
+		if d.Get("network_type") != CLB_NETWORK_TYPE_INTERNAL {
+			return fmt.Errorf("[CHECK][CLB instance %s][Update] check: eip_address_id only supports INTERNAL network_type", clbId)
+		}
+
+		oldEipId, newEipId := d.GetChange("eip_address_id")
+
+		// 如果有旧的 EIP,需要先解绑
+		if oldEipId.(string) != "" {
+			vpcService := VpcService{
+				client: meta.(*TencentCloudClient).apiV3Conn,
+			}
+			err := resource.Retry(writeRetryTimeout, func() *resource.RetryError {
+				e := vpcService.UnattachEip(ctx, oldEipId.(string))
+				if e != nil {
+					return retryError(e, "DesOperation.MutexTaskRunning")
+				}
+				return nil
+			})
+			if err != nil {
+				log.Printf("[CRITAL]%s unbind EIP from CLB instance failed, reason:%+v", logId, err)
+				return err
+			}
+			log.Printf("[DEBUG]%s unbind EIP %s from CLB instance %s success", logId, oldEipId.(string), clbId)
+		}
+
+		// 如果有新的 EIP,需要绑定
+		if newEipId.(string) != "" {
+			vpcService := VpcService{
+				client: meta.(*TencentCloudClient).apiV3Conn,
+			}
+			err := resource.Retry(writeRetryTimeout, func() *resource.RetryError {
+				e := vpcService.AttachEip(ctx, newEipId.(string), clbId)
+				if e != nil {
+					return retryError(e)
+				}
+				return nil
+			})
+			if err != nil {
+				log.Printf("[CRITAL]%s bind EIP to CLB instance failed, reason:%+v", logId, err)
+				return err
+			}
+			log.Printf("[DEBUG]%s bind EIP %s to CLB instance %s success", logId, newEipId.(string), clbId)
 		}
 	}
 

@@ -35,10 +35,10 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	tsf "terraform-provider-tencentcloudenterprise/sdk/tsf/v20180326"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func init() {
@@ -79,7 +79,7 @@ func resourceTencentCloudTsfApiGroup() *schema.Resource {
 			"group_name": {
 				Required:    true,
 				Type:        schema.TypeString,
-				Description: "Group name, cannot contain Chinese.",
+				Description: "Group name.",
 			},
 
 			"group_context": {

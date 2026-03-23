@@ -1,7 +1,7 @@
 /*
 Use this data source to query detailed information of cvm instance_vnc_url
 
-# Example Usage
+Example Usage
 
 ```hcl
 
@@ -16,10 +16,10 @@ package tencentcloud
 import (
 	"fmt"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	cvm "terraform-provider-tencentcloudenterprise/sdk/cvm/v20170312"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func init() {

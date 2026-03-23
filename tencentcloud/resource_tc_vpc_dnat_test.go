@@ -5,10 +5,10 @@ import (
 	"log"
 	"testing"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 	vpc "terraform-provider-tencentcloudenterprise/sdk/vpc/v20170312"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 )
 
 func TestAccTencentCloudNatGatewayTransRule_basic(t *testing.T) {

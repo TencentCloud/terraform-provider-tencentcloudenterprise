@@ -1,7 +1,7 @@
 /*
 Use this data source to query detailed information of NAT gateways.
 
-# Example Usage
+Example Usage
 
 ```hcl
 
@@ -18,10 +18,10 @@ package tencentcloud
 import (
 	"log"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	vpc "terraform-provider-tencentcloudenterprise/sdk/vpc/v20170312"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func init() {

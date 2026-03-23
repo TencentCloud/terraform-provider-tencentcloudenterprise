@@ -1,24 +1,22 @@
 /*
 Provides a resource to create a NAT forwarding.
 
-# Example Usage
+Example Usage
 
 ```hcl
-
-	resource "tencentcloudenterprise_vpc_dnat" "foo" {
-	  vpc_id       = "vpc-asg3sfa3"
-	  nat_id       = "nat-2515tdg"
-	  protocol     = "tcp"
-	  elastic_ip   = "203.0.113.1"
-	  elastic_port = 80
-	  private_ip   = "203.0.113.2"
-	  private_port = 22
-	  description  = "test"
-	}
-
+resource "tencentcloudenterprise_vpc_dnat" "foo" {
+  vpc_id       = "vpc-asg3sfa3"
+  nat_id       = "nat-2515tdg"
+  protocol     = "TCP"
+  elastic_ip   = "139.199.232.238"
+  elastic_port = 80
+  private_ip   = "10.0.0.1"
+  private_port = 22
+  description  = "test"
+}
 ```
 
-# Import
+Import
 
 NAT forwarding can be imported using the id, e.g.
 
@@ -37,10 +35,10 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	vpc "terraform-provider-tencentcloudenterprise/sdk/vpc/v20170312"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func init() {
@@ -50,7 +48,7 @@ func init() {
 		AttributesCN: map[string]string{
 			"vpc_id":       "VPC实例ID",
 			"nat_id":       "NAT网关ID",
-			"protocol":     "协议类型",
+			"protocol":     "协议类型，支持`TCP` 和 `UDP`",
 			"elastic_ip":   "弹性IP",
 			"elastic_port": "弹性端口",
 			"private_ip":   "内网IP",
@@ -370,7 +368,7 @@ func buildDnatId(entry *vpc.DestinationIpPortTranslationNatRule, vpcId string, n
 	return
 }
 
-// Parse Forward Entry id
+//Parse Forward Entry id
 func parseDnatId(entryId string) (entry *vpc.DestinationIpPortTranslationNatRule, params map[string]string, err error) {
 	log.Printf("[DEBUG] parseDnatId entryId: %s", entryId)
 	params = make(map[string]string)

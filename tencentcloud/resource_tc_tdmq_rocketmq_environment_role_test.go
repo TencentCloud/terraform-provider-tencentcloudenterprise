@@ -3,8 +3,8 @@ package tencentcloud
 import (
 	"context"
 	"fmt"
-	"strings"
 	sdkErrors "terraform-provider-tencentcloudenterprise/sdk/common/errors"
+	"strings"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"

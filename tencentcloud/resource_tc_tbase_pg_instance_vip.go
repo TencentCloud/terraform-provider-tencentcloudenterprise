@@ -3,7 +3,7 @@ Provides a resource to create a tbase instance.
 
 ~> **NOTE:** This resource is still in internal testing. To experience its functions, you need to apply for a whitelist from Tencent Cloud.
 
-# Example Usage
+Example Usage
 
 ```hcl
 
@@ -25,11 +25,11 @@ package tencentcloud
 
 import (
 	"context"
+	tbase "terraform-provider-tencentcloudenterprise/sdk/tbase/v20190107"
+	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	tbase "terraform-provider-tencentcloudenterprise/sdk/tbase/v20190107"
-	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
 	"time"
 )
 

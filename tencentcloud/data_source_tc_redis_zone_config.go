@@ -1,7 +1,7 @@
 /*
 Use this data source to query which instance types of Redis® are available in a specific region.
 
-# Example Usage
+Example Usage
 
 ```hcl
 
@@ -20,8 +20,8 @@ import (
 	"log"
 	"strconv"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	redis "terraform-provider-tencentcloudenterprise/sdk/redis/v20180412"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func init() {

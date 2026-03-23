@@ -21,10 +21,10 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	cvm "terraform-provider-tencentcloudenterprise/sdk/cvm/v20170312"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func init() {
@@ -51,7 +51,7 @@ func init() {
 			"image_creator":      "镜像的创建者",
 			"image_source":       "镜像的来源",
 			"sync_percent":       "镜像的同步百分比",
-			"support_cloud_init": "是否支持 cloud-init",
+			"support_tencentcloudenterprise_init": "是否支持 cloud-init",
 			"snapshots":          "快照详细信息列表",
 			"snapshot_id":        "快照 ID",
 			"snapshot_name":      "快照名称，用户自定义快照别名",
@@ -83,14 +83,14 @@ func dataSourceTencentCloudImages() *schema.Resource {
 				Optional:      true,
 				ConflictsWith: []string{"os_name"},
 				ValidateFunc:  validateNameRegex,
-				Description:   "A regex string to apply to the image list returned by TencentCloud, conflict with 'os_name'. **NOTE**: it is not wildcard, should look like `image_name_regex = \"^CentOS\\s+6\\.8\\s+64\\w*\"`.",
+				Description:   "A regex string to apply to the image list returned by cloud, conflict with 'os_name'. **NOTE**: it is not wildcard, should look like `image_name_regex = \"^CentOS\\s+6\\.8\\s+64\\w*\"`.",
 			},
 			"os_name": {
 				Type:          schema.TypeString,
 				Optional:      true,
 				ConflictsWith: []string{"image_name_regex"},
 				ValidateFunc:  validateNotEmpty,
-				Description:   "A string to apply with fuzzy match to the os_name attribute on the image list returned by TencentCloud, conflict with 'image_name_regex'.",
+				Description:   "A string to apply with fuzzy match to the os_name attribute on the image list returned by cloud, conflict with 'image_name_regex'.",
 			},
 			"instance_type": {
 				Type:        schema.TypeString,
@@ -173,7 +173,7 @@ func dataSourceTencentCloudImages() *schema.Resource {
 							Computed:    true,
 							Description: "Sync percent of the image.",
 						},
-						"support_cloud_init": {
+						"support_tencentcloudenterprise_init": {
 							Type:        schema.TypeBool,
 							Computed:    true,
 							Description: "Whether support cloud-init.",
@@ -333,7 +333,7 @@ func dataSourceTencentCloudImagesRead(d *schema.ResourceData, meta interface{}) 
 			"image_creator":      image.ImageCreator,
 			"image_source":       image.ImageSource,
 			"sync_percent":       image.SyncPercent,
-			"support_cloud_init": image.IsSupportCloudinit,
+			"support_tencentcloudenterprise_init": image.IsSupportCloudinit,
 			"snapshots":          snapshots,
 		}
 		imageList = append(imageList, mapping)

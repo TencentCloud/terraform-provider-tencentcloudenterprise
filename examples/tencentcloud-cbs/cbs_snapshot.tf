@@ -7,7 +7,7 @@ resource "tencentcloudenterprise_cbs_snapshot_policy" "snapshot_policy" {
 
 resource "tencentcloudenterprise_cbs_snapshot_policy_attachment" "foo" {
   storage_id         = "disk-q5ka14o6"
-  snapshot_policy_id = cloud_cbs_snapshot_policy.snapshot_policy.id
+  snapshot_policy_id = tencentcloudenterprise_cbs_snapshot_policy.snapshot_policy.id
 }
 
 resource "tencentcloudenterprise_cbs_snapshot_share_permission" "snapshot_share_permission" {

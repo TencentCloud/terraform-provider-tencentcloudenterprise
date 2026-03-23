@@ -1,27 +1,26 @@
 /*
 Provides a resource to create a as protect_instances
 
-# Example Usage
+Example Usage
 
 ```hcl
-
-	resource "tencentcloudenterprise_as_protect_instances" "protect_instances" {
-	  auto_scaling_group_id = tencentcloudenterprise_as_scaling_group.scaling_group.id
-	  instance_ids = ["ins-xxxxx"]
-	  protected_from_scale_in = true
-	}
-
+resource "tencentcloudenterprise_as_protect_instances" "protect_instances" {
+  auto_scaling_group_id = tencentcloudenterprise_as_scaling_group.scaling_group.id
+  instance_ids = ["ins-xxxxx"]
+  protected_from_scale_in = true
+}
 ```
+
 */
 package tencentcloud
 
 import (
 	"log"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	as "terraform-provider-tencentcloudenterprise/sdk/as/v20180419"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func init() {

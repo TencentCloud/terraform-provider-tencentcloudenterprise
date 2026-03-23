@@ -1,16 +1,14 @@
 /*
 Use this data source to query detailed information of cls shipper_tasks
 
-# Example Usage
+Example Usage
 
 ```hcl
-
-	data "tencentcloudenterprise_cls_shipper_tasks" "shipper_tasks" {
-	  shipper_id = "dbde3c9b-ea16-4032-bc2a-d8fa65567a8e"
-	  start_time = 160749910700
-	  end_time = 160749910800
-	}
-
+data "tencentcloudenterprise_cls_shipper_tasks" "shipper_tasks" {
+  shipper_id = "dbde3c9b-ea16-4032-bc2a-d8fa65567a8e"
+  start_time = 160749910700
+  end_time = 160749910800
+}
 ```
 */
 package tencentcloud
@@ -18,10 +16,10 @@ package tencentcloud
 import (
 	"context"
 
+	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	cls "terraform-provider-tencentcloudenterprise/sdk/cls/v20201016"
-	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
 )
 
 func init() {

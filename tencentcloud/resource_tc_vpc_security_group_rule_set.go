@@ -1,58 +1,56 @@
 /*
-Provides a resource to create security group rule. This resource is similar with cloud_vpc_security_group_lite_rule, rules can be ordered and configure descriptions.
+Provides a resource to create security group rule. This resource is similar with tencentcloudenterprise_vpc_security_group_lite_rule, rules can be ordered and configure descriptions.
 
 ~> **NOTE:** This resource must exclusive in one security group, do not declare additional rule resources of this security group elsewhere.
 
-# Example Usage
+Example Usage
 
 ```hcl
+resource "tencentcloudenterprise_vpc_security_group" "sglab_1" {
+  name        = "mysg_1"
+  description = "favourite sg_1"
+}
 
-	resource "tencentcloudenterprise_vpc_security_group" "sglab_1" {
-	  name        = "mysg_1"
-	  description = "favourite sg_1"
-	}
+resource "tencentcloudenterprise_vpc_security_group_rule_set" "sglab_1" {
+  security_group_id = tencentcloudenterprise_vpc_security_group.sglab_1.id
+  ingress {
+    cidr_block  = "10.0.0.0/16" # Accept IP or CIDR
+    protocol    = "TCP" # Default is ALL
+    port        = "80" # Accept port e.g. 80 or PortRange e.g. 8080-8089
+    action      = "ACCEPT"
+    description = "favourite sg rule_1"
+  }
+  ingress {
+    protocol           = "TCP"
+    port               = "80"
+    action             = "ACCEPT"
+    source_security_id = tencentcloudenterprise_vpc_security_group.sglab_3.id
+    description        = "favourite sg rule_2"
+  }
 
-	resource "tencentcloudenterprise_vpc_security_group_rule_set" "sglab_1" {
-	  security_group_id = tencentcloudenterprise_vpc_security_group.sglab_1.id
-	  ingress {
-	    cidr_block  = "10.0.0.0/16" # Accept IP or CIDR
-	    protocol    = "TCP" # Default is ALL
-	    port        = "80" # Accept port e.g. 80 or PortRange e.g. 8080-8089
-	    action      = "ACCEPT"
-	    description = "favourite sg rule_1"
-	  }
-	  ingress {
-	    protocol           = "TCP"
-	    port               = "80"
-	    action             = "ACCEPT"
-	    source_security_id = tencentcloudenterprise_vpc_security_group.sglab_3.id
-	    description        = "favourite sg rule_2"
-	  }
-
-	  egress {
-	    action              = "ACCEPT"
-	    address_template_id = "ipm-xxxxxxxx" # Support address template (group)
-	    description         = "Allow address template"
-	  }
-	  egress {
-	    action                 = "ACCEPT"
-	    service_template_group = "ppmg-xxxxxxxx" # Support protocol template (group)
-	    description            = "Allow protocol template"
-	  }
-	  egress {
-	    cidr_block  = "10.0.0.0/16"
-	    protocol    = "TCP"
-	    port        = "80"
-	    action      = "DROP"
-	    description = "favourite sg egress rule"
-	  }
-	}
-
+  egress {
+    action              = "ACCEPT"
+    address_template_id = "ipm-xxxxxxxx" # Support address template (group)
+    description         = "Allow address template"
+  }
+  egress {
+    action                 = "ACCEPT"
+    service_template_group = "ppmg-xxxxxxxx" # Support protocol template (group)
+    description            = "Allow protocol template"
+  }
+  egress {
+    cidr_block  = "10.0.0.0/16"
+    protocol    = "TCP"
+    port        = "80"
+    action      = "DROP"
+    description = "favourite sg egress rule"
+  }
+}
 ```
 
-# Import
+Import
 
-Resource cloud_vpc_security_group_rule_set can be imported by passing security grou id:
+Resource tencentcloudenterprise_vpc_security_group_rule_set can be imported by passing security grou id:
 
 ```
 terraform import tencentcloudenterprise_vpc_security_group_rule_set.sglab_1 sg-xxxxxxxx
@@ -78,21 +76,21 @@ func init() {
 		TerraformTypeCN: "批量创建安全组规则",
 		DescriptionCN:   "提供批量创建安全组规则资源，用于创建和管理安全组规则。",
 		AttributesCN: map[string]string{
-			"security_group_id":      "安全组ID",
-			"ingress":                "入站规则",
-			"egress":                 "出站规则",
-			"version":                "安全组版本",
-			"action":                 "安全组的规则策略。有效值“ACCEPT”和“DROP”",
+			"security_group_id": "安全组ID",
+			"ingress":           "入站规则",
+			"egress":            "出站规则",
+			"version":           "安全组版本",
+			"action":            "安全组的规则策略。有效值“ACCEPT”和“DROP”",
 			"address_template_group": "指定地址模板的组ID，如“ipmg-xxxxxxxxx”，与“source_security_ID”和“cidr_block”冲突",
-			"address_template_id":    "指定地址模板ID，如“ipm-xxxxxxxx”，与“source_security_ID”和“cidr_block”冲突",
-			"cidr_block":             "IP地址网络或CIDR段。注意：“cidr_block”、“ipv6_cidr_block”，“source_security_id”和“address_template_*”是互斥的，不能同时设置",
-			"description":            "安全组规则的描述",
-			"ipv6_cidr_block":        "IPV6地址网络或CIDR段，与“source_security_id”和“address_template_*”冲突",
-			"port":                   "端口的范围。可用值可以是一个、多个或一个段。例如，“80”、“80、90”和“80-90”。默认为所有端口，与`service_template_*`冲突",
-			"protocol":               "IP协议类型。有效值“TCP”、“UDP”和“ICMP”。默认为所有类型的协议，与`service_template_*`冲突",
+			"address_template_id": "指定地址模板ID，如“ipm-xxxxxxxx”，与“source_security_ID”和“cidr_block”冲突",
+			"cidr_block":        "IP地址网络或CIDR段。注意：“cidr_block”、“ipv6_cidr_block”，“source_security_id”和“address_template_*”是互斥的，不能同时设置",
+			"description":       "安全组规则的描述",
+			"ipv6_cidr_block":   "IPV6地址网络或CIDR段，与“source_security_id”和“address_template_*”冲突",
+			"port":              "端口的范围。可用值可以是一个、多个或一个段。例如，“80”、“80、90”和“80-90”。默认为所有端口，与`service_template_*`冲突",
+			"protocol":          "IP协议类型。有效值“TCP”、“UDP”和“ICMP”。默认为所有类型的协议，与`service_template_*`冲突",
 			"service_template_group": "指定协议模板ID的组ID，如“ppmg-xxxxxxxxx”，与“cidr_block”和“port”冲突",
-			"service_template_id":    "指定协议模板ID，如“ppm-xxxxxxxx”，与“cidr_block”和“port”冲突",
-			"source_security_id":     "嵌套安全组的ID，与“cidr_block”和“address_template_*”冲突",
+			"service_template_id": "指定协议模板ID，如“ppm-xxxxxxxx”，与“cidr_block”和“port”冲突",
+			"source_security_id": "嵌套安全组的ID，与“cidr_block”和“address_template_*”冲突",
 		},
 	})
 }
@@ -159,7 +157,7 @@ func resourceTencentCloudSecurityGroupRuleSet() *schema.Resource {
 		},
 	}
 	return &schema.Resource{
-		Description: "Provides a resource to create security group rule. This resource is similar with cloud_vpc_security_group_lite_rule, rules can be ordered and configure descriptions.",
+		Description: "Provides a resource to create security group rule. This resource is similar with tencentcloudenterprise_vpc_security_group_lite_rule, rules can be ordered and configure descriptions.",
 		Create:      resourceTencentCloudSecurityGroupRuleSetCreate,
 		Read:        resourceTencentCloudSecurityGroupRuleSetRead,
 		Update:      resourceTencentCloudSecurityGroupRuleSetUpdate,
@@ -448,7 +446,7 @@ func marshalSecurityPolicy(policies []*vpc.SecurityGroupPolicy) []interface{} {
 		if policy.Ipv6CidrBlock != nil {
 			dMap["ipv6_cidr_block"] = policy.Ipv6CidrBlock
 		}
-		if policy.Ipv6CidrBlock != nil {
+		if policy.SecurityGroupId != nil {
 			dMap["source_security_id"] = policy.SecurityGroupId
 		}
 		if policy.AddressTemplate != nil && policy.AddressTemplate.AddressId != nil {

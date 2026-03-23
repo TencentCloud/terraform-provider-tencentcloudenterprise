@@ -1,18 +1,16 @@
-// /*
-// Provides a resource to create a redis switch_master
+///*
+//Provides a resource to create a redis switch_master
 //
-// # Example Usage
+//Example Usage
 //
-// ```hcl
+//```hcl
+//resource "tencentcloudenterprise_redis_switch_master" "switch_master" {
+//  instance_id = "crs-kfdkirid"
+//  group_id = 29369
+//}
+//```
 //
-//	resource "tencentcloudenterprise_redis_switch_master" "switch_master" {
-//	 instance_id = "crs-kfdkirid"
-//	 group_id = 29369
-//	}
-//
-// ```
-//
-// */
+//*/
 package tencentcloud
 
 //专有云不支持redis主从切换

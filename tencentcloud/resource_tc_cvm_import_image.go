@@ -1,37 +1,35 @@
 /*
 Provides a resource to create a cvm import_image
 
-# Example Usage
+Example Usage
 
 ```hcl
+resource "tencentcloudenterprise_cvm_import_image" "import_image" {
+  architecture = "x86_64"
+  os_type = "CentOS"
+  os_version = "7"
+  image_url = ""
+  image_name = "sample"
+  image_description = "sampleimage"
+  dry_run = false
+  force = false
+  tag_specification {
+		resource_type = "image"
+		tags {
+			key = "tagKey"
+			value = "tagValue"
+		}
 
-	resource "tencentcloudenterprise_cvm_import_image" "import_image" {
-	  architecture = "x86_64"
-	  os_type = "CentOS"
-	  os_version = "7"
-	  image_url = ""
-	  image_name = "sample"
-	  image_description = "sampleimage"
-	  dry_run = false
-	  force = false
-	  tag_specification {
-			resource_type = "image"
-			tags {
-				key = "tagKey"
-				value = "tagValue"
-			}
-
-	  }
-	  license_type = "TencentCloud"
-	  boot_mode = "Legacy BIOS"
-	  tags = {
-	    "createdBy" = "terraform"
-	  }
-	}
-
+  }
+  license_type = "TencentCloud"
+  boot_mode = "Legacy BIOS"
+  tags = {
+    "createdBy" = "terraform"
+  }
+}
 ```
 
-# Import
+Import
 
 cvm import_image can be imported using the id, e.g.
 
@@ -44,10 +42,10 @@ package tencentcloud
 import (
 	"log"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	cvm "terraform-provider-tencentcloudenterprise/sdk/cvm/v20170312"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func resourceTencentCloudCvmImportImage() *schema.Resource {

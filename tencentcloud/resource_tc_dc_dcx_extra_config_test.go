@@ -40,9 +40,9 @@ resource "tencentcloudenterprise_dcx_extra_config" "dcx_extra_config" {
   route_filter_prefixes {
     cidr = "192.168.0.0/24"
   }
-  tencent_address        = "203.0.113.101"
-  tencent_backup_address = "203.0.113.102"
-  customer_address       = "203.0.113.104"
+  tencent_address        = "192.168.1.1"
+  tencent_backup_address = "192.168.1.2"
+  customer_address       = "192.168.1.4"
   bandwidth              = 10
   enable_bgp_community   = false
   bfd_enable             = 0
@@ -55,7 +55,7 @@ resource "tencentcloudenterprise_dcx_extra_config" "dcx_extra_config" {
   nqa_info {
     probe_failed_times = 3
     interval           = 100
-    destination_ip     = "203.0.113.202"
+    destination_ip     = "192.168.2.2"
 
   }
   ipv6_enable = 0

@@ -5,10 +5,10 @@ import (
 	"log"
 	"strconv"
 
-	"github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/common"
 	cwp "terraform-provider-tencentcloudenterprise/sdk/cwp/v20180228"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/connectivity"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/ratelimit"
+	"github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/common"
 )
 
 type CwpService struct {
@@ -80,36 +80,58 @@ func (me *CwpService) DeleteCwpLicenseOrderById(ctx context.Context, resourceId 
 func (me *CwpService) DescribeCwpLicenseBindAttachmentById(ctx context.Context, resourceId, quuid string, licenseId, licenseType uint64) (licenseBindAttachment *cwp.LicenseBindDetail, errRet error) {
 	logId := getLogId(ctx)
 
-	request := cwp.NewDescribeLicenseBindListRequest()
-	request.ResourceId = &resourceId
-	request.LicenseId = &licenseId
-	request.LicenseType = &licenseType
+	var (
+		offset uint64 = 0
+		limit  uint64 = 100
+	)
 
-	defer func() {
-		if errRet != nil {
-			log.Printf("[CRITAL]%s api[%s] fail, request body [%s], reason[%s]\n", logId, request.GetAction(), request.ToJsonString(), errRet.Error())
-		}
-	}()
+	for {
+		request := cwp.NewDescribeLicenseBindListRequest()
+		request.ResourceId = &resourceId
+		request.LicenseId = &licenseId
+		request.LicenseType = &licenseType
+		request.Limit = &limit
+		request.Offset = &offset
 
-	ratelimit.Check(request.GetAction())
+		defer func() {
+			if errRet != nil {
+				log.Printf("[CRITAL]%s api[%s] fail, request body [%s], reason[%s]\n", logId, request.GetAction(), request.ToJsonString(), errRet.Error())
+			}
+		}()
 
-	response, err := me.client.UseCwpClient().DescribeLicenseBindList(request)
-	if err != nil {
-		errRet = err
-		return
-	}
+		ratelimit.Check(request.GetAction())
 
-	log.Printf("[DEBUG]%s api[%s] success, request body [%s], response body [%s]\n", logId, request.GetAction(), request.ToJsonString(), response.ToJsonString())
-
-	if len(response.Response.List) < 1 {
-		return
-	}
-
-	for _, item := range response.Response.List {
-		if *item.Quuid == quuid {
-			licenseBindAttachment = item
+		response, err := me.client.UseCwpClient().DescribeLicenseBindList(request)
+		if err != nil {
+			errRet = err
 			return
 		}
+
+		log.Printf("[DEBUG]%s api[%s] success, request body [%s], response body [%s]\n", logId, request.GetAction(), request.ToJsonString(), response.ToJsonString())
+
+		if len(response.Response.List) < 1 {
+			if offset == 0 {
+				// 第一次查询就没有结果，直接返回
+				return
+			}
+			// 已经查询完所有分页，没有找到匹配的quuid
+			break
+		}
+
+		for _, item := range response.Response.List {
+			if *item.Quuid == quuid {
+				licenseBindAttachment = item
+				return
+			}
+		}
+
+		// 如果当前页的结果数少于limit，说明已经是最后一页
+		if uint64(len(response.Response.List)) < limit {
+			break
+		}
+
+		// 继续查询下一页
+		offset += limit
 	}
 
 	return

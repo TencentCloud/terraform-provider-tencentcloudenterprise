@@ -1,15 +1,13 @@
 /*
 Provides a resource to create a cvm sync_image
 
-# Example Usage
+Example Usage
 
 ```hcl
-
-	resource "tencentcloudenterprise_cvm_sync_image" "sync_image" {
-	  image_id = "img-xxxxxx"
-	  destination_regions =["ap-guangzhou", "ap-shanghai"]
-	}
-
+resource "tencentcloudenterprise_cvm_sync_image" "sync_image" {
+  image_id = "img-xxxxxx"
+  destination_regions =["ap-guangzhou", "ap-shanghai"]
+}
 ```
 */
 package tencentcloud
@@ -18,9 +16,9 @@ import (
 	"log"
 	"time"
 
+	cvm "terraform-provider-tencentcloudenterprise/sdk/cvm/v20170312"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	cvm "terraform-provider-tencentcloudenterprise/sdk/cvm/v20170312"
 )
 
 func init() {

@@ -1,20 +1,18 @@
 /*
 Use this data source to query detailed information of tsf api_group
 
-# Example Usage
+Example Usage
 
 ```hcl
-
-	data "tencentcloudenterprise_tsf_api_group" "api_group" {
-	  search_word = "xxx01"
-	  group_type = "ms"
-	  auth_type = "none"
-	  status = "released"
-	  order_by = "created_time"
-	  order_type = 0
-	  gateway_instance_id = "gw-ins-lvdypq5k"
-	}
-
+data "tencentcloudenterprise_tsf_api_group" "api_group" {
+  search_word = "xxx01"
+  group_type = "ms"
+  auth_type = "none"
+  status = "released"
+  order_by = "created_time"
+  order_type = 0
+  gateway_instance_id = "gw-ins-lvdypq5k"
+}
 ```
 */
 package tencentcloud
@@ -22,10 +20,10 @@ package tencentcloud
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	tsf "terraform-provider-tencentcloudenterprise/sdk/tsf/v20180326"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func init() {
@@ -33,38 +31,38 @@ func init() {
 		TerraformTypeCN: "TSF API组",
 		DescriptionCN:   "提供TSF API组数据源，用于查询TSF API组的详细信息。",
 		AttributesCN: map[string]string{
-			"search_word":                  "搜索关键字",
-			"group_type":                   "组类型",
-			"auth_type":                    "认证类型",
-			"status":                       "发布状态",
-			"order_by":                     "排序字段",
-			"order_type":                   "排序类型",
-			"gateway_instance_id":          "网关实例ID",
-			"result":                       "分页结构",
-			"total_count":                  "记录总数",
-			"content":                      "Api组信息",
-			"group_id":                     "Api组ID",
-			"group_name":                   "Api组名称",
-			"group_context":                "Api组上下文",
-			"created_time":                 "组创建时间",
-			"updated_time":                 "组创建时间",
+			"search_word":           "搜索关键字",
+			"group_type":            "组类型",
+			"auth_type":             "认证类型",
+			"status":                "发布状态",
+			"order_by":              "排序字段",
+			"order_type":            "排序类型",
+			"gateway_instance_id":   "网关实例ID",
+			"result":                "分页结构",
+			"total_count":           "记录总数",
+			"content":               "Api组信息",
+			"group_id":              "Api组ID",
+			"group_name":            "Api组名称",
+			"group_context":         "Api组上下文",
+			"created_time":          "组创建时间",
+			"updated_time":          "组创建时间",
 			"binded_gateway_deploy_groups": "绑定的网关部署组列表",
-			"deploy_group_id":              "绑定的网关部署组ID",
-			"deploy_group_name":            "部署组名称",
-			"application_id":               "应用ID",
-			"application_name":             "应用名称",
-			"application_type":             "应用类型",
-			"group_status":                 "应用类别",
-			"cluster_type":                 "集群类型",
-			"api_count":                    "api数量",
-			"acl_mode":                     "acl模式",
-			"description":                  "描述",
-			"gateway_instance_type":        "网关实例类型",
-			"namespace_name_key":           "命名空间名称key",
-			"service_name_key":             "微服务名称参数key",
-			"namespace_name_key_position":  "命名空间参数位置",
-			"service_name_key_position":    "微服务名称参数位置",
-			"result_output_file":           "用于保存结果",
+			"deploy_group_id":       "绑定的网关部署组ID",
+			"deploy_group_name":     "部署组名称",
+			"application_id":         "应用ID",
+			"application_name":       "应用名称",
+			"application_type":       "应用类型",
+			"group_status":          "应用类别",
+			"cluster_type":          "集群类型",
+			"api_count":             "api数量",
+			"acl_mode":              "acl模式",
+			"description":           "描述",
+			"gateway_instance_type": "网关实例类型",
+			"namespace_name_key":    "命名空间名称key",
+			"service_name_key":      "微服务名称参数key",
+			"namespace_name_key_position": "命名空间参数位置",
+			"service_name_key_position": "微服务名称参数位置",
+			"result_output_file":    "用于保存结果",
 		},
 	})
 }
@@ -72,7 +70,7 @@ func init() {
 func dataSourceTencentCloudTsfApiGroup() *schema.Resource {
 	return &schema.Resource{
 		Description: "Use this data source to query detailed information of tsf api_group",
-		Read:        dataSourceTencentCloudTsfApiGroupRead,
+		Read: dataSourceTencentCloudTsfApiGroupRead,
 		Schema: map[string]*schema.Schema{
 			"search_word": {
 				Optional:    true,

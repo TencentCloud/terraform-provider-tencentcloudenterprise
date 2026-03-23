@@ -1,23 +1,21 @@
 /*
 Provides a resource to create a VPC routing table.
 
-# Example Usage
+Example Usage
 
 ```hcl
+resource "tencentcloudenterprise_vpc" "foo" {
+  name       = "ci-temp-test"
+  cidr_block = "10.0.0.0/16"
+}
 
-	resource "tencentcloudenterprise_vpc" "foo" {
-	  name       = "ci-temp-test"
-	  cidr_block = "10.0.0.0/16"
-	}
-
-	resource "tencentcloudenterprise_vpc_route_table" "foo" {
-	  vpc_id = tencentcloudenterprise_vpc.foo.id
-	  name   = "ci-temp-test-rt"
-	}
-
+resource "tencentcloudenterprise_vpc_route_table" "foo" {
+  vpc_id = tencentcloudenterprise_vpc.foo.id
+  name   = "ci-temp-test-rt"
+}
 ```
 
-# Import
+Import
 
 Vpc routetable instance can be imported, e.g.
 
@@ -32,10 +30,10 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"terraform-provider-tencentcloudenterprise/sdk/common/errors"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func init() {

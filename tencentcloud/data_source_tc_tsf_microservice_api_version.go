@@ -1,16 +1,14 @@
 /*
 Use this data source to query detailed information of tsf microservice_api_version
 
-# Example Usage
+Example Usage
 
 ```hcl
-
-	data "tencentcloudenterprise_tsf_microservice_api_version" "microservice_api_version" {
-	  microservice_id = "ms-yq3jo6jd"
-	  path = ""
-	  method = "get"
-	}
-
+data "tencentcloudenterprise_tsf_microservice_api_version" "microservice_api_version" {
+  microservice_id = "ms-yq3jo6jd"
+  path = ""
+  method = "get"
+}
 ```
 */
 package tencentcloud
@@ -18,10 +16,10 @@ package tencentcloud
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	tsf "terraform-provider-tencentcloudenterprise/sdk/tsf/v20180326"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func init() {
@@ -29,14 +27,14 @@ func init() {
 		TerraformTypeCN: "TSF微服务API版本",
 		DescriptionCN:   "提供TSF微服务API版本数据源，用于查询TSF微服务API版本的详细信息。",
 		AttributesCN: map[string]string{
-			"microservice_id":    "微服务ID",
-			"path":               "api路径",
-			"method":             "请求方法",
-			"result":             "api版本列表",
-			"result_output_file": "用于保存结果",
-			"application_id":     "应用ID",
-			"application_name":   "应用名称",
-			"pkg_version":        "应用包版本",
+			"microservice_id":     "微服务ID",
+			"path":                "api路径",
+			"method":              "请求方法",
+			"result":              "api版本列表",
+			"result_output_file":  "用于保存结果",
+			"application_id":       "应用ID",
+			"application_name":     "应用名称",
+			"pkg_version":          "应用包版本",
 		},
 	})
 }
@@ -44,7 +42,7 @@ func init() {
 func dataSourceTencentCloudTsfMicroserviceApiVersion() *schema.Resource {
 	return &schema.Resource{
 		Description: "This data source provides detailed information of tsf microservice_api_version",
-		Read:        dataSourceTencentCloudTsfMicroserviceApiVersionRead,
+		Read: dataSourceTencentCloudTsfMicroserviceApiVersionRead,
 		Schema: map[string]*schema.Schema{
 			"microservice_id": {
 				Required:    true,

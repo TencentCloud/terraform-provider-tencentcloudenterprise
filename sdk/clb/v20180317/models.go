@@ -182,60 +182,60 @@ type CreateLoadBalancerRequest struct {
 	*tchttp.BaseRequest
 
 	// 负载均衡实例的网络类型：
-	// OPEN：公网属性， INTERNAL：内网属性。
+	// OPEN：公网属性，&nbsp;INTERNAL：内网属性。
 
 	LoadBalancerType *string `json:"LoadBalancerType,omitempty" name:"LoadBalancerType"`
 	// 负载均衡实例的类型。1：通用的负载均衡实例，目前只支持传入1
 
 	Forward *int64 `json:"Forward,omitempty" name:"Forward"`
-	// 负载均衡实例的名称，只在创建一个实例的时候才会生效。规则：1-50 个英文、汉字、数字、连接线“-”或下划线“_”。
+	// 负载均衡实例的名称，只在创建一个实例的时候才会生效。规则：1-50&nbsp;个英文、汉字、数字、连接线“-”或下划线“_”。
 	// 注意：如果名称与系统中已有负载均衡实例的名称相同，则系统将会自动生成此次创建的负载均衡实例的名称。
 
 	LoadBalancerName *string `json:"LoadBalancerName,omitempty" name:"LoadBalancerName"`
-	// 负载均衡后端目标设备所属的网络 ID，如vpc-12345678，可以通过 DescribeVpcEx 接口获取。 不传此参数则默认为基础网络（"0"）。
+	// 负载均衡后端目标设备所属的网络&nbsp;ID，如vpc-j9x73ko1，可以通过&nbsp;DescribeVpcEx&nbsp;接口获取。&nbsp;不传此参数则默认为基础网络（"0"）。
 
 	VpcId *string `json:"VpcId,omitempty" name:"VpcId"`
-	// 在私有网络内购买内网负载均衡实例的情况下，必须指定子网 ID，内网负载均衡实例的 VIP 将从这个子网中产生。
+	// 在私有网络内购买内网负载均衡实例的情况下，必须指定子网&nbsp;ID，内网负载均衡实例的&nbsp;VIP&nbsp;将从这个子网中产生。
 
 	SubnetId *string `json:"SubnetId,omitempty" name:"SubnetId"`
-	// 负载均衡实例所属的项目 ID，可以通过 DescribeProject 接口获取。不传此参数则视为默认项目。
+	// 负载均衡实例所属的项目&nbsp;ID，可以通过&nbsp;DescribeProject&nbsp;接口获取。不传此参数则视为默认项目。
 
 	ProjectId *int64 `json:"ProjectId,omitempty" name:"ProjectId"`
-	// 仅适用于公网负载均衡。IP版本，可取值：IPV4、IPV6、IPv6FullChain，默认值 IPV4。
+	// 仅适用于公网负载均衡。IP版本，可取值：IPV4、IPV6、IPv6FullChain，默认值&nbsp;IPV4。
 
 	AddressIPVersion *string `json:"AddressIPVersion,omitempty" name:"AddressIPVersion"`
-	// 创建负载均衡的个数，默认值 1。
+	// 创建负载均衡的个数，默认值&nbsp;1。
 
 	Number *uint64 `json:"Number,omitempty" name:"Number"`
-	// 仅适用于公网负载均衡。设置跨可用区容灾时的主可用区ID，例如 100001 或 ap-guangzhou-1
-	// 注：主可用区是需要承载流量的可用区，备可用区默认不承载流量，主可用区不可用时才使用备可用区，平台将为您自动选择最佳备可用区。可通过 DescribeMasterZones 接口查询一个地域的主可用区的列表。
+	// 设置跨可用区容灾时的主可用区ID，例如&nbsp;100001&nbsp;或&nbsp;ap-region1-1
+	// 注：主可用区是需要承载流量的可用区，备可用区默认不承载流量，主可用区不可用时才使用备可用区。可通过&nbsp;DescribeMasterZones&nbsp;接口查询一个地域的主可用区的列表。
 
 	MasterZoneId *string `json:"MasterZoneId,omitempty" name:"MasterZoneId"`
-	// 仅适用于公网负载均衡。可用区ID，指定可用区以创建负载均衡实例。如：ap-guangzhou-1
+	// 仅适用于公网负载均衡。可用区ID，指定可用区以创建负载均衡实例。如：ap-region1-1。私有云暂不使用
 
 	ZoneId *string `json:"ZoneId,omitempty" name:"ZoneId"`
-	// 仅适用于公网负载均衡。Anycast的发布域，可取 ZONE_A 或 ZONE_B。仅带宽非上移用户支持此参数。（已下线）
+	// 仅适用于公网负载均衡。Anycast的发布域，可取&nbsp;ZONE_A&nbsp;或&nbsp;ZONE_B。仅带宽非上移用户支持此参数。（已下线）
 
 	AnycastZone *string `json:"AnycastZone,omitempty" name:"AnycastZone"`
 	// 仅适用于公网负载均衡。负载均衡的网络计费模式。
 
 	InternetAccessible *InternetAccessible `json:"InternetAccessible,omitempty" name:"InternetAccessible"`
-	// 仅适用于公网负载均衡。CMCC | CTCC | CUCC，分别对应 移动 | 电信 | 联通，如果不指定本参数，则默认使用BGP。可通过 DescribeSingleIsp 接口查询一个地域所支持的Isp。如果指定运营商，则网络计费式只能使用按带宽包计费(BANDWIDTH_PACKAGE)。
+	// 仅适用于公网负载均衡。CMCC&nbsp;|&nbsp;CTCC&nbsp;|&nbsp;CUCC&nbsp;|&nbsp;BGP，如果不指定本参数，则默认使用BGP。可通过&nbsp;DescribeIspInfo&nbsp;接口查询一个地域所支持的Isp。
 
 	VipIsp *string `json:"VipIsp,omitempty" name:"VipIsp"`
 	// 购买负载均衡同时，给负载均衡打上标签
 
 	Tags []*TagInfo `json:"Tags,omitempty" name:"Tags"`
-	// 是否支持直通（仅供自研用户使用）
+	// 是否支持直通。私有云不支持
 
 	ZhiTong *bool `json:"ZhiTong,omitempty" name:"ZhiTong"`
-	// 指定Vip申请负载均衡，必须同时指定 TgwGroupName 参数
+	// 指定Vip申请负载均衡，必须同时指定&nbsp;TgwGroupName&nbsp;参数
 
 	Vip *string `json:"Vip,omitempty" name:"Vip"`
 	// Tgw独占集群的名称
 
 	TgwGroupName *string `json:"TgwGroupName,omitempty" name:"TgwGroupName"`
-	// 是否可绑定高防包
+	// 是否可绑定高防包。私有云不支持
 
 	IsDDos *bool `json:"IsDDos,omitempty" name:"IsDDos"`
 	// 带宽包ID，网络计费方式选择带宽包时必须指定带宽包ID
@@ -244,16 +244,25 @@ type CreateLoadBalancerRequest struct {
 	// 独占集群信息
 
 	ExclusiveCluster *ExclusiveCluster `json:"ExclusiveCluster,omitempty" name:"ExclusiveCluster"`
-	// 仅适用于公网负载均衡。设置跨可用区容灾时的备可用区ID，例如 100001 或 ap-guangzhou-1
-	// 注：主可用区是需要承载流量的可用区，备可用区默认不承载流量，主可用区不可用时才使用备可用区，自动切换至备可用区。可通过 DescribeMasterZones 接口查询一个地域的主备可用区的列表。
+	// 设置跨可用区容灾时的备可用区ID，例如&nbsp;100001&nbsp;或&nbsp;ap-region1-1
+	// 注：主可用区是需要承载流量的可用区，备可用区默认不承载流量，主可用区不可用时才使用备可用区，自动切换至备可用区。可通过&nbsp;DescribeMasterZones&nbsp;接口查询一个地域的主备可用区的列表。
 
 	SlaveZoneId *string `json:"SlaveZoneId,omitempty" name:"SlaveZoneId"`
-	// TCE专用参数，申请内网clb时，可传入四层集群标签，指定四层独占集群
+	// 私有云专用参数，申请内网clb时，可传入四层集群标签，指定四层独占集群
 
 	TgwSetLabels []*string `json:"TgwSetLabels,omitempty" name:"TgwSetLabels"`
-	// TCE专用参数，申请内网clb时，可传入七层集群标签，指定七层独占集群
+	// 私有云专用参数，申请内网clb时，可传入七层集群标签，指定七层独占集群
 
 	StgwSetLabels []*string `json:"StgwSetLabels,omitempty" name:"StgwSetLabels"`
+	// EIP&nbsp;的唯一&nbsp;ID，形如：eip-11112222，仅适用于内网负载均衡绑定EIP。
+
+	EipAddressId *string `json:"EipAddressId,omitempty" name:"EipAddressId"`
+	// 本地专用集群ID
+
+	ClusterIds []*string `json:"ClusterIds,omitempty" name:"ClusterIds"`
+	// 是否从vpc侧申请v6地址，1表示跟vpc解耦，不从vpc侧申请地址，0表示不跟vpc解耦，从vpc侧申请地址
+
+	IPv6DecoupleVpc *int64 `json:"IPv6DecoupleVpc,omitempty" name:"IPv6DecoupleVpc"`
 }
 
 func (r *CreateLoadBalancerRequest) ToJsonString() string {
@@ -1041,14 +1050,14 @@ func (r *DescribeIspInfoResponse) FromJsonString(s string) error {
 
 type LoadBalancer struct {
 
-	// 负载均衡实例 ID。
+	// 负载均衡实例&nbsp;ID。
 
 	LoadBalancerId *string `json:"LoadBalancerId,omitempty" name:"LoadBalancerId"`
 	// 负载均衡实例的名称。
 
 	LoadBalancerName *string `json:"LoadBalancerName,omitempty" name:"LoadBalancerName"`
 	// 负载均衡实例的网络类型：
-	// OPEN：公网属性， INTERNAL：内网属性。
+	// OPEN：公网属性，&nbsp;INTERNAL：内网属性。
 
 	LoadBalancerType *string `json:"LoadBalancerType,omitempty" name:"LoadBalancerType"`
 	// 负载均衡类型标识，1：负载均衡，0：传统型负载均衡。
@@ -1057,7 +1066,7 @@ type LoadBalancer struct {
 	// 负载均衡实例的域名，仅公网传统型负载均衡实例才提供该字段
 
 	Domain *string `json:"Domain,omitempty" name:"Domain"`
-	// 负载均衡实例的 VIP 列表。
+	// 负载均衡实例的&nbsp;VIP&nbsp;列表。
 
 	LoadBalancerVips []*string `json:"LoadBalancerVips,omitempty" name:"LoadBalancerVips"`
 	// 负载均衡实例的状态，包括
@@ -1070,22 +1079,22 @@ type LoadBalancer struct {
 	// 负载均衡实例的上次状态转换时间。
 
 	StatusTime *string `json:"StatusTime,omitempty" name:"StatusTime"`
-	// 负载均衡实例所属的项目 ID， 0 表示默认项目。
+	// 负载均衡实例所属的项目&nbsp;ID，&nbsp;0&nbsp;表示默认项目。
 
 	ProjectId *uint64 `json:"ProjectId,omitempty" name:"ProjectId"`
-	// 私有网络的 ID
+	// 私有网络的&nbsp;ID
 
 	VpcId *string `json:"VpcId,omitempty" name:"VpcId"`
-	// 高防 LB 的标识，1：高防负载均衡 0：非高防负载均衡。
+	// 高防&nbsp;LB&nbsp;的标识，1：高防负载均衡&nbsp;0：非高防负载均衡。
 
 	OpenBgp *uint64 `json:"OpenBgp,omitempty" name:"OpenBgp"`
-	// 在 2016 年 12 月份之前的传统型内网负载均衡都是开启了 snat 的。
+	// 在&nbsp;2016&nbsp;年&nbsp;12&nbsp;月份之前的传统型内网负载均衡都是开启了&nbsp;snat&nbsp;的。
 
 	Snat *bool `json:"Snat,omitempty" name:"Snat"`
 	// 0：表示未被隔离，1：表示被隔离。
 
 	Isolation *uint64 `json:"Isolation,omitempty" name:"Isolation"`
-	// 用户开启日志的信息，日志只有公网属性创建了 HTTP 、HTTPS 监听器的负载均衡才会有日志。
+	// 用户开启日志的信息，日志只有公网属性创建了&nbsp;HTTP&nbsp;、HTTPS&nbsp;监听器的负载均衡才会有日志。
 
 	Log *string `json:"Log,omitempty" name:"Log"`
 	// 负载均衡实例所在的子网（仅对内网VPC型LB有意义）
@@ -1103,10 +1112,10 @@ type LoadBalancer struct {
 	// anycast负载均衡的发布域，对于非anycast的负载均衡，此字段返回为空字符串
 
 	AnycastZone *string `json:"AnycastZone,omitempty" name:"AnycastZone"`
-	// IP版本，ipv4 | ipv6
+	// IP版本，ipv4&nbsp;|&nbsp;ipv6
 
 	AddressIPVersion *string `json:"AddressIPVersion,omitempty" name:"AddressIPVersion"`
-	// 数值形式的私有网络 ID
+	// 数值形式的私有网络&nbsp;ID
 
 	NumericalVpcId *uint64 `json:"NumericalVpcId,omitempty" name:"NumericalVpcId"`
 	// 负载均衡IP地址所属的ISP
@@ -1157,7 +1166,7 @@ type LoadBalancer struct {
 	// 内网独占集群
 
 	ExclusiveCluster *ExclusiveCluster `json:"ExclusiveCluster,omitempty" name:"ExclusiveCluster"`
-	// IP地址版本为ipv6时此字段有意义， IPv6Nat64 | IPv6FullChain
+	// IP地址版本为ipv6时此字段有意义，&nbsp;IPv6Nat64&nbsp;|&nbsp;IPv6FullChain
 
 	IPv6Mode *string `json:"IPv6Mode,omitempty" name:"IPv6Mode"`
 	// 是否开启SnatPro
@@ -1181,10 +1190,10 @@ type LoadBalancer struct {
 	// 属性标签列表
 
 	AttributeFlags []*string `json:"AttributeFlags,omitempty" name:"AttributeFlags"`
-	// TCE专用，clb实例绑定的四层集群标签
+	// 私有云专用，clb实例绑定的四层集群标签
 
 	TgwSetLabels []*string `json:"TgwSetLabels,omitempty" name:"TgwSetLabels"`
-	// TCE专用，clb实例绑定的七层集群标签
+	// 私有云专用，clb实例绑定的七层集群标签
 
 	StgwSetLabels []*string `json:"StgwSetLabels,omitempty" name:"StgwSetLabels"`
 	// 私有网络内网负载均衡，就近接入模式下规则所落在的可用区
@@ -1211,6 +1220,9 @@ type LoadBalancer struct {
 	// 7层独占标签。
 
 	ClusterTag *string `json:"ClusterTag,omitempty" name:"ClusterTag"`
+	// 7层独占集群ID。
+
+	ClusterIds []*string `json:"ClusterIds,omitempty" name:"ClusterIds"`
 	// 负载均衡IP地址所属的ISP别名
 
 	VipIspAlias *string `json:"VipIspAlias,omitempty" name:"VipIspAlias"`
@@ -1502,38 +1514,38 @@ func (r *DescribeLBListenersRequest) FromJsonString(s string) error {
 type DescribeLoadBalancersRequest struct {
 	*tchttp.BaseRequest
 
-	// 负载均衡实例 ID。
+	// 负载均衡实例ID。实例ID数量上限为20个。
 
 	LoadBalancerIds []*string `json:"LoadBalancerIds,omitempty" name:"LoadBalancerIds"`
 	// 负载均衡实例的网络类型：
-	// OPEN：公网属性， INTERNAL：内网属性。
+	// OPEN：公网属性，&nbsp;INTERNAL：内网属性。
 
 	LoadBalancerType *string `json:"LoadBalancerType,omitempty" name:"LoadBalancerType"`
-	// 负载均衡实例的类型。1：通用的负载均衡实例，0：传统型负载均衡实例。如果不传此参数，则查询所有类型的负载均衡实例。
+	// 负载均衡实例的类型。1：通用的负载均衡实例。如果不传此参数，则查询所有类型的负载均衡实例。
 
 	Forward *int64 `json:"Forward,omitempty" name:"Forward"`
 	// 负载均衡实例的名称。
 
 	LoadBalancerName *string `json:"LoadBalancerName,omitempty" name:"LoadBalancerName"`
-	// 腾讯云为负载均衡实例分配的域名，本参数仅对传统型公网负载均衡才有意义。
+	// 云平台为负载均衡实例分配的域名。
 
 	Domain *string `json:"Domain,omitempty" name:"Domain"`
-	// 负载均衡实例的 VIP 地址，支持多个。
+	// 负载均衡实例的&nbsp;VIP&nbsp;地址，支持多个。
 
 	LoadBalancerVips []*string `json:"LoadBalancerVips,omitempty" name:"LoadBalancerVips"`
-	// 负载均衡绑定的后端服务的外网 IP。
+	// 负载均衡绑定的后端服务的外网&nbsp;IP。
 
 	BackendPublicIps []*string `json:"BackendPublicIps,omitempty" name:"BackendPublicIps"`
-	// 负载均衡绑定的后端服务的内网 IP。
+	// 负载均衡绑定的后端服务的内网&nbsp;IP。
 
 	BackendPrivateIps []*string `json:"BackendPrivateIps,omitempty" name:"BackendPrivateIps"`
-	// 数据偏移量，默认为 0。
+	// 数据偏移量，默认为&nbsp;0。
 
 	Offset *int64 `json:"Offset,omitempty" name:"Offset"`
 	// 返回负载均衡实例的数量，默认为20，最大值为100。
 
 	Limit *int64 `json:"Limit,omitempty" name:"Limit"`
-	// 排序参数，支持以下字段：LoadBalancerName，CreateTime，Domain，LoadBalancerType。
+	// 排序参数，支持以下字段：LoadBalancerName，CreateTime，Domain，LoadBalancerType。LoadBalancerName表示lb实例名称，CreateTime表示创建时间，Domain表示域名，LoadBalancerType表示实例类型。
 
 	OrderBy *string `json:"OrderBy,omitempty" name:"OrderBy"`
 	// 1：倒序，0：顺序，默认按照创建时间倒序。
@@ -1542,26 +1554,23 @@ type DescribeLoadBalancersRequest struct {
 	// 搜索字段，模糊匹配名称、域名、VIP。
 
 	SearchKey *string `json:"SearchKey,omitempty" name:"SearchKey"`
-	// 负载均衡实例所属的项目 ID，可以通过 DescribeProject 接口获取。
+	// 负载均衡实例所属的项目&nbsp;ID，可以通过&nbsp;DescribeProject&nbsp;接口获取。
 
 	ProjectId *int64 `json:"ProjectId,omitempty" name:"ProjectId"`
 	// 负载均衡是否绑定后端服务，0：没有绑定后端服务，1：绑定后端服务，-1：查询全部。
 
 	WithRs *int64 `json:"WithRs,omitempty" name:"WithRs"`
-	// 负载均衡实例所属私有网络唯一ID，如 vpc-bhqkbhdx，
-	// 基础网络可传入'0'。
+	// 负载均衡实例所属私有网络唯一ID，如&nbsp;vpc-bhqkbhdx。
 
 	VpcId *string `json:"VpcId,omitempty" name:"VpcId"`
-	// 安全组ID，如 sg-m1cc9123
+	// 安全组ID，如&nbsp;sg-m1cc9123
 
 	SecurityGroup *string `json:"SecurityGroup,omitempty" name:"SecurityGroup"`
-	// 主可用区ID，如 ："100001" （对应的是广州一区）
+	// 主可用区ID，如&nbsp;："100001"&nbsp;
 
 	MasterZone *string `json:"MasterZone,omitempty" name:"MasterZone"`
 	// 每次请求的`Filters`的上限为10，`Filter.Values`的上限为100。详细的过滤条件如下：
-	// <li> internet-charge-type - String - 是否必填：否 - （过滤条件）按照 CLB 的网络计费模式过滤，包括"BANDWIDTH_PREPAID","TRAFFIC_POSTPAID_BY_HOUR","BANDWIDTH_POSTPAID_BY_HOUR","BANDWIDTH_PACKAGE"。</li>
-	// <li> master-zone-id - String - 是否必填：否 - （过滤条件）按照 CLB 的主可用区ID过滤，如 ："100001" （对应的是广州一区）。</li>
-	// <li> tag-key - String - 是否必填：否 - （过滤条件）按照 CLB 标签的键过滤。</li>
+	// <li>&nbsp;internet-charge-type&nbsp;-&nbsp;String&nbsp;-&nbsp;是否必填：否&nbsp;-&nbsp;（过滤条件）按照&nbsp;CLB&nbsp;的网络计费模式过滤，包括"BANDWIDTH_PREPAID","TRAFFIC_POSTPAID_BY_HOUR","BANDWIDTH_POSTPAID_BY_HOUR","BANDWIDTH_PACKAGE"。</li><li>&nbsp;master-zone-id&nbsp;-&nbsp;String&nbsp;-&nbsp;是否必填：否&nbsp;-&nbsp;（过滤条件）按照&nbsp;CLB&nbsp;的主可用区ID过滤，如&nbsp;："100001"&nbsp;。</li><li>&nbsp;tag-key&nbsp;-&nbsp;String&nbsp;-&nbsp;是否必填：否&nbsp;-&nbsp;（过滤条件）按照&nbsp;CLB&nbsp;标签的键过滤。</li>
 
 	Filters []*Filter `json:"Filters,omitempty" name:"Filters"`
 }
@@ -3947,7 +3956,7 @@ type ModifyLoadBalancerAttributesRequest struct {
 	// 7层集群列表
 
 	ExclusiveCluster *ExclusiveCluster `json:"ExclusiveCluster,omitempty" name:"ExclusiveCluster"`
-	// 是否开启SnatPro
+	// 是否开启跨地域绑定2.0功能（私有云不支持）
 
 	SnatPro *bool `json:"SnatPro,omitempty" name:"SnatPro"`
 }
@@ -5161,4 +5170,117 @@ type BasicTargetGroupInfo struct {
 	// 目标组名称
 
 	TargetGroupName *string `json:"TargetGroupName,omitempty" name:"TargetGroupName"`
+}
+
+type DescribeClsLogSetRequest struct {
+	*tchttp.BaseRequest
+}
+
+func (r *DescribeClsLogSetRequest) ToJsonString() string {
+	b, _ := json.Marshal(r)
+	return string(b)
+}
+
+func (r *DescribeClsLogSetRequest) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
+type DescribeClsLogSetResponse struct {
+	*tchttp.BaseResponse
+
+	Response *struct {
+		// 日志集ID
+		LogsetId *string `json:"LogsetId,omitempty" name:"LogsetId"`
+		// 健康检查日志集ID
+		HealthLogsetId *string `json:"HealthLogsetId,omitempty" name:"HealthLogsetId"`
+		// 唯一请求 ID，每次请求都会返回。
+		RequestId *string `json:"RequestId,omitempty" name:"RequestId"`
+	} `json:"Response"`
+}
+
+func (r *DescribeClsLogSetResponse) ToJsonString() string {
+	b, _ := json.Marshal(r)
+	return string(b)
+}
+
+func (r *DescribeClsLogSetResponse) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
+type CreateClsLogSetRequest struct {
+	*tchttp.BaseRequest
+
+	// 日志集名称
+	LogsetName *string `json:"LogsetName,omitempty" name:"LogsetName"`
+	// 日志集保存时间（天）
+	Period *uint64 `json:"Period,omitempty" name:"Period"`
+	// 日志集类型，ACCESS：访问日志，HEALTH：健康检查日志
+	LogsetType *string `json:"LogsetType,omitempty" name:"LogsetType"`
+}
+
+func (r *CreateClsLogSetRequest) ToJsonString() string {
+	b, _ := json.Marshal(r)
+	return string(b)
+}
+
+func (r *CreateClsLogSetRequest) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
+type CreateClsLogSetResponse struct {
+	*tchttp.BaseResponse
+
+	Response *struct {
+		// 日志集ID
+		LogsetId *string `json:"LogsetId,omitempty" name:"LogsetId"`
+		// 唯一请求 ID，每次请求都会返回。
+		RequestId *string `json:"RequestId,omitempty" name:"RequestId"`
+	} `json:"Response"`
+}
+
+func (r *CreateClsLogSetResponse) ToJsonString() string {
+	b, _ := json.Marshal(r)
+	return string(b)
+}
+
+func (r *CreateClsLogSetResponse) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
+type CreateTopicRequest struct {
+	*tchttp.BaseRequest
+
+	// 日志主题的名称
+	TopicName *string `json:"TopicName,omitempty" name:"TopicName"`
+	// 日志主题的分区个数
+	PartitionCount *uint64 `json:"PartitionCount,omitempty" name:"PartitionCount"`
+}
+
+func (r *CreateTopicRequest) ToJsonString() string {
+	b, _ := json.Marshal(r)
+	return string(b)
+}
+
+func (r *CreateTopicRequest) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
+type CreateTopicResponse struct {
+	*tchttp.BaseResponse
+
+	Response *struct {
+		// 日志主题ID
+		TopicId *string `json:"TopicId,omitempty" name:"TopicId"`
+		// 唯一请求 ID，每次请求都会返回。
+		RequestId *string `json:"RequestId,omitempty" name:"RequestId"`
+	} `json:"Response"`
+}
+
+func (r *CreateTopicResponse) ToJsonString() string {
+	b, _ := json.Marshal(r)
+	return string(b)
+}
+
+func (r *CreateTopicResponse) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
 }

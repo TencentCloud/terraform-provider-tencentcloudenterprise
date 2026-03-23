@@ -222,6 +222,7 @@ import (
 
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/service/s3"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/tencentyun/cos-go-sdk-v5"
 
@@ -233,12 +234,12 @@ func init() {
 		TerraformTypeCN: "云存储桶COS",
 		DescriptionCN:   "提供对象存储COS存储桶资源，用于创建和管理腾讯云对象存储桶。",
 		AttributesCN: map[string]string{
-			"bucket":               "存储桶名称，格式为[自定义名称]-[appid]，例如：mycos-1258798060，appid可以在账号中心获取",
-			"acl":                  "权限控制, 可取值包括private(私有读写), public-read(公有读私有写)和public-read-write(公有读写)",
-			"encryption_algorithm": "加密算法, 合法取值包括AES256、SM4",
-			"versioning_enable":    "版本控制",
-			"acceleration_enable":  "加速配置",
-			"force_clean":          "强制清空存储桶",
+			"bucket":                    "存储桶名称，格式为[自定义名称]-[appid]，例如：mycos-1258798060，appid可以在账号中心获取",
+			"acl":                       "权限控制, 可取值包括private(私有读写), public-read(公有读私有写)和public-read-write(公有读写)",
+			"encryption_algorithm":      "加密算法, 合法取值包括AES256、SM4",
+			"versioning_enable":         "版本控制",
+			"acceleration_enable":       "加速配置",
+			"force_clean":               "强制清空存储桶",
 			//"replica_role":              "跨区域复制角色",
 			//"replica_rules":             "跨区域复制规则",
 			"id":                        "规则名称",
@@ -270,8 +271,8 @@ func init() {
 			"non_current_days":       "非当前版本指定规则生效天数，例如: 非当前版本在过期规则下代表在days天后过期或者在沉降规则下则代表在days天后沉降",
 			"storage_class":          "存储类型",
 			"non_current_expiration": "非当前版本文件过期配置",
-			"days":                   "指定规则生效天数，例如: 在过期规则下代表在days天后过期，在沉降规则下则代表在days天后沉降",
-			"delete_marker":          "删除标记，该选项与expiration(当前版本文件过期配置)互斥，是版本控制中的逻辑标记，用于 “删除” 对象时保留历史版本，避免物理删除，可通过移除该标记恢复数据。",
+			"days": 				  "指定规则生效天数，例如: 在过期规则下代表在days天后过期，在沉降规则下则代表在days天后沉降",
+			"delete_marker":		  "删除标记，该选项与expiration(当前版本文件过期配置)互斥，是版本控制中的逻辑标记，用于 “删除” 对象时保留历史版本，避免物理删除，可通过移除该标记恢复数据。",
 		},
 	})
 }
@@ -607,7 +608,7 @@ func resourceTencentCloudCosBucket() *schema.Resource {
 							Type:        schema.TypeMap,
 							Optional:    true,
 							Description: "A map of tags to filter objects to which the rule applies.",
-							Elem: &schema.Schema{
+							Elem:        &schema.Schema{
 								Type: schema.TypeString,
 							},
 						},
@@ -803,13 +804,8 @@ func resourceTencentCloudCosBucketCreate(d *schema.ResourceData, meta interface{
 
 	cosService := CosService{client: meta.(*TencentCloudClient).apiV3Conn, useCspClient: false}
 
-	useCosService, createOptions := getBucketPutOptions(d)
-
-	if useCosService {
-		err = cosService.TencentCosPutBucket(ctx, bucket, createOptions)
-	} else {
-		err = cosService.PutBucket(ctx, bucket, acl)
-	}
+	// Create buckets using a unified S3 SDK
+	err = cosService.PutBucket(ctx, bucket, acl)
 	if err != nil {
 		return err
 	}
@@ -1639,7 +1635,7 @@ func resourceTencentCloudCosBucketLogStatusUpdate(ctx context.Context, client *s
 	// 		}
 
 	// 		//set log target bucket and prefix
-	// 		//grant are solved by the cloud_cam_role_attachment resource
+	// 		//grant are solved by the tencentcloudenterprise_cam_role_attachment resource
 	// 		request := &s3.PutBucketLoggingInput{
 	// 			Bucket: aws.String(bucket),
 	// 			BucketLoggingStatus: &s3.BucketLoggingStatus{
@@ -1984,23 +1980,29 @@ func setBucketReplication(d *schema.ResourceData, result cos.GetBucketReplicatio
 	return
 }
 
-// WaitCosBucketCreated wait bucket created
+// WaitCosBucketCreated waits until the bucket is created and accessible via S3 HeadBucket
 func WaitCosBucketCreated(ctx context.Context, service CosService, bucket string) error {
-	// optimize: to use github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry
 	logId := getLogId(ctx)
+	client := service.client.UseCosS3Client(service.useCspClient)
 
-	for i := 0; i < 10; i++ {
-		code, _, err := service.TencentcloudHeadBucket(ctx, bucket)
-		if err != nil {
-			if code == 404 {
-				log.Printf("[WARN]%s wait created bucket (%s) not found, error code (404)", logId, bucket)
-			}
-			time.Sleep(5 * time.Second)
-			log.Printf("[ERROR]%s wait created bucket (%s) error: %s", logId, bucket, err.Error())
-		} else {
+	var err error
+	err = resource.Retry(readRetryTimeout, func() *resource.RetryError {
+		_, err = client.HeadBucket(&s3.HeadBucketInput{
+			Bucket: aws.String(bucket),
+		})
+
+		if err == nil {
+			log.Printf("[DEBUG]%s Bucket (%s) is created and accessible", logId, bucket)
 			return nil
 		}
-	}
 
-	return fmt.Errorf("cos wait created bucket timeout: %s ", bucket)
+		log.Printf("[ERROR]%s Bucket (%s) check failed in retry: %v", logId, bucket, err)
+
+		return retryError(err)
+	})
+
+	if err != nil {
+		return fmt.Errorf("%s Wait for bucket (%s) created timeout: %w", logId, bucket, err)
+	}
+	return nil
 }

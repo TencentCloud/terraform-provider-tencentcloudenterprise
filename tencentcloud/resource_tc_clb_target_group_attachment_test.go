@@ -6,9 +6,9 @@ import (
 	"strings"
 	"testing"
 
+	clb "terraform-provider-tencentcloudenterprise/sdk/clb/v20180317"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
-	clb "terraform-provider-tencentcloudenterprise/sdk/clb/v20180317"
 )
 
 const clbTargetGroupAttachment = "tencentcloudenterprise_clb_target_group_attachment.group"

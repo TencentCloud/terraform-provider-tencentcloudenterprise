@@ -1,7 +1,7 @@
 /*
 Provides a resource to create a cfs auto_snapshot_policy
 
-# Example Usage
+Example Usage
 
 use day of week
 
@@ -42,7 +42,7 @@ use interval days
 
 ```
 
-# Import
+Import
 
 cfs auto_snapshot_policy can be imported using the id, e.g.
 
@@ -57,10 +57,10 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	cfs "terraform-provider-tencentcloudenterprise/sdk/cfs/v20190719"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func init() {
@@ -211,7 +211,7 @@ func resourceTencentCloudCfsAutoSnapshotPolicyRead(d *schema.ResourceData, meta 
 
 	if autoSnapshotPolicy == nil {
 		d.SetId("")
-		return fmt.Errorf("resource `cloud_cfs_auto_snapshot_policy` %s does not exist", d.Id())
+		return fmt.Errorf("resource `tencentcloudenterprise_cfs_auto_snapshot_policy` %s does not exist", d.Id())
 	}
 
 	if autoSnapshotPolicy.DayOfWeek != nil {

@@ -21,6 +21,7 @@ func TestAccTencentCloudClsCosShipper_basic(t *testing.T) {
 				Check: resource.ComposeTestCheckFunc(
 					testAccCheckClsCosShipperExists("tencentcloudenterprise_cls_cos_shipper.shipper"),
 					resource.TestCheckResourceAttr("tencentcloudenterprise_cls_cos_shipper.shipper", "shipper_name", "tf-shipper-test"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_cls_cos_shipper.shipper", "storage_type", "STANDARD"),
 				),
 			},
 			{
@@ -87,6 +88,7 @@ resource "tencentcloudenterprise_cls_cos_shipper" "shipper" {
   partition    = "/%Y/%m/%d/%H/"
   prefix       = "ap-guangzhou-fffsasad-1649734752"
   shipper_name = "tf-shipper-test"
+  storage_type = "STANDARD"
   topic_id     = tencentcloudenterprise_cls_topic.topic.id
 
   compress {

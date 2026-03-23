@@ -39,11 +39,11 @@ import (
 	"fmt"
 	"strings"
 
+	tke "terraform-provider-tencentcloudenterprise/sdk/tke/v20180525"
+	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/common"
-	tke "terraform-provider-tencentcloudenterprise/sdk/tke/v20180525"
-	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
 )
 
 func init() {
@@ -170,7 +170,7 @@ func resourceTkeServerlessNodePoolRead(d *schema.ResourceData, meta interface{})
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
 	service := TkeService{client: meta.(*TencentCloudClient).apiV3Conn}
 	var (
-		nodePool *tke.NodePoolSet
+		nodePool *tke.VirtualNodePool
 		has      bool
 	)
 
@@ -329,7 +329,7 @@ func genCreateClusterVirtualNodePoolReq(d *schema.ResourceData) *tke.CreateClust
 	return request
 }
 
-func setDataFromDescribeVirtualNodePoolResponse(clusterId string, res *tke.NodePoolSet, d *schema.ResourceData) error {
+func setDataFromDescribeVirtualNodePoolResponse(clusterId string, res *tke.VirtualNodePool, d *schema.ResourceData) error {
 	d.SetId(clusterId + FILED_SP + *res.NodePoolId)
 	_ = d.Set("name", res.Name)
 	_ = d.Set("life_state", res.LifeState)

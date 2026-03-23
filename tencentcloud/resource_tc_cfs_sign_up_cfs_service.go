@@ -1,7 +1,7 @@
 /*
 Provides a resource to create a cfs sign_up_cfs_service
 
-# Example Usage
+Example Usage
 
 ```hcl
 resource "tencentcloudenterprise_cfs_sign_up_cfs_service" "sign_up_cfs_service" {}
@@ -12,9 +12,9 @@ package tencentcloud
 import (
 	"log"
 
+	cfs "terraform-provider-tencentcloudenterprise/sdk/cfs/v20190719"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	cfs "terraform-provider-tencentcloudenterprise/sdk/cfs/v20190719"
 )
 
 func init() {

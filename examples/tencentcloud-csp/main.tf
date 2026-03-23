@@ -28,7 +28,7 @@ resource "tencentcloudenterprise_csp_bucket" "bucket" {
 
 # CSP Bucket Object
 resource "tencentcloudenterprise_csp_bucket_object" "object" {
-  bucket  = cloud_csp_bucket.bucket.bucket
+  bucket  = tencentcloudenterprise_csp_bucket.bucket.bucket
   key     = "example/data.json"
   content = jsonencode({
     message = "Hello from CSP"
@@ -38,7 +38,7 @@ resource "tencentcloudenterprise_csp_bucket_object" "object" {
 
 # CSP Bucket Policy
 resource "tencentcloudenterprise_csp_bucket_policy" "policy" {
-  bucket = cloud_csp_bucket.bucket.bucket
+  bucket = tencentcloudenterprise_csp_bucket.bucket.bucket
   policy = jsonencode({
     version = "2.0"
     statement = [
@@ -52,7 +52,7 @@ resource "tencentcloudenterprise_csp_bucket_policy" "policy" {
           "name/cos:GetObject"
         ]
         resource = [
-          "qcs::cos:ap-guangzhou:uid/123456:${cloud_csp_bucket.bucket.bucket}/*"
+          "qcs::cos:ap-guangzhou:uid/123456:${tencentcloudenterprise_csp_bucket.bucket.bucket}/*"
         ]
       }
     ]

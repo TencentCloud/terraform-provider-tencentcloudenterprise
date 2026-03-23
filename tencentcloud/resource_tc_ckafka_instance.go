@@ -126,8 +126,7 @@ Basic Instance
 	}
 
 	data "tencentcloudenterprise_availability_zones" "gz" {
-	  name    = "ap-guangzhou-3"
-	  product = "ckafka"
+	  name    = "ap-beijing-region-jcctest-ops-1"
 	}
 
 	resource "tencentcloudenterprise_ckafka_instance" "kafka_instance" {
@@ -141,11 +140,13 @@ Basic Instance
 	  msg_retention_time = 1300
 	  renew_flag         = 0
 	  kafka_version      = "2.4.1"
+	  band_width         = 1024
 	  disk_size          = 1000
 	  disk_type          = "SSD"
 	  instance_type      = "Basic"
 	  topic              = 20
 	  partition          = 4
+	  goods_num          = 1
 	  dynamic "product_info" {
 	    for_each = var.product_info_list_profession
 	    content {
@@ -201,10 +202,8 @@ Multi zone Instance
 
 ```
 
-# Import
-
+Import
 ckafka instance can be imported using the instance_id, e.g.
-
 ```
 $ terraform import tencentcloudenterprise_ckafka_instance.foo ckafka-f9ife4zz
 ```
@@ -623,20 +622,19 @@ func resourceTencentCloudCkafkaInstance() *schema.Resource {
 						},
 					},
 				},
-				Description: "Product information, when 规格类型=标准版 :\n" +
-					" When '规格类型' is '标准版','实例名' is optional; when '规格类型' is '专业版','实例名' and '产品型号'\n" +
-					" are optional, all other fields are required:\n" +
-					"  - name: 地域, value: 2R3AZ仲裁区集成测试环境北京\n" +
-					"  - name: 集群, value: cqyfm7 cluster\n" +
-					"  - name: 可用区, value: 重庆云福M7\n" +
-					"  - name: 实例名, value: test111\n" +
-					"  - name: 规格类型, value: 标准版\n" +
-					"  - name: 产品型号, value: 入门型\n" +
-					"  - name: 峰值带宽, value: 40MB/s\n" +
-					"  - name: 磁盘容量, value: 300GB\n" +
-					"  - name: 信息保留时长, value: 72小时\n" +
-					"  - name: 网络, value: vpc-kltzarib\n" +
-					"  - name: 子网, value: subnet-7qt1q9h6",
+				Description: "Product information. When Specs Type is Standard Edition, Instance Name is optional. " +
+					"When Specs Type is Pro Edition, Instance Name and Product Model are optional; all other fields are required:\n" +
+					"  - name: Region, value: example-region\n" +
+					"  - name: Cluster, value: example-cluster\n" +
+					"  - name: AZ, value: example-az\n" +
+					"  - name: Instance Name, value: test111\n" +
+					"  - name: Specs Type, value: Standard Edition\n" +
+					"  - name: Product Model, value: Basic\n" +
+					"  - name: Peak Bandwidth, value: 40MB/s\n" +
+					"  - name: Disk Capacity, value: 300GB\n" +
+					"  - name: Message Retention Period, value: 72 hours\n" +
+					"  - name: Network, value: vpc-kltzarib\n" +
+					"  - name: Subnet, value: subnet-7qt1q9h6",
 			},
 		},
 	}
@@ -711,7 +709,7 @@ func buildGoodsDetail(d *schema.ResourceData) *ckafka.GoodsDetail {
 	if pid == CkafkaProfessionPid {
 		goodsDetail.SubProductCode = CkafkaSubCode_Profession
 		goodsDetail.ExData["sv_ckafka_profession_partition_package_s1"] = 0
-		goodsDetail.ExData["sv_ckafka_profession_cloud_disk_disk_ssd"] = d.Get("disk_size").(int)
+		goodsDetail.ExData["sv_ckafka_profession_tencentcloudenterprise_disk_disk_ssd"] = d.Get("disk_size").(int)
 		if v, ok := d.GetOk("disk_type"); ok {
 			goodsDetail.ExData["diskType"] = v.(string)
 		}

@@ -1,16 +1,20 @@
-# SSL Certificate Examples
+resource "tencentcloudenterprise_ssl_certificate" "ca" {
+  name = "ssl-ca"
+  type = "CA"
+  cert = var.ca
+}
 
-# Note: SSL certificate resources are managed through CLB
-# See examples/tencentcloud-clb/main.tf for certificate examples
+resource "tencentcloudenterprise_ssl_certificate" "svr" {
+  name = "ssl-svr"
+  type = "SVR"
+  cert = var.cert
+  key  = var.key
+}
 
-# CLB Certificate creation example:
-# resource "tencentcloudenterprise_clb_certificates" "cert" {
-#   certificate_name    = "example-cert"
-#   certificate_type    = "SERVER"
-#   certificate_content = file("./server.crt")
-#   certificate_key     = file("./server.key")
-# }
+data "tencentcloudenterprise_ssl_certificates" "ca" {
+  name = tencentcloudenterprise_ssl_certificate.ca.name
+}
 
-# For standalone SSL certificate management, please refer to:
-# - CLB Certificates (cloud_clb_certificates)
-# - CDN Certificate operations
+data "tencentcloudenterprise_ssl_certificates" "svr" {
+  type = tencentcloudenterprise_ssl_certificate.svr.type
+}

@@ -1,7 +1,7 @@
 /*
 Use this data source to query detailed information of ckafka topic.
 
-# Example Usage
+Example Usage
 
 ```hcl
 
@@ -29,8 +29,8 @@ import (
 	"context"
 	"log"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func init() {

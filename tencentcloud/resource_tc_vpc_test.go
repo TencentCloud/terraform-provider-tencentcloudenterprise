@@ -120,8 +120,8 @@ func TestAccTencentCloudVpcV3Update(t *testing.T) {
 					resource.TestCheckResourceAttrSet("tencentcloudenterprise_vpc.foo", "create_time"),
 					resource.TestCheckResourceAttrSet("tencentcloudenterprise_vpc.foo", "dns_servers.#"),
 
-					resource.TestCheckTypeSetElemAttr("tencentcloudenterprise_vpc.foo", "dns_servers.*", "203.0.113.29"),
-					resource.TestCheckTypeSetElemAttr("tencentcloudenterprise_vpc.foo", "dns_servers.*", "203.0.113.116"),
+					resource.TestCheckTypeSetElemAttr("tencentcloudenterprise_vpc.foo", "dns_servers.*", "119.29.29.29"),
+					resource.TestCheckTypeSetElemAttr("tencentcloudenterprise_vpc.foo", "dns_servers.*", "182.254.116.116"),
 				),
 			},
 		},
@@ -223,7 +223,7 @@ const testAccVpcConfigUpdate = defaultVpcVariable + `
 resource "tencentcloudenterprise_vpc" "foo" {
   name       = var.instance_name_update
   cidr_block = var.vpc_cidr_less
-  dns_servers  = ["203.0.113.29", "203.0.113.116"]
+  dns_servers  = ["119.29.29.29", "182.254.116.116"]
   is_multicast = false
 }
 `

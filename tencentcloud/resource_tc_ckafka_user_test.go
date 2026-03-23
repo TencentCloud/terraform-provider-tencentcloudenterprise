@@ -12,7 +12,7 @@ import (
 )
 
 func init() {
-	// go test -v ./tencentcloud -sweep=ap-guangzhou -sweep-run=cloud_kafka
+	// go test -v ./tencentcloud -sweep=ap-guangzhou -sweep-run=tencentcloudenterprise_kafka
 	resource.AddTestSweepers("tencentcloudenterprise_kafka", &resource.Sweeper{
 		Name: "tencentcloudenterprise_kafka",
 		F: func(r string) error {

@@ -68,15 +68,15 @@ resource "tencentcloudenterprise_clb_instance" "foo" {
 resource "tencentcloudenterprise_clb_snat_ip" "snat_ips" {
   clb_id = tencentcloudenterprise_clb_instance.foo.id
   ips {
-    ip = "203.0.113.17"
+    ip = "172.16.151.17"
 	subnet_id = local.subnet_for_clb_snat.0
   }
   ips {
-	ip = "203.0.113.15"
+	ip = "172.16.151.15"
 	subnet_id = local.subnet_for_clb_snat.0
   }
   ips {
-	ip = "203.0.113.138"
+	ip = "172.16.151.138"
 	subnet_id = local.subnet_for_clb_snat.1
   }
 }
@@ -106,15 +106,15 @@ resource "tencentcloudenterprise_clb_instance" "foo" {
 resource "tencentcloudenterprise_clb_snat_ip" "snat_ips" {
   clb_id = tencentcloudenterprise_clb_instance.foo.id
   ips {
-    ip = "203.0.113.17"
+    ip = "172.16.151.17"
 	subnet_id = local.subnet_for_clb_snat.0
   }
   ips {
-	ip = "203.0.113.138"
+	ip = "172.16.151.138"
 	subnet_id = local.subnet_for_clb_snat.1
   }
   ips {
-	ip = "203.0.113.139"
+	ip = "172.16.151.139"
     subnet_id = local.subnet_for_clb_snat.1
   }
 }
@@ -144,7 +144,7 @@ resource "tencentcloudenterprise_clb_instance" "foo" {
 resource "tencentcloudenterprise_clb_snat_ip" "snat_ips" {
   clb_id = tencentcloudenterprise_clb_instance.foo.id
   ips {
-    ip = "203.0.113.16"
+    ip = "172.16.151.16"
 	subnet_id = local.subnet_for_clb_snat.0
   }
 }

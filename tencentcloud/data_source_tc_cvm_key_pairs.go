@@ -1,7 +1,7 @@
 /*
 Use this data source to query key pairs.
 
-# Example Usage
+Example Usage
 
 ```hcl
 
@@ -24,10 +24,10 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	cvm "terraform-provider-tencentcloudenterprise/sdk/cvm/v20170312"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func init() {

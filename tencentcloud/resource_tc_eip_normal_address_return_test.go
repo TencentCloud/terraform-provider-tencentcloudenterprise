@@ -25,6 +25,6 @@ func TestAccTencentCloudNeedFixEipNormalAddressReturnResource_basic(t *testing.T
 const testAccEipNormalAddressReturn = `
 
 resource "tencentcloudenterprise_eip_normal_address_return" "normal_address_return" {
-  address_ips = ["203.0.113.68"]
+  address_ips = ["111.230.44.68"]
 }
 `

@@ -1,14 +1,13 @@
 /*
 Provides a resource to create a tdmqRocketmq cluster
 
-# Example Usage
+Example Usage
 
 ```hcl
-
-	resource "tencentcloudenterprise_tdmq_rocketmq_cluster" "cluster" {
-		cluster_name = "test_rocketmq"
-		remark = "test rocket mq"
-	}
+resource "tencentcloudenterprise_tdmq_rocketmq_cluster" "cluster" {
+	cluster_name = "test_rocketmq"
+	remark = "test rocket mq"
+}
 
 ```
 Import
@@ -25,10 +24,10 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	tdmqRocketmq "terraform-provider-tencentcloudenterprise/sdk/tdmq/v20200217"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func init() {

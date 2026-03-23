@@ -6,12 +6,12 @@ import (
 
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
-	"github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/common"
 	"terraform-provider-tencentcloudenterprise/sdk/common/errors"
 	tdmq "terraform-provider-tencentcloudenterprise/sdk/tdmq/v20200217"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/connectivity"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/ratelimit"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/common"
 )
 
 // basic information
@@ -764,6 +764,7 @@ func (me *TdmqService) DescribeEnvironments(ctx context.Context, request *tdmq.D
 	infos = result.Response.EnvironmentSet
 	return
 }
+
 
 func (me *TdmqService) DescribeTdmqRabbitmqNodeListByFilter(ctx context.Context, param map[string]interface{}) (rabbitmqNodeList []*tdmq.RabbitMQPrivateNode, errRet error) {
 	var (

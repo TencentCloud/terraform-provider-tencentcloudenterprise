@@ -1,3 +1,40 @@
+/*
+Provides a resource to create and manage TDMQ RabbitMQ virtual host
+
+Example Usage
+
+### Create a basic virtual host
+
+```hcl
+resource "tencentcloudenterprise_tdmq_rabbitmq_virtual_host" "example" {
+  instance_id = "amqp-xxxxxxxx"
+  virtual_host = "my_vhost"
+  description  = "Virtual host for application 1"
+}
+```
+
+### Create a virtual host with mirror queue policy
+
+```hcl
+resource "tencentcloudenterprise_tdmq_rabbitmq_virtual_host" "with_mirror" {
+  instance_id = "amqp-xxxxxxxx"
+  virtual_host = "mirror_vhost"
+  description  = "Virtual host with mirror queue policy enabled"
+  mirror_queue_policy_flag = true
+}
+```
+
+### Create a virtual host without mirror queue policy
+
+```hcl
+resource "tencentcloudenterprise_tdmq_rabbitmq_virtual_host" "without_mirror" {
+  instance_id = "amqp-xxxxxxxx"
+  virtual_host = "no_mirror_vhost"
+  description  = "Virtual host without mirror queue policy"
+  mirror_queue_policy_flag = false
+}
+```
+*/
 package tencentcloud
 
 import (
@@ -6,9 +43,9 @@ import (
 	"log"
 	"strings"
 
+	tdmq "terraform-provider-tencentcloudenterprise/sdk/tdmq/v20200217"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	tdmq "terraform-provider-tencentcloudenterprise/sdk/tdmq/v20200217"
 
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
 )
@@ -18,10 +55,10 @@ func init() {
 		TerraformTypeCN: "TDMQ RabbitMQ虚拟主机",
 		DescriptionCN:   "提供TDMQ RabbitMQ虚拟主机资源，用于创建和管理TDMQ RabbitMQ虚拟主机。",
 		AttributesCN: map[string]string{
-			"instance_id":  "实例ID",
-			"virtual_host": "虚拟主机名称",
-			"description":  "虚拟主机描述",
-			"trace_flag":   "消息轨迹标志",
+			"instance_id":               "RabbitMQ实例ID",
+			"virtual_host":              "vhost名称,用于隔离不同应用的消息",
+			"description":               "vhost描述信息",
+			"mirror_queue_policy_flag": "是否创建镜像队列策略,true为创建,false为不创建,默认true",
 		},
 	})
 }
@@ -40,23 +77,29 @@ func resourceTencentCloudTdmqRabbitmqVirtualHost() *schema.Resource {
 			"instance_id": {
 				Required:    true,
 				Type:        schema.TypeString,
-				Description: "Cluster instance ID.",
+				Description: "RabbitMQ cluster instance ID. The ID of the RabbitMQ instance where the virtual host will be created.",
 			},
 			"virtual_host": {
 				Required:    true,
 				Type:        schema.TypeString,
-				Description: "vhost name.",
+				Description: "Virtual host (vhost) name. Virtual hosts provide logical grouping and separation of resources (exchanges, queues, bindings) within a RabbitMQ instance, allowing multiple applications to share the same RabbitMQ instance securely.",
 			},
 			"description": {
 				Optional:    true,
 				Type:        schema.TypeString,
-				Description: "describe.",
+				Description: "Description for the virtual host. Provides additional information about the vhost's purpose or usage.",
 			},
-			"trace_flag": {
+		"trace_flag": {
+			Computed:    true,
+			Type:        schema.TypeBool,
+			Description: "Message tracing switch status (read-only).",
+		},
+			"mirror_queue_policy_flag": {
 				Optional:    true,
-				Computed:    true,
+				ForceNew:    true,
 				Type:        schema.TypeBool,
-				Description: "Message track switch, true is on, false is off, default is off.",
+				Default:     true,
+				Description: "Whether to create a mirror queue policy. When enabled (`true`), a mirror queue policy will be automatically created to replicate queues across cluster nodes for high availability. When disabled (`false`), no mirror queue policy is created. Default is `true` (enabled). Note: This can only be set during virtual host creation and cannot be modified afterwards.",
 			},
 		},
 	}
@@ -87,8 +130,12 @@ func resourceTencentCloudTdmqRabbitmqVirtualHostCreate(d *schema.ResourceData, m
 		request.Description = helper.String(v.(string))
 	}
 
-	if v, ok := d.GetOkExists("trace_flag"); ok {
-		request.TraceFlag = helper.Bool(v.(bool))
+	request.TraceFlag = helper.Bool(false)
+
+	if v, ok := d.GetOkExists("mirror_queue_policy_flag"); ok {
+		request.MirrorQueuePolicyFlag = helper.Bool(v.(bool))
+	} else {
+		request.MirrorQueuePolicyFlag = helper.Bool(true)
 	}
 
 	err := resource.Retry(writeRetryTimeout, func() *resource.RetryError {
@@ -178,23 +225,19 @@ func resourceTencentCloudTdmqRabbitmqVirtualHostUpdate(d *schema.ResourceData, m
 	instanceId := idSplit[0]
 	virtualHost := idSplit[1]
 
-	immutableArgs := []string{"instance_id", "virtual_host"}
+	immutableArgs := []string{"instance_id", "virtual_host", "mirror_queue_policy_flag"}
 	for _, v := range immutableArgs {
 		if d.HasChange(v) {
 			return fmt.Errorf("argument `%s` cannot be changed", v)
 		}
 	}
 
-	if d.HasChange("description") || d.HasChange("trace_flag") {
+	if d.HasChange("description") {
 		request.InstanceId = &instanceId
 		request.VirtualHost = &virtualHost
 
 		if v, ok := d.GetOk("description"); ok {
 			request.Description = helper.String(v.(string))
-		}
-
-		if v, ok := d.GetOkExists("trace_flag"); ok {
-			request.TraceFlag = helper.Bool(v.(bool))
 		}
 
 		err := resource.Retry(writeRetryTimeout, func() *resource.RetryError {

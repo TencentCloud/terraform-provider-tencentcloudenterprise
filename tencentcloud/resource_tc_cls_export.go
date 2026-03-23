@@ -33,10 +33,10 @@ import (
 	"log"
 	"strings"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	cls "terraform-provider-tencentcloudenterprise/sdk/cls/v20201016"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func init() {
@@ -44,14 +44,20 @@ func init() {
 		TerraformTypeCN: "CLS日志导出",
 		DescriptionCN:   "提供CLS日志导出资源，用于创建和管理日志服务导出任务。",
 		AttributesCN: map[string]string{
-			"topic_id":  "日志主题ID",
-			"export_id": "日志导出ID",
-			"from":      "日志导出起始时间，毫秒时间戳",
-			"to":        "日志导出结束时间，毫秒时间戳",
-			"query":     "日志导出检索语句，不支持[SQL语句]",
-			"log_count": "日志导出数量,  最大值1000万",
-			"order":     "日志导出时间排序。desc，asc，默认为desc",
-			"format":    "日志导出数据格式。json，csv，默认为json",
+			"topic_id":         "日志主题ID",
+			"export_id":        "日志导出ID",
+			"from":             "日志导出起始时间，毫秒时间戳",
+			"to":               "日志导出结束时间，毫秒时间戳",
+			"query":            "日志导出检索语句，不支持[SQL语句]",
+			"log_count":        "日志导出数量,  最大值1000万",
+			"order":            "日志导出时间排序。desc，asc，默认为desc",
+			"format":           "日志导出数据格式。json，csv，默认为json",
+			"syntax_rule":      "语法规则。0：Lucene语法，1：CQL语法，默认0",
+			"derived_fields":   "导出字段列表",
+			"separator":        "CSV分隔符。空格、制表符、逗号、竖线等，默认逗号",
+			"escape_character": "CSV转义符。用于包裹包含分隔符的字段值，默认双引号",
+			"fill_field":       "CSV填充字段。字段不存在时的填充值，默认空",
+			"display_header":   "CSV首行Key是否展示。默认true",
 		},
 	})
 }
@@ -114,6 +120,49 @@ func resourceTencentCloudClsExport() *schema.Resource {
 				ForceNew:    true,
 				Description: "Log export data format. json, csv, default is json.",
 			},
+
+			"syntax_rule": {
+				Optional:    true,
+				Type:        schema.TypeInt,
+				ForceNew:    true,
+				Description: "Syntax rule. 0: Lucene, 1: CQL, default is 0.",
+			},
+
+			"derived_fields": {
+				Optional:    true,
+				Type:        schema.TypeList,
+				ForceNew:    true,
+				Elem:        &schema.Schema{Type: schema.TypeString},
+				Description: "Derived fields to export.",
+			},
+
+			"separator": {
+				Optional:    true,
+				Type:        schema.TypeString,
+				ForceNew:    true,
+				Description: "CSV separator. Default is comma.",
+			},
+
+			"escape_character": {
+				Optional:    true,
+				Type:        schema.TypeString,
+				ForceNew:    true,
+				Description: "CSV escape character. Default is double quote.",
+			},
+
+			"fill_field": {
+				Optional:    true,
+				Type:        schema.TypeString,
+				ForceNew:    true,
+				Description: "CSV fill field for missing values.",
+			},
+
+			"display_header": {
+				Optional:    true,
+				Type:        schema.TypeBool,
+				ForceNew:    true,
+				Description: "Whether to display header keys in CSV. Default is true.",
+			},
 			"export_id": {
 				Computed:    true,
 				Type:        schema.TypeString,
@@ -162,6 +211,30 @@ func resourceTencentCloudClsExportCreate(d *schema.ResourceData, meta interface{
 
 	if v, ok := d.GetOk("format"); ok {
 		request.Format = helper.String(v.(string))
+	}
+
+	if v, ok := d.GetOkExists("syntax_rule"); ok {
+		request.SyntaxRule = helper.IntUint64(v.(int))
+	}
+
+	if v, ok := d.GetOk("derived_fields"); ok {
+		request.DerivedFields = helper.InterfacesStringsPoint(v.([]interface{}))
+	}
+
+	if v, ok := d.GetOk("separator"); ok {
+		request.Separator = helper.String(v.(string))
+	}
+
+	if v, ok := d.GetOkExists("escape_character"); ok {
+		request.EscapeCharacter = helper.String(v.(string))
+	}
+
+	if v, ok := d.GetOkExists("fill_field"); ok {
+		request.FillField = helper.String(v.(string))
+	}
+
+	if v, ok := d.GetOkExists("display_header"); ok {
+		request.DisplayHeader = helper.Bool(v.(bool))
 	}
 
 	err := resource.Retry(writeRetryTimeout, func() *resource.RetryError {
@@ -239,6 +312,36 @@ func resourceTencentCloudClsExportRead(d *schema.ResourceData, meta interface{})
 
 	if export.Format != nil {
 		_ = d.Set("format", export.Format)
+	}
+
+	if export.SyntaxRule != nil {
+		_ = d.Set("syntax_rule", export.SyntaxRule)
+	}
+
+	if export.DerivedFields != nil {
+		derivedFields := make([]string, 0, len(export.DerivedFields))
+		for _, field := range export.DerivedFields {
+			if field != nil {
+				derivedFields = append(derivedFields, *field)
+			}
+		}
+		_ = d.Set("derived_fields", derivedFields)
+	}
+
+	if export.Separator != nil {
+		_ = d.Set("separator", export.Separator)
+	}
+
+	if export.EscapeCharacter != nil {
+		_ = d.Set("escape_character", export.EscapeCharacter)
+	}
+
+	if export.FillField != nil {
+		_ = d.Set("fill_field", export.FillField)
+	}
+
+	if export.DisplayHeader != nil {
+		_ = d.Set("display_header", *export.DisplayHeader)
 	}
 
 	if export.ExportId != nil {

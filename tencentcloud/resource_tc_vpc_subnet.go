@@ -1,30 +1,24 @@
 /*
 Provide a resource to create a VPC subnet.
 
-# Example Usage
+Example Usage
 
 ```hcl
+resource "tencentcloudenterprise_vpc" "foo" {
+  name       = "guagua-ci-temp-test"
+  cidr_block = "10.0.0.0/16"
+}
 
-	variable "availability_zone" {
-	  default = "ap-guangzhou-3"
-	}
-
-	resource "tencentcloudenterprise_vpc" "foo" {
-	  name       = "guagua-ci-temp-test"
-	  cidr_block = "10.0.0.0/16"
-	}
-
-	resource "tencentcloudenterprise_vpc_subnet" "subnet" {
-	  availability_zone = var.availability_zone
-	  name              = "guagua-ci-temp-test"
-	  vpc_id            = tencentcloudenterprise_vpc.foo.id
-	  cidr_block        = "10.0.20.0/28"
-	  is_multicast      = false
-	}
-
+resource "tencentcloudenterprise_vpc_subnet" "subnet" {
+  availability_zone = "ap-guangzhou-3"
+  name              = "guagua-ci-temp-test"
+  vpc_id            = tencentcloudenterprise_vpc.foo.id
+  cidr_block        = "10.0.20.0/28"
+  is_multicast      = false
+}
 ```
 
-# Import
+Import
 
 Vpc subnet instance can be imported, e.g.
 
@@ -37,11 +31,11 @@ package tencentcloud
 import (
 	"context"
 	"fmt"
+	"terraform-provider-tencentcloudenterprise/sdk/common/errors"
+	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"log"
-	"terraform-provider-tencentcloudenterprise/sdk/common/errors"
-	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
 )
 
 func init() {
@@ -49,17 +43,17 @@ func init() {
 		TerraformTypeCN: "私有网络子网",
 		DescriptionCN:   "提供VPC子网资源，用于创建和管理VPC子网。",
 		AttributesCN: map[string]string{
-			"vpc_id":             "VPC实例ID",
-			"availability_zone":  "可用区",
-			"name":               "子网名称",
-			"cidr_block":         "子网网段",
-			"is_multicast":       "是否开启广播",
-			"route_table_id":     "路由表实例ID",
-			"tags":               "标签",
-			"subnet_type":        "子网类型",
-			"subnet_id":          "子网实例ID",
-			"create_time":        "创建时间",
-			"is_default":         "是否默认子网",
+			"vpc_id":            "VPC实例ID",
+			"availability_zone": "可用区",
+			"name":              "子网名称",
+			"cidr_block":        "子网网段",
+			"is_multicast":      "是否开启广播",
+			"route_table_id":    "路由表实例ID",
+			"tags":              "标签",
+			"subnet_type":       "子网类型",
+			"subnet_id":         "子网实例ID",
+			"create_time":       "创建时间",
+			"is_default":        "是否默认子网",
 			"available_ip_count": "可用IP数",
 		},
 	})

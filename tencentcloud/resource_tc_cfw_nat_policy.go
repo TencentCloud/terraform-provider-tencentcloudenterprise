@@ -1,32 +1,32 @@
 /*
-Provides a resource to create a cloud firewall (cfw) policy.
+Provides a resource to create a cloud firewall (cfw) NAT policy.
 
-# Example Usage
+Example Usage
 
 ```hcl
 
-	resource "tencentcloudenterprise_cfw_nat_policy" "example" {
-	  source_content = "1.1.1.1/0"
-	  source_type    = "net"
-	  target_content = "0.0.0.0/0"
-	  target_type    = "net"
-	  protocol       = "TCP"
-	  rule_action    = "drop"
-	  port           = "-1/-1"
-	  direction      = 1
-	  enable         = "true"
-	  description    = "policy description."
-	  scope          = "ALL"
-	}
+resource "tencentcloudenterprise_cfw_nat_policy" "example" {
+  source_content = "192.168.0.0/16"
+  source_type    = "net"
+  target_content = "0.0.0.0/0"
+  target_type    = "net"
+  protocol       = "TCP"
+  rule_action    = "accept"
+  port           = "80"
+  direction      = 1
+  enable         = "true"
+  description    = "NAT policy example"
+}
 
 ```
 
-# Import
+Import
 
-Cloud firewall nat policy can be imported using the id, e.g.
+Cloud firewall NAT policy can be imported using the id, e.g.
 
 ```
-$ terraform import tencentcloudenterprise_cfw_nat_policy.example 134123
+$ terraform import tencentcloudenterprise_cfw_nat_policy.example policy_id
+```
 */
 package tencentcloud
 
@@ -35,40 +35,19 @@ import (
 	"fmt"
 	"log"
 	"strconv"
-	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
 
+	cfw "terraform-provider-tencentcloudenterprise/sdk/cfw/v20190904"
+	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	cfw "terraform-provider-tencentcloudenterprise/sdk/cfw/v20190904"
 )
-
-func init() {
-	registerResourceDescriptionProvider("tencentcloudenterprise_cfw_nat_policy", CNDescription{
-		TerraformTypeCN: "云防火墙NAT策略",
-		DescriptionCN:   "提供云防火墙NAT策略资源，用于创建和管理云防火墙NAT边界访问控制策略。",
-		AttributesCN: map[string]string{
-			"source_content": "源地址",
-			"source_type":    "源地址类型",
-			"target_content": "目的地址",
-			"target_type":    "目的地址类型",
-			"protocol":       "协议",
-			"rule_action":    "规则动作",
-			"port":           "端口",
-			"direction":      "规则方向",
-			"enable":         "规则状态",
-			"description":    "规则描述",
-			"scope":          "规则范围",
-		},
-	})
-}
 
 func resourceTencentCloudCfwNatPolicy() *schema.Resource {
 	return &schema.Resource{
-		Create:      resourceTencentCloudCfwNatPolicyCreate,
-		Read:        resourceTencentCloudCfwNatPolicyRead,
-		Update:      resourceTencentCloudCfwNatPolicyUpdate,
-		Delete:      resourceTencentCloudCfwNatPolicyDelete,
-		Description: "Provides a resource to create and manage cloud firewall NAT access control policy",
+		Create: resourceTencentCloudCfwNatPolicyCreate,
+		Read:   resourceTencentCloudCfwNatPolicyRead,
+		Update: resourceTencentCloudCfwNatPolicyUpdate,
+		Delete: resourceTencentCloudCfwNatPolicyDelete,
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
@@ -76,7 +55,7 @@ func resourceTencentCloudCfwNatPolicy() *schema.Resource {
 			"source_content": {
 				Type:        schema.TypeString,
 				Required:    true,
-				Description: "Access source example: net:IP/CIDR(203.0.113.200).",
+				Description: "Access source example: net:IP/CIDR(192.168.0.2).",
 			},
 			"source_type": {
 				Type:        schema.TypeString,
@@ -86,7 +65,7 @@ func resourceTencentCloudCfwNatPolicy() *schema.Resource {
 			"target_content": {
 				Type:        schema.TypeString,
 				Required:    true,
-				Description: "Example of access purpose: net: IP/CIDR(203.0.113.200) domain: domain name rules, such as *.qq.com.",
+				Description: "Example of access purpose: net: IP/CIDR(192.168.0.2) domain: domain name rules, such as *.qq.com.",
 			},
 			"target_type": {
 				Type:        schema.TypeString,
@@ -112,7 +91,7 @@ func resourceTencentCloudCfwNatPolicy() *schema.Resource {
 			"direction": {
 				Type:        schema.TypeInt,
 				Required:    true,
-				Description: "Rule direction: 1, inbound; 0, outbound.",
+				Description: "Rule direction: 1 for inbound rule, 0 for outbound rule.",
 			},
 			"uuid": {
 				Type:        schema.TypeInt,
@@ -128,7 +107,7 @@ func resourceTencentCloudCfwNatPolicy() *schema.Resource {
 			},
 			"description": {
 				Type:        schema.TypeString,
-				Optional:    true,
+				Required:    true,
 				Description: "Description.",
 			},
 			"param_template_id": {
@@ -213,13 +192,16 @@ func resourceTencentCloudCfwNatPolicyCreate(d *schema.ResourceData, meta interfa
 	}
 
 	request.Rules = append(request.Rules, &createNatRuleItem)
-
 	err := resource.Retry(writeRetryTimeout, func() *resource.RetryError {
 		result, e := meta.(*TencentCloudClient).apiV3Conn.UseCfwClient().AddNatAcRule(request)
 		if e != nil {
 			return retryError(e)
 		} else {
 			log.Printf("[DEBUG]%s api[%s] success, request body [%s], response body [%s]\n", logId, request.GetAction(), request.ToJsonString(), result.ToJsonString())
+		}
+
+		if result == nil || result.Response == nil || result.Response.RuleUuid == nil || len(result.Response.RuleUuid) == 0 {
+			return resource.NonRetryableError(fmt.Errorf("Create cfw natPolicy failed, Response is nil."))
 		}
 
 		response = result
@@ -243,20 +225,20 @@ func resourceTencentCloudCfwNatPolicyRead(d *schema.ResourceData, meta interface
 	defer inconsistentCheck(d, meta)()
 
 	var (
-		logId      = getLogId(contextNil)
-		ctx        = context.WithValue(context.TODO(), logIdKey, logId)
-		cfwService = CfwService{client: meta.(*TencentCloudClient).apiV3Conn}
-		ruleUuid   = d.Id()
+		logId    = getLogId(contextNil)
+		ctx      = context.WithValue(context.TODO(), logIdKey, logId)
+		service  = CfwService{client: meta.(*TencentCloudClient).apiV3Conn}
+		ruleUuid = d.Id()
 	)
 
-	natPolicy, err := cfwService.DescribeNatFwPolicyById(ctx, ruleUuid)
+	natPolicy, err := service.DescribeCfwNatPolicyById(ctx, ruleUuid)
 	if err != nil {
 		return err
 	}
 
 	if natPolicy == nil {
+		log.Printf("[WARN]%s resource `tencentcloudenterprise_cfw_nat_policy` [%s] not found, please check if it has been deleted.\n", logId, d.Id())
 		d.SetId("")
-		log.Printf("[WARN]%s resource `CfwNatPolicy` [%s] not found, please check if it has been deleted.\n", logId, d.Id())
 		return nil
 	}
 
@@ -330,8 +312,7 @@ func resourceTencentCloudCfwNatPolicyUpdate(d *schema.ResourceData, meta interfa
 		uuid           = d.Id()
 	)
 
-	immutableArgs := []string{"uuid", "direction"}
-
+	immutableArgs := []string{"direction"}
 	for _, v := range immutableArgs {
 		if d.HasChange(v) {
 			return fmt.Errorf("argument `%s` cannot be changed", v)
@@ -369,7 +350,7 @@ func resourceTencentCloudCfwNatPolicyUpdate(d *schema.ResourceData, meta interfa
 		modifyRuleItem.Port = helper.String(v.(string))
 	}
 
-	if v, ok := d.GetOk("direction"); ok {
+	if v, ok := d.GetOkExists("direction"); ok {
 		modifyRuleItem.Direction = helper.IntUint64(v.(int))
 	}
 
@@ -390,7 +371,6 @@ func resourceTencentCloudCfwNatPolicyUpdate(d *schema.ResourceData, meta interfa
 	}
 
 	request.Rules = append(request.Rules, &modifyRuleItem)
-
 	err := resource.Retry(writeRetryTimeout, func() *resource.RetryError {
 		result, e := meta.(*TencentCloudClient).apiV3Conn.UseCfwClient().ModifyNatAcRule(request)
 		if e != nil {
@@ -415,15 +395,38 @@ func resourceTencentCloudCfwNatPolicyDelete(d *schema.ResourceData, meta interfa
 	defer inconsistentCheck(d, meta)()
 
 	var (
-		logId      = getLogId(contextNil)
-		ctx        = context.WithValue(context.TODO(), logIdKey, logId)
-		cfwService = CfwService{client: meta.(*TencentCloudClient).apiV3Conn}
-		uuid       = d.Id()
+		logId   = getLogId(contextNil)
+		ctx     = context.WithValue(context.TODO(), logIdKey, logId)
+		service = CfwService{client: meta.(*TencentCloudClient).apiV3Conn}
+		uuid    = d.Id()
 	)
 
-	if err := cfwService.DeleteNatFwPolicyById(ctx, uuid); err != nil {
+	if err := service.DeleteCfwNatPolicyById(ctx, uuid); err != nil {
 		return err
 	}
 
 	return nil
+}
+
+func init() {
+	registerResourceDescriptionProvider("tencentcloudenterprise_cfw_nat_policy", CNDescription{
+		TerraformTypeCN: "NAT访问控制规则",
+		DescriptionCN:   "提供云防火墙NAT访问控制规则资源，用于创建和管理NAT访问控制策略。",
+		AttributesCN: map[string]string{
+			"source_content":    "访问源地址，当SourceType为net时为IP或CIDR；为template时为地址模板ID；为location时为区域；为instance时为实例ID；为vendor时为云厂商",
+			"source_type":       "访问源类型，net为IP或网段，location为区域，template为地址模板，instance为实例ID，vendor为云厂商，domain为域名或IP",
+			"target_content":    "访问目的地址，格式同source_content",
+			"target_type":       "访问目的类型，格式同source_type",
+			"rule_action":       "访问控制策略动作，accept为放行，drop为拒绝，log为观察",
+			"description":       "访问控制策略的描述信息",
+			"direction":         "规则方向，1为入向规则，0为出向规则",
+			"enable":            "是否启用规则，true为启用，false为不启用",
+			"port":              "端口，-1/-1为全部端口，80,443为80或443端口",
+			"protocol":          "协议类型，取值TCP等",
+			"uuid":              "规则ID",
+			"scope":             "规则生效范围，serial为串行，side为旁路，all为全部",
+			"param_template_id": "参数模板ID",
+			"internal_uuid":     "内部ID",
+		},
+	})
 }

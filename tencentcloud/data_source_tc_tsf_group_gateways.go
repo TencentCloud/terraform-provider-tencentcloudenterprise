@@ -1,15 +1,13 @@
 /*
 Use this data source to query detailed information of tsf group_gateways
 
-# Example Usage
+Example Usage
 
 ```hcl
-
-	data "tencentcloudenterprise_tsf_group_gateways" "group_gateways" {
-	  gateway_deploy_group_id = "group-aeoej4qy"
-	  search_word = "test"
-	}
-
+data "tencentcloudenterprise_tsf_group_gateways" "group_gateways" {
+  gateway_deploy_group_id = "group-aeoej4qy"
+  search_word = "test"
+}
 ```
 */
 package tencentcloud
@@ -17,10 +15,10 @@ package tencentcloud
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	tsf "terraform-provider-tencentcloudenterprise/sdk/tsf/v20180326"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func init() {
@@ -28,30 +26,30 @@ func init() {
 		TerraformTypeCN: "TSF网关分组",
 		DescriptionCN:   "提供TSF分组网关数据源，用于查询TSF分组网关的详细信息。",
 		AttributesCN: map[string]string{
-			"gateway_deploy_group_id":      "网关部署组ID",
-			"search_word":                  "搜索关键字，支持api分组名称或API路径",
-			"result":                       "api分组信息",
-			"total_count":                  "总数",
-			"content":                      "api分组信息",
-			"group_id":                     "api分组id",
-			"group_name":                   "api分组名称",
-			"group_context":                "api分组上下文",
-			"auth_type":                    "认证类型",
-			"status":                       "发布状态",
-			"created_time":                 "创建时间",
-			"updated_time":                 "更新时间",
+			"gateway_deploy_group_id": "网关部署组ID",
+			"search_word":            "搜索关键字，支持api分组名称或API路径",
+			"result":                 "api分组信息",
+			"total_count":            "总数",
+			"content":                "api分组信息",
+			"group_id":               "api分组id",
+			"group_name":             "api分组名称",
+			"group_context":          "api分组上下文",
+			"auth_type":              "认证类型",
+			"status":                 "发布状态",
+			"created_time":           "创建时间",
+			"updated_time":           "更新时间",
 			"binded_gateway_deploy_groups": "绑定的网关部署组",
-			"deploy_group_id":              "网关部署组ID",
-			"deploy_group_name":            "网关部署组名称",
-			"application_id":               "应用ID",
-			"application_name":             "应用名称",
-			"application_type":             "应用类型",
-			"group_status":                 "部署组状态",
-			"cluster_type":                 "集群类型",
-			"api_count":                    "API数量",
-			"acl_mode":                     "访问该分组的ACL类型",
-			"description":                  "描述",
-			"group_type":                   "分组类型",
+			"deploy_group_id":        "网关部署组ID",
+			"deploy_group_name":      "网关部署组名称",
+			"application_id":          "应用ID",
+			"application_name":        "应用名称",
+			"application_type":        "应用类型",
+			"group_status":            "部署组状态",
+			"cluster_type":            "集群类型",
+			"api_count":               "API数量",
+			"acl_mode":                "访问该分组的ACL类型",
+			"description":             "描述",
+			"group_type":              "分组类型",
 			//"gateway_instance_type":    "网关实例类型",
 			//"gateway_instance_id":      "网关实例ID",
 			//"namespace_name_key":       "命名空间参数键",
@@ -62,12 +60,13 @@ func init() {
 		},
 	})
 
+
 }
 
 func dataSourceTencentCloudTsfGroupGateways() *schema.Resource {
 	return &schema.Resource{
 		Description: "This data source provides detailed information of tsf group_gateways",
-		Read:        dataSourceTencentCloudTsfGroupGatewaysRead,
+		Read: dataSourceTencentCloudTsfGroupGatewaysRead,
 		Schema: map[string]*schema.Schema{
 			"gateway_deploy_group_id": {
 				Required:    true,

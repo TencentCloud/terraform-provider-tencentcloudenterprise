@@ -1,18 +1,16 @@
 /*
 Provides a resource to create a cfs auto_snapshot_policy_attachment
 
-# Example Usage
+Example Usage
 
 ```hcl
-
-	resource "tencentcloudenterprise_cfs_auto_snapshot_policy_attachment" "auto_snapshot_policy_attachment" {
-	  auto_snapshot_policy_id = "asp-basic"
-	  file_system_ids         = "cfs-4xzkct19,cfs-iobiaxtj"
-	}
-
+resource "tencentcloudenterprise_cfs_auto_snapshot_policy_attachment" "auto_snapshot_policy_attachment" {
+  auto_snapshot_policy_id = "asp-basic"
+  file_system_ids         = "cfs-4xzkct19,cfs-iobiaxtj"
+}
 ```
 
-# Import
+Import
 
 cfs auto_snapshot_policy_attachment can be imported using the id, e.g.
 
@@ -28,10 +26,10 @@ import (
 	"log"
 	"strings"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	cfs "terraform-provider-tencentcloudenterprise/sdk/cfs/v20190719"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func init() {
@@ -135,7 +133,7 @@ func resourceTencentCloudCfsAutoSnapshotPolicyAttachmentRead(d *schema.ResourceD
 
 	if autoSnapshotPolicyAttachment == nil {
 		d.SetId("")
-		return fmt.Errorf("resource `cloud_cfs_auto_snapshot_policy_attachment` %s does not exist", d.Id())
+		return fmt.Errorf("resource `tencentcloudenterprise_cfs_auto_snapshot_policy_attachment` %s does not exist", d.Id())
 	}
 
 	if autoSnapshotPolicyAttachment.AutoSnapshotPolicyId != nil {

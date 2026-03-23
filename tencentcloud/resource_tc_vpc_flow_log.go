@@ -1,27 +1,25 @@
 /*
 Provides a resource to create a vpc flow_log
 
-# Example Usage
+Example Usage
 
 ```hcl
-
-	resource "tencentcloudenterprise_vpc_flow_log" "flow_log" {
-	  flow_log_name = "foo"
-	  resource_type = "NETWORKINTERFACE"
-	  resource_id = "eni-xxxxxxxx"
-	  traffic_type = "ALL"
-	  vpc_id = "vpc-xxxxxxxx"
-	  flow_log_description = "My testing log"
-	  cloud_log_id = "a1b2c3d4-e5f6a7b8-c9d0e1f2-a3b4c5d6"
-	  storage_type = "cls"
-	  tags = {
-		"createdBy" = "terraform"
-	  }
-	}
-
+resource "tencentcloudenterprise_vpc_flow_log" "flow_log" {
+  flow_log_name = "foo"
+  resource_type = "NETWORKINTERFACE"
+  resource_id = "eni-xxxxxxxx"
+  traffic_type = "ALL"
+  vpc_id = "vpc-xxxxxxxx"
+  flow_log_description = "My testing log"
+  tencentcloudenterprise_log_id = "a1b2c3d4-e5f6a7b8-c9d0e1f2-a3b4c5d6"
+  storage_type = "cls"
+  tags = {
+	"createdBy" = "terraform"
+  }
+}
 ```
 
-# Import
+Import
 
 vpc flow_log can be imported using the flow log Id combine vpc Id, e.g.
 
@@ -38,29 +36,29 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	vpc "terraform-provider-tencentcloudenterprise/sdk/vpc/v20170312"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func init() {
 	registerResourceDescriptionProvider("tencentcloudenterprise_vpc_flow_log", CNDescription{
 		TerraformTypeCN: "云网络VPC流日志",
 		AttributesCN: map[string]string{
-			"flow_log_name":                     "流日志名称",
-			"resource_type":                     "资源类型",
-			"resource_id":                       "资源ID",
-			"traffic_type":                      "流日志采集类型",
-			"vpc_id":                            "VPC ID",
-			"flow_log_description":              "流日志描述",
-			"tencentcloudenterprise_log_id":     "日志存储ID",
-			"storage_type":                      "日志存储类型",
-			"flow_log_storage":                  "日志存储详情",
-			"tencentcloudenterprise_log_region": "日志存储地域",
-			"tags":                              "标签",
-			"storage_id":                        "指定存储实例id，当`storage_type `为`ckafka`时，这是必需的",
-			"storage_topic":                     "指定存储主题id，当`storage_type `为`ckafka`时，这是必需的",
+			"flow_log_name":        "流日志名称",
+			"resource_type":        "资源类型",
+			"resource_id":          "资源ID",
+			"traffic_type":         "流日志采集类型",
+			"vpc_id":               "VPC ID",
+			"flow_log_description": "流日志描述",
+			"tencentcloudenterprise_log_id":         "日志存储ID",
+			"storage_type":         "日志存储类型",
+			"flow_log_storage":     "日志存储详情",
+			"tencentcloudenterprise_log_region":     "日志存储地域",
+			"tags":                 "标签",
+			"storage_id":           "指定存储实例id，当`storage_type `为`ckafka`时，这是必需的",
+			"storage_topic":        "指定存储主题id，当`storage_type `为`ckafka`时，这是必需的",
 		},
 	})
 }

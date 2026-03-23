@@ -12,7 +12,7 @@ import (
 )
 
 func init() {
-	// go test -v ./tencentcloud -sweep=ap-guangzhou -sweep-run=cloud_cfs_file_system
+	// go test -v ./tencentcloud -sweep=ap-guangzhou -sweep-run=tencentcloudenterprise_cfs_file_system
 	resource.AddTestSweepers("tencentcloudenterprise_cfs_file_system", &resource.Sweeper{
 		Name: "tencentcloudenterprise_cfs_file_system",
 		F: func(r string) error {

@@ -1,7 +1,7 @@
 /*
 Provide a resource to create a placement group.
 
-# Example Usage
+Example Usage
 
 ```hcl
 
@@ -12,7 +12,7 @@ Provide a resource to create a placement group.
 
 ```
 
-# Import
+Import
 
 Placement group can be imported using the id, e.g.
 

@@ -567,6 +567,18 @@ type DescribeOrganizationMembersRequest struct {
 	// 搜索关键字，支持账号名称和uin
 
 	SearchKey *string `json:"SearchKey,omitempty" name:"SearchKey"`
+
+	// 语言版本。zh：中文版本；en：英文版本。
+
+	Lang *string `json:"Lang,omitempty" name:"Lang"`
+
+	// 主体名称（实体名称）
+
+	AuthName *string `json:"AuthName,omitempty" name:"AuthName"`
+
+	// 可信服务简称，查询可信服务管理员时使用。
+
+	Product *string `json:"Product,omitempty" name:"Product"`
 }
 
 func (r *DescribeOrganizationMembersRequest) ToJsonString() string {

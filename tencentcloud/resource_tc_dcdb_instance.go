@@ -1,34 +1,33 @@
 /*
 Provides a resource to create a dcdb hourdb_instance
 
-# Example Usage
+Example Usage
 
 ```hcl
+resource "tencentcloudenterprise_dcdb_instance" "hourdb_instance" {
+  instance_name    = "111"
+  zones            = ["yfm18", "yfm18"]
+  cpu_arch         = "X86"
+  ipv6_flag        = 0
+  shard_memory     = 2
+  shard_storage    = 10
+  shard_node_count = 2
+  shard_cpu        = 1
+  shard_count      = 2
+  vpc_id           = "vpc-cs6ffr73"
+  subnet_id        = "subnet-mfbxe9zk"
+  db_version_id    = "5.7"
+  project_id       = "pr-bae40f73"
 
-	resource "tencentcloudenterprise_dcdb_instance" "hourdb_instance" {
-	  instance_name    = "111"
-	  zones            = ["yfm18", "yfm18"]
-	  cpu_arch         = "X86"
-	  ipv6_flag        = 0
-	  shard_memory     = 2
-	  shard_storage    = 10
-	  shard_node_count = 2
-	  shard_cpu        = 1
-	  shard_count      = 2
-	  vpc_id           = "vpc-cs6ffr73"
-	  subnet_id        = "subnet-mfbxe9zk"
-	  db_version_id    = "5.7"
-	  project_id       = "pr-bae40f73"
+  resource_tags {
+    tag_key   = "createdBy"
+    tag_value = "terraform3"
+  }
 
-	  resource_tags {
-	    tag_key   = "createdBy"
-	    tag_value = "terraform3"
-	  }
+  init_params {
 
-	  init_params {
-
-	  }
-	}
+  }
+}
 
 ```
 Import
@@ -47,10 +46,10 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	dcdb "terraform-provider-tencentcloudenterprise/sdk/dcdb/v20180411"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func init() {
@@ -58,34 +57,34 @@ func init() {
 		TerraformTypeCN: "云数据库DCDB实例",
 		DescriptionCN:   "提供云数据库DCDB实例资源，用于创建和管理分布式数据库DCDB实例。",
 		AttributesCN: map[string]string{
-			"zones":                  "可用区",
-			"shard_cpu":              "每个分片的CPU核数",
-			"cpu_arch":               "CPU架构",
-			"shard_memory":           "每个分片的内存",
-			"shard_storage":          "每个分片的存储",
-			"shard_node_count":       "每个分片的节点数",
-			"shard_count":            "实例分片数",
-			"instance_count":         "实例数量",
-			"vpc_id":                 "VPC ID",
-			"subnet_id":              "子网 ID",
-			"db_version_id":          "数据库引擎版本",
-			"security_group_id":      "安全组 ID",
-			"project_id":             "项目 ID",
-			"instance_name":          "实例名称",
-			"dcn_region":             "DCN源地域",
-			"dcn_instance_id":        "DCN源实例ID",
-			"ipv6_flag":              "是否支持IPv6",
-			"extranet_access":        "是否开启外网访问",
-			"vip":                    "内网访问IP",
-			"vipv6":                  "IPv6访问IP",
-			"vport":                  "内网访问端口",
-			"resource_tags":          "资源标签",
-			"init_params":            "初始化参数",
-			"character_set_server":   "实例的可用区域ID",
+			"zones":             "可用区",
+			"shard_cpu":         "每个分片的CPU核数",
+			"cpu_arch":          "CPU架构",
+			"shard_memory":      "每个分片的内存",
+			"shard_storage":     "每个分片的存储",
+			"shard_node_count":  "每个分片的节点数",
+			"shard_count":       "实例分片数",
+			"instance_count":    "实例数量",
+			"vpc_id":            "VPC ID",
+			"subnet_id":         "子网 ID",
+			"db_version_id":     "数据库引擎版本",
+			"security_group_id": "安全组 ID",
+			"project_id":        "项目 ID",
+			"instance_name":     "实例名称",
+			"dcn_region":        "DCN源地域",
+			"dcn_instance_id":   "DCN源实例ID",
+			"ipv6_flag":         "是否支持IPv6",
+			"extranet_access":   "是否开启外网访问",
+			"vip":               "内网访问IP",
+			"vipv6":             "IPv6访问IP",
+			"vport":             "内网访问端口",
+			"resource_tags":     "资源标签",
+			"init_params":       "初始化参数",
+			"character_set_server": "实例的可用区域ID",
 			"lower_case_table_names": "（表名区分大小写，必填，0-敏感；1-不敏感）",
-			"sync_mode":              "（同步模式0-异步；1-强同步；2-可降解强同步。默认为强同步）",
-			"tag_key":                "标签密钥",
-			"tag_value":              "标签值",
+			"sync_mode":         "（同步模式0-异步；1-强同步；2-可降解强同步。默认为强同步）",
+			"tag_key":           "标签密钥",
+			"tag_value":         "标签值",
 		},
 	})
 }

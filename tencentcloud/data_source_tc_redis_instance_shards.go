@@ -1,7 +1,7 @@
 /*
 Use this data source to query detailed information of instance_shards
 
-# Example Usage
+Example Usage
 
 ```hcl
 
@@ -17,10 +17,10 @@ package tencentcloud
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	redis "terraform-provider-tencentcloudenterprise/sdk/redis/v20180412"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func init() {

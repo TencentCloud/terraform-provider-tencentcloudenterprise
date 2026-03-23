@@ -135,6 +135,8 @@ type CreateLocalSourceIpPortTranslationNatRuleResponse struct {
 	*tchttp.BaseResponse
 
 	Response *struct {
+		// 任务ID
+		TaskId *int64 `json:"TaskId,omitempty" name:"TaskId"`
 		// 唯一请求 ID，每次请求都会返回。定位问题时需要提供该次请求的 RequestId。
 		RequestId *string `json:"RequestId,omitempty" name:"RequestId"`
 	} `json:"Response"`
@@ -690,6 +692,8 @@ type CreateLocalDestinationIpPortTranslationNatRuleResponse struct {
 	*tchttp.BaseResponse
 
 	Response *struct {
+		// 任务ID
+		TaskId *int64 `json:"TaskId,omitempty" name:"TaskId"`
 		// 唯一请求 ID，每次请求都会返回。定位问题时需要提供该次请求的 RequestId。
 		RequestId *string `json:"RequestId,omitempty" name:"RequestId"`
 	} `json:"Response"`
@@ -728,7 +732,7 @@ type CreateNetworkInterfaceRequest struct {
 	// 指定的内网IP信息，单次最多指定10个。
 
 	PrivateIpAddresses []*PrivateIpAddressSpecification `json:"PrivateIpAddresses,omitempty" name:"PrivateIpAddresses"`
-	// 指定绑定的标签列表，例如：[{"Key": "city", "Value": "shanghai"}]
+	// 指定绑定的标签列表，例如：[{"Key":&nbsp;"city",&nbsp;"Value":&nbsp;"region"}]
 
 	Tags []*Tag `json:"Tags,omitempty" name:"Tags"`
 }
@@ -965,6 +969,9 @@ type CreateVpcEndPointServiceRequest struct {
 	// 后端服务ID，比如lb-xxx。
 
 	ServiceInstanceId *string `json:"ServiceInstanceId,omitempty" name:"ServiceInstanceId"`
+	// IP地址类型：IPv4/IPv6。
+
+	IpAddressType *string `json:"IpAddressType,omitempty" name:"IpAddressType"`
 }
 
 func (r *CreateVpcEndPointServiceRequest) ToJsonString() string {
@@ -1009,6 +1016,9 @@ type DescribeLocalSourceIpPortTranslationAclRulesRequest struct {
 	// 字符型VPCID
 
 	VpcId *string `json:"VpcId,omitempty" name:"VpcId"`
+	// IP池
+
+	TranslationIpPool *string `json:"TranslationIpPool,omitempty" name:"TranslationIpPool"`
 	// 偏移量，默认为0
 
 	Offset *int64 `json:"Offset,omitempty" name:"Offset"`
@@ -2435,6 +2445,9 @@ type ModifyLocalIpTranslationNatRuleResponse struct {
 	*tchttp.BaseResponse
 
 	Response *struct {
+		// 任务ID
+		TaskId *int64 `json:"TaskId,omitempty" name:"TaskId"`
+
 		// 唯一请求 ID，每次请求都会返回。定位问题时需要提供该次请求的 RequestId。
 		RequestId *string `json:"RequestId,omitempty" name:"RequestId"`
 	} `json:"Response"`
@@ -6218,11 +6231,7 @@ type NetworkInterface struct {
 
 	MacAddress *string `json:"MacAddress,omitempty" name:"MacAddress"`
 	// 弹性网卡状态：
-	// <li>`PENDING`：创建中</li>
-	// <li>`AVAILABLE`：可用的</li>
-	// <li>`ATTACHING`：绑定中</li>
-	// <li>`DETACHING`：解绑中</li>
-	// <li>`DELETING`：删除中</li>
+	// <li>`PENDING`：创建中</li><li>`AVAILABLE`：可用的</li><li>`ATTACHING`：绑定中</li><li>`DETACHING`：解绑中</li><li>`DELETING`：删除中</li>
 
 	State *string `json:"State,omitempty" name:"State"`
 	// 内网IP信息。
@@ -6243,13 +6252,13 @@ type NetworkInterface struct {
 	// 标签键值对。
 
 	TagSet []*Tag `json:"TagSet,omitempty" name:"TagSet"`
-	// 网卡类型。0 - 弹性网卡；1 - evm弹性网卡。
+	// 网卡类型。0&nbsp;-&nbsp;弹性网卡；1&nbsp;-&nbsp;evm弹性网卡。
 
 	EniType *uint64 `json:"EniType,omitempty" name:"EniType"`
 	// 流日志列表。
 
 	FlowLogsSet []*FlowLog `json:"FlowLogsSet,omitempty" name:"FlowLogsSet"`
-	// qos 级别
+	// qos&nbsp;级别
 
 	QosLevel *string `json:"QosLevel,omitempty" name:"QosLevel"`
 	// 绑定级别
@@ -6258,9 +6267,29 @@ type NetworkInterface struct {
 	// 业务方
 
 	Business *string `json:"Business,omitempty" name:"Business"`
-	// CDC 唯一ID
+	// CDC&nbsp;唯一ID
 
 	CdcId *string `json:"CdcId,omitempty" name:"CdcId"`
+	// 该网卡关联的中继网卡实例列表。
+
+	SubNetworkInterfaces []*string `json:"SubNetworkInterfaces,omitempty" name:"SubNetworkInterfaces"`
+	// 地域。
+
+	Region *string `json:"Region,omitempty" name:"Region"`
+	// 删除实例的时候，是否销毁网卡。
+
+	DeleteOnTermination *bool `json:"DeleteOnTermination,omitempty" name:"DeleteOnTermination"`
+	// 是否迁移zi&nbsp;wang&nbsp;kahavip。
+
+	FlushSubEniHavipFlag *bool `json:"FlushSubEniHavipFlag,omitempty" name:"FlushSubEniHavipFlag"`
+	// 用于保留网卡主IP的资源ID用于保留网卡主IP的资源ID。用于删除网卡时作为入参数。
+
+	ResourceId *string `json:"ResourceId,omitempty" name:"ResourceId"`
+	// 云主机实例ID。
+
+	InstanceId *string `json:"InstanceId,omitempty" name:"InstanceId"`
+	// Des&nbsp;任务taskId
+
 }
 
 type AssociateAddressResponse struct {
@@ -7290,6 +7319,9 @@ type EndPointService struct {
 	// 创建时间。
 
 	CreateTime *string `json:"CreateTime,omitempty" name:"CreateTime"`
+
+	// IP地址类型
+	IpAddressType *string `json:"IpAddressType,omitempty" name:"IpAddressType"`
 }
 
 type PrivateIpAddressSpecification struct {
@@ -7973,10 +8005,10 @@ type ModifyLocalSourceIpPortTranslationNatRuleRequest struct {
 	VpcId *string `json:"VpcId,omitempty" name:"VpcId"`
 	// 原本端源IP端口转换
 
-	OldLocalSourceIpPortTranslationNatRule []*LocalSourceIpPortTranslationNatRule `json:"OldLocalSourceIpPortTranslationNatRule,omitempty" name:"OldLocalSourceIpPortTranslationNatRule"`
+	OldLocalSourceIpPortTranslationNatRule *LocalSourceIpPortTranslationNatRule `json:"OldLocalSourceIpPortTranslationNatRule,omitempty" name:"OldLocalSourceIpPortTranslationNatRule"`
 	// 新本端源IP端口转换
 
-	NewLocalSourceIpPortTranslationNatRule []*LocalSourceIpPortTranslationNatRule `json:"NewLocalSourceIpPortTranslationNatRule,omitempty" name:"NewLocalSourceIpPortTranslationNatRule"`
+	NewLocalSourceIpPortTranslationNatRule *LocalSourceIpPortTranslationNatRule `json:"NewLocalSourceIpPortTranslationNatRule,omitempty" name:"NewLocalSourceIpPortTranslationNatRule"`
 }
 
 func (r *ModifyLocalSourceIpPortTranslationNatRuleRequest) ToJsonString() string {
@@ -8037,6 +8069,9 @@ type LocalSourceIpPortTranslationAclRule struct {
 	// 动作，0允许，1拒绝
 
 	Action *int64 `json:"Action,omitempty" name:"Action"`
+	// ACL规则ID
+
+	AclRuleId *int64 `json:"AclRuleId,omitempty" name:"AclRuleId"`
 }
 
 type SecurityGroupPolicyTemplate struct {
@@ -8108,6 +8143,9 @@ type LocalIpTranslationAclRule struct {
 	// 0 或 1
 
 	Action *int64 `json:"Action,omitempty" name:"Action"`
+	// ACL规则ID
+
+	AclRuleId *int64 `json:"AclRuleId,omitempty" name:"AclRuleId"`
 }
 
 type Subnet struct {
@@ -9969,6 +10007,9 @@ type EndPoint struct {
 	// 终端节点服务名称。
 
 	ServiceName *string `json:"ServiceName,omitempty" name:"ServiceName"`
+	// IP地址类型
+
+	IpAddressType *string `json:"IpAddressType,omitempty" name:"IpAddressType"`
 }
 
 type DescribeNetworkInterfaceExtendIpsRequest struct {
@@ -10492,7 +10533,7 @@ type VpcEndPointServiceUser struct {
 
 	// AppId。
 
-	Owner *uint64 `json:"Owner,omitempty" name:"Owner"`
+	Owner *int64 `json:"Owner,omitempty" name:"Owner"`
 	// Uin。
 
 	UserUin *string `json:"UserUin,omitempty" name:"UserUin"`
@@ -12055,6 +12096,9 @@ type ModifyVpcEndPointAttributeRequest struct {
 	// 安全组ID列表。
 
 	SecurityGroupIds []*string `json:"SecurityGroupIds,omitempty" name:"SecurityGroupIds"`
+	// IpAddressType，，IPv4:v4类型,IPv6:v6类型
+
+	IpAddressType *string `json:"IpAddressType,omitempty" name:"IpAddressType"`
 }
 
 func (r *ModifyVpcEndPointAttributeRequest) ToJsonString() string {
@@ -13392,6 +13436,9 @@ type CreateVpcEndPointRequest struct {
 	// 安全组ID。
 
 	SecurityGroupId *string `json:"SecurityGroupId,omitempty" name:"SecurityGroupId"`
+	// IP地址类型：IPv4/IPv6。
+
+	IpAddressType *string `json:"IpAddressType,omitempty" name:"IpAddressType"`
 }
 
 func (r *CreateVpcEndPointRequest) ToJsonString() string {
@@ -13637,6 +13684,9 @@ type CreateLocalIpTranslationNatRuleResponse struct {
 	*tchttp.BaseResponse
 
 	Response *struct {
+		// 任务ID
+		TaskId *int64 `json:"TaskId,omitempty" name:"TaskId"`
+
 		// 唯一请求 ID，每次请求都会返回。定位问题时需要提供该次请求的 RequestId。
 		RequestId *string `json:"RequestId,omitempty" name:"RequestId"`
 	} `json:"Response"`
@@ -14276,10 +14326,10 @@ type SecurityGroupPolicy struct {
 	// 安全组规则索引号。
 
 	PolicyIndex *int64 `json:"PolicyIndex,omitempty" name:"PolicyIndex"`
-	// 协议, 取值: TCP,UDP, ICMP。
+	// 协议,&nbsp;取值:&nbsp;TCP,UDP,&nbsp;ICMP。
 
 	Protocol *string `json:"Protocol,omitempty" name:"Protocol"`
-	// 端口(all, 离散port,  range)。
+	// 端口(all,&nbsp;离散port,&nbsp;&nbsp;range)。
 
 	Port *string `json:"Port,omitempty" name:"Port"`
 	// 协议端口ID或者协议端口组ID。ServiceTemplate和Protocol+Port互斥。
@@ -14297,7 +14347,7 @@ type SecurityGroupPolicy struct {
 	// IP地址ID或者ID地址组ID。
 
 	AddressTemplate *AddressTemplateSpecification `json:"AddressTemplate,omitempty" name:"AddressTemplate"`
-	// ACCEPT 或 DROP。
+	// ACCEPT&nbsp;或&nbsp;DROP。
 
 	Action *string `json:"Action,omitempty" name:"Action"`
 	// 安全组规则描述。
@@ -15224,6 +15274,8 @@ type ModifyLocalSourceIpPortTranslationNatRuleResponse struct {
 	*tchttp.BaseResponse
 
 	Response *struct {
+		// 任务ID
+		TaskId *int64 `json:"TaskId,omitempty" name:"TaskId"`
 		// 唯一请求 ID，每次请求都会返回。定位问题时需要提供该次请求的 RequestId。
 		RequestId *string `json:"RequestId,omitempty" name:"RequestId"`
 	} `json:"Response"`
@@ -16897,7 +16949,7 @@ type AclRuleId struct {
 
 	// 规则ID
 
-	RuleId *int64 `json:"RuleId,omitempty" name:"RuleId"`
+	AclRuleId *int64 `json:"AclRuleId,omitempty" name:"AclRuleId"`
 }
 
 type InstanceChargePrepaid struct {
@@ -17004,10 +17056,7 @@ type DescribeVpcEndPointRequest struct {
 	*tchttp.BaseRequest
 
 	// 过滤条件。
-	// <li> end-point-service-id String - （过滤条件）终端节点服务ID。</li>
-	// <li>end-point-name - String - （过滤条件）终端节点实例名称。</li>
-	// <li> end-point-id- String - （过滤条件）终端节点实例ID。</li>
-	// <li> vpc-id- String - （过滤条件）VPC实例ID。</li>
+	// <li>&nbsp;end-point-service-id&nbsp;String&nbsp;-&nbsp;（过滤条件）终端节点服务ID。</li><li>end-point-name&nbsp;-&nbsp;String&nbsp;-&nbsp;（过滤条件）终端节点实例名称。</li><li>&nbsp;end-point-id-&nbsp;String&nbsp;-&nbsp;（过滤条件）终端节点实例ID。</li><li>&nbsp;vpc-id-&nbsp;String&nbsp;-&nbsp;（过滤条件）VPC实例ID。</li>
 
 	Filters []*Filter `json:"Filters,omitempty" name:"Filters"`
 	// 偏移量，默认为0。
@@ -17019,6 +17068,9 @@ type DescribeVpcEndPointRequest struct {
 	// 终端节点ID列表。
 
 	EndPointId []*string `json:"EndPointId,omitempty" name:"EndPointId"`
+	// Ip地址类型
+
+	IpAddressType *string `json:"IpAddressType,omitempty" name:"IpAddressType"`
 }
 
 func (r *DescribeVpcEndPointRequest) ToJsonString() string {
@@ -17582,6 +17634,8 @@ type ModifyLocalDestinationIpPortTranslationNatRuleResponse struct {
 	*tchttp.BaseResponse
 
 	Response *struct {
+		// 任务ID
+		TaskId *int64 `json:"TaskId,omitempty" name:"TaskId"`
 		// 唯一请求 ID，每次请求都会返回。定位问题时需要提供该次请求的 RequestId。
 		RequestId *string `json:"RequestId,omitempty" name:"RequestId"`
 	} `json:"Response"`
@@ -17723,7 +17777,7 @@ type DescribeNatGatewayDestinationIpPortTranslationNatRulesRequest struct {
 	// 参数不支持同时指定NatGatewayIds和Filters。
 	// <li> nat-gateway-id，NAT网关的ID，如`nat-0yi4hekt`</li>
 	// <li> vpc-id，私有网络VPC的ID，如`vpc-0yi4hekt`</li>
-	// <li> public-ip-address， 弹性IP，如`203.0.113.101`。</li>
+	// <li> public-ip-address， 弹性IP，如`139.199.232.238`。</li>
 	// <li>public-port， 公网端口。</li>
 	// <li>private-ip-address， 内网IP，如`10.0.0.1`。</li>
 	// <li>private-port， 内网端口。</li>
@@ -20834,4 +20888,199 @@ type CcnBandwidthInfo struct {
 	// 描述带宽的地域和限速上限信息。
 
 	CcnRegionBandwidthLimit *CcnRegionBandwidthLimit `json:"CcnRegionBandwidthLimit,omitempty" name:"CcnRegionBandwidthLimit"`
+}
+
+type SourceIpTranslationNatRule struct {
+
+	// Snat规则ID
+
+	NatGatewaySnatId *string `json:"NatGatewaySnatId,omitempty" name:"NatGatewaySnatId"`
+	// 资源ID
+
+	ResourceId *string `json:"ResourceId,omitempty" name:"ResourceId"`
+	// 资源类型，目前包含SUBNET、NETWORKINTERFACE
+
+	ResourceType *string `json:"ResourceType,omitempty" name:"ResourceType"`
+	// 源IP/网段
+
+	PrivateIpAddress *string `json:"PrivateIpAddress,omitempty" name:"PrivateIpAddress"`
+	// 弹性IP地址池
+
+	PublicIpAddresses []*string `json:"PublicIpAddresses,omitempty" name:"PublicIpAddresses"`
+	// 描述
+
+	Description *string `json:"Description,omitempty" name:"Description"`
+	// NAT网关的ID。
+
+	NatGatewayId *string `json:"NatGatewayId,omitempty" name:"NatGatewayId"`
+	// 私有网络VPC的ID。
+
+	VpcId *string `json:"VpcId,omitempty" name:"VpcId"`
+	// NAT网关SNAT规则创建时间。
+
+	CreatedTime *string `json:"CreatedTime,omitempty" name:"CreatedTime"`
+}
+
+type CreateNatGatewaySourceIpTranslationNatRuleRequest struct {
+	*tchttp.BaseRequest
+
+	// NAT网关的ID，形如："nat-df45454"。
+
+	NatGatewayId *string `json:"NatGatewayId,omitempty" name:"NatGatewayId"`
+	// NAT网关的SNAT转换规则
+
+	SourceIpTranslationNatRules []*SourceIpTranslationNatRule `json:"SourceIpTranslationNatRules,omitempty" name:"SourceIpTranslationNatRules"`
+}
+
+func (r *CreateNatGatewaySourceIpTranslationNatRuleRequest) ToJsonString() string {
+	b, _ := json.Marshal(r)
+	return string(b)
+}
+
+func (r *CreateNatGatewaySourceIpTranslationNatRuleRequest) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
+type CreateNatGatewaySourceIpTranslationNatRuleResponse struct {
+	*tchttp.BaseResponse
+
+	Response *struct {
+		// 唯一请求 ID，每次请求都会返回。定位问题时需要提供该次请求的 RequestId。
+		RequestId *string `json:"RequestId,omitempty" name:"RequestId"`
+	} `json:"Response"`
+}
+
+func (r *CreateNatGatewaySourceIpTranslationNatRuleResponse) ToJsonString() string {
+	b, _ := json.Marshal(r)
+	return string(b)
+}
+
+func (r *CreateNatGatewaySourceIpTranslationNatRuleResponse) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
+type DescribeNatGatewaySourceIpTranslationNatRulesRequest struct {
+	*tchttp.BaseRequest
+
+	// NAT网关统一 ID，形如：`nat-jktxx454`。
+
+	NatGatewayId *string `json:"NatGatewayId,omitempty" name:"NatGatewayId"`
+	// 过滤条件
+
+	Filters []*Filter `json:"Filters,omitempty" name:"Filters"`
+	// 偏移量，默认为0。
+
+	Offset *int64 `json:"Offset,omitempty" name:"Offset"`
+	// 返回数量，默认为20，最大值为100。
+
+	Limit *int64 `json:"Limit,omitempty" name:"Limit"`
+}
+
+func (r *DescribeNatGatewaySourceIpTranslationNatRulesRequest) ToJsonString() string {
+	b, _ := json.Marshal(r)
+	return string(b)
+}
+
+func (r *DescribeNatGatewaySourceIpTranslationNatRulesRequest) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
+type DescribeNatGatewaySourceIpTranslationNatRulesResponse struct {
+	*tchttp.BaseResponse
+
+	Response *struct {
+		// NAT网关SNAT规则对象数组。
+
+		SourceIpTranslationNatRuleSet []*SourceIpTranslationNatRule `json:"SourceIpTranslationNatRuleSet,omitempty" name:"SourceIpTranslationNatRuleSet"`
+		// 符合条件的NAT网关端口转发规则对象数目。
+
+		TotalCount *int64 `json:"TotalCount,omitempty" name:"TotalCount"`
+		// 唯一请求 ID，每次请求都会返回。定位问题时需要提供该次请求的 RequestId。
+		RequestId *string `json:"RequestId,omitempty" name:"RequestId"`
+	} `json:"Response"`
+}
+
+func (r *DescribeNatGatewaySourceIpTranslationNatRulesResponse) ToJsonString() string {
+	b, _ := json.Marshal(r)
+	return string(b)
+}
+
+func (r *DescribeNatGatewaySourceIpTranslationNatRulesResponse) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
+type ModifyNatGatewaySourceIpTranslationNatRuleRequest struct {
+	*tchttp.BaseRequest
+
+	// NAT网关的ID，形如：`nat-df453454`。
+
+	NatGatewayId *string `json:"NatGatewayId,omitempty" name:"NatGatewayId"`
+	// NAT网关的SNAT转换规则。
+
+	SourceIpTranslationNatRule *SourceIpTranslationNatRule `json:"SourceIpTranslationNatRule,omitempty" name:"SourceIpTranslationNatRule"`
+}
+
+func (r *ModifyNatGatewaySourceIpTranslationNatRuleRequest) ToJsonString() string {
+	b, _ := json.Marshal(r)
+	return string(b)
+}
+
+func (r *ModifyNatGatewaySourceIpTranslationNatRuleRequest) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
+type ModifyNatGatewaySourceIpTranslationNatRuleResponse struct {
+	*tchttp.BaseResponse
+
+	Response *struct {
+		// 唯一请求 ID，每次请求都会返回。定位问题时需要提供该次请求的 RequestId。
+		RequestId *string `json:"RequestId,omitempty" name:"RequestId"`
+	} `json:"Response"`
+}
+
+func (r *ModifyNatGatewaySourceIpTranslationNatRuleResponse) ToJsonString() string {
+	b, _ := json.Marshal(r)
+	return string(b)
+}
+
+func (r *ModifyNatGatewaySourceIpTranslationNatRuleResponse) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
+type DeleteNatGatewaySourceIpTranslationNatRuleRequest struct {
+	*tchttp.BaseRequest
+
+	// NAT网关的ID，形如：`nat-df45454`。
+
+	NatGatewayId *string `json:"NatGatewayId,omitempty" name:"NatGatewayId"`
+	// NAT网关的SNAT ID列表，形如：`snat-df43254`。
+
+	NatGatewaySnatIds []*string `json:"NatGatewaySnatIds,omitempty" name:"NatGatewaySnatIds"`
+}
+
+func (r *DeleteNatGatewaySourceIpTranslationNatRuleRequest) ToJsonString() string {
+	b, _ := json.Marshal(r)
+	return string(b)
+}
+
+func (r *DeleteNatGatewaySourceIpTranslationNatRuleRequest) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
+type DeleteNatGatewaySourceIpTranslationNatRuleResponse struct {
+	*tchttp.BaseResponse
+
+	Response *struct {
+		// 唯一请求 ID，每次请求都会返回。定位问题时需要提供该次请求的 RequestId。
+		RequestId *string `json:"RequestId,omitempty" name:"RequestId"`
+	} `json:"Response"`
+}
+
+func (r *DeleteNatGatewaySourceIpTranslationNatRuleResponse) ToJsonString() string {
+	b, _ := json.Marshal(r)
+	return string(b)
+}
+
+func (r *DeleteNatGatewaySourceIpTranslationNatRuleResponse) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
 }

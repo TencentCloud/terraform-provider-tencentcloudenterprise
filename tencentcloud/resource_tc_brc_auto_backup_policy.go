@@ -1,37 +1,35 @@
 /*
 Provides a resource to create a brc auto_backup_policy
 
-# Example Usage
+Example Usage
 
 ```hcl
+resource "tencentcloudenterprise_brc_auto_backup_policy" "example" {
+  resource_type = "INSTANCE"
+  auto_backup_policy_name = "example-policy"
 
-	resource "tencentcloudenterprise_brc_auto_backup_policy" "example" {
-	  resource_type = "INSTANCE"
-	  auto_backup_policy_name = "example-policy"
+  policy {
+    hour = [0, 11, 12,13,14]
+    interval_days = 12
+  }
 
-	  policy {
-	    hour = [0, 11, 12,13,14]
-	    interval_days = 12
-	  }
+  is_permanent = false
+  full_backup_interval = 2
+  retention_amount = 5
 
-	  is_permanent = false
-	  full_backup_interval = 2
-	  retention_amount = 5
+  advanced_retention_policy {
+    days = 1
+    weeks = 1
+    months = 1
+    years = 1
+  }
 
-	  advanced_retention_policy {
-	    days = 1
-	    weeks = 1
-	    months = 1
-	    years = 1
-	  }
-
-	  is_activated = false
-	  dry_run = false
-	}
-
+  is_activated = false
+  dry_run = false
+}
 ```
 
-# Import
+Import
 
 brc auto_backup_policy can be imported using the id, e.g.
 
@@ -43,10 +41,11 @@ package tencentcloud
 
 import (
 	"context"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+
 	brc "terraform-provider-tencentcloudenterprise/sdk/brc/v20220516"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func init() {

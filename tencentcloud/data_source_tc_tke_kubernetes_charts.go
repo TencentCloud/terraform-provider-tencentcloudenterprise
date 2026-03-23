@@ -4,15 +4,26 @@ Use this data source to query detailed information of kubernetes cluster addons.
 # Example Usage
 
 ```hcl
-data "tencentcloudenterprise_tke_kubernetes_charts" "name" {}
+
+	data "tencentcloudenterprise_tke_kubernetes_charts" "name" {
+	  kind         = "network"
+	  arch         = "amd64"
+	  cluster_type = "tke"
+	}
+
 ```
 */
 package tencentcloud
 
 import (
 	"context"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	"encoding/json"
+	"strings"
+
 	tke "terraform-provider-tencentcloudenterprise/sdk/tke/v20180525"
+	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func init() {
@@ -20,16 +31,14 @@ func init() {
 		TerraformTypeCN: "集群chart列表",
 		DescriptionCN:   "提供TKE集群Charts数据源，用于查询TKE集群Charts的详细信息。",
 		AttributesCN: map[string]string{
-			"kind":               "有点像应用程序图表可用值：“日志”、“调度程序”、“网络”、“存储”、“监视器”、“dns”、“图像”、“其他”、“不可见”",
-			"arch":               "支持操作系统应用程序可用值：`arm32`、`arm64`、`amd64`",
-			"cluster_type":       "群集类型可用值：“tke”、“eks”",
+			"kind":               "应用类型，可选值：log、scheduler、network、storage、monitor、dns、image、other、invisible",
+			"arch":               "应用支持的操作系统，可选值：arm32、arm64、amd64",
+			"cluster_type":       "集群类型，可选值：tke、eks",
 			"result_output_file": "用于保存结果",
 			"chart_list":         "应用程序图表列表",
-			"search":             "搜索图表",
-			"list":               "图表列表",
+			"name":               "图表名称",
 			"label":              "图表标签",
 			"latest_version":     "图表最新版本",
-			"name":               "图表名称",
 		},
 	})
 }
@@ -39,17 +48,22 @@ func dataSourceTencentCloudKubernetesCharts() *schema.Resource {
 		Description: "Use this data source to query detailed information of kubernetes cluster addons.",
 		Read:        dataSourceTencentCloudKubernetesChartsRead,
 		Schema: map[string]*schema.Schema{
-			"search": {
+			"kind": {
 				Type:        schema.TypeString,
 				Optional:    true,
-				Description: "Search of chart.",
+				Description: "Kind of app chart. Available values: `log`, `scheduler`, `network`, `storage`, `monitor`, `dns`, `image`, `other`, `invisible`.",
 			},
-			"result_output_file": {
+			"arch": {
 				Type:        schema.TypeString,
 				Optional:    true,
-				Description: "Used to save results.",
+				Description: "Operation system app supported. Available values: `arm32`, `arm64`, `amd64`.",
 			},
-			"list": {
+			"cluster_type": {
+				Type:        schema.TypeString,
+				Optional:    true,
+				Description: "Cluster type. Available values: `tke`, `eks`.",
+			},
+			"chart_list": {
 				Type:        schema.TypeList,
 				Computed:    true,
 				Description: "App chart list.",
@@ -73,6 +87,11 @@ func dataSourceTencentCloudKubernetesCharts() *schema.Resource {
 					},
 				},
 			},
+			"result_output_file": {
+				Type:        schema.TypeString,
+				Optional:    true,
+				Description: "Used to save results.",
+			},
 		},
 	}
 }
@@ -85,35 +104,80 @@ func dataSourceTencentCloudKubernetesChartsRead(d *schema.ResourceData, meta int
 	client := meta.(*TencentCloudClient).apiV3Conn
 	service := TkeService{client: client}
 
-	var search string
-	if v, ok := d.GetOk("search"); ok {
-		search = v.(string)
+	var (
+		kind        string
+		arch        string
+		clusterType string
+	)
+	if v, ok := d.GetOk("kind"); ok {
+		kind = v.(string)
+	}
+	if v, ok := d.GetOk("arch"); ok {
+		arch = v.(string)
+	}
+	if v, ok := d.GetOk("cluster_type"); ok {
+		clusterType = v.(string)
 	}
 
-	request := tke.NewDescribeHelmChartRequest()
-	request.Search = &search
+	paramMap := make(map[string]interface{})
+	if v, ok := d.GetOk("kind"); ok {
+		paramMap["Kind"] = helper.String(v.(string))
+	}
+	if v, ok := d.GetOk("arch"); ok {
+		paramMap["Arch"] = helper.String(v.(string))
+	}
+	if v, ok := d.GetOk("cluster_type"); ok {
+		paramMap["ClusterType"] = helper.String(v.(string))
+	}
 
-	response, err := service.DescribeHelmChart(ctx, request)
+	var respData []*tke.AppChart
+	err := resource.Retry(readRetryTimeout, func() *resource.RetryError {
+		result, e := service.DescribeKubernetesChartsByFilter(ctx, paramMap)
+		if e != nil {
+			return retryError(e)
+		}
+		respData = result
+		return nil
+	})
 	if err != nil {
 		return err
 	}
 
-	err = d.Set("list", response.Response.Results)
+	appChartsList := make([]map[string]interface{}, 0, len(respData))
+	if respData != nil {
+		for _, appCharts := range respData {
+			appChartsMap := map[string]interface{}{}
 
-	if err != nil {
-		return err
+			if appCharts.Name != nil {
+				appChartsMap["name"] = appCharts.Name
+			}
+
+			if appCharts.LatestVersion != nil {
+				appChartsMap["latest_version"] = appCharts.LatestVersion
+			}
+
+			if appCharts.Label != nil {
+				tmpMap := make(map[string]interface{})
+				if err := json.Unmarshal([]byte(*appCharts.Label), &tmpMap); err != nil {
+					return err
+				}
+				appChartsMap["label"] = tmpMap
+			}
+
+			appChartsList = append(appChartsList, appChartsMap)
+		}
+
+		_ = d.Set("chart_list", appChartsList)
 	}
+
+	d.SetId(strings.Join([]string{kind, arch, clusterType}, FILED_SP))
 
 	output, ok := d.GetOk("result_output_file")
 	if ok && output.(string) != "" {
-		err = writeToFile(output.(string), response.Response.Results)
-		if err != nil {
-			return err
+		if e := writeToFile(output.(string), appChartsList); e != nil {
+			return e
 		}
 	}
 
-	//ids := []string{kind, arch, clusterType}
-	//d.SetId("app_chart_" + helper.DataResourceIdsHash(ids))
-	//
 	return nil
 }

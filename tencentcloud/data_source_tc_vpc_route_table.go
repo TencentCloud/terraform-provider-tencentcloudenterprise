@@ -5,23 +5,22 @@ This resource can prove useful when a module accepts a Subnet id as an input var
 
 ~> **NOTE:** It has been deprecated and replaced by tencentcloudenterprise_vpc_route_tables.
 
-# Example Usage
+Example Usage
 
 ```hcl
 variable "route_table_id" {}
 
-	data "tencentcloudenterprise_route_table" "selected" {
-	  route_table_id = var.route_table_id
-	}
+data "tencentcloudenterprise_route_table" "selected" {
+  route_table_id = var.route_table_id
+}
 
-	resource "tencentcloudenterprise_route_entry" "rtb_entry_instance" {
-	  vpc_id         = "{data.tencentcloudenterprise_route_table.selected.vpc_id}"
-	  route_table_id = var.route_table_id
-	  cidr_block     = "10.4.8.0/24"
-	  next_type      = "instance"
-	  next_hub       = "10.16.1.7"
-	}
-
+resource "tencentcloudenterprise_route_entry" "rtb_entry_instance" {
+  vpc_id         = "{data.tencentcloudenterprise_route_table.selected.vpc_id}"
+  route_table_id = var.route_table_id
+  cidr_block     = "10.4.8.0/24"
+  next_type      = "instance"
+  next_hub       = "10.16.1.7"
+}
 ```
 */
 package tencentcloud
@@ -37,7 +36,7 @@ import (
 
 func dataSourceTencentCloudRouteTable() *schema.Resource {
 	return &schema.Resource{
-		DeprecationMessage: "This data source has been deprecated in Terraform TencentCloud provider version 1.10.0. Please use 'cloud_vpc_route_tables' instead.",
+		DeprecationMessage: "This data source has been deprecated in Terraform TencentCloud provider version 1.10.0. Please use 'tencentcloudenterprise_vpc_route_tables' instead.",
 		Read:               dataSourceTencentCloudRouteTableRead,
 
 		Schema: map[string]*schema.Schema{

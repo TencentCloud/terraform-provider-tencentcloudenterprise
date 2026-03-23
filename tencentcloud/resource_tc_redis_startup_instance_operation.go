@@ -1,28 +1,27 @@
 /*
 Provides a resource to create a startup_instance_operation
 
-# Example Usage
+Example Usage
 
 ```hcl
-
-	resource "tencentcloudenterprise_redis_startup_instance_operation" "startup_instance_operation" {
-	  instance_id = "crs-c1nl9rpv"
-	}
-
+resource "tencentcloudenterprise_redis_startup_instance_operation" "startup_instance_operation" {
+  instance_id = "crs-c1nl9rpv"
+}
 ```
+
 */
 package tencentcloud
 
 import (
 	"context"
 	"fmt"
-	"log"
 	sdkErrors "terraform-provider-tencentcloudenterprise/sdk/common/errors"
+	"log"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	redis "terraform-provider-tencentcloudenterprise/sdk/redis/v20180412"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func init() {

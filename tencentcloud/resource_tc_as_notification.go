@@ -1,16 +1,14 @@
 /*
 Provides a resource for an AS (Auto scaling) notification.
 
-# Example Usage
+Example Usage
 
 ```hcl
-
-	resource "tencentcloudenterprise_as_notification" "as_notification" {
-	  scaling_group_id            = "sg-12af45"
-	  notification_types          = ["SCALE_OUT_FAILED", "SCALE_IN_SUCCESSFUL", "SCALE_IN_FAILED", "REPLACE_UNHEALTHY_INSTANCE_FAILED"]
-	  notification_user_group_ids = ["76955"]
-	}
-
+resource "tencentcloudenterprise_as_notification" "as_notification" {
+  scaling_group_id            = "sg-12af45"
+  notification_types          = ["SCALE_OUT_FAILED", "SCALE_IN_SUCCESSFUL", "SCALE_IN_FAILED", "REPLACE_UNHEALTHY_INSTANCE_FAILED"]
+  notification_user_group_ids = ["76955"]
+}
 ```
 */
 package tencentcloud
@@ -20,10 +18,10 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	as "terraform-provider-tencentcloudenterprise/sdk/as/v20180419"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func init() {

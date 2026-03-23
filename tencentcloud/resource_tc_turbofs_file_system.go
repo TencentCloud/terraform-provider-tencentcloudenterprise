@@ -1,24 +1,24 @@
 /*
 Provides a resource to create a parallel file system(TurboFS).
 
-# Example Usage
+Example Usage
 
 ```hcl
 
-	resource "tencentcloudenterprise_turbofs_file_system" "example" {
-	  fs_name      = "tf-test"
-	  zone         = "az"
-	  p_group_id   = "pgroupbasic"
-	  storage_type = "TP"
-	  capacity     = 2560 # unit GiB
-	  vpc_id       = "vpc-cvukkbpd"
-	  subnet_id    = "subnet-kt2ffuim"
-	  pool_id      = "pool-wzFg3qtSu"
-	}
+resource "tencentcloudenterprise_turbofs_file_system" "example" {
+  fs_name      = "tf-test"
+  zone         = "az"
+  p_group_id   = "pgroupbasic"
+  storage_type = "TP"
+  capacity     = 2560 # unit GiB
+  vpc_id       = "vpc-cvukkbpd"
+  subnet_id    = "subnet-kt2ffuim"
+  pool_id      = "pool-wzFg3qtSu"
+}
 
 ```
 
-# Import
+Import
 
 Cloud file system can be imported using the id, e.g.
 
@@ -33,11 +33,11 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	turbofs "terraform-provider-tencentcloudenterprise/sdk/turbofs/v20190719"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/ratelimit"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func init() {
@@ -46,7 +46,7 @@ func init() {
 		DescriptionCN:   "提供TurboFS文件系统资源，用于创建和管理TurboFS文件系统。",
 		AttributesCN: map[string]string{
 			//"zone_id":                   "可用区 ID",
-			"zone": "可用区名称，例如:ap-zone-1",
+			"zone":                      "可用区名称，例如:ap-zone-1",
 			//"creation_token":            "用户自定义文件系统名称，优先级低于fs_name",
 			"protocol":                  "文件系统协议类型， 值为TURBO",
 			"fs_name":                   "用户自定义文件系统名称,与CreationToken 两者必须填一项",
@@ -138,7 +138,7 @@ func resourceTencentCloudTurbofsFileSystem() *schema.Resource {
 			"pool_id": {
 				Type:        schema.TypeString,
 				Optional:    true,
-				ForceNew:    true,
+				ForceNew:	 true,
 				Description: "ID of the resource pool. If not specified, the system will automatically select the default resource pool.",
 			},
 			"snapshot_id": {
@@ -161,13 +161,13 @@ func resourceTencentCloudTurbofsFileSystem() *schema.Resource {
 			"vpc_id": {
 				Type:        schema.TypeString,
 				Required:    true,
-				ForceNew:    true,
+				ForceNew:	 true,
 				Description: "ID of a VPC network.",
 			},
 			"subnet_id": {
 				Type:        schema.TypeString,
 				Required:    true,
-				ForceNew:    true,
+				ForceNew:	 true,
 				Description: "ID of a subnet.",
 			},
 			//"un_vpc_id": {
@@ -183,7 +183,7 @@ func resourceTencentCloudTurbofsFileSystem() *schema.Resource {
 			"mount_ip": {
 				Type:        schema.TypeString,
 				Optional:    true,
-				Computed:    true,
+				Computed:	 true,
 				Description: "IP of mount point.",
 			},
 			"storage_resource_pkg_id": {
@@ -384,7 +384,7 @@ func resourceTencentCloudTurbofsFileSystemCreate(d *schema.ResourceData, meta in
 	turbofsService := TurbofsService{
 		client: meta.(*TencentCloudClient).apiV3Conn,
 	}
-
+	
 	err = turbofsService.WaitForFileSystemAvailable(ctx, *fsId)
 	if err != nil {
 		return err
@@ -498,15 +498,15 @@ func resourceTencentCloudTurbofsFileSystemRead(d *schema.ResourceData, meta inte
 		log.Printf("[DEBUG]%s describe mount targets fail, reason[%s]\n", logId, err.Error())
 	} else if len(mountTargets) > 0 {
 		mountTarget := mountTargets[0]
-
+		
 		if mountTarget.IpAddress != nil {
 			_ = d.Set("mount_ip", mountTarget.IpAddress)
 		}
-
+		
 		if mountTarget.VpcId != nil {
 			_ = d.Set("vpc_id", mountTarget.VpcId)
 		}
-
+		
 		if mountTarget.SubnetId != nil {
 			_ = d.Set("subnet_id", mountTarget.SubnetId)
 		}

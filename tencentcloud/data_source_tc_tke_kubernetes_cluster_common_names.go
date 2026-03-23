@@ -1,7 +1,7 @@
 /*
 Provide a datasource to query cluster CommonNames.
 
-# Example Usage
+Example Usage
 
 ```hcl
 
@@ -17,9 +17,9 @@ package tencentcloud
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	tke "terraform-provider-tencentcloudenterprise/sdk/tke/v20180525"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func init() {

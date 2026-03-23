@@ -49,10 +49,10 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	cls "terraform-provider-tencentcloudenterprise/sdk/cls/v20201016"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func init() {
@@ -74,6 +74,9 @@ func init() {
 			"custom_uin":             "跨账户uin，用于支持跨账户bucket投递",
 			"start_time":             "投递数据范围的开始时间点，不能超出日志主题的生命周期起点。如果用户不填写，默认为用户新建投递任务的时间。",
 			"end_time":               "投递数据范围的结束时间点，不能填写未来时间。如果用户不填写，默认为持续投递，即无限。",
+			"storage_type":           "cos桶存储类型。",
+			"role_arn":               "角色访问描述名",
+			"external_id":            "外部ID",
 			"shipper_id":             "投递规则ID",
 			"key":                    "过滤规则Key",
 			"regex":                  "过滤规则",
@@ -154,12 +157,30 @@ func resourceTencentCloudClsCosShipper() *schema.Resource {
 			"start_time": {
 				Type:        schema.TypeInt,
 				Optional:    true,
+				ForceNew:    true,
 				Description: "Start time point for the shipping data range, cannot exceed the lifecycle start point of the log topic. If not filled by user, defaults to the time when the user creates the shipping task.",
 			},
 			"end_time": {
 				Type:        schema.TypeInt,
 				Optional:    true,
+				ForceNew:    true,
 				Description: "End time point for the shipping data range, cannot be a future time. If not filled by user, defaults to continuous shipping, i.e., infinite.",
+			},
+			"storage_type": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Description: "COS bucket storage type. Valid values include: STANDARD_IA, ARCHIVE, DEEP_ARCHIVE, STANDARD, MAZ_STANDARD, " +
+					"MAZ_STANDARD_IA, INTELLIGENT_TIERING.",
+			},
+			"role_arn": {
+				Type:        schema.TypeString,
+				Optional:    true,
+				Description: "Role access descriptor name.",
+			},
+			"external_id": {
+				Type:        schema.TypeString,
+				Optional:    true,
+				Description: "External ID.",
 			},
 			"filter_rules": {
 				Type:     schema.TypeList,
@@ -367,6 +388,26 @@ func resourceTencentCloudClsCosShipperCreate(d *schema.ResourceData, meta interf
 		request.CustomUin = helper.Uint64(uint64(v.(int)))
 	}
 
+	if v, ok := d.GetOk("start_time"); ok {
+		request.StartTime = helper.Int64(int64(v.(int)))
+	}
+
+	if v, ok := d.GetOk("end_time"); ok {
+		request.EndTime = helper.Int64(int64(v.(int)))
+	}
+
+	if v, ok := d.GetOk("storage_type"); ok {
+		request.StorageType = helper.String(v.(string))
+	}
+
+	if v, ok := d.GetOk("role_arn"); ok {
+		request.RoleArn = helper.String(v.(string))
+	}
+
+	if v, ok := d.GetOk("external_id"); ok {
+		request.ExternalId = helper.String(v.(string))
+	}
+
 	if v, ok := d.GetOk("filter_rules"); ok {
 		filterRules := make([]*cls.FilterRuleInfo, 0, 10)
 		for _, item := range v.([]interface{}) {
@@ -546,6 +587,18 @@ func resourceTencentCloudClsCosShipperRead(d *schema.ResourceData, meta interfac
 		_ = d.Set("end_time", shipper.EndTime)
 	}
 
+	if shipper.StorageType != nil {
+		_ = d.Set("storage_type", shipper.StorageType)
+	}
+
+	if shipper.RoleArn != nil {
+		_ = d.Set("role_arn", shipper.RoleArn)
+	}
+
+	if shipper.ExternalId != nil {
+		_ = d.Set("external_id", shipper.ExternalId)
+	}
+
 	_ = d.Set("shipper_id", shipper.ShipperId)
 
 	if shipper.FilterRules != nil {
@@ -661,12 +714,22 @@ func resourceTencentCloudClsCosShipperUpdate(d *schema.ResourceData, meta interf
 		request.CustomUin = helper.Uint64(uint64(v.(int)))
 	}
 
-	if v, ok := d.GetOk("start_time"); ok {
-		request.StartTime = helper.Int64(int64(v.(int)))
+	if d.HasChange("storage_type") {
+		if v, ok := d.GetOk("storage_type"); ok {
+			request.StorageType = helper.String(v.(string))
+		}
 	}
 
-	if v, ok := d.GetOk("end_time"); ok {
-		request.EndTime = helper.Int64(int64(v.(int)))
+	if d.HasChange("role_arn") {
+		if v, ok := d.GetOk("role_arn"); ok {
+			request.RoleArn = helper.String(v.(string))
+		}
+	}
+
+	if d.HasChange("external_id") {
+		if v, ok := d.GetOk("external_id"); ok {
+			request.ExternalId = helper.String(v.(string))
+		}
 	}
 
 	if d.HasChange("filter_rules") {

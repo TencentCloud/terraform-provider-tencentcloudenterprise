@@ -1,14 +1,12 @@
 /*
 Use this data source to query detailed information of brc backups
 
-# Example Usage
+Example Usage
 
 ```hcl
-
-	data "tencentcloudenterprise_brc_backups" "all_backups" {
-	  result_output_file = "all_backups.json"
-	}
-
+ data "tencentcloudenterprise_brc_backups" "all_backups" {
+   result_output_file = "all_backups.json"
+ }
 ```
 */
 package tencentcloud
@@ -17,10 +15,10 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	brc "terraform-provider-tencentcloudenterprise/sdk/brc/v20220516"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/ratelimit"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func init() {
@@ -28,41 +26,41 @@ func init() {
 		TerraformTypeCN: "BRC备份列表",
 		DescriptionCN:   "提供BRC备份列表数据源，用于查询备份的详细信息。",
 		AttributesCN: map[string]string{
-			"backup_id":             "按照备份的 ID 过滤。快照 ID 形如：backup-11112222",
-			"backup_name":           "按照备份名称过滤",
-			"backup_state":          "按照备份状态过滤,NORMAL（正常）、CREATING（创建中）、ROLLBACKING（回滚中）",
-			"disk_usage":            "按创建快照的云盘类型过滤,SYSTEM_DISK（代表系统盘）、DATA_DISK（代表数据盘）",
-			"platform_project_id":   "按备份所属项目 ID 过滤",
-			"disk_id":               "按照创建备份的云硬盘 ID 过滤",
-			"backup_group_id":       "按照备份绑定的备份组 ID 过滤",
-			"zone":                  "按照可用区过滤",
-			"result_output_file":    "用于保存结果",
-			"backup_set":            "备份列表",
-			"copy_from_remote":      "是否为远程复制的备份。",
-			"is_permanent":          "是否永久保留。",
-			"deadline_time":         "备份的到期时间。",
-			"percent":               "备份创建的进度。",
-			"share_reference":       "备份被共享的次数。",
-			"disk_size":             "创建备份的云硬盘大小，单位GB。",
-			"copying_to_regions":    "备份当前正在远程复制的目标地域列表。",
-			"encrypt":               "备份是否为加密备份。",
-			"placement":             "备份所在的位置。",
-			"tags":                  "备份绑定的标签列表。",
-			"appid":                 "用户AppId。",
-			"disk_name":             "云盘名称。",
-			"disk_details":          "创建备份时刻，云硬盘各属性的详情。",
-			"backup_class":          "全量、增量备份信息；FULL表示全量备份，INC表示增量备份。",
-			"account_uin":           "主账号uin。",
-			"sub_account_uin":       "创建备份的子账号uin。",
+			"backup_id":          "按照备份的 ID 过滤。快照 ID 形如：backup-11112222",
+			"backup_name":        "按照备份名称过滤",
+			"backup_state":       "按照备份状态过滤,NORMAL（正常）、CREATING（创建中）、ROLLBACKING（回滚中）",
+			"disk_usage":		  "按创建快照的云盘类型过滤,SYSTEM_DISK（代表系统盘）、DATA_DISK（代表数据盘）",
+			"platform_project_id": "按备份所属项目 ID 过滤",
+			"disk_id":  		"按照创建备份的云硬盘 ID 过滤",
+			"backup_group_id":	"按照备份绑定的备份组 ID 过滤",
+			"zone":				  "按照可用区过滤",
+			"result_output_file": "用于保存结果",
+			"backup_set":        "备份列表",
+			"copy_from_remote":  "是否为远程复制的备份。",
+			"is_permanent":  "是否永久保留。",
+			"deadline_time": "备份的到期时间。",
+			"percent": "备份创建的进度。",
+			"share_reference": "备份被共享的次数。",
+			"disk_size": "创建备份的云硬盘大小，单位GB。",
+			"copying_to_regions": "备份当前正在远程复制的目标地域列表。",
+			"encrypt" : "备份是否为加密备份。",
+			"placement": "备份所在的位置。",
+			"tags": "备份绑定的标签列表。",
+			"appid": "用户AppId。",
+			"disk_name": "云盘名称。",
+			"disk_details": "创建备份时刻，云硬盘各属性的详情。",
+			"backup_class": "全量、增量备份信息；FULL表示全量备份，INC表示增量备份。",
+			"account_uin": "主账号uin。",
+			"sub_account_uin": "创建备份的子账号uin。",
 			"auto_backup_policy_id": "创建当前备份的定期备份策略ID，为null则为手动创建的备份。",
-			"archive_status":        "归档状态。",
-			"backup_size":           "备份大小",
-			"backup_type":           "备份类型",
-			"create_time":           "创建时间",
-			"expire_time":           "过期时间",
-			"account_name":          "账户名称",
-			"create_speed":          "创建速度",
-			"need_archive":          "是否需要归档",
+			"archive_status": "归档状态。",
+			"backup_size": "备份大小",
+			"backup_type": "备份类型",
+			"create_time": "创建时间",
+			"expire_time": "过期时间",
+			"account_name": "账户名称",
+			"create_speed": "创建速度",
+			"need_archive": "是否需要归档",
 		},
 	})
 }
@@ -438,36 +436,36 @@ func dataSourceTencentCloudBrcBackupsRead(d *schema.ResourceData, meta interface
 	if response.Response != nil && response.Response.BackupSet != nil {
 		for _, backup := range response.Response.BackupSet {
 			backupMap := map[string]interface{}{
-				"backup_id":           backup.BackupId,
-				"backup_name":         backup.BackupName,
-				"backup_state":        backup.BackupState,
-				"backup_size":         backup.DiskSize,
-				"backup_type":         backup.BackupType,
-				"create_time":         backup.CreateTime,
-				"expire_time":         backup.DeadlineTime,
-				"account_name":        backup.AccountName,
-				"copy_from_remote":    backup.CopyFromRemote,
-				"is_permanent":        backup.IsPermanent,
-				"deadline_time":       backup.DeadlineTime,
-				"percent":             backup.Percent,
-				"share_reference":     backup.ShareReference,
-				"disk_size":           backup.DiskSize,
-				"disk_id":             backup.DiskId,
-				"platform_project_id": backup.PlatformProjectId,
-				"copying_to_regions":  backup.CopyingToRegions,
-				"encrypt":             backup.Encrypt,
-				"disk_usage":          backup.DiskUsage,
+				"backup_id":               backup.BackupId,
+				"backup_name":             backup.BackupName,
+				"backup_state":            backup.BackupState,
+				"backup_size":             backup.DiskSize,
+				"backup_type":             backup.BackupType,
+				"create_time":             backup.CreateTime,
+				"expire_time":             backup.DeadlineTime,
+				"account_name":            backup.AccountName,
+				"copy_from_remote":        backup.CopyFromRemote,
+				"is_permanent":            backup.IsPermanent,
+				"deadline_time":           backup.DeadlineTime,
+				"percent":                 backup.Percent,
+				"share_reference":         backup.ShareReference,
+				"disk_size":               backup.DiskSize,
+				"disk_id":                 backup.DiskId,
+				"platform_project_id":     backup.PlatformProjectId,
+				"copying_to_regions":      backup.CopyingToRegions,
+				"encrypt":                 backup.Encrypt,
+				"disk_usage":              backup.DiskUsage,
 
-				"appid":                 backup.AppId,
-				"disk_name":             backup.DiskName,
-				"backup_class":          backup.BackupClass,
-				"backup_group_id":       backup.BackupGroupId,
-				"account_uin":           backup.AccountUin,
-				"sub_account_uin":       backup.SubAccountUin,
-				"auto_backup_policy_id": backup.AutoBackupPolicyId,
-				"archive_status":        backup.ArchiveStatus,
-				"create_speed":          backup.CreateSpeed,
-				"need_archive":          backup.NeedArchive,
+				"appid":                   backup.AppId,
+				"disk_name":               backup.DiskName,
+				"backup_class":            backup.BackupClass,
+				"backup_group_id":         backup.BackupGroupId,
+				"account_uin":             backup.AccountUin,
+				"sub_account_uin":         backup.SubAccountUin,
+				"auto_backup_policy_id":   backup.AutoBackupPolicyId,
+				"archive_status":          backup.ArchiveStatus,
+				"create_speed":            backup.CreateSpeed,
+				"need_archive":            backup.NeedArchive,
 			}
 
 			if backup.Placement != nil {

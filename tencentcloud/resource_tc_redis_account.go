@@ -1,29 +1,27 @@
-// /*
-// Provides a resource to create a redis account
+///*
+//Provides a resource to create a redis account
 //
-// # Example Usage
+//Example Usage
 //
-// ```hcl
+//```hcl
+//resource "tencentcloudenterprise_redis_account" "account" {
+//  instance_id 	   = "crs-xxxxxx"
+//  account_name 	   = "account_test"
+//  account_password = "test1234"
+//  remark 		   = "master"
+//  readonly_policy  = ["master"]
+//  privilege 	   = "rw"
+//}
+//```
 //
-//	resource "tencentcloudenterprise_redis_account" "account" {
-//	 instance_id 	   = "crs-xxxxxx"
-//	 account_name 	   = "account_test"
-//	 account_password = "test1234"
-//	 remark 		   = "master"
-//	 readonly_policy  = ["master"]
-//	 privilege 	   = "rw"
-//	}
+//Import
 //
-// ```
+//redis account can be imported using the id, e.g.
 //
-// # Import
-//
-// redis account can be imported using the id, e.g.
-//
-// ```
-// terraform import tencentcloudenterprise_redis_account.account crs-xxxxxx#account_test
-// ```
-// */
+//```
+//terraform import tencentcloudenterprise_redis_account.account crs-xxxxxx#account_test
+//```
+//*/
 package tencentcloud
 
 //

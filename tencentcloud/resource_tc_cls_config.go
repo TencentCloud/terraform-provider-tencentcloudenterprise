@@ -51,10 +51,10 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	cls "terraform-provider-tencentcloudenterprise/sdk/cls/v20201016"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func init() {
@@ -349,11 +349,11 @@ func resourceTencentCloudClsConfig() *schema.Resource {
 				Optional:    true,
 				Description: "Collection configuration source. 0: default source, 1: TKE.",
 			},
-			//"input_type": {
-			//	Type:        schema.TypeString,
-			//	Optional:    true,
-			//	Description: "Log input type. Supported values: file, window_event, syslog, k8s_stdout, k8s_file.",
-			//},
+			"input_type": {
+				Type:        schema.TypeString,
+				Optional:    true,
+				Description: "Log input type. Supported values: file, window_event, syslog, k8s_stdout, k8s_file.",
+			},
 			"config_flag": {
 				Type:        schema.TypeString,
 				Optional:    true,
@@ -474,7 +474,7 @@ func resourceTencentCloudClsConfigCreate(d *schema.ResourceData, meta interface{
 		if v, ok := dMap["event_log_rules"]; ok {
 			for _, item := range v.([]interface{}) {
 				eventLogRulesMap := item.(map[string]interface{})
-				eventLogRule := cls.EventLogRuleInfo{}
+				eventLogRule := cls.EventLog{}
 				if v, ok := eventLogRulesMap["event_channel"]; ok {
 					eventLogRule.EventChannel = helper.String(v.(string))
 				}
@@ -526,9 +526,9 @@ func resourceTencentCloudClsConfigCreate(d *schema.ResourceData, meta interface{
 	if v, ok := d.GetOk("source"); ok {
 		request.Source = helper.Uint64(uint64(v.(int)))
 	}
-	//if v, ok := d.GetOk("input_type"); ok {
-	//	request.InputType = helper.String(v.(string))
-	//}
+	if v, ok := d.GetOk("input_type"); ok {
+		request.InputType = helper.String(v.(string))
+	}
 	if v, ok := d.GetOk("config_flag"); ok {
 		request.ConfigFlag = helper.String(v.(string))
 	}
@@ -783,9 +783,9 @@ func resourceTencentCloudClsConfigRead(d *schema.ResourceData, meta interface{})
 		_ = d.Set("source", config.Source)
 	}
 
-	//if config.InputType != nil {
-	//	_ = d.Set("input_type", config.InputType)
-	//}
+	if config.InputType != nil {
+		_ = d.Set("input_type", config.InputType)
+	}
 
 	if config.ConfigFlag != nil {
 		_ = d.Set("config_flag", config.ConfigFlag)
@@ -911,10 +911,10 @@ func resourceTencentCloudClsConfigUpdate(d *schema.ResourceData, meta interface{
 				}
 			}
 			if v, ok := dMap["event_log_rules"]; ok {
-				eventLogRules := make([]*cls.EventLogRuleInfo, 0, 10)
+				eventLogRules := make([]*cls.EventLog, 0, 10)
 				for _, item := range v.([]interface{}) {
 					eventLogRuleMap := item.(map[string]interface{})
-					eventLogRule := cls.EventLogRuleInfo{}
+					eventLogRule := cls.EventLog{}
 					if v, ok := eventLogRuleMap["event_channel"]; ok {
 						eventLogRule.EventChannel = helper.String(v.(string))
 					}
@@ -983,6 +983,12 @@ func resourceTencentCloudClsConfigUpdate(d *schema.ResourceData, meta interface{
 	if d.HasChange("source") {
 		if v, ok := d.GetOk("source"); ok {
 			request.Source = helper.Uint64(uint64(v.(int)))
+		}
+	}
+
+	if d.HasChange("input_type") {
+		if v, ok := d.GetOk("input_type"); ok {
+			request.InputType = helper.String(v.(string))
 		}
 	}
 

@@ -11,7 +11,7 @@ description: |-
 
 Provides an eip resource associated with other resource like CVM, ENI and CLB.
 
-~> **NOTE:** Please DO NOT define `allocate_public_ip` in `cloud_cvm_instance` resource when using `cloud_eip_association`.
+~> **NOTE:** Please DO NOT define `allocate_public_ip` in `tencentcloudenterprise_cvm_instance` resource when using `tencentcloudenterprise_eip_association`.
 
 ## Example Usage
 

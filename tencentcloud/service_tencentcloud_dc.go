@@ -4,9 +4,9 @@ import (
 	"context"
 	"fmt"
 	"log"
-	"strconv"
 
 	dc "terraform-provider-tencentcloudenterprise/sdk/dc/v20180410"
+	vpc "terraform-provider-tencentcloudenterprise/sdk/vpc/v20170312"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/connectivity"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/ratelimit"
 )
@@ -195,10 +195,8 @@ getMoreData:
 }
 
 func (me *DcService) CreateDirectConnectTunnel(ctx context.Context, dcId, dcxName, networkType,
-	networkRegion, vpcId, routeType, bgpAuthKey,
-	tencentAddress, customerAddress, dcgId string,
-	bgpAsn, vlan, bandwidth int64,
-	routeFilterPrefixes []string) (dcxId string, errRet error) {
+	networkRegion, vpcName, routeType, bgpAuthKey, cloudAddress, customerAddress, dcgId, loadMode, relatedDirectConnectTunnelId, ipType, idcRoutes string,
+	bgpAsn, vlan, bandwidth, bfdInterval, vpcId int64, connectSubnetMask uint64, enableBfd, bgpPeerExist bool, ownerAccount string) (dcxId string, errRet error) {
 
 	logId := getLogId(ctx)
 	request := dc.NewCreateDirectConnectTunnelRequest()
@@ -208,44 +206,79 @@ func (me *DcService) CreateDirectConnectTunnel(ctx context.Context, dcId, dcxNam
 				logId, request.GetAction(), request.ToJsonString(), errRet.Error())
 		}
 	}()
+
+	// 设置基本参数
 	request.DirectConnectId = &dcId
 	request.DirectConnectTunnelName = &dcxName
-	//request.NetworkType = &networkType
 	request.NetworkRegion = &networkRegion
-	v, _ := strconv.ParseInt(vpcId, 10, 64)
-	if vpcId != "" {
-		request.VpcId = &v
+	request.RouteType = &routeType
+	request.DirectConnectGatewayId = &dcgId
+
+	// 设置专线拥有者账户
+	if ownerAccount != "" {
+		request.DirectConnectOwnerAccount = &ownerAccount
 	}
+
+	// 设置VPC相关参数
+	request.VpcId = &vpcId
+	if vpcName != "" {
+		request.VpcName = &vpcName
+	}
+
+	// 设置网络参数
 	if bandwidth >= 0 {
 		request.Bandwidth = &bandwidth
 	}
-	request.RouteType = &routeType
-	request.DirectConnectGatewayId = &dcgId
-	if bgpAsn >= 0 {
+	request.Vlan = &vlan
+
+	// 设置地址参数
+	if cloudAddress != "" {
+		request.CloudAddress = &cloudAddress
+	}
+	if customerAddress != "" {
+		request.CustomerAddress = &customerAddress
+	}
+
+	request.ConnectSubnetMask = &connectSubnetMask
+
+	// 设置负载均衡模式
+	if loadMode != "" {
+		request.LoadMode = &loadMode
+	}
+
+	// 设置关联的冗余通道ID
+	if relatedDirectConnectTunnelId != "" {
+		request.RelatedDirectConnectTunnelId = &relatedDirectConnectTunnelId
+	}
+
+	// 设置IP类型
+	if ipType != "" {
+		request.IpType = &ipType
+	}
+
+	// 设置BFD参数
+	request.EnableBfd = &enableBfd
+	if bfdInterval > 0 {
+		if !enableBfd {
+			errRet = fmt.Errorf("bfd_interval can only be set when enable_bfd is true")
+			return
+		}
+		request.BfdInterval = &bfdInterval
+	}
+
+	// 设置BGP参数
+	if bgpPeerExist {
 		var peer dc.BgpPeer
 		peer.Asn = &bgpAsn
 		peer.AuthKey = &bgpAuthKey
 		request.BgpPeer = &peer
 	}
 
-	request.Vlan = &vlan
-
-	//if len(routeFilterPrefixes) > 0 {
-	//	request.RouteFilterPrefixes = make([]*dc.RouteFilterPrefix, 0, len(routeFilterPrefixes))
-	//	for index := range routeFilterPrefixes {
-	//		var dcPrefix dc.RouteFilterPrefix
-	//		dcPrefix.Cidr = &routeFilterPrefixes[index]
-	//		request.RouteFilterPrefixes = append(request.RouteFilterPrefixes, &dcPrefix)
-	//	}
-	//}
-
-	//if tencentAddress != "" {
-	//	request.TencentAddress = &tencentAddress
-	//}
-
-	if customerAddress != "" {
-		request.CustomerAddress = &customerAddress
+	// 设置IDC路由（静态路由）
+	if idcRoutes != "" {
+		request.IdcRoutes = &idcRoutes
 	}
+
 	ratelimit.Check(request.GetAction())
 	response, err := me.client.UseDcClient().CreateDirectConnectTunnel(request)
 	if err != nil {
@@ -282,10 +315,9 @@ func (me *DcService) DeleteDirectConnectTunnel(ctx context.Context, dcxId string
 	return
 }
 
-func (me *DcService) ModifyDirectConnectTunnelAttribute(ctx context.Context, dcxId string,
-	name, bgpAuthKey, tencentAddress, customerAddress string,
-	bandwidth, bgpAsn int64,
-	routeFilterPrefixes []string) (errRet error) {
+func (me *DcService) ModifyDirectConnectTunnelAttribute(ctx context.Context, dcxId,
+	name, bgpAuthKey, idcRoutes string, bandwidth, bgpAsn, bfdInterval int64,
+	enableBfd bool, enableMulticast bool, multicastGroups, vpcId string) (errRet error) {
 
 	logId := getLogId(ctx)
 	request := dc.NewModifyDirectConnectTunnelAttributeRequest()
@@ -300,12 +332,6 @@ func (me *DcService) ModifyDirectConnectTunnelAttribute(ctx context.Context, dcx
 	if name != "" {
 		request.DirectConnectTunnelName = &name
 	}
-	//if tencentAddress != "" {
-	//	request.TencentAddress = &tencentAddress
-	//}
-	//if customerAddress != "" {
-	//	request.CustomerAddress = &customerAddress
-	//}
 
 	if bgpAsn >= 0 {
 		var peer dc.BgpPeer
@@ -318,19 +344,81 @@ func (me *DcService) ModifyDirectConnectTunnelAttribute(ctx context.Context, dcx
 		request.Bandwidth = &bandwidth
 	}
 
-	//if len(routeFilterPrefixes) > 0 {
-	//	request.RouteFilterPrefixes = make([]*dc.RouteFilterPrefix, 0, len(routeFilterPrefixes))
-	//	for index := range routeFilterPrefixes {
-	//		var dcPrefix dc.RouteFilterPrefix
-	//		dcPrefix.Cidr = &routeFilterPrefixes[index]
-	//		request.RouteFilterPrefixes = append(request.RouteFilterPrefixes, &dcPrefix)
-	//	}
-	//}
+	// 设置BFD参数
+	request.EnableBfd = &enableBfd
+	if bfdInterval > 0 {
+		if !enableBfd {
+			errRet = fmt.Errorf("bfd_interval can only be set when enable_bfd is true")
+			return
+		}
+		request.BfdInterval = &bfdInterval
+	}
+
+	// 设置IDC路由参数
+	if idcRoutes != "" {
+		request.IdcRoutes = &idcRoutes
+	}
+
+	
+	// 如果要开启专线通道组播，需要先检查VPC组播状态
+	if enableMulticast {
+		// 检查VPC是否已开启组播
+		vpcMulticastEnabled, err := me.CheckVpcMulticastEnabled(ctx, vpcId)
+		if err != nil {
+			errRet = fmt.Errorf("failed to check VPC multicast status: %v", err)
+			return
+		}
+		
+		if !vpcMulticastEnabled {
+			errRet = fmt.Errorf("VPC %s multicast is not enabled. Please enable multicast in VPC resource first before enabling tunnel multicast", vpcId)
+			return
+		}
+	}
+
+	// 设置组播参数
+	request.EnableMulticast = &enableMulticast
+	if multicastGroups != "" {
+		request.MulticastGroups = &multicastGroups
+	}
+
 	ratelimit.Check(request.GetAction())
 	_, err := me.client.UseDcClient().ModifyDirectConnectTunnelAttribute(request)
 	if err != nil {
 		errRet = err
 	}
+	return
+}
+
+// CheckVpcMulticastEnabled 检查VPC是否开启组播功能
+func (me *DcService) CheckVpcMulticastEnabled(ctx context.Context, vpcId string) (enabled bool, errRet error) {
+	logId := getLogId(ctx)
+	request := vpc.NewDescribeVpcsRequest()
+	request.VpcIds = []*string{&vpcId}
+	
+	defer func() {
+		if errRet != nil {
+			log.Printf("[CRITAL]%s api[%s] fail, request body [%s], reason[%s]\n",
+				logId, request.GetAction(), request.ToJsonString(), errRet.Error())
+		}
+	}()
+
+	ratelimit.Check(request.GetAction())
+	response, err := me.client.UseVpcClient().DescribeVpcs(request)
+	if err != nil {
+		errRet = err
+		return
+	}
+
+	if len(response.Response.VpcSet) == 0 {
+		errRet = fmt.Errorf("VPC %s not found", vpcId)
+		return
+	}
+
+	vpcInfo := response.Response.VpcSet[0]
+	if vpcInfo.EnableMulticast != nil {
+		enabled = *vpcInfo.EnableMulticast
+	}
+	
 	return
 }
 
@@ -628,3 +716,34 @@ func (me *DcService) DescribeDcAccessPointsByFilter(ctx context.Context, param m
 
 	return
 }
+
+// UpdateVifAssociated 更新专线通道的负载均衡模式和关联通道ID
+func (me *DcService) UpdateVifAssociated(ctx context.Context, dcxId, loadMode, relatedDirectConnectTunnelId string) (errRet error) {
+	logId := getLogId(ctx)
+	request := dc.NewUpdateVifAssociatedRequest()
+	defer func() {
+		if errRet != nil {
+			log.Printf("[CRITAL]%s api[%s] fail, request body [%s], reason[%s]\n",
+				logId, request.GetAction(), request.ToJsonString(), errRet.Error())
+		}
+	}()
+
+	request.DirectConnectTunnelId = &dcxId
+	
+	if loadMode != "" {
+		request.LoadMode = &loadMode
+	}
+	
+	if relatedDirectConnectTunnelId != "" {
+		request.RelatedDirectConnectTunnelId = &relatedDirectConnectTunnelId
+	}
+
+	ratelimit.Check(request.GetAction())
+	_, err := me.client.UseDcClient().UpdateVifAssociated(request)
+	if err != nil {
+		errRet = err
+	}
+	return
+}
+
+

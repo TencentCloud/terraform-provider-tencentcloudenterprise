@@ -1,17 +1,15 @@
 /*
 Use this data source to query detailed information of tsf application
 
-# Example Usage
+Example Usage
 
 ```hcl
-
-	data "tencentcloudenterprise_tsf_application" "application" {
-	  application_type = "V"
-	  microservice_type = "N"
-	  # application_resource_type_list = [""]
-	  application_id_list = ["application-a24x29xv"]
-	}
-
+data "tencentcloudenterprise_tsf_application" "application" {
+  application_type = "V"
+  microservice_type = "N"
+  # application_resource_type_list = [""]
+  application_id_list = ["application-a24x29xv"]
+}
 ```
 */
 package tencentcloud
@@ -19,10 +17,10 @@ package tencentcloud
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	tsf "terraform-provider-tencentcloudenterprise/sdk/tsf/v20180326"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func init() {
@@ -30,28 +28,28 @@ func init() {
 		TerraformTypeCN: "TSF应用",
 		DescriptionCN:   "提供TSF应用数据源，用于查询TSF应用的详细信息。",
 		AttributesCN: map[string]string{
-			"application_type":               "应用类型",
-			"microservice_type":              "微服务类型",
-			"application_resource_type":      "应用资源类型",
-			"application_runtime_type":       "应用运行时类型",
-			"apigateway_service_id":          "API网关服务ID",
-			"application_remark_name":        "备注名",
-			"service_config_list":            "服务配置列表",
-			"total_count":                    "总数",
-			"content":                        "应用信息",
-			"application_id":                 "应用ID",
-			"application_name":               "应用名称",
-			"application_desc":               "应用描述",
-			"prog_lang":                      "编程语言",
-			"create_time":                    "创建时间",
-			"update_time":                    "更新时间",
-			"ports":                          "端口",
-			"protocol":                       "协议",
-			"health_check":                   "健康检查",
-			"path":                           "路径",
+			"application_type":          "应用类型",
+			"microservice_type":         "微服务类型",
+			"application_resource_type": "应用资源类型",
+			"application_runtime_type":  "应用运行时类型",
+			"apigateway_service_id":     "API网关服务ID",
+			"application_remark_name":   "备注名",
+			"service_config_list":       "服务配置列表",
+			"total_count":               "总数",
+			"content":                   "应用信息",
+			"application_id":            "应用ID",
+			"application_name":          "应用名称",
+			"application_desc":          "应用描述",
+			"prog_lang":                 "编程语言",
+			"create_time":               "创建时间",
+			"update_time":               "更新时间",
+			"ports":                     "端口",
+			"protocol":                  "协议",
+			"health_check":              "健康检查",
+			"path":                      "路径",
 			"application_resource_type_list": "应用资源类型列表",
-			"application_id_list":            "ID列表",
-			"result_output_file":             "结果输出文件",
+			"application_id_list":       "ID列表",
+			"result_output_file":        "结果输出文件",
 		},
 	})
 }

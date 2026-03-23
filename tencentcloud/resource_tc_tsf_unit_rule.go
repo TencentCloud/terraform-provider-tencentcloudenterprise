@@ -1,33 +1,31 @@
 /*
 Provides a resource to create a tsf unit_rule
 
-# Example Usage
+Example Usage
 
 ```hcl
+resource "tencentcloudenterprise_tsf_unit_rule" "unit_rule" {
+  gateway_instance_id = "gw-ins-rug79a70"
+  name = "terraform-test"
+  description = "terraform-desc"
+  unit_rule_item_list {
+		relationship = "AND"
+		dest_namespace_id = "namespace-y8p88eka"
+		dest_namespace_name = "garden-test_default"
+		name = "Rule1"
+		description = "rule1-desc"
+		unit_rule_tag_list {
+			tag_type = "U"
+			tag_field = "aaa"
+			tag_operator = "IN"
+			tag_value = "1"
+		}
 
-	resource "tencentcloudenterprise_tsf_unit_rule" "unit_rule" {
-	  gateway_instance_id = "gw-ins-rug79a70"
-	  name = "terraform-test"
-	  description = "terraform-desc"
-	  unit_rule_item_list {
-			relationship = "AND"
-			dest_namespace_id = "namespace-y8p88eka"
-			dest_namespace_name = "garden-test_default"
-			name = "Rule1"
-			description = "rule1-desc"
-			unit_rule_tag_list {
-				tag_type = "U"
-				tag_field = "aaa"
-				tag_operator = "IN"
-				tag_value = "1"
-			}
-
-	  }
-	}
-
+  }
+}
 ```
 
-# Import
+Import
 
 tsf unit_rule can be imported using the id, e.g.
 
@@ -42,10 +40,10 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	tsf "terraform-provider-tencentcloudenterprise/sdk/tsf/v20180326"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func init() {

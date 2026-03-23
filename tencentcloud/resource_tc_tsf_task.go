@@ -1,34 +1,32 @@
 /*
 Provides a resource to create a tsf task
 
-# Example Usage
+Example Usage
 
 ```hcl
-
-	resource "tencentcloudenterprise_tsf_task" "task" {
-	  task_name = "terraform-test"
-	  task_content = "/test"
-	  execute_type = "unicast"
-	  task_type = "java"
-	  time_out = 60000
-	  group_id = "group-y8pnmoga"
-	  task_rule {
-		rule_type = "Cron"
-		expression = "0 * 1 * * ? "
-	  }
-	  retry_count = 0
-	  retry_interval = 0
-	  success_operator = "GTE"
-	  success_ratio = "100"
-	  advance_settings {
-		sub_task_concurrency = 2
-	  }
-	  task_argument = "a=c"
-	}
-
+resource "tencentcloudenterprise_tsf_task" "task" {
+  task_name = "terraform-test"
+  task_content = "/test"
+  execute_type = "unicast"
+  task_type = "java"
+  time_out = 60000
+  group_id = "group-y8pnmoga"
+  task_rule {
+	rule_type = "Cron"
+	expression = "0 * 1 * * ? "
+  }
+  retry_count = 0
+  retry_interval = 0
+  success_operator = "GTE"
+  success_ratio = "100"
+  advance_settings {
+	sub_task_concurrency = 2
+  }
+  task_argument = "a=c"
+}
 ```
 
-# Import
+Import
 
 tsf task can be imported using the id, e.g.
 
@@ -44,10 +42,10 @@ import (
 	"log"
 	"strconv"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	tsf "terraform-provider-tencentcloudenterprise/sdk/tsf/v20180326"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func init() {
@@ -55,31 +53,31 @@ func init() {
 		TerraformTypeCN: "创建任务",
 		DescriptionCN:   "提供TSF任务资源，用于创建和管理任务。",
 		AttributesCN: map[string]string{
-			"task_id":              "任务ID",
-			"task_name":            "任务名称",
-			"task_content":         "任务内容",
-			"execute_type":         "执行类型",
-			"task_type":            "任务类型",
-			"time_out":             "任务超时时间",
-			"group_id":             "部署组ID",
-			"task_rule":            "触发规则",
-			"retry_count":          "重试次数",
-			"retry_interval":       "重试间隔",
-			"shard_count":          "分片数量",
-			"shard_arguments":      "分片参数",
-			"success_operator":     "成功率计算方式",
-			"success_ratio":        "成功率阈值",
-			"advance_settings":     "高级设置",
-			"task_argument":        "任务参数",
-			"task_state":           "任务状态",
-			"belong_flow_ids":      "所属工作流ID",
-			"task_log_id":          "任务历史ID",
-			"trigger_type":         "触发类型",
-			"expression":           "Cron类型规则，Cron表达式",
-			"repeat_interval":      "时间间隔，单位为毫秒",
-			"rule_type":            "触发规则类型，Cron/Repeat",
-			"shard_key":            "分片参数KEY，整数，范围[11000]",
-			"shard_value":          "碎片参数VALUE",
+			"task_id":          "任务ID",
+			"task_name":        "任务名称",
+			"task_content":     "任务内容",
+			"execute_type":     "执行类型",
+			"task_type":        "任务类型",
+			"time_out":         "任务超时时间",
+			"group_id":         "部署组ID",
+			"task_rule":        "触发规则",
+			"retry_count":      "重试次数",
+			"retry_interval":   "重试间隔",
+			"shard_count":      "分片数量",
+			"shard_arguments":  "分片参数",
+			"success_operator": "成功率计算方式",
+			"success_ratio":    "成功率阈值",
+			"advance_settings": "高级设置",
+			"task_argument":    "任务参数",
+			"task_state":       "任务状态",
+			"belong_flow_ids":  "所属工作流ID",
+			"task_log_id":      "任务历史ID",
+			"trigger_type":     "触发类型",
+			"expression":       "Cron类型规则，Cron表达式",
+			"repeat_interval":  "时间间隔，单位为毫秒",
+			"rule_type":        "触发规则类型，Cron/Repeat",
+			"shard_key":        "分片参数KEY，整数，范围[11000]",
+			"shard_value":      "碎片参数VALUE",
 			"sub_task_concurrency": "子任务单机并发限制，默认值为2",
 		},
 	})

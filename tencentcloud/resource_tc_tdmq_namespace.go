@@ -1,7 +1,7 @@
 /*
 Provide a resource to create a tdmq namespace.
 
-# Example Usage
+Example Usage
 
 ```hcl
 
@@ -25,7 +25,7 @@ Provide a resource to create a tdmq namespace.
 
 ```
 
-# Import
+Import
 
 Tdmq namespace can be imported, e.g.
 
@@ -37,12 +37,12 @@ package tencentcloud
 
 import (
 	"context"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"terraform-provider-tencentcloudenterprise/sdk/common/errors"
 	tdmq "terraform-provider-tencentcloudenterprise/sdk/tdmq/v20200217"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func init() {

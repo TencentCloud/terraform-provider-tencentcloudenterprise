@@ -19,19 +19,19 @@ resource "tencentcloudenterprise_redis_instance" "redis_instance_test" {
 }
 
 #resource "tencentcloudenterprise_redis_backup_config" "redis_backup_config" {
-#  redis_id      = cloud_redis_instance.redis_instance_test.id
+#  redis_id      = tencentcloudenterprise_redis_instance.redis_instance_test.id
 #  backup_time   = "01:00-02:00"
 #  backup_period = ["Saturday", "Sunday"]
 #}
 #
 #data "tencentcloudenterprise_redis_instances" "redis" {
 #  zone       = var.availability_zone
-#  search_key = cloud_redis_instance.redis_instance_test.id
+#  search_key = tencentcloudenterprise_redis_instance.redis_instance_test.id
 #}
 #
 #data "tencentcloudenterprise_redis_instances" "redis-tags" {
 #  zone = var.availability_zone
-#  tags = cloud_redis_instance.redis_instance_test.tags
+#  tags = tencentcloudenterprise_redis_instance.redis_instance_test.tags
 #}
 #
 #resource "tencentcloudenterprise_redis_instance" "redis_instance_prepaid_test" {

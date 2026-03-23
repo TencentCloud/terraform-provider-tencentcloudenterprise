@@ -1,7 +1,7 @@
 /*
 Provides a resource to create a dcdb instance_config
 
-# Example Usage
+Example Usage
 
 ```hcl
 

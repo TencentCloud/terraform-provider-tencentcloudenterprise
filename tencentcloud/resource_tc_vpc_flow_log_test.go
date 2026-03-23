@@ -99,7 +99,7 @@ resource "tencentcloudenterprise_vpc_flow_log" "flow_log" {
   traffic_type = "ACCEPT"
   vpc_id = local.vpc_id
   flow_log_description = "this is a testing flow log"
-  cloud_log_id = "33aaf0ae-6163-411b-a415-9f27450f68db" # FIXME use data.logsets (not supported) instead
+  tencentcloudenterprise_log_id = "33aaf0ae-6163-411b-a415-9f27450f68db" # FIXME use data.logsets (not supported) instead
   storage_type = "cls"
   tags = {
     "createdBy" = "terraform"
@@ -119,7 +119,7 @@ resource "tencentcloudenterprise_vpc_flow_log" "flow_log" {
   traffic_type = "ACCEPT"
   vpc_id = local.vpc_id
   flow_log_description = "updated"
-  cloud_log_id = "33aaf0ae-6163-411b-a415-9f27450f68db" # FIXME use data.logsets (not supported) instead
+  tencentcloudenterprise_log_id = "33aaf0ae-6163-411b-a415-9f27450f68db" # FIXME use data.logsets (not supported) instead
   storage_type = "cls"
   tags = {
     "createdBy" = "terraform2"

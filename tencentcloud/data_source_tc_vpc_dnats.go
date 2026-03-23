@@ -1,7 +1,7 @@
 /*
 Use this data source to query detailed information of DNATs.
 
-# Example Usage
+Example Usage
 
 ```hcl
 # query by nat gateway id
@@ -19,7 +19,7 @@ Use this data source to query detailed information of DNATs.
 # query by elastic ip
 
 	data "tencentcloudenterprise_vpc_dnats" "foo" {
-	  elastic_ip = "203.0.113.1"
+	  elastic_ip = "123.207.115.136"
 	}
 
 ```
@@ -30,10 +30,10 @@ import (
 	"log"
 	"strconv"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	vpc "terraform-provider-tencentcloudenterprise/sdk/vpc/v20170312"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func init() {

@@ -1,7 +1,7 @@
 /*
 Use this data source to query detailed information of HA VIP EIP attachments
 
-# Example Usage
+Example Usage
 
 ```hcl
 
@@ -17,11 +17,11 @@ package tencentcloud
 import (
 	"log"
 
+	vpc "terraform-provider-tencentcloudenterprise/sdk/vpc/v20170312"
+	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/pkg/errors"
-	vpc "terraform-provider-tencentcloudenterprise/sdk/vpc/v20170312"
-	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
 )
 
 func init() {

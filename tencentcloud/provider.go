@@ -11,23 +11,23 @@ Example Usage
 
 	terraform {
 	  required_providers {
-	    tencentcloudenterprise = {
-	      source = "TencentCloud/tencentcloudenterprise"
+	    tencentcloud = {
+	      source = "tencentcloudstack/tencentcloud"
 	    }
 	  }
 	}
 
-# Configure the TencentCloud Enterprise Provider
+# Configure the TencentCloud Provider
 
-	provider "tencentcloudenterprise" {
+	provider "tencentcloud" {
 	  secret_id  = var.secret_id
 	  secret_key = var.secret_key
 	  region     = var.region
 	}
 
-#Configure the TencentCloud Enterprise Provider with STS
+#Configure the TencentCloud Provider with STS
 
-	provider "tencentcloudenterprise" {
+	provider "tencentcloud" {
 	  secret_id  = var.secret_id
 	  secret_key = var.secret_key
 	  region     = var.region
@@ -50,111 +50,112 @@ Provider Data Sources
 
 Auto Scaling(AS)
 
-	 Data Source
-	   tencentcloudenterprise_as_scaling_configs
-	   tencentcloudenterprise_as_scaling_groups
-	   tencentcloudenterprise_as_scaling_policies
-	tencentcloudenterprise_as_instances
-	tencentcloudenterprise_as_last_activity
+	  Data Source
+	    tencentcloudenterprise_as_scaling_configs
+	    tencentcloudenterprise_as_scaling_groups
+	    tencentcloudenterprise_as_scaling_policies
+		tencentcloudenterprise_as_instances
+		tencentcloudenterprise_as_last_activity
 
-	 Resource
-	   tencentcloudenterprise_as_scaling_config
-	   tencentcloudenterprise_as_scaling_group
-	   tencentcloudenterprise_as_attachment
-	   tencentcloudenterprise_as_scaling_policy
-	   tencentcloudenterprise_as_schedule
-	   tencentcloudenterprise_as_lifecycle_hook
-	   tencentcloudenterprise_as_notification
-	tencentcloudenterprise_as_remove_instances
-	   tencentcloudenterprise_as_protect_instances
+	  Resource
+	    tencentcloudenterprise_as_scaling_config
+	    tencentcloudenterprise_as_scaling_group
+	    tencentcloudenterprise_as_attachment
+	    tencentcloudenterprise_as_scaling_policy
+	    tencentcloudenterprise_as_schedule
+	    tencentcloudenterprise_as_lifecycle_hook
+	    tencentcloudenterprise_as_notification
+		tencentcloudenterprise_as_remove_instances
+	    tencentcloudenterprise_as_protect_instances
 
 Bare Metal Server(BMS)
 
-	 Data Source
-	tencentcloudenterprise_bms_instances
-	tencentcloudenterprise_bms_placement_groups
-	tencentcloudenterprise_bms_flavors
+	  Data Source
+		tencentcloudenterprise_bms_instances
+		tencentcloudenterprise_bms_placement_groups
+		tencentcloudenterprise_bms_flavors
 
-	 Resource
-	tencentcloudenterprise_bms_instance
-	tencentcloudenterprise_bms_placement_group
+	  Resource
+		tencentcloudenterprise_bms_instance
+		tencentcloudenterprise_bms_placement_group
 
 Cloud Kafka(ckafka)
 
-	 Data Source
-	   tencentcloudenterprise_ckafka_users
-	   tencentcloudenterprise_ckafka_acls
-	   tencentcloudenterprise_ckafka_topics
-	   tencentcloudenterprise_ckafka_instances
-	tencentcloudenterprise_ckafka_connect_resource
-	tencentcloudenterprise_ckafka_region
-	tencentcloudenterprise_ckafka_datahub_topic
-	tencentcloudenterprise_ckafka_datahub_group_offsets
-	tencentcloudenterprise_ckafka_datahub_task
-	tencentcloudenterprise_ckafka_group
-	tencentcloudenterprise_ckafka_group_offsets
-	tencentcloudenterprise_ckafka_group_info
-	tencentcloudenterprise_ckafka_task_status
-	tencentcloudenterprise_ckafka_topic_flow_ranking
-	tencentcloudenterprise_ckafka_topic_produce_connection
-	tencentcloudenterprise_ckafka_topic_subscribe_group
-	tencentcloudenterprise_ckafka_topic_sync_replica
-	tencentcloudenterprise_ckafka_zone
+	  Data Source
+	    tencentcloudenterprise_ckafka_users
+	    tencentcloudenterprise_ckafka_acls
+	    tencentcloudenterprise_ckafka_topics
+	    tencentcloudenterprise_ckafka_instances
+		tencentcloudenterprise_ckafka_connect_resource
+		tencentcloudenterprise_ckafka_region
+		tencentcloudenterprise_ckafka_datahub_topic
+		tencentcloudenterprise_ckafka_datahub_group_offsets
+		tencentcloudenterprise_ckafka_datahub_task
+		tencentcloudenterprise_ckafka_group
+		tencentcloudenterprise_ckafka_group_offsets
+		tencentcloudenterprise_ckafka_group_info
+		tencentcloudenterprise_ckafka_task_status
+		tencentcloudenterprise_ckafka_topic_flow_ranking
+		tencentcloudenterprise_ckafka_topic_produce_connection
+		tencentcloudenterprise_ckafka_topic_subscribe_group
+		tencentcloudenterprise_ckafka_topic_sync_replica
+		tencentcloudenterprise_ckafka_zone
 
-	 Resource
-	tencentcloudenterprise_ckafka_instance
-	   tencentcloudenterprise_ckafka_user
-	   tencentcloudenterprise_ckafka_acl
-	   tencentcloudenterprise_ckafka_topic
-	tencentcloudenterprise_ckafka_datahub_topic
-	tencentcloudenterprise_ckafka_connect_resource
-	tencentcloudenterprise_ckafka_renew_instance
-	tencentcloudenterprise_ckafka_acl_rule
-	tencentcloudenterprise_ckafka_consumer_group
-	tencentcloudenterprise_ckafka_consumer_group_modify_offset
-	tencentcloudenterprise_ckafka_datahub_task
+	  Resource
+		tencentcloudenterprise_ckafka_instance
+	    tencentcloudenterprise_ckafka_user
+	    tencentcloudenterprise_ckafka_acl
+	    tencentcloudenterprise_ckafka_route
+	    tencentcloudenterprise_ckafka_topic
+		tencentcloudenterprise_ckafka_datahub_topic
+		tencentcloudenterprise_ckafka_connect_resource
+		tencentcloudenterprise_ckafka_renew_instance
+		tencentcloudenterprise_ckafka_acl_rule
+		tencentcloudenterprise_ckafka_consumer_group
+		tencentcloudenterprise_ckafka_consumer_group_modify_offset
+		tencentcloudenterprise_ckafka_datahub_task
 
 Cloud Block Storage(CBS)
 
-	 Data Source
-	   tencentcloudenterprise_cbs_snapshots
-	   tencentcloudenterprise_cbs_storages
-	tencentcloudenterprise_cbs_storages_set
-	   tencentcloudenterprise_cbs_snapshot_policies
+	  Data Source
+	    tencentcloudenterprise_cbs_snapshots
+	    tencentcloudenterprise_cbs_storages
+		tencentcloudenterprise_cbs_storages_set
+	    tencentcloudenterprise_cbs_snapshot_policies
 
-	 Resource
-	   tencentcloudenterprise_cbs_storage
-	tencentcloudenterprise_cbs_storage_set
-	   tencentcloudenterprise_cbs_storage_attachment
-	tencentcloudenterprise_cbs_storage_set_attachment
-	   tencentcloudenterprise_cbs_snapshot
-	   tencentcloudenterprise_cbs_snapshot_policy
-	   tencentcloudenterprise_cbs_snapshot_policy_attachment
-	tencentcloudenterprise_cbs_snapshot_share_permission
+	  Resource
+	    tencentcloudenterprise_cbs_storage
+		tencentcloudenterprise_cbs_storage_set
+	    tencentcloudenterprise_cbs_storage_attachment
+		tencentcloudenterprise_cbs_storage_set_attachment
+	    tencentcloudenterprise_cbs_snapshot
+	    tencentcloudenterprise_cbs_snapshot_policy
+	    tencentcloudenterprise_cbs_snapshot_policy_attachment
+		tencentcloudenterprise_cbs_snapshot_share_permission
 
 Cloud Load Balancer(CLB)
 
-	 Data Source
-	   tencentcloudenterprise_clb_attachments
-	   tencentcloudenterprise_clb_instances
-	   tencentcloudenterprise_clb_listener_rules
-	   tencentcloudenterprise_clb_listeners
-	   tencentcloudenterprise_clb_redirections
-	tencentcloudenterprise_clb_instance_by_cert_id
-	tencentcloudenterprise_clb_instance_detail
-	tencentcloudenterprise_clb_resources
-	tencentcloudenterprise_clb_target_health
-	   tencentcloudenterprise_clb_certificates
+	  Data Source
+	    tencentcloudenterprise_clb_attachments
+	    tencentcloudenterprise_clb_instances
+	    tencentcloudenterprise_clb_listener_rules
+	    tencentcloudenterprise_clb_listeners
+	    tencentcloudenterprise_clb_redirections
+		tencentcloudenterprise_clb_instance_by_cert_id
+		tencentcloudenterprise_clb_instance_detail
+		tencentcloudenterprise_clb_resources
+		tencentcloudenterprise_clb_target_health
+	    tencentcloudenterprise_clb_certificates
 
-	 Resource
-	   tencentcloudenterprise_clb_instance
-	   tencentcloudenterprise_clb_listener
-	   tencentcloudenterprise_clb_listener_rule
-	   tencentcloudenterprise_clb_attachment
-	   tencentcloudenterprise_clb_redirection
-	tencentcloudenterprise_clb_customized_config
-	tencentcloudenterprise_clb_security_group_attachment
-	tencentcloudenterprise_clb_certificates
+	  Resource
+	    tencentcloudenterprise_clb_instance
+	    tencentcloudenterprise_clb_listener
+	    tencentcloudenterprise_clb_listener_rule
+	    tencentcloudenterprise_clb_attachment
+	    tencentcloudenterprise_clb_redirection
+		tencentcloudenterprise_clb_customized_config
+		tencentcloudenterprise_clb_security_group_attachment
+		tencentcloudenterprise_clb_certificates
 
 Cloud Object Storage(COS)
 
@@ -180,45 +181,45 @@ Cloud Object Storage(CSP)
 
 Cloud Virtual Machine(CVM)
 
-	 Data Source
-	   tencentcloudenterprise_cvm_image
-	   tencentcloudenterprise_cvm_images
-	   tencentcloudenterprise_cvm_instance_types
-	   tencentcloudenterprise_cvm_instances
-	tencentcloudenterprise_cvm_instances_set
-	   tencentcloudenterprise_cvm_key_pairs
-	   tencentcloudenterprise_cvm_placement_groups
-	tencentcloudenterprise_cvm_instances_modification
-	tencentcloudenterprise_cvm_instance_vnc_url
-	tencentcloudenterprise_cvm_disaster_recover_group_quota
-	tencentcloudenterprise_cvm_image_quota
-	tencentcloudenterprise_cvm_image_share_permission
+	  Data Source
+	    tencentcloudenterprise_cvm_image
+	    tencentcloudenterprise_cvm_images
+	    tencentcloudenterprise_cvm_instance_types
+	    tencentcloudenterprise_cvm_instances
+		tencentcloudenterprise_cvm_instances_set
+	    tencentcloudenterprise_cvm_key_pairs
+	    tencentcloudenterprise_cvm_placement_groups
+		tencentcloudenterprise_cvm_instances_modification
+		tencentcloudenterprise_cvm_instance_vnc_url
+		tencentcloudenterprise_cvm_disaster_recover_group_quota
+		tencentcloudenterprise_cvm_image_quota
+		tencentcloudenterprise_cvm_image_share_permission
 
-	 Resource
-	   tencentcloudenterprise_cvm_instance
-	tencentcloudenterprise_cvm_instance_set
+	  Resource
+	    tencentcloudenterprise_cvm_instance
+		tencentcloudenterprise_cvm_instance_set
 
-	   tencentcloudenterprise_cvm_key_pair
-	   tencentcloudenterprise_cvm_placement_group
-	   tencentcloudenterprise_cvm_image
-	tencentcloudenterprise_cvm_launch_template
-	tencentcloudenterprise_cvm_security_group_attachment
-	tencentcloudenterprise_cvm_reboot_instance
-	tencentcloudenterprise_cvm_renew_instance
-	tencentcloudenterprise_cvm_sync_image
-	tencentcloudenterprise_cvm_image_share_permission
+	    tencentcloudenterprise_cvm_key_pair
+	    tencentcloudenterprise_cvm_placement_group
+	    tencentcloudenterprise_cvm_image
+		tencentcloudenterprise_cvm_launch_template
+		tencentcloudenterprise_cvm_security_group_attachment
+		tencentcloudenterprise_cvm_reboot_instance
+		tencentcloudenterprise_cvm_renew_instance
+		tencentcloudenterprise_cvm_sync_image
+		tencentcloudenterprise_cvm_image_share_permission
 
 Cloud Elastic IP(EIP)
 
-	 Data Source
-	tencentcloudenterprise_eips
-	tencentcloudenterprise_eip_address_quota
-	 Resource
-	   tencentcloudenterprise_eip
-	   tencentcloudenterprise_eip_association
-	tencentcloudenterprise_eip_address_transform
-	tencentcloudenterprise_eip_public_address_adjust
-	tencentcloudenterprise_eip_normal_address_return
+	  Data Source
+		tencentcloudenterprise_eips
+		tencentcloudenterprise_eip_address_quota
+	  Resource
+	    tencentcloudenterprise_eip
+	    tencentcloudenterprise_eip_association
+		tencentcloudenterprise_eip_address_transform
+		tencentcloudenterprise_eip_public_address_adjust
+		tencentcloudenterprise_eip_normal_address_return
 
 Direct Connect(DC)
 
@@ -261,224 +262,229 @@ Corporate Identity Center(CIC)
 
 Tencent Kubernetes Engine(TKE)
 
-	 Data Source
-	   tencentcloudenterprise_tke_kubernetes_clusters
-	   tencentcloudenterprise_tke_kubernetes_charts
-	   tencentcloudenterprise_tke_kubernetes_cluster_common_names
-	tencentcloudenterprise_tke_kubernetes_available_cluster_versions
+	  Data Source
+	    tencentcloudenterprise_tke_kubernetes_clusters
+	    tencentcloudenterprise_tke_kubernetes_charts
+	    tencentcloudenterprise_tke_kubernetes_cluster_common_names
+		tencentcloudenterprise_tke_kubernetes_available_cluster_versions
 
-	 Resource
-	   tencentcloudenterprise_tke_kubernetes_cluster
-	   tencentcloudenterprise_tke_kubernetes_scale_worker
-	   tencentcloudenterprise_tke_kubernetes_cluster_attachment
-	tencentcloudenterprise_tke_kubernetes_cluster_endpoint
+	  Resource
+	    tencentcloudenterprise_tke_kubernetes_cluster
+	    tencentcloudenterprise_tke_kubernetes_scale_worker
+	    tencentcloudenterprise_tke_kubernetes_cluster_attachment
+		tencentcloudenterprise_tke_kubernetes_cluster_endpoint
+		tencentcloudenterprise_tke_kubernetes_log_config
+		tencentcloudenterprise_tke_kubernetes_auth_attachment
 
 TencentDB for PostgreSQL(PostgreSQL)
 
-	 Data Source
-	tencentcloudenterprise_postgresql_instances
-	tencentcloudenterprise_postgresql_specinfos
-	tencentcloudenterprise_postgresql_xlogs
-	tencentcloudenterprise_postgresql_parameter_templates
-	tencentcloudenterprise_postgresql_readonly_groups
-	tencentcloudenterprise_postgresql_base_backups
-	tencentcloudenterprise_postgresql_log_backups
-	tencentcloudenterprise_postgresql_backup_download_urls
-	tencentcloudenterprise_postgresql_db_instance_classes
-	tencentcloudenterprise_postgresql_default_parameters
-	tencentcloudenterprise_postgresql_recovery_time
-	tencentcloudenterprise_postgresql_regions
-	tencentcloudenterprise_postgresql_db_instance_versions
-	tencentcloudenterprise_postgresql_zones
+	  Data Source
+		tencentcloudenterprise_postgresql_instances
+		tencentcloudenterprise_postgresql_specinfos
+		tencentcloudenterprise_postgresql_xlogs
+		tencentcloudenterprise_postgresql_parameter_templates
+		tencentcloudenterprise_postgresql_readonly_groups
+		tencentcloudenterprise_postgresql_base_backups
+		tencentcloudenterprise_postgresql_log_backups
+		tencentcloudenterprise_postgresql_backup_download_urls
+		tencentcloudenterprise_postgresql_db_instance_classes
+		tencentcloudenterprise_postgresql_default_parameters
+		tencentcloudenterprise_postgresql_recovery_time
+		tencentcloudenterprise_postgresql_regions
+		tencentcloudenterprise_postgresql_db_instance_versions
+		tencentcloudenterprise_postgresql_zones
 
-	 Resource
-	tencentcloudenterprise_postgresql_instance
-	tencentcloudenterprise_postgresql_readonly_instance
-	tencentcloudenterprise_postgresql_readonly_group
-	tencentcloudenterprise_postgresql_readonly_attachment
-	tencentcloudenterprise_postgresql_parameter_template
-	tencentcloudenterprise_postgresql_backup_plan_config
-	tencentcloudenterprise_postgresql_security_group_config
-	tencentcloudenterprise_postgresql_backup_download_restriction_config
-	tencentcloudenterprise_postgresql_restart_db_instance_operation
-	tencentcloudenterprise_postgresql_renew_db_instance_operation
-	tencentcloudenterprise_postgresql_isolate_db_instance_operation
-	tencentcloudenterprise_postgresql_disisolate_db_instance_operation
-	tencentcloudenterprise_postgresql_rebalance_readonly_group_operation
-	tencentcloudenterprise_postgresql_delete_log_backup_operation
-	tencentcloudenterprise_postgresql_modify_account_remark_operation
-	tencentcloudenterprise_postgresql_modify_switch_time_period_operation
-	tencentcloudenterprise_postgresql_base_backup
+	  Resource
+		tencentcloudenterprise_postgresql_instance
+		tencentcloudenterprise_postgresql_readonly_instance
+		tencentcloudenterprise_postgresql_readonly_group
+		tencentcloudenterprise_postgresql_readonly_attachment
+		tencentcloudenterprise_postgresql_parameter_template
+		tencentcloudenterprise_postgresql_backup_plan_config
+		tencentcloudenterprise_postgresql_security_group_config
+		tencentcloudenterprise_postgresql_backup_download_restriction_config
+		tencentcloudenterprise_postgresql_restart_db_instance_operation
+		tencentcloudenterprise_postgresql_renew_db_instance_operation
+		tencentcloudenterprise_postgresql_isolate_db_instance_operation
+		tencentcloudenterprise_postgresql_disisolate_db_instance_operation
+		tencentcloudenterprise_postgresql_rebalance_readonly_group_operation
+		tencentcloudenterprise_postgresql_delete_log_backup_operation
+		tencentcloudenterprise_postgresql_modify_account_remark_operation
+		tencentcloudenterprise_postgresql_modify_switch_time_period_operation
+		tencentcloudenterprise_postgresql_base_backup
 
 Virtual Private Cloud(VPC)
 
-	 Data Source
-	   tencentcloudenterprise_vpc_security_groups
-	tencentcloudenterprise_vpc_address_templates
-	tencentcloudenterprise_vpc_address_template_groups
-	   tencentcloudenterprise_vpc_acls
-	tencentcloudenterprise_vpc_account_attributes
-	tencentcloudenterprise_vpc_classic_link_instances
-	tencentcloudenterprise_vpc_gateway_flow_qos
-	tencentcloudenterprise_vpc_cvm_instances
-	tencentcloudenterprise_vpc_net_detect_states
-	tencentcloudenterprise_vpc_net_detect_state_check
-	tencentcloudenterprise_vpc_private_ip_addresses
-	tencentcloudenterprise_vpc_resource_dashboard
-	tencentcloudenterprise_vpc_security_group_limits
-	tencentcloudenterprise_vpc_security_group_references
-	tencentcloudenterprise_vpc_template_limits
-	tencentcloudenterprise_vpc_limits
-	   tencentcloudenterprise_vpc_instances
-	   tencentcloudenterprise_vpc_route_tables
-	   tencentcloudenterprise_vpc_subnets
-	   tencentcloudenterprise_vpc_dnats
-	   tencentcloudenterprise_vpc_enis
-	   tencentcloudenterprise_vpc_ha_vip_eip_attachments
-	   tencentcloudenterprise_vpc_ha_vips
-	   tencentcloudenterprise_vpc_nat_gateways
-	tencentcloudenterprise_vpc_bandwidth_package_quota
+	  Data Source
+	    tencentcloudenterprise_vpc_security_groups
+		tencentcloudenterprise_vpc_address_templates
+		tencentcloudenterprise_vpc_address_template_groups
+	    tencentcloudenterprise_vpc_acls
+		tencentcloudenterprise_vpc_account_attributes
+		tencentcloudenterprise_vpc_classic_link_instances
+		tencentcloudenterprise_vpc_gateway_flow_qos
+		tencentcloudenterprise_vpc_cvm_instances
+		tencentcloudenterprise_vpc_net_detect_states
+		tencentcloudenterprise_vpc_net_detect_state_check
+		tencentcloudenterprise_vpc_private_ip_addresses
+		tencentcloudenterprise_vpc_resource_dashboard
+		tencentcloudenterprise_vpc_security_group_limits
+		tencentcloudenterprise_vpc_security_group_references
+		tencentcloudenterprise_vpc_template_limits
+		tencentcloudenterprise_vpc_limits
+	    tencentcloudenterprise_vpc_instances
+	    tencentcloudenterprise_vpc_route_tables
+	    tencentcloudenterprise_vpc_subnets
+	    tencentcloudenterprise_vpc_dnats
+	    tencentcloudenterprise_vpc_enis
+	    tencentcloudenterprise_vpc_ha_vip_eip_attachments
+	    tencentcloudenterprise_vpc_ha_vips
+	    tencentcloudenterprise_vpc_nat_gateways
+		tencentcloudenterprise_vpc_bandwidth_package_quota
 
-	 Resource
-	   tencentcloudenterprise_vpc_eni
-	   tencentcloudenterprise_vpc_eni_attachment
-	tencentcloudenterprise_vpc_eni_sg_attachment
-	   tencentcloudenterprise_vpc
-	tencentcloudenterprise_vpc_acl
-	tencentcloudenterprise_vpc_acl_attachment
-	tencentcloudenterprise_vpc_dc_gateway
-	tencentcloudenterprise_vpc_net_detect
-	tencentcloudenterprise_vpc_ipv6_cidr_block
-	tencentcloudenterprise_vpc_ipv6_subnet_cidr_block
-	tencentcloudenterprise_vpc_ipv6_eni_address
-	   tencentcloudenterprise_vpc_subnet
-	   tencentcloudenterprise_vpc_security_group
-	   tencentcloudenterprise_vpc_security_group_rule
-	   tencentcloudenterprise_vpc_security_group_rule_set
-	   tencentcloudenterprise_vpc_security_group_lite_rule
-	tencentcloudenterprise_vpc_address_template
-	tencentcloudenterprise_vpc_address_template_group
-	   tencentcloudenterprise_vpc_route_table
-	   tencentcloudenterprise_vpc_route_table_entry
-	   tencentcloudenterprise_vpc_dnat
-	   tencentcloudenterprise_vpc_nat_gateway
-	   tencentcloudenterprise_vpc_ha_vip
-	   tencentcloudenterprise_vpc_ha_vip_eip_attachment
-	tencentcloudenterprise_vpc_bandwidth_package
-	tencentcloudenterprise_vpc_bandwidth_package_attachment
-	tencentcloudenterprise_vpc_ipv6_address_bandwidth
+	  Resource
+	    tencentcloudenterprise_vpc_eni
+	    tencentcloudenterprise_vpc_eni_attachment
+		tencentcloudenterprise_vpc_eni_sg_attachment
+	    tencentcloudenterprise_vpc
+		tencentcloudenterprise_vpc_acl
+		tencentcloudenterprise_vpc_acl_attachment
+		tencentcloudenterprise_vpc_dc_gateway
+		tencentcloudenterprise_vpc_net_detect
+		tencentcloudenterprise_vpc_ipv6_cidr_block
+		tencentcloudenterprise_vpc_ipv6_subnet_cidr_block
+		tencentcloudenterprise_vpc_ipv6_eni_address
+	    tencentcloudenterprise_vpc_subnet
+	    tencentcloudenterprise_vpc_security_group
+	    tencentcloudenterprise_vpc_security_group_rule
+	    tencentcloudenterprise_vpc_security_group_rule_set
+	    tencentcloudenterprise_vpc_security_group_lite_rule
+		tencentcloudenterprise_vpc_address_template
+		tencentcloudenterprise_vpc_address_template_group
+	    tencentcloudenterprise_vpc_route_table
+	    tencentcloudenterprise_vpc_route_table_entry
+	    tencentcloudenterprise_vpc_dnat
+	    tencentcloudenterprise_vpc_nat_gateway
+	    tencentcloudenterprise_vpc_nat_gateway_flow_monitor
+	    tencentcloudenterprise_vpc_nat_gateway_snat
+	    tencentcloudenterprise_vpc_ha_vip
+	    tencentcloudenterprise_vpc_ha_vip_eip_attachment
+		tencentcloudenterprise_vpc_bandwidth_package
+		tencentcloudenterprise_vpc_bandwidth_package_attachment
+		tencentcloudenterprise_vpc_ipv6_address_bandwidth
 
 Virtual Private Cloud DNS(VPCDNS)
 
-	 Data Source
-	tencentcloudenterprise_vpcdns_domains
-	   tencentcloudenterprise_vpcdns_records
+	  Data Source
+		tencentcloudenterprise_vpcdns_domains
+	    tencentcloudenterprise_vpcdns_records
 
-	 Resource
-	tencentcloudenterprise_vpcdns_domain
-	   tencentcloudenterprise_vpcdns_record
+	  Resource
+		tencentcloudenterprise_vpcdns_domain
+	    tencentcloudenterprise_vpcdns_record
 
 TDSQL for MySQL(DCDB)
 
-	 Data Source
-	tencentcloudenterprise_dcdb_instances
-	tencentcloudenterprise_dcdb_accounts
-	tencentcloudenterprise_dcdb_databases
-	tencentcloudenterprise_dcdb_parameters
-	tencentcloudenterprise_dcdb_shards
-	tencentcloudenterprise_dcdb_security_groups
-	tencentcloudenterprise_dcdb_database_objects
-	tencentcloudenterprise_dcdb_database_tables
+	  Data Source
+		tencentcloudenterprise_dcdb_instances
+		tencentcloudenterprise_dcdb_accounts
+		tencentcloudenterprise_dcdb_databases
+		tencentcloudenterprise_dcdb_parameters
+		tencentcloudenterprise_dcdb_shards
+		tencentcloudenterprise_dcdb_security_groups
+		tencentcloudenterprise_dcdb_database_objects
+		tencentcloudenterprise_dcdb_database_tables
 
-	 Resource
-	tencentcloudenterprise_dcdb_account
-	tencentcloudenterprise_dcdb_instance
-	tencentcloudenterprise_dcdb_security_group_attachment
-	tencentcloudenterprise_dcdb_account_privileges
-	tencentcloudenterprise_dcdb_db_parameters
-	tencentcloudenterprise_dcdb_db_sync_mode_config
-	tencentcloudenterprise_dcdb_encrypt_attributes_config
-	tencentcloudenterprise_dcdb_instance_config
-	tencentcloudenterprise_dcdb_cancel_dcn_job_operation
-	tencentcloudenterprise_dcdb_activate_hour_instance_operation
-	tencentcloudenterprise_dcdb_isolate_hour_instance_operation
-	tencentcloudenterprise_dcdb_flush_binlog_operation
-	tencentcloudenterprise_dcdb_switch_db_instance_ha_operation
+	  Resource
+		tencentcloudenterprise_dcdb_account
+		tencentcloudenterprise_dcdb_instance
+		tencentcloudenterprise_dcdb_security_group_attachment
+		tencentcloudenterprise_dcdb_account_privileges
+		tencentcloudenterprise_dcdb_db_parameters
+		tencentcloudenterprise_dcdb_db_sync_mode_config
+		tencentcloudenterprise_dcdb_encrypt_attributes_config
+		tencentcloudenterprise_dcdb_instance_config
+		tencentcloudenterprise_dcdb_cancel_dcn_job_operation
+		tencentcloudenterprise_dcdb_activate_hour_instance_operation
+		tencentcloudenterprise_dcdb_isolate_hour_instance_operation
+		tencentcloudenterprise_dcdb_flush_binlog_operation
+		tencentcloudenterprise_dcdb_switch_db_instance_ha_operation
 
 TDSQL PostgreSQL (Tbase)
 
-	 Data Source
-	   tencentcloudenterprise_tbase_instances
-	   tencentcloudenterprise_tbase_pg_instances
+	  Data Source
+	    tencentcloudenterprise_tbase_instances
+	    tencentcloudenterprise_tbase_pg_instances
 
-	 Resource
-	tencentcloudenterprise_tbase_instance
-	tencentcloudenterprise_tbase_pg_instance
-	tencentcloudenterprise_tbase_pg_instance_vip
+	  Resource
+		tencentcloudenterprise_tbase_instance
+		tencentcloudenterprise_tbase_pg_instance
+		tencentcloudenterprise_tbase_pg_instance_vip
 
 TencentDB for Redis(crs)
 
-	 Data Source
-	tencentcloudenterprise_redis_zone_config
-	   tencentcloudenterprise_redis_instances
-	   tencentcloudenterprise_redis_backup
-	   tencentcloudenterprise_redis_backup_download_info
-	   tencentcloudenterprise_redis_param_records
-	   tencentcloudenterprise_redis_instance_shards
-	   tencentcloudenterprise_redis_instance_task_list
-	   tencentcloudenterprise_redis_instance_node_info
+	  Data Source
+		tencentcloudenterprise_redis_zone_config
+	    tencentcloudenterprise_redis_instances
+	    tencentcloudenterprise_redis_backup
+	    tencentcloudenterprise_redis_backup_download_info
+	    tencentcloudenterprise_redis_param_records
+	    tencentcloudenterprise_redis_instance_shards
+	    tencentcloudenterprise_redis_instance_task_list
+	    tencentcloudenterprise_redis_instance_node_info
 
-	 Resource
-	   tencentcloudenterprise_redis_instance
-	tencentcloudenterprise_redis_backup_config
-	tencentcloudenterprise_redis_param
-	tencentcloudenterprise_redis_clear_instance_operation
-	tencentcloudenterprise_redis_startup_instance_operation
-	tencentcloudenterprise_redis_replica_readonly
+	  Resource
+	   	tencentcloudenterprise_redis_instance
+		tencentcloudenterprise_redis_backup_config
+		tencentcloudenterprise_redis_param
+		tencentcloudenterprise_redis_clear_instance_operation
+		tencentcloudenterprise_redis_startup_instance_operation
+		tencentcloudenterprise_redis_replica_readonly
 
 TDMQ for Pulsar(tpulsar)
 
-	 Data Source
-	tencentcloudenterprise_tdmq_pulsar_clusters
-	tencentcloudenterprise_tdmq_pulsar_environments
+	  Data Source
+	  	tencentcloudenterprise_tdmq_environments
+		tencentcloudenterprise_tdmq_pulsar_environments
+		tencentcloudenterprise_tdmq_pulsar_clusters
 
-	 Resource
-	   tencentcloudenterprise_tdmq_pulsar_cluster
-	tencentcloudenterprise_tdmq_pulsar_route
-	tencentcloudenterprise_tdmq_pulsar_environment
-	tencentcloudenterprise_tdmq_pulsar_topic
-	tencentcloudenterprise_tdmq_pulsar_role
-	tencentcloudenterprise_tdmq_pulsar_environment_role_attachment
+	  Resource
+	    tencentcloudenterprise_tdmq_pulsar_cluster
+		tencentcloudenterprise_tdmq_pulsar_route
+		tencentcloudenterprise_tdmq_pulsar_environment
+		tencentcloudenterprise_tdmq_pulsar_topic
+		tencentcloudenterprise_tdmq_pulsar_role
+		tencentcloudenterprise_tdmq_pulsar_environment_role_attachment
 
 TDMQ for RabbitMQ(trabbit)
 
-	 Data Source
-	tencentcloudenterprise_tdmq_rabbitmq_node_list
-	tencentcloudenterprise_tdmq_rabbitmq_vip_instance
+	  Data Source
+		tencentcloudenterprise_tdmq_rabbitmq_node_list
+		tencentcloudenterprise_tdmq_rabbitmq_vip_instance
 
-	 Resource
-	tencentcloudenterprise_tdmq_rabbitmq_user
-	tencentcloudenterprise_tdmq_rabbitmq_vip_instance
-	tencentcloudenterprise_tdmq_rabbitmq_virtual_host
+	  Resource
+		tencentcloudenterprise_tdmq_rabbitmq_user
+		tencentcloudenterprise_tdmq_rabbitmq_vip_instance
+		tencentcloudenterprise_tdmq_rabbitmq_virtual_host
 
 TDMQ for RocketMQ(trocket)
 
-	 Data Source
-	tencentcloudenterprise_tdmq_rocketmq_cluster
-	tencentcloudenterprise_tdmq_rocketmq_namespace
-	tencentcloudenterprise_tdmq_rocketmq_topic
-	tencentcloudenterprise_tdmq_rocketmq_role
-	tencentcloudenterprise_tdmq_rocketmq_group
-	tencentcloudenterprise_tdmq_rocketmq_messages
+	  Data Source
+		tencentcloudenterprise_tdmq_rocketmq_cluster
+		tencentcloudenterprise_tdmq_rocketmq_namespace
+		tencentcloudenterprise_tdmq_rocketmq_topic
+		tencentcloudenterprise_tdmq_rocketmq_role
+		tencentcloudenterprise_tdmq_rocketmq_group
+		tencentcloudenterprise_tdmq_rocketmq_messages
 
-	 Resource
-	tencentcloudenterprise_tdmq_rocketmq_cluster
-	tencentcloudenterprise_tdmq_rocketmq_namespace
-	tencentcloudenterprise_tdmq_rocketmq_role
-	tencentcloudenterprise_tdmq_rocketmq_topic
-	tencentcloudenterprise_tdmq_rocketmq_group
-	tencentcloudenterprise_tdmq_rocketmq_environment_role
-	tencentcloudenterprise_tdmq_send_rocketmq_message
+	  Resource
+		tencentcloudenterprise_tdmq_rocketmq_cluster
+		tencentcloudenterprise_tdmq_rocketmq_namespace
+		tencentcloudenterprise_tdmq_rocketmq_role
+		tencentcloudenterprise_tdmq_rocketmq_topic
+		tencentcloudenterprise_tdmq_rocketmq_group
+		tencentcloudenterprise_tdmq_rocketmq_environment_role
+		tencentcloudenterprise_tdmq_send_rocketmq_message
 
 Tencent Service Framework(TSF)
 
@@ -540,14 +546,14 @@ Tencent Service Framework(TSF)
 
 Cloud Workload Protection Platform (CWP)
 
-	 Data Source
-	tencentcloudenterprise_tdmq_rabbitmq_node_list
-	tencentcloudenterprise_tdmq_rabbitmq_vip_instance
+	  Data Source
+		tencentcloudenterprise_tdmq_rabbitmq_node_list
+		tencentcloudenterprise_tdmq_rabbitmq_vip_instance
 
-	 Resource
-	tencentcloudenterprise_tdmq_rabbitmq_user
-	tencentcloudenterprise_tdmq_rabbitmq_vip_instance
-	tencentcloudenterprise_tdmq_rabbitmq_virtual_host
+	  Resource
+		tencentcloudenterprise_tdmq_rabbitmq_user
+		tencentcloudenterprise_tdmq_rabbitmq_vip_instance
+		tencentcloudenterprise_tdmq_rabbitmq_virtual_host
 */
 package tencentcloud
 
@@ -569,17 +575,17 @@ import (
 )
 
 const (
-	PROVIDER_SECRET_ID                    = "TENCENTCLOUDENTERPRISE_SECRET_ID"
-	PROVIDER_SECRET_KEY                   = "TENCENTCLOUDENTERPRISE_SECRET_KEY"
-	PROVIDER_SECURITY_TOKEN               = "TENCENTCLOUDENTERPRISE_SECURITY_TOKEN"
-	PROVIDER_REGION                       = "TENCENTCLOUDENTERPRISE_REGION"
-	PROVIDER_PROTOCOL                     = "TENCENTCLOUDENTERPRISE_PROTOCOL"
-	PROVIDER_DOMAIN                       = "TENCENTCLOUDENTERPRISE_DOMAIN"
-	PROVIDER_ASSUME_ROLE_ARN              = "TENCENTCLOUDENTERPRISE_ASSUME_ROLE_ARN"
-	PROVIDER_ASSUME_ROLE_SESSION_NAME     = "TENCENTCLOUDENTERPRISE_ASSUME_ROLE_SESSION_NAME"
-	PROVIDER_ASSUME_ROLE_SESSION_DURATION = "TENCENTCLOUDENTERPRISE_ASSUME_ROLE_SESSION_DURATION"
-	PROVIDER_CSP_DOMAIN                   = "TENCENTCLOUDENTERPRISE_CSP_DOMAIN"
-	PROVIDER_COS_DOMAIN                   = "TENCENTCLOUDENTERPRISE_COS_DOMAIN"
+	PROVIDER_SECRET_ID                    = "TENCENTCLOUD_SECRET_ID"
+	PROVIDER_SECRET_KEY                   = "TENCENTCLOUD_SECRET_KEY"
+	PROVIDER_SECURITY_TOKEN               = "TENCENTCLOUD_SECURITY_TOKEN"
+	PROVIDER_REGION                       = "TENCENTCLOUD_REGION"
+	PROVIDER_PROTOCOL                     = "TENCENTCLOUD_PROTOCOL"
+	PROVIDER_DOMAIN                       = "TENCENTCLOUD_DOMAIN"
+	PROVIDER_ASSUME_ROLE_ARN              = "TENCENTCLOUD_ASSUME_ROLE_ARN"
+	PROVIDER_ASSUME_ROLE_SESSION_NAME     = "TENCENTCLOUD_ASSUME_ROLE_SESSION_NAME"
+	PROVIDER_ASSUME_ROLE_SESSION_DURATION = "TENCENTCLOUD_ASSUME_ROLE_SESSION_DURATION"
+	PROVIDER_CSP_DOMAIN                   = "TENCENTCLOUD_CSP_DOMAIN"
+	PROVIDER_COS_DOMAIN                   = "TENCENTCLOUD_COS_DOMAIN"
 )
 
 type TencentCloudClient struct {
@@ -593,27 +599,27 @@ func Provider() *schema.Provider {
 				Type:        schema.TypeString,
 				Required:    true,
 				DefaultFunc: schema.EnvDefaultFunc(PROVIDER_SECRET_ID, nil),
-				Description: "This is the TencentCloud access key. It must be provided, but it can also be sourced from the `TENCENTCLOUDENTERPRISE_SECRET_ID` environment variable.",
+				Description: "This is the TencentCloud access key. It must be provided, but it can also be sourced from the `TENCENTCLOUD_SECRET_ID` environment variable.",
 			},
 			"secret_key": {
 				Type:        schema.TypeString,
 				Required:    true,
 				DefaultFunc: schema.EnvDefaultFunc(PROVIDER_SECRET_KEY, nil),
-				Description: "This is the TencentCloud secret key. It must be provided, but it can also be sourced from the `TENCENTCLOUDENTERPRISE_SECRET_KEY` environment variable.",
+				Description: "This is the TencentCloud secret key. It must be provided, but it can also be sourced from the `TENCENTCLOUD_SECRET_KEY` environment variable.",
 				Sensitive:   true,
 			},
 			"security_token": {
 				Type:        schema.TypeString,
 				Optional:    true,
 				DefaultFunc: schema.EnvDefaultFunc(PROVIDER_SECURITY_TOKEN, nil),
-				Description: "TencentCloud Security Token of temporary access credentials. It can be sourced from the `TENCENTCLOUDENTERPRISE_SECURITY_TOKEN` environment variable. Notice: for supported products, please refer to: [temporary key supported products](https://intl.cloud.tencent.com/document/product/598/10588).",
+				Description: "TencentCloud Security Token of temporary access credentials. It can be sourced from the `TENCENTCLOUD_SECURITY_TOKEN` environment variable. Notice: for supported products, please refer to: [temporary key supported products](https://intl.cloud.tencent.com/document/product/598/10588).",
 				Sensitive:   true,
 			},
 			"region": {
 				Type:         schema.TypeString,
 				Required:     true,
 				DefaultFunc:  schema.EnvDefaultFunc(PROVIDER_REGION, nil),
-				Description:  "This is the TencentCloud region. It must be provided, but it can also be sourced from the `TENCENTCLOUDENTERPRISE_REGION` environment variables. The default input value is ap-guangzhou.",
+				Description:  "This is the TencentCloud region. It must be provided, but it can also be sourced from the `TENCENTCLOUD_REGION` environment variables. The default input value is ap-guangzhou.",
 				InputDefault: "ap-guangzhou",
 			},
 			"protocol": {
@@ -652,13 +658,13 @@ func Provider() *schema.Provider {
 							Type:        schema.TypeString,
 							Required:    true,
 							DefaultFunc: schema.EnvDefaultFunc(PROVIDER_ASSUME_ROLE_ARN, nil),
-							Description: "The ARN of the role to assume. It can be sourced from the `TENCENTCLOUDENTERPRISE_ASSUME_ROLE_ARN`.",
+							Description: "The ARN of the role to assume. It can be sourced from the `TENCENTCLOUD_ASSUME_ROLE_ARN`.",
 						},
 						"session_name": {
 							Type:        schema.TypeString,
 							Required:    true,
 							DefaultFunc: schema.EnvDefaultFunc(PROVIDER_ASSUME_ROLE_SESSION_NAME, nil),
-							Description: "The session name to use when making the AssumeRole call. It can be sourced from the `TENCENTCLOUDENTERPRISE_ASSUME_ROLE_SESSION_NAME`.",
+							Description: "The session name to use when making the AssumeRole call. It can be sourced from the `TENCENTCLOUD_ASSUME_ROLE_SESSION_NAME`.",
 						},
 						"session_duration": {
 							Type:     schema.TypeInt,
@@ -670,7 +676,7 @@ func Provider() *schema.Provider {
 								return 7200, nil
 							},
 							ValidateFunc: validateIntegerInRange(0, 43200),
-							Description:  "The duration of the session when making the AssumeRole call. Its value ranges from 0 to 43200(seconds), and default is 7200 seconds. It can be sourced from the `TENCENTCLOUDENTERPRISE_ASSUME_ROLE_SESSION_DURATION`.",
+							Description:  "The duration of the session when making the AssumeRole call. Its value ranges from 0 to 43200(seconds), and default is 7200 seconds. It can be sourced from the `TENCENTCLOUD_ASSUME_ROLE_SESSION_DURATION`.",
 						},
 						"policy": {
 							Type:        schema.TypeString,
@@ -683,76 +689,136 @@ func Provider() *schema.Provider {
 		},
 
 		DataSourcesMap: map[string]*schema.Resource{
-			"tencentcloudenterprise_as_instances":                              dataSourceTencentCloudAsInstances(),
-			"tencentcloudenterprise_as_last_activity":                          dataSourceTencentCloudAsLastActivity(),
-			"tencentcloudenterprise_as_scaling_configs":                        dataSourceTencentCloudAsScalingConfigs(),
-			"tencentcloudenterprise_as_scaling_groups":                         dataSourceTencentCloudAsScalingGroups(),
-			"tencentcloudenterprise_as_scaling_policies":                       dataSourceTencentCloudAsScalingPolicies(),
-			"tencentcloudenterprise_bms_instances":                             dataTencentCloudBmsInstances(),
-			"tencentcloudenterprise_bms_placement_groups":                      dataTencentCloudBmsPlacementGroup(),
-			"tencentcloudenterprise_bms_flavors":                               dataTencentCloudBmsFlavors(),
-			"tencentcloudenterprise_brc_autobackup_policies":                   dataSourceTencentCloudBrcAutoBackupPolicies(),
-			"tencentcloudenterprise_brc_backups":                               dataSourceTencentCloudBrcBackups(),
-			"tencentcloudenterprise_brc_resource_backup_overview":              dataSourceTencentCloudBrcResourceBackupOverview(),
-			"tencentcloudenterprise_cbs_snapshot_policies":                     dataSourceTencentCloudCbsSnapshotPolicies(),
-			"tencentcloudenterprise_cbs_snapshots":                             dataSourceTencentCloudCbsSnapshots(),
-			"tencentcloudenterprise_cbs_storages":                              dataSourceTencentCloudCbsStorages(),
-			"tencentcloudenterprise_cbs_storages_set":                          dataSourceTencentCloudCbsStoragesSet(),
-			"tencentcloudenterprise_cfs_access_groups":                         dataSourceTencentCloudCfsAccessGroups(),
-			"tencentcloudenterprise_cfs_access_rules":                          dataSourceTencentCloudCfsAccessRules(),
-			"tencentcloudenterprise_cfs_available_zone":                        dataSourceTencentCloudCfsAvailableZone(),
-			"tencentcloudenterprise_cfs_file_system_clients":                   dataSourceTencentCloudCfsFileSystemClients(),
-			"tencentcloudenterprise_cfs_file_systems":                          dataSourceTencentCloudCfsFileSystems(),
-			"tencentcloudenterprise_cfs_mount_targets":                         dataSourceTencentCloudCfsMountTargets(),
-			"tencentcloudenterprise_ckafka_acls":                               dataSourceTencentCloudCkafkaAcls(),
-			"tencentcloudenterprise_ckafka_group":                              dataSourceTencentCloudCkafkaGroup(),
-			"tencentcloudenterprise_ckafka_group_info":                         dataSourceTencentCloudCkafkaGroupInfo(),
-			"tencentcloudenterprise_ckafka_group_offsets":                      dataSourceTencentCloudCkafkaGroupOffsets(),
-			"tencentcloudenterprise_ckafka_instances":                          dataSourceTencentCloudCkafkaInstances(),
-			"tencentcloudenterprise_ckafka_task_status":                        dataSourceTencentCloudCkafkaTaskStatus(),
-			"tencentcloudenterprise_ckafka_topics":                             dataSourceTencentCloudCkafkaTopics(),
-			"tencentcloudenterprise_ckafka_users":                              dataSourceTencentCloudCkafkaUsers(),
-			"tencentcloudenterprise_ckafka_zone":                               dataSourceTencentCloudCkafkaZone(),
-			"tencentcloudenterprise_clb_attachments":                           dataSourceTencentCloudClbServerAttachments(),
-			"tencentcloudenterprise_clb_certificates":                          dataSourceTencentCloudClbCertificates(),
-			"tencentcloudenterprise_clb_instance_by_cert_id":                   dataSourceTencentCloudClbInstanceByCertId(),
-			"tencentcloudenterprise_clb_instance_detail":                       dataSourceTencentCloudClbInstanceDetail(),
-			"tencentcloudenterprise_clb_instances":                             dataSourceTencentCloudClbInstances(),
-			"tencentcloudenterprise_clb_listener_rules":                        dataSourceTencentCloudClbListenerRules(),
-			"tencentcloudenterprise_clb_listeners":                             dataSourceTencentCloudClbListeners(),
-			"tencentcloudenterprise_clb_redirections":                          dataSourceTencentCloudClbRedirections(),
-			"tencentcloudenterprise_clb_resources":                             dataSourceTencentCloudClbResources(),
-			"tencentcloudenterprise_clb_target_health":                         dataSourceTencentCloudClbTargetHealth(),
-			"tencentcloudenterprise_cls_machine_group_configs":                 dataSourceTencentCloudClsMachineGroupConfigs(),
-			"tencentcloudenterprise_cos_bucket_object":                         dataSourceTencentCloudCosBucketObject(),
-			"tencentcloudenterprise_cos_buckets":                               dataSourceTencentCloudCosBuckets(),
-			"tencentcloudenterprise_csp_bucket_object":                         dataSourceTencentCloudCspBucketObject(),
-			"tencentcloudenterprise_csp_buckets":                               dataSourceTencentCloudCspBuckets(),
-			"tencentcloudenterprise_cvm_disaster_recover_group_quota":          dataSourceTencentCloudCvmDisasterRecoverGroupQuota(),
-			"tencentcloudenterprise_cvm_image":                                 dataSourceTencentCloudImage(),
-			"tencentcloudenterprise_cvm_image_quota":                           dataSourceTencentCloudCvmImageQuota(),
-			"tencentcloudenterprise_cvm_image_share_permission":                dataSourceTencentCloudCvmImageSharePermission(),
-			"tencentcloudenterprise_cvm_images":                                dataSourceTencentCloudImages(),
-			"tencentcloudenterprise_cvm_instance_types":                        dataSourceInstanceTypes(),
-			"tencentcloudenterprise_cvm_instance_vnc_url":                      dataSourceTencentCloudCvmInstanceVncUrl(),
-			"tencentcloudenterprise_cvm_instances":                             dataSourceTencentCloudInstances(),
-			"tencentcloudenterprise_cvm_instances_modification":                dataSourceTencentCloudCvmInstancesModification(),
-			"tencentcloudenterprise_cvm_instances_set":                         dataSourceTencentCloudInstancesSet(),
-			"tencentcloudenterprise_cvm_key_pairs":                             dataSourceTencentCloudKeyPairs(),
-			"tencentcloudenterprise_cvm_placement_groups":                      dataSourceTencentCloudPlacementGroups(),
-			"tencentcloudenterprise_dc_access_points":                          dataSourceTencentCloudDcAccessPoints(),
-			"tencentcloudenterprise_dc_instances":                              dataSourceTencentCloudDcInstances(),
-			"tencentcloudenterprise_dcdb_accounts":                             dataSourceTencentCloudDcdbAccounts(),
-			"tencentcloudenterprise_dcdb_database_objects":                     dataSourceTencentCloudDcdbDatabaseObjects(),
-			"tencentcloudenterprise_dcdb_database_tables":                      dataSourceTencentCloudDcdbDatabaseTables(),
-			"tencentcloudenterprise_dcdb_databases":                            dataSourceTencentCloudDcdbDatabases(),
-			"tencentcloudenterprise_dcdb_instances":                            dataSourceTencentCloudDcdbInstances(),
-			"tencentcloudenterprise_dcdb_parameters":                           dataSourceTencentCloudDcdbParameters(),
-			"tencentcloudenterprise_dcdb_security_groups":                      dataSourceTencentCloudDcdbSecurityGroups(),
-			"tencentcloudenterprise_dcdb_shards":                               dataSourceTencentCloudDcdbShards(),
+			"tencentcloudenterprise_as_instances":                         dataSourceTencentCloudAsInstances(),
+			"tencentcloudenterprise_as_last_activity":                     dataSourceTencentCloudAsLastActivity(),
+			"tencentcloudenterprise_as_scaling_configs":                   dataSourceTencentCloudAsScalingConfigs(),
+			"tencentcloudenterprise_as_scaling_groups":                    dataSourceTencentCloudAsScalingGroups(),
+			"tencentcloudenterprise_as_scaling_policies":                  dataSourceTencentCloudAsScalingPolicies(),
+			"tencentcloudenterprise_availability_regions":                 dataSourceTencentCloudAvailabilityRegions(),
+			"tencentcloudenterprise_availability_zones":                   dataSourceTencentCloudAvailabilityZones(),
+			"tencentcloudenterprise_availability_zones_by_product":        dataSourceTencentCloudAvailabilityZonesByProduct(),
+			"tencentcloudenterprise_bms_instances":                        dataTencentCloudBmsInstances(),
+			"tencentcloudenterprise_bms_placement_groups":                 dataTencentCloudBmsPlacementGroup(),
+			"tencentcloudenterprise_bms_flavors":                          dataTencentCloudBmsFlavors(),
+			"tencentcloudenterprise_brc_autobackup_policies":              dataSourceTencentCloudBrcAutoBackupPolicies(),
+			"tencentcloudenterprise_brc_backups":                          dataSourceTencentCloudBrcBackups(),
+			"tencentcloudenterprise_brc_resource_backup_overview":         dataSourceTencentCloudBrcResourceBackupOverview(),
+			"tencentcloudenterprise_cbs_snapshot_policies":                dataSourceTencentCloudCbsSnapshotPolicies(),
+			"tencentcloudenterprise_cbs_snapshots":                        dataSourceTencentCloudCbsSnapshots(),
+			"tencentcloudenterprise_cbs_storages":                         dataSourceTencentCloudCbsStorages(),
+			"tencentcloudenterprise_cbs_storages_set":                     dataSourceTencentCloudCbsStoragesSet(),
+			"tencentcloudenterprise_ccn_bandwidth_limits":                 dataSourceTencentCloudCcnBandwidthLimits(),
+			"tencentcloudenterprise_ccn_instances":                        dataSourceTencentCloudCcnInstances(),
+			"tencentcloudenterprise_cfs_access_groups":                    dataSourceTencentCloudCfsAccessGroups(),
+			"tencentcloudenterprise_cfs_access_rules":                     dataSourceTencentCloudCfsAccessRules(),
+			"tencentcloudenterprise_cfs_available_zone":                   dataSourceTencentCloudCfsAvailableZone(),
+			"tencentcloudenterprise_cfs_file_system_clients":              dataSourceTencentCloudCfsFileSystemClients(),
+			"tencentcloudenterprise_cfs_file_systems":                     dataSourceTencentCloudCfsFileSystems(),
+			"tencentcloudenterprise_cfs_mount_targets":                    dataSourceTencentCloudCfsMountTargets(),
+			//"tencentcloudenterprise_cfw_edge_fw_switches":                 dataSourceTencentCloudCfwEdgeFwSwitches(),
+			"tencentcloudenterprise_cfw_nat_fw_switches": dataSourceTencentCloudCfwNatFwSwitches(),
+			"tencentcloudenterprise_cfw_vpc_fw_switches": dataSourceTencentCloudCfwVpcFwSwitches(),
+			"tencentcloudenterprise_ckafka_acls":         dataSourceTencentCloudCkafkaAcls(),
+			//"tencentcloudenterprise_ckafka_connect_resource":                   dataSourceTencentCloudCkafkaConnectResource(),
+			//"tencentcloudenterprise_ckafka_datahub_group_offsets":              dataSourceTencentCloudCkafkaDatahubGroupOffsets(),
+			//"tencentcloudenterprise_ckafka_datahub_task":                       dataSourceTencentCloudCkafkaDatahubTask(),
+			//"tencentcloudenterprise_ckafka_datahub_topic":                      dataSourceTencentCloudCkafkaDatahubTopic(),
+			"tencentcloudenterprise_ckafka_group":         dataSourceTencentCloudCkafkaGroup(),
+			"tencentcloudenterprise_ckafka_group_info":    dataSourceTencentCloudCkafkaGroupInfo(),
+			"tencentcloudenterprise_ckafka_group_offsets": dataSourceTencentCloudCkafkaGroupOffsets(),
+			"tencentcloudenterprise_ckafka_instances":     dataSourceTencentCloudCkafkaInstances(),
+			//"tencentcloudenterprise_ckafka_region":                             dataSourceTencentCloudCkafkaRegion(),
+			"tencentcloudenterprise_ckafka_task_status": dataSourceTencentCloudCkafkaTaskStatus(),
+			//"tencentcloudenterprise_ckafka_topic_flow_ranking":                 dataSourceTencentCloudCkafkaTopicFlowRanking(),
+			//"tencentcloudenterprise_ckafka_topic_produce_connection":           dataSourceTencentCloudCkafkaTopicProduceConnection(),
+			//"tencentcloudenterprise_ckafka_topic_subscribe_group":              dataSourceTencentCloudCkafkaTopicSubscribeGroup(),
+			//"tencentcloudenterprise_ckafka_topic_sync_replica":                 dataSourceTencentCloudCkafkaTopicSyncReplica(),
+			"tencentcloudenterprise_ckafka_topics":    dataSourceTencentCloudCkafkaTopics(),
+			"tencentcloudenterprise_ckafka_users":     dataSourceTencentCloudCkafkaUsers(),
+			"tencentcloudenterprise_ckafka_zone":      dataSourceTencentCloudCkafkaZone(),
+			"tencentcloudenterprise_clb_attachments":  dataSourceTencentCloudClbServerAttachments(),
+			"tencentcloudenterprise_clb_certificates": dataSourceTencentCloudClbCertificates(),
+			// "tencentcloudenterprise_clb_cluster_resources":    dataSourceTencentCloudClbClusterResources(),
+			"tencentcloudenterprise_clb_instance_by_cert_id": dataSourceTencentCloudClbInstanceByCertId(),
+			"tencentcloudenterprise_clb_instance_detail":     dataSourceTencentCloudClbInstanceDetail(),
+			"tencentcloudenterprise_clb_instances":           dataSourceTencentCloudClbInstances(),
+			"tencentcloudenterprise_clb_listener_rules":      dataSourceTencentCloudClbListenerRules(),
+			"tencentcloudenterprise_clb_listeners":           dataSourceTencentCloudClbListeners(),
+			// "tencentcloudenterprise_clb_listeners_by_targets": dataSourceTencentCloudClbListenersByTargets(),
+			"tencentcloudenterprise_clb_redirections": dataSourceTencentCloudClbRedirections(),
+			"tencentcloudenterprise_clb_resources":    dataSourceTencentCloudClbResources(),
+			// "tencentcloudenterprise_clb_target_group_list":                     dataSourceTencentCloudClbTargetGroupList(),
+			"tencentcloudenterprise_clb_target_health":         dataSourceTencentCloudClbTargetHealth(),
+			"tencentcloudenterprise_cls_logsets":               dataSourceTencentCloudClsLogsets(),
+			"tencentcloudenterprise_cls_machine_group_configs": dataSourceTencentCloudClsMachineGroupConfigs(),
+			"tencentcloudenterprise_cls_machines":              dataSourceTencentCloudClsMachines(),
+			"tencentcloudenterprise_cls_topics":                dataSourceTencentCloudClsTopics(),
+			//"tencentcloudenterprise_cls_shipper_tasks":                dataSourceTencentCloudClsShipperTasks(),
+			"tencentcloudenterprise_cic_groups":                   dataSourceTencentCloudCicGroups(),
+			"tencentcloudenterprise_cic_role_configurations":      dataSourceTencentCloudCicRoleConfigurations(),
+			"tencentcloudenterprise_cos_bucket_object":            dataSourceTencentCloudCosBucketObject(),
+			"tencentcloudenterprise_cos_buckets":                  dataSourceTencentCloudCosBuckets(),
+			"tencentcloudenterprise_csp_bucket_object":            dataSourceTencentCloudCspBucketObject(),
+			"tencentcloudenterprise_csp_buckets":                  dataSourceTencentCloudCspBuckets(),
+			"tencentcloudenterprise_cam_groups":                   dataSourceTencentCloudCamGroups(),
+			"tencentcloudenterprise_cam_group_memberships":        dataSourceTencentCloudCamGroupMemberships(),
+			"tencentcloudenterprise_cam_group_policy_attachments": dataSourceTencentCloudCamGroupPolicyAttachments(),
+			"tencentcloudenterprise_cam_group_user_account":       dataSourceTencentCloudCamGroupUserAccount(),
+			"tencentcloudenterprise_cam_oidc_config":              DataSourceTencentCloudCamOidcConfig(),
+			"tencentcloudenterprise_cam_secret_last_used_time":    dataSourceTencentCloudCamSecretLastUsedTime(),
+			"tencentcloudenterprise_cam_policies":                 dataSourceTencentCloudCamPolicies(),
+			"tencentcloudenterprise_cam_roles":                    dataSourceTencentCloudCamRoles(),
+			"tencentcloudenterprise_cam_role_policy_attachments":  dataSourceTencentCloudCamRolePolicyAttachments(),
+			//"tencentcloudenterprise_cam_saml_providers":               dataSourceTencentCloudCamSAMLProviders(),
+			"tencentcloudenterprise_cam_users":                        dataSourceTencentCloudCamUsers(),
+			"tencentcloudenterprise_cam_user_policy_attachments":      dataSourceTencentCloudCamUserPolicyAttachments(),
+			"tencentcloudenterprise_cam_list_attached_user_policy":    dataSourceTencentCloudCamListAttachedUserPolicy(),
+			"tencentcloudenterprise_cam_sub_accounts":                 dataSourceTencentCloudCamSubAccounts(),
+			"tencentcloudenterprise_cam_list_entities_for_policy":     dataSourceTencentCloudCamListEntitiesForPolicy(),
+			"tencentcloudenterprise_cam_role_detail":                  dataSourceTencentCloudCamRoleDetail(),
+			"tencentcloudenterprise_cvm_disaster_recover_group_quota": dataSourceTencentCloudCvmDisasterRecoverGroupQuota(),
+			"tencentcloudenterprise_cvm_image":                        dataSourceTencentCloudImage(),
+			"tencentcloudenterprise_cvm_image_quota":                  dataSourceTencentCloudCvmImageQuota(),
+			"tencentcloudenterprise_cvm_image_share_permission":       dataSourceTencentCloudCvmImageSharePermission(),
+			"tencentcloudenterprise_cvm_images":                       dataSourceTencentCloudImages(),
+			// "tencentcloudenterprise_cvm_import_image_os":                       dataSourceTencentCloudCvmImportImageOs(),
+			"tencentcloudenterprise_cvm_instance_types":                       dataSourceInstanceTypes(),
+			"tencentcloudenterprise_cvm_instance_vnc_url":                     dataSourceTencentCloudCvmInstanceVncUrl(),
+			"tencentcloudenterprise_cvm_instances":                            dataSourceTencentCloudInstances(),
+			"tencentcloudenterprise_cvm_instances_modification":               dataSourceTencentCloudCvmInstancesModification(),
+			"tencentcloudenterprise_cvm_instances_set":                        dataSourceTencentCloudInstancesSet(),
+			"tencentcloudenterprise_cvm_key_pairs":                            dataSourceTencentCloudKeyPairs(),
+			"tencentcloudenterprise_cvm_placement_groups":                     dataSourceTencentCloudPlacementGroups(),
+			"tencentcloudenterprise_dc_access_points":                         dataSourceTencentCloudDcAccessPoints(),
+			"tencentcloudenterprise_dc_instances":                             dataSourceTencentCloudDcInstances(),
+			"tencentcloudenterprise_dcdb_accounts":                            dataSourceTencentCloudDcdbAccounts(),
+			"tencentcloudenterprise_dcdb_database_objects":                    dataSourceTencentCloudDcdbDatabaseObjects(),
+			"tencentcloudenterprise_dcdb_database_tables":                     dataSourceTencentCloudDcdbDatabaseTables(),
+			"tencentcloudenterprise_dcdb_databases":                           dataSourceTencentCloudDcdbDatabases(),
+			"tencentcloudenterprise_dcdb_instances":                           dataSourceTencentCloudDcdbInstances(),
+			"tencentcloudenterprise_dcdb_parameters":                          dataSourceTencentCloudDcdbParameters(),
+			"tencentcloudenterprise_dcdb_security_groups":                     dataSourceTencentCloudDcdbSecurityGroups(),
+			"tencentcloudenterprise_dcdb_shards":                              dataSourceTencentCloudDcdbShards(),
+			"tencentcloudenterprise_dcx_instances":                            dataSourceTencentCloudDcxInstances(),
+			//"tencentcloudenterprise_drc_vip_status":                            dataSourceTencentCloudDrcVipStatus(),
+			//"tencentcloudenterprise_drc_drill_groups":                          dataSourceTencentCloudDrcDrillGroups(),
+			//"tencentcloudenterprise_drc_disaster_recovery_operations":          dataSourceTencentCloudDrcDisasterRecoveryOperations(),
+			//"tencentcloudenterprise_drc_disaster_recovery_overview":            dataSourceTencentCloudDrcDisasterRecoveryOverview(),
+			//"tencentcloudenterprise_drc_disaster_recovery_site_pairs":          dataSourceTencentCloudDrcDisasterRecoverySitePairs(),
 			"tencentcloudenterprise_eip_address_quota":                         dataSourceTencentCloudEipAddressQuota(),
 			"tencentcloudenterprise_eips":                                      dataSourceTencentCloudEips(),
 			"tencentcloudenterprise_kms_keys":                                  dataSourceTencentCloudKmsKeys(),
+			"tencentcloudenterprise_ngwaf_attack_overview":                     dataSourceTencentCloudNgwafAttackOverview(),
+			"tencentcloudenterprise_ngwaf_attack_log_list":                     dataSourceTencentCloudNgwafAttackLogList(),
+			"tencentcloudenterprise_ngwaf_attack_total_count":                  dataSourceTencentCloudNgwafAttackTotalCount(),
+			"tencentcloudenterprise_ngwaf_ciphers":                             dataSourceTencentCloudNgwafCiphers(),
+			"tencentcloudenterprise_ngwaf_domains":                             dataSourceTencentCloudNgwafDomains(),
+			"tencentcloudenterprise_ngwaf_peak_points":                         dataSourceTencentCloudNgwafPeakPoints(),
+			"tencentcloudenterprise_ngwaf_ports":                               dataSourceTencentCloudNgwafPorts(),
+			"tencentcloudenterprise_ngwaf_tls_versions":                        dataSourceTencentCloudNgwafTlsVersions(),
+			"tencentcloudenterprise_ngwaf_user_domains":                        dataSourceTencentCloudNgwafUserDomains(),
+			"tencentcloudenterprise_organization_nodes":                        dataSourceTencentCloudOrganizationNodes(),
+			"tencentcloudenterprise_organization_members":                      dataSourceTencentCloudOrganizationMembers(),
 			"tencentcloudenterprise_redis_backup":                              dataSourceTencentCloudRedisBackup(),
 			"tencentcloudenterprise_redis_backup_download_info":                dataSourceTencentCloudRedisBackupDownloadInfo(),
 			"tencentcloudenterprise_redis_instance_node_info":                  dataSourceTencentCloudRedisInstanceNodeInfo(),
@@ -765,6 +831,16 @@ func Provider() *schema.Provider {
 			"tencentcloudenterprise_ssm_secrets":                               dataSourceTencentCloudSsmSecrets(),
 			"tencentcloudenterprise_tbase_instances":                           dataSourceTencentCloudTbaseInstances(),
 			"tencentcloudenterprise_tbase_pg_instances":                        dataSourceTencentCloudTbasePGInstances(),
+			"tencentcloudenterprise_tcr_image_manifests":                       dataSourceTencentCloudTcrImageManifests(),
+			"tencentcloudenterprise_tcr_images":                                dataSourceTencentCloudTcrImages(),
+			"tencentcloudenterprise_tcr_instances":                             dataSourceTencentCloudTCRInstances(),
+			"tencentcloudenterprise_tcr_namespaces":                            dataSourceTencentCloudTCRNamespaces(),
+			"tencentcloudenterprise_tcr_repositories":                          dataSourceTencentCloudTCRRepositories(),
+			"tencentcloudenterprise_tcr_tag_retention_execution_tasks":         dataSourceTencentCloudTcrTagRetentionExecutionTasks(),
+			"tencentcloudenterprise_tcr_tokens":                                dataSourceTencentCloudTCRTokens(),
+			"tencentcloudenterprise_tcr_vpc_attachments":                       dataSourceTencentCloudTCRVPCAttachments(),
+			"tencentcloudenterprise_tcr_webhook_trigger_logs":                  dataSourceTencentCloudTcrWebhookTriggerLogs(),
+			"tencentcloudenterprise_tag_keys":                                  dataSourceTencentCloudTagKeys(),
 			"tencentcloudenterprise_tdmq_environments":                         dataSourceTencentCloudTdmqEnvironments(),
 			"tencentcloudenterprise_tdmq_pulsar_environments":                  dataSourceTencentCloudTdmqPulsarEnvironments(),
 			"tencentcloudenterprise_tdmq_pulsar_clusters":                      dataSourceTencentCloudTdmqPulsarCluster(),
@@ -781,170 +857,379 @@ func Provider() *schema.Provider {
 			"tencentcloudenterprise_tke_kubernetes_cluster_common_names":       datasourceTencentCloudKubernetesClusterCommonNames(),
 			"tencentcloudenterprise_tke_kubernetes_clusters":                   dataSourceTencentCloudKubernetesClusters(),
 			"tencentcloudenterprise_tsf_api_detail":                            dataSourceTencentCloudTsfApiDetail(),
-			"tencentcloudenterprise_tsf_api_group":                             dataSourceTencentCloudTsfApiGroup(),
-			"tencentcloudenterprise_tsf_application":                           dataSourceTencentCloudTsfApplication(),
-			"tencentcloudenterprise_tsf_application_attribute":                 dataSourceTencentCloudTsfApplicationAttribute(),
-			"tencentcloudenterprise_tsf_application_config":                    dataSourceTencentCloudTsfApplicationConfig(),
-			"tencentcloudenterprise_tsf_application_file_config":               dataSourceTencentCloudTsfApplicationFileConfig(),
-			"tencentcloudenterprise_tsf_application_public_config":             dataSourceTencentCloudTsfApplicationPublicConfig(),
-			"tencentcloudenterprise_tsf_business_log_configs":                  dataSourceTencentCloudTsfBusinessLogConfigs(),
-			"tencentcloudenterprise_tsf_cluster":                               dataSourceTencentCloudTsfCluster(),
-			"tencentcloudenterprise_tsf_config_summary":                        dataSourceTencentCloudTsfConfigSummary(),
-			"tencentcloudenterprise_tsf_delivery_config_by_group_id":           dataSourceTencentCloudTsfDeliveryConfigByGroupId(),
-			"tencentcloudenterprise_tsf_delivery_configs":                      dataSourceTencentCloudTsfDeliveryConfigs(),
-			"tencentcloudenterprise_tsf_gateway_all_group_apis":                dataSourceTencentCloudTsfGatewayAllGroupApis(),
-			"tencentcloudenterprise_tsf_group_gateways":                        dataSourceTencentCloudTsfGroupGateways(),
-			"tencentcloudenterprise_tsf_group_instances":                       dataSourceTencentCloudTsfGroupInstances(),
-			"tencentcloudenterprise_tsf_microservice":                          dataSourceTencentCloudTsfMicroservice(),
-			"tencentcloudenterprise_tsf_microservice_api_version":              dataSourceTencentCloudTsfMicroserviceApiVersion(),
-			"tencentcloudenterprise_tsf_pod_instances":                         dataSourceTencentCloudTsfPodInstances(),
-			"tencentcloudenterprise_tsf_public_config_summary":                 dataSourceTencentCloudTsfPublicConfigSummary(),
-			"tencentcloudenterprise_tsf_repository":                            dataSourceTencentCloudTsfRepository(),
-			"tencentcloudenterprise_tsf_usable_unit_namespaces":                dataSourceTencentCloudTsfUsableUnitNamespaces(),
-			"tencentcloudenterprise_turbofs_p_groups":                          dataSourceTencentCloudTurbofsPGroups(),
-			"tencentcloudenterprise_turbofs_rules":                             dataSourceTencentCloudTurbofsRules(),
-			"tencentcloudenterprise_turbofs_file_systems":                      dataSourceTencentCloudTurbofsFileSystems(),
-			"tencentcloudenterprise_turbofs_mount_targets":                     dataSourceTencentCloudTurbofsMountTargets(),
-			"tencentcloudenterprise_vpc_account_attributes":                    dataSourceTencentCloudVpcAccountAttributes(),
-			"tencentcloudenterprise_vpc_acls":                                  dataSourceTencentCloudVpcAcls(),
-			"tencentcloudenterprise_vpc_address_template_groups":               dataSourceTencentCloudAddressTemplateGroups(),
-			"tencentcloudenterprise_vpc_address_templates":                     dataSourceTencentCloudAddressTemplates(),
-			"tencentcloudenterprise_vpc_classic_link_instances":                dataSourceTencentCloudVpcClassicLinkInstances(),
-			"tencentcloudenterprise_vpc_cvm_instances":                         dataSourceTencentCloudVpcCvmInstances(),
-			"tencentcloudenterprise_vpc_dnats":                                 dataSourceTencentCloudDnats(),
-			"tencentcloudenterprise_vpc_enis":                                  dataSourceTencentCloudEnis(),
-			"tencentcloudenterprise_vpc_gateway_flow_qos":                      dataSourceTencentCloudVpcGatewayFlowQos(),
-			"tencentcloudenterprise_vpc_ha_vip_eip_attachments":                dataSourceTencentCloudHaVipEipAttachments(),
-			"tencentcloudenterprise_vpc_ha_vips":                               dataSourceTencentCloudHaVips(),
-			"tencentcloudenterprise_vpc_instances":                             dataSourceTencentCloudVpcInstances(),
-			"tencentcloudenterprise_vpc_limits":                                dataSourceTencentCloudVpcLimits(),
-			"tencentcloudenterprise_vpc_nat_gateways":                          dataSourceTencentCloudNatGateways(),
-			"tencentcloudenterprise_vpc_net_detect_state_check":                dataSourceTencentCloudVpcNetDetectStateCheck(),
-			"tencentcloudenterprise_vpc_net_detect_states":                     dataSourceTencentCloudVpcNetDetectStates(),
-			"tencentcloudenterprise_vpc_private_ip_addresses":                  dataSourceTencentCloudVpcPrivateIpAddresses(),
-			"tencentcloudenterprise_vpc_resource_dashboard":                    dataSourceTencentCloudVpcResourceDashboard(),
-			"tencentcloudenterprise_vpc_route_tables":                          dataSourceTencentCloudVpcRouteTables(),
-			"tencentcloudenterprise_vpc_security_group_limits":                 dataSourceTencentCloudVpcSecurityGroupLimits(),
-			"tencentcloudenterprise_vpc_security_group_references":             dataSourceTencentCloudVpcSecurityGroupReferences(),
-			"tencentcloudenterprise_vpc_security_groups":                       dataSourceTencentCloudSecurityGroups(),
-			"tencentcloudenterprise_vpc_subnets":                               dataSourceTencentCloudVpcSubnets(),
-			"tencentcloudenterprise_vpc_template_limits":                       dataSourceTencentCloudVpcTemplateLimits(),
-			"tencentcloudenterprise_vpcdns_domains":                            dataSourceTencentCloudVpcDnsDomain(),
-			"tencentcloudenterprise_vpcdns_records":                            dataSourceTencentCloudVpcDnsRecord(),
-			"tencentcloudenterprise_vpcdns_forward_rules":                      dataSourceTencentCloudVpcDnsForwardRules(),
-			"tencentcloudenterprise_cwp_machines_simple":                       dataSourceTencentCloudCwpMachinesSimple(),
+
+			"tencentcloudenterprise_tsf_api_group":                   dataSourceTencentCloudTsfApiGroup(),
+			"tencentcloudenterprise_tsf_application":                 dataSourceTencentCloudTsfApplication(),
+			"tencentcloudenterprise_tsf_application_attribute":       dataSourceTencentCloudTsfApplicationAttribute(),
+			"tencentcloudenterprise_tsf_application_config":          dataSourceTencentCloudTsfApplicationConfig(),
+			"tencentcloudenterprise_tsf_application_file_config":     dataSourceTencentCloudTsfApplicationFileConfig(),
+			"tencentcloudenterprise_tsf_application_public_config":   dataSourceTencentCloudTsfApplicationPublicConfig(),
+			"tencentcloudenterprise_tsf_business_log_configs":        dataSourceTencentCloudTsfBusinessLogConfigs(),
+			"tencentcloudenterprise_tsf_cluster":                     dataSourceTencentCloudTsfCluster(),
+			"tencentcloudenterprise_tsf_config_summary":              dataSourceTencentCloudTsfConfigSummary(),
+			"tencentcloudenterprise_tsf_delivery_config_by_group_id": dataSourceTencentCloudTsfDeliveryConfigByGroupId(),
+			"tencentcloudenterprise_tsf_delivery_configs":            dataSourceTencentCloudTsfDeliveryConfigs(),
+			"tencentcloudenterprise_tsf_gateway_all_group_apis":      dataSourceTencentCloudTsfGatewayAllGroupApis(),
+			//"tencentcloudenterprise_tsf_group_config_release":                  dataSourceTencentCloudTsfGroupConfigRelease(),
+			"tencentcloudenterprise_tsf_group_gateways":           dataSourceTencentCloudTsfGroupGateways(),
+			"tencentcloudenterprise_tsf_group_instances":          dataSourceTencentCloudTsfGroupInstances(),
+			"tencentcloudenterprise_tsf_microservice":             dataSourceTencentCloudTsfMicroservice(),
+			"tencentcloudenterprise_tsf_microservice_api_version": dataSourceTencentCloudTsfMicroserviceApiVersion(),
+			"tencentcloudenterprise_tsf_pod_instances":            dataSourceTencentCloudTsfPodInstances(),
+			"tencentcloudenterprise_tsf_public_config_summary":    dataSourceTencentCloudTsfPublicConfigSummary(),
+			"tencentcloudenterprise_tsf_repository":               dataSourceTencentCloudTsfRepository(),
+			//"tencentcloudenterprise_tsf_unit_rules":                  dataSourceTencentCloudTsfUnitRules(),
+			"tencentcloudenterprise_tsf_usable_unit_namespaces": dataSourceTencentCloudTsfUsableUnitNamespaces(),
+			"tencentcloudenterprise_turbofs_p_groups":           dataSourceTencentCloudTurbofsPGroups(),
+			"tencentcloudenterprise_turbofs_rules":              dataSourceTencentCloudTurbofsRules(),
+			//"tencentcloudenterprise_turbofs_file_system_clients": dataSourceTencentCloudTurbofsFileSystemClients(),
+			"tencentcloudenterprise_turbofs_file_systems":        dataSourceTencentCloudTurbofsFileSystems(),
+			"tencentcloudenterprise_turbofs_mount_targets":       dataSourceTencentCloudTurbofsMountTargets(),
+			"tencentcloudenterprise_vpc_account_attributes":      dataSourceTencentCloudVpcAccountAttributes(),
+			"tencentcloudenterprise_vpc_acls":                    dataSourceTencentCloudVpcAcls(),
+			"tencentcloudenterprise_vpc_address_template_groups": dataSourceTencentCloudAddressTemplateGroups(),
+			"tencentcloudenterprise_vpc_address_templates":       dataSourceTencentCloudAddressTemplates(),
+			// "tencentcloudenterprise_vpc_bandwidth_package_quota":     dataSourceTencentCloudVpcBandwidthPackageQuota(),
+			"tencentcloudenterprise_vpc_classic_link_instances": dataSourceTencentCloudVpcClassicLinkInstances(),
+			"tencentcloudenterprise_vpc_cvm_instances":          dataSourceTencentCloudVpcCvmInstances(),
+			"tencentcloudenterprise_vpc_dnats":                  dataSourceTencentCloudDnats(),
+			// "tencentcloudenterprise_vpc_domains":                     dataSourceTencentCloudDomains(),
+			"tencentcloudenterprise_vpc_enis": dataSourceTencentCloudEnis(),
+			// "tencentcloudenterprise_vpc_gateway_flow_monitor_detail": dataSourceTencentCloudVpcGatewayFlowMonitorDetail(),
+			"tencentcloudenterprise_vpc_gateway_flow_qos":          dataSourceTencentCloudVpcGatewayFlowQos(),
+			"tencentcloudenterprise_vpc_ha_vip_eip_attachments":    dataSourceTencentCloudHaVipEipAttachments(),
+			"tencentcloudenterprise_vpc_ha_vips":                   dataSourceTencentCloudHaVips(),
+			"tencentcloudenterprise_vpc_instances":                 dataSourceTencentCloudVpcInstances(),
+			"tencentcloudenterprise_vpc_limits":                    dataSourceTencentCloudVpcLimits(),
+			"tencentcloudenterprise_vpc_nat_gateways":              dataSourceTencentCloudNatGateways(),
+			"tencentcloudenterprise_vpc_net_detect_state_check":    dataSourceTencentCloudVpcNetDetectStateCheck(),
+			"tencentcloudenterprise_vpc_net_detect_states":         dataSourceTencentCloudVpcNetDetectStates(),
+			"tencentcloudenterprise_vpc_private_ip_addresses":      dataSourceTencentCloudVpcPrivateIpAddresses(),
+			"tencentcloudenterprise_vpc_resource_dashboard":        dataSourceTencentCloudVpcResourceDashboard(),
+			"tencentcloudenterprise_vpc_route_tables":              dataSourceTencentCloudVpcRouteTables(),
+			"tencentcloudenterprise_vpc_security_group_limits":     dataSourceTencentCloudVpcSecurityGroupLimits(),
+			"tencentcloudenterprise_vpc_security_group_references": dataSourceTencentCloudVpcSecurityGroupReferences(),
+			"tencentcloudenterprise_vpc_security_groups":           dataSourceTencentCloudSecurityGroups(),
+			"tencentcloudenterprise_vpc_subnets":                   dataSourceTencentCloudVpcSubnets(),
+			"tencentcloudenterprise_vpc_template_limits":           dataSourceTencentCloudVpcTemplateLimits(),
+
+			"tencentcloudenterprise_vpcdns_domains":       dataSourceTencentCloudVpcDnsDomain(),
+			"tencentcloudenterprise_vpcdns_records":       dataSourceTencentCloudVpcDnsRecord(),
+			"tencentcloudenterprise_vpcdns_forward_rules": dataSourceTencentCloudVpcDnsForwardRules(),
+			"tencentcloudenterprise_cwp_machines_simple":  dataSourceTencentCloudCwpMachinesSimple(),
+			// "tencentcloudenterprise_dc_gateway_ccn_routes":                     dataSourceTencentCloudDcGatewayCCNRoutes(),
+			//"tencentcloudenterprise_ccn_cross_border_compliance":               dataSourceTencentCloudCcnCrossBorderCompliance(),
+			//"tencentcloudenterprise_ccn_cross_border_flow_monitor":             dataSourceTencentCloudCcnCrossBorderFlowMonitor(),
+			//"tencentcloudenterprise_ccn_cross_border_region_bandwidth_limits":  dataSourceTencentCloudCcnCrossBorderRegionBandwidthLimits(),
+			//"tencentcloudenterprise_ccn_tenant_instances":                      dataSourceTencentCloudCcnTenantInstance(),
+			//"tencentcloudenterprise_clb_cross_targets":                         dataSourceTencentCloudClbCrossTargets(),
+			//"tencentcloudenterprise_clb_exclusive_clusters":                    dataSourceTencentCloudClbExclusiveClusters(),
+			//"tencentcloudenterprise_clb_idle_instances":                        dataSourceTencentCloudClbIdleInstances(),
+			//"tencentcloudenterprise_clb_instance_traffic":                      dataSourceTencentCloudClbInstanceTraffic(),
+			//"tencentcloudenterprise_clb_target_groups":                         dataSourceTencentCloudClbTargetGroups(),
+			//"tencentcloudenterprise_cvm_chc_denied_actions":                    dataSourceTencentCloudCvmChcDeniedActions(),
+			//"tencentcloudenterprise_cvm_chc_hosts":                             dataSourceTencentCloudCvmChcHosts(),
+			//"tencentcloudenterprise_dc_gateway_instances":                      dataSourceTencentCloudDcGatewayInstances(),
+			//"tencentcloudenterprise_dc_internet_address_quota":              dataSourceTencentCloudDcInternetAddressQuota(),
+			//"tencentcloudenterprise_dc_internet_address_statistics":         dataSourceTencentCloudDcInternetAddressStatistics(),
+			//"tencentcloudenterprise_dc_public_direct_connect_tunnel_routes": dataSourceTencentCloudDcPublicDirectConnectTunnelRoutes(),
+			//"tencentcloudenterprise_eip_network_account_type":   dataSourceTencentCloudEipNetworkAccountType(),
+			//"tencentcloudenterprise_eks_cluster_credential":                        datasourceTencentCloudEksClusterCredential(),
+			//"tencentcloudenterprise_eks_clusters":                                  dataSourceTencentCloudEKSClusters(),
+			//"tencentcloudenterprise_nat_gateway_snats":                         dataSourceTencentCloudNatGatewaySnats(),
+			//"tencentcloudenterprise_redis_instance_zone_info":                  dataSourceTencentCloudRedisInstanceZoneInfo(),
+			//"tencentcloudenterprise_reserved_instance_configs":                 dataSourceTencentCloudReservedInstanceConfigs(),
+			//"tencentcloudenterprise_reserved_instances":                        dataSourceTencentCloudReservedInstances(),
+			//"tencentcloudenterprise_tke_kubernetes_cluster_authentication_options": dataSourceTencentCloudKubernetesClusterAuthenticationOptions(),
+			//"tencentcloudenterprise_tke_kubernetes_cluster_levels":                 datasourceTencentCloudKubernetesClusterLevels(),
+			//"tencentcloudenterprise_vpc_bandwidth_package_bill_usage":          dataSourceTencentCloudVpcBandwidthPackageBillUsage(),
+			//"tencentcloudenterprise_vpc_eip":                                   dataSourceTencentCloudEip(),
+			//"tencentcloudenterprise_vpc_nat_dc_route":                              dataSourceTencentCloudNatDcRoute(),
+			//"tencentcloudenterprise_vpc_network_interface_limit":               dataSourceTencentCloudVpcNetworkInterfaceLimit(),
+			//"tencentcloudenterprise_vpc_product_quota":                         dataSourceTencentCloudVpcProductQuota(),
+			//"tencentcloudenterprise_vpc_route_conflicts":                       dataSourceTencentCloudVpcRouteConflicts(),
+			//"tencentcloudenterprise_vpc_security_group":      dataSourceTencentCloudSecurityGroup(),
+			//"tencentcloudenterprise_vpc_sg_snapshot_file_content":              dataSourceTencentCloudVpcSgSnapshotFileContent(),
+			//"tencentcloudenterprise_vpc_snapshot_files":                        dataSourceTencentCloudVpcSnapshotFiles(),
+			//"tencentcloudenterprise_vpc_subnet_resource_dashboard":             dataSourceTencentCloudVpcSubnetResourceDashboard(),
+			//"tencentcloudenterprise_vpc_used_ip_address":                       dataSourceTencentCloudVpcUsedIpAddress(),
+			//"tencentcloudenterprise_vpn_gateway_routes":                        dataSourceTencentCloudVpnGatewayRoutes(),
 		},
 
 		ResourcesMap: map[string]*schema.Resource{
-			"tencentcloudenterprise_as_attachment":                           resourceTencentCloudAsAttachment(),
-			"tencentcloudenterprise_as_lifecycle_hook":                       resourceTencentCloudAsLifecycleHook(),
-			"tencentcloudenterprise_as_notification":                         resourceTencentCloudAsNotification(),
-			"tencentcloudenterprise_as_protect_instances":                    resourceTencentCloudAsProtectInstances(),
-			"tencentcloudenterprise_as_remove_instances":                     resourceTencentCloudAsRemoveInstances(),
-			"tencentcloudenterprise_as_scaling_config":                       resourceTencentCloudAsScalingConfig(),
-			"tencentcloudenterprise_as_scaling_group":                        resourceTencentCloudAsScalingGroup(),
-			"tencentcloudenterprise_as_scaling_policy":                       resourceTencentCloudAsScalingPolicy(),
-			"tencentcloudenterprise_as_schedule":                             resourceTencentCloudAsSchedule(),
-			"tencentcloudenterprise_bms_instance":                            resourceTencentCloudBmsInstance(),
-			"tencentcloudenterprise_bms_placement_group":                     resourceTencentCloudBmsPlacementGroup(),
-			"tencentcloudenterprise_brc_activate_backup_service":             resourceTencentCloudBrcActivateBackupService(),
-			"tencentcloudenterprise_brc_auto_backup_policy":                  resourceTencentCloudBrcAutoBackupPolicy(),
-			"tencentcloudenterprise_brc_auto_backup_policy_binding":          resourceTencentCloudBrcAutoBackupPolicyBinding(),
-			"tencentcloudenterprise_brc_backup_group":                        resourceTencentCloudBrcBackupGroup(),
-			"tencentcloudenterprise_brc_backup_disk":                         resourceTencentCloudBrcBackupDisk(),
-			"tencentcloudenterprise_brc_backup_cfs":                          resourceTencentCloudBrcBackupCfs(),
-			"tencentcloudenterprise_brc_backup_resource":                     resourceTencentCloudBrcBackupResource(),
-			"tencentcloudenterprise_cbs_snapshot":                            resourceTencentCloudCbsSnapshot(),
-			"tencentcloudenterprise_cbs_snapshot_policy":                     resourceTencentCloudCbsSnapshotPolicy(),
-			"tencentcloudenterprise_cbs_snapshot_policy_attachment":          resourceTencentCloudCbsSnapshotPolicyAttachment(),
-			"tencentcloudenterprise_cbs_snapshot_share_permission":           resourceTencentCloudCbsSnapshotSharePermission(),
-			"tencentcloudenterprise_cbs_storage":                             resourceTencentCloudCbsStorage(),
-			"tencentcloudenterprise_cbs_storage_attachment":                  resourceTencentCloudCbsStorageAttachment(),
-			"tencentcloudenterprise_cbs_storage_set":                         resourceTencentCloudCbsStorageSet(),
-			"tencentcloudenterprise_cfs_access_group":                        resourceTencentCloudCfsAccessGroup(),
-			"tencentcloudenterprise_cfs_access_rule":                         resourceTencentCloudCfsAccessRule(),
-			"tencentcloudenterprise_cfs_auto_snapshot_policy":                resourceTencentCloudCfsAutoSnapshotPolicy(),
-			"tencentcloudenterprise_cfs_auto_snapshot_policy_attachment":     resourceTencentCloudCfsAutoSnapshotPolicyAttachment(),
-			"tencentcloudenterprise_cfs_file_system":                         resourceTencentCloudCfsFileSystem(),
-			"tencentcloudenterprise_cfs_sign_up_cfs_service":                 resourceTencentCloudCfsSignUpCfsService(),
-			"tencentcloudenterprise_cfs_snapshot":                            resourceTencentCloudCfsSnapshot(),
-			"tencentcloudenterprise_cfw_nat_instance":                        resourceTencentCloudCfwNatInstance(),
-			"tencentcloudenterprise_cfw_vpc_instance":                        resourceTencentCloudCfwVpcInstance(),
-			"tencentcloudenterprise_cfw_nat_policy":                          resourceTencentCloudCfwNatPolicy(),
-			"tencentcloudenterprise_cfw_vpc_policy":                          resourceTencentCloudCfwVpcPolicy(),
-			"tencentcloudenterprise_cfw_block_ignore":                        resourceTencentCloudCfwBlockIgnore(),
-			"tencentcloudenterprise_ckafka_acl":                              resourceTencentCloudCkafkaAcl(),
-			"tencentcloudenterprise_ckafka_instance":                         resourceTencentCloudCkafkaInstance(),
-			"tencentcloudenterprise_ckafka_topic":                            resourceTencentCloudCkafkaTopic(),
-			"tencentcloudenterprise_ckafka_user":                             resourceTencentCloudCkafkaUser(),
-			"tencentcloudenterprise_clb_attachment":                          resourceTencentCloudClbServerAttachment(),
-			"tencentcloudenterprise_clb_certificates":                        resourceTencentCloudClbCertificate(),
-			"tencentcloudenterprise_clb_customized_config":                   resourceTencentCloudClbCustomizedConfig(),
-			"tencentcloudenterprise_clb_instance":                            resourceTencentCloudClbInstance(),
-			"tencentcloudenterprise_clb_listener":                            resourceTencentCloudClbListener(),
-			"tencentcloudenterprise_clb_listener_rule":                       resourceTencentCloudClbListenerRule(),
-			"tencentcloudenterprise_clb_redirection":                         resourceTencentCloudClbRedirection(),
-			"tencentcloudenterprise_clb_replace_cert":                        resourceTencentCloudClbReplaceCert(),
-			"tencentcloudenterprise_clb_security_group_attachment":           resourceTencentCloudClbSecurityGroupAttachment(),
-			"tencentcloudenterprise_cls_ckafka_consumer":                     resourceTencentCloudClsCkafkaConsumer(),
-			"tencentcloudenterprise_cls_config":                              resourceTencentCloudClsConfig(),
-			"tencentcloudenterprise_cls_config_attachment":                   resourceTencentCloudClsConfigAttachment(),
-			"tencentcloudenterprise_cls_cos_recharge":                        resourceTencentCloudClsCosRecharge(),
-			"tencentcloudenterprise_cls_cos_shipper":                         resourceTencentCloudClsCosShipper(),
-			"tencentcloudenterprise_cls_export":                              resourceTencentCloudClsExport(),
-			"tencentcloudenterprise_cls_index":                               resourceTencentCloudClsIndex(),
-			"tencentcloudenterprise_cls_logset":                              resourceTencentCloudClsLogset(),
-			"tencentcloudenterprise_cls_machine_group":                       resourceTencentCloudClsMachineGroup(),
-			"tencentcloudenterprise_cls_topic":                               resourceTencentCloudClsTopic(),
-			"tencentcloudenterprise_cos_bucket":                              resourceTencentCloudCosBucket(),
-			"tencentcloudenterprise_cos_bucket_object":                       resourceTencentCloudCosBucketObject(),
-			"tencentcloudenterprise_cos_bucket_policy":                       resourceTencentCloudCosBucketPolicy(),
-			"tencentcloudenterprise_csp_bucket":                              resourceTencentCloudCspBucket(),
+			"tencentcloudenterprise_apm_instance":                      resourceTencentCloudApmInstance(),
+			"tencentcloudenterprise_as_attachment":                     resourceTencentCloudAsAttachment(),
+			"tencentcloudenterprise_as_lifecycle_hook":                 resourceTencentCloudAsLifecycleHook(),
+			//"tencentcloudenterprise_as_load_balancer":                               resourceTencentCloudAsLoadBalancer(),
+			"tencentcloudenterprise_as_notification":      resourceTencentCloudAsNotification(),
+			"tencentcloudenterprise_as_protect_instances": resourceTencentCloudAsProtectInstances(),
+			"tencentcloudenterprise_as_remove_instances":  resourceTencentCloudAsRemoveInstances(),
+			"tencentcloudenterprise_as_scaling_config":    resourceTencentCloudAsScalingConfig(),
+			"tencentcloudenterprise_as_scaling_group":     resourceTencentCloudAsScalingGroup(),
+			"tencentcloudenterprise_as_scaling_policy":    resourceTencentCloudAsScalingPolicy(),
+			"tencentcloudenterprise_as_schedule":          resourceTencentCloudAsSchedule(),
+			//"tencentcloudenterprise_as_start_instances":                             resourceTencentCloudAsStartInstances(),
+			//"tencentcloudenterprise_as_stop_instances":                              resourceTencentCloudAsStopInstances(),
+			"tencentcloudenterprise_bms_instance":                   resourceTencentCloudBmsInstance(),
+			"tencentcloudenterprise_bms_placement_group":            resourceTencentCloudBmsPlacementGroup(),
+			"tencentcloudenterprise_brc_activate_backup_service":    resourceTencentCloudBrcActivateBackupService(),
+			"tencentcloudenterprise_brc_auto_backup_policy":         resourceTencentCloudBrcAutoBackupPolicy(),
+			"tencentcloudenterprise_brc_auto_backup_policy_binding": resourceTencentCloudBrcAutoBackupPolicyBinding(),
+			"tencentcloudenterprise_brc_backup_group":               resourceTencentCloudBrcBackupGroup(),
+			"tencentcloudenterprise_brc_backup_disk":                resourceTencentCloudBrcBackupDisk(),
+			"tencentcloudenterprise_brc_backup_cfs":                 resourceTencentCloudBrcBackupCfs(),
+			"tencentcloudenterprise_brc_backup_resource":            resourceTencentCloudBrcBackupResource(),
+			"tencentcloudenterprise_cam_group":                      resourceTencentCloudCamGroup(),
+			//"tencentcloudenterprise_cam_group_membership":               resourceTencentCloudCamGroupMembership(),
+			//"tencentcloudenterprise_cam_group_policy_attachment":        resourceTencentCloudCamGroupPolicyAttachment(),
+			//"tencentcloudenterprise_cam_oidc_sso":                       resourceTencentCloudCamOIDCSSO(),
+			"tencentcloudenterprise_cam_policy":                         resourceTencentCloudCamPolicy(),
+			"tencentcloudenterprise_cam_policy_by_name":                 resourceTencentCloudCamPolicyByName(),
+			"tencentcloudenterprise_cam_role":                           resourceTencentCloudCamRole(),
+			"tencentcloudenterprise_cam_role_by_name":                   resourceTencentCloudCamRoleByName(),
+			"tencentcloudenterprise_cam_password_rules":                 resourceTencentCloudCamPasswordRules(),
+			"tencentcloudenterprise_cam_login_rules":                    resourceTencentCloudCamLoginRules(),
+			"tencentcloudenterprise_cam_api_key":                        resourceTencentCloudCamApiKey(),
+			"tencentcloudenterprise_cam_user":                           resourceTencentCloudCamUser(),
+			"tencentcloudenterprise_cam_role_policy_attachment":         resourceTencentCloudCamRolePolicyAttachment(),
+			"tencentcloudenterprise_cam_group_policy_attachment":        resourceTencentCloudCamGroupPolicyAttachment(),
+			"tencentcloudenterprise_cam_group_membership":               resourceTencentCloudCamGroupMembership(),
+			"tencentcloudenterprise_cam_role_policy_attachment_by_name": resourceTencentCloudCamRolePolicyAttachmentByName(),
+			//"tencentcloudenterprise_cam_role_sso":                       resourceTencentCloudCamRoleSSO(),
+			//"tencentcloudenterprise_cam_saml_provider":                  resourceTencentCloudCamSAMLProvider(),
+			"tencentcloudenterprise_cam_service_linked_role": resourceTencentCloudCamServiceLinkedRole(),
+			//"tencentcloudenterprise_cam_user":                           resourceTencentCloudCamUser(),
+			"tencentcloudenterprise_cam_user_policy_attachment": resourceTencentCloudCamUserPolicyAttachment(),
+			"tencentcloudenterprise_cam_mfa_flag":               resourceTencentCloudCamMfaFlag(),
+			"tencentcloudenterprise_cam_oidc_sso":               resourceTencentCloudCamOIDCSSO(),
+			"tencentcloudenterprise_cam_user_saml_config":       resourceTencentCloudCamUserSamlConfig(),
+			//"tencentcloudenterprise_cbs_disk_backup":                                resourceTencentCloudCbsDiskBackup(),
+			//"tencentcloudenterprise_cbs_disk_backup_rollback_operation":             resourceTencentCloudCbsDiskBackupRollbackOperation(),
+			"tencentcloudenterprise_cbs_snapshot":                   resourceTencentCloudCbsSnapshot(),
+			"tencentcloudenterprise_cbs_snapshot_policy":            resourceTencentCloudCbsSnapshotPolicy(),
+			"tencentcloudenterprise_cbs_snapshot_policy_attachment": resourceTencentCloudCbsSnapshotPolicyAttachment(),
+			"tencentcloudenterprise_cbs_snapshot_share_permission":  resourceTencentCloudCbsSnapshotSharePermission(),
+			"tencentcloudenterprise_cbs_storage":                    resourceTencentCloudCbsStorage(),
+			"tencentcloudenterprise_cbs_storage_attachment":         resourceTencentCloudCbsStorageAttachment(),
+			"tencentcloudenterprise_cbs_storage_set":                resourceTencentCloudCbsStorageSet(),
+			// "tencentcloudenterprise_cbs_storage_set_attachment":     resourceTencentCloudCbsStorageSetAttachment(),
+			"tencentcloudenterprise_ccn":                                       resourceTencentCloudCcn(),
+			"tencentcloudenterprise_ccn_attachment_v2":                         resourceTencentCloudCcnAttachmentV2(),
+			"tencentcloudenterprise_ccn_instances_accept_attach":               resourceTencentCloudCcnInstancesAcceptAttach(),
+			"tencentcloudenterprise_ccn_instances_reject_attach":               resourceTencentCloudCcnInstancesRejectAttach(),
+			"tencentcloudenterprise_ccn_instances_reset_attach":                resourceTencentCloudCcnInstancesResetAttach(),
+			"tencentcloudenterprise_ccn_route_table":                           resourceTencentCloudCcnRouteTable(),
+			"tencentcloudenterprise_ccn_route_table_associate_instance_config": resourceTencentCloudCcnRouteTableAssociateInstanceConfig(),
+			"tencentcloudenterprise_ccn_route_table_broadcast_policies":        resourceTencentCloudCcnRouteTableBroadcastPolicies(),
+			"tencentcloudenterprise_ccn_route_table_input_policies":            resourceTencentCloudCcnRouteTableInputPolicies(),
+			"tencentcloudenterprise_ccn_routes":                                resourceTencentCloudCcnRoutes(),
+			//"tencentcloudenterprise_ccn_attachment":                                 resourceTencentCloudCcnAttachment(),
+			"tencentcloudenterprise_cfs_access_group":                    resourceTencentCloudCfsAccessGroup(),
+			"tencentcloudenterprise_cfs_access_rule":                     resourceTencentCloudCfsAccessRule(),
+			"tencentcloudenterprise_cfs_auto_snapshot_policy":            resourceTencentCloudCfsAutoSnapshotPolicy(),
+			"tencentcloudenterprise_cfs_auto_snapshot_policy_attachment": resourceTencentCloudCfsAutoSnapshotPolicyAttachment(),
+			"tencentcloudenterprise_cfs_file_system":                     resourceTencentCloudCfsFileSystem(),
+			"tencentcloudenterprise_cfs_sign_up_cfs_service":             resourceTencentCloudCfsSignUpCfsService(),
+			"tencentcloudenterprise_cfs_snapshot":                        resourceTencentCloudCfsSnapshot(),
+			//"tencentcloudenterprise_cfs_user_quota":                                 resourceTencentCloudCfsUserQuota(),
+			"tencentcloudenterprise_cfw_nat_instance":         resourceTencentCloudCfwNatInstance(),
+			"tencentcloudenterprise_cfw_vpc_instance":         resourceTencentCloudCfwVpcInstance(),
+			"tencentcloudenterprise_cfw_vpc_policy":           resourceTencentCloudCfwVpcPolicy(),
+			"tencentcloudenterprise_cfw_address_template":     resourceTencentCloudCfwAddressTemplate(),
+			"tencentcloudenterprise_cfw_block_ignore":         resourceTencentCloudCfwBlockIgnore(),
+			"tencentcloudenterprise_cfw_edge_firewall_switch": resourceTencentCloudCfwEdgeFirewallSwitch(),
+			"tencentcloudenterprise_cfw_edge_policy":          resourceTencentCloudCfwEdgePolicy(),
+			"tencentcloudenterprise_cfw_nat_firewall_switch":  resourceTencentCloudCfwNatFirewallSwitch(),
+			"tencentcloudenterprise_cfw_nat_policy":           resourceTencentCloudCfwNatPolicy(),
+			//"tencentcloudenterprise_cfw_sync_asset":               resourceTencentCloudCfwSyncAsset(),
+			//"tencentcloudenterprise_cfw_sync_route":               resourceTencentCloudCfwSyncRoute(),
+			"tencentcloudenterprise_cfw_vpc_firewall_switch": resourceTencentCloudCfwVpcFirewallSwitch(),
+			//"tencentcloudenterprise_cfw_sg_rule":                  resourceTencentCloudCfwSgRule(),
+			"tencentcloudenterprise_ckafka_acl":                   resourceTencentCloudCkafkaAcl(),
+			//"tencentcloudenterprise_ckafka_acl_rule":                     resourceTencentCloudCkafkaAclRule(),
+			//"tencentcloudenterprise_ckafka_connect_resource":             resourceTencentCloudCkafkaConnectResource(),
+			//"tencentcloudenterprise_ckafka_consumer_group":               resourceTencentCloudCkafkaConsumerGroup(),
+			//"tencentcloudenterprise_ckafka_consumer_group_modify_offset": resourceTencentCloudCkafkaConsumerGroupModifyOffset(),
+			//"tencentcloudenterprise_ckafka_datahub_task":                 resourceTencentCloudCkafkaDatahubTask(),
+			//"tencentcloudenterprise_ckafka_datahub_topic":                resourceTencentCloudCkafkaDatahubTopic(),
+			"tencentcloudenterprise_ckafka_instance": resourceTencentCloudCkafkaInstance(),
+			//"tencentcloudenterprise_ckafka_renew_instance": resourceTencentCloudCkafkaRenewInstance(),
+			"tencentcloudenterprise_ckafka_route": resourceTencentCloudCkafkaRoute(),
+			"tencentcloudenterprise_ckafka_topic": resourceTencentCloudCkafkaTopic(),
+			"tencentcloudenterprise_ckafka_user":  resourceTencentCloudCkafkaUser(),
+			//"tencentcloudenterprise_clb_alb_server_attachment":           resourceTencentCloudAlbServerAttachment(),
+			"tencentcloudenterprise_clb_attachment":        resourceTencentCloudClbServerAttachment(),
+			"tencentcloudenterprise_clb_certificates":      resourceTencentCloudClbCertificate(),
+			"tencentcloudenterprise_clb_customized_config": resourceTencentCloudClbCustomizedConfig(),
+			//"tencentcloudenterprise_clb_function_targets_attachment":                resourceTencentCloudClbFunctionTargetsAttachment(),
+			"tencentcloudenterprise_clb_instance": resourceTencentCloudClbInstance(),
+			//"tencentcloudenterprise_clb_instance_mix_ip_target_config":              resourceTencentCloudClbInstanceMixIpTargetConfig(),
+			//"tencentcloudenterprise_clb_instance_sla_config":                        resourceTencentCloudClbInstanceSlaConfig(),
+			//"tencentcloudenterprise_clb_lb":            resourceTencentCloudLB(),
+			"tencentcloudenterprise_clb_listener":                  resourceTencentCloudClbListener(),
+			"tencentcloudenterprise_clb_listener_default_domain":   resourceTencentCloudClbListenerDefaultDomain(),
+			"tencentcloudenterprise_clb_listener_rule":             resourceTencentCloudClbListenerRule(),
+			"tencentcloudenterprise_clb_log_set":                   resourceTencentCloudClbLogSet(),
+			"tencentcloudenterprise_clb_log_topic":                 resourceTencentCloudClbLogTopic(),
+			"tencentcloudenterprise_clb_redirection":               resourceTencentCloudClbRedirection(),
+			"tencentcloudenterprise_clb_replace_cert":              resourceTencentCloudClbReplaceCert(),
+			"tencentcloudenterprise_clb_security_group_attachment": resourceTencentCloudClbSecurityGroupAttachment(),
+			//"tencentcloudenterprise_clb_snat_ip":                                    resourceTencentCloudClbSnatIp(),
+			//"tencentcloudenterprise_clb_target_group":                               resourceTencentCloudClbTargetGroup(),
+			//"tencentcloudenterprise_clb_target_group_attachment":                    resourceTencentCloudClbTargetGroupAttachment(),
+			//"tencentcloudenterprise_clb_target_group_instance_attachment":           resourceTencentCloudClbTGAttachmentInstance(),
+			"tencentcloudenterprise_cls_alarm":             resourceTencentCloudClsAlarm(),
+			"tencentcloudenterprise_cls_alarm_notice":      resourceTencentCloudClsAlarmNotice(),
+			"tencentcloudenterprise_cls_notice_content":    resourceTencentCloudClsNoticeContent(),
+			"tencentcloudenterprise_cls_ckafka_consumer":   resourceTencentCloudClsCkafkaConsumer(),
+			"tencentcloudenterprise_cls_config":            resourceTencentCloudClsConfig(),
+			"tencentcloudenterprise_cls_config_attachment": resourceTencentCloudClsConfigAttachment(),
+			//"tencentcloudenterprise_cls_config_extra":      resourceTencentCloudClsConfigExtra(),
+			"tencentcloudenterprise_cls_cos_recharge":  resourceTencentCloudClsCosRecharge(),
+			"tencentcloudenterprise_cls_cos_shipper":   resourceTencentCloudClsCosShipper(),
+			"tencentcloudenterprise_cls_export":        resourceTencentCloudClsExport(),
+			"tencentcloudenterprise_cls_index":         resourceTencentCloudClsIndex(),
+			"tencentcloudenterprise_cls_logset":        resourceTencentCloudClsLogset(),
+			"tencentcloudenterprise_cls_machine_group": resourceTencentCloudClsMachineGroup(),
+			"tencentcloudenterprise_cls_topic":         resourceTencentCloudClsTopic(),
+			"tencentcloudenterprise_cos_bucket":        resourceTencentCloudCosBucket(),
+			//"tencentcloudenterprise_cos_bucket_domain_certificate_attachment": resourceTencentCloudCosBucketDomainCertificateAttachment(),
+			"tencentcloudenterprise_cos_bucket_object": resourceTencentCloudCosBucketObject(),
+			"tencentcloudenterprise_cos_bucket_policy": resourceTencentCloudCosBucketPolicy(),
+			"tencentcloudenterprise_csp_bucket":        resourceTencentCloudCspBucket(),
+			//"tencentcloudenterprise_csp_bucket_domain_certificate_attachment": resourceTencentCloudCspBucketDomainCertificateAttachment(),
 			"tencentcloudenterprise_csp_bucket_object":                       resourceTencentCloudCspBucketObject(),
 			"tencentcloudenterprise_csp_bucket_policy":                       resourceTencentCloudCspBucketPolicy(),
-			"tencentcloudenterprise_cvm_image":                               resourceTencentCloudImage(),
-			"tencentcloudenterprise_cvm_image_share_permission":              resourceTencentCloudCvmImageSharePermission(),
-			"tencentcloudenterprise_cvm_instance":                            resourceTencentCloudInstance(),
-			"tencentcloudenterprise_cvm_instance_set":                        resourceTencentCloudInstanceSet(),
-			"tencentcloudenterprise_cvm_key_pair":                            resourceTencentCloudKeyPair(),
-			"tencentcloudenterprise_cvm_launch_template":                     resourceTencentCloudCvmLaunchTemplate(),
-			"tencentcloudenterprise_cvm_placement_group":                     resourceTencentCloudPlacementGroup(),
-			"tencentcloudenterprise_cvm_reboot_instance":                     resourceTencentCloudCvmRebootInstance(),
-			"tencentcloudenterprise_cvm_renew_instance":                      resourceTencentCloudCvmRenewInstance(),
-			"tencentcloudenterprise_cvm_security_group_attachment":           resourceTencentCloudCvmSecurityGroupAttachment(),
-			"tencentcloudenterprise_cvm_sync_image":                          resourceTencentCloudCvmSyncImage(),
-			"tencentcloudenterprise_dc_dcx":                                  resourceTencentCloudDcxInstance(),
-			"tencentcloudenterprise_dc_instance":                             resourceTencentCloudDcInstance(),
-			"tencentcloudenterprise_dcdb_account":                            resourceTencentCloudDcdbAccount(),
-			"tencentcloudenterprise_dcdb_account_privileges":                 resourceTencentCloudDcdbAccountPrivileges(),
-			"tencentcloudenterprise_dcdb_activate_hour_instance_operation":   resourceTencentCloudDcdbActivateHourInstanceOperation(),
-			"tencentcloudenterprise_dcdb_cancel_dcn_job_operation":           resourceTencentCloudDcdbCancelDcnJobOperation(),
-			"tencentcloudenterprise_dcdb_db_parameters":                      resourceTencentCloudDcdbDbParameters(),
-			"tencentcloudenterprise_dcdb_db_sync_mode_config":                resourceTencentCloudDcdbDbSyncModeConfig(),
-			"tencentcloudenterprise_dcdb_encrypt_attributes_config":          resourceTencentCloudDcdbEncryptAttributesConfig(),
-			"tencentcloudenterprise_dcdb_flush_binlog_operation":             resourceTencentCloudDcdbFlushBinlogOperation(),
-			"tencentcloudenterprise_dcdb_instance":                           resourceTencentCloudDcdbdbInstance(),
-			"tencentcloudenterprise_dcdb_instance_config":                    resourceTencentCloudDcdbInstanceConfig(),
-			"tencentcloudenterprise_dcdb_isolate_hour_instance_operation":    resourceTencentCloudDcdbIsolateHourInstanceOperation(),
-			"tencentcloudenterprise_dcdb_security_group_attachment":          resourceTencentCloudDcdbSecurityGroupAttachment(),
-			"tencentcloudenterprise_dcdb_switch_db_instance_ha_operation":    resourceTencentCloudDcdbSwitchDbInstanceHaOperation(),
-			"tencentcloudenterprise_eip":                                     resourceTencentCloudEip(),
-			"tencentcloudenterprise_eip_address_transform":                   resourceTencentCloudEipAddressTransform(),
-			"tencentcloudenterprise_eip_association":                         resourceTencentCloudEipAssociation(),
-			"tencentcloudenterprise_eip_normal_address_return":               resourceTencentCloudEipNormalAddressReturn(),
-			"tencentcloudenterprise_kms_external_key":                        resourceTencentCloudKmsExternalKey(),
-			"tencentcloudenterprise_kms_key":                                 resourceTencentCloudKmsKey(),
-			"tencentcloudenterprise_redis_backup_config":                     resourceTencentCloudRedisBackupConfig(),
-			"tencentcloudenterprise_redis_clear_instance_operation":          resourceTencentCloudRedisClearInstanceOperation(),
-			"tencentcloudenterprise_redis_instance":                          resourceTencentCloudRedisInstance(),
-			"tencentcloudenterprise_redis_param":                             resourceTencentCloudRedisParam(),
-			"tencentcloudenterprise_redis_replica_readonly":                  resourceTencentCloudRedisReplicaReadonly(),
-			"tencentcloudenterprise_redis_startup_instance_operation":        resourceTencentCloudRedisStartupInstanceOperation(),
-			"tencentcloudenterprise_ssm_secret":                              resourceTencentCloudSsmSecret(),
-			"tencentcloudenterprise_ssm_secret_version":                      resourceTencentCloudSsmSecretVersion(),
-			"tencentcloudenterprise_tbase_instance":                          resourceTencentCloudTbaseInstance(),
-			"tencentcloudenterprise_tbase_pg_instance":                       resourceTencentCloudTbasePGInstance(),
-			"tencentcloudenterprise_tbase_pg_instance_vip":                   resourceTencentCloudTbasePGInstanceVip(),
+			//"tencentcloudenterprise_cvm_chc_config":                                 resourceTencentCloudCvmChcConfig(),
+			//"tencentcloudenterprise_cvm_container_cluster":                          resourceTencentCloudContainerCluster(),
+			//"tencentcloudenterprise_cvm_container_cluster_instance": resourceTencentCloudContainerClusterInstance(),
+			//"tencentcloudenterprise_cvm_export_images":                              resourceTencentCloudCvmExportImages(),
+			//"tencentcloudenterprise_cvm_hpc_cluster":                                resourceTencentCloudCvmHpcCluster(),
+			"tencentcloudenterprise_cvm_image":                  resourceTencentCloudImage(),
+			"tencentcloudenterprise_cvm_image_share_permission": resourceTencentCloudCvmImageSharePermission(),
+			//"tencentcloudenterprise_cvm_import_image":           resourceTencentCloudCvmImportImage(),
+			"tencentcloudenterprise_cvm_instance":        resourceTencentCloudInstance(),
+			"tencentcloudenterprise_cvm_instance_set":    resourceTencentCloudInstanceSet(),
+			"tencentcloudenterprise_cvm_key_pair":        resourceTencentCloudKeyPair(),
+			"tencentcloudenterprise_cvm_launch_template": resourceTencentCloudCvmLaunchTemplate(),
+			//"tencentcloudenterprise_cvm_launch_template_default_version":            resourceTencentCloudCvmLaunchTemplateDefaultVersion(),
+			//"tencentcloudenterprise_cvm_launch_template_version":                    resourceTencentCloudCvmLaunchTemplateVersion(),
+			//"tencentcloudenterprise_cvm_modify_instance_disk_type":                  resourceTencentCloudCvmModifyInstanceDiskType(),
+			"tencentcloudenterprise_cvm_placement_group": resourceTencentCloudPlacementGroup(),
+			//"tencentcloudenterprise_cvm_program_fpga_image":                         resourceTencentCloudCvmProgramFpgaImage(),
+			"tencentcloudenterprise_cvm_reboot_instance": resourceTencentCloudCvmRebootInstance(),
+			//"tencentcloudenterprise_cvm_renew_host":                resourceTencentCloudCvmRenewHost(),
+			"tencentcloudenterprise_cvm_renew_instance":            resourceTencentCloudCvmRenewInstance(),
+			"tencentcloudenterprise_cvm_security_group_attachment": resourceTencentCloudCvmSecurityGroupAttachment(),
+			"tencentcloudenterprise_cvm_sync_image":                resourceTencentCloudCvmSyncImage(),
+
+			"tencentcloudenterprise_dc_dcx": resourceTencentCloudDcxInstance(),
+			//"tencentcloudenterprise_dc_dcx_extra_config":                            resourceTencentCloudDcxExtraConfig(),
+			//"tencentcloudenterprise_dc_gateway_attachment":                          resourceTencentCloudDcGatewayAttachment(),
+			//"tencentcloudenterprise_dc_gateway_ccn_route":                           resourceTencentCloudDcGatewayCcnRouteInstance(),
+			"tencentcloudenterprise_dc_instance":       resourceTencentCloudDcInstance(),
+			"tencentcloudenterprise_dc_approve_tunnel": resourceTencentCloudDcApproveTunnel(),
+			//"tencentcloudenterprise_dc_internet_address":                            resourceTencentCloudDcInternetAddress(),
+			//"tencentcloudenterprise_dc_internet_address_config":                     resourceTencentCloudDcInternetAddressConfig(),
+			//"tencentcloudenterprise_dc_share_dcx_config":                            resourceTencentCloudDcShareDcxConfig(),
+			"tencentcloudenterprise_dcdb_account":                          resourceTencentCloudDcdbAccount(),
+			"tencentcloudenterprise_dcdb_account_privileges":               resourceTencentCloudDcdbAccountPrivileges(),
+			"tencentcloudenterprise_dcdb_activate_hour_instance_operation": resourceTencentCloudDcdbActivateHourInstanceOperation(),
+			"tencentcloudenterprise_dcdb_cancel_dcn_job_operation":         resourceTencentCloudDcdbCancelDcnJobOperation(),
+			"tencentcloudenterprise_dcdb_db_parameters":                    resourceTencentCloudDcdbDbParameters(),
+			"tencentcloudenterprise_dcdb_db_sync_mode_config":              resourceTencentCloudDcdbDbSyncModeConfig(),
+			"tencentcloudenterprise_dcdb_encrypt_attributes_config":        resourceTencentCloudDcdbEncryptAttributesConfig(),
+			"tencentcloudenterprise_dcdb_flush_binlog_operation":           resourceTencentCloudDcdbFlushBinlogOperation(),
+			"tencentcloudenterprise_dcdb_instance":                         resourceTencentCloudDcdbdbInstance(),
+			"tencentcloudenterprise_dcdb_instance_config":                  resourceTencentCloudDcdbInstanceConfig(),
+			"tencentcloudenterprise_dcdb_isolate_hour_instance_operation":  resourceTencentCloudDcdbIsolateHourInstanceOperation(),
+			"tencentcloudenterprise_dcdb_security_group_attachment":        resourceTencentCloudDcdbSecurityGroupAttachment(),
+			"tencentcloudenterprise_dcdb_switch_db_instance_ha_operation":  resourceTencentCloudDcdbSwitchDbInstanceHaOperation(),
+			//"tencentcloudenterprise_drc_disaster_recovery_site_pair":   	 resourceTencentCloudDrcDisasterRecoverySitePair(),
+			//"tencentcloudenterprise_drc_file_system_copy_pair":             resourceTencentCloudDrcFileSystemCopyPair(),
+			//"tencentcloudenterprise_drc_file_system_drill_pair":            resourceTencentCloudDrcFileSystemDrillPair(),
+			//"tencentcloudenterprise_drc_protect_group":                     resourceTencentCloudDrcProtectGroup(),
+			//"tencentcloudenterprise_drc_vpc_mapping":                       resourceTencentCloudDrcVpcMapping(),
+			//"tencentcloudenterprise_drc_security_group_mapping":            resourceTencentCloudDrcSecurityGroupMapping(),
+			"tencentcloudenterprise_eip":                   resourceTencentCloudEip(),
+			"tencentcloudenterprise_eip_address_transform": resourceTencentCloudEipAddressTransform(),
+			"tencentcloudenterprise_eip_association":       resourceTencentCloudEipAssociation(),
+			// 2025-04-27下线 "tencentcloudenterprise_eip_public_address_adjust": resourceTencentCloudEipPublicAddressAdjust(),
+			"tencentcloudenterprise_eip_normal_address_return": resourceTencentCloudEipNormalAddressReturn(),
+			//"tencentcloudenterprise_eks_cluster":                                    resourceTencentCloudEksCluster(),
+			//"tencentcloudenterprise_eks_container_instance":                         resourceTencentCloudEksContainerInstance(),
+			"tencentcloudenterprise_cic_external_saml_identity_provider": resourceTencentCloudCicExternalSamlIdentityProvider(),
+			"tencentcloudenterprise_cic_group":                           resourceTencentCloudCicGroup(),
+			"tencentcloudenterprise_cic_role_assignment":                 resourceTencentCloudCicRoleAssignment(),
+			"tencentcloudenterprise_cic_role_configuration":              resourceTencentCloudCicRoleConfiguration(),
+			"tencentcloudenterprise_cic_role_configuration_permission_custom_policy_attachment": resourceTencentCloudCicRoleConfigurationPermissionCustomPolicyAttachment(),
+			"tencentcloudenterprise_cic_role_configuration_permission_policy_attachment":        resourceTencentCloudCicRoleConfigurationPermissionPolicyAttachment(),
+			"tencentcloudenterprise_cic_scim_credential":                                        resourceTencentCloudCicScimCredential(),
+			"tencentcloudenterprise_cic_scim_synchronization_status":                            resourceTencentCloudCicScimSynchronizationStatus(),
+			"tencentcloudenterprise_cic_user":                                                   resourceTencentCloudCicUser(),
+			"tencentcloudenterprise_cic_user_group_attachment":                                  resourceTencentCloudCicUserGroupAttachment(),
+			"tencentcloudenterprise_cic_user_sync_provisioning":                                 resourceTencentCloudCicUserSyncProvisioning(),
+			"tencentcloudenterprise_kms_external_key":                                           resourceTencentCloudKmsExternalKey(),
+			"tencentcloudenterprise_kms_key":                                                    resourceTencentCloudKmsKey(),
+
+			//"tencentcloudenterprise_nat_gateway_snat":                               resourceTencentCloudNatGatewaySnat(),
+			//"tencentcloudenterprise_nat_refresh_nat_dc_route":                       resourceTencentCloudNatRefreshNatDcRoute(),
+			//"tencentcloudenterprise_organization_org_member":                        resourceTencentCloudOrganizationOrgMember(),
+			//"tencentcloudenterprise_organization_org_node":                          resourceTencentCloudOrganizationOrgNode(),
+			//"tencentcloudenterprise_organization_policy_sub_account_attachment":     resourceTencentCloudOrganizationPolicySubAccountAttachment(),
+			//"tencentcloudenterprise_organization_instance":                    resourceTencentCloudOrganizationOrganization(),
+			//"tencentcloudenterprise_organization_org_identity":                resourceTencentCloudOrganizationOrgIdentity(),
+			"tencentcloudenterprise_organization_org_member":                  resourceTencentCloudOrganizationOrgMember(),
+			"tencentcloudenterprise_organization_org_node":                    resourceTencentCloudOrganizationOrgNode(),
+			"tencentcloudenterprise_organization_quit_organization_operation": resourceTencentCloudOrganizationQuitOrganizationOperation(),
+			// not supported by tce
+			"tencentcloudenterprise_organization_org_manage_policy":        resourceTencentCloudOrganizationOrgManagePolicy(),
+			"tencentcloudenterprise_organization_org_manage_policy_target": resourceTencentCloudOrganizationOrgManagePolicyTarget(),
+			//"tencentcloudenterprise_organization_org_member_email": resourceTencentCloudOrganizationOrgMemberEmail(),
+			//"tencentcloudenterprise_organization_org_member_auth_identity_attachment": resourceTencentCloudOrganizationOrgMemberAuthIdentityAttachment(),
+			//"tencentcloudenterprise_organization_org_member_policy_attachment": resourceTencentCloudOrganizationOrgMemberPolicyAttachment(),
+			//"tencentcloudenterprise_organization_policy_sub_account_attachment": resourceTencentCloudOrganizationPolicySubAccountAttachment(),
+			//"tencentcloudenterprise_redis_account":                                  resourceTencentCloudRedisAccount(),
+			"tencentcloudenterprise_redis_backup_config": resourceTencentCloudRedisBackupConfig(),
+			//"tencentcloudenterprise_redis_backup_download_restriction":              resourceTencentCloudRedisBackupDownloadRestriction(),
+			"tencentcloudenterprise_redis_clear_instance_operation": resourceTencentCloudRedisClearInstanceOperation(),
+			//"tencentcloudenterprise_redis_connection_config":                        resourceTencentCloudRedisConnectionConfig(),
+			"tencentcloudenterprise_redis_instance": resourceTencentCloudRedisInstance(),
+			//"tencentcloudenterprise_redis_maintenance_window":                       resourceTencentCloudRedisMaintenanceWindow(),
+			"tencentcloudenterprise_redis_param": resourceTencentCloudRedisParam(),
+			//"tencentcloudenterprise_redis_param_template":                           resourceTencentCloudRedisParamTemplate(),
+			//"tencentcloudenterprise_redis_read_only":                                resourceTencentCloudRedisReadOnly(),
+			//"tencentcloudenterprise_redis_renew_instance_operation":                 resourceTencentCloudRedisRenewInstanceOperation(),
+			"tencentcloudenterprise_redis_replica_readonly": resourceTencentCloudRedisReplicaReadonly(),
+			//"tencentcloudenterprise_redis_ssl":                                      resourceTencentCloudRedisSsl(),
+			"tencentcloudenterprise_redis_startup_instance_operation": resourceTencentCloudRedisStartupInstanceOperation(),
+			//"tencentcloudenterprise_redis_switch_master":                            resourceTencentCloudRedisSwitchMaster(),
+			//"tencentcloudenterprise_redis_upgrade_cache_version_operation":          resourceTencentCloudRedisUpgradeCacheVersionOperation(),
+			//"tencentcloudenterprise_redis_upgrade_multi_zone_operation":             resourceTencentCloudRedisUpgradeMultiZoneOperation(),
+			//"tencentcloudenterprise_redis_upgrade_proxy_version_operation":          resourceTencentCloudRedisUpgradeProxyVersionOperation(),
+			//"tencentcloudenterprise_reserved_instance":                              resourceTencentCloudReservedInstance(),
+			// "tencentcloudenterprise_cdc_dedicated_cluster_image_cache": resourceTencentCloudCdcDedicatedClusterImageCache(), // SDK 中暂无此API - CreateDedicatedClusterImageCache 和 DeleteDedicatedClusterImageCache 接口暂未实现
+			"tencentcloudenterprise_ssm_secret":                                   resourceTencentCloudSsmSecret(),
+			"tencentcloudenterprise_ssm_secret_version":                           resourceTencentCloudSsmSecretVersion(),
+			"tencentcloudenterprise_tbase_instance":                               resourceTencentCloudTbaseInstance(),
+			"tencentcloudenterprise_tbase_pg_instance":                            resourceTencentCloudTbasePGInstance(),
+			"tencentcloudenterprise_tbase_pg_instance_vip":                        resourceTencentCloudTbasePGInstanceVip(),
+			// "tencentcloudenterprise_tcr_create_image_signature_operation":         resourceTencentCloudTcrCreateImageSignatureOperation(),
+			"tencentcloudenterprise_tcr_customized_domain":                   resourceTencentCloudTcrCustomizedDomain(),
+			"tencentcloudenterprise_tcr_delete_image_operation":              resourceTencentCloudTcrDeleteImageOperation(),
+			"tencentcloudenterprise_tcr_immutable_tag_rule":                  resourceTencentCloudTcrImmutableTagRule(),
+			"tencentcloudenterprise_tcr_instance":                            resourceTencentCloudTcrInstance(),
+			"tencentcloudenterprise_tcr_manage_replication_operation":        resourceTencentCloudTcrManageReplicationOperation(),
+			"tencentcloudenterprise_tcr_namespace":                           resourceTencentCloudTcrNamespace(),
+			"tencentcloudenterprise_tcr_repository":                          resourceTencentCloudTcrRepository(),
+			"tencentcloudenterprise_tcr_tag_retention_rule":                  resourceTencentCloudTcrTagRetentionRule(),
+			"tencentcloudenterprise_tcr_token":                               resourceTencentCloudTcrToken(),
+			"tencentcloudenterprise_tcr_vpc_attachment":                      resourceTencentCloudTcrVpcAttachment(),
+			"tencentcloudenterprise_tcr_webhook_trigger":                     resourceTencentCloudTcrWebhookTrigger(),
+			"tencentcloudenterprise_tcr_service_account":                     resourceTencentCloudTcrServiceAccount(),
+			"tencentcloudenterprise_tcr_tag_retention_execution_config":      resourceTencentCloudTcrTagRetentionExecutionConfig(),
+			"tencentcloudenterprise_tag":                                     resourceTencentCloudTag(),
+			"tencentcloudenterprise_tag_attachment":                          resourceTencentCloudTagAttachment(),
 			"tencentcloudenterprise_tdmq_instance":                           resourceTencentCloudTdmqInstance(),
 			"tencentcloudenterprise_tdmq_pulsar_cluster":                     resourceTencentCloudTdmqPulsarCluster(),
 			"tencentcloudenterprise_tdmq_pulsar_route":                       resourceTencentCloudTdmqPulsarRoute(),
@@ -968,38 +1253,57 @@ func Provider() *schema.Provider {
 			"tencentcloudenterprise_tdmq_send_rocketmq_message":              resourceTencentCloudTdmqSendRocketmqMessage(),
 			"tencentcloudenterprise_tdmq_subscription_attachment":            resourceTencentCloudTdmqSubscriptionAttachment(),
 			"tencentcloudenterprise_tdmq_topic":                              resourceTencentCloudTdmqTopic(),
-			"tencentcloudenterprise_tke_kubernetes_cluster":                  resourceTencentCloudTkeCluster(),
-			"tencentcloudenterprise_tke_kubernetes_cluster_namespace":        resourceTencentCloudTkeClusterNamespace(),
-			"tencentcloudenterprise_tke_kubernetes_cluster_plugin":           resourceTencentCloudTkeClusterPlugin(),
-			"tencentcloudenterprise_tke_kubernetes_cluster_secret":           resourceTencentCloudTkeClusterSecret(),
-			"tencentcloudenterprise_tke_kubernetes_cluster_pv":               resourceTencentCloudTkeClusterPv(),
-			"tencentcloudenterprise_tke_kubernetes_cluster_pvc":              resourceTencentCloudTkeClusterPvc(),
-			"tencentcloudenterprise_tke_kubernetes_cluster_deploy":           resourceTencentCloudTkeClusterDeploy(),
-			"tencentcloudenterprise_tke_kubernetes_cluster_affinity":         resourceTencentCloudTkeClusterAffinity(),
-			"tencentcloudenterprise_tke_kubernetes_cluster_ing":              resourceTencentCloudTkeClusterIng(),
-			"tencentcloudenterprise_tke_kubernetes_cluster_attachment":       resourceTencentCloudTkeClusterAttachment(),
-			"tencentcloudenterprise_tke_kubernetes_cluster_endpoint":         resourceTencentCloudTkeClusterEndpoint(),
-			"tencentcloudenterprise_tke_kubernetes_scale_worker":             resourceTencentCloudTkeScaleWorker(),
-			"tencentcloudenterprise_tsf_cluster":                             resourceTencentCloudTsfCluster(),
-			"tencentcloudenterprise_tsf_namespace":                           resourceTencentCloudTsfNamespace(),
-			"tencentcloudenterprise_tsf_group":                               resourceTencentCloudTsfGroup(),
-			"tencentcloudenterprise_tsf_application":                         resourceTencentCloudTsfApplication(),
-			"tencentcloudenterprise_tsf_application_config":                  resourceTencentCloudTsfApplicationConfig(),
-			"tencentcloudenterprise_tsf_application_release_config":          resourceTencentCloudTsfApplicationReleaseConfig(),
-			"tencentcloudenterprise_tsf_application_file_config":             resourceTencentCloudTsfApplicationFileConfig(),
-			"tencentcloudenterprise_tsf_application_file_config_release":     resourceTencentCloudTsfApplicationFileConfigRelease(),
-			"tencentcloudenterprise_tsf_application_public_config":           resourceTencentCloudTsfApplicationPublicConfig(),
-			"tencentcloudenterprise_tsf_application_public_config_release":   resourceTencentCloudTsfApplicationPublicConfigRelease(),
-			"tencentcloudenterprise_tsf_config_template":                     resourceTencentCloudTsfConfigTemplate(),
-			"tencentcloudenterprise_tsf_lane":                                resourceTencentCloudTsfLane(),
-			"tencentcloudenterprise_tsf_lane_rule":                           resourceTencentCloudTsfLaneRule(),
-			"tencentcloudenterprise_tsf_api_group":                           resourceTencentCloudTsfApiGroup(),
-			"tencentcloudenterprise_tsf_bind_api_group":                      resourceTencentCloudTsfBindApiGroup(),
-			"tencentcloudenterprise_tsf_microservice":                        resourceTencentCloudTsfMicroservice(),
-			"tencentcloudenterprise_tsf_api_rate_limit_rule":                 resourceTencentCloudTsfApiRateLimitRule(),
-			"tencentcloudenterprise_tsf_enable_unit_rule":                    resourceTencentCloudTsfEnableUnitRule(),
-			"tencentcloudenterprise_tsf_instances_attachment":                resourceTencentCloudTsfInstancesAttachment(),
-			"tencentcloudenterprise_tsf_path_rewrite":                        resourceTencentCloudTsfPathRewrite(),
+			//"tencentcloudenterprise_teo_default_certificate":                        resourceTencentCloudTeoDefaultCertificate(),
+			//"tencentcloudenterprise_teo_host_certificate":                           resourceTencentCloudTeoHostCertificate(),
+			//"tencentcloudenterprise_tke_kubernetes_addon_attachment":                resourceTencentCloudTkeAddonAttachment(),
+			//"tencentcloudenterprise_tke_kubernetes_as_scaling_group": resourceTencentCloudKubernetesAsScalingGroup(),
+			"tencentcloudenterprise_tke_kubernetes_auth_attachment": resourceTencentCloudTKEAuthAttachment(),
+			//"tencentcloudenterprise_tke_kubernetes_backup_storage_location":         resourceTencentCloudTkeBackupStorageLocation(),
+			"tencentcloudenterprise_tke_kubernetes_cluster":            resourceTencentCloudTkeCluster(),
+			"tencentcloudenterprise_tke_kubernetes_cluster_namespace":  resourceTencentCloudTkeClusterNamespace(),
+			"tencentcloudenterprise_tke_kubernetes_cluster_plugin":     resourceTencentCloudTkeClusterPlugin(),
+			"tencentcloudenterprise_tke_kubernetes_cluster_secret":     resourceTencentCloudTkeClusterSecret(),
+			"tencentcloudenterprise_tke_kubernetes_cluster_pv":         resourceTencentCloudTkeClusterPv(),
+			"tencentcloudenterprise_tke_kubernetes_cluster_pvc":        resourceTencentCloudTkeClusterPvc(),
+			"tencentcloudenterprise_tke_kubernetes_cluster_deploy":     resourceTencentCloudTkeClusterDeploy(),
+			"tencentcloudenterprise_tke_kubernetes_cluster_workload":   resourceTencentCloudTkeClusterWorkload(),
+			"tencentcloudenterprise_tke_kubernetes_cluster_affinity":   resourceTencentCloudTkeClusterAffinity(),
+			"tencentcloudenterprise_tke_kubernetes_cluster_ing":        resourceTencentCloudTkeClusterIng(),
+			"tencentcloudenterprise_tke_kubernetes_addon":              resourceTencentCloudTkeKubernetesAddon(),
+			"tencentcloudenterprise_tke_kubernetes_log_config":         resourceTencentCloudTkeKubernetesLogConfig(),
+			"tencentcloudenterprise_tke_kubernetes_cluster_attachment": resourceTencentCloudTkeClusterAttachment(),
+			"tencentcloudenterprise_tke_kubernetes_cluster_endpoint":   resourceTencentCloudTkeClusterEndpoint(),
+			"tencentcloudenterprise_tke_kubernetes_node_pool":          resourceTencentCloudKubernetesNodePool(),
+			//"tencentcloudenterprise_tke_kubernetes_native_node_pool":      resourceTencentCloudKubernetesNativeNodePool(),
+			//"tencentcloudenterprise_tke_kubernetes_encryption_protection": resourceTencentCloudKubernetesEncryptionProtection(),
+			//"tencentcloudenterprise_tke_kubernetes_health_check_policy":   resourceTencentCloudKubernetesHealthCheckPolicy(),
+			"tencentcloudenterprise_tke_kubernetes_scale_worker": resourceTencentCloudTkeScaleWorker(),
+			//"tencentcloudenterprise_tke_kubernetes_serverless_node_pool": resourceTkeServerLessNodePool(),
+			//"tencentcloudenterprise_tse_instance":                                   resourceTencentCloudTseInstance(),
+			"tencentcloudenterprise_tsf_cluster":                           resourceTencentCloudTsfCluster(),
+			"tencentcloudenterprise_tsf_namespace":                         resourceTencentCloudTsfNamespace(),
+			"tencentcloudenterprise_tsf_group":                             resourceTencentCloudTsfGroup(),
+			"tencentcloudenterprise_tsf_application":                       resourceTencentCloudTsfApplication(),
+			"tencentcloudenterprise_tsf_application_config":                resourceTencentCloudTsfApplicationConfig(),
+			"tencentcloudenterprise_tsf_application_release_config":        resourceTencentCloudTsfApplicationReleaseConfig(),
+			"tencentcloudenterprise_tsf_application_file_config":           resourceTencentCloudTsfApplicationFileConfig(),
+			"tencentcloudenterprise_tsf_application_file_config_release":   resourceTencentCloudTsfApplicationFileConfigRelease(),
+			"tencentcloudenterprise_tsf_application_public_config":         resourceTencentCloudTsfApplicationPublicConfig(),
+			"tencentcloudenterprise_tsf_application_public_config_release": resourceTencentCloudTsfApplicationPublicConfigRelease(),
+			"tencentcloudenterprise_tsf_config_template":                   resourceTencentCloudTsfConfigTemplate(),
+			"tencentcloudenterprise_tsf_lane":                              resourceTencentCloudTsfLane(),
+			"tencentcloudenterprise_tsf_lane_rule":                         resourceTencentCloudTsfLaneRule(),
+			"tencentcloudenterprise_tsf_api_group":                         resourceTencentCloudTsfApiGroup(),
+			"tencentcloudenterprise_tsf_bind_api_group":                    resourceTencentCloudTsfBindApiGroup(),
+			"tencentcloudenterprise_tsf_microservice":                      resourceTencentCloudTsfMicroservice(),
+			"tencentcloudenterprise_tsf_api_rate_limit_rule":               resourceTencentCloudTsfApiRateLimitRule(),
+			//"tencentcloudenterprise_tsf_contain_group":       resourceTencentCloudTsfContainGroup(),
+			"tencentcloudenterprise_tsf_enable_unit_rule": resourceTencentCloudTsfEnableUnitRule(),
+
+			"tencentcloudenterprise_tsf_instances_attachment": resourceTencentCloudTsfInstancesAttachment(),
+			"tencentcloudenterprise_tsf_path_rewrite":         resourceTencentCloudTsfPathRewrite(),
+			// 创建应用， 默认会创建初一个仓库， 这里评估不需要
+			//"tencentcloudenterprise_tsf_repository":                   resourceTencentCloudTsfRepository(),
 			"tencentcloudenterprise_tsf_task":                                resourceTencentCloudTsfTask(),
 			"tencentcloudenterprise_tsf_unit_rule":                           resourceTencentCloudTsfUnitRule(),
 			"tencentcloudenterprise_turbofs_sign_up_service":                 resourceTencentCloudTurbofsSignUpService(),
@@ -1013,37 +1317,92 @@ func Provider() *schema.Provider {
 			"tencentcloudenterprise_vpc_acl_attachment":                      resourceTencentCloudVpcAclAttachment(),
 			"tencentcloudenterprise_vpc_address_template":                    resourceTencentCloudAddressTemplate(),
 			"tencentcloudenterprise_vpc_address_template_group":              resourceTencentCloudAddressTemplateGroup(),
-			"tencentcloudenterprise_vpc_classic_link_attachment":             resourceTencentCloudVpcClassicLinkAttachment(),
-			"tencentcloudenterprise_vpc_dc_gateway":                          resourceTencentCloudDcGatewayInstance(),
-			"tencentcloudenterprise_vpc_peer_connect_manager":                resourceTencentCloudVpcPeerConnectManager(),
-			"tencentcloudenterprise_vpc_peer_connect_ex_manager":             resourceTencentCloudVpcPeerConnectExManager(),
-			"tencentcloudenterprise_vpc_dnat":                                resourceTencentCloudDnat(),
-			"tencentcloudenterprise_vpc_enable_end_point_connect":            resourceTencentCloudVpcEnableEndPointConnect(),
-			"tencentcloudenterprise_vpc_end_point":                           resourceTencentCloudVpcEndPoint(),
-			"tencentcloudenterprise_vpc_end_point_service":                   resourceTencentCloudVpcEndPointService(),
-			"tencentcloudenterprise_vpc_eni":                                 resourceTencentCloudEni(),
-			"tencentcloudenterprise_vpc_eni_attachment":                      resourceTencentCloudEniAttachment(),
-			"tencentcloudenterprise_vpc_eni_sg_attachment":                   resourceTencentCloudEniSgAttachment(),
-			"tencentcloudenterprise_vpc_ha_vip":                              resourceTencentCloudHaVip(),
-			"tencentcloudenterprise_vpc_ha_vip_eip_attachment":               resourceTencentCloudHaVipEipAttachment(),
-			"tencentcloudenterprise_vpc_ipv6_address_bandwidth":              resourceTencentCloudIpv6AddressBandwidth(),
-			"tencentcloudenterprise_vpc_ipv6_cidr_block":                     resourceTencentCloudVpcIpv6CidrBlock(),
-			"tencentcloudenterprise_vpc_ipv6_eni_address":                    resourceTencentCloudVpcIpv6EniAddress(),
-			"tencentcloudenterprise_vpc_ipv6_subnet_cidr_block":              resourceTencentCloudVpcIpv6SubnetCidrBlock(),
-			"tencentcloudenterprise_vpc_nat_gateway":                         resourceTencentCloudNatGateway(),
-			"tencentcloudenterprise_vpc_net_detect":                          resourceTencentCloudVpcNetDetect(),
-			"tencentcloudenterprise_vpc_route_table":                         resourceTencentCloudVpcRouteTable(),
-			"tencentcloudenterprise_vpc_route_table_entry":                   resourceTencentCloudVpcRouteEntry(),
-			"tencentcloudenterprise_vpc_security_group":                      resourceTencentCloudSecurityGroup(),
-			"tencentcloudenterprise_vpc_security_group_lite_rule":            resourceTencentCloudSecurityGroupLiteRule(),
-			"tencentcloudenterprise_vpc_security_group_rule":                 resourceTencentCloudSecurityGroupRule(),
-			"tencentcloudenterprise_vpc_security_group_rule_set":             resourceTencentCloudSecurityGroupRuleSet(),
-			"tencentcloudenterprise_vpc_subnet":                              resourceTencentCloudVpcSubnet(),
-			"tencentcloudenterprise_vpcdns_domain":                           resourceTencentCloudVpcDnsDomain(),
-			"tencentcloudenterprise_vpcdns_forward_rule":                     resourceTencentCloudVpcDnsForwardRule(),
-			"tencentcloudenterprise_vpcdns_record":                           resourceTencentCloudVpcDnsRecord(),
-			"tencentcloudenterprise_cwp_license_order":                       ResourceTencentCloudCwpLicenseOrder(),
-			"tencentcloudenterprise_cwp_license_bind_attachment":             ResourceTencentCloudCwpLicenseBindAttachment(),
+			// 2025-04-27下线"tencentcloudenterprise_vpc_bandwidth_package":            resourceTencentCloudVpcBandwidthPackage(),
+			// 2025-04-27下线"tencentcloudenterprise_vpc_bandwidth_package_attachment": resourceTencentCloudVpcBandwidthPackageAttachment(),
+			//"tencentcloudenterprise_vpc_ccn":                               resourceTencentCloudCcn(),
+			//"tencentcloudenterprise_vpc_ccn_bandwidth_limit":               resourceTencentCloudCcnBandwidthLimit(),
+			//"tencentcloudenterprise_vpc_ccn_instances_accept_attach":       resourceTencentCloudCcnInstancesAcceptAttach(),
+			//"tencentcloudenterprise_vpc_ccn_instances_reset_attach":        resourceTencentCloudCcnInstancesResetAttach(),
+			//"tencentcloudenterprise_vpc_ccn_routes":                        resourceTencentCloudCcnRoutes(),
+			"tencentcloudenterprise_vpc_classic_link_attachment":                        resourceTencentCloudVpcClassicLinkAttachment(),
+			"tencentcloudenterprise_vpc_dc_gateway":                                     resourceTencentCloudDcGatewayInstance(),
+			"tencentcloudenterprise_vpc_local_ip_translation_nat_rule":                  resourceTencentCloudVpcLocalIpTranslationNatRule(),
+			"tencentcloudenterprise_vpc_local_ip_translation_acl_rule":                  resourceTencentCloudVpcLocalIpTranslationAclRule(),
+			"tencentcloudenterprise_vpc_local_source_ip_port_translation_nat_rule":      resourceTencentCloudVpcLocalSourceIpPortTranslationNatRule(),
+			"tencentcloudenterprise_vpc_local_source_ip_port_translation_acl_rule":      resourceTencentCloudVpcLocalSourceIpPortTranslationAclRule(),
+			"tencentcloudenterprise_vpc_local_destination_ip_port_translation_nat_rule": resourceTencentCloudVpcLocalDestinationIpPortTranslationNatRule(),
+			"tencentcloudenterprise_vpc_peer_ip_translation_nat_rule":                   resourceTencentCloudVpcPeerIpTranslationNatRule(),
+			//"tencentcloudenterprise_vpc_dhcp_associate_address":                     resourceTencentCloudVpcDhcpAssociateAddress(),
+			//"tencentcloudenterprise_vpc_dhcp_ip":                                    resourceTencentCloudVpcDhcpIp(),
+			"tencentcloudenterprise_vpc_peer_connect_manager":         resourceTencentCloudVpcPeerConnectManager(),
+			"tencentcloudenterprise_vpc_peer_connect_ex_manager":      resourceTencentCloudVpcPeerConnectExManager(),
+			"tencentcloudenterprise_vpc_dnat":                         resourceTencentCloudDnat(),
+			"tencentcloudenterprise_vpc_end_point":                    resourceTencentCloudVpcEndPoint(),
+			"tencentcloudenterprise_vpc_end_point_service":            resourceTencentCloudVpcEndPointService(),
+			"tencentcloudenterprise_vpc_end_point_service_white_list": resourceTencentCloudVpcEndPointServiceWhiteList(),
+			"tencentcloudenterprise_vpc_enable_end_point_connect":     resourceTencentCloudVpcEnableEndPointConnect(),
+			"tencentcloudenterprise_vpc_eni":                          resourceTencentCloudEni(),
+			"tencentcloudenterprise_vpc_eni_attachment":               resourceTencentCloudEniAttachment(),
+			"tencentcloudenterprise_vpc_eni_sg_attachment":            resourceTencentCloudEniSgAttachment(),
+			// "tencentcloudenterprise_vpc_flow_log":                     resourceTencentCloudVpcFlowLog(),
+			//"tencentcloudenterprise_vpc_flow_log_config":                            resourceTencentCloudVpcFlowLogConfig(),
+			"tencentcloudenterprise_vpc_ha_vip":                 resourceTencentCloudHaVip(),
+			"tencentcloudenterprise_vpc_ha_vip_eip_attachment":  resourceTencentCloudHaVipEipAttachment(),
+			"tencentcloudenterprise_vpc_ipv6_address_bandwidth": resourceTencentCloudIpv6AddressBandwidth(),
+			"tencentcloudenterprise_vpc_ipv6_cidr_block":        resourceTencentCloudVpcIpv6CidrBlock(),
+			"tencentcloudenterprise_vpc_ipv6_eni_address":       resourceTencentCloudVpcIpv6EniAddress(),
+			"tencentcloudenterprise_vpc_ipv6_subnet_cidr_block": resourceTencentCloudVpcIpv6SubnetCidrBlock(),
+			//"tencentcloudenterprise_vpc_local_gateway":                              resourceTencentCloudVpcLocalGateway(),
+			"tencentcloudenterprise_vpc_nat_gateway":              resourceTencentCloudNatGateway(),
+			"tencentcloudenterprise_vpc_nat_gateway_flow_monitor": resourceTencentCloudVpcNatGatewayFlowMonitor(),
+			"tencentcloudenterprise_vpc_nat_gateway_snat":         resourceTencentCloudVpcNatGatewaySnat(),
+			"tencentcloudenterprise_vpc_net_detect":               resourceTencentCloudVpcNetDetect(),
+
+			"tencentcloudenterprise_ngwaf_anti_fake":               resourceTencentCloudNgwafAntiFake(),
+			"tencentcloudenterprise_ngwaf_anti_info_leak":          resourceTencentCloudNgwafAntiInfoLeak(),
+			"tencentcloudenterprise_ngwaf_attack_white_rule":       resourceTencentCloudNgwafAttackWhiteRule(),
+			"tencentcloudenterprise_ngwaf_bot_scene_status_config": resourceTencentCloudNgwafBotSceneStatusConfig(),
+			"tencentcloudenterprise_ngwaf_bot_resource":            resourceTencentCloudNgwafBotResource(),
+			"tencentcloudenterprise_ngwaf_instance":                resourceTencentCloudNgwafInstance(),
+			"tencentcloudenterprise_ngwaf_log_post_cls_flow":       resourceTencentCloudNgwafLogPostClsFlow(),
+			"tencentcloudenterprise_ngwaf_clb_domain":              resourceTencentCloudNgwafClbDomain(),
+			"tencentcloudenterprise_ngwaf_module_status":           resourceTencentCloudNgwafModuleStatus(),
+			"tencentcloudenterprise_ngwaf_auto_deny_rules":         resourceTencentCloudNgwafAutoDenyRules(),
+			"tencentcloudenterprise_ngwaf_web_shell":               resourceTencentCloudNgwafWebShell(),
+			"tencentcloudenterprise_ngwaf_custom_rule":             resourceTencentCloudNgwafCustomRule(),
+			"tencentcloudenterprise_ngwaf_cc":                      resourceTencentCloudNgwafCc(),
+			"tencentcloudenterprise_ngwaf_cc_session":              resourceTencentCloudNgwafCcSession(),
+			"tencentcloudenterprise_ngwaf_bot_status_config":       resourceTencentCloudNgwafBotStatusConfig(),
+			"tencentcloudenterprise_ngwaf_ip_access_control":       resourceTencentCloudNgwafIpAccessControl(),
+			"tencentcloudenterprise_ngwaf_custom_white_rule":       resourceTencentCloudNgwafCustomWhiteRule(),
+			"tencentcloudenterprise_ngwaf_saas_domain":             resourceTencentCloudNgwafSaasDomain(),
+			//"tencentcloudenterprise_vpc_network_acl_quintuple":                      resourceTencentCloudVpcNetworkAclQuintuple(),
+			//"tencentcloudenterprise_vpc_notify_routes":                              resourceTencentCloudVpcNotifyRoutes(),
+			//"tencentcloudenterprise_vpc_resume_snapshot_instance":                   resourceTencentCloudVpcResumeSnapshotInstance(),
+			//"tencentcloudenterprise_vpc_route_entry":              resourceTencentCloudRouteEntry(),
+			"tencentcloudenterprise_vpc_route_table":              resourceTencentCloudVpcRouteTable(),
+			"tencentcloudenterprise_vpc_route_table_entry":        resourceTencentCloudVpcRouteEntry(),
+			"tencentcloudenterprise_vpc_security_group":           resourceTencentCloudSecurityGroup(),
+			"tencentcloudenterprise_vpc_security_group_lite_rule": resourceTencentCloudSecurityGroupLiteRule(),
+			"tencentcloudenterprise_vpc_security_group_rule":      resourceTencentCloudSecurityGroupRule(),
+			"tencentcloudenterprise_vpc_security_group_rule_set":  resourceTencentCloudSecurityGroupRuleSet(),
+			//"tencentcloudenterprise_vpc_snapshot_policy":                            resourceTencentCloudVpcSnapshotPolicy(),
+			//"tencentcloudenterprise_vpc_snapshot_policy_attachment":                 resourceTencentCloudVpcSnapshotPolicyAttachment(),
+			//"tencentcloudenterprise_vpc_snapshot_policy_config":                     resourceTencentCloudVpcSnapshotPolicyConfig(),
+			"tencentcloudenterprise_vpc_subnet": resourceTencentCloudVpcSubnet(),
+			//"tencentcloudenterprise_vpc_traffic_package":                            resourceTencentCloudVpcTrafficPackage(),
+			"tencentcloudenterprise_vpcdns_domain":       resourceTencentCloudVpcDnsDomain(),
+			"tencentcloudenterprise_vpcdns_forward_rule": resourceTencentCloudVpcDnsForwardRule(),
+			"tencentcloudenterprise_vpcdns_record":       resourceTencentCloudVpcDnsRecord(),
+
+			"tencentcloudenterprise_cwp_license_order":           resourceTencentCloudCwpLicenseOrder(),
+			"tencentcloudenterprise_cwp_license_bind_attachment": resourceTencentCloudCwpLicenseBindAttachment(),
+
+			//"tencentcloudenterprise_vpn_gateway_route":                              resourceTencentCloudVpnGatewayRoute(),
+			//"tencentcloudenterprise_vpn_gateway_ssl_client_cert":                    resourceTencentCloudVpnGatewaySslClientCert(),
+			//"tencentcloudenterprise_vpn_ssl_client":                                 resourceTencentCloudVpnSslClient(),
+			//"tencentcloudenterprise_vpn_ssl_server":                                 resourceTencentCloudVpnSslServer(),
+
 		},
 
 		ConfigureContextFunc: providerConfigure,

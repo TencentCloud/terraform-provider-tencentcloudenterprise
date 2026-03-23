@@ -1,36 +1,34 @@
 /*
 Provides a resource to create a tsf contain_group
 
-# Example Usage
+Example Usage
 
 ```hcl
+resource "tencentcloudenterprise_tsf_contain_group" "contain_group" {
+    access_type           = 0
+    application_id        = "application-y5r4nejv"
+    cluster_id            = "cls-2yu5kxr8"
+    cpu_limit             = "0.5"
+    cpu_request           = "0.25"
+    group_name            = "terraform-test"
+    group_resource_type   = "DEF"
+    instance_num          = 1
+    mem_limit             = "1280"
+    mem_request           = "640"
+    namespace_id          = "namespace-ydlezgxa"
+    update_ivl            = 10
+    update_type           = 1
 
-	resource "tencentcloudenterprise_tsf_contain_group" "contain_group" {
-	    access_type           = 0
-	    application_id        = "application-y5r4nejv"
-	    cluster_id            = "cls-2yu5kxr8"
-	    cpu_limit             = "0.5"
-	    cpu_request           = "0.25"
-	    group_name            = "terraform-test"
-	    group_resource_type   = "DEF"
-	    instance_num          = 1
-	    mem_limit             = "1280"
-	    mem_request           = "640"
-	    namespace_id          = "namespace-ydlezgxa"
-	    update_ivl            = 10
-	    update_type           = 1
-
-	    protocol_ports {
-	        node_port   = 0
-	        port        = 333
-	        protocol    = "TCP"
-	        target_port = 333
-	    }
-	}
-
+    protocol_ports {
+        node_port   = 0
+        port        = 333
+        protocol    = "TCP"
+        target_port = 333
+    }
+}
 ```
 
-# Import
+Import
 
 tsf contain_group can be imported using the id, e.g.
 
@@ -45,10 +43,10 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	tsf "terraform-provider-tencentcloudenterprise/sdk/tsf/v20180326"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func resourceTencentCloudTsfContainGroup() *schema.Resource {

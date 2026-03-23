@@ -33,7 +33,7 @@ resource "tencentcloudenterprise_dc_instance" "dc" {
 
 # DC Dedicated Connection (DCX)
 resource "tencentcloudenterprise_dc_dcx" "dcx" {
-  dc_id            = cloud_dc_instance.dc.id
+  dc_id            = tencentcloudenterprise_dc_instance.dc.id
   dcx_name         = "example-dcx"
   network_type     = "VPC"
   network_region   = "ap-guangzhou"

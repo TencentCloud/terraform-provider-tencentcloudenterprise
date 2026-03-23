@@ -1,73 +1,71 @@
 /*
 Provides a resource to create a cls config extra
 
-# Example Usage
+Example Usage
 
 ```hcl
+resource "tencentcloudenterprise_cls_logset" "logset" {
+  logset_name = "tf-config-extra-test"
+  tags        = {
+    "test" = "test"
+  }
+}
 
-	resource "tencentcloudenterprise_cls_logset" "logset" {
-	  logset_name = "tf-config-extra-test"
-	  tags        = {
-	    "test" = "test"
-	  }
-	}
+resource "tencentcloudenterprise_cls_topic" "topic" {
+  auto_split           = true
+  logset_id            = tencentcloudenterprise_cls_logset.logset.id
+  max_split_partitions = 20
+  partition_count      = 1
+  period               = 10
+  storage_type         = "hot"
+  tags                 = {
+    "test" = "test"
+  }
+  topic_name = "tf-config-extra-test"
+}
 
-	resource "tencentcloudenterprise_cls_topic" "topic" {
-	  auto_split           = true
-	  logset_id            = tencentcloudenterprise_cls_logset.logset.id
-	  max_split_partitions = 20
-	  partition_count      = 1
-	  period               = 10
-	  storage_type         = "hot"
-	  tags                 = {
-	    "test" = "test"
-	  }
-	  topic_name = "tf-config-extra-test"
-	}
+resource "tencentcloudenterprise_cls_machine_group" "group" {
+  group_name        = "tf-config-extra-test"
+  service_logging   = true
+  auto_update       = true
+  update_end_time   = "19:05:00"
+  update_start_time = "17:05:00"
 
-	resource "tencentcloudenterprise_cls_machine_group" "group" {
-	  group_name        = "tf-config-extra-test"
-	  service_logging   = true
-	  auto_update       = true
-	  update_end_time   = "19:05:00"
-	  update_start_time = "17:05:00"
+  machine_group_type {
+    type   = "ip"
+    values = [
+      "192.168.1.1",
+      "192.168.1.2",
+    ]
+  }
+}
 
-	  machine_group_type {
-	    type   = "ip"
-	    values = [
-	      "203.0.113.101",
-	      "203.0.113.102",
-	    ]
-	  }
-	}
-
-	resource "tencentcloudenterprise_cls_config_extra" "extra" {
-	  name        = "helloworld-test"
-	  topic_id    = tencentcloudenterprise_cls_topic.topic.id
-	  type        = "container_file"
-	  log_type    = "json_log"
-	  config_flag = "label_k8s"
-	  logset_id   = tencentcloudenterprise_cls_logset.logset.id
-	  logset_name = tencentcloudenterprise_cls_logset.logset.logset_name
-	  topic_name  = tencentcloudenterprise_cls_topic.topic.topic_name
-	  container_file {
-	    container    = "nginx"
-	    file_pattern = "log"
-	    log_path     = "/nginx"
-	    namespace    = "default"
-	    workload {
-	      container = "nginx"
-	      kind      = "deployment"
-	      name      = "nginx"
-	      namespace = "default"
-	    }
-	  }
-	  group_id = tencentcloudenterprise_cls_machine_group.group.id
-	}
-
+resource "tencentcloudenterprise_cls_config_extra" "extra" {
+  name        = "helloworld-test"
+  topic_id    = tencentcloudenterprise_cls_topic.topic.id
+  type        = "container_file"
+  log_type    = "json_log"
+  config_flag = "label_k8s"
+  logset_id   = tencentcloudenterprise_cls_logset.logset.id
+  logset_name = tencentcloudenterprise_cls_logset.logset.logset_name
+  topic_name  = tencentcloudenterprise_cls_topic.topic.topic_name
+  container_file {
+    container    = "nginx"
+    file_pattern = "log"
+    log_path     = "/nginx"
+    namespace    = "default"
+    workload {
+      container = "nginx"
+      kind      = "deployment"
+      name      = "nginx"
+      namespace = "default"
+    }
+  }
+  group_id = tencentcloudenterprise_cls_machine_group.group.id
+}
 ```
 
-# Import
+Import
 
 cls config_extra can be imported using the id, e.g.
 
@@ -82,10 +80,10 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	cls "terraform-provider-tencentcloudenterprise/sdk/cls/v20201016"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func init() {
@@ -93,17 +91,17 @@ func init() {
 		TerraformTypeCN: "CLS特殊采集配置",
 		DescriptionCN:   "提供CLS特殊采集配置资源，用于创建和管理日志服务特殊采集配置。",
 		AttributesCN: map[string]string{
-			"name":             "采集配置名称",
-			"topic_id":         "日志主题ID",
-			"type":             "采集类型",
-			"log_type":         "日志类型",
-			"config_flag":      "配置标识",
-			"logset_id":        "日志集ID",
-			"logset_name":      "日志集名称",
-			"topic_name":       "日志主题名称",
-			"container_file":   "容器文件配置",
+			"name":           "采集配置名称",
+			"topic_id":       "日志主题ID",
+			"type":           "采集类型",
+			"log_type":       "日志类型",
+			"config_flag":    "配置标识",
+			"logset_id":      "日志集ID",
+			"logset_name":    "日志集名称",
+			"topic_name":     "日志主题名称",
+			"container_file": "容器文件配置",
 			"container_stdout": "容器标准输出配置",
-			"host_file":        "主机文件配置",
+			"host_file":      "主机文件配置",
 		},
 	})
 }

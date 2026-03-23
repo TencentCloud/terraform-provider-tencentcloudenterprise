@@ -27,7 +27,7 @@ const testAccClbListenersByTargetsDataSource = `
 data "tencentcloudenterprise_clb_listeners_by_targets" "listeners_by_targets" {
   backends {
     vpc_id     = "vpc-4owdpnwr"
-    private_ip = "203.0.113.10"
+    private_ip = "106.52.160.211"
   }
 }
 `

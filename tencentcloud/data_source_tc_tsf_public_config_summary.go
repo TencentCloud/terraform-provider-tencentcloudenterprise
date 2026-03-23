@@ -1,11 +1,10 @@
 /*
 Use this data source to query detailed information of tsf public_config_summary
 
-# Example Usage
-
+Example Usage
 ```hcl
 
-	data "tencentcloudenterprise_tsf_describe_public_config_summary" "describe_public_config_summary" {
+	data "tencentcloudenterprise_tsf_public_config_summary" "public_config_summary" {
 	  search_word = "test"
 	  order_by = "last_update_time"
 	  order_type = 0
@@ -23,6 +22,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+
 	tsf "terraform-provider-tencentcloudenterprise/sdk/tsf/v20180326"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
 )

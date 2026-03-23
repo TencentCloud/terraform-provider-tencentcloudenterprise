@@ -16,10 +16,10 @@ package tencentcloud
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	clb "terraform-provider-tencentcloudenterprise/sdk/clb/v20180317"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func init() {
@@ -107,7 +107,7 @@ func dataSourceTencentCloudClbInstanceDetail() *schema.Resource {
 			"filters": {
 				Optional:    true,
 				Type:        schema.TypeList,
-				Description: "Filter condition of querying lists describing CLB instance details:loadbalancer-id - String - Required: no - (Filter condition) CLB instance ID, such as lb-12345678; project-id - String - Required: no - (Filter condition) Project ID, such as 0 and 123; network - String - Required: no - (Filter condition) Network type of the CLB instance, such as Public and Private.&amp;lt;/li&amp;gt;&amp;lt;li&amp;gt; vip - String - Required: no - (Filter condition) CLB instance VIP, such as 1.1.1.1 and 2204::22:3; target-ip - String - Required: no - (Filter condition) Private IP of the target real servers, such as1.1.1.1 and 2203::214:4; vpcid - String - Required: no - (Filter condition) Identifier of the VPC instance to which the CLB instance belongs, such as vpc-12345678; zone - String - Required: no - (Filter condition) Availability zone where the CLB instance resides, such as ap-guangzhou-1; tag-key - String - Required: no - (Filter condition) Tag key of the CLB instance, such as name; tag:* - String - Required: no - (Filter condition) CLB instance tag, followed by tag key after the colon. For example, use {Name: tag:name,Values: [zhangsan, lisi]} to filter the tag key `name` with the tag value `zhangsan` and `lisi`; fuzzy-search - String - Required: no - (Filter condition) Fuzzy search for CLB instance VIP and CLB instance name, such as 1.",
+				Description: "Filter condition of querying lists describing CLB instance details:loadbalancer-id - String - Required: no - (Filter condition) CLB instance ID, such as lb-12345678; project-id - String - Required: no - (Filter condition) Project ID, such as 0 and 123; network - String - Required: no - (Filter condition) Network type of the CLB instance, such as Public and Private.&amp;lt;/li&amp;gt;&amp;lt;li&amp;gt; vip - String - Required: no - (Filter condition) CLB instance VIP, such as 1.1.1.1 and 2204::22:3; target-ip - String - Required: no - (Filter condition) Private IP of the target real servers, such as1.1.1.1 and 2203::214:4; vpcid - String - Required: no - (Filter condition) Identifier of the VPC instance to which the CLB instance belongs, such as vpc-12345678; zone - String - Required: no - (Filter condition) Availability zone where the CLB instance resides, such as ap-region-1; tag-key - String - Required: no - (Filter condition) Tag key of the CLB instance, such as name; tag:* - String - Required: no - (Filter condition) CLB instance tag, followed by tag key after the colon. For example, use {Name: tag:name,Values: [zhangsan, lisi]} to filter the tag key `name` with the tag value `zhangsan` and `lisi`; fuzzy-search - String - Required: no - (Filter condition) Fuzzy search for CLB instance VIP and CLB instance name, such as 1.",
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						"name": {

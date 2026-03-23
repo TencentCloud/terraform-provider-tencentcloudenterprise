@@ -22,7 +22,7 @@ const OpenClbName = "tf-clb-open"
 const OpenClbNameUpdate = "tf-clb-update-open"
 
 func init() {
-	// go test -v ./tencentcloud -sweep=ap-guangzhou -sweep-run=cloud_clb_instance
+	// go test -v ./tencentcloud -sweep=ap-guangzhou -sweep-run=tencentcloudenterprise_clb_instance
 	resource.AddTestSweepers("tencentcloudenterprise_clb_instance", &resource.Sweeper{
 		Name: "tencentcloudenterprise_clb_instance",
 		F:    testSweepClbInstance,

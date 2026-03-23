@@ -1,15 +1,13 @@
 /*
 Provides a resource to create a replica_readonly
 
-# Example Usage
+Example Usage
 
 ```hcl
-
-	resource "tencentcloudenterprise_redis_replica_readonly" "replica_readonly" {
-	  instance_id = "crs-c1nl9rpv"
-	  operate = "enable"
-	}
-
+resource "tencentcloudenterprise_redis_replica_readonly" "replica_readonly" {
+  instance_id = "crs-c1nl9rpv"
+  operate = "enable"
+}
 ```
 */
 package tencentcloud
@@ -17,12 +15,12 @@ package tencentcloud
 import (
 	"context"
 	"fmt"
-	"log"
 	sdkErrors "terraform-provider-tencentcloudenterprise/sdk/common/errors"
+	"log"
 
+	redis "terraform-provider-tencentcloudenterprise/sdk/redis/v20180412"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	redis "terraform-provider-tencentcloudenterprise/sdk/redis/v20180412"
 )
 
 func init() {

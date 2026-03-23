@@ -1,22 +1,21 @@
 /*
 Provides a resource to create a tsf cluster
 
-# Example Usage
+Example Usage
 
 ```hcl
-
-	resource "tencentcloudenterprise_tsf_cluster" "cluster" {
-		cluster_name = "terraform-test"
-		cluster_type = "V"
-		vpc_id = "vpc-2l7uk2q1"
-		cluster_desc = "test"
-		tsf_region_id = "chongqing"
-		tags = {
-		  "createdBy" = "terraform"
-		}
+resource "tencentcloudenterprise_tsf_cluster" "cluster" {
+	cluster_name = "terraform-test"
+	cluster_type = "V"
+	vpc_id = "vpc-2l7uk2q1"
+	cluster_desc = "test"
+	tsf_region_id = "chongqing"
+	tags = {
+	  "createdBy" = "terraform"
 	}
-
+}
 ```
+
 */
 package tencentcloud
 
@@ -26,54 +25,54 @@ import (
 	"log"
 	"time"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	tsf "terraform-provider-tencentcloudenterprise/sdk/tsf/v20180326"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func init() {
 	registerResourceDescriptionProvider("tencentcloudenterprise_tsf_cluster", CNDescription{
 		TerraformTypeCN: "tsf集群",
 		DescriptionCN:   "提供TSF集群资源，用于创建和管理TSF集群。",
-		AttributesCN: map[string]string{
-			"cluster_id":                 "集群ID",
-			"cluster_name":               "集群名称",
-			"cluster_type":               "集群类型",
-			"vpc_id":                     "VPC ID",
-			"cluster_cidr":               "集群CIDR",
-			"cluster_desc":               "集群描述",
-			"tsf_region_id":              "TSF地域ID",
-			"tsf_zone_id":                "TSF可用区ID",
-			"subnet_id":                  "子网ID",
-			"cluster_version":            "集群版本",
-			"max_node_pod_num":           "每个节点上的Pod的最大数量",
-			"max_cluster_service_num":    "集群中服务的最大数量",
-			"program_id":                 "绑定的数据集ID",
-			"cluster_status":             "集群状态",
-			"cluster_total_cpu":          "集群总CPU",
-			"cluster_total_mem":          "集群总内存",
-			"cluster_used_cpu":           "集群使用的CPU",
-			"cluster_used_mem":           "集群使用的内存",
-			"instance_count":             "集群机器实例数",
-			"run_instance_count":         "集群中运行的机器实例数",
-			"normal_instance_count":      "集群中正常状态的机器实例数",
-			"delete_flag":                "删除标记",
-			"create_time":                "创建时间",
-			"update_time":                "更新时间",
-			"tsf_region_name":            "集群所属TSF地域名称",
-			"tsf_zone_name":              "集群所属TSF可用区名称",
-			"delete_flag_reason":         "集群无法删除的原因",
-			"cluster_limit_cpu":          "集群剩余CPU限制",
-			"cluster_limit_mem":          "集群剩余内存限制",
+		AttributesCN:    map[string]string{
+			"cluster_id":              "集群ID",
+			"cluster_name":            "集群名称",
+			"cluster_type":            "集群类型",
+			"vpc_id":                 "VPC ID",
+			"cluster_cidr":            "集群CIDR",
+			"cluster_desc":            "集群描述",
+			"tsf_region_id":           "TSF地域ID",
+			"tsf_zone_id":             "TSF可用区ID",
+			"subnet_id":               "子网ID",
+			"cluster_version":         "集群版本",
+			"max_node_pod_num":        "每个节点上的Pod的最大数量",
+			"max_cluster_service_num": "集群中服务的最大数量",
+			"program_id":              "绑定的数据集ID",
+			"cluster_status":          "集群状态",
+			"cluster_total_cpu":       "集群总CPU",
+			"cluster_total_mem":       "集群总内存",
+			"cluster_used_cpu":        "集群使用的CPU",
+			"cluster_used_mem":        "集群使用的内存",
+			"instance_count":          "集群机器实例数",
+			"run_instance_count":      "集群中运行的机器实例数",
+			"normal_instance_count":   "集群中正常状态的机器实例数",
+			"delete_flag":             "删除标记",
+			"create_time":             "创建时间",
+			"update_time":             "更新时间",
+			"tsf_region_name":         "集群所属TSF地域名称",
+			"tsf_zone_name":           "集群所属TSF可用区名称",
+			"delete_flag_reason":      "集群无法删除的原因",
+			"cluster_limit_cpu":       "集群剩余CPU限制",
+			"cluster_limit_mem":       "集群剩余内存限制",
 			"run_service_instance_count": "运行服务实例数",
-			"operation_info":             "前端按钮控制信息",
-			"group_count":                "部署组总数",
-			"run_group_count":            "运行中的部署组数",
-			"stop_group_count":           "停止的部署组数",
-			"abnormal_group_count":       "异常的部署组数",
-			"cluster_remark_name":        "集群备注名",
-			"tags":                       "标签描述列表",
+			"operation_info": "前端按钮控制信息",
+			"group_count": "部署组总数",
+			"run_group_count": "运行中的部署组数",
+			"stop_group_count": "停止的部署组数",
+			"abnormal_group_count": "异常的部署组数",
+			"cluster_remark_name": "集群备注名",
+			"tags": "标签描述列表",
 		},
 	})
 }

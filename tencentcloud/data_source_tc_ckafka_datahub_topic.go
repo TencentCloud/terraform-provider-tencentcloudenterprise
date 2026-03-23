@@ -1,13 +1,13 @@
-// /*
-// Use this data source to query detailed information of ckafka datahub_topic
+///*
+//Use this data source to query detailed information of ckafka datahub_topic
 //
-// # Example Usage
+//Example Usage
 //
-// ```hcl
-// data "tencentcloudenterprise_ckafka_datahub_topic" "datahub_topic" {
-// }
-// ```
-// */
+//```hcl
+//data "tencentcloudenterprise_ckafka_datahub_topic" "datahub_topic" {
+//}
+//```
+//*/
 package tencentcloud
 
 //

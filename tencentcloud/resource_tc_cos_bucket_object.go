@@ -108,7 +108,7 @@ func resourceTencentCloudCosBucketObject() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 				// 同步cos bucket acl
-				Default: COS_BUCKET_OBJECT_ACL,
+				Default:  COS_BUCKET_OBJECT_ACL,
 				ValidateFunc: validateAllowedStringValue([]string{
 					COS_BUCKET_OBJECT_ACL,
 					s3.ObjectCannedACLPrivate,

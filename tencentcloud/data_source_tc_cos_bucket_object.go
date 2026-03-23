@@ -1,7 +1,7 @@
 /*
 Use this data source to query the metadata of an object stored inside a bucket.
 
-# Example Usage
+Example Usage
 
 ```hcl
 
@@ -17,11 +17,11 @@ package tencentcloud
 
 import (
 	"context"
+	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/tencentyun/cos-go-sdk-v5"
 	"log"
-	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
 )
 
 func init() {
@@ -53,7 +53,7 @@ func init() {
 }
 
 // dataSourceTencentCloudCosBucketObject defines the schema for the data source
-// cloud_cos_bucket_object get bucket object
+// tencentcloudenterprise_cos_bucket_object get bucket object
 func dataSourceTencentCloudCosBucketObject() *schema.Resource {
 	return &schema.Resource{
 		Description:        "Use this data source to query the metadata of an object stored inside a bucket.",

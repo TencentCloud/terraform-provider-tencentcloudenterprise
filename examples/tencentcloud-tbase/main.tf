@@ -48,7 +48,7 @@ resource "tencentcloudenterprise_tbase_pg_instance" "pg_instance" {
 
 # Tbase PG Instance VIP
 resource "tencentcloudenterprise_tbase_pg_instance_vip" "vip" {
-  instance_id = cloud_tbase_pg_instance.pg_instance.id
+  instance_id = tencentcloudenterprise_tbase_pg_instance.pg_instance.id
   vip         = "10.0.1.100"
   subnet_id   = "subnet-xxxxx"
 }

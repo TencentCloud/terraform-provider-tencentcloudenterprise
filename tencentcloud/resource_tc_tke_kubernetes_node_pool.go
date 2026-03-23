@@ -1,7 +1,7 @@
 /*
 Provide a resource to create an auto scaling group for kubernetes cluster.
 
-~> **NOTE:**  We recommend the usage of one cluster with essential worker config + node pool to manage cluster and nodes. Its a more flexible way than manage worker config with cloud_tke_kubernetes_cluster, cloud_tke_kubernetes_scale_worker or exist node management of `cloud_kubernetes_attachment`. Cause some unchangeable parameters of `worker_config` may cause the whole cluster resource `force new`.
+~> **NOTE:**  We recommend the usage of one cluster with essential worker config + node pool to manage cluster and nodes. Its a more flexible way than manage worker config with tencentcloudenterprise_tke_kubernetes_cluster, tencentcloudenterprise_tke_kubernetes_scale_worker or exist node management of `tencentcloudenterprise_kubernetes_attachment`. Cause some unchangeable parameters of `worker_config` may cause the whole cluster resource `force new`.
 
 ~> **NOTE:**  In order to ensure the integrity of customer data, if you destroy nodepool instance, it will keep the cvm instance associate with nodepool by default. If you want to destroy together, please set `delete_keep_instance` to `false`.
 
@@ -153,14 +153,14 @@ package tencentcloud
 import (
 	"context"
 	"fmt"
-	"strings"
 	sdkErrors "terraform-provider-tencentcloudenterprise/sdk/common/errors"
+	"strings"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	as "terraform-provider-tencentcloudenterprise/sdk/as/v20180419"
 	tke "terraform-provider-tencentcloudenterprise/sdk/tke/v20180525"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func init() {
@@ -184,6 +184,10 @@ func init() {
 			"taints":                   "污点",
 			"delete_keep_instance":     "删除节点池时是否保留节点",
 			"delete_with_instance":     "缩容时是否删除节点",
+			"deletion_protection":      "删除保护开关",
+			"annotations":              "节点注解列表",
+			"container_runtime":        "容器运行时类型",
+			"runtime_version":          "容器运行时版本",
 		},
 	})
 }
@@ -549,11 +553,44 @@ func resourceTencentCloudKubernetesNodePool() *schema.Resource {
 				Default:     true,
 				Description: "Indicate to keep the CVM instance when delete the node pool. Default is `true`.",
 			},
-			//"deletion_protection": {
-			//	Type:        schema.TypeBool,
-			//	Optional:    true,
-			//	Description: "Indicates whether the node pool deletion protection is enabled.",
-			//},
+			"deletion_protection": {
+				Type:        schema.TypeBool,
+				Optional:    true,
+				Computed:    true,
+				Description: "Indicates whether the node pool deletion protection is enabled.",
+			},
+			"annotations": {
+				Type:        schema.TypeSet,
+				Optional:    true,
+				Computed:    true,
+				Description: "Node Annotation List.",
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						"name": {
+							Type:        schema.TypeString,
+							Required:    true,
+							Description: "Name in the map table.",
+						},
+						"value": {
+							Type:        schema.TypeString,
+							Required:    true,
+							Description: "Value in the map table.",
+						},
+					},
+				},
+			},
+			"container_runtime": {
+				Type:        schema.TypeString,
+				Optional:    true,
+				ForceNew:    true,
+				Description: "Runtime type of the node pool. The default value is `containerd`. Valid values are `containerd` and `docker`.",
+			},
+			"runtime_version": {
+				Type:        schema.TypeString,
+				Optional:    true,
+				ForceNew:    true,
+				Description: "Runtime version of the node pool. If not specified, the default value will be used.",
+			},
 			"node_os": {
 				Type:        schema.TypeString,
 				Optional:    true,
@@ -1095,16 +1132,18 @@ func resourceKubernetesNodePoolRead(d *schema.ResourceData, meta interface{}) er
 
 	//Describe Node Pool
 	var (
-		nodePools []*tke.NodePoolSet
-		nodePool  *tke.NodePoolSet
+		nodePool *tke.NodePool
 	)
 
 	err = resource.Retry(readRetryTimeout, func() *resource.RetryError {
-		nodePools, has, err = service.DescribeNodePool(ctx, clusterId, nodePoolId)
+		nodePool, has, err = service.DescribeNodePool(ctx, clusterId, nodePoolId)
 		if err != nil {
 			return resource.NonRetryableError(err)
 		}
-		nodePool = nodePools[0]
+
+		if !has {
+			return nil
+		}
 
 		status := *nodePool.LifeState
 
@@ -1162,9 +1201,25 @@ func resourceKubernetesNodePoolRead(d *schema.ResourceData, meta interface{}) er
 	//	_ = d.Set("tags", tagMap)
 	//}
 
-	//if nodePool.DeletionProtection != nil {
-	//	_ = d.Set("deletion_protection", nodePool.DeletionProtection)
-	//}
+	if nodePool.DeletionProtection != nil {
+		_ = d.Set("deletion_protection", nodePool.DeletionProtection)
+	}
+
+	// set annotations
+	if nodePool.Annotations != nil {
+		annotationsList := make([]map[string]interface{}, 0, len(nodePool.Annotations))
+		for _, annotation := range nodePool.Annotations {
+			annotationMap := map[string]interface{}{}
+			if annotation.Name != nil {
+				annotationMap["name"] = annotation.Name
+			}
+			if annotation.Value != nil {
+				annotationMap["value"] = annotation.Value
+			}
+			annotationsList = append(annotationsList, annotationMap)
+		}
+		_ = d.Set("annotations", annotationsList)
+	}
 
 	//set composed struct
 	//lables := make(map[string]interface{}, len(nodePool.Labels))
@@ -1370,11 +1425,56 @@ func resourceKubernetesNodePoolCreate(d *schema.ResourceData, meta interface{}) 
 	nodeOs := d.Get("node_os").(string)
 	nodeOsType := d.Get("node_os_type").(string)
 
-	//deletionProtection := d.Get("deletion_protection").(bool)
+	// deletion protection
+	deletionProtection := false
+	if v, ok := d.GetOkExists("deletion_protection"); ok {
+		deletionProtection = v.(bool)
+	}
+
+	// annotations
+	var annotations []*tke.AnnotationValue
+	if v, ok := d.GetOk("annotations"); ok {
+		for _, item := range v.(*schema.Set).List() {
+			annotationsMap := item.(map[string]interface{})
+			annotationValue := tke.AnnotationValue{}
+			if v, ok := annotationsMap["name"]; ok {
+				annotationValue.Name = helper.String(v.(string))
+			}
+			if v, ok := annotationsMap["value"]; ok {
+				annotationValue.Value = helper.String(v.(string))
+			}
+			annotations = append(annotations, &annotationValue)
+		}
+	}
+
+	// container runtime
+	containerRuntime := ""
+	if v, ok := d.GetOk("container_runtime"); ok {
+		containerRuntime = v.(string)
+	}
+
+	// runtime version
+	runtimeVersion := ""
+	if v, ok := d.GetOk("runtime_version"); ok {
+		runtimeVersion = v.(string)
+	}
+
+	// tags
+	var tags []*tke.Tag
+	if v, ok := d.GetOk("tags"); ok {
+		for key, val := range v.(map[string]interface{}) {
+			k := key
+			v := val.(string)
+			tags = append(tags, &tke.Tag{
+				Key:   &k,
+				Value: &v,
+			})
+		}
+	}
 
 	service := TkeService{client: meta.(*TencentCloudClient).apiV3Conn}
 
-	nodePoolId, err := service.CreateClusterNodePool(ctx, clusterId, name, groupParaStr, configParaStr, enableAutoScale, nodeOs, nodeOsType, labels, taints, iAdvanced)
+	nodePoolId, err := service.CreateClusterNodePool(ctx, clusterId, name, groupParaStr, configParaStr, enableAutoScale, nodeOs, nodeOsType, labels, taints, iAdvanced, deletionProtection, annotations, containerRuntime, runtimeVersion, tags)
 	if err != nil {
 		return err
 	}
@@ -1382,36 +1482,21 @@ func resourceKubernetesNodePoolCreate(d *schema.ResourceData, meta interface{}) 
 	d.SetId(clusterId + FILED_SP + nodePoolId)
 
 	// wait for status ok
-	//err = resource.Retry(5*readRetryTimeout, func() *resource.RetryError {
-	//	nodePool, _, errRet := service.DescribeNodePool(ctx, clusterId, nodePoolId)
-	//	if errRet != nil {
-	//		return retryError(errRet, InternalError)
-	//	}
-	//	if nodePool != nil && *nodePool.LifeState == "normal" {
-	//		return nil
-	//	}
-	//	return resource.RetryableError(fmt.Errorf("node pool status is %s, retry...", *nodePool.LifeState))
-	//})
-	//if err != nil {
-	//	return err
-	//}
-	//
-	//instanceTypes := getNodePoolInstanceTypes(d)
-	//
-	//if len(instanceTypes) != 0 {
-	//	err := service.ModifyClusterNodePoolInstanceTypes(ctx, clusterId, nodePoolId, instanceTypes)
-	//	if err != nil {
-	//		return err
-	//	}
-	//}
-
-	//modify os, instanceTypes and image
-	err = resourceKubernetesNodePoolUpdate(d, meta)
+	err = resource.Retry(5*readRetryTimeout, func() *resource.RetryError {
+		nodePool, _, errRet := service.DescribeNodePool(ctx, clusterId, nodePoolId)
+		if errRet != nil {
+			return retryError(errRet, InternalError)
+		}
+		if nodePool != nil && *nodePool.LifeState == "normal" {
+			return nil
+		}
+		return resource.RetryableError(fmt.Errorf("node pool status is %s, retry...", *nodePool.LifeState))
+	})
 	if err != nil {
 		return err
 	}
 
-	return nil
+	return resourceKubernetesNodePoolRead(d, meta)
 }
 
 func resourceKubernetesNodePoolUpdate(d *schema.ResourceData, meta interface{}) error {
@@ -1485,7 +1570,8 @@ func resourceKubernetesNodePoolUpdate(d *schema.ResourceData, meta interface{}) 
 		"name",
 		"labels",
 		"taints",
-		//"deletion_protection",
+		"deletion_protection",
+		"annotations",
 		"enable_auto_scale",
 		"node_os_type",
 		"node_os",
@@ -1493,15 +1579,38 @@ func resourceKubernetesNodePoolUpdate(d *schema.ResourceData, meta interface{}) 
 		maxSize := int64(d.Get("max_size").(int))
 		minSize := int64(d.Get("min_size").(int))
 		enableAutoScale := d.Get("enable_auto_scale").(bool)
-		//deletionProtection := d.Get("deletion_protection").(bool)
 		name := d.Get("name").(string)
 		nodeOs := d.Get("node_os").(string)
 		nodeOsType := d.Get("node_os_type").(string)
 		labels := GetTkeLabels(d, "labels")
 		taints := GetTkeTaints(d, "taints")
 		tags := helper.GetTags(d, "tags")
+
+		// deletion protection
+		var deletionProtection *bool
+		if v, ok := d.GetOkExists("deletion_protection"); ok {
+			dp := v.(bool)
+			deletionProtection = &dp
+		}
+
+		// annotations
+		var annotations []*tke.AnnotationValue
+		if v, ok := d.GetOk("annotations"); ok {
+			for _, item := range v.(*schema.Set).List() {
+				annotationsMap := item.(map[string]interface{})
+				annotationValue := tke.AnnotationValue{}
+				if v, ok := annotationsMap["name"]; ok {
+					annotationValue.Name = helper.String(v.(string))
+				}
+				if v, ok := annotationsMap["value"]; ok {
+					annotationValue.Value = helper.String(v.(string))
+				}
+				annotations = append(annotations, &annotationValue)
+			}
+		}
+
 		err := resource.Retry(writeRetryTimeout, func() *resource.RetryError {
-			errRet := service.ModifyClusterNodePool(ctx, clusterId, nodePoolId, name, enableAutoScale, minSize, maxSize, nodeOs, nodeOsType, labels, taints, tags)
+			errRet := service.ModifyClusterNodePool(ctx, clusterId, nodePoolId, name, enableAutoScale, minSize, maxSize, nodeOs, nodeOsType, labels, taints, tags, deletionProtection, annotations)
 			if errRet != nil {
 				return retryError(errRet)
 			}
@@ -1656,15 +1765,20 @@ func resourceKubernetesNodePoolDelete(d *schema.ResourceData, meta interface{}) 
 	err = resource.Retry(5*readRetryTimeout, func() *resource.RetryError {
 		nodePool, has, errRet := service.DescribeNodePool(ctx, clusterId, nodePoolId)
 		if errRet != nil {
-			errCode := errRet.(*sdkErrors.CloudSDKError).Code
-			if errCode == "InternalError.UnexpectedInternal" {
-				return nil
+			if sdkErr, ok := errRet.(*sdkErrors.CloudSDKError); ok {
+				// NodePoolQueryFailed with "record not found" means the node pool is already deleted
+				if sdkErr.Code == "FailedOperation.NodePoolQueryFailed" && strings.Contains(sdkErr.Message, "record not found") {
+					return nil
+				}
+				if sdkErr.Code == "InternalError.UnexpectedInternal" {
+					return nil
+				}
 			}
 			return retryError(errRet, InternalError)
 		}
 		if has {
 			return resource.RetryableError(fmt.Errorf("node pool %s still alive, status %s",
-				nodePoolId, *nodePool[0].LifeState))
+				nodePoolId, *nodePool.LifeState))
 		}
 		return nil
 	})

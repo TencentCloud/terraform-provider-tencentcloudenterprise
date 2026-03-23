@@ -1,18 +1,16 @@
 /*
 Provides a resource to create a HA VIP EIP attachment.
 
-# Example Usage
+Example Usage
 
 ```hcl
-
-	resource "tencentcloudenterprise_vpc_ha_vip_eip_attachment" "foo" {
-	  havip_id   = "havip-kjqwe4ba"
-	  address_ip = "1.1.1.1"
-	}
-
+resource "tencentcloudenterprise_vpc_ha_vip_eip_attachment" "foo" {
+  havip_id   = "havip-kjqwe4ba"
+  address_ip = "1.1.1.1"
+}
 ```
 
-# Import
+Import
 
 HA VIP EIP attachment can be imported using the id, e.g.
 
@@ -28,11 +26,11 @@ import (
 	"log"
 	"strings"
 
+	vpc "terraform-provider-tencentcloudenterprise/sdk/vpc/v20170312"
+	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/pkg/errors"
-	vpc "terraform-provider-tencentcloudenterprise/sdk/vpc/v20170312"
-	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
 )
 
 func init() {

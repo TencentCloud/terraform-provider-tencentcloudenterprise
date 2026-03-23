@@ -94,6 +94,13 @@ lint:
 		-V008 \
 		./$(PKG_NAME)
 
+lint-provider:
+	@echo "==> Running provider-specific linter..."
+	@go run ./tools/check/main.go ./$(PKG_NAME)
+
+agent-check: fmt lint lint-provider
+	@echo "==> Agent self-check passed!"
+
 tools:
 	GO111MODULE=on go install github.com/bflad/tfproviderlint/cmd/tfproviderlint
 	GO111MODULE=on go install github.com/client9/misspell/cmd/misspell
@@ -172,4 +179,4 @@ endif
 changelog:
 	./scripts/generate-changelog.sh
 
-.PHONY: build sweep test testacc fmt fmtcheck lint tools test-compile doc hooks website website-lint website-test
+.PHONY: build sweep test testacc fmt fmtcheck lint lint-provider agent-check tools test-compile doc hooks website website-lint website-test

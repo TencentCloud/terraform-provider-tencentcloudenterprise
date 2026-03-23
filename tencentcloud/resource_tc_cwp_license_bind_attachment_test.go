@@ -10,8 +10,8 @@ import (
 func TestAccTencentCloudNeedFixCwpLicenseBindAttachmentResource_basic(t *testing.T) {
 	t.Parallel()
 	resource.Test(t, resource.TestCase{
-		PreCheck:  func() { testAccPreCheck(t) },
-		Providers: testAccProviders,
+		PreCheck:     func() { testAccPreCheck(t) },
+		Providers:    testAccProviders,
 		Steps: []resource.TestStep{
 			{
 				Config: testAccCwpLicenseBindAttachment,
@@ -33,7 +33,7 @@ func TestAccTencentCloudNeedFixCwpLicenseBindAttachmentResource_basic(t *testing
 }
 
 const testAccCwpLicenseBindAttachment = `
-resource "tencentcloud_cwp_license_order" "example" {
+resource "tencenttencentcloudenterprise_cwp_license_order" "example" {
   alias        = "tf_example"
   license_type = 0
   license_num  = 1
@@ -44,7 +44,7 @@ resource "tencentcloud_cwp_license_order" "example" {
   }
 }
 
-resource "tencentcloud_cwp_license_bind_attachment" "example" {
+resource "tencenttencentcloudenterprise_cwp_license_bind_attachment" "example" {
   resource_id  = tencenttencentcloudenterprise_cwp_license_order.example.resource_id
   license_id   = tencenttencentcloudenterprise_cwp_license_order.example.license_id
   license_type = 0

@@ -1,26 +1,24 @@
-// /*
-// Provides a resource to create a redis maintenance_window
+///*
+//Provides a resource to create a redis maintenance_window
 //
-// # Example Usage
+//Example Usage
 //
-// ```hcl
+//```hcl
+//resource "tencentcloudenterprise_redis_maintenance_window" "maintenance_window" {
+//  instance_id = "crs-c1nl9rpv"
+//  start_time = "17:00"
+//  end_time = "19:00"
+//}
+//```
 //
-//	resource "tencentcloudenterprise_redis_maintenance_window" "maintenance_window" {
-//	 instance_id = "crs-c1nl9rpv"
-//	 start_time = "17:00"
-//	 end_time = "19:00"
-//	}
+//Import
 //
-// ```
+//redis maintenance_window can be imported using the id, e.g.
 //
-// # Import
-//
-// redis maintenance_window can be imported using the id, e.g.
-//
-// ```
-// terraform import tencentcloudenterprise_redis_maintenance_window.maintenance_window maintenance_window_id
-// ```
-// */
+//```
+//terraform import tencentcloudenterprise_redis_maintenance_window.maintenance_window maintenance_window_id
+//```
+//*/
 package tencentcloud
 
 //

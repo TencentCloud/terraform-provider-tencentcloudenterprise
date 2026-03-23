@@ -88,8 +88,8 @@ resource "tencentcloudenterprise_cvm_instance" "instance" {
   instance_charge_type       = "POSTPAID_BY_HOUR"
   vpc_id                     = "vpc-xxxxx"
   subnet_id                  = "subnet-xxxxx"
-  key_ids                    = [cloud_cvm_key_pair.key.id]
-  placement_group_id         = cloud_cvm_placement_group.group.id
+  key_ids                    = [tencentcloudenterprise_cvm_key_pair.key.id]
+  placement_group_id         = tencentcloudenterprise_cvm_placement_group.group.id
   
   data_disks {
     data_disk_type = "CLOUD_PREMIUM"
@@ -151,7 +151,7 @@ resource "tencentcloudenterprise_cvm_launch_template" "template" {
 # CVM Image
 resource "tencentcloudenterprise_cvm_image" "image" {
   image_name        = "example-image"
-  instance_id       = cloud_cvm_instance.instance.id
+  instance_id       = tencentcloudenterprise_cvm_instance.instance.id
   image_description = "Example custom image"
   force_poweroff    = true
   sysprep           = false
@@ -164,29 +164,29 @@ resource "tencentcloudenterprise_cvm_image" "image" {
 # CVM Security Group Attachment
 resource "tencentcloudenterprise_cvm_security_group_attachment" "sg_attachment" {
   security_group_ids = ["sg-xxxxx"]
-  instance_id        = cloud_cvm_instance.instance.id
+  instance_id        = tencentcloudenterprise_cvm_instance.instance.id
 }
 
 # CVM Reboot Instance
 resource "tencentcloudenterprise_cvm_reboot_instance" "reboot" {
-  instance_id = cloud_cvm_instance.instance.id
+  instance_id = tencentcloudenterprise_cvm_instance.instance.id
   stop_type   = "SOFT"
 }
 
 # CVM Renew Instance
 resource "tencentcloudenterprise_cvm_renew_instance" "renew" {
-  instance_id    = cloud_cvm_instance.instance.id
+  instance_id    = tencentcloudenterprise_cvm_instance.instance.id
   renew_portable_data_disk = true
 }
 
 # CVM Sync Image
 resource "tencentcloudenterprise_cvm_sync_image" "sync" {
-  image_id            = cloud_cvm_image.image.id
+  image_id            = tencentcloudenterprise_cvm_image.image.id
   destination_regions = ["ap-shanghai", "ap-beijing"]
 }
 
 # CVM Image Share Permission
 resource "tencentcloudenterprise_cvm_image_share_permission" "share" {
-  image_id    = cloud_cvm_image.image.id
+  image_id    = tencentcloudenterprise_cvm_image.image.id
   account_ids = ["123456789"]
 }

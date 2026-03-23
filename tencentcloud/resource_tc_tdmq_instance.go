@@ -1,7 +1,7 @@
 /*
 Provide a resource to create a TDMQ instance.
 
-# Example Usage
+Example Usage
 
 ```hcl
 
@@ -18,7 +18,7 @@ Provide a resource to create a TDMQ instance.
 
 ```
 
-# Import
+Import
 
 Tdmq instance can be imported, e.g.
 
@@ -33,10 +33,10 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	tdmq "terraform-provider-tencentcloudenterprise/sdk/tdmq/v20200217"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func init() {

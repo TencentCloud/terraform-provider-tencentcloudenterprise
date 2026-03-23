@@ -5,9 +5,9 @@ import (
 
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
 
+	tdmq "terraform-provider-tencentcloudenterprise/sdk/tdmq/v20200217"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	tdmq "terraform-provider-tencentcloudenterprise/sdk/tdmq/v20200217"
 )
 
 func init() {

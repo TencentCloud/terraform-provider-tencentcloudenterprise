@@ -1,18 +1,16 @@
 /*
 Provides a resource to create a CBS snapshot.
 
-# Example Usage
+Example Usage
 
 ```hcl
-
-	resource "tencentcloudenterprise_cbs_snapshot" "snapshot" {
-	  snapshot_name = "unnamed"
-	  storage_id    = "disk-kdt0sq6m"
-	}
-
+resource "tencentcloudenterprise_cbs_snapshot" "snapshot" {
+  snapshot_name = "unnamed"
+  storage_id    = "disk-kdt0sq6m"
+}
 ```
 
-# Import
+Import
 
 CBS snapshot can be imported using the id, e.g.
 
@@ -29,9 +27,9 @@ import (
 
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
 
+	cbs "terraform-provider-tencentcloudenterprise/sdk/cbs/v20170312"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	cbs "terraform-provider-tencentcloudenterprise/sdk/cbs/v20170312"
 )
 
 func init() {

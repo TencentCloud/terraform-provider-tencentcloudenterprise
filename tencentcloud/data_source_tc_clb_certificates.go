@@ -1,7 +1,7 @@
 /*
 Use this data source to query SSL certificate.
 
-# Example Usage
+Example Usage
 
 ```hcl
 
@@ -18,12 +18,12 @@ package tencentcloud
 import (
 	"context"
 	"fmt"
+	clb "terraform-provider-tencentcloudenterprise/sdk/clb/v20180317"
 	"log"
 	"strconv"
-	clb "terraform-provider-tencentcloudenterprise/sdk/clb/v20180317"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func init() {
@@ -59,9 +59,10 @@ func dataSourceTencentCloudClbCertificates() *schema.Resource {
 		Read:        dataSourceTencentCloudClbCertificatesRead,
 		Schema: map[string]*schema.Schema{
 			"cert_type": {
-				Type:        schema.TypeString,
-				Optional:    true,
-				Description: "Type of the SSL certificate to be queried. Available values includes: `CA` and `SVR`.",
+				Type:         schema.TypeString,
+				Optional:     true,
+				ValidateFunc: validateAllowedStringValue(SSL_CERT_TYPE),
+				Description:  "Type of the SSL certificate to be queried. Available values includes: `CA` and `SVR`.",
 			},
 			"cert_ids": {
 				Type: schema.TypeSet,

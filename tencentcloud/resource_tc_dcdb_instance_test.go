@@ -17,7 +17,7 @@ func init() {
 	})
 }
 
-// go test -v ./tencentcloud -sweep=ap-guangzhou -sweep-run=cloud_dcdb_instance
+// go test -v ./tencentcloud -sweep=ap-guangzhou -sweep-run=tencentcloudenterprise_dcdb_instance
 func testSweepDcdbHourdbInstance(r string) error {
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
@@ -89,7 +89,7 @@ func TestAccTencentCloudDcdbHourdbInstanceResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet("tencentcloudenterprise_dcdb_instance.hourdb_instance", "subnet_id"),
 					resource.TestCheckResourceAttr("tencentcloudenterprise_dcdb_instance.hourdb_instance", "project_id", defaultProjectId),
 					// resource.TestCheckResourceAttr("tencentcloudenterprise_dcdb_instance.hourdb_instance", "extranet_access", "false"),
-					resource.TestCheckResourceAttr("tencentcloudenterprise_dcdb_instance.hourdb_instance", "vip", "203.0.113.110"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_dcdb_instance.hourdb_instance", "vip", "172.18.111.10"),
 					resource.TestCheckResourceAttr("tencentcloudenterprise_dcdb_instance.hourdb_instance", "instance_name", "test_dcdb_hourdb_instance_CHANGED"),
 				),
 			},
@@ -219,7 +219,7 @@ resource "tencentcloudenterprise_dcdb_instance" "hourdb_instance" {
   shard_count = "2"
   vpc_id    = local.new_vpc_id
   subnet_id = local.new_subnet_id
-  vip       = "203.0.113.110"
+  vip       = "172.18.111.10"
   security_group_id = ""
   db_version_id = "8.0"
   project_id = var.default_project

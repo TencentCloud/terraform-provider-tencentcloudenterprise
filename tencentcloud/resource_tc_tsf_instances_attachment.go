@@ -1,18 +1,16 @@
 /*
 Provides a resource to create a tsf instances_attachment
 
-# Example Usage
+Example Usage
 
 ```hcl
-
-	resource "tencentcloudenterprise_tsf_instances_attachment" "instances_attachment" {
-		cluster_id = "cluster-zvw7jwy8"
-		instance_id = "ins-j7za7rwo"
-		image_id = "img-3y126h0t"
-		password = "MyP@ssw0rd"
-		instance_import_mode = "R"
-	}
-
+resource "tencentcloudenterprise_tsf_instances_attachment" "instances_attachment" {
+	cluster_id = "cluster-zvw7jwy8"
+	instance_id = "ins-j7za7rwo"
+	image_id = "img-3y126h0t"
+	password = "MyP@ssw0rd"
+	instance_import_mode = "R"
+}
 ```
 */
 package tencentcloud
@@ -23,31 +21,31 @@ import (
 	"log"
 	"strings"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	tsf "terraform-provider-tencentcloudenterprise/sdk/tsf/v20180326"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func init() {
 	registerResourceDescriptionProvider("tencentcloudenterprise_tsf_instances_attachment", CNDescription{
 		TerraformTypeCN: "导入云主机",
-		DescriptionCN:   "提供TSF导入云主机资源，用于导入云主机。",
+		DescriptionCN:  "提供TSF导入云主机资源，用于导入云主机。",
 		AttributesCN: map[string]string{
-			"cluster_id":                 "集群ID",
-			"instance_id":                "云服务器ID",
-			"os_name":                    "操作系统名称",
-			"image_id":                   "操作系统镜像ID",
-			"password":                   "重置系统密码",
-			"key_id":                     "关联密钥",
-			"sg_id":                      "安全组设置",
-			"instance_import_mode":       "云服务器导入模式，虚拟机集群必填，容器集群不填。R：重装TSF系统镜像，M：手动安装agent",
-			"os_customize_type":          "镜像定制类型",
-			"feature_id_list":            "镜像特征ID列表",
-			"security_group_ids":         "安全组",
-			"docker_graph_path":          "Docked--graph指定值，默认为/var/lib/docker注意：此字段可能返回null，表示无法获得有效值",
+			"cluster_id":           "集群ID",
+			"instance_id":          "云服务器ID",
+			"os_name":              "操作系统名称",
+			"image_id":             "操作系统镜像ID",
+			"password":             "重置系统密码",
+			"key_id":               "关联密钥",
+			"sg_id":                "安全组设置",
+			"instance_import_mode": "云服务器导入模式，虚拟机集群必填，容器集群不填。R：重装TSF系统镜像，M：手动安装agent",
+			"os_customize_type":    "镜像定制类型",
+			"feature_id_list":      "镜像特征ID列表",
+			"security_group_ids":   "安全组",
+			"docker_graph_path":    "Docked--graph指定值，默认为/var/lib/docker注意：此字段可能返回null，表示无法获得有效值",
 			"instance_advanced_settings": "其他实例参数信息",
-			"mount_target":               "数据磁盘装载点，默认情况下不装载数据磁盘。带有格式化ext3、ext4、xfs文件系统的数据磁盘将直接挂载，其他文件系统或未格式化的数据磁盘会自动格式化为ext4并挂载。请备份您的数据！此设置不适用于没有数据磁盘或有多个数据磁盘的云服务器。注意：此字段可能返回null，表示无法获得有效值",
+			"mount_target":         "数据磁盘装载点，默认情况下不装载数据磁盘。带有格式化ext3、ext4、xfs文件系统的数据磁盘将直接挂载，其他文件系统或未格式化的数据磁盘会自动格式化为ext4并挂载。请备份您的数据！此设置不适用于没有数据磁盘或有多个数据磁盘的云服务器。注意：此字段可能返回null，表示无法获得有效值",
 		},
 	})
 }

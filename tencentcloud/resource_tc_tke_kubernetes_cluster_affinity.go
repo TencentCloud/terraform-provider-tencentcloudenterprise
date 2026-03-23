@@ -3,17 +3,15 @@ Provide a resource to increase instance to cluster
 
 ~> **NOTE:** To use the custom Kubernetes component startup parameter function (parameter `extra_args`), you need to submit a ticket for application.
 
-# Example Usage
+Example Usage
 
 ```hcl
-
-	resource "tencentcloudenterprise_kubernetes_cluster_affinity" "app-csp-sm" {
-	  cluster_id = tencentcloudenterprise_tke_kubernetes_cluster.cluster.id
-	  namespace  = "app-csp-sm"
-	  path = "/apis/platform.tkestack.io/v1/clusters/cls-x8lxd2jx/apply"
-	  request_body = "{\"kind\":\"affinity\",\"apiVersion\":\"v1\",\"metadata\":{\"name\":\"app-csp-sm\",\"annotations\":{\"description\":\"hkjc1\"}}}{\"kind\":\"affinity\",\"apiVersion\":\"v1\",\"metadata\":{\"name\":\"qcloudregistrykey\",\"namespace\":\"app-csp-sm\",\"labels\":{\"qcloud-app\":\"qcloudregistrykey\"}},\"type\":\"kubernetes.io/dockercfg\",\"data\":{\".dockercfg\":\"eyJjY3IudGNlMzEwMHBvYy5mc3BoZXJlLmNuIjp7InVzZXJuYW1lIjoiMTAwMDA0NjAzMTU3IiwicGFzc3dvcmQiOiJ7QXBwbGljYXRpb25Ub2tlbjo0OGJlNzY2ZTVkZmRmN2JhZTAwZjdlZTQ3NTQyNDJlMX0iLCJlbWFpbCI6Im5vdEB2YWwuaWQiLCJhdXRoIjoiTVRBd01EQTBOakF6TVRVM09udEJjSEJzYVdOaGRHbHZibFJ2YTJWdU9qUTRZbVUzTmpabE5XUm1aR1kzWW1GbE1EQm1OMlZsTkRjMU5ESTBNbVV4ZlE9PSJ9fQ==\"}}"
-	}
-
+resource "tencentcloudenterprise_tke_kubernetes_cluster_affinity" "app-csp-sm" {
+  cluster_id = tencentcloudenterprise_tke_kubernetes_cluster.cluster.id
+  namespace  = "app-csp-sm"
+  path = "/apis/platform.tkestack.io/v1/clusters/cls-x8lxd2jx/apply"
+  request_body = "{\"kind\":\"affinity\",\"apiVersion\":\"v1\",\"metadata\":{\"name\":\"app-csp-sm\",\"annotations\":{\"description\":\"hkjc1\"}}}{\"kind\":\"affinity\",\"apiVersion\":\"v1\",\"metadata\":{\"name\":\"qcloudregistrykey\",\"namespace\":\"app-csp-sm\",\"labels\":{\"qcloud-app\":\"qcloudregistrykey\"}},\"type\":\"kubernetes.io/dockercfg\",\"data\":{\".dockercfg\":\"eyJjY3IudGNlMzEwMHBvYy5mc3BoZXJlLmNuIjp7InVzZXJuYW1lIjoiMTAwMDA0NjAzMTU3IiwicGFzc3dvcmQiOiJ7QXBwbGljYXRpb25Ub2tlbjo0OGJlNzY2ZTVkZmRmN2JhZTAwZjdlZTQ3NTQyNDJlMX0iLCJlbWFpbCI6Im5vdEB2YWwuaWQiLCJhdXRoIjoiTVRBd01EQTBOakF6TVRVM09udEJjSEJzYVdOaGRHbHZibFJ2YTJWdU9qUTRZbVUzTmpabE5XUm1aR1kzWW1GbE1EQm1OMlZsTkRjMU5ESTBNbVV4ZlE9PSJ9fQ==\"}}"
+}
 ```
 */
 package tencentcloud
@@ -31,13 +29,14 @@ func init() {
 		TerraformTypeCN: "集群亲和性配置",
 		DescriptionCN:   "提供集群亲和性配置资源，用于配置集群的亲和性规则。",
 		AttributesCN: map[string]string{
-			"cluster_id":   "集群ID",
-			"namespace":    "命名空间名称",
-			"request_body": "请求体",
-			"deploy_name":  "部署名称",
+			"cluster_id":    "集群ID",
+			"namespace":     "命名空间名称",
+			"request_body":  "请求体",
+			"deploy_name":   "部署名称",
 		},
 	})
 }
+
 
 func resourceTencentCloudTkeClusterAffinity() *schema.Resource {
 	return &schema.Resource{
@@ -61,13 +60,13 @@ func resourceTencentCloudTkeClusterAffinity() *schema.Resource {
 			"request_body": {
 				Type:        schema.TypeString,
 				ForceNew:    true,
-				Required:    true,
+				Required: true,
 				Description: "request_body",
 			},
 			"deploy_name": {
 				Type:        schema.TypeString,
 				ForceNew:    true,
-				Required:    true,
+				Required: true,
 				Description: "deploy_name",
 			},
 		},
@@ -80,11 +79,11 @@ func resourceTencentCloudTkeTkeClusterAffinityCreate(d *schema.ResourceData, met
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
 
 	var (
-		clusterId   = d.Get("cluster_id").(string)
+		clusterId = d.Get("cluster_id").(string)
 		requestBody = d.Get("request_body").(string)
-		ns          = d.Get("namespace").(string)
-		deploy      = d.Get("deploy_name").(string)
-		path        = fmt.Sprintf("/apis/apps/v1/namespaces/%s/deployments/%s", ns, deploy)
+		ns = d.Get("namespace").(string)
+		deploy = d.Get("deploy_name").(string)
+		path = fmt.Sprintf("/apis/apps/v1/namespaces/%s/deployments/%s", ns, deploy)
 	)
 	service := TkeService{client: meta.(*TencentCloudClient).apiV3Conn}
 
@@ -117,7 +116,7 @@ func resourceTencentCloudTkeTkeClusterAffinityRead(d *schema.ResourceData, meta 
 	// 	return err
 	// }
 	// var response affinityList
-
+	
 	// err = json.Unmarshal([]byte(body), &response)
 	// if err != nil {
 	// 	return err
@@ -149,6 +148,7 @@ func resourceTencentCloudTkeTkeClusterAffinityDelete(d *schema.ResourceData, met
 	// if err != nil {
 	// 	return err
 	// }
+
 
 	return nil
 }

@@ -1,35 +1,34 @@
 /*
 Provides a resource to create a tdmqRocketmq environment_role
 
-# Example Usage
+Example Usage
 
 ```hcl
+resource "tencentcloudenterprise_tdmq_rocketmq_cluster" "cluster" {
+	cluster_name = "test_rocketmq"
+	remark = "test recket mq"
+}
 
-	resource "tencentcloudenterprise_tdmq_rocketmq_cluster" "cluster" {
-		cluster_name = "test_rocketmq"
-		remark = "test recket mq"
-	}
+resource "tencentcloudenterprise_tdmq_rocketmq_role" "role" {
+  role_name = "test_rocketmq_role"
+  remark = "test rocketmq role"
+  cluster_id = tencentcloudenterprise_tdmq_rocketmq_cluster.cluster.cluster_id
+}
 
-	resource "tencentcloudenterprise_tdmq_rocketmq_role" "role" {
-	  role_name = "test_rocketmq_role"
-	  remark = "test rocketmq role"
-	  cluster_id = tencentcloudenterprise_tdmq_rocketmq_cluster.cluster.cluster_id
-	}
+resource "tencentcloudenterprise_tdmq_rocketmq_namespace" "namespace" {
+  cluster_id = tencentcloudenterprise_tdmq_rocketmq_cluster.cluster.cluster_id
+  namespace_name = "test_namespace"
+  ttl = 65000
+  retention_time = 65000
+  remark = "test namespace"
+}
 
-	resource "tencentcloudenterprise_tdmq_rocketmq_namespace" "namespace" {
-	  cluster_id = tencentcloudenterprise_tdmq_rocketmq_cluster.cluster.cluster_id
-	  namespace_name = "test_namespace"
-	  ttl = 65000
-	  retention_time = 65000
-	  remark = "test namespace"
-	}
-
-	resource "tencentcloudenterprise_tdmq_rocketmq_environment_role" "environment_role" {
-	  environment_name = tencentcloudenterprise_tdmq_rocketmq_namespace.namespace.namespace_name
-	  role_name = tencentcloudenterprise_tdmq_rocketmq_role.role.role_name
-	  permissions = ["produce", "consume"]
-	  cluster_id = tencentcloudenterprise_tdmq_rocketmq_cluster.cluster.cluster_id
-	}
+resource "tencentcloudenterprise_tdmq_rocketmq_environment_role" "environment_role" {
+  environment_name = tencentcloudenterprise_tdmq_rocketmq_namespace.namespace.namespace_name
+  role_name = tencentcloudenterprise_tdmq_rocketmq_role.role.role_name
+  permissions = ["produce", "consume"]
+  cluster_id = tencentcloudenterprise_tdmq_rocketmq_cluster.cluster.cluster_id
+}
 
 ```
 Import
@@ -47,10 +46,10 @@ import (
 	"log"
 	"strings"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	tdmqRocketmq "terraform-provider-tencentcloudenterprise/sdk/tdmq/v20200217"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func init() {

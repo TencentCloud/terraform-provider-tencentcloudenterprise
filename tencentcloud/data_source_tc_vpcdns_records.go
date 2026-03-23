@@ -1,20 +1,18 @@
 /*
 Provide a resource to query VPCDNS records.
 
-# Example Usage
-
+Example Usage
 ```hcl
 
 	data "tencentcloudenterprise_vpcdns_records" "foo" {
-	  domain_id      = "xxx"
+	  domain_id       = 123
+	  sub_domain      = "doamin.com"
 	}
 
 ```
 
-# Import
-
+Import
 Vpc subnet instance can be imported, e.g.
-
 ```
 $ terraform import tencentcloudenterprise_vpcdns_domain.test domain_id
 ```
@@ -24,8 +22,10 @@ package tencentcloud
 import (
 	"errors"
 	"fmt"
+
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+
 	vpcdns "terraform-provider-tencentcloudenterprise/sdk/vpcdns/v20191025"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
 )

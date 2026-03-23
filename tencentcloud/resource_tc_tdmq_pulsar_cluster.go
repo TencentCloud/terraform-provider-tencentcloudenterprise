@@ -7,13 +7,14 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+
 	tdmq "terraform-provider-tencentcloudenterprise/sdk/tdmq/v20200217"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
 )
 
 func init() {
 	registerResourceDescriptionProvider("tencentcloudenterprise_tdmq_pulsar_cluster", CNDescription{
-		TerraformTypeCN: "TDMQ 实例",
+		TerraformTypeCN: "TDMQ Pulsar集群",
 		DescriptionCN:   "提供TDMQ Pulsar集群资源，用于创建和管理TDMQ Pulsar集群。",
 		AttributesCN: map[string]string{
 			"cluster_name": "TDMQ实例名称",

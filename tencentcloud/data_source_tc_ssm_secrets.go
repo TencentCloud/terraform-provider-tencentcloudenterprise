@@ -3,12 +3,11 @@ Use this data source to query detailed information of SSM secret
 Example Usage
 ```hcl
 
-	data "tencentcloudenterprise_ssm_secrets" "foo" {
-	  secret_name = "test"
-	  order_type = 1
-	  state = 1
-	}
-
+data "tencentcloudenterprise_ssm_secrets" "foo" {
+  secret_name = "test"
+  order_type = 1
+  state = 1
+}
 ```
 */
 package tencentcloud
@@ -17,10 +16,10 @@ import (
 	"context"
 	"log"
 
+	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	ssm "github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/ssm/v20190923"
-	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
 )
 
 func init() {
@@ -43,6 +42,7 @@ func init() {
 			"delete_time":        "删除时间",
 			"create_time":        "创建时间",
 			"kms_key_type":       "KMS密钥类型",
+			"tags":				  "过滤查询标签",
 		},
 	})
 }

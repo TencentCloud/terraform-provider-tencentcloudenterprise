@@ -1,17 +1,17 @@
 /*
 Provides a resource to create a TurboFS permission group rule.
 
-# Example Usage
+Example Usage
 
 ```hcl
 
-	resource "tencentcloudenterprise_turbofs_rule" "foo" {
-	  p_group_id = "pgroup-7nx89k7l"
-	  auth_client_ip  = "10.10.1.0/24"
-	  priority        = 1
-	  rw_permission   = "ro"
-	  user_permission = "root_squash"
-	}
+resource "tencentcloudenterprise_turbofs_rule" "foo" {
+  p_group_id = "pgroup-7nx89k7l"
+  auth_client_ip  = "10.10.1.0/24"
+  priority        = 1
+  rw_permission   = "ro"
+  user_permission = "root_squash"
+}
 
 ```
 */
@@ -23,11 +23,11 @@ import (
 	"log"
 	"strings"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	turbofs "terraform-provider-tencentcloudenterprise/sdk/turbofs/v20190719"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/ratelimit"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func init() {
@@ -35,12 +35,12 @@ func init() {
 		TerraformTypeCN: "权限规则",
 		DescriptionCN:   "提供TurboFS权限规则资源，用于创建和管理TurboFS权限规则。",
 		AttributesCN: map[string]string{
-			"p_group_id":      "权限组ID",
+			"p_group_id": 	   "权限组ID",
 			"auth_client_ip":  "允许访问的客户端IP地址或地址段",
 			"rw_permission":   "读写权限, 可选参数：ro, rw。ro为只读，rw为读写，不填默认为读写",
 			"user_permission": "用户权限，可选参数：all_squash，no_all_squash，root_squash，no_root_squash。其中all_squash为所有访问用户都会被映射为匿名用户或用户组；no_all_squash为访问用户会先与本机用户匹配，匹配失败后再映射为匿名用户或用户组；root_squash为将来访的root用户映射为匿名用户或用户组；no_root_squash为来访的root用户保持root帐号权限。不填默认为no_root_squash。",
-			"rule_id":         "规则ID",
-			"priority":        "规则优先级，参数范围1-100。 其中 1 为最高，100为最低",
+			"rule_id":		   "规则ID",
+			"priority":		   "规则优先级，参数范围1-100。 其中 1 为最高，100为最低",
 		},
 	})
 }
@@ -71,21 +71,21 @@ func resourceTencentCloudTurbofsRule() *schema.Resource {
 				Description:  "The priority level of rule. Valid value ranges: (1~100). `1` indicates the highest priority.",
 			},
 			"rw_permission": {
-				Type:        schema.TypeString,
-				Optional:    true,
-				Default:     TURBOFS_RW_PERMISSION_RW,
-				Description: "Read and write permissions. Valid values are `ro` and `rw`, and default is `rw`.",
+				Type:         schema.TypeString,
+				Optional:     true,
+				Default:	  TURBOFS_RW_PERMISSION_RW,
+				Description:  "Read and write permissions. Valid values are `ro` and `rw`, and default is `rw`.",
 			},
 			"user_permission": {
-				Type:        schema.TypeString,
-				Optional:    true,
-				Default:     TURBOFS_USER_PERMISSION_NO_ROOT_SQUASH,
-				Description: "The permissions of users. Valid values are `all_squash`, `no_all_squash`, `root_squash` and `no_root_squash`. and default is `root_squash`. `all_squash` indicates that all users are mapped as anonymous users or user groups; `no_all_squash` indicates that users will match local users first and be mapped to anonymous users or user groups after matching failed; `root_squash` indicates that map root users to anonymous users or user groups; `no_root_squash` indicates that root users keep root account permission.",
+				Type:         schema.TypeString,
+				Optional:     true,
+				Default:      TURBOFS_USER_PERMISSION_NO_ROOT_SQUASH,
+				Description:  "The permissions of users. Valid values are `all_squash`, `no_all_squash`, `root_squash` and `no_root_squash`. and default is `root_squash`. `all_squash` indicates that all users are mapped as anonymous users or user groups; `no_all_squash` indicates that users will match local users first and be mapped to anonymous users or user groups after matching failed; `root_squash` indicates that map root users to anonymous users or user groups; `no_root_squash` indicates that root users keep root account permission.",
 			},
 			"rule_id": {
-				Type:        schema.TypeString,
-				Computed:    true,
-				Description: "The id of rule",
+				Type: 		  schema.TypeString,
+				Computed:     true,
+				Description:  "The id of rule",
 			},
 		},
 	}
@@ -110,7 +110,7 @@ func resourceTencentCloudTurbofsRuleCreate(d *schema.ResourceData, meta interfac
 		request.Priority = helper.IntInt64(v.(int))
 	}
 
-	if v, ok := d.GetOk("rw_permission"); ok {
+	if v, ok := d.GetOk("rw_permission");ok {
 		request.RWPermission = helper.String(v.(string))
 	}
 

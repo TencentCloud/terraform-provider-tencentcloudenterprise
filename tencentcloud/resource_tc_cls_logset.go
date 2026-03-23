@@ -1,8 +1,7 @@
 /*
 Provides a resource to create a cls logset
 
-# Example Usage
-
+Example Usage
 ```hcl
 
 	resource "tencentcloudenterprise_cls_logset" "logset" {
@@ -10,11 +9,12 @@ Provides a resource to create a cls logset
 	  tags = {
 	    "createdBy" = "terraform"
 	  }
+	  period = 1
 	}
 
 ```
-Import
 
+Import
 cls logset can be imported using the id, e.g.
 ```
 $ terraform import tencentcloudenterprise_cls_logset.logset logset_id
@@ -29,6 +29,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+
 	cls "terraform-provider-tencentcloudenterprise/sdk/cls/v20201016"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
 )

@@ -51,7 +51,7 @@ resource "tencentcloudenterprise_cos_bucket" "bucket" {
 
 # COS Bucket Object
 resource "tencentcloudenterprise_cos_bucket_object" "object" {
-  bucket  = cloud_cos_bucket.bucket.bucket
+  bucket  = tencentcloudenterprise_cos_bucket.bucket.bucket
   key     = "example/object.txt"
   content = "Hello, COS!"
   acl     = "private"
@@ -59,7 +59,7 @@ resource "tencentcloudenterprise_cos_bucket_object" "object" {
 
 # COS Bucket Policy
 resource "tencentcloudenterprise_cos_bucket_policy" "policy" {
-  bucket = cloud_cos_bucket.bucket.bucket
+  bucket = tencentcloudenterprise_cos_bucket.bucket.bucket
   policy = jsonencode({
     version = "2.0"
     statement = [
@@ -72,7 +72,7 @@ resource "tencentcloudenterprise_cos_bucket_policy" "policy" {
           "name/cos:GetObject"
         ]
         resource = [
-          "qcs::cos:ap-guangzhou:uid/123456:${cloud_cos_bucket.bucket.bucket}/*"
+          "qcs::cos:ap-guangzhou:uid/123456:${tencentcloudenterprise_cos_bucket.bucket.bucket}/*"
         ]
       }
     ]

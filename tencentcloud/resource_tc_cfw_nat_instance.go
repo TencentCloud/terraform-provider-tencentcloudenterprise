@@ -1,24 +1,27 @@
 /*
-Provides a resource to create a cloud firewall (cfw) nat instance.
+Provides a resource to create a cloud firewall (cfw) NAT firewall instance.
 
 Example Usage
 
 ```hcl
 
-resource "tencentcloudenterprise_cfw_nat_instance" "example" {
-  name  = "tf_example"
-  width = 20
-  mode  = 0
-  new_mode_items {
-    vpc_list = ["vpc-3h7d5le1"]
-    eips = []
-    add_count = 1
-  }
-  cross_a_zone = 1
-  fw_cidr_info {
-    fw_cidr_type = "VpcSelf"
-  }
-}
+	resource "tencentcloudenterprise_cfw_nat_instance" "example" {
+	  name  = "cfw-nat-example"
+	  width = 20
+	  mode  = 0
+
+	  new_mode_items {
+	    vpc_list  = ["vpc-3skwc52h"]
+	    eips      = []
+	    add_count = 1
+	  }
+
+	  cross_a_zone = 0
+
+	  fw_cidr_info {
+	    fw_cidr_type = "VpcSelf"
+	  }
+	}
 
 ```
 
@@ -27,32 +30,48 @@ Import
 Cloud firewall nat instance can be imported using the id, e.g.
 
 ```
-$ terraform import tencentcloudenterprise_cfw_nat_instance.example cfwnat-54a21421```
+$ terraform import tencentcloudenterprise_cfw_nat_instance.example cfwnat-xxxxxxxx
+```
 */
-
 package tencentcloud
 
 import (
 	"context"
 	"fmt"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"log"
+
 	cfw "terraform-provider-tencentcloudenterprise/sdk/cfw/v20190904"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 )
 
 func init() {
 	registerResourceDescriptionProvider("tencentcloudenterprise_cfw_nat_instance", CNDescription{
-		TerraformTypeCN: "云防火墙NAT实例",
-		DescriptionCN:   "提供云防火墙NAT实例资源，用于创建和管理云防火墙NAT边界防护实例。",
+		TerraformTypeCN: "NAT防火墙实例",
+		DescriptionCN:   "提供NAT防火墙实例资源，用于创建和管理NAT防火墙实例。",
 		AttributesCN: map[string]string{
 			"name":           "防火墙实例名称",
-			"width":          "带宽规格",
-			"mode":           "防火墙模式",
-			"new_mode_items": "新模式配置项",
-			"cross_a_zone":   "跨可用区",
-			"fw_cidr_info":   "防火墙网段信息",
+			"width":          "带宽",
+			"mode":           "接入模式，0：新增模式，1：接入模式",
+			"nat_gw_list":    "接入模式接入的nat网关列表",
+			"new_mode_items": "新增模式传递参数",
+			"vpc_list":       "新增模式下接入的vpc列表",
+			"eips":           "新增模式下绑定的出口弹性公网ip列表",
+			"add_count":      "新增模式下新增绑定的出口弹性公网ip个数",
+			"zone":           "主可用区",
+			"zone_bak":       "备可用区",
+			"cross_a_zone":   "异地灾备",
+			"domain":         "域名",
+			"fw_cidr_info":   "防火墙使用网段信息",
+			"fw_cidr_type":   "防火墙使用的网段类型",
+			"fw_cidr_lst":    "为每个vpc指定防火墙的网段",
+			"vpc_id":         "VPC的ID",
+			"fw_cidr":        "防火墙网段",
+			"com_fw_cidr":    "其他防火墙占用网段",
+			"cfw_ins_id":     "NAT实例ID",
+			"status":         "实例状态",
 		},
 	})
 }
@@ -63,7 +82,7 @@ func resourceTencentCloudCfwNatInstance() *schema.Resource {
 		Read:        resourceTencentCloudCfwNatInstanceRead,
 		Update:      resourceTencentCloudCfwNatInstanceUpdate,
 		Delete:      resourceTencentCloudCfwNatInstanceDelete,
-		Description: "Provides a resource to create and manage CFW NAT instance",
+		Description: "Provides a resource to create and manage CFW NAT Firewall instance",
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
@@ -76,75 +95,75 @@ func resourceTencentCloudCfwNatInstance() *schema.Resource {
 			"width": {
 				Required:     true,
 				Type:         schema.TypeInt,
-				ValidateFunc: validateIntegerMin(BAND_WIDTH),
+				ValidateFunc: validation.IntAtLeast(1),
 				Description:  "Bandwidth.",
 			},
 			"mode": {
 				Required:     true,
+				ForceNew:     true,
 				Type:         schema.TypeInt,
-				ValidateFunc: validateAllowedIntValue(MODE),
-				Description:  "Mode 1: access mode; 0: new mode.",
+				ValidateFunc: validation.IntInSlice([]int{0, 1}),
+				Description:  "Access mode, 0: new mode, 1: access mode.",
 			},
 			"new_mode_items": {
 				Optional:     true,
 				Type:         schema.TypeList,
 				MaxItems:     1,
-				ExactlyOneOf: []string{"nat_gw_list"},
+				ExactlyOneOf: []string{"nat_gw_list", "new_mode_items"},
 				Description:  "New mode passing parameters are added, at least one of new_mode_items and nat_gw_list is passed.",
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						"vpc_list": {
-							Type:        schema.TypeSet,
-							Elem:        &schema.Schema{Type: schema.TypeString},
-							Required:    true,
-							Description: "List of vpcs connected in new mode.",
+							Optional: true,
+							Type:     schema.TypeList,
+							Elem: &schema.Schema{
+								Type: schema.TypeString,
+							},
+							Description: "VPC list.",
 						},
 						"eips": {
-							Type:        schema.TypeSet,
-							Elem:        &schema.Schema{Type: schema.TypeString},
-							Optional:    true,
-							Description: "List of egress elastic public network IPs bound in the new mode.",
+							Optional: true,
+							Computed: true,
+							Type:     schema.TypeList,
+							Elem: &schema.Schema{
+								Type: schema.TypeString,
+							},
+							Description: "Elastic public IP list.",
 						},
 						"add_count": {
-							Type:     schema.TypeInt,
-							Elem:     &schema.Schema{Type: schema.TypeInt},
-							Optional: true,
+							Type:        schema.TypeInt,
+							Optional:    true,
+							Computed:    true,
+							Description: "Number of EIPs to create. If eips is specified, this will be calculated from eips length.",
 						},
 					},
 				},
 			},
 			"nat_gw_list": {
 				Optional:     true,
-				Type:         schema.TypeSet,
-				ExactlyOneOf: []string{"new_mode_items"},
+				Type:         schema.TypeList,
+				ExactlyOneOf: []string{"nat_gw_list", "new_mode_items"},
 				Elem:         &schema.Schema{Type: schema.TypeString},
 				Description:  "A list of nat gateways connected to the access mode, at least one of NewModeItems and NatgwList is passed.",
 			},
-			//"zone_set": {
-			//	Type:        schema.TypeSet,
-			//	Required:    true,
-			//	MinItems:    1,
-			//	MaxItems:    2,
-			//	Elem:        &schema.Schema{Type: schema.TypeString},
-			//	Description: "Zone list.",
-			//},
 			"zone": {
 				Optional:    true,
+				Computed:    true,
 				Type:        schema.TypeString,
 				ForceNew:    true,
 				Description: "main zone, use default available zone if empty.",
 			},
 			"zone_bak": {
 				Optional:    true,
+				Computed:    true,
 				Type:        schema.TypeString,
-				Description: "backup zone, use default available zone if empty.",
+				Description: "Backup availability zone, if empty, the default availability zone is selected.",
 			},
 			"cross_a_zone": {
 				Optional:     true,
 				Type:         schema.TypeInt,
-				Default:      CROSS_A_ZONE_0,
-				ValidateFunc: validateAllowedIntValue(CROSS_A_ZONE),
-				Description:  "Off-site disaster recovery 1: use off-site disaster recovery; 0: do not use off-site disaster recovery; if empty, the default is not to use off-site disaster recovery.",
+				ValidateFunc: validation.IntInSlice([]int{0, 1}),
+				Description:  "Cross-region disaster recovery 1: use cross-region disaster recovery; 0: do not use cross-region disaster recovery; if empty, cross-region disaster recovery is not used by default.",
 			},
 			"domain": {
 				Optional:    true,
@@ -190,19 +209,27 @@ func resourceTencentCloudCfwNatInstance() *schema.Resource {
 					},
 				},
 			},
+			"cfw_ins_id": {
+				Computed:    true,
+				Type:        schema.TypeString,
+				Description: "Nat firewall instance id.",
+			},
+			"status": {
+				Computed:    true,
+				Type:        schema.TypeInt,
+				Description: "Instance status. 0: normal, 1: initializing.",
+			},
 		},
 	}
 }
 
 func resourceTencentCloudCfwNatInstanceCreate(d *schema.ResourceData, meta interface{}) error {
-	logElapsed("resource.tencentcloudenterprise_cfw_nat_instance.create")()
-	inconsistentCheck(d, meta)()
-	logId := getLogId(contextNil)
-	ctx := context.WithValue(context.TODO(), logIdKey, logId)
+	defer logElapsed("resource.tencentcloudenterprise_cfw_nat_instance.create")()
+	defer inconsistentCheck(d, meta)()
 
-	cfwService := CfwService{client: meta.(*TencentCloudClient).apiV3Conn}
 	request := cfw.NewCreateNatFwInstanceWithDomainRequest()
 	response := cfw.NewCreateNatFwInstanceWithDomainResponse()
+	logId := getLogId(contextNil)
 
 	if v, ok := d.GetOk("name"); ok {
 		request.Name = helper.String(v.(string))
@@ -212,19 +239,25 @@ func resourceTencentCloudCfwNatInstanceCreate(d *schema.ResourceData, meta inter
 		request.Width = helper.IntInt64(v.(int))
 	}
 
-	// it's strange that the mode is set, but cannot get the value from d.GetOk
-	if v := d.Get("mode"); v != nil {
-		request.Mode = helper.IntInt64(v.(int))
+	mode := d.Get("mode").(int)
+	request.Mode = helper.IntInt64(mode)
+
+	// Set zone and zone_bak (optional, will use default if not specified)
+	if v, ok := d.GetOk("zone"); ok {
+		request.Zone = helper.String(v.(string))
 	}
 
-	mode := d.Get("mode").(int)
+	if v, ok := d.GetOk("zone_bak"); ok {
+		request.ZoneBak = helper.String(v.(string))
+	}
+
 	if mode == MODE_0 {
 		if v, ok := d.GetOk("new_mode_items"); ok {
 			for _, item := range v.([]interface{}) {
 				dMap := item.(map[string]interface{})
 				newModeItems := cfw.NewModeItems{}
 				if v, ok = dMap["vpc_list"]; ok {
-					vpcList := v.(*schema.Set).List()
+					vpcList := v.([]interface{})
 					tmqVpcList := make([]*string, 0, len(vpcList))
 					for i := range vpcList {
 						vpc := vpcList[i].(string)
@@ -234,7 +267,7 @@ func resourceTencentCloudCfwNatInstanceCreate(d *schema.ResourceData, meta inter
 				}
 
 				if v, ok := dMap["eips"]; ok {
-					eipList := v.(*schema.Set).List()
+					eipList := v.([]interface{})
 					tmqEipList := make([]*string, 0, len(eipList))
 					for i := range eipList {
 						eip := eipList[i].(string)
@@ -255,7 +288,6 @@ func resourceTencentCloudCfwNatInstanceCreate(d *schema.ResourceData, meta inter
 		} else {
 			return fmt.Errorf("if `mode` is 0, `new_mode_items` is required")
 		}
-
 	} else {
 		if v, ok := d.GetOk("nat_gw_list"); ok {
 			gwList := v.(*schema.Set).List()
@@ -273,26 +305,6 @@ func resourceTencentCloudCfwNatInstanceCreate(d *schema.ResourceData, meta inter
 	}
 
 	if v, ok := d.GetOk("cross_a_zone"); ok {
-		// crossAZone = v.(int)
-		//if v, ok = d.GetOk("zone_set"); ok {
-		//	zoneList := v.(*schema.Set).List()
-		//	if crossAZone == CROSS_A_ZONE_0 {
-		//		if len(zoneList) != 1 {
-		//			return fmt.Errorf("if `cross_a_zone` is 0, `zone_set` only can be set one zone")
-		//		}
-		//
-		//		request.Zone = helper.String(zoneList[0].(string))
-		//
-		//	} else {
-		//		if len(zoneList) != 2 {
-		//			return fmt.Errorf("if `cross_a_zone` is 1, `zone_set` must be set tow zones")
-		//		}
-		//
-		//		request.Zone = helper.String(zoneList[0].(string))
-		//		request.ZoneBak = helper.String(zoneList[1].(string))
-		//	}
-		//}
-
 		request.CrossAZone = helper.IntInt64(v.(int))
 	}
 
@@ -303,6 +315,7 @@ func resourceTencentCloudCfwNatInstanceCreate(d *schema.ResourceData, meta inter
 		request.IsCreateDomain = helper.IntInt64(0)
 	}
 
+	// Set FwCidrInfo (default to VpcSelf if not specified)
 	if v, ok := d.GetOk("fw_cidr_info"); ok {
 		for _, item := range v.([]interface{}) {
 			dMap := item.(map[string]interface{})
@@ -329,19 +342,19 @@ func resourceTencentCloudCfwNatInstanceCreate(d *schema.ResourceData, meta inter
 
 					fwCidrInfo.FwCidrLst = append(fwCidrInfo.FwCidrLst, &fwCidr)
 				}
-
 			}
 
 			request.FwCidrInfo = &fwCidrInfo
 		}
+	} else {
+		// Default FwCidrInfo if not specified
+		fwCidrInfo := cfw.FwCidrInfo{}
+		fwCidrInfo.FwCidrType = helper.String("VpcSelf")
+		fwCidrInfo.ComFwCidr = helper.String("")
+		request.FwCidrInfo = &fwCidrInfo
 	}
 
-	fwCidrInfo := cfw.FwCidrInfo{}
-	fwCidrInfo.FwCidrType = helper.String("VpcSelf")
-	fwCidrInfo.ComFwCidr = helper.String("")
-	request.FwCidrInfo = &fwCidrInfo
-
-	err := resource.Retry(readRetryTimeout, func() *resource.RetryError {
+	err := resource.Retry(writeRetryTimeout, func() *resource.RetryError {
 		result, err := meta.(*TencentCloudClient).apiV3Conn.UseCfwClient().CreateNatFwInstanceWithDomain(request)
 		if err != nil {
 			return retryError(err)
@@ -361,27 +374,42 @@ func resourceTencentCloudCfwNatInstanceCreate(d *schema.ResourceData, meta inter
 	instanceId := *response.Response.CfwInsId
 	d.SetId(instanceId)
 
-	// wait
-	err = resource.Retry(3*readRetryTimeout, func() *resource.RetryError {
-		natInstance, err := cfwService.DescribeNatFwInstancesInfoById(ctx, instanceId)
-		if err != nil {
-			return retryError(err)
+	// Wait for instance to be ready (Status: 0 = normal, 1 = initializing)
+	// Also verify that associated resources (VPC list, EIPs) are properly configured
+	ctx := context.WithValue(context.TODO(), logIdKey, logId)
+	cfwService := CfwService{client: meta.(*TencentCloudClient).apiV3Conn}
+
+	err = resource.Retry(10*readRetryTimeout, func() *resource.RetryError {
+		natInstance, errRet := cfwService.DescribeNatFwInstancesInfoById(ctx, instanceId)
+		if errRet != nil {
+			return retryError(errRet, InternalError)
 		}
 
 		if natInstance == nil {
-			err = fmt.Errorf("cfw nat instance %s not exists", instanceId)
-			return resource.NonRetryableError(err)
+			return resource.NonRetryableError(fmt.Errorf("cfw nat instance %s not found", instanceId))
+		}
+
+		if natInstance.Status == nil {
+			return resource.NonRetryableError(fmt.Errorf("cfw nat instance %s status is nil", instanceId))
+		}
+
+		if *natInstance.Status == 1 {
+			// Still initializing
+			return resource.RetryableError(fmt.Errorf("cfw nat instance %s is still initializing, status: %d", instanceId, *natInstance.Status))
 		}
 
 		if *natInstance.Status == 0 {
+			// Normal, ready to use
+			log.Printf("[DEBUG]%s cfw nat instance %s is ready, status: %d\n", logId, instanceId, *natInstance.Status)
 			return nil
 		}
 
-		return resource.RetryableError(fmt.Errorf("create cfw natInstance status is %d", *natInstance.Status))
+		// Unknown status
+		return resource.NonRetryableError(fmt.Errorf("cfw nat instance %s has unknown status: %d", instanceId, *natInstance.Status))
 	})
 
 	if err != nil {
-		log.Printf("[CRITAL]%s create cfw natInstance failed, reason:%+v", logId, err)
+		log.Printf("[CRITAL]%s wait for cfw nat instance ready failed, reason:%+v", logId, err)
 		return err
 	}
 
@@ -422,106 +450,59 @@ func resourceTencentCloudCfwNatInstanceRead(d *schema.ResourceData, meta interfa
 		if *natInstance.FwMode == MODE_0 {
 			var newModeItems []interface{}
 			newModeItemsMap := map[string]interface{}{}
+
+			// Get VPC list
 			vpcList, err := cfwService.DescribeNatFwVpcDnsLstById(ctx, instanceId)
 			if err != nil {
 				return err
 			}
 
-			if vpcList == nil {
-				d.SetId("")
-				log.Printf("[WARN]%s resource `Cfw VpcList` [%s] not found, please check if it has been deleted.\n", logId, d.Id())
-				return nil
-			}
+			// Always set vpc_list, even if empty
+			newModeItemsMap["vpc_list"] = vpcList
 
-			if vpcList != nil {
-				newModeItemsMap["vpc_list"] = vpcList
+			// Get EIP addresses
+			eips := make([]string, 0)
+			if natInstance.EipAddress != nil && len(natInstance.EipAddress) > 0 {
+				for _, eip := range natInstance.EipAddress {
+					if eip != nil {
+						eips = append(eips, *eip)
+					}
+				}
 			}
+			newModeItemsMap["eips"] = eips
 
-			if natInstance.EipAddress != nil {
-				newModeItemsMap["eips"] = natInstance.EipAddress
-			}
+			// Set add_count based on EIPs length
+			newModeItemsMap["add_count"] = len(eips)
 
 			newModeItems = append(newModeItems, newModeItemsMap)
 			_ = d.Set("new_mode_items", newModeItems)
 		} else {
+			// Mode = 1, get NAT gateway list
 			natGwList, err := cfwService.DescribeCfwEipsById(ctx, instanceId)
 			if err != nil {
 				return err
 			}
 
-			if natGwList == nil {
-				d.SetId("")
-				log.Printf("[WARN]%s resource `CfwEips` [%s] not found, please check if it has been deleted.\n", logId, d.Id())
-				return nil
-			}
-
-			if natGwList != nil {
-				_ = d.Set("nat_gw_list", natGwList)
-			}
+			// Always set nat_gw_list, even if empty
+			_ = d.Set("nat_gw_list", natGwList)
 		}
 	}
-	// tencentcloud logic
-	//if natInstance.ZoneZh != nil {
-	//	zoneZh := *natInstance.ZoneZh
-	//	zone = ZONE_MAP_CN2EN[zoneZh]
-	//}
-	//
-	//if natInstance.ZoneZhBak != nil {
-	//	zoneBakZh := *natInstance.ZoneZhBak
-	//	zoneBak = ZONE_MAP_CN2EN[zoneBakZh]
-	//}
 
-	//if zone == zoneBak {
-	//	_ = d.Set("cross_a_zone", CROSS_A_ZONE_0)
-	//	zoneList := []string{
-	//		zone,
-	//	}
-	//	_ = d.Set("zone_set", zoneList)
-	//} else {
-	//	_ = d.Set("cross_a_zone", CROSS_A_ZONE_1)
-	//	zoneList := []string{
-	//		zone,
-	//		zoneBak,
-	//	}
-	//	_ = d.Set("zone_set", zoneList)
-	//}
+	// Set zone and zone_bak (these are Computed, so always set them)
+	if natInstance.Zone != nil {
+		_ = d.Set("zone", natInstance.Zone)
+	}
 
-	//if natInstance.Domain != nil {
-	//	_ = d.Set("domain", natInstance.Domain)
-	//}
-	//
-	//if natInstance.FwCidrInfo != nil {
-	//	fwCidrInfoMap := map[string]interface{}{}
-	//
-	//	if natInstance.FwCidrInfo.FwCidrType != nil {
-	//		fwCidrInfoMap["fw_cidr_type"] = natInstance.FwCidrInfo.FwCidrType
-	//	}
-	//
-	//	if natInstance.FwCidrInfo.FwCidrLst != nil {
-	//		fwCidrLstList := []interface{}{}
-	//		for _, fwCidrLst := range natInstance.FwCidrInfo.FwCidrLst {
-	//			fwCidrLstMap := map[string]interface{}{}
-	//
-	//			if fwCidrLst.VpcId != nil {
-	//				fwCidrLstMap["vpc_id"] = fwCidrLst.VpcId
-	//			}
-	//
-	//			if fwCidrLst.FwCidr != nil {
-	//				fwCidrLstMap["fw_cidr"] = fwCidrLst.FwCidr
-	//			}
-	//
-	//			fwCidrLstList = append(fwCidrLstList, fwCidrLstMap)
-	//		}
-	//
-	//		fwCidrInfoMap["fw_cidr_lst"] = []interface{}{fwCidrLstList}
-	//	}
-	//
-	//	if natInstance.FwCidrInfo.ComFwCidr != nil {
-	//		fwCidrInfoMap["com_fw_cidr"] = natInstance.FwCidrInfo.ComFwCidr
-	//	}
-	//
-	//	_ = d.Set("fw_cidr_info", []interface{}{fwCidrInfoMap})
-	//}
+	if natInstance.ZoneBak != nil {
+		_ = d.Set("zone_bak", natInstance.ZoneBak)
+	}
+
+	if natInstance.Status != nil {
+		_ = d.Set("status", natInstance.Status)
+	}
+
+	// Note: cross_a_zone and fw_cidr_info are not returned by DescribeNatFwInstancesInfo API
+	// Terraform will preserve these values from state
 
 	return nil
 }
@@ -529,13 +510,13 @@ func resourceTencentCloudCfwNatInstanceRead(d *schema.ResourceData, meta interfa
 func resourceTencentCloudCfwNatInstanceUpdate(d *schema.ResourceData, meta interface{}) error {
 	defer logElapsed("resource.tencentcloudenterprise_cfw_nat_instance.update")()
 	defer inconsistentCheck(d, meta)()
-	logId := getLogId(contextNil)
+
 	var (
-		request    = cfw.NewModifyNatFwInstanceRequest()
 		instanceId = d.Id()
+		logId      = getLogId(contextNil)
 	)
 
-	immutableArgs := []string{"width", "mode", "new_mode_items", "nat_gw_list", "zone", "zone_bak", "cross_a_zone", "domain", "fw_cidr_info"}
+	immutableArgs := []string{"mode", "nat_gw_list", "zone", "zone_bak", "cross_a_zone", "domain", "fw_cidr_info"}
 
 	for _, v := range immutableArgs {
 		if d.HasChange(v) {
@@ -543,26 +524,210 @@ func resourceTencentCloudCfwNatInstanceUpdate(d *schema.ResourceData, meta inter
 		}
 	}
 
-	request.NatInstanceId = &instanceId
+	// Handle name change
+	if d.HasChange("name") {
+		request := cfw.NewModifyNatInstanceRequest()
+		request.NatInstanceId = &instanceId
 
-	if v, ok := d.GetOk("name"); ok {
-		request.InstanceName = helper.String(v.(string))
-	}
-
-	err := resource.Retry(readRetryTimeout, func() *resource.RetryError {
-		result, err := meta.(*TencentCloudClient).apiV3Conn.UseCfwClient().ModifyNatFwInstance(request)
-		if err != nil {
-			return retryError(err)
-		} else {
-			log.Printf("[DEBUG]%s api[%s] success, request body [%s], response body [%s]\n", logId, request.GetAction(), request.ToJsonString(), result.ToJsonString())
+		if v, ok := d.GetOk("name"); ok {
+			request.InstanceName = helper.String(v.(string))
 		}
 
-		return nil
-	})
+		err := resource.Retry(writeRetryTimeout, func() *resource.RetryError {
+			result, e := meta.(*TencentCloudClient).apiV3Conn.UseCfwClient().ModifyNatInstance(request)
+			if e != nil {
+				return retryError(e)
+			} else {
+				log.Printf("[DEBUG]%s api[%s] success, request body [%s], response body [%s]\n", logId, request.GetAction(), request.ToJsonString(), result.ToJsonString())
+			}
+			return nil
+		})
 
-	if err != nil {
-		log.Printf("[CRITAL]%s update cfw natInstance failed, reason:%+v", logId, err)
-		return err
+		if err != nil {
+			log.Printf("[CRITAL]%s update cfw nat firewall instance name failed, reason:%+v", logId, err)
+			return err
+		}
+	}
+
+	// Handle width (bandwidth) change
+	if d.HasChange("width") {
+		request := cfw.NewExpandCfwVerticalRequest()
+		request.FwType = helper.String("nat")
+		request.CfwInstance = &instanceId
+
+		if v, ok := d.GetOk("width"); ok {
+			request.Width = helper.IntUint64(v.(int))
+		}
+
+		err := resource.Retry(writeRetryTimeout, func() *resource.RetryError {
+			result, e := meta.(*TencentCloudClient).apiV3Conn.UseCfwClient().ExpandCfwVertical(request)
+			if e != nil {
+				return retryError(e)
+			} else {
+				log.Printf("[DEBUG]%s api[%s] success, request body [%s], response body [%s]\n", logId, request.GetAction(), request.ToJsonString(), result.ToJsonString())
+			}
+			return nil
+		})
+
+		if err != nil {
+			log.Printf("[CRITAL]%s update cfw nat firewall instance bandwidth failed, reason:%+v", logId, err)
+			return err
+		}
+	}
+
+	// Handle new_mode_items.vpc_list change (Mode = 0)
+	if d.HasChange("new_mode_items") {
+		old, new := d.GetChange("new_mode_items")
+
+		mode := d.Get("mode").(int)
+		if mode != MODE_0 {
+			return fmt.Errorf("new_mode_items can only be modified for mode 0 instances")
+		}
+
+		oldList := old.([]interface{})
+		newList := new.([]interface{})
+
+		var oldVpcs, newVpcs []string
+
+		if len(oldList) > 0 {
+			oldMap := oldList[0].(map[string]interface{})
+			if vpcList, ok := oldMap["vpc_list"]; ok && vpcList != nil {
+				for _, vpc := range vpcList.([]interface{}) {
+					oldVpcs = append(oldVpcs, vpc.(string))
+				}
+			}
+		}
+
+		if len(newList) > 0 {
+			newMap := newList[0].(map[string]interface{})
+			if vpcList, ok := newMap["vpc_list"]; ok && vpcList != nil {
+				for _, vpc := range vpcList.([]interface{}) {
+					newVpcs = append(newVpcs, vpc.(string))
+				}
+			}
+		}
+
+		// Calculate VPCs to add and remove
+		toAdd := []string{}
+		toRemove := []string{}
+
+		// Find VPCs to add (in new but not in old)
+		for _, newVpc := range newVpcs {
+			found := false
+			for _, oldVpc := range oldVpcs {
+				if newVpc == oldVpc {
+					found = true
+					break
+				}
+			}
+			if !found {
+				toAdd = append(toAdd, newVpc)
+			}
+		}
+
+		// Find VPCs to remove (in old but not in new)
+		for _, oldVpc := range oldVpcs {
+			found := false
+			for _, newVpc := range newVpcs {
+				if oldVpc == newVpc {
+					found = true
+					break
+				}
+			}
+			if !found {
+				toRemove = append(toRemove, oldVpc)
+			}
+		}
+
+		// Remove VPCs
+		if len(toRemove) > 0 {
+			request := cfw.NewRemoveNatFwObjRequest()
+			request.CfwInstance = &instanceId
+			request.Mode = helper.IntInt64(MODE_0)
+
+			vpcListPtr := make([]*string, 0, len(toRemove))
+			for i := range toRemove {
+				vpcListPtr = append(vpcListPtr, &toRemove[i])
+			}
+			request.VpcList = vpcListPtr
+
+			err := resource.Retry(writeRetryTimeout, func() *resource.RetryError {
+				result, e := meta.(*TencentCloudClient).apiV3Conn.UseCfwClient().RemoveNatFwObj(request)
+				if e != nil {
+					return retryError(e)
+				} else {
+					log.Printf("[DEBUG]%s api[%s] success, request body [%s], response body [%s]\n", logId, request.GetAction(), request.ToJsonString(), result.ToJsonString())
+				}
+				return nil
+			})
+
+			if err != nil {
+				log.Printf("[CRITAL]%s remove vpc from nat firewall failed, reason:%+v", logId, err)
+				return err
+			}
+		}
+
+		// Add VPCs
+		if len(toAdd) > 0 {
+			request := cfw.NewAddNatFwObjRequest()
+			request.CfwInstance = &instanceId
+			request.Mode = helper.IntInt64(MODE_0)
+
+			vpcListPtr := make([]*string, 0, len(toAdd))
+			for i := range toAdd {
+				vpcListPtr = append(vpcListPtr, &toAdd[i])
+			}
+			request.VpcList = vpcListPtr
+
+			// Set FwCidrInfo (use existing config or default)
+			if v, ok := d.GetOk("fw_cidr_info"); ok {
+				for _, item := range v.([]interface{}) {
+					dMap := item.(map[string]interface{})
+					fwCidrInfo := cfw.FwCidrInfo{}
+					if v, ok := dMap["fw_cidr_type"]; ok {
+						fwCidrInfo.FwCidrType = helper.String(v.(string))
+					}
+					if v, ok := dMap["com_fw_cidr"]; ok {
+						fwCidrInfo.ComFwCidr = helper.String(v.(string))
+					}
+					if v, ok := dMap["fw_cidr_lst"]; ok {
+						for _, cidr := range v.([]interface{}) {
+							iMap := cidr.(map[string]interface{})
+							fwCidr := cfw.FwVpcCidr{}
+							if v, ok := iMap["vpc_id"]; ok {
+								fwCidr.VpcId = helper.String(v.(string))
+							}
+							if v, ok := iMap["fw_cidr"]; ok {
+								fwCidr.FwCidr = helper.String(v.(string))
+							}
+							fwCidrInfo.FwCidrLst = append(fwCidrInfo.FwCidrLst, &fwCidr)
+						}
+					}
+					request.FwCidrInfo = &fwCidrInfo
+				}
+			} else {
+				// Default FwCidrInfo
+				fwCidrInfo := cfw.FwCidrInfo{}
+				fwCidrInfo.FwCidrType = helper.String("VpcSelf")
+				fwCidrInfo.ComFwCidr = helper.String("")
+				request.FwCidrInfo = &fwCidrInfo
+			}
+
+			err := resource.Retry(writeRetryTimeout, func() *resource.RetryError {
+				result, e := meta.(*TencentCloudClient).apiV3Conn.UseCfwClient().AddNatFwObj(request)
+				if e != nil {
+					return retryError(e)
+				} else {
+					log.Printf("[DEBUG]%s api[%s] success, request body [%s], response body [%s]\n", logId, request.GetAction(), request.ToJsonString(), result.ToJsonString())
+				}
+				return nil
+			})
+
+			if err != nil {
+				log.Printf("[CRITAL]%s add vpc to nat firewall failed, reason:%+v", logId, err)
+				return err
+			}
+		}
 	}
 
 	return resourceTencentCloudCfwNatInstanceRead(d, meta)
@@ -572,14 +737,14 @@ func resourceTencentCloudCfwNatInstanceDelete(d *schema.ResourceData, meta inter
 	defer logElapsed("resource.tencentcloudenterprise_cfw_nat_instance.delete")()
 	defer inconsistentCheck(d, meta)()
 
-	logId := getLogId(contextNil)
-	ctx := context.WithValue(context.TODO(), logIdKey, logId)
+	var (
+		logId    = getLogId(contextNil)
+		ctx      = context.WithValue(context.TODO(), logIdKey, logId)
+		service  = CfwService{client: meta.(*TencentCloudClient).apiV3Conn}
+		cfwInsId = d.Id()
+	)
 
-	cfwService := CfwService{client: meta.(*TencentCloudClient).apiV3Conn}
-
-	instanceId := d.Id()
-
-	if err := cfwService.DeleteNatFwInstanceById(ctx, instanceId); err != nil {
+	if err := service.DeleteNatFwInstanceById(ctx, cfwInsId); err != nil {
 		return err
 	}
 

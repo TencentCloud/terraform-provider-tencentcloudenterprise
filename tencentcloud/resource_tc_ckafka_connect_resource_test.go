@@ -41,7 +41,7 @@ resource "tencentcloudenterprise_ckafka_connect_resource" "connect_resource" {
     resource    = "cdb-fitq5t9h"
     password    = "QtaTest@123"
     self_built  = false
-    service_vip = "203.0.113.59"
+    service_vip = "172.16.80.59"
     uniq_vpc_id = "vpc-4owdpnwr"
     user_name   = "root"
   }

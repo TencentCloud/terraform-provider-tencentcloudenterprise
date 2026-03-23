@@ -7,6 +7,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+
 	sdkErrs "terraform-provider-tencentcloudenterprise/sdk/common/errors"
 	tdmq "terraform-provider-tencentcloudenterprise/sdk/tdmq/v20200217"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
@@ -14,7 +15,7 @@ import (
 
 func init() {
 	registerResourceDescriptionProvider("tencentcloudenterprise_tdmq_pulsar_route", CNDescription{
-		TerraformTypeCN: "TDMQ 路由",
+		TerraformTypeCN: "TDMQ Pulsar路由",
 		DescriptionCN:   "提供TDMQ路由资源，用于创建和管理TDMQ路由。",
 		AttributesCN: map[string]string{
 			"net_type":         "网络类型",

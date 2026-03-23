@@ -1,7 +1,7 @@
 /*
 Provides an EIP resource.
 
-# Example Usage
+Example Usage
 
 ```hcl
 
@@ -14,7 +14,7 @@ Provides an EIP resource.
 
 ```
 
-# Import
+Import
 
 EIP can be imported using the id, e.g.
 
@@ -29,11 +29,11 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	vpc "terraform-provider-tencentcloudenterprise/sdk/vpc/v20170312"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/ratelimit"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func init() {
@@ -105,11 +105,11 @@ func resourceTencentCloudEip() *schema.Resource {
 				Deprecated:  "It has been deprecated from version 1.27.0.",
 			},
 			"internet_service_provider": {
-				Type:     schema.TypeString,
-				Optional: true,
-				ForceNew: true,
+				Type:         schema.TypeString,
+				Optional:     true,
+				ForceNew:     true,
 				// ValidateFunc: validateAllowedStringValue([]string{"BGP", "CMCC", "CTCC", "CUCC"}),
-				Description: "Internet service provider of eip. Valid value: `BGP`, `CMCC`, `CTCC` and `CUCC`.",
+				Description:  "Internet service provider of eip. Valid value: `BGP`, `CMCC`, `CTCC` and `CUCC`.",
 			},
 			"internet_charge_type": {
 				Type:         schema.TypeString,

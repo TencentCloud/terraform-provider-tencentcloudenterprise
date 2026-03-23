@@ -51,7 +51,7 @@ func testAccTencentCloudCdgRouteExists(r string) resource.TestCheckFunc {
 		items := strings.Split(rs.Primary.ID, "#")
 
 		if len(items) != 2 {
-			return fmt.Errorf("id of resource.cloud_dc_gateway_ccn_route is wrong")
+			return fmt.Errorf("id of resource.tencentcloudenterprise_dc_gateway_ccn_route is wrong")
 		}
 
 		dcgId, routeId := items[0], items[1]
@@ -93,7 +93,7 @@ func testAccTencentCloudCdgRouteDestroy(s *terraform.State) error {
 		items := strings.Split(rs.Primary.ID, "#")
 
 		if len(items) != 2 {
-			return fmt.Errorf("id of resource.cloud_dc_gateway_ccn_route is wrong")
+			return fmt.Errorf("id of resource.tencentcloudenterprise_dc_gateway_ccn_route is wrong")
 		}
 
 		dcgId, routeId := items[0], items[1]

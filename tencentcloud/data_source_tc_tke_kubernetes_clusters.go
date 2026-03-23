@@ -1,7 +1,7 @@
 /*
 Use this data source to query detailed information of kubernetes clusters.
 
-# Example Usage
+Example Usage
 
 ```hcl
 
@@ -21,9 +21,9 @@ import (
 	"context"
 	"log"
 
+	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
 )
 
 func tkeClusterInfo() map[string]*schema.Schema {
@@ -215,50 +215,50 @@ func init() {
 		TerraformTypeCN: "tke集群",
 		DescriptionCN:   "提供TKE Kubernetes集群数据源，用于查询TKE Kubernetes集群的详细信息。",
 		AttributesCN: map[string]string{
-			"cluster_id":                   "群集的ID与cluster_name冲突，不能同时设置",
-			"cluster_name":                 "群集的名称与cluster_id冲突，不能同时设置",
-			"tags":                         "集群的标签",
-			"result_output_file":           "用于保存结果",
-			"list":                         "kubernetes集群的信息列表每个元素都包含以下属性：",
-			"cluster_extra_args":           "主节点组件的自定义参数",
-			"kube_scheduler":               "kube-scheduler的自定义参数",
-			"kube_apiserver":               "kube-apiserver的自定义参数",
-			"kube_controller_manager":      "kube-controller-manager的自定义参数",
-			"certification_authority":      "集群的CA证书",
-			"deletion_protection":          "是否开启集群删除保护",
-			"cluster_node_num":             "集群节点数量",
-			"worker_instances_list":        "工作节点列表",
-			"instance_role":                "实例角色",
-			"instance_state":               "实例状态",
-			"failed_reason":                "失败原因",
-			"lan_ip":                       "内网IP",
-			"instance_id":                  "实例ID",
-			"kube_config":                  "kubernetes配置",
-			"cluster_external_endpoint":    "集群外网访问地址",
-			"cluster_deploy_type":          "集群部署类型",
-			"cluster_ipvs":                 "是否开启ipvs",
-			"user_name":                    "用户名",
-			"network_type":                 "集群网络类型",
-			"kube_proxy_mode":              "kube-proxy模式",
-			"password":                     "密码",
-			"kube_config_intranet":         "内网kubernetes配置",
-			"cluster_os":                   "集群操作系统",
-			"project_id":                   "项目ID",
-			"cluster_cidr":                 "集群的网络地址块",
+			"cluster_id":         "群集的ID与cluster_name冲突，不能同时设置",
+			"cluster_name":       "群集的名称与cluster_id冲突，不能同时设置",
+			"tags":               "集群的标签",
+			"result_output_file": "用于保存结果",
+			"list":               "kubernetes集群的信息列表每个元素都包含以下属性：",
+			"cluster_extra_args": "主节点组件的自定义参数",
+			"kube_scheduler":    "kube-scheduler的自定义参数",
+			"kube_apiserver": "kube-apiserver的自定义参数",
+			"kube_controller_manager": "kube-controller-manager的自定义参数",
+			"certification_authority": "集群的CA证书",
+			"deletion_protection": "是否开启集群删除保护",
+			"cluster_node_num": "集群节点数量",
+			"worker_instances_list": "工作节点列表",
+			"instance_role": "实例角色",
+			"instance_state": "实例状态",
+			"failed_reason": "失败原因",
+			"lan_ip": "内网IP",
+			"instance_id": "实例ID",
+			"kube_config": "kubernetes配置",
+			"cluster_external_endpoint": "集群外网访问地址",
+			"cluster_deploy_type": "集群部署类型",
+			"cluster_ipvs": "是否开启ipvs",
+			"user_name": "用户名",
+			"network_type": "集群网络类型",
+			"kube_proxy_mode": "kube-proxy模式",
+			"password": "密码",
+			"kube_config_intranet": "内网kubernetes配置",
+			"cluster_os": "集群操作系统",
+			"project_id": "项目ID",
+			"cluster_cidr": "集群的网络地址块",
 			"ignore_cluster_cidr_conflict": "是否忽略集群CIDR冲突错误",
-			"service_cidr":                 "集群的网络地址块",
-			"cluster_desc":                 "集群描述",
-			"cluster_max_pod_num":          "集群每个节点的最大Pod数",
-			"is_non_static_ip_mode":        "是否开启非静态IP模式",
-			"claim_expired_seconds":        "回收ENI的过期秒数",
-			"domain":                       "域名",
-			"security_policy":              "安全策略",
-			"cluster_as_enabled":           "是否开启集群节点自动扩展",
-			"node_name_type":               "集群节点名称类型",
-			"eni_subnet_ids":               "VPC-CNI网络模式下的子网ID",
-			"container_runtime":            "容器运行时",
-			"cluster_version":              "集群版本",
-			"vpc_id":                       "集群的VPC ID", "cluster_max_service_num": "集群的最大服务数",
+			"service_cidr": "集群的网络地址块",
+			"cluster_desc": "集群描述",
+			"cluster_max_pod_num": "集群每个节点的最大Pod数",
+			"is_non_static_ip_mode": "是否开启非静态IP模式",
+			"claim_expired_seconds": "回收ENI的过期秒数",
+			"domain": "域名",
+			"security_policy": "安全策略",
+			"cluster_as_enabled":"是否开启集群节点自动扩展",
+			"node_name_type": "集群节点名称类型",
+			"eni_subnet_ids": "VPC-CNI网络模式下的子网ID",
+			"container_runtime": "容器运行时",
+			"cluster_version": "集群版本",
+			"vpc_id": "集群的VPC ID",			"cluster_max_service_num": "集群的最大服务数",
 			"pgw_endpoint": "PGW访问地址",
 		},
 	})
@@ -402,7 +402,7 @@ LOOP:
 
 		}
 		if err != nil {
-			log.Printf("[CRITAL]%s cloud_tke_kubernetes_clusters DescribeClusterInstances fail, reason:%s\n ", logId, err.Error())
+			log.Printf("[CRITAL]%s tencentcloudenterprise_tke_kubernetes_clusters DescribeClusterInstances fail, reason:%s\n ", logId, err.Error())
 			//return err
 		}
 
@@ -424,7 +424,7 @@ LOOP:
 		//}
 		//
 		//if err != nil {
-		//	log.Printf("[CRITAL]%s cloud_tke_kubernetes_clusters DescribeClusterSecurity fail, reason:%s\n ", logId, err.Error())
+		//	log.Printf("[CRITAL]%s tencentcloudenterprise_tke_kubernetes_clusters DescribeClusterSecurity fail, reason:%s\n ", logId, err.Error())
 		//	return err
 		//}
 		//
@@ -452,7 +452,7 @@ LOOP:
 		//	})
 		//}
 		//if err != nil {
-		//	log.Printf("[CRITAL]%s cloud_tke_kubernetes_clusters DescribeClusterInstances fail, reason:%s\n ", logId, err.Error())
+		//	log.Printf("[CRITAL]%s tencentcloudenterprise_tke_kubernetes_clusters DescribeClusterInstances fail, reason:%s\n ", logId, err.Error())
 		//	return err
 		//}
 		//
@@ -467,7 +467,7 @@ LOOP:
 		//	})
 		//}
 		//if err != nil {
-		//	log.Printf("[CRITAL]%s cloud_tke_kubernetes_clusters DescribeClusterInstances fail, reason:%s\n ", logId, err.Error())
+		//	log.Printf("[CRITAL]%s tencentcloudenterprise_tke_kubernetes_clusters DescribeClusterInstances fail, reason:%s\n ", logId, err.Error())
 		//	return err
 		//}
 
@@ -479,7 +479,7 @@ LOOP:
 	d.SetId("KubernetesClusters" + name + id)
 	err = d.Set("list", list)
 	if err != nil {
-		log.Printf("[CRITAL]%s provider set cloud_tke_kubernetes_clusters list fail, reason:%s\n ", logId, err.Error())
+		log.Printf("[CRITAL]%s provider set tencentcloudenterprise_tke_kubernetes_clusters list fail, reason:%s\n ", logId, err.Error())
 		return err
 	}
 

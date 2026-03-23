@@ -1,16 +1,14 @@
 /*
 Use this data source to query detailed information of tsf business_log_configs
 
-# Example Usage
+Example Usage
 
 ```hcl
-
-	data "tencentcloudenterprise_tsf_business_log_configs" "business_log_configs" {
-	  search_word = "terraform"
-	  disable_program_auth_check = true
-	  config_id_list = ["apm-busi-log-cfg-qv3x3rdv"]
-	}
-
+data "tencentcloudenterprise_tsf_business_log_configs" "business_log_configs" {
+  search_word = "terraform"
+  disable_program_auth_check = true
+  config_id_list = ["apm-busi-log-cfg-qv3x3rdv"]
+}
 ```
 */
 package tencentcloud
@@ -18,10 +16,10 @@ package tencentcloud
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	tsf "terraform-provider-tencentcloudenterprise/sdk/tsf/v20180326"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func init() {
@@ -29,10 +27,10 @@ func init() {
 		TerraformTypeCN: "TSF业务日志配置",
 		DescriptionCN:   "提供TSF业务日志配置数据源，用于查询TSF业务日志配置的详细信息。",
 		AttributesCN: map[string]string{
-			"search_word":                "搜索关键字",
+			"search_word":               "搜索关键字",
 			"disable_program_auth_check": "是否禁用程序鉴权",
 			"config_id_list":             "配置ID列表",
-			"result":                     "业务日志配置列表。注意：此字段可能返回 null，表示取不到有效值。",
+			"result":                    "业务日志配置列表。注意：此字段可能返回 null，表示取不到有效值。",
 			"total_count":                "总条数。注意：此字段可能返回 null，表示取不到有效值。",
 			"content":                    "日志配置项列表。注意：此字段可能返回 null，表示取不到有效值。",
 			"config_id":                  "配置ID",
@@ -62,7 +60,7 @@ func init() {
 			"cluster_name":               "部署组所属集群名称。注意：此字段可能返回 null，表示取不到有效值。",
 			"cluster_type":               "部署组所属集群类型。注意：此字段可能返回 null，表示取不到有效值。",
 			"associated_time":            "部署组与配置项关联的时间。注意：此字段可能返回 null，表示取不到有效值。",
-			"result_output_file":         "用于保存结果",
+			"result_output_file":        "用于保存结果",
 		},
 	})
 
@@ -71,7 +69,7 @@ func init() {
 func dataSourceTencentCloudTsfBusinessLogConfigs() *schema.Resource {
 	return &schema.Resource{
 		Description: "Use this data source to query detailed information of tsf business_log_configs",
-		Read:        dataSourceTencentCloudTsfBusinessLogConfigsRead,
+		Read: dataSourceTencentCloudTsfBusinessLogConfigsRead,
 		Schema: map[string]*schema.Schema{
 			"search_word": {
 				Optional:    true,

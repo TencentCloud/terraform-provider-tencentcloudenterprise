@@ -1,15 +1,13 @@
 /*
 Use this data source to query detailed information of tsf repository
 
-# Example Usage
+Example Usage
 
 ```hcl
-
-	data "tencentcloudenterprise_tsf_repository" "repository" {
-	  search_word = "test"
-	  repository_type = "default"
-	}
-
+data "tencentcloudenterprise_tsf_repository" "repository" {
+  search_word = "test"
+  repository_type = "default"
+}
 ```
 */
 package tencentcloud
@@ -17,10 +15,10 @@ package tencentcloud
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	tsf "terraform-provider-tencentcloudenterprise/sdk/tsf/v20180326"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func init() {
@@ -28,19 +26,19 @@ func init() {
 		TerraformTypeCN: "TSF仓库",
 		DescriptionCN:   "提供TSF仓库数据源，用于查询TSF仓库的详细信息。",
 		AttributesCN: map[string]string{
-			"search_word":        "查询关键字（按仓库名搜索）",
-			"repository_type":    "仓库类型（默认仓库：default，私有仓库：private）",
-			"result":             "符合查询条件的仓库信息列表",
-			"total_count":        "仓库总数",
-			"content":            "仓库信息列表。注意：此字段可能返回 null，表示取不到有效值。",
-			"repository_id":      "仓库Id",
-			"repository_name":    "仓库名称",
-			"repository_desc":    "仓库描述（默认仓库：default，私有仓库：private）",
-			"is_used":            "仓库是否正在被使用。注意：此字段可能返回 null，表示取不到有效值。",
-			"create_time":        "创建时间。注意：此字段可能返回 null，表示取不到有效值。",
-			"bucket_name":        "仓库bucket名称。注意：此字段可能返回 null，表示取不到有效值。",
-			"bucket_region":      "仓库区域。注意：此字段可能返回 null，表示取不到有效值。",
-			"directory":          "仓库目录。注意：此字段可能返回 null，表示取不到有效值。",
+			"search_word":     "查询关键字（按仓库名搜索）",
+			"repository_type": "仓库类型（默认仓库：default，私有仓库：private）",
+			"result":          "符合查询条件的仓库信息列表",
+			"total_count":     "仓库总数",
+			"content":         "仓库信息列表。注意：此字段可能返回 null，表示取不到有效值。",
+			"repository_id":   "仓库Id",
+			"repository_name": "仓库名称",
+			"repository_desc": "仓库描述（默认仓库：default，私有仓库：private）",
+			"is_used":         "仓库是否正在被使用。注意：此字段可能返回 null，表示取不到有效值。",
+			"create_time":     "创建时间。注意：此字段可能返回 null，表示取不到有效值。",
+			"bucket_name":     "仓库bucket名称。注意：此字段可能返回 null，表示取不到有效值。",
+			"bucket_region":   "仓库区域。注意：此字段可能返回 null，表示取不到有效值。",
+			"directory":       "仓库目录。注意：此字段可能返回 null，表示取不到有效值。",
 			"result_output_file": "用于保存结果",
 		},
 	})
@@ -50,7 +48,7 @@ func init() {
 func dataSourceTencentCloudTsfRepository() *schema.Resource {
 	return &schema.Resource{
 		Description: "Use this data source to query detailed information of tsf repository.",
-		Read:        dataSourceTencentCloudTsfRepositoryRead,
+		Read: dataSourceTencentCloudTsfRepositoryRead,
 		Schema: map[string]*schema.Schema{
 			"search_word": {
 				Optional:    true,

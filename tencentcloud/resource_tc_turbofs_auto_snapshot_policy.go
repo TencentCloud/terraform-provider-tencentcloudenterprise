@@ -1,7 +1,7 @@
 /*
 Provides a resource to create a turbofs auto_snapshot_policy
 
-# Example Usage
+Example Usage
 
 use day of week
 
@@ -28,7 +28,7 @@ use day of month
 	}
 
 ```
-Import
+# Import
 
 turbofs auto_snapshot_policy can be imported using the id, e.g.
 
@@ -43,10 +43,10 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	turbofs "terraform-provider-tencentcloudenterprise/sdk/turbofs/v20190719"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func init() {
@@ -60,7 +60,7 @@ func init() {
 			"policy_name":             "策略名称",
 			"alive_days":              "快照保留时长",
 			"auto_snapshot_policy_id": "快照策略ID",
-			"interval_days":           "自动快照策略产生快照时间，DayOfWeek/DayOfMonth/IntervalDays三选一，IntervalDays是一年中几号产生快照",
+			"interval_days":		   "自动快照策略产生快照时间，DayOfWeek/DayOfMonth/IntervalDays三选一，IntervalDays是一年中几号产生快照",
 		},
 	})
 }
@@ -187,7 +187,7 @@ func resourceTencentCloudTurbofsAutoSnapshotPolicyRead(d *schema.ResourceData, m
 	}
 	if autoSnapshotPolicy == nil {
 		d.SetId("")
-		return fmt.Errorf("resource `cloud_turbofs_auto_snapshot_policy` %s does not exist", d.Id())
+		return fmt.Errorf("resource `tencentcloudenterprise_turbofs_auto_snapshot_policy` %s does not exist", d.Id())
 	}
 
 	if autoSnapshotPolicy.IntervalDays != nil {

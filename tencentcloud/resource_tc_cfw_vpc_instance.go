@@ -18,7 +18,7 @@ Provides a resource to create a cloud firewall (cfw) vpc instance.
 	      "vpc-e8wcbn67"
 	    ]
 	    fw_deploy {
-	      width         = 1024
+	      width         = 200
 	      cross_a_zone  = 1
 	      deploy_region = "ap-beijing-region-jcctest-ops"
 	    }
@@ -42,7 +42,7 @@ Provides a resource to create a cloud firewall (cfw) vpc instance.
 	    name = "fw_ins_example"
 	    fw_deploy {
 	      deploy_region = "ap-beijing-region-jcctest-ops"
-	      width         = 1024
+	      width         = 200
 	      cross_a_zone  = 0
 	    }
 	  }
@@ -56,10 +56,10 @@ Provides a resource to create a cloud firewall (cfw) vpc instance.
 
 # Import
 
-Cloud firewall vpc instance can be imported using the id, e.g.
+Cloud firewall vpc group can be imported using the id, e.g.
 
 ```
-$ terraform import tencentcloudenterprise_cfw_vpc_policy.example cfwg-4ee69507
+$ terraform import tencentcloudenterprise_cfw_vpc_instance.example cfwg-4ee69507
 */
 package tencentcloud
 
@@ -67,24 +67,41 @@ import (
 	"context"
 	"fmt"
 	"log"
-	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
 
+	cfw "terraform-provider-tencentcloudenterprise/sdk/cfw/v20190904"
+	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	cfw "terraform-provider-tencentcloudenterprise/sdk/cfw/v20190904"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 )
 
 func init() {
 	registerResourceDescriptionProvider("tencentcloudenterprise_cfw_vpc_instance", CNDescription{
-		TerraformTypeCN: "云防火墙VPC实例",
-		DescriptionCN:   "提供云防火墙VPC实例资源，用于创建和管理云防火墙VPC间防护实例。",
+		TerraformTypeCN: "VPC间防火墙实例",
+		DescriptionCN:   "提供VPC间防火墙实例资源，用于创建和管理VPC间防火墙实例。",
 		AttributesCN: map[string]string{
 			"name":             "防火墙实例名称",
 			"mode":             "防火墙模式",
 			"vpc_fw_instances": "VPC防火墙实例配置",
+			"fw_ins_id":        "防火墙实例ID",
+			"vpc_ids":          "私有网络模式下接入的VpcId列表",
+			"fw_deploy":        "部署地域信息",
+			"deploy_region":    "防火墙部署地域",
+			"width":            "带宽",
+			"cross_a_zone":     "异地灾备",
+			"zone":             "主可用区",
+			"zone_bak":         "备可用区",
+			"cdc_id":           "CDC专用集群ID",
 			"switch_mode":      "开关模式",
 			"fw_vpc_cidr":      "防火墙VPC网段",
 			"ccn_id":           "云联网ID",
+			"fw_cidr_info":     "指定防火墙使用网段信息",
+			"fw_cidr_type":     "防火墙使用的网段类型",
+			"fw_cidr_lst":      "为每个vpc指定防火墙的网段",
+			"vpc_id":           "VPC ID",
+			"fw_cidr":          "防火墙网段",
+			"com_fw_cidr":      "其他防火墙占用网段",
+			"fw_group_id":      "防火墙组ID",
 		},
 	})
 }
@@ -119,6 +136,7 @@ func resourceTencentCloudCfwVpcInstance() *schema.Resource {
 					Schema: map[string]*schema.Schema{
 						"fw_ins_id": {
 							Type:        schema.TypeString,
+							Optional:    true,
 							Computed:    true,
 							Description: "Firewall instance ID (passed in editing scenario).",
 						},
@@ -129,7 +147,7 @@ func resourceTencentCloudCfwVpcInstance() *schema.Resource {
 						},
 						"vpc_ids": {
 							Type:        schema.TypeSet,
-							Optional:    true,
+							Required:    true,
 							Elem:        &schema.Schema{Type: schema.TypeString},
 							Description: "List of VpcIds accessed in private network mode; only used in private network mode.",
 						},
@@ -140,6 +158,11 @@ func resourceTencentCloudCfwVpcInstance() *schema.Resource {
 							Description: "Deploy regional information.",
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
+									"cdc_id": {
+										Type:        schema.TypeString,
+										Optional:    true,
+										Description: "When it is a CDC firewall, fill in this ID.",
+									},
 									"deploy_region": {
 										Type:        schema.TypeString,
 										Required:    true,
@@ -148,7 +171,7 @@ func resourceTencentCloudCfwVpcInstance() *schema.Resource {
 									"width": {
 										Type:         schema.TypeInt,
 										Required:     true,
-										ValidateFunc: validateIntegerMin(1024),
+										ValidateFunc: validation.IntAtLeast(1),
 										Description:  "Bandwidth, unit: Mbps.",
 									},
 									"cross_a_zone": {
@@ -157,6 +180,20 @@ func resourceTencentCloudCfwVpcInstance() *schema.Resource {
 										ValidateFunc: validateAllowedIntValue(CROSS_A_ZONE),
 										Default:      CROSS_A_ZONE_0,
 										Description:  "Off-site disaster recovery 1: use off-site disaster recovery; 0: do not use off-site disaster recovery; if it is empty, off-site disaster recovery will not be used by default.",
+									},
+									"zone": {
+										Optional:    true,
+										Computed:    true,
+										Type:        schema.TypeString,
+										ForceNew:    true,
+										Description: "main zone, use default available zone if empty.",
+									},
+									"zone_bak": {
+										Optional:    true,
+										Computed:    true,
+										Type:        schema.TypeString,
+										ForceNew:    true,
+										Description: "Backup availability zone, if empty, the default availability zone is selected.",
 									},
 								},
 							},
@@ -181,6 +218,50 @@ func resourceTencentCloudCfwVpcInstance() *schema.Resource {
 				Type:        schema.TypeString,
 				Description: "Cloud networking id, suitable for cloud networking mode.",
 			},
+			"fw_cidr_info": {
+				Optional:    true,
+				Type:        schema.TypeList,
+				MaxItems:    1,
+				Description: "Specify the network segment information used by the firewall.",
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						"fw_cidr_type": {
+							Type:        schema.TypeString,
+							Required:    true,
+							Description: "The type of network segment used by the firewall. The values VpcSelf/Assis/Custom respectively represent own network segment priority/extended network segment priority/custom.",
+						},
+						"fw_cidr_lst": {
+							Type:        schema.TypeList,
+							Optional:    true,
+							Description: "Specify the network segment of the firewall for each vpc.",
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									"vpc_id": {
+										Type:        schema.TypeString,
+										Required:    true,
+										Description: "Vpc id.",
+									},
+									"fw_cidr": {
+										Type:        schema.TypeString,
+										Required:    true,
+										Description: "Firewall network segment, at least /24 network segment.",
+									},
+								},
+							},
+						},
+						"com_fw_cidr": {
+							Type:        schema.TypeString,
+							Optional:    true,
+							Description: "Other firewalls occupy the network segment, which is usually the network segment specified when the firewall needs to exclusively occupy the vpc.",
+						},
+					},
+				},
+			},
+			"fw_group_id": {
+				Computed:    true,
+				Type:        schema.TypeString,
+				Description: "Firewall Group ID",
+			},
 		},
 	}
 }
@@ -201,10 +282,8 @@ func resourceTencentCloudCfwVpcInstanceCreate(d *schema.ResourceData, meta inter
 		request.Name = helper.String(v.(string))
 	}
 
-	if v, ok := d.GetOkExists("mode"); ok {
-		request.Mode = helper.IntInt64(v.(int))
-		mode = v.(int)
-	}
+	mode = d.Get("mode").(int)
+	request.Mode = helper.IntInt64(mode)
 
 	if mode == MODE_0 {
 		if v, ok := d.GetOk("vpc_fw_instances"); ok {
@@ -218,7 +297,7 @@ func resourceTencentCloudCfwVpcInstanceCreate(d *schema.ResourceData, meta inter
 				if v, ok := dMap["vpc_ids"]; ok {
 					vpcIdsSet := v.(*schema.Set).List()
 					if len(vpcIdsSet) == 0 {
-						return fmt.Errorf("If `mode` is 0, `vpc_ids` is required.")
+						return fmt.Errorf("if `mode` is 0, `vpc_ids` is required")
 					}
 
 					for i := range vpcIdsSet {
@@ -238,29 +317,26 @@ func resourceTencentCloudCfwVpcInstanceCreate(d *schema.ResourceData, meta inter
 					}
 
 					if v, ok := fwDeployMap["cross_a_zone"]; ok {
-						//crossAZone := v.(int)
-						//if v, ok := fwDeployMap["zone_set"]; ok {
-						//	zoneList := v.(*schema.Set).List()
-						//	if crossAZone == CROSS_A_ZONE_0 {
-						//		if len(zoneList) != 1 {
-						//			return fmt.Errorf("if `cross_a_zone` is 0, `zone_set` only can be set one zone")
-						//		}
-						//
-						//		fwDeploy.Zone = helper.String(zoneList[0].(string))
-						//
-						//	} else {
-						//		if len(zoneList) != 2 {
-						//			return fmt.Errorf("if `cross_a_zone` is 1, `zone_set` must be set two zones")
-						//		}
-						//
-						//		fwDeploy.Zone = helper.String(zoneList[0].(string))
-						//		fwDeploy.ZoneBak = helper.String(zoneList[1].(string))
-						//	}
-						//}
 						fwDeploy.CrossAZone = helper.IntInt64(v.(int))
 					}
 
+					if v, ok := fwDeployMap["zone"]; ok {
+						fwDeploy.Zone = helper.String(v.(string))
+					}
+
+					if v, ok := fwDeployMap["zone_bak"]; ok {
+						fwDeploy.ZoneBak = helper.String(v.(string))
+					}
+
+					if v, ok := fwDeployMap["cdc_id"]; ok {
+						fwDeploy.CdcId = helper.String(v.(string))
+					}
+
 					vpcFwInstance.FwDeploy = &fwDeploy
+				}
+
+				if v, ok := dMap["fw_ins_id"]; ok {
+					vpcFwInstance.FwInsId = helper.String(v.(string))
 				}
 
 				request.VpcFwInstances = append(request.VpcFwInstances, &vpcFwInstance)
@@ -275,10 +351,46 @@ func resourceTencentCloudCfwVpcInstanceCreate(d *schema.ResourceData, meta inter
 			request.SwitchMode = helper.IntInt64(v.(int))
 		}
 
-		fwCidrInfo := cfw.FwCidrInfo{}
-		fwCidrInfo.FwCidrType = helper.String("VpcSelf")
-		fwCidrInfo.ComFwCidr = helper.String("")
-		request.FwCidrInfo = &fwCidrInfo
+		if v, ok := d.GetOk("fw_cidr_info"); ok {
+			fwCidrInfoList := v.([]interface{})
+			if len(fwCidrInfoList) > 0 {
+				fwCidrInfoMap := fwCidrInfoList[0].(map[string]interface{})
+				fwCidrInfo := cfw.FwCidrInfo{}
+
+				if v, ok := fwCidrInfoMap["fw_cidr_type"]; ok {
+					fwCidrInfo.FwCidrType = helper.String(v.(string))
+				}
+
+				if v, ok := fwCidrInfoMap["com_fw_cidr"]; ok {
+					fwCidrInfo.ComFwCidr = helper.String(v.(string))
+				}
+
+				if v, ok := fwCidrInfoMap["fw_cidr_lst"]; ok {
+					fwCidrLstList := v.([]interface{})
+					for _, item := range fwCidrLstList {
+						fwCidrMap := item.(map[string]interface{})
+						fwCidrLst := cfw.FwVpcCidr{}
+
+						if v, ok := fwCidrMap["vpc_id"]; ok {
+							fwCidrLst.VpcId = helper.String(v.(string))
+						}
+
+						if v, ok := fwCidrMap["fw_cidr"]; ok {
+							fwCidrLst.FwCidr = helper.String(v.(string))
+						}
+
+						fwCidrInfo.FwCidrLst = append(fwCidrInfo.FwCidrLst, &fwCidrLst)
+					}
+				}
+
+				request.FwCidrInfo = &fwCidrInfo
+			}
+		} else {
+			fwCidrInfo := cfw.FwCidrInfo{}
+			fwCidrInfo.FwCidrType = helper.String("VpcSelf")
+			fwCidrInfo.ComFwCidr = helper.String("")
+			request.FwCidrInfo = &fwCidrInfo
+		}
 
 	} else {
 		if v, ok := d.GetOk("vpc_fw_instances"); ok {
@@ -307,30 +419,26 @@ func resourceTencentCloudCfwVpcInstanceCreate(d *schema.ResourceData, meta inter
 					}
 
 					if v, ok := fwDeployMap["cross_a_zone"]; ok {
-						crossAZone := v.(int)
-						if v, ok := fwDeployMap["zone_set"]; ok {
-							zoneList := v.(*schema.Set).List()
-							if crossAZone == CROSS_A_ZONE_0 {
-								if len(zoneList) != 1 {
-									return fmt.Errorf("if `cross_a_zone` is 0, `zone_set` only can be set one zone")
-								}
-
-								fwDeploy.Zone = helper.String(zoneList[0].(string))
-
-							} else {
-								if len(zoneList) != 2 {
-									return fmt.Errorf("if `cross_a_zone` is 1, `zone_set` must be set tow zones")
-								}
-
-								fwDeploy.Zone = helper.String(zoneList[0].(string))
-								fwDeploy.ZoneBak = helper.String(zoneList[1].(string))
-							}
-						}
-
 						fwDeploy.CrossAZone = helper.IntInt64(v.(int))
 					}
 
+					if v, ok := fwDeployMap["zone"]; ok {
+						fwDeploy.Zone = helper.String(v.(string))
+					}
+
+					if v, ok := fwDeployMap["zone_bak"]; ok {
+						fwDeploy.ZoneBak = helper.String(v.(string))
+					}
+
+					if v, ok := fwDeployMap["cdc_id"]; ok {
+						fwDeploy.CdcId = helper.String(v.(string))
+					}
+
 					vpcFwInstance.FwDeploy = &fwDeploy
+				}
+
+				if v, ok := dMap["fw_ins_id"]; ok {
+					vpcFwInstance.FwInsId = helper.String(v.(string))
 				}
 
 				request.VpcFwInstances = append(request.VpcFwInstances, &vpcFwInstance)
@@ -352,10 +460,44 @@ func resourceTencentCloudCfwVpcInstanceCreate(d *schema.ResourceData, meta inter
 			request.SwitchMode = helper.IntInt64(v.(int))
 		}
 
-		fwCidrInfo := cfw.FwCidrInfo{}
-		fwCidrInfo.FwCidrType = helper.String("Assis")
-		fwCidrInfo.ComFwCidr = helper.String("")
-		request.FwCidrInfo = &fwCidrInfo
+		if v, ok := d.GetOk("fw_cidr_info"); ok {
+			fwCidrInfoList := v.([]interface{})
+			if len(fwCidrInfoList) > 0 {
+				fwCidrInfoMap := fwCidrInfoList[0].(map[string]interface{})
+				fwCidrInfo := cfw.FwCidrInfo{}
+
+				if v, ok := fwCidrInfoMap["fw_cidr_type"]; ok {
+					fwCidrInfo.FwCidrType = helper.String(v.(string))
+				}
+
+				if v, ok := fwCidrInfoMap["com_fw_cidr"]; ok {
+					fwCidrInfo.ComFwCidr = helper.String(v.(string))
+				}
+
+				if v, ok := fwCidrInfoMap["fw_cidr_lst"]; ok {
+					fwCidrLstList := v.([]interface{})
+					for _, item := range fwCidrLstList {
+						fwCidrMap := item.(map[string]interface{})
+						fwCidr := cfw.FwVpcCidr{}
+
+						if v, ok := fwCidrMap["vpc_id"]; ok {
+							fwCidr.VpcId = helper.String(v.(string))
+						}
+
+						if v, ok := fwCidrMap["fw_cidr"]; ok {
+							fwCidr.FwCidr = helper.String(v.(string))
+						}
+
+						fwCidrInfo.FwCidrLst = append(fwCidrInfo.FwCidrLst, &fwCidr)
+					}
+				}
+
+				request.FwCidrInfo = &fwCidrInfo
+			}
+		} else {
+			fwCidrInfo := cfw.FwCidrInfo{}
+			request.FwCidrInfo = &fwCidrInfo
+		}
 	}
 
 	if v, ok := d.GetOk("fw_vpc_cidr"); ok {
@@ -384,7 +526,7 @@ func resourceTencentCloudCfwVpcInstanceCreate(d *schema.ResourceData, meta inter
 	fwGroupId = *response.Response.FwGroupId
 	d.SetId(fwGroupId)
 
-	// wait
+	// wait for instance to be ready (Status: 0 = normal, 1 = initializing)
 	err = resource.Retry(writeRetryTimeout*3, func() *resource.RetryError {
 		vpcFwGroupInfo, e := cfwService.DescribeVpcFwGroupInstanceById(ctx, fwGroupId)
 		if e != nil {
@@ -397,10 +539,18 @@ func resourceTencentCloudCfwVpcInstanceCreate(d *schema.ResourceData, meta inter
 		}
 
 		if *vpcFwGroupInfo.Status == 1 {
+			// Still initializing
+			log.Printf("[DEBUG]%s cfw vpc instance %s is still initializing, status: %d\n", logId, fwGroupId, *vpcFwGroupInfo.Status)
+			return resource.RetryableError(fmt.Errorf("cfw vpc instance %s is still initializing, status: %d", fwGroupId, *vpcFwGroupInfo.Status))
+		}
+
+		if *vpcFwGroupInfo.Status == 0 {
+			// Normal, ready to use
+			log.Printf("[DEBUG]%s cfw vpc instance %s is ready, status: %d\n", logId, fwGroupId, *vpcFwGroupInfo.Status)
 			return nil
 		}
 
-		return resource.RetryableError(fmt.Errorf("create cfw vpcInstance status is %d", *vpcFwGroupInfo.Status))
+		return resource.NonRetryableError(fmt.Errorf("cfw vpc instance %s has unexpected status: %d", fwGroupId, *vpcFwGroupInfo.Status))
 	})
 
 	if err != nil {
@@ -466,8 +616,6 @@ func resourceTencentCloudCfwVpcInstanceRead(d *schema.ResourceData, meta interfa
 				tmpList := make([]map[string]interface{}, 0, len(vpcFwInstances.FwCvmLst))
 				for _, fwCvm := range vpcFwInstances.FwCvmLst {
 					fwDeployMap := map[string]interface{}{}
-					zone := ""
-					zoneBak := ""
 					if fwCvm.Region != nil {
 						fwDeployMap["deploy_region"] = fwCvm.Region
 					}
@@ -476,26 +624,13 @@ func resourceTencentCloudCfwVpcInstanceRead(d *schema.ResourceData, meta interfa
 						fwDeployMap["width"] = fwCvm.BandWidth
 					}
 
-					//if fwCvm.ZoneZh != nil {
-					//	zone = ZONE_MAP_CN2EN[*fwCvm.ZoneZh]
-					//}
-					//
-					//if fwCvm.ZoneZhBack != nil {
-					//	zoneBak = ZONE_MAP_CN2EN[*fwCvm.ZoneZhBack]
-					//}
-					//
-					//if zone == zoneBak {
-					//	fwDeployMap["cross_a_zone"] = CROSS_A_ZONE_0
-					//
-					//} else {
-					//	fwDeployMap["cross_a_zone"] = CROSS_A_ZONE_1
-					//}
-
-					zoneList := []string{
-						zone,
-						zoneBak,
+					if fwCvm.ZoneZh != nil {
+						fwDeployMap["zone"] = fwCvm.ZoneZh
 					}
-					fwDeployMap["zone_set"] = zoneList
+
+					if fwCvm.ZoneZhBack != nil {
+						fwDeployMap["zone_bak"] = fwCvm.ZoneZhBack
+					}
 
 					tmpList = append(tmpList, fwDeployMap)
 				}
@@ -521,17 +656,22 @@ func resourceTencentCloudCfwVpcInstanceRead(d *schema.ResourceData, meta interfa
 		_ = d.Set("fw_vpc_cidr", vpcInstance.FwVpcCidr)
 	}
 
+	if vpcInstance.FwGroupId != nil {
+		_ = d.Set("fw_group_id", vpcInstance.FwGroupId)
+	}
+
 	return nil
 }
 
 func resourceTencentCloudCfwVpcInstanceUpdate(d *schema.ResourceData, meta interface{}) error {
 	defer logElapsed("resource.tencentcloudenterprise_cfw_vpc_instance.update")()
 	defer inconsistentCheck(d, meta)()
-	logId := getLogId(contextNil)
-	fwGroupId := d.Id()
-	request := cfw.NewModifyVpcFwGroupRequest()
+	var (
+		fwGroupId = d.Id()
+		logId     = getLogId(contextNil)
+	)
 
-	immutableArgs := []string{"mode", "vpc_fw_instances", "switch_mode", "fw_vpc_cidr", "ccn_id"}
+	immutableArgs := []string{"mode", "switch_mode", "fw_vpc_cidr", "ccn_id"}
 
 	for _, v := range immutableArgs {
 		if d.HasChange(v) {
@@ -539,28 +679,358 @@ func resourceTencentCloudCfwVpcInstanceUpdate(d *schema.ResourceData, meta inter
 		}
 	}
 
-	request.FwGroupId = &fwGroupId
-
+	// Handle name change
 	if d.HasChange("name") {
+		request := cfw.NewModifyVpcFwGroupRequest()
+		request.FwGroupId = &fwGroupId
+
 		if v, ok := d.GetOk("name"); ok {
 			request.Name = helper.String(v.(string))
 		}
+
+		err := resource.Retry(writeRetryTimeout, func() *resource.RetryError {
+			result, e := meta.(*TencentCloudClient).apiV3Conn.UseCfwClient().ModifyVpcFwGroup(request)
+			if e != nil {
+				return retryError(e)
+			} else {
+				log.Printf("[DEBUG]%s api[%s] success, request body [%s], response body [%s]\n", logId, request.GetAction(), request.ToJsonString(), result.ToJsonString())
+			}
+
+			return nil
+		})
+
+		if err != nil {
+			log.Printf("[CRITAL]%s update cfw vpc group name failed, reason:%+v", logId, err)
+			return err
+		}
 	}
 
-	err := resource.Retry(writeRetryTimeout, func() *resource.RetryError {
-		result, e := meta.(*TencentCloudClient).apiV3Conn.UseCfwClient().ModifyVpcFwGroup(request)
-		if e != nil {
-			return retryError(e)
+	// Handle vpc_fw_instances change (name, width, vpc_ids, and instance count modification is supported)
+	if d.HasChange("vpc_fw_instances") {
+		oldVal, newVal := d.GetChange("vpc_fw_instances")
+		oldList := oldVal.([]interface{})
+		newList := newVal.([]interface{})
+
+		widthChanged := false
+		needModifyVpcFwGroup := false // name, vpc_ids, or instance count changed
+
+		// If instance count changed, need to use ModifyVpcFwGroup
+		if len(oldList) != len(newList) {
+			needModifyVpcFwGroup = true
+			log.Printf("[DEBUG]%s vpc_fw_instances count changed from %d to %d, will use ModifyVpcFwGroup\n",
+				logId, len(oldList), len(newList))
 		} else {
-			log.Printf("[DEBUG]%s api[%s] success, request body [%s], response body [%s]\n", logId, request.GetAction(), request.ToJsonString(), result.ToJsonString())
+			// Check if existing instances changed
+			for i := 0; i < len(newList); i++ {
+				oldMap := oldList[i].(map[string]interface{})
+				newMap := newList[i].(map[string]interface{})
+
+				// Check if only width changed
+				oldFwDeploy := oldMap["fw_deploy"].([]interface{})[0].(map[string]interface{})
+				newFwDeploy := newMap["fw_deploy"].([]interface{})[0].(map[string]interface{})
+
+				// Check deploy_region change (not allowed)
+				if oldFwDeploy["deploy_region"] != newFwDeploy["deploy_region"] {
+					return fmt.Errorf("vpc_fw_instances deploy_region cannot be changed")
+				}
+
+				// Check name change
+				if oldMap["name"] != newMap["name"] {
+					needModifyVpcFwGroup = true
+				}
+
+				// Check VPC IDs change
+				if fmt.Sprintf("%v", oldMap["vpc_ids"]) != fmt.Sprintf("%v", newMap["vpc_ids"]) {
+					needModifyVpcFwGroup = true
+				}
+
+				// Check width change
+				if oldFwDeploy["width"] != newFwDeploy["width"] {
+					widthChanged = true
+				}
+			}
 		}
 
-		return nil
-	})
+		// Handle name, VPC IDs, or instance count modification using ModifyVpcFwGroup
+		if needModifyVpcFwGroup {
+			request := cfw.NewModifyVpcFwGroupRequest()
+			request.FwGroupId = &fwGroupId
 
-	if err != nil {
-		log.Printf("[CRITAL]%s update cfw vpcInstance failed, reason:%+v", logId, err)
-		return err
+			mode := d.Get("mode").(int)
+			if mode != 0 {
+				return fmt.Errorf("vpc_ids modification is only supported for mode 0")
+			}
+
+			// Construct VpcFwInstances
+			for _, item := range newList {
+				dMap := item.(map[string]interface{})
+				vpcFwInstance := cfw.VpcFwInstance{}
+
+				if v, ok := dMap["fw_ins_id"]; ok {
+					vpcFwInstance.FwInsId = helper.String(v.(string))
+				}
+
+				if v, ok := dMap["name"]; ok {
+					vpcFwInstance.Name = helper.String(v.(string))
+				}
+
+				if v, ok := dMap["vpc_ids"]; ok {
+					vpcIdsSet := v.(*schema.Set).List()
+					for i := range vpcIdsSet {
+						vpcId := vpcIdsSet[i].(string)
+						vpcFwInstance.VpcIds = append(vpcFwInstance.VpcIds, &vpcId)
+					}
+				}
+
+				if fwDeployMap, ok := helper.InterfaceToMap(dMap, "fw_deploy"); ok {
+					fwDeploy := cfw.FwDeploy{}
+					if v, ok := fwDeployMap["deploy_region"]; ok {
+						fwDeploy.DeployRegion = helper.String(v.(string))
+					}
+					if v, ok := fwDeployMap["width"]; ok {
+						fwDeploy.Width = helper.IntInt64(v.(int))
+					}
+					if v, ok := fwDeployMap["cross_a_zone"]; ok {
+						fwDeploy.CrossAZone = helper.IntInt64(v.(int))
+					}
+					if v, ok := fwDeployMap["zone"]; ok {
+						fwDeploy.Zone = helper.String(v.(string))
+					}
+					if v, ok := fwDeployMap["zone_bak"]; ok {
+						fwDeploy.ZoneBak = helper.String(v.(string))
+					}
+					if v, ok := fwDeployMap["cdc_id"]; ok {
+						fwDeploy.CdcId = helper.String(v.(string))
+					}
+					vpcFwInstance.FwDeploy = &fwDeploy
+				}
+
+				request.VpcFwInstances = append(request.VpcFwInstances, &vpcFwInstance)
+			}
+
+			// Set FwCidrInfo
+			if v, ok := d.GetOk("fw_cidr_info"); ok {
+				fwCidrInfoList := v.([]interface{})
+				if len(fwCidrInfoList) > 0 {
+					fwCidrInfoMap := fwCidrInfoList[0].(map[string]interface{})
+					fwCidrInfo := cfw.FwCidrInfo{}
+
+					if v, ok := fwCidrInfoMap["fw_cidr_type"]; ok {
+						fwCidrInfo.FwCidrType = helper.String(v.(string))
+					}
+					if v, ok := fwCidrInfoMap["com_fw_cidr"]; ok {
+						fwCidrInfo.ComFwCidr = helper.String(v.(string))
+					}
+					if v, ok := fwCidrInfoMap["fw_cidr_lst"]; ok {
+						fwCidrLstList := v.([]interface{})
+						for _, item := range fwCidrLstList {
+							fwCidrMap := item.(map[string]interface{})
+							fwCidr := cfw.FwVpcCidr{}
+							if v, ok := fwCidrMap["vpc_id"]; ok {
+								fwCidr.VpcId = helper.String(v.(string))
+							}
+							if v, ok := fwCidrMap["fw_cidr"]; ok {
+								fwCidr.FwCidr = helper.String(v.(string))
+							}
+							fwCidrInfo.FwCidrLst = append(fwCidrInfo.FwCidrLst, &fwCidr)
+						}
+					}
+					request.FwCidrInfo = &fwCidrInfo
+				}
+			} else {
+				fwCidrInfo := cfw.FwCidrInfo{}
+				fwCidrInfo.FwCidrType = helper.String("VpcSelf")
+				fwCidrInfo.ComFwCidr = helper.String("")
+				request.FwCidrInfo = &fwCidrInfo
+			}
+
+			err := resource.Retry(writeRetryTimeout, func() *resource.RetryError {
+				result, e := meta.(*TencentCloudClient).apiV3Conn.UseCfwClient().ModifyVpcFwGroup(request)
+				if e != nil {
+					return retryError(e)
+				} else {
+					log.Printf("[DEBUG]%s api[%s] success, request body [%s], response body [%s]\n", logId, request.GetAction(), request.ToJsonString(), result.ToJsonString())
+				}
+				return nil
+			})
+
+			if err != nil {
+				log.Printf("[CRITAL]%s update cfw vpc group vpc_ids failed, reason:%+v", logId, err)
+				return err
+			}
+
+			// Wait and verify VPC IDs and names have been updated
+			cfwService := CfwService{client: meta.(*TencentCloudClient).apiV3Conn}
+			ctx := context.WithValue(context.TODO(), logIdKey, logId)
+
+			err = resource.Retry(readRetryTimeout*3, func() *resource.RetryError {
+				vpcFwGroupInfo, e := cfwService.DescribeVpcFwGroupInstanceById(ctx, fwGroupId)
+				if e != nil {
+					return retryError(e)
+				}
+
+				if vpcFwGroupInfo == nil || vpcFwGroupInfo.FwInstanceLst == nil {
+					return resource.NonRetryableError(fmt.Errorf("cfw vpc instance %s not found", fwGroupId))
+				}
+
+				// Verify all instances have correct names and VPC IDs
+				for _, item := range newList {
+					dMap := item.(map[string]interface{})
+					expectedFwInsId := dMap["fw_ins_id"].(string)
+					expectedName := dMap["name"].(string)
+					expectedVpcIds := dMap["vpc_ids"].(*schema.Set).List()
+
+					expectedVpcIdSet := make(map[string]bool)
+					for _, vid := range expectedVpcIds {
+						expectedVpcIdSet[vid.(string)] = true
+					}
+
+					// Find the instance in response
+					found := false
+					for _, fwInstance := range vpcFwGroupInfo.FwInstanceLst {
+						if fwInstance.FwInsId != nil && *fwInstance.FwInsId == expectedFwInsId {
+							found = true
+
+							// Check name
+							if fwInstance.FwInsName != nil {
+								actualName := *fwInstance.FwInsName
+								if actualName != expectedName {
+									log.Printf("[DEBUG]%s instance %s name is %s, expected %s, retrying...\n",
+										logId, expectedFwInsId, actualName, expectedName)
+									return resource.RetryableError(fmt.Errorf("instance name not updated yet"))
+								}
+							}
+
+							// Check VPC IDs
+							if fwInstance.JoinInsIdLst != nil {
+								actualVpcIdSet := make(map[string]bool)
+								for _, vid := range fwInstance.JoinInsIdLst {
+									if vid != nil {
+										actualVpcIdSet[*vid] = true
+									}
+								}
+
+								// Compare sets
+								if len(expectedVpcIdSet) != len(actualVpcIdSet) {
+									log.Printf("[DEBUG]%s instance %s VPC count mismatch, expected %d, got %d, retrying...\n",
+										logId, expectedFwInsId, len(expectedVpcIdSet), len(actualVpcIdSet))
+									return resource.RetryableError(fmt.Errorf("VPC IDs not updated yet"))
+								}
+
+								for vid := range expectedVpcIdSet {
+									if !actualVpcIdSet[vid] {
+										log.Printf("[DEBUG]%s instance %s missing VPC %s, retrying...\n", logId, expectedFwInsId, vid)
+										return resource.RetryableError(fmt.Errorf("VPC IDs not updated yet"))
+									}
+								}
+
+								log.Printf("[DEBUG]%s instance %s name and VPC IDs updated successfully\n", logId, expectedFwInsId)
+							}
+							break
+						}
+					}
+
+					if !found {
+						return resource.NonRetryableError(fmt.Errorf("instance %s not found in fw group", expectedFwInsId))
+					}
+				}
+
+				return nil
+			})
+
+			if err != nil {
+				log.Printf("[CRITAL]%s verify cfw vpc group update failed, reason:%+v", logId, err)
+				return err
+			}
+		}
+
+		// Handle width modification using ModifyVpcCfwWidth (only if name and vpc_ids didn't change)
+		if widthChanged && !needModifyVpcFwGroup {
+			for i := 0; i < len(newList); i++ {
+				oldMap := oldList[i].(map[string]interface{})
+				newMap := newList[i].(map[string]interface{})
+
+				oldFwDeploy := oldMap["fw_deploy"].([]interface{})[0].(map[string]interface{})
+				newFwDeploy := newMap["fw_deploy"].([]interface{})[0].(map[string]interface{})
+				fwInsId := newMap["fw_ins_id"].(string)
+
+				if oldFwDeploy["width"] != newFwDeploy["width"] {
+					// Modify width using ModifyVpcCfwWidth API
+					request := cfw.NewModifyVpcCfwWidthRequest()
+					request.FwType = helper.String("ew") // VPC firewall type
+					request.CfwInstance = helper.String(fwInsId)
+
+					fwDeploy := cfw.FwDeploy{}
+					if v, ok := newFwDeploy["deploy_region"]; ok {
+						fwDeploy.DeployRegion = helper.String(v.(string))
+					}
+
+					expectedWidth := 0
+					if v, ok := newFwDeploy["width"]; ok {
+						expectedWidth = v.(int)
+						fwDeploy.Width = helper.IntInt64(expectedWidth)
+					}
+
+					request.FwDeploy = []*cfw.FwDeploy{&fwDeploy}
+
+					err := resource.Retry(writeRetryTimeout, func() *resource.RetryError {
+						result, e := meta.(*TencentCloudClient).apiV3Conn.UseCfwClient().ModifyVpcCfwWidth(request)
+						if e != nil {
+							return retryError(e)
+						} else {
+							log.Printf("[DEBUG]%s api[%s] success, request body [%s], response body [%s]\n", logId, request.GetAction(), request.ToJsonString(), result.ToJsonString())
+						}
+
+						return nil
+					})
+
+					if err != nil {
+						log.Printf("[CRITAL]%s update cfw vpc instance width failed, reason:%+v", logId, err)
+						return err
+					}
+
+					// Wait and verify the width has been updated
+					cfwService := CfwService{client: meta.(*TencentCloudClient).apiV3Conn}
+					ctx := context.WithValue(context.TODO(), logIdKey, logId)
+
+					err = resource.Retry(readRetryTimeout*3, func() *resource.RetryError {
+						vpcFwGroupInfo, e := cfwService.DescribeVpcFwGroupInstanceById(ctx, fwGroupId)
+						if e != nil {
+							return retryError(e)
+						}
+
+						if vpcFwGroupInfo == nil || vpcFwGroupInfo.FwInstanceLst == nil {
+							return resource.NonRetryableError(fmt.Errorf("cfw vpc instance %s not found", fwGroupId))
+						}
+
+						// Find the instance and check width
+						for _, fwInstance := range vpcFwGroupInfo.FwInstanceLst {
+							if fwInstance.FwInsId != nil && *fwInstance.FwInsId == fwInsId {
+								if fwInstance.FwCvmLst != nil && len(fwInstance.FwCvmLst) > 0 {
+									if fwInstance.FwCvmLst[0].BandWidth != nil {
+										actualWidth := int(*fwInstance.FwCvmLst[0].BandWidth)
+										if actualWidth == expectedWidth {
+											log.Printf("[DEBUG]%s cfw vpc instance %s width updated successfully to %d\n", logId, fwInsId, actualWidth)
+											return nil
+										}
+										log.Printf("[DEBUG]%s cfw vpc instance %s width is %d, expected %d, retrying...\n", logId, fwInsId, actualWidth, expectedWidth)
+										return resource.RetryableError(fmt.Errorf("width not updated yet, current: %d, expected: %d", actualWidth, expectedWidth))
+									}
+								}
+								return resource.NonRetryableError(fmt.Errorf("cannot get bandwidth info for instance %s", fwInsId))
+							}
+						}
+
+						return resource.NonRetryableError(fmt.Errorf("instance %s not found in fw group", fwInsId))
+					})
+
+					if err != nil {
+						log.Printf("[CRITAL]%s verify cfw vpc instance width update failed, reason:%+v", logId, err)
+						return err
+					}
+				}
+			}
+		}
 	}
 
 	return resourceTencentCloudCfwVpcInstanceRead(d, meta)

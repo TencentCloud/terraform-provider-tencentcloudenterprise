@@ -17,9 +17,9 @@ data "tencentcloudenterprise_availability_zones" "my_favorate_zones" {}
 
 resource "tencentcloudenterprise_cvm_instance" "my_instance" {
   instance_name     = "terraform_automation_test_kuruk"
-  availability_zone = data.cloud_availability_zones.my_favorate_zones.zones.0.name
-  image_id          = data.cloud_cvm_images.my_favorate_image.images.0.image_id
-  instance_type     = data.cloud_cvm_instance_types.my_favorate_instance_types.instance_types.0.instance_type
+  availability_zone = data.tencentcloudenterprise_availability_zones.my_favorate_zones.zones.0.name
+  image_id          = data.tencentcloudenterprise_cvm_images.my_favorate_image.images.0.image_id
+  instance_type     = data.tencentcloudenterprise_cvm_instance_types.my_favorate_instance_types.instance_types.0.instance_type
 
   system_disk_type = "CLOUD_PREMIUM"
 
@@ -37,6 +37,6 @@ resource "tencentcloudenterprise_eip_instance" "my_eip" {
 }
 
 resource "tencentcloudenterprise_eip_association" "foo" {
-  eip_id      = cloud_eip_instance.my_eip.id
-  instance_id = cloud_cvm_instance.my_instance.id
+  eip_id      = tencentcloudenterprise_eip_instance.my_eip.id
+  instance_id = tencentcloudenterprise_cvm_instance.my_instance.id
 }

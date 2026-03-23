@@ -14,7 +14,7 @@ Provide a resource to create a TDMQ Pulsar Route.
 ## Example Usage
 
 ```hcl
-resource "cloud_tdmq_pulsar_route" "foo" {
+resource "tencentcloudenterprise_tdmq_pulsar_route" "foo" {
   remark     = "this is description111."
   cluster_id = 0
   net_type   = 2
@@ -49,7 +49,7 @@ tencentcloudenterprise_tdmq_pulsar_route can be imported using the id, e.g.
 Tdmq Route can be imported, e.g.
 
 ```
-$ terraform import cloud_tdmq_pulsar_route.test tdmq_id
+$ terraform import tencentcloudenterprise_tdmq_pulsar_route.test tdmq_id
 ```
 ```
 

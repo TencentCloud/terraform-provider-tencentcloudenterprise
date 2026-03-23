@@ -27,14 +27,12 @@ require (
 	github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/antiddos v1.0.358
 	github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/api v1.0.285
 	github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/apigateway v1.0.571
-	github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/apm v1.0.624
-	github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/cam v1.0.409
 	github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/cat v1.0.520
 	github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/cdb v1.0.658
 	github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/cdn v1.0.539
 	github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/chdfs v1.0.600
 	github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/cloudaudit v1.0.544
-	github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/common v1.0.676
+	github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/common v1.3.42
 	github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/cynosdb v1.0.572
 	github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/dayu v1.0.335
 	github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/dbbrain v1.0.652

@@ -1,7 +1,7 @@
 /*
 Use this data source to query placement groups.
 
-# Example Usage
+Example Usage
 
 ```hcl
 
@@ -18,10 +18,10 @@ import (
 	"context"
 	"log"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	cvm "terraform-provider-tencentcloudenterprise/sdk/cvm/v20170312"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func init() {
@@ -39,8 +39,8 @@ func init() {
 			"current_num":          "分散置放群组内云服务器的当前数量",
 			"instance_ids":         "分散置放群组内云服务器的 ID 列表",
 			"create_time":          "分散置放群组的创建时间",
-			"strategies":           "查询策略属于策略列表中的放置群组",
-			"strategy":             "分散置放群组的策略",
+			"strategies":		    "查询策略属于策略列表中的放置群组",
+			"strategy":			  	"分散置放群组的策略",
 		},
 	})
 }

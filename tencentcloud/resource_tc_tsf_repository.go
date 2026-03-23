@@ -1,22 +1,20 @@
 /*
 Provides a resource to create a tsf repository
 
-# Example Usage
+Example Usage
 
 ```hcl
-
-	resource "tencentcloudenterprise_tsf_repository" "repository" {
-	  repository_name = ""
-	  repository_type = ""
-	  bucket_name = ""
-	  bucket_region = ""
-	  directory = ""
-	  repository_desc = ""
-	}
-
+resource "tencentcloudenterprise_tsf_repository" "repository" {
+  repository_name = ""
+  repository_type = ""
+  bucket_name = ""
+  bucket_region = ""
+  directory = ""
+  repository_desc = ""
+}
 ```
 
-# Import
+Import
 
 tsf repository can be imported using the id, e.g.
 
@@ -31,10 +29,10 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	tsf "terraform-provider-tencentcloudenterprise/sdk/tsf/v20180326"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func resourceTencentCloudTsfRepository() *schema.Resource {

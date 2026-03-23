@@ -1,18 +1,16 @@
 /*
 Provides a resource to create a cvm image_share_permission
 
-# Example Usage
+Example Usage
 
 ```hcl
-
-	resource "tencentcloudenterprise_cvm_image_share_permission" "image_share_permission" {
-	  image_id = "img-xxxxxx"
-	  account_ids = ["xxxxxx"]
-	}
-
+resource "tencentcloudenterprise_cvm_image_share_permission" "image_share_permission" {
+  image_id = "img-xxxxxx"
+  account_ids = ["xxxxxx"]
+}
 ```
 
-# Import
+Import
 
 cvm image_share_permission can be imported using the id, e.g.
 
@@ -26,16 +24,16 @@ import (
 	"context"
 	"log"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	cvm "terraform-provider-tencentcloudenterprise/sdk/cvm/v20170312"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func init() {
 	registerResourceDescriptionProvider("tencentcloudenterprise_cvm_image_share_permission", CNDescription{
 		TerraformTypeCN: "共享镜像",
-		DescriptionCN:   "提供云服务器共享镜像资源，用于管理和创建共享镜像。",
+		DescriptionCN: "提供云服务器共享镜像资源，用于管理和创建共享镜像。",
 		AttributesCN: map[string]string{
 			"image_id":    "镜像ID，如img-gvbnzy6f只能指定状态为NORMAL的镜像",
 			"account_ids": "镜像共享的账户ID列表",

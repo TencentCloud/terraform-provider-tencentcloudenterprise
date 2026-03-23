@@ -35,10 +35,10 @@ import (
 	"log"
 	"time"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	vpc "terraform-provider-tencentcloudenterprise/sdk/vpc/v20170312"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func init() {
@@ -98,7 +98,7 @@ func resourceTencentCloudNatGateway() *schema.Resource {
 			"internet_service_provider": {
 				Type:        schema.TypeString,
 				Optional:    true,
-				Description: "The ISP of the NAT gateway. Valid values: `CTCC` (China Telecom), `CUCC` (China Unicom), `CMCC` (China Mobile). Default is `CTCC`.",
+				Description: "The ISP of the NAT gateway.",
 			},
 			"assigned_eip_set": {
 				Type:     schema.TypeSet,

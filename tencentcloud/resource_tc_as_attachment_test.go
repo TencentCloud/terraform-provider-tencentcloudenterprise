@@ -7,9 +7,9 @@ import (
 	"strings"
 	"testing"
 
+	"terraform-provider-tencentcloudenterprise/sdk/common/errors"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
-	"terraform-provider-tencentcloudenterprise/sdk/common/errors"
 )
 
 func init() {
@@ -19,7 +19,7 @@ func init() {
 	})
 }
 
-// go test -v ./tencentcloud -sweep=ap-guangzhou -sweep-run=cloud_as_attachment
+// go test -v ./tencentcloud -sweep=ap-guangzhou -sweep-run=tencentcloudenterprise_as_attachment
 func testSweepAsAttachment(r string) error {
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)

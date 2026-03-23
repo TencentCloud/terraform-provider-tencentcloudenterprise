@@ -4,5 +4,5 @@ resource "tencentcloudenterprise_cvm_instance" "my-server" {
 }
 
 output "instance_id" {
-  value = cloud_cvm_instance.my-server.id
+  value = tencentcloudenterprise_cvm_instance.my-server.id
 }

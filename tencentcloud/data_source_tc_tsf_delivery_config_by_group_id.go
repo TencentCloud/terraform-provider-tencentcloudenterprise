@@ -1,14 +1,12 @@
 /*
 Use this data source to query detailed information of tsf delivery_config_by_group_id
 
-# Example Usage
+Example Usage
 
 ```hcl
-
-	data "tencentcloudenterprise_tsf_delivery_config_by_group_id" "delivery_config_by_group_id" {
-	  group_id = "group-yrjkln9v"
-	}
-
+data "tencentcloudenterprise_tsf_delivery_config_by_group_id" "delivery_config_by_group_id" {
+  group_id = "group-yrjkln9v"
+}
 ```
 */
 package tencentcloud
@@ -16,10 +14,10 @@ package tencentcloud
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	tsf "terraform-provider-tencentcloudenterprise/sdk/tsf/v20180326"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func init() {
@@ -27,10 +25,10 @@ func init() {
 		TerraformTypeCN: "TSF分组下配置项",
 		DescriptionCN:   "提供TSF分组下配置项数据源，用于查询TSF分组下配置项的详细信息。",
 		AttributesCN: map[string]string{
-			"group_id":           "分组ID",
-			"result":             "配置项列表",
-			"config_id":          "配置ID",
-			"config_name":        "配置名称",
+			"group_id":          "分组ID",
+			"result":            "配置项列表",
+			"config_id":         "配置ID",
+			"config_name":       "配置名称",
 			"result_output_file": "用于保存结果",
 		},
 	})
@@ -40,7 +38,7 @@ func init() {
 func dataSourceTencentCloudTsfDeliveryConfigByGroupId() *schema.Resource {
 	return &schema.Resource{
 		Description: "This data source provides detailed information of tsf delivery_config_by_group_id",
-		Read:        dataSourceTencentCloudTsfDeliveryConfigByGroupIdRead,
+		Read: dataSourceTencentCloudTsfDeliveryConfigByGroupIdRead,
 		Schema: map[string]*schema.Schema{
 			"group_id": {
 				Required:    true,

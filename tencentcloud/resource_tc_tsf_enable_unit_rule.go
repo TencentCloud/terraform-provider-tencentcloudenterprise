@@ -1,18 +1,16 @@
 /*
 Provides a resource to create a tsf enable_unit_rule
 
-# Example Usage
+Example Usage
 
 ```hcl
-
-	resource "tencentcloudenterprise_tsf_enable_unit_rule" "enable_unit_rule" {
-	  rule_id = "unit-rl-is9m4nxz"
-	  switch = "enabled"
-	}
-
+resource "tencentcloudenterprise_tsf_enable_unit_rule" "enable_unit_rule" {
+  rule_id = "unit-rl-is9m4nxz"
+  switch = "enabled"
+}
 ```
 
-# Import
+Import
 
 tsf enable_unit_rule can be imported using the id, e.g.
 
@@ -26,9 +24,9 @@ import (
 	"context"
 	"log"
 
+	tsf "terraform-provider-tencentcloudenterprise/sdk/tsf/v20180326"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	tsf "terraform-provider-tencentcloudenterprise/sdk/tsf/v20180326"
 )
 
 func init() {

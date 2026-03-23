@@ -1,7 +1,7 @@
 /*
 Use this data source to query detailed information of turbofs mount_targets
 
-# Example Usage
+Example Usage
 
 ```hcl
 
@@ -15,9 +15,9 @@ package tencentcloud
 
 import (
 	"context"
+	turbofs "terraform-provider-tencentcloudenterprise/sdk/turbofs/v20190719"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	turbofs "terraform-provider-tencentcloudenterprise/sdk/turbofs/v20190719"
 )
 
 func init() {

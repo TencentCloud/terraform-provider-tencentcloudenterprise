@@ -75,6 +75,7 @@ resource "tencentcloudenterprise_cls_config" "config" {
   name             = "config"
   output           = tencentcloudenterprise_cls_topic.topic.id
   path             = "/var/log/kubernetes/**/kubernetes.audit"
+  input_type       = "file"
   log_type         = "json_log"
   extract_rule {
     filter_key_regex {
@@ -124,6 +125,7 @@ resource "tencentcloudenterprise_cls_config" "config" {
   name     = "tf-full-regex-config-test"
   output   = tencentcloudenterprise_cls_topic.topic.id
   path     = "/var/log/nginx/**/access.log"
+  input_type = "file"
   log_type = "fullregex_log"
 
   extract_rule {

@@ -1,13 +1,13 @@
-// /*
-// Use this data source to query detailed information of ckafka connect_resource
+///*
+//Use this data source to query detailed information of ckafka connect_resource
 //
-// # Example Usage
+//Example Usage
 //
-// ```hcl
-// data "tencentcloudenterprise_ckafka_connect_resource" "connect_resource" {
-// }
-// ```
-// */
+//```hcl
+//data "tencentcloudenterprise_ckafka_connect_resource" "connect_resource" {
+//}
+//```
+//*/
 package tencentcloud
 
 //

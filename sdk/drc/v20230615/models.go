@@ -150,7 +150,7 @@ type DeleteCopyPairsRequest struct {
 	CopyPairIds  []*string `json:"CopyPairIds,omitempty" name:"CopyPairIds"`
 	CopyPairType *string   `json:"CopyPairType,omitempty" name:"CopyPairType"`
 	// a typo in yunapi TODO: sync
-	IsCrossCloudd *bool `json:"IsCrossCloudd,omitempty" name:"IsCrossCloudd"`
+	IsCrossCloudd *bool     `json:"IsCrossCloudd,omitempty" name:"IsCrossCloudd"`
 }
 
 // DeleteCopyPairsResponse is the response struct for api DeleteCopyPairs
@@ -676,22 +676,22 @@ type DescribeDisasterRecoveryOverviewResponse struct {
 
 // CreateTargetCfsParameters 批量创建cfs的参数
 type CreateTargetCfsParameters struct {
-	SourceFilesystemId     *string `json:"SourceFilesystemId,omitempty" name:"SourceFilesystemId"`
-	Protocol               *string `json:"Protocol,omitempty" name:"Protocol"`
-	StorageType            *string `json:"StorageType,omitempty" name:"StorageType"`
-	NetInterface           *string `json:"NetInterface,omitempty" name:"NetInterface"`
-	PGroupId               *string `json:"PGroupId,omitempty" name:"PGroupId"`
-	VpcId                  *string `json:"VpcId,omitempty" name:"VpcId"`
-	UnVpcId                *string `json:"UnVpcId,omitempty" name:"UnVpcId"`
-	SubnetId               *string `json:"SubnetId,omitempty" name:"SubnetId"`
-	UnSubnetId             *string `json:"UnSubnetId,omitempty" name:"UnSubnetId"`
-	MountIP                *string `json:"MountIP,omitempty" name:"MountIP"`
-	StorageResourcePkgId   *string `json:"StorageResourcePkgId,omitempty" name:"StorageResourcePkgId"`
-	BandwidthResourcePkgId *string `json:"BandwidthResourcePkgId,omitempty" name:"BandwidthResourcePkgId"`
-	FsName                 *string `json:"FsName,omitempty" name:"FsName"`
-	Zone                   *string `json:"Zone,omitempty" name:"Zone"`
-	CopyPairId             *string `json:"CopyPairId,omitempty" name:"CopyPairId"`
-	RecoveryTime           *string `json:"RecoveryTime,omitempty" name:"RecoveryTime"`
+	SourceFilesystemId       *string `json:"SourceFilesystemId,omitempty" name:"SourceFilesystemId"`
+	Protocol                 *string `json:"Protocol,omitempty" name:"Protocol"`
+	StorageType              *string `json:"StorageType,omitempty" name:"StorageType"`
+	NetInterface             *string `json:"NetInterface,omitempty" name:"NetInterface"`
+	PGroupId                 *string `json:"PGroupId,omitempty" name:"PGroupId"`
+	VpcId                    *string `json:"VpcId,omitempty" name:"VpcId"`
+	UnVpcId                  *string `json:"UnVpcId,omitempty" name:"UnVpcId"`
+	SubnetId                 *string `json:"SubnetId,omitempty" name:"SubnetId"`
+	UnSubnetId               *string `json:"UnSubnetId,omitempty" name:"UnSubnetId"`
+	MountIP                  *string `json:"MountIP,omitempty" name:"MountIP"`
+	StorageResourcePkgId     *string `json:"StorageResourcePkgId,omitempty" name:"StorageResourcePkgId"`
+	BandwidthResourcePkgId   *string `json:"BandwidthResourcePkgId,omitempty" name:"BandwidthResourcePkgId"`
+	FsName                   *string `json:"FsName,omitempty" name:"FsName"`
+	Zone                     *string `json:"Zone,omitempty" name:"Zone"`
+	CopyPairId               *string `json:"CopyPairId,omitempty" name:"CopyPairId"`
+	RecoveryTime             *string `json:"RecoveryTime,omitempty" name:"RecoveryTime"`
 }
 
 type CopyPair struct {

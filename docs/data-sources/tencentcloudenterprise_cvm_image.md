@@ -13,7 +13,7 @@ Provides an available image for the user.
 
 The Images data source fetch proper image, which could be one of the private images of the user and images of system resources provided by TencentCloud, as well as other public images and those available on the image market.
 
-~> **NOTE:** This data source will be deprecated, please use `cloud_cvm_images` instead.
+~> **NOTE:** This data source will be deprecated, please use `tencentcloudenterprise_cvm_images` instead.
 
 ## Example Usage
 

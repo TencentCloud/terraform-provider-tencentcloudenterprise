@@ -2,24 +2,22 @@
 Provide a resource to create a SSM secret version.
 Example Usage
 ```hcl
+resource "tencentcloudenterprise_ssm_secret" "foo" {
+  secret_name = "test"
+  description = "test secret"
+  recovery_window_in_days = 0
+  is_enabled = true
 
-	resource "tencentcloudenterprise_ssm_secret" "foo" {
-	  secret_name = "test"
-	  description = "test secret"
-	  recovery_window_in_days = 0
-	  is_enabled = true
+  tags = {
+    test-tag = "test"
+  }
+}
 
-	  tags = {
-	    test-tag = "test"
-	  }
-	}
-
-	resource "tencentcloudenterprise_ssm_secret_version" "v1" {
-	  secret_name = tencentcloudenterprise_ssm_secret.foo.secret_name
-	  version_id = "v1"
-	  secret_binary = "MTIzMTIzMTIzMTIzMTIzQQ=="
-	}
-
+resource "tencentcloudenterprise_ssm_secret_version" "v1" {
+  secret_name = tencentcloudenterprise_ssm_secret.foo.secret_name
+  version_id = "v1"
+  secret_binary = "MTIzMTIzMTIzMTIzMTIzQQ=="
+}
 ```
 Import
 SSM secret version can be imported using the secretName#versionId, e.g.
@@ -32,9 +30,9 @@ package tencentcloud
 import (
 	"context"
 	"fmt"
+	sdkErrors "terraform-provider-tencentcloudenterprise/sdk/common/errors"
 	"log"
 	"strings"
-	sdkErrors "terraform-provider-tencentcloudenterprise/sdk/common/errors"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
@@ -42,13 +40,13 @@ import (
 
 func init() {
 	registerResourceDescriptionProvider("tencentcloudenterprise_ssm_secret_version", CNDescription{
-		TerraformTypeCN: "凭据管理密钥版本",
-		DescriptionCN:   "提供凭据管理密钥版本资源，用于创建和管理SSM凭据版本。",
+		TerraformTypeCN: "凭据版本内容",
+		DescriptionCN:   "提供凭据管理凭据版本内容资源，用于创建和管理SSM凭据版本内容。",
 		AttributesCN: map[string]string{
-			"secret_name":   "凭据名称",
-			"version_id":    "版本ID",
-			"secret_binary": "凭据二进制内容",
-			"secret_string": "凭据字符串内容",
+			"secret_name":     "凭据名称",
+			"version_id":      "版本ID",
+			"secret_binary":   "凭据二进制内容",
+			"secret_string":   "凭据字符串内容",
 		},
 	})
 }

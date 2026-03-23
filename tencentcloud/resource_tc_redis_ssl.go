@@ -1,25 +1,24 @@
-// /*
-// Provides a resource to create a redis ssl
+///*
+//Provides a resource to create a redis ssl
 //
-// # Example Usage
+//Example Usage
 //
-// ```hcl
+//```hcl
 //
-//	resource "tencentcloudenterprise_redis_ssl" "ssl" {
-//	 instance_id = "crs-c1nl9rpv"
-//	 ssl_config = "disabled"
-//	}
+//resource "tencentcloudenterprise_redis_ssl" "ssl" {
+//  instance_id = "crs-c1nl9rpv"
+//  ssl_config = "disabled"
+//}
+//```
 //
-// ```
+//Import
 //
-// # Import
+//redis ssl can be imported using the instanceId, e.g.
 //
-// redis ssl can be imported using the instanceId, e.g.
-//
-// ```
-// terraform import tencentcloudenterprise_redis_ssl.ssl crs-c1nl9rpv
-// ```
-// */
+//```
+//terraform import tencentcloudenterprise_redis_ssl.ssl crs-c1nl9rpv
+//```
+//*/
 package tencentcloud
 
 //专有云不支持redis ssl

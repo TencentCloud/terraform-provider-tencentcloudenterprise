@@ -136,6 +136,7 @@ func NewDescribeTopicAttributesResponse() (response *DescribeTopicAttributesResp
 }
 
 // 获取主题属性
+//
 func (c *Client) DescribeTopicAttributes(request *DescribeTopicAttributesRequest) (response *DescribeTopicAttributesResponse, err error) {
 	if request == nil {
 		request = NewDescribeTopicAttributesRequest()
@@ -161,6 +162,7 @@ func NewCreateConnectorResponse() (response *CreateConnectorResponse) {
 }
 
 // 创建数据同步任务
+//
 func (c *Client) CreateConnector(request *CreateConnectorRequest) (response *CreateConnectorResponse, err error) {
 	if request == nil {
 		request = NewCreateConnectorRequest()
@@ -211,6 +213,7 @@ func NewDescribeConnectorResponse() (response *DescribeConnectorResponse) {
 }
 
 // 获取数据同步任务列表
+//
 func (c *Client) DescribeConnector(request *DescribeConnectorRequest) (response *DescribeConnectorResponse, err error) {
 	if request == nil {
 		request = NewDescribeConnectorRequest()

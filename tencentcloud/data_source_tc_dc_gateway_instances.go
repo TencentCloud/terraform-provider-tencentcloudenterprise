@@ -1,33 +1,30 @@
 /*
 Use this data source to query detailed information of direct connect gateway instances.
 
-# Example Usage
+Example Usage
 
 ```hcl
+resource "tencentcloudenterprise_ccn" "main" {
+  name        = "ci-temp-test-ccn"
+  description = "ci-temp-test-ccn-des"
+  qos         = "AG"
+}
 
-	resource "tencentcloudenterprise_ccn" "main" {
-	  name        = "ci-temp-test-ccn"
-	  description = "ci-temp-test-ccn-des"
-	  qos         = "AG"
-	}
-
-	resource "tencentcloudenterprise_vpc_dc_gateway" "ccn_main" {
-	  name                = "ci-cdg-ccn-test"
-	  network_instance_id = tencentcloudenterprise_ccn.main.id
-	  network_type        = "CCN"
-	  gateway_type        = "NORMAL"
-	}
+resource "tencentcloudenterprise_vpc_dc_gateway" "ccn_main" {
+  name                = "ci-cdg-ccn-test"
+  network_instance_id = tencentcloudenterprise_ccn.main.id
+  network_type        = "CCN"
+  gateway_type        = "NORMAL"
+}
 
 #You need to sleep for a few seconds because there is a cache on the server
+data "tencentcloudenterprise_dc_gateway_instances" "name_select" {
+  name = tencentcloudenterprise_vpc_dc_gateway.ccn_main.name
+}
 
-	data "tencentcloudenterprise_dc_gateway_instances" "name_select" {
-	  name = tencentcloudenterprise_vpc_dc_gateway.ccn_main.name
-	}
-
-	data "tencentcloudenterprise_dc_gateway_instances" "id_select" {
-	  dcg_id = tencentcloudenterprise_vpc_dc_gateway.ccn_main.id
-	}
-
+data "tencentcloudenterprise_dc_gateway_instances" "id_select" {
+  dcg_id = tencentcloudenterprise_vpc_dc_gateway.ccn_main.id
+}
 ```
 */
 package tencentcloud

@@ -1,21 +1,18 @@
 /*
 Provides a resource to create a cfs snapshot
 
-# Example Usage
+Example Usage
 
 ```hcl
 
 	resource "tencentcloudenterprise_cfs_snapshot" "snapshot" {
 	  file_system_id = "cfs-iobiaxtj"
 	  snapshot_name = "test"
-	  tags = {
-	    "createdBy" = "terraform"
-	  }
 	}
 
 ```
 
-# Import
+Import
 
 cfs snapshot can be imported using the id, e.g.
 
@@ -31,10 +28,10 @@ import (
 	"log"
 	"time"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	cfs "terraform-provider-tencentcloudenterprise/sdk/cfs/v20190719"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func init() {

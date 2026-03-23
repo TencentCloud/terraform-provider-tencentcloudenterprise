@@ -1,19 +1,18 @@
 /*
 Provides a resource to create a redis connection_config
 
-# Example Usage
+Example Usage
 
 ```hcl
-
-	resource "tencentcloudenterprise_redis_connection_config" "connection_config" {
-	  instance_id = "crs-c1nl9rpv"
-	  client_limit = "20000"
-	  bandwidth = "20"
-	}
+resource "tencentcloudenterprise_redis_connection_config" "connection_config" {
+  instance_id = "crs-c1nl9rpv"
+  client_limit = "20000"
+  bandwidth = "20"
+}
 
 ```
 
-# Import
+Import
 
 Redis connectionConfig can be imported, e.g.
 

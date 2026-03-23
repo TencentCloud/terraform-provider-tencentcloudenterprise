@@ -1,14 +1,12 @@
 /*
 Use this data source to query detailed information of cvm image_share_permission
 
-# Example Usage
+Example Usage
 
 ```hcl
-
-	data "tencentcloudenterprise_cvm_image_share_permission" "image_share_permission" {
-	  image_id = "img-xxxxxx"
-	}
-
+data "tencentcloudenterprise_cvm_image_share_permission" "image_share_permission" {
+  image_id = "img-xxxxxx"
+}
 ```
 */
 package tencentcloud
@@ -16,10 +14,10 @@ package tencentcloud
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	cvm "terraform-provider-tencentcloudenterprise/sdk/cvm/v20170312"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func init() {

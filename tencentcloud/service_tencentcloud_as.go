@@ -5,12 +5,12 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	as "terraform-provider-tencentcloudenterprise/sdk/as/v20180419"
 	sdkErrors "terraform-provider-tencentcloudenterprise/sdk/common/errors"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/connectivity"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/ratelimit"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 )
 
 type AsService struct {

@@ -1,0 +1,431 @@
+/*
+Provides a resource to create a organization cic_role_assignment
+
+Example Usage
+
+```hcl
+resource "tencentcloudenterprise_cic_role_assignment" "cic_role_assignment" {
+  zone_id = "z-xxxxxx"
+  principal_id = "u-xxxxxx"
+  principal_type = "User"
+  target_uin = "xxxxxx"
+  target_type = "MemberUin"
+  role_configuration_id = "rc-xxxxxx"
+}
+```
+
+Import
+
+organization cic_role_assignment can be imported using the id, e.g.
+
+```
+terraform import tencentcloudenterprise_cic_role_assignment.cic_role_assignment {zoneId}#{roleConfigurationId}#{targetType}#{targetUinString}#{principalType}#{principalId}
+```
+
+ */
+package tencentcloud
+
+import (
+	"context"
+	"fmt"
+	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
+	"log"
+	"strconv"
+	"strings"
+	"time"
+
+	cic "terraform-provider-tencentcloudenterprise/sdk/cic/v20210331"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+)
+
+func init() {
+	registerResourceDescriptionProvider("tencentcloudenterprise_cic_role_assignment", CNDescription{
+		TerraformTypeCN: "身份中心角色分配",
+		DescriptionCN:   "提供身份中心角色分配资源，用于将角色配置分配给用户或用户组。",
+		AttributesCN: map[string]string{
+			"zone_id":               "空间ID",
+			"principal_id":          "委托人ID",
+			"principal_type":        "委托人类型",
+			"target_uin":            "目标账号UIN",
+			"target_type":           "目标类型",
+			"role_configuration_id": "角色配置ID",
+			"create_time":           "创建时间",
+		},
+	})
+}
+
+func resourceTencentCloudCicRoleAssignment() *schema.Resource {
+	return &schema.Resource{
+		Description: "Provide identity center role assignment resources for allocating role configurations to users or user groups.",
+		Create: resourceTencentCloudCicRoleAssignmentCreate,
+		Read:   resourceTencentCloudCicRoleAssignmentRead,
+		Delete: resourceTencentCloudCicRoleAssignmentDelete,
+		Importer: &schema.ResourceImporter{
+			State: schema.ImportStatePassthrough,
+		},
+		Schema: map[string]*schema.Schema{
+			"zone_id": {
+				Type:        schema.TypeString,
+				Required:    true,
+				ForceNew:    true,
+				Description: "Space ID.",
+			},
+			"principal_id": {
+				Type:        schema.TypeString,
+				Required:    true,
+				ForceNew:    true,
+				Description: "Identity ID for the CAM user synchronization. Valid values:\nWhen the PrincipalType value is Group, it is the CIC user group ID (g-********).\nWhen the PrincipalType value is User, it is the CIC user ID (u-********).",
+			},
+			"principal_type": {
+				Type:        schema.TypeString,
+				Required:    true,
+				ForceNew:    true,
+				Description: "Identity type for the CAM user synchronization. Valid values:\n\nUser: indicates that the identity for the CAM user synchronization is a CIC user.\nGroup: indicates that the identity for the CAM user synchronization is a CIC user group.",
+			},
+			"target_uin": {
+				Type:        schema.TypeInt,
+				Required:    true,
+				ForceNew:    true,
+				Description: "UIN of the synchronized target account of the Tencent Cloud Organization.",
+			},
+			"target_type": {
+				Type:        schema.TypeString,
+				Required:    true,
+				ForceNew:    true,
+				Description: "Type of the synchronized target account of the Tencent Cloud Organization. ManagerUin: admin account; MemberUin: member account.",
+			},
+			"role_configuration_id": {
+				Type:        schema.TypeString,
+				Required:    true,
+				ForceNew:    true,
+				Description: "Permission configuration ID.",
+			},
+			"deprovision_strategy": {
+				Type:        schema.TypeString,
+				Optional:    true,
+				Default:     "None",
+				ForceNew:    true,
+				Description: "When you remove the last authorization configured with a certain privilege on a group account target account, whether to cancel the privilege configuration deployment at the same time. Value: DeprovisionForLastRoleAssignmentOnAccount: Remove privileges to configure deployment. None (default): Configure deployment without delegating privileges.",
+			},
+			"create_time": {
+				Type:        schema.TypeString,
+				Computed:    true,
+				Description: "Create time.",
+			},
+			"update_time": {
+				Type:        schema.TypeString,
+				Computed:    true,
+				Description: "Update time.",
+			},
+			"role_configuration_name": {
+				Type:        schema.TypeString,
+				Computed:    true,
+				Description: "Role configuration name.",
+			},
+			"target_name": {
+				Type:        schema.TypeString,
+				Computed:    true,
+				Description: "Target name.",
+			},
+			"principal_name": {
+				Type:        schema.TypeString,
+				Computed:    true,
+				Description: "Principal name.",
+			},
+		},
+	}
+}
+
+func resourceTencentCloudCicRoleAssignmentCreate(d *schema.ResourceData, meta interface{}) error {
+	defer logElapsed("resource.tencentcloudenterprise_cic_role_assignment.create")()
+	defer inconsistentCheck(d, meta)()
+
+	logId := getLogId(contextNil)
+
+	service := CicService{client: meta.(*TencentCloudClient).apiV3Conn}
+	var (
+		zoneId              string
+		roleConfigurationId string
+		targetType          string
+		targetUin           int64
+		principalType       string
+		principalId         string
+	)
+	var (
+		request  = cic.NewCreateRoleAssignmentRequest()
+		response = cic.NewCreateRoleAssignmentResponse()
+	)
+
+	if v, ok := d.GetOk("zone_id"); ok {
+		zoneId = v.(string)
+		request.ZoneId = helper.String(zoneId)
+	}
+
+	roleAssignmentInfo := cic.RoleAssignmentInfo{}
+	if v, ok := d.GetOk("principal_id"); ok {
+		principalId = v.(string)
+		roleAssignmentInfo.PrincipalId = helper.String(principalId)
+	}
+	if v, ok := d.GetOk("principal_type"); ok {
+		principalType = v.(string)
+		roleAssignmentInfo.PrincipalType = helper.String(principalType)
+	}
+	if v, ok := d.GetOk("target_uin"); ok {
+		targetUin = int64(v.(int))
+		roleAssignmentInfo.TargetUin = helper.Int64(targetUin)
+	}
+	if v, ok := d.GetOk("target_type"); ok {
+		targetType = v.(string)
+		roleAssignmentInfo.TargetType = helper.String(targetType)
+	}
+	if v, ok := d.GetOk("role_configuration_id"); ok {
+		roleConfigurationId = v.(string)
+		roleAssignmentInfo.RoleConfigurationId = helper.String(roleConfigurationId)
+	}
+	request.RoleAssignmentInfo = []*cic.RoleAssignmentInfo{&roleAssignmentInfo}
+
+	err := resource.Retry(writeRetryTimeout, func() *resource.RetryError {
+		result, e := meta.(*TencentCloudClient).apiV3Conn.UseCicClient().CreateRoleAssignment(request)
+		if e != nil {
+			return retryError(e)
+		} else {
+			log.Printf("[DEBUG]%s api[%s] success, request body [%s], response body [%s]\n", logId, request.GetAction(), request.ToJsonString(), result.ToJsonString())
+		}
+		response = result
+		return nil
+	})
+	if err != nil {
+		log.Printf("[CRITAL]%s create identity center role assignment failed, reason:%+v", logId, err)
+		return err
+	}
+
+	if len(response.Response.Tasks) > 0 {
+		task := response.Response.Tasks[0]
+		if task == nil {
+			return fmt.Errorf("task is nil")
+		}
+		if task.Status != nil && *task.Status == TASK_STATUS_FAILED {
+			if task.FailureReason != nil {
+				return fmt.Errorf("create role assignment task failed, failure reason:%s", *task.FailureReason)
+			}
+			return fmt.Errorf("create role assignment task failed")
+		}
+
+		if task.TaskId == nil {
+			return fmt.Errorf("create role assignment task id is nil")
+		}
+		taskId := *task.TaskId
+		roleConfigurationId := *task.RoleConfigurationId
+		conf := BuildStateChangeConf([]string{}, []string{TASK_STATUS_SUCCESS, TASK_STATUS_FAILED},
+			2*readRetryTimeout, time.Second, service.AssignmentTaskStatusStateRefreshFunc(zoneId, taskId, []string{}))
+		if object, e := conf.WaitForState(); e != nil {
+			return e
+		} else {
+			taskStatus := object.(*cic.TaskStatus)
+			if taskStatus.Status != nil && *taskStatus.Status == TASK_STATUS_FAILED {
+				return fmt.Errorf("create role assignment task failed")
+			}
+		}
+
+		targetUinString := strconv.FormatInt(targetUin, 10)
+		d.SetId(strings.Join([]string{zoneId, roleConfigurationId, targetType, targetUinString, principalType, principalId}, FILED_SP))
+	}
+
+	return resourceTencentCloudCicRoleAssignmentRead(d, meta)
+}
+
+func resourceTencentCloudCicRoleAssignmentRead(d *schema.ResourceData, meta interface{}) error {
+	defer logElapsed("resource.tencentcloudenterprise_cic_role_assignment.read")()
+	defer inconsistentCheck(d, meta)()
+
+	logId := getLogId(contextNil)
+
+	ctx := context.WithValue(context.Background(), logIdKey, logId)
+
+	service := CicService{client: meta.(*TencentCloudClient).apiV3Conn}
+
+	var roleAssignmentsResponseParams *cic.ListRoleAssignmentsResponseParams
+	err := resource.Retry(readRetryTimeout, func() *resource.RetryError {
+		result, e := service.DescribeCicRoleAssignmentById(ctx, d.Id())
+		if e != nil {
+			return retryError(e)
+		}
+		roleAssignmentsResponseParams = result
+		return nil
+	})
+	if err != nil {
+		return err
+	}
+
+	if roleAssignmentsResponseParams == nil {
+		d.SetId("")
+		log.Printf("[WARN]%s resource `cic_role_assignment` [%s] not found, please check if it has been deleted.\n", logId, d.Id())
+		return nil
+	}
+	if len(roleAssignmentsResponseParams.RoleAssignments) > 0 {
+		roleAssignment := roleAssignmentsResponseParams.RoleAssignments[0]
+		if roleAssignment.RoleConfigurationId != nil {
+			_ = d.Set("role_configuration_id", roleAssignment.RoleConfigurationId)
+		}
+		if roleAssignment.RoleConfigurationName != nil {
+			_ = d.Set("role_configuration_name", roleAssignment.RoleConfigurationName)
+		}
+		if roleAssignment.TargetUin != nil {
+			_ = d.Set("target_uin", roleAssignment.TargetUin)
+		}
+		if roleAssignment.TargetType != nil {
+			_ = d.Set("target_type", roleAssignment.TargetType)
+		}
+		if roleAssignment.PrincipalId != nil {
+			_ = d.Set("principal_id", roleAssignment.PrincipalId)
+		}
+		if roleAssignment.PrincipalType != nil {
+			_ = d.Set("principal_type", roleAssignment.PrincipalType)
+		}
+		if roleAssignment.PrincipalName != nil {
+			_ = d.Set("principal_name", roleAssignment.PrincipalName)
+		}
+		if roleAssignment.TargetName != nil {
+			_ = d.Set("target_name", roleAssignment.TargetName)
+		}
+		if roleAssignment.CreateTime != nil {
+			_ = d.Set("create_time", roleAssignment.CreateTime)
+		}
+		if roleAssignment.UpdateTime != nil {
+			_ = d.Set("update_time", roleAssignment.UpdateTime)
+		}
+
+	} else {
+		d.SetId("")
+	}
+
+	return nil
+}
+
+func resourceTencentCloudCicRoleAssignmentDelete(d *schema.ResourceData, meta interface{}) error {
+	defer logElapsed("resource.tencentcloudenterprise_cic_role_assignment.delete")()
+	defer inconsistentCheck(d, meta)()
+
+	logId := getLogId(contextNil)
+
+	service := CicService{client: meta.(*TencentCloudClient).apiV3Conn}
+	idSplit := strings.Split(d.Id(), FILED_SP)
+	if len(idSplit) != 6 {
+		return fmt.Errorf("roleAssignmentId is broken,%s", d.Id())
+	}
+
+	zoneId := idSplit[0]
+	roleConfigurationId := idSplit[1]
+	targetType := idSplit[2]
+	targetUinString := idSplit[3]
+	principalType := idSplit[4]
+	principalId := idSplit[5]
+
+	var (
+		deleteRoleAssignmentRequest        = cic.NewDeleteRoleAssignmentRequest()
+		deleteRoleAssignmentResponse       = cic.NewDeleteRoleAssignmentResponse()
+		dismantleRoleConfigurationRequest  = cic.NewDismantleRoleConfigurationRequest()
+		dismantleRoleConfigurationResponse = cic.NewDismantleRoleConfigurationResponse()
+	)
+	deleteRoleAssignmentRequest.ZoneId = helper.String(zoneId)
+	deleteRoleAssignmentRequest.RoleConfigurationId = helper.String(roleConfigurationId)
+	deleteRoleAssignmentRequest.TargetType = helper.String(targetType)
+	targetUin, err := strconv.ParseInt(targetUinString, 10, 64)
+	if err != nil {
+		return err
+	}
+	deleteRoleAssignmentRequest.TargetUin = helper.Int64(targetUin)
+	deleteRoleAssignmentRequest.PrincipalType = helper.String(principalType)
+	deleteRoleAssignmentRequest.PrincipalId = helper.String(principalId)
+	if v, ok := d.GetOk("deprovision_strategy"); ok {
+		deleteRoleAssignmentRequest.DeprovisionStrategy = helper.String(v.(string))
+	}
+
+	err = resource.Retry(writeRetryTimeout, func() *resource.RetryError {
+		result, e := meta.(*TencentCloudClient).apiV3Conn.UseCicClient().DeleteRoleAssignment(deleteRoleAssignmentRequest)
+		if e != nil {
+			return retryError(e)
+		} else {
+			log.Printf("[DEBUG]%s api[%s] success, request body [%s], response body [%s]\n", logId, deleteRoleAssignmentRequest.GetAction(), deleteRoleAssignmentRequest.ToJsonString(), result.ToJsonString())
+		}
+		deleteRoleAssignmentResponse = result
+		return nil
+	})
+	if err != nil {
+		log.Printf("[CRITAL]%s delete identity center role assignment failed, reason:%+v", logId, err)
+		return err
+	}
+
+	if deleteRoleAssignmentResponse == nil || deleteRoleAssignmentResponse.Response == nil {
+		return fmt.Errorf("delete role assignment response is nil")
+	}
+	if deleteRoleAssignmentResponse.Response.Task == nil {
+		return fmt.Errorf("delete role assignment task is nil")
+	}
+	task := deleteRoleAssignmentResponse.Response.Task
+	if task.Status != nil && *task.Status == TASK_STATUS_FAILED {
+		if task.FailureReason != nil {
+			return fmt.Errorf("delete role assignment failed, failure reason:%s", *task.FailureReason)
+		}
+		return fmt.Errorf("delete role assignment failed")
+	}
+	if task.TaskId == nil {
+		return fmt.Errorf("delete role assignment task id is nil")
+	}
+	conf := BuildStateChangeConf([]string{}, []string{TASK_STATUS_SUCCESS, TASK_STATUS_FAILED}, 2*readRetryTimeout, time.Second, service.AssignmentTaskStatusStateRefreshFunc(zoneId, *task.TaskId, []string{}))
+	if object, e := conf.WaitForState(); e != nil {
+		return e
+	} else {
+		taskStatus := object.(*cic.TaskStatus)
+		if taskStatus.Status != nil && *taskStatus.Status == TASK_STATUS_FAILED {
+			return fmt.Errorf("delete role assignment failed")
+		}
+	}
+
+	dismantleRoleConfigurationRequest.RoleConfigurationId = helper.String(roleConfigurationId)
+	dismantleRoleConfigurationRequest.ZoneId = helper.String(zoneId)
+	dismantleRoleConfigurationRequest.TargetType = helper.String(targetType)
+	dismantleRoleConfigurationRequest.TargetUin = helper.Int64(targetUin)
+	err = resource.Retry(writeRetryTimeout, func() *resource.RetryError {
+		result, e := meta.(*TencentCloudClient).apiV3Conn.UseCicClient().DismantleRoleConfiguration(dismantleRoleConfigurationRequest)
+		if e != nil {
+			return retryError(e)
+		} else {
+			log.Printf("[DEBUG]%s api[%s] success, request body [%s], response body [%s]\n", logId, dismantleRoleConfigurationRequest.GetAction(), dismantleRoleConfigurationRequest.ToJsonString(), result.ToJsonString())
+		}
+		dismantleRoleConfigurationResponse = result
+		return nil
+	})
+	if err != nil {
+		log.Printf("[CRITAL]%s delete identity center role assignment failed, reason:%+v", logId, err)
+		return err
+	}
+
+	if dismantleRoleConfigurationResponse == nil || dismantleRoleConfigurationResponse.Response == nil {
+		return fmt.Errorf("dismantle role assignment response is nil")
+	}
+	if dismantleRoleConfigurationResponse.Response.Task == nil {
+		return fmt.Errorf("dismantle role assignment task is nil")
+	}
+	dismantleTask := dismantleRoleConfigurationResponse.Response.Task
+
+	if dismantleTask.TaskStatus != nil && *dismantleTask.TaskStatus == TASK_STATUS_FAILED {
+		return fmt.Errorf("dismantle role assignment task failed")
+	}
+
+	if dismantleTask.TaskId == nil {
+		return fmt.Errorf("dismantle role assignment task id is nil")
+	}
+	conf = BuildStateChangeConf([]string{}, []string{TASK_STATUS_SUCCESS, TASK_STATUS_FAILED}, 2*readRetryTimeout, time.Second, service.AssignmentTaskStatusStateRefreshFunc(zoneId, *dismantleTask.TaskId, []string{}))
+	if object, e := conf.WaitForState(); e != nil {
+		return e
+	} else {
+		taskStatus := object.(*cic.TaskStatus)
+		if taskStatus.Status != nil && *taskStatus.Status == TASK_STATUS_FAILED {
+			return fmt.Errorf("dismantle role assignment task failed")
+		}
+	}
+
+	return nil
+}

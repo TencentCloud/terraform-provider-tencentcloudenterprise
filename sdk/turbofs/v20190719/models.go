@@ -1839,8 +1839,9 @@ type FileSystemByPolicy struct {
 
 	FileSystemId *string `json:"FileSystemId,omitempty" name:"FileSystemId"`
 	// 文件系统大小
+	// NOTE: backend sometimes returns a string (e.g. "0"), so keep as string for JSON compatibility.
 
-	SizeByte *uint64 `json:"SizeByte,omitempty" name:"SizeByte"`
+	SizeByte *string `json:"SizeByte,omitempty" name:"SizeByte"`
 	// 文件系统存储类型
 
 	StorageType *string `json:"StorageType,omitempty" name:"StorageType"`

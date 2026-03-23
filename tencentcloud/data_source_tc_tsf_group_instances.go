@@ -1,17 +1,15 @@
 /*
 Use this data source to query detailed information of tsf group_instances
 
-# Example Usage
+Example Usage
 
 ```hcl
-
-	data "tencentcloudenterprise_tsf_group_instances" "group_instances" {
-	  group_id = "group-yrjkln9v"
-	  search_word = "testing"
-	  order_by = "ASC"
-	  order_type = 0
-	}
-
+data "tencentcloudenterprise_tsf_group_instances" "group_instances" {
+  group_id = "group-yrjkln9v"
+  search_word = "testing"
+  order_by = "ASC"
+  order_type = 0
+}
 ```
 */
 package tencentcloud
@@ -19,10 +17,10 @@ package tencentcloud
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	tsf "terraform-provider-tencentcloudenterprise/sdk/tsf/v20180326"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func init() {
@@ -30,23 +28,23 @@ func init() {
 		TerraformTypeCN: "TSF部署组实例",
 		DescriptionCN:   "提供TSF部署组实例数据源，用于查询TSF部署组实例的详细信息。",
 		AttributesCN: map[string]string{
-			"group_id":                  "部署组ID",
-			"search_word":               "搜索关键字",
-			"order_by":                  "排序字段",
-			"order_type":                "排序方式",
-			"result":                    "部署组机器信息。注意：此字段可能返回 null，表示取不到有效值。",
-			"content":                   "机器实例信息",
-			"total_count":               "机器实例总数",
-			"instance_id":               "机器实例ID",
-			"instance_name":             "机器名称",
-			"lan_ip":                    "内网IP",
-			"wan_ip":                    "公网IP",
-			"instance_desc":             "描述",
-			"cluster_id":                "集群ID",
-			"cluster_name":              "集群名称",
-			"instance_status":           "VM状态，对应VM的状态",
+			"group_id":          "部署组ID",
+			"search_word":       "搜索关键字",
+			"order_by":          "排序字段",
+			"order_type":        "排序方式",
+			"result":            "部署组机器信息。注意：此字段可能返回 null，表示取不到有效值。",
+			"content":           "机器实例信息",
+			"total_count":       "机器实例总数",
+			"instance_id":       "机器实例ID",
+			"instance_name":     "机器名称",
+			"lan_ip":            "内网IP",
+			"wan_ip":            "公网IP",
+			"instance_desc":     "描述",
+			"cluster_id":        "集群ID",
+			"cluster_name":      "集群名称",
+			"instance_status":   "VM状态，对应VM的状态",
 			"instance_available_status": "VM可用状态，对应VM的状态",
-			"service_instance_status":   "服务状态，包括应用部署状态，应用运行状态",
+			"service_instance_status":    "服务状态，包括应用部署状态，应用运行状态",
 			"count_in_tsf":              "是否在TSF中启用",
 			"application_id":            "应用ID",
 			"application_name":          "应用名称",
@@ -74,16 +72,17 @@ func init() {
 			"namespace_name":            "命名空间名称",
 			"reason":                    "健康检查原因",
 			"agent_version":             "Agent版本",
-			"result_output_file":        "用于保存结果",
+			"result_output_file": "用于保存结果",
 		},
 	})
+
 
 }
 
 func dataSourceTencentCloudTsfGroupInstances() *schema.Resource {
 	return &schema.Resource{
 		Description: "This data source provides detailed information of tsf group_instances",
-		Read:        dataSourceTencentCloudTsfGroupInstancesRead,
+		Read: dataSourceTencentCloudTsfGroupInstancesRead,
 		Schema: map[string]*schema.Schema{
 			"group_id": {
 				Required:    true,

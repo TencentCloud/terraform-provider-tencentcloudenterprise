@@ -1,18 +1,18 @@
 /*
 Use this data source to query detailed information of vpc net_detect_state_check
 
-# Example Usage
+Example Usage
 
 ```hcl
 
 	data "tencentcloudenterprise_vpc_net_detect_state_check" "net_detect_state_check" {
 	  net_detect_id         = "netd-12345678"
 	  detect_destination_ip = [
-	    "203.0.113.3",
-	    "203.0.113.2"
+	    "10.0.0.3",
+	    "10.0.0.2"
 	  ]
 	  next_hop_type        = "NORMAL_CVM"
-	  next_hop_destination = "203.0.113.4"
+	  next_hop_destination = "10.0.0.4"
 	}
 
 ```
@@ -22,10 +22,10 @@ package tencentcloud
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	vpc "terraform-provider-tencentcloudenterprise/sdk/vpc/v20170312"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func init() {
@@ -74,7 +74,7 @@ func dataSourceTencentCloudVpcNetDetectStateCheck() *schema.Resource {
 				// Required:    true,
 				Optional:    true,
 				Type:        schema.TypeString,
-				Description: "The next-hop destination gateway. The value is related to NextHopType.If NextHopType is set to VPN, the value of this parameter is the VPN gateway ID, such as vpngw-12345678.If NextHopType is set to DIRECTCONNECT, the value of this parameter is the direct connect gateway ID, such as dcg-12345678.If NextHopType is set to PEERCONNECTION, the value of this parameter is the peering connection ID, such as pcx-12345678.If NextHopType is set to NAT, the value of this parameter is the NAT gateway ID, such as nat-12345678.If NextHopType is set to NORMAL_CVM, the value of this parameter is the IPv4 address of the CVM, such as 203.0.113.12.",
+				Description: "The next-hop destination gateway. The value is related to NextHopType.If NextHopType is set to VPN, the value of this parameter is the VPN gateway ID, such as vpngw-12345678.If NextHopType is set to DIRECTCONNECT, the value of this parameter is the direct connect gateway ID, such as dcg-12345678.If NextHopType is set to PEERCONNECTION, the value of this parameter is the peering connection ID, such as pcx-12345678.If NextHopType is set to NAT, the value of this parameter is the NAT gateway ID, such as nat-12345678.If NextHopType is set to NORMAL_CVM, the value of this parameter is the IPv4 address of the CVM, such as 10.0.0.12.",
 			},
 
 			"net_detect_id": {

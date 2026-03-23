@@ -1,7 +1,7 @@
 /*
 Use this data source to query detailed acl information of Ckafka
 
-# Example Usage
+Example Usage
 
 ```hcl
 
@@ -20,8 +20,8 @@ import (
 	"context"
 	"strings"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func init() {

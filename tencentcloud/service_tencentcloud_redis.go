@@ -7,31 +7,31 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	cvm "terraform-provider-tencentcloudenterprise/sdk/cvm/v20170312"
 	redis "terraform-provider-tencentcloudenterprise/sdk/redis/v20180412"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/connectivity"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/ratelimit"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 )
 
 type CreateInstanceReqOption func(request *redis.CreateInstancesRequest)
 
-// WithResourcePool ...
+//WithResourcePool ...
 func WithResourcePool(poolID string) CreateInstanceReqOption {
 	return func(request *redis.CreateInstancesRequest) {
 		request.ResourcePoolId = &poolID
 	}
 }
 
-// WithPlatformProjectID ...
+//WithPlatformProjectID ...
 func WithPlatformProjectID(projectID string) CreateInstanceReqOption {
 	return func(request *redis.CreateInstancesRequest) {
 		request.PlatformProjectId = &projectID
 	}
 }
 
-// WithResourceArch ...
+//WithResourceArch ...
 func WithResourceArch(arch string) CreateInstanceReqOption {
 	return func(request *redis.CreateInstancesRequest) {
 		request.ResourceArch = &arch

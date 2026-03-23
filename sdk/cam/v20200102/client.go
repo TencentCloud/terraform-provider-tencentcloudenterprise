@@ -69,31 +69,6 @@ func (c *Client) VerifyMenu(request *VerifyMenuRequest) (response *VerifyMenuRes
 	return
 }
 
-func NewGetUinListByRolePolicyRequest() (request *GetUinListByRolePolicyRequest) {
-	request = &GetUinListByRolePolicyRequest{
-		BaseRequest: &tchttp.BaseRequest{},
-	}
-	request.Init().WithApiInfo("cam", APIVersion, "GetUinListByRolePolicy")
-	return
-}
-
-func NewGetUinListByRolePolicyResponse() (response *GetUinListByRolePolicyResponse) {
-	response = &GetUinListByRolePolicyResponse{
-		BaseResponse: &tchttp.BaseResponse{},
-	}
-	return
-}
-
-// 查询可以扮演角色的uin列表
-func (c *Client) GetUinListByRolePolicy(request *GetUinListByRolePolicyRequest) (response *GetUinListByRolePolicyResponse, err error) {
-	if request == nil {
-		request = NewGetUinListByRolePolicyRequest()
-	}
-	response = NewGetUinListByRolePolicyResponse()
-	err = c.Send(request, response)
-	return
-}
-
 func NewGetUidByUinArrRequest() (request *GetUidByUinArrRequest) {
 	request = &GetUidByUinArrRequest{
 		BaseRequest: &tchttp.BaseRequest{},
@@ -119,31 +94,6 @@ func (c *Client) GetUidByUinArr(request *GetUidByUinArrRequest) (response *GetUi
 	return
 }
 
-func NewGetRoleListByOwnerUinRequest() (request *GetRoleListByOwnerUinRequest) {
-	request = &GetRoleListByOwnerUinRequest{
-		BaseRequest: &tchttp.BaseRequest{},
-	}
-	request.Init().WithApiInfo("cam", APIVersion, "GetRoleListByOwnerUin")
-	return
-}
-
-func NewGetRoleListByOwnerUinResponse() (response *GetRoleListByOwnerUinResponse) {
-	response = &GetRoleListByOwnerUinResponse{
-		BaseResponse: &tchttp.BaseResponse{},
-	}
-	return
-}
-
-// 获取主账号可扮演角色列表
-func (c *Client) GetRoleListByOwnerUin(request *GetRoleListByOwnerUinRequest) (response *GetRoleListByOwnerUinResponse, err error) {
-	if request == nil {
-		request = NewGetRoleListByOwnerUinRequest()
-	}
-	response = NewGetRoleListByOwnerUinResponse()
-	err = c.Send(request, response)
-	return
-}
-
 func NewUpdateRelatedRolePolicyRequest() (request *UpdateRelatedRolePolicyRequest) {
 	request = &UpdateRelatedRolePolicyRequest{
 		BaseRequest: &tchttp.BaseRequest{},
@@ -165,6 +115,81 @@ func (c *Client) UpdateRelatedRolePolicy(request *UpdateRelatedRolePolicyRequest
 		request = NewUpdateRelatedRolePolicyRequest()
 	}
 	response = NewUpdateRelatedRolePolicyResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewBatchCheckUserHavePoliciesRequest() (request *BatchCheckUserHavePoliciesRequest) {
+	request = &BatchCheckUserHavePoliciesRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("cam", APIVersion, "BatchCheckUserHavePolicies")
+	return
+}
+
+func NewBatchCheckUserHavePoliciesResponse() (response *BatchCheckUserHavePoliciesResponse) {
+	response = &BatchCheckUserHavePoliciesResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 批量检查用户是否拥有对应策略
+func (c *Client) BatchCheckUserHavePolicies(request *BatchCheckUserHavePoliciesRequest) (response *BatchCheckUserHavePoliciesResponse, err error) {
+	if request == nil {
+		request = NewBatchCheckUserHavePoliciesRequest()
+	}
+	response = NewBatchCheckUserHavePoliciesResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewGetUinListByRolePolicyRequest() (request *GetUinListByRolePolicyRequest) {
+	request = &GetUinListByRolePolicyRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("cam", APIVersion, "GetUinListByRolePolicy")
+	return
+}
+
+func NewGetUinListByRolePolicyResponse() (response *GetUinListByRolePolicyResponse) {
+	response = &GetUinListByRolePolicyResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 查询可以扮演角色的uin列表
+func (c *Client) GetUinListByRolePolicy(request *GetUinListByRolePolicyRequest) (response *GetUinListByRolePolicyResponse, err error) {
+	if request == nil {
+		request = NewGetUinListByRolePolicyRequest()
+	}
+	response = NewGetUinListByRolePolicyResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewGetRoleListByOwnerUinRequest() (request *GetRoleListByOwnerUinRequest) {
+	request = &GetRoleListByOwnerUinRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("cam", APIVersion, "GetRoleListByOwnerUin")
+	return
+}
+
+func NewGetRoleListByOwnerUinResponse() (response *GetRoleListByOwnerUinResponse) {
+	response = &GetRoleListByOwnerUinResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 获取主账号可扮演角色列表
+func (c *Client) GetRoleListByOwnerUin(request *GetRoleListByOwnerUinRequest) (response *GetRoleListByOwnerUinResponse, err error) {
+	if request == nil {
+		request = NewGetRoleListByOwnerUinRequest()
+	}
+	response = NewGetRoleListByOwnerUinResponse()
 	err = c.Send(request, response)
 	return
 }

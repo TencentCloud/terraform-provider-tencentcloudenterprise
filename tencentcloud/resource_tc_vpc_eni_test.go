@@ -406,7 +406,7 @@ resource "tencentcloudenterprise_vpc_eni" "foo" {
   description = "eni desc"
   
   ipv4s {
-    ip      = "203.0.113.10"
+    ip      = "10.0.0.10"
     primary = true
     description = "desc"
   }
@@ -422,7 +422,7 @@ resource "tencentcloudenterprise_vpc_eni" "foo" {
   description = "eni desc"
   
   ipv4s {
-    ip          = "203.0.113.10"
+    ip          = "10.0.0.10"
     primary     = true
     description = ""
   }
@@ -438,153 +438,153 @@ resource "tencentcloudenterprise_vpc_eni" "foo" {
   description = "eni desc"
   
   ipv4s {
-    ip          = "203.0.113.10"
+    ip          = "10.0.0.10"
     primary     = true
     description = ""
   }
 
   ipv4s {
-    ip      = "203.0.113.11"
+    ip      = "10.0.0.11"
     primary = false
   }
 
   ipv4s {
-    ip      = "203.0.113.12"
+    ip      = "10.0.0.12"
     primary = false
   }
 
   ipv4s {
-    ip      = "203.0.113.13"
+    ip      = "10.0.0.13"
     primary = false
   }
 
   ipv4s {
-    ip      = "203.0.113.14"
+    ip      = "10.0.0.14"
     primary = false
   }
 
   ipv4s {
-    ip      = "203.0.113.15"
+    ip      = "10.0.0.15"
     primary = false
   }
 
   ipv4s {
-    ip      = "203.0.113.16"
+    ip      = "10.0.0.16"
     primary = false
   }
 
   ipv4s {
-    ip      = "203.0.113.17"
+    ip      = "10.0.0.17"
     primary = false
   }
 
   ipv4s {
-    ip      = "203.0.113.18"
+    ip      = "10.0.0.18"
     primary = false
   }
 
   ipv4s {
-    ip      = "203.0.113.19"
+    ip      = "10.0.0.19"
     primary = false
   }
 
   ipv4s {
-    ip      = "203.0.113.21"
+    ip      = "10.0.0.21"
     primary = false
   }
 
   ipv4s {
-    ip      = "203.0.113.22"
+    ip      = "10.0.0.22"
     primary = false
   }
 
   ipv4s {
-    ip      = "203.0.113.23"
+    ip      = "10.0.0.23"
     primary = false
   }
 
   ipv4s {
-    ip      = "203.0.113.24"
+    ip      = "10.0.0.24"
     primary = false
   }
 
   ipv4s {
-    ip      = "203.0.113.25"
+    ip      = "10.0.0.25"
     primary = false
   }
 
   ipv4s {
-    ip      = "203.0.113.26"
+    ip      = "10.0.0.26"
     primary = false
   }
 
   ipv4s {
-    ip      = "203.0.113.27"
+    ip      = "10.0.0.27"
     primary = false
   }
 
   ipv4s {
-    ip      = "203.0.113.28"
+    ip      = "10.0.0.28"
     primary = false
   }
 
   ipv4s {
-    ip      = "203.0.113.29"
+    ip      = "10.0.0.29"
     primary = false
   }
 
   ipv4s {
-    ip      = "203.0.113.30"
+    ip      = "10.0.0.30"
     primary = false
   }
 
   ipv4s {
-    ip      = "203.0.113.31"
+    ip      = "10.0.0.31"
     primary = false
   }
 
   ipv4s {
-    ip      = "203.0.113.32"
+    ip      = "10.0.0.32"
     primary = false
   }
 
   ipv4s {
-    ip      = "203.0.113.33"
+    ip      = "10.0.0.33"
     primary = false
   }
 
   ipv4s {
-    ip      = "203.0.113.34"
+    ip      = "10.0.0.34"
     primary = false
   }
 
   ipv4s {
-    ip      = "203.0.113.35"
+    ip      = "10.0.0.35"
     primary = false
   }
 
   ipv4s {
-    ip      = "203.0.113.36"
+    ip      = "10.0.0.36"
     primary = false
   }
 
   ipv4s {
-    ip      = "203.0.113.37"
+    ip      = "10.0.0.37"
     primary = false
   }
 
   ipv4s {
-    ip      = "203.0.113.38"
+    ip      = "10.0.0.38"
     primary = false
   }
 
   ipv4s {
-    ip      = "203.0.113.39"
+    ip      = "10.0.0.39"
     primary = false
   }
 
   ipv4s {
-    ip      = "203.0.113.40"
+    ip      = "10.0.0.40"
     primary = false
   }
 }
@@ -599,78 +599,78 @@ resource "tencentcloudenterprise_vpc_eni" "foo" {
   description = "eni desc"
   
   ipv4s {
-    ip          = "203.0.113.10"
+    ip          = "10.0.0.10"
     primary     = true
     description = "" // set empty desc to test if SDK can set private IP desc empty or not
   }
 
   ipv4s {
-    ip      = "203.0.113.11"
+    ip      = "10.0.0.11"
     primary = false
   }
 
   ipv4s {
-    ip      = "203.0.113.12"
+    ip      = "10.0.0.12"
     primary = false
   }
 
   ipv4s {
-    ip      = "203.0.113.13"
+    ip      = "10.0.0.13"
     primary = false
   }
 
   ipv4s {
-    ip      = "203.0.113.14"
+    ip      = "10.0.0.14"
     primary = false
   }
 
   ipv4s {
-    ip      = "203.0.113.15"
+    ip      = "10.0.0.15"
     primary = false
   }
 
   ipv4s {
-    ip      = "203.0.113.16"
+    ip      = "10.0.0.16"
     primary = false
   }
 
   ipv4s {
-    ip      = "203.0.113.17"
+    ip      = "10.0.0.17"
     primary = false
   }
 
   ipv4s {
-    ip      = "203.0.113.18"
+    ip      = "10.0.0.18"
     primary = false
   }
 
   ipv4s {
-    ip      = "203.0.113.19"
+    ip      = "10.0.0.19"
     primary = false
   }
 
   ipv4s {
-    ip      = "203.0.113.21"
+    ip      = "10.0.0.21"
     primary = false
   }
 
   ipv4s {
-    ip      = "203.0.113.22"
+    ip      = "10.0.0.22"
     primary = false
   }
 
   ipv4s {
-    ip      = "203.0.113.23"
+    ip      = "10.0.0.23"
     primary = false
   }
 
   ipv4s {
-    ip      = "203.0.113.24"
+    ip      = "10.0.0.24"
     primary = false
   }
 
   ipv4s {
-    ip      = "203.0.113.25"
+    ip      = "10.0.0.25"
     primary = false
   }
 }

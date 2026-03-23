@@ -1959,6 +1959,38 @@ type Route struct {
 	// 域名port
 
 	DomainPort *int64 `json:"DomainPort,omitempty" name:"DomainPort"`
+
+	// 内部路由的标志(0:非内部 1:内部路由)
+
+	InternalFlag *int64 `json:"InternalFlag,omitempty" name:"InternalFlag"`
+
+	// 内部路由的用途
+
+	UsedFor *string `json:"UsedFor,omitempty" name:"UsedFor"`
+
+	// 路由创建进度（0:已完成 1:处理中）
+
+	Processing *int64 `json:"Processing,omitempty" name:"Processing"`
+
+	// 删除时间戳
+
+	DeleteTimestamp *string `json:"DeleteTimestamp,omitempty" name:"DeleteTimestamp"`
+
+	// broker vip映射列表
+
+	BrokerVipList []*VipEntity `json:"BrokerVipList,omitempty" name:"BrokerVipList"`
+
+	// vpcid
+
+	VpcId *string `json:"VpcId,omitempty" name:"VpcId"`
+
+	// 子网信息
+
+	Subnet *string `json:"Subnet,omitempty" name:"Subnet"`
+
+	// 备注
+
+	Note *string `json:"Note,omitempty" name:"Note"`
 }
 
 type VipEntity struct {

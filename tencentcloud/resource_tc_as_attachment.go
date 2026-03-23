@@ -1,15 +1,13 @@
 /*
 Provides a resource to attach or detach CVM instances to a specified scaling group.
 
-# Example Usage
+Example Usage
 
 ```hcl
-
-	resource "tencentcloudenterprise_as_attachment" "attachment" {
-	  scaling_group_id = "sg-afasfa"
-	  instance_ids     = ["ins-01", "ins-02"]
-	}
-
+resource "tencentcloudenterprise_as_attachment" "attachment" {
+  scaling_group_id = "sg-afasfa"
+  instance_ids     = ["ins-01", "ins-02"]
+}
 ```
 */
 package tencentcloud
@@ -17,9 +15,9 @@ package tencentcloud
 import (
 	"context"
 
+	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
 )
 
 func init() {

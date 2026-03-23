@@ -1,18 +1,16 @@
 /*
 Provides a resource to create a eni_sg_attachment
 
-# Example Usage
+Example Usage
 
 ```hcl
-
-	resource "tencentcloudenterprise_vpc_eni_sg_attachment" "eni_sg_attachment" {
-	  network_interface_ids = ["eni-p0hkgx8p"]
-	  security_group_ids    = ["sg-902tl7t7", "sg-edmur627"]
-	}
-
+resource "tencentcloudenterprise_vpc_eni_sg_attachment" "eni_sg_attachment" {
+  network_interface_ids = ["eni-p0hkgx8p"]
+  security_group_ids    = ["sg-902tl7t7", "sg-edmur627"]
+}
 ```
 
-# Import
+Import
 
 vpc eni_sg_attachment can be imported using the id, e.g.
 
@@ -26,9 +24,9 @@ import (
 	"context"
 	"log"
 
+	vpc "terraform-provider-tencentcloudenterprise/sdk/vpc/v20170312"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	vpc "terraform-provider-tencentcloudenterprise/sdk/vpc/v20170312"
 )
 
 func init() {

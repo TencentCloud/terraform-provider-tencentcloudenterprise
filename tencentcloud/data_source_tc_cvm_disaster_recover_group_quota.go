@@ -1,7 +1,7 @@
 /*
 Use this data source to query detailed information of cvm disaster_recover_group_quota
 
-# Example Usage
+Example Usage
 
 ```hcl
 data "tencentcloudenterprise_cvm_disaster_recover_group_quota" "disaster_recover_group_quota" {
@@ -13,11 +13,11 @@ package tencentcloud
 import (
 	"fmt"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	cvm "terraform-provider-tencentcloudenterprise/sdk/cvm/v20170312"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/ratelimit"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func init() {

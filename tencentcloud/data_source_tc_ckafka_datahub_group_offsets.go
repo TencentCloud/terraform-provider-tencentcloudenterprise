@@ -1,13 +1,13 @@
-// /*
-// Use this data source to query detailed information of ckafka datahub_group_offsets
+///*
+//Use this data source to query detailed information of ckafka datahub_group_offsets
 //
-// # Example Usage
+//Example Usage
 //
-// ```hcl
-// data "tencentcloudenterprise_ckafka_datahub_group_offsets" "datahub_group_offsets" {
-// }
-// ```
-// */
+//```hcl
+//data "tencentcloudenterprise_ckafka_datahub_group_offsets" "datahub_group_offsets" {
+//}
+//```
+//*/
 package tencentcloud
 
 //

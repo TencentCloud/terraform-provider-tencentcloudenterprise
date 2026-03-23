@@ -1,17 +1,92 @@
 /*
-Provide a resource to increase instance to cluster
-
-~> **NOTE:** To use the custom Kubernetes component startup parameter function (parameter `extra_args`), you need to submit a ticket for application.
+Provide a resource to manage TKE application in cluster via ForwardApplicationRequestV3.
 
 # Example Usage
 
+Repository chart:
+
 ```hcl
 
-	resource "tencentcloudenterprise_kubernetes_cluster_plugin" "app-csp-sm" {
-	  cluster_id = tencentcloudenterprise_tke_kubernetes_cluster.cluster.id
-	  namespace  = "app-csp-sm"
-	  path = "/apis/platform.tkestack.io/v1/clusters/cls-x8lxd2jx/apply"
-	  request_body = "{\"kind\":\"Plugin\",\"apiVersion\":\"v1\",\"metadata\":{\"name\":\"app-csp-sm\",\"annotations\":{\"description\":\"hkjc1\"}}}{\"kind\":\"Secret\",\"apiVersion\":\"v1\",\"metadata\":{\"name\":\"qcloudregistrykey\",\"namespace\":\"app-csp-sm\",\"labels\":{\"qcloud-app\":\"qcloudregistrykey\"}},\"type\":\"kubernetes.io/dockercfg\",\"data\":{\".dockercfg\":\"eyJjY3IudGNlMzEwMHBvYy5mc3BoZXJlLmNuIjp7InVzZXJuYW1lIjoiMTAwMDA0NjAzMTU3IiwicGFzc3dvcmQiOiJ7QXBwbGljYXRpb25Ub2tlbjo0OGJlNzY2ZTVkZmRmN2JhZTAwZjdlZTQ3NTQyNDJlMX0iLCJlbWFpbCI6Im5vdEB2YWwuaWQiLCJhdXRoIjoiTVRBd01EQTBOakF6TVRVM09udEJjSEJzYVdOaGRHbHZibFJ2YTJWdU9qUTRZbVUzTmpabE5XUm1aR1kzWW1GbE1EQm1OMlZsTkRjMU5ESTBNbVV4ZlE9PSJ9fQ==\"}}"
+	resource "tencentcloudenterprise_tke_kubernetes_cluster_plugin" "alertmanager" {
+	  cluster_id = "cls-rkeuubqw"
+	  namespace  = "tke-addon"
+
+	  request_body = jsonencode({
+	    kind       = "App"
+	    apiVersion = "application.tkestack.io/v1"
+	    metadata = {
+	      name      = "alertmanager"
+	      namespace = "tke-addon"
+	      labels = {
+	        "application.tkestack.io/type" = "internal-app"
+	      }
+	    }
+	    spec = {
+	      chart = {
+	        chartGroupName = "local"
+	        chartName      = "alertmanager"
+	        chartVersion   = "1.7.0"
+	        tenantID       = "local"
+	        importedRepo   = true
+	      }
+	      name          = "alertmanager"
+	      targetCluster = "cls-rkeuubqw"
+	      type          = "HelmV3"
+	      values = {
+	        rawValues     = ""
+	        rawValuesType = "yaml"
+	        values        = ["rootDir="]
+	      }
+	      dryRun = false
+	    }
+	  })
+	}
+
+```
+
+Local chart package (tgz):
+
+```hcl
+
+	locals {
+	  chart_b64  = filebase64("${path.module}/charts/alertmanager-1.7.0.tgz")
+	  values_yml = file("${path.module}/values.yaml")
+	}
+
+	resource "tencentcloudenterprise_tke_kubernetes_cluster_plugin" "alertmanager" {
+	  cluster_id = "cls-rkeuubqw"
+	  namespace  = "tke-cluster-inspection"
+
+	  request_body = jsonencode({
+	    kind       = "App"
+	    apiVersion = "application.tkestack.io/v1"
+	    metadata = {
+	      name      = "alertmanager"
+	      namespace = "tke-cluster-inspection"
+	      annotations = {
+	        "application.tkestack.io/chart" = local.chart_b64
+	      }
+	      labels = {
+	        "application.tkestack.io/type" = "internal-app"
+	      }
+	    }
+	    spec = {
+	      chart = {
+	        chartGroupName = "local"
+	        chartName      = "alertmanager"
+	        chartVersion   = "1.7.0"
+	        importedRepo   = true
+	      }
+	      name          = "alertmanager"
+	      targetCluster = "cls-rkeuubqw"
+	      type          = "HelmV3"
+	      values = {
+	        rawValuesType = "yaml"
+	        rawValues     = local.values_yml
+	      }
+	      dryRun = false
+	    }
+	  })
 	}
 
 ```
@@ -22,6 +97,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"strings"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
@@ -29,13 +105,13 @@ import (
 func init() {
 	registerResourceDescriptionProvider("tencentcloudenterprise_tke_kubernetes_cluster_plugin", CNDescription{
 		TerraformTypeCN: "集群插件配置",
-		DescriptionCN:   "提供集群插件配置资源，用于配置集群的插件。",
+		DescriptionCN:   "提供集群应用配置资源，用于创建/删除集群应用。",
 		AttributesCN: map[string]string{
 			"cluster_id":   "集群ID",
 			"namespace":    "命名空间名称",
 			"request_body": "请求体",
 			"plugin_name":  "插件名称",
-			"path":         "命名空间路径",
+			"path":         "应用创建路径，例如 /apis/application.tkestack.io/v1/namespaces/<namespace>/apps",
 			"app_id":       "AppId信息",
 			"apiversion":   "API版本信息",
 		},
@@ -52,7 +128,7 @@ type TkeForwardRequestPluginCreateResponse struct {
 
 func resourceTencentCloudTkeClusterPlugin() *schema.Resource {
 	return &schema.Resource{
-		Description: "Provide a resource to increase ns to cluster",
+		Description: "Manage a TKE application via ForwardApplicationRequestV3.",
 		Create:      resourceTencentCloudTkeTkeClusterPluginCreate,
 		Read:        resourceTencentCloudTkeTkeClusterPluginRead,
 		Delete:      resourceTencentCloudTkeTkeClusterPluginDelete,
@@ -66,14 +142,20 @@ func resourceTencentCloudTkeClusterPlugin() *schema.Resource {
 			"path": {
 				Type:        schema.TypeString,
 				ForceNew:    true,
-				Required:    true,
-				Description: "ns name",
+				Optional:    true,
+				Description: "Application endpoint path. If empty, defaults to /apis/application.tkestack.io/v1/namespaces/<namespace>/apps.",
 			},
 			"request_body": {
 				Type:        schema.TypeString,
 				ForceNew:    true,
 				Required:    true,
 				Description: "request_body",
+			},
+			"namespace": {
+				Type:        schema.TypeString,
+				ForceNew:    true,
+				Required:    true,
+				Description: "Namespace for the application.",
 			},
 			// Computed
 			"app_id": {
@@ -99,10 +181,17 @@ func resourceTencentCloudTkeTkeClusterPluginCreate(d *schema.ResourceData, meta 
 		clusterId   = d.Get("cluster_id").(string)
 		path        = d.Get("path").(string)
 		requestBody = d.Get("request_body").(string)
+		namespace   = d.Get("namespace").(string)
 	)
+	if path == "" {
+		if namespace == "" {
+			return fmt.Errorf("namespace is required when path is empty")
+		}
+		path = fmt.Sprintf("/apis/application.tkestack.io/v1/namespaces/%s/apps", namespace)
+	}
 	service := TkeService{client: meta.(*TencentCloudClient).apiV3Conn}
 
-	body, err := service.ForwardRequest(ctx, TKE_FORWARD_METHOD_POST, path, clusterId, requestBody)
+	body, err := service.ForwardApplicationRequestV3(ctx, TKE_FORWARD_METHOD_POST, path, clusterId, requestBody)
 	if err != nil {
 		return err
 	}
@@ -112,12 +201,20 @@ func resourceTencentCloudTkeTkeClusterPluginCreate(d *schema.ResourceData, meta 
 	if err != nil {
 		return err
 	}
-	// get app_id from rsp.metadata
-	appid, exists := response.MetaData["name"].(string)
-	if !exists {
-		fmt.Println("Name field not found in metadata")
+	appid := ""
+	if response.MetaData != nil {
+		if name, exists := response.MetaData["name"].(string); exists && name != "" {
+			appid = name
+		}
 	}
-
+	if appid == "" && response.Spec != nil {
+		if name, exists := response.Spec["name"].(string); exists && name != "" {
+			appid = name
+		}
+	}
+	if appid == "" {
+		return fmt.Errorf("app name not found in response metadata.name or spec.name")
+	}
 	d.SetId(appid)
 	_ = d.Set("app_id", appid)
 	_ = d.Set("apiversion", response.ApiVersion)
@@ -141,11 +238,22 @@ func resourceTencentCloudTkeTkeClusterPluginDelete(d *schema.ResourceData, meta 
 
 	var (
 		clusterId   = d.Get("cluster_id").(string)
-		path        = fmt.Sprintf("/apis/application.tkestack.io/v1/namespaces/default/apps/%s", d.Id())
+		path        = d.Get("path").(string)
+		namespace   = d.Get("namespace").(string)
 		requestBody = "{\"propagationPolicy\":\"Background\"}"
 	)
+	if path == "" {
+		if namespace == "" {
+			return fmt.Errorf("namespace is required when path is empty")
+		}
+		path = fmt.Sprintf("/apis/application.tkestack.io/v1/namespaces/%s/apps", namespace)
+	}
+	trimmedPath := strings.TrimRight(path, "/")
+	if !strings.HasSuffix(trimmedPath, "/"+d.Id()) {
+		trimmedPath = fmt.Sprintf("%s/%s", trimmedPath, d.Id())
+	}
 
-	_, err := service.ForwardRequest(ctx, TKE_FORWARD_METHOD_DELETE, path, clusterId, requestBody)
+	_, err := service.ForwardApplicationRequestV3(ctx, TKE_FORWARD_METHOD_DELETE, trimmedPath, clusterId, requestBody)
 	if err != nil {
 		return err
 	}

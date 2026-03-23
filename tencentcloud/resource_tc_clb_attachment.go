@@ -226,7 +226,7 @@ func resourceTencentCloudClbServerAttachmentDelete(d *schema.ResourceData, meta 
 	attachmentId := d.Id()
 	items := strings.Split(attachmentId, "#")
 	if len(items) < 3 {
-		return fmt.Errorf("[CHECK][CLB attachment][Delete] check: id %s of resource.cloud_clb_attachment is not match loc-xxx#lbl-xxx#lb-xxx", attachmentId)
+		return fmt.Errorf("[CHECK][CLB attachment][Delete] check: id %s of resource.tencentcloudenterprise_clb_attachment is not match loc-xxx#lbl-xxx#lb-xxx", attachmentId)
 	}
 
 	locationId := items[0]
@@ -299,7 +299,7 @@ func resourceTencentCloudClbServerAttachmentRemove(d *schema.ResourceData, meta 
 	attachmentId := d.Id()
 	items := strings.Split(attachmentId, "#")
 	if len(items) < 3 {
-		return fmt.Errorf("[CHECK][CLB attachment][Remove] check: id %s of resource.cloud_clb_attachment is not match loc-xxx#lbl-xxx#lb-xxx", attachmentId)
+		return fmt.Errorf("[CHECK][CLB attachment][Remove] check: id %s of resource.tencentcloudenterprise_clb_attachment is not match loc-xxx#lbl-xxx#lb-xxx", attachmentId)
 	}
 	locationId := items[0]
 	listenerId := items[1]

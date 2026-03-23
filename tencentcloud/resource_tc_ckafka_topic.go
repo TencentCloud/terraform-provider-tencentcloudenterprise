@@ -1,7 +1,7 @@
 /*
 Use this resource to create ckafka topic.
 
-# Example Usage
+Example Usage
 
 ```hcl
 
@@ -23,7 +23,7 @@ Use this resource to create ckafka topic.
 
 ```
 
-# Import
+Import
 
 ckafka topic can be imported using the instance_id#topic_name, e.g.
 
@@ -38,10 +38,10 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	ckafka "terraform-provider-tencentcloudenterprise/sdk/ckafka/v20190819"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func init() {

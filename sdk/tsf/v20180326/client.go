@@ -109,6 +109,7 @@ func NewDescribeMachineMonitorResponse() (response *DescribeMachineMonitorRespon
 	return
 }
 
+//
 // 机器列表监控
 func (c *Client) DescribeMachineMonitor(request *DescribeMachineMonitorRequest) (response *DescribeMachineMonitorResponse, err error) {
 	if request == nil {
@@ -609,7 +610,7 @@ func NewDescribeTaskBatchRecordResponse() (response *DescribeTaskBatchRecordResp
 	return
 }
 
-// 查看任务批次的详情
+//  查看任务批次的详情
 func (c *Client) DescribeTaskBatchRecord(request *DescribeTaskBatchRecordRequest) (response *DescribeTaskBatchRecordResponse, err error) {
 	if request == nil {
 		request = NewDescribeTaskBatchRecordRequest()
@@ -1884,7 +1885,7 @@ func NewDescribeContainerGroupDeployInfoResponse() (response *DescribeContainerG
 	return
 }
 
-// 获取部署组详情
+//  获取部署组详情
 func (c *Client) DescribeContainerGroupDeployInfo(request *DescribeContainerGroupDeployInfoRequest) (response *DescribeContainerGroupDeployInfoResponse, err error) {
 	if request == nil {
 		request = NewDescribeContainerGroupDeployInfoRequest()
@@ -7687,7 +7688,7 @@ func NewDescribeEventCategoryNameResponse() (response *DescribeEventCategoryName
 	return
 }
 
-// 事件名，事件摘要
+//  事件名，事件摘要
 func (c *Client) DescribeEventCategoryName(request *DescribeEventCategoryNameRequest) (response *DescribeEventCategoryNameResponse, err error) {
 	if request == nil {
 		request = NewDescribeEventCategoryNameRequest()
@@ -12418,7 +12419,7 @@ func NewDescribeGroupAddibleInstancesResponse() (response *DescribeGroupAddibleI
 	return
 }
 
-// 查询分组可添加的机器列表
+//  查询分组可添加的机器列表
 func (c *Client) DescribeGroupAddibleInstances(request *DescribeGroupAddibleInstancesRequest) (response *DescribeGroupAddibleInstancesResponse, err error) {
 	if request == nil {
 		request = NewDescribeGroupAddibleInstancesRequest()
@@ -17097,7 +17098,7 @@ func NewDescribeContainerGroupDetailResponse() (response *DescribeContainerGroup
 	return
 }
 
-// 容器部署组详情（已废弃，请使用  DescribeContainerGroupDeployInfo）
+//  容器部署组详情（已废弃，请使用  DescribeContainerGroupDeployInfo）
 func (c *Client) DescribeContainerGroupDetail(request *DescribeContainerGroupDetailRequest) (response *DescribeContainerGroupDetailResponse, err error) {
 	if request == nil {
 		request = NewDescribeContainerGroupDetailRequest()
@@ -18422,7 +18423,7 @@ func NewDescribeNamespacesResponse() (response *DescribeNamespacesResponse) {
 	return
 }
 
-// 获取命名空间列表
+//  获取命名空间列表
 func (c *Client) DescribeNamespaces(request *DescribeNamespacesRequest) (response *DescribeNamespacesResponse, err error) {
 	if request == nil {
 		request = NewDescribeNamespacesRequest()

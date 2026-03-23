@@ -1,24 +1,23 @@
 /*
 Provides a resource to create a tsf config_template
 
-# Example Usage
+Example Usage
 
 ```hcl
-
-	resource "tencentcloudenterprise_tsf_config_template" "config_template" {
-	  config_template_name = "terraform-template-name"
-	  config_template_type = "Ribbon"
-	  config_template_value = <<-EOT
-	    ribbon.ReadTimeout: 5000
-	    ribbon.ConnectTimeout: 2000
-	    ribbon.MaxAutoRetries: 0
-	    ribbon.MaxAutoRetriesNextServer: 1
-	    ribbon.OkToRetryOnAllOperations: true
-	  EOT
-	  config_template_desc = "terraform-test"
-	}
-
+resource "tencentcloudenterprise_tsf_config_template" "config_template" {
+  config_template_name = "terraform-template-name"
+  config_template_type = "Ribbon"
+  config_template_value = <<-EOT
+    ribbon.ReadTimeout: 5000
+    ribbon.ConnectTimeout: 2000
+    ribbon.MaxAutoRetries: 0
+    ribbon.MaxAutoRetriesNextServer: 1
+    ribbon.OkToRetryOnAllOperations: true
+  EOT
+  config_template_desc = "terraform-test"
+}
 ```
+
 */
 package tencentcloud
 
@@ -27,10 +26,10 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	tsf "terraform-provider-tencentcloudenterprise/sdk/tsf/v20180326"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func init() {

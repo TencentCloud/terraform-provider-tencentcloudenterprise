@@ -1,17 +1,15 @@
 /*
 Use this data source to query detailed information of tsf microservice
 
-# Example Usage
+Example Usage
 
 ```hcl
-
-	data "tencentcloudenterprise_tsf_microservice" "microservice" {
-		namespace_id = var.namespace_id
-		# status =
-		microservice_id_list = ["ms-yq3jo6jd"]
-		microservice_name_list = ["provider-demo"]
-	}
-
+data "tencentcloudenterprise_tsf_microservice" "microservice" {
+	namespace_id = var.namespace_id
+	# status =
+	microservice_id_list = ["ms-yq3jo6jd"]
+	microservice_name_list = ["provider-demo"]
+}
 ```
 */
 package tencentcloud
@@ -19,10 +17,10 @@ package tencentcloud
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	tsf "terraform-provider-tencentcloudenterprise/sdk/tsf/v20180326"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func init() {
@@ -30,30 +28,31 @@ func init() {
 		TerraformTypeCN: "TSF微服务",
 		DescriptionCN:   "提供TSF微服务数据源，用于查询TSF微服务的详细信息。",
 		AttributesCN: map[string]string{
-			"namespace_id":            "命名空间ID",
-			"status":                  "状态过滤，online、offline、single_online",
-			"microservice_id_list":    "微服务ID列表",
-			"microservice_name_list":  "搜索的服务名列表",
-			"result":                  "微服务分页列表信息。注意：此字段可能返回 null，表示取不到有效值。",
-			"total_count":             "微服务分页列表信息。注意：此字段可能返回 null，表示取不到有效值。",
-			"content":                 "微服务列表信息。注意：此字段可能返回 null，表示取不到有效值。",
-			"microservice_id":         "微服务ID。注意：此字段可能返回 null，表示取不到有效值。",
-			"microservice_name":       "微服务名称。注意：此字段可能返回 null，表示取不到有效值。",
-			"microservice_desc":       "微服务描述。注意：此字段可能返回 null，表示取不到有效值。",
-			"create_time":             "创建时间。注意：此字段可能返回 null，表示取不到有效值。",
-			"update_time":             "最后更新时间。注意：此字段可能返回 null，表示取不到有效值。",
-			"run_instance_count":      "命名空间下的运行实例数。注意：此字段可能返回 null，表示取不到有效值。",
+			"namespace_id":       "命名空间ID",
+			"status":             "状态过滤，online、offline、single_online",
+			"microservice_id_list": "微服务ID列表",
+			"microservice_name_list": "搜索的服务名列表",
+			"result":             "微服务分页列表信息。注意：此字段可能返回 null，表示取不到有效值。",
+			"total_count":        "微服务分页列表信息。注意：此字段可能返回 null，表示取不到有效值。",
+			"content":            "微服务列表信息。注意：此字段可能返回 null，表示取不到有效值。",
+			"microservice_id":    "微服务ID。注意：此字段可能返回 null，表示取不到有效值。",
+			"microservice_name":  "微服务名称。注意：此字段可能返回 null，表示取不到有效值。",
+			"microservice_desc":  "微服务描述。注意：此字段可能返回 null，表示取不到有效值。",
+			"create_time":        "创建时间。注意：此字段可能返回 null，表示取不到有效值。",
+			"update_time":        "最后更新时间。注意：此字段可能返回 null，表示取不到有效值。",
+			"run_instance_count": "命名空间下的运行实例数。注意：此字段可能返回 null，表示取不到有效值。",
 			"critical_instance_count": "下线实例数。注意：此字段可能返回 null，表示取不到有效值。",
-			"result_output_file":      "用于保存结果",
+			"result_output_file": "用于保存结果",
 		},
 	})
+
 
 }
 
 func dataSourceTencentCloudTsfMicroservice() *schema.Resource {
 	return &schema.Resource{
 		Description: "This data source provides detailed information of tsf microservice",
-		Read:        dataSourceTencentCloudTsfMicroserviceRead,
+		Read: dataSourceTencentCloudTsfMicroserviceRead,
 		Schema: map[string]*schema.Schema{
 			"namespace_id": {
 				Required:    true,

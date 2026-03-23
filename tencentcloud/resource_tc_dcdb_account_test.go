@@ -18,7 +18,7 @@ func init() {
 	})
 }
 
-// go test -v ./tencentcloud -sweep=ap-guangzhou -sweep-run=cloud_dcdb_account
+// go test -v ./tencentcloud -sweep=ap-guangzhou -sweep-run=tencentcloudenterprise_dcdb_account
 func testSweepDCDBAccount(r string) error {
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)

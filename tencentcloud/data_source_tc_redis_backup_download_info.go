@@ -26,10 +26,10 @@ import (
 	"context"
 	sdkErrors "terraform-provider-tencentcloudenterprise/sdk/common/errors"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	redis "terraform-provider-tencentcloudenterprise/sdk/redis/v20180412"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func init() {
@@ -38,7 +38,7 @@ func init() {
 		DescriptionCN:   "提供Redis备份下载信息数据源，用于查询Redis备份下载信息的详细信息。",
 		AttributesCN: map[string]string{
 			"instance_id":           "实例的ID",
-			"backup_id":             "备份ID，可通过[DescriptionInstanceBackups]访问(https://cloud.tencent.com/document/product/239/20011)接口返回要获取的参数RedisBackupSet",
+			"backup_id":             "备份ID",
 			"limit_type":            "下载备份文件的网络限制类型：-无限制：没有限制，可以从和内外网下载备份文件-LimitOnlyIntranet:只有自动分配的内网地址才能下载备份文件-自定义：指用户定义的专用网络可下载的备份文件",
 			"vpc_comparison_symbol": "此参数仅支持输入In，这意味着自定义LimitVpc可以下载备份文件",
 			"ip_comparison_symbol":  "标识自定义的LimitIP地址是否可以下载备份文件-在：自定义IP地址可供下载-NotIn:自定义IP不可下载",
@@ -70,7 +70,7 @@ func dataSourceTencentCloudRedisBackupDownloadInfo() *schema.Resource {
 			"backup_id": {
 				Required:    true,
 				Type:        schema.TypeString,
-				Description: "The backup ID, which can be accessed via [DescribeInstanceBackups](https://cloud.tencent.com/document/product/239/20011) interface returns the parameter RedisBackupSet to get.",
+				Description: "The backup ID.",
 			},
 
 			// "limit_type": {

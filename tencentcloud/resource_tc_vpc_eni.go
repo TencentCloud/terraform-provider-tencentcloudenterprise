@@ -1,41 +1,54 @@
 /*
 Provides a resource to create an ENI.
 
-# Example Usage
+Example Usage
+
+Auto-assign IP (recommended):
 
 ```hcl
-
-	resource "tencentcloudenterprise_vpc" "foo" {
-	  name       = "ci-test-eni-vpc"
-	  cidr_block = "10.0.0.0/16"
-	}
-
-	resource "tencentcloudenterprise_vpc_subnet" "foo" {
-	  availability_zone = "ap-guangzhou-3"
-	  name              = "ci-test-eni-subnet"
-	  vpc_id            = tencentcloudenterprise_vpc.foo.id
-	  cidr_block        = "10.0.0.0/16"
-	  is_multicast      = false
-	}
-
-	resource "tencentcloudenterprise_vpc_eni" "foo" {
-	  name        = "ci-test-eni"
-	  vpc_id      = tencentcloudenterprise_vpc.foo.id
-	  subnet_id   = tencentcloudenterprise_vpc_subnet.foo.id
-	  description = "eni desc"
-	  ipv4_count  = 1
-	}
-
+resource "tencentcloudenterprise_vpc_eni" "auto" {
+  name        = "ci-test-eni"
+  vpc_id      = tencentcloudenterprise_vpc.foo.id
+  subnet_id   = tencentcloudenterprise_vpc_subnet.foo.id
+  description = "eni with auto-assigned IP"
+}
 ```
 
-# Import
+Specify IP count:
+
+```hcl
+resource "tencentcloudenterprise_vpc_eni" "count" {
+  name        = "ci-test-eni"
+  vpc_id      = tencentcloudenterprise_vpc.foo.id
+  subnet_id   = tencentcloudenterprise_vpc_subnet.foo.id
+  description = "eni desc"
+  ipv4_count  = 1
+}
+```
+
+Specify IPs manually:
+
+```hcl
+resource "tencentcloudenterprise_vpc_eni" "manual" {
+  name        = "ci-test-eni"
+  vpc_id      = tencentcloudenterprise_vpc.foo.id
+  subnet_id   = tencentcloudenterprise_vpc_subnet.foo.id
+  description = "eni desc"
+  
+  ipv4s {
+    ip          = "10.0.0.10"
+    primary     = true
+    description = "primary IP"
+  }
+}
+```
+
+Import
 
 ENI can be imported using the id, e.g.
 
 ```
-
-	$ terraform import tencentcloudenterprise_vpc_eni.foo eni-qka182br
-
+  $ terraform import tencentcloudenterprise_vpc_eni.foo eni-qka182br
 ```
 */
 package tencentcloud
@@ -46,9 +59,9 @@ import (
 	"fmt"
 	"net"
 
+	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/common"
-	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
 )
 
 func init() {
@@ -56,20 +69,20 @@ func init() {
 		TerraformTypeCN: "弹性网卡",
 		DescriptionCN:   "提供弹性网卡资源，用于创建弹性网卡。",
 		AttributesCN: map[string]string{
-			"name":            "弹性网卡名称",
-			"vpc_id":          "VPC实例ID",
-			"subnet_id":       "子网实例ID",
-			"description":     "弹性网卡描述",
-			"mac":             "MAC地址",
-			"state":           "弹性网卡状态",
-			"primary":         "是否是主网卡",
-			"create_time":     "创建时间",
-			"ipv4_info":       "内网IPv4信息",
-			"ipv4_count":      "内网IPv4数量",
-			"tags":            "标签",
+			"name":        "弹性网卡名称",
+			"vpc_id":      "VPC实例ID",
+			"subnet_id":   "子网实例ID",
+			"description": "弹性网卡描述",
+			"mac":         "MAC地址",
+			"state":       "弹性网卡状态",
+			"primary":     "是否是主网卡",
+			"create_time": "创建时间",
+			"ipv4_info":   "内网IPv4信息",
+			"ipv4_count":  "内网IPv4数量",
+			"tags":        "标签",
 			"security_groups": "安全组",
-			"ipv4s":           "内网IPv4集合",
-			"ip":              "实例IP",
+			"ipv4s":        "内网IPv4集合",
+			"ip":           "实例IP",
 		},
 	})
 }
@@ -165,14 +178,15 @@ func resourceTencentCloudEni() *schema.Resource {
 					},
 				},
 				MaxItems:    30,
-				Description: "Applying for intranet IPv4s collection, conflict with `ipv4_count`. When there are multiple ipv4s, can only be one primary IP, and the maximum length of the array is 30. Each element contains the following attributes:",
+				Description: "Applying for intranet IPv4s collection, conflict with `ipv4_count`. When there are multiple ipv4s, can only be one primary IP, and the maximum length of the array is 30. If both `ipv4s` and `ipv4_count` are not specified, the cloud will automatically assign a primary IP. Each element contains the following attributes:",
 			},
 			"ipv4_count": {
 				Type:          schema.TypeInt,
 				Optional:      true,
+				Computed:      true,
 				ConflictsWith: []string{"ipv4s"},
 				ValidateFunc:  validateIntegerInRange(1, 30),
-				Description:   "The number of intranet IPv4s. When it is greater than 1, there is only one primary intranet IP. The others are auxiliary intranet IPs, which conflict with `ipv4s`.",
+				Description:   "The number of intranet IPv4s. When it is greater than 1, there is only one primary intranet IP. The others are auxiliary intranet IPs, which conflict with `ipv4s`. If both `ipv4s` and `ipv4_count` are not specified, the cloud will automatically assign a primary IP.",
 			},
 			"tags": {
 				Type:        schema.TypeMap,
@@ -275,9 +289,8 @@ func resourceTencentCloudEniCreate(d *schema.ResourceData, m interface{}) error 
 		ipv4Count = common.IntPtr(raw.(int))
 	}
 
-	if len(ipv4s) == 0 && ipv4Count == nil {
-		return errors.New("ipv4s or ipv4_count must be set")
-	}
+	// Note: ipv4s and ipv4_count are both optional.
+	// If neither is specified, the cloud will automatically assign a primary IP.
 
 	if raw := helper.GetTags(d, "tags"); len(raw) > 0 {
 		tags = raw
@@ -363,6 +376,15 @@ func resourceTencentCloudEniCreate(d *schema.ResourceData, m interface{}) error 
 				return err
 			}
 		}
+
+	default:
+		// Neither ipv4s nor ipv4_count is specified, let the cloud auto-assign a primary IP
+		id, err = vpcService.CreateEni(ctx, name, vpcId, subnetId, desc, securityGroups, nil, nil, tags)
+		if err != nil {
+			return err
+		}
+
+		d.SetId(id)
 	}
 
 	if len(tags) > 0 {
@@ -423,11 +445,19 @@ func resourceTencentCloudEniRead(d *schema.ResourceData, m interface{}) error {
 	}
 	_ = d.Set("ipv4_info", ipv4s)
 
-	_, manually := d.GetOk("ipv4s")
-	_, count := d.GetOk("ipv4_count")
-	if !manually && !count {
-		// import mode
-		_ = d.Set("ipv4_count", len(ipv4s))
+	// Only set ipv4_count in import mode when neither ipv4s nor ipv4_count was originally configured
+	// This is detected by checking if the resource ID was just set (import scenario)
+	if d.IsNewResource() {
+		// During initial create, don't override user's choice
+		// If user didn't specify ipv4s or ipv4_count, leave them unset to allow auto-assignment
+	} else {
+		// During read/refresh/import
+		_, manually := d.GetOk("ipv4s")
+		_, count := d.GetOk("ipv4_count")
+		if !manually && !count {
+			// import mode - set ipv4_count to match current state
+			_ = d.Set("ipv4_count", len(ipv4s))
+		}
 	}
 
 	tags := make(map[string]string, len(eni.TagSet))

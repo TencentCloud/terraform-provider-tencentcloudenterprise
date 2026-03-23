@@ -985,6 +985,7 @@ func NewModifyImageSharePermissionResponse() (response *ModifyImageSharePermissi
 // * 每个自定义镜像最多可共享给50个账户。
 // * 分享镜像无法更改名称，描述，仅可用于创建实例。
 // * 只支持分享到对方账户相同地域。
+//
 func (c *Client) ModifyImageSharePermission(request *ModifyImageSharePermissionRequest) (response *ModifyImageSharePermissionResponse, err error) {
 	if request == nil {
 		request = NewModifyImageSharePermissionRequest()
@@ -1973,6 +1974,7 @@ func NewCopyInstanceDiskResponse() (response *CopyInstanceDiskResponse) {
 // * 实例需要处于`关机`状态。
 // * 需要指定未挂载、非加密弹性云硬盘，并且容量大于等于系统盘容量。
 // * 实例与待挂载的磁盘需要在同一个可用区。
+//
 func (c *Client) CopyInstanceDisk(request *CopyInstanceDiskRequest) (response *CopyInstanceDiskResponse, err error) {
 	if request == nil {
 		request = NewCopyInstanceDiskRequest()
@@ -3843,6 +3845,7 @@ func NewInquiryPriceResetInstanceResponse() (response *InquiryPriceResetInstance
 }
 
 // 本接口 (InquiryPriceResetInstance) 用于重装实例询价。* 如果指定了`ImageId`参数，则使用指定的镜像进行重装询价；否则按照当前实例使用的镜像进行重装询价。* 目前只支持[系统盘类型](../数据结构#systemdisk)是`CLOUD_BASIC`、`CLOUD_PREMIUM`、`CLOUD_SSD`类型的实例使用该接口实现`Linux`和`Windows`操作系统切换的重装询价。* 目前不支持海外地域的实例使用该接口实现`Linux`和`Windows`操作系统切换的重装询价。
+//
 //
 // 指定有效的[镜像](/tcloud/Compute/CVM/292128/835305/mirr_overview)ID，格式形如`img-xxx`。镜像类型分为四种：<br/><li>公共镜像</li><li>自定义镜像</li><li>共享镜像</li><li></li><br/>可通过以下方式获取可用的镜像ID：<br/><li>`公共镜像`、`自定义镜像`、`共享镜像`的镜像ID可通过登录[控制台](//console.{{conf.main_domain}}/cvm/image/list?imageType=PUBLIC_IMAGE&pageIndex=1&pageSize=20)查询；</li><li>通过调用接口 [DescribeImages](../镜像相关接口/DescribeImages) ，取返回信息中的`ImageId`字段。</li>
 func (c *Client) InquiryPriceResetInstance(request *InquiryPriceResetInstanceRequest) (response *InquiryPriceResetInstanceResponse, err error) {

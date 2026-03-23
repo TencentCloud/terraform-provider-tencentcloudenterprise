@@ -35,7 +35,7 @@ resource "tencentcloudenterprise_bms_instance" "instance" {
   system_disk_size  = 100
   vpc_id            = "vpc-xxxxx"
   subnet_id         = "subnet-xxxxx"
-  placement_group_id = cloud_bms_placement_group.group.id
+  placement_group_id = tencentcloudenterprise_bms_placement_group.group.id
 
   data_disks {
     disk_type = "LOCAL_BASIC"

@@ -1,7 +1,7 @@
 /*
 Use this data source to query cvm instances in parallel.
 
-# Example Usage
+Example Usage
 
 ```hcl
 
@@ -18,9 +18,9 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	cvm "terraform-provider-tencentcloudenterprise/sdk/cvm/v20170312"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func init() {

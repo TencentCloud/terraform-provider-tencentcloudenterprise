@@ -1,7 +1,7 @@
 /*
 Provides a resource to create a tdmq subscription_attachment
 
-# Example Usage
+Example Usage
 
 ```hcl
 
@@ -17,7 +17,7 @@ Provides a resource to create a tdmq subscription_attachment
 
 ```
 
-# Import
+Import
 
 tdmq subscription_attachment can be imported using the id, e.g.
 
@@ -33,10 +33,10 @@ import (
 	"log"
 	"strings"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	tdmq "terraform-provider-tencentcloudenterprise/sdk/tdmq/v20200217"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func init() {

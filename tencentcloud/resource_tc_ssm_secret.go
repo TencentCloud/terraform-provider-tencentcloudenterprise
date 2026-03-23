@@ -2,18 +2,16 @@
 Provide a resource to create a SSM secret.
 Example Usage
 ```hcl
+resource "tencentcloudenterprise_ssm_secret" "foo" {
+  secret_name = "test"
+  description = "test secret"
+  recovery_window_in_days = 0
+  is_enabled = true
 
-	resource "tencentcloudenterprise_ssm_secret" "foo" {
-	  secret_name = "test"
-	  description = "test secret"
-	  recovery_window_in_days = 0
-	  is_enabled = true
-
-	  tags = {
-	    test-tag = "test"
-	  }
-	}
-
+  tags = {
+    test-tag = "test"
+  }
+}
 ```
 Import
 SSM secret can be imported using the secretName, e.g.
@@ -26,27 +24,27 @@ package tencentcloud
 import (
 	"context"
 	"fmt"
-	"log"
 	sdkErrors "terraform-provider-tencentcloudenterprise/sdk/common/errors"
+	"log"
 
+	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
 )
 
 func init() {
 	registerResourceDescriptionProvider("tencentcloudenterprise_ssm_secret", CNDescription{
-		TerraformTypeCN: "凭据管理密钥",
-		DescriptionCN:   "提供凭据管理密钥资源，用于创建和管理SSM凭据。",
+		TerraformTypeCN: "凭据列表",
+		DescriptionCN:   "提供SSM凭据列表资源，用于创建和管理SSM凭据。",
 		AttributesCN: map[string]string{
-			"secret_name":             "凭据名称",
-			"description":             "凭据描述",
-			"kms_key_id":              "KMS密钥ID",
-			"secret_type":             "凭据类型",
-			"is_enabled":              "是否启用凭据",
-			"recovery_window_in_days": "恢复窗口天数",
-			"tags":                    "标签",
-			"status":                  "凭据状态",
+			"secret_name":              "凭据名称",
+			"description":              "凭据描述",
+			"kms_key_id":               "KMS密钥ID",
+			"secret_type":              "凭据类型",
+			"is_enabled":               "是否启用凭据",
+			"recovery_window_in_days":  "恢复窗口天数",
+			"tags":                     "标签",
+			"status":                   "凭据状态",
 		},
 	})
 }

@@ -1,17 +1,15 @@
 /*
 Use this data source to query detailed information of tsf application_public_config
 
-# Example Usage
+Example Usage
 
 ```hcl
-
-	data "tencentcloudenterprise_tsf_application_public_config" "application_public_config" {
-	  config_id = "dcfg-p-evjrbgly"
-	  # config_id_list = [""]
-	  config_name = "dsadsa"
-	  config_version = "123"
-	}
-
+data "tencentcloudenterprise_tsf_application_public_config" "application_public_config" {
+  config_id = "dcfg-p-evjrbgly"
+  # config_id_list = [""]
+  config_name = "dsadsa"
+  config_version = "123"
+}
 ```
 */
 package tencentcloud
@@ -19,10 +17,10 @@ package tencentcloud
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	tsf "terraform-provider-tencentcloudenterprise/sdk/tsf/v20180326"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func init() {
@@ -30,21 +28,21 @@ func init() {
 		TerraformTypeCN: "TSF应用公共配置",
 		DescriptionCN:   "提供TSF应用公共配置数据源，用于查询TSF应用公共配置的详细信息。",
 		AttributesCN: map[string]string{
-			"config_id":            "配置ID",
-			"config_name":          "配置名称",
-			"config_version":       "配置版本",
-			"config_version_desc":  "配置版本描述",
-			"config_value":         "配置值",
-			"config_type":          "配置类型",
-			"creation_time":        "创建时间",
-			"application_id":       "应用ID",
-			"application_name":     "应用名称",
-			"delete_flag":          "删除标识，true:允许删除；false:禁止删除。",
-			"last_update_time":     "最后更新时间",
+			"config_id":          "配置ID",
+			"config_name":        "配置名称",
+			"config_version":     "配置版本",
+			"config_version_desc": "配置版本描述",
+			"config_value":       "配置值",
+			"config_type":        "配置类型",
+			"creation_time":      "创建时间",
+			"application_id":     "应用ID",
+			"application_name":   "应用名称",
+			"delete_flag":        "删除标识，true:允许删除；false:禁止删除。",
+			"last_update_time":   "最后更新时间",
 			"config_version_count": "配置版本数量",
-			"result":               "分页全局配置列表。注意：此字段可能返回 null，表示取不到有效值。",
-			"result_output_file":   "用于保存结果",
-			"config_id_list":       "配置ID列表。不传则查询所有项，优先级低。",
+			"result":             "分页全局配置列表。注意：此字段可能返回 null，表示取不到有效值。",
+			"result_output_file": "用于保存结果",
+			"config_id_list":     "配置ID列表。不传则查询所有项，优先级低。",
 		},
 	})
 
@@ -53,7 +51,7 @@ func init() {
 func dataSourceTencentCloudTsfApplicationPublicConfig() *schema.Resource {
 	return &schema.Resource{
 		Description: "This data source provides detailed information of tsf application_public_config",
-		Read:        dataSourceTencentCloudTsfApplicationPublicConfigRead,
+		Read: dataSourceTencentCloudTsfApplicationPublicConfigRead,
 		Schema: map[string]*schema.Schema{
 			"config_id": {
 				Optional:    true,

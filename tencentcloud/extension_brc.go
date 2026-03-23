@@ -1,14 +1,14 @@
 package tencentcloud
 
 const (
-	CFS           = "CFS"
-	DISK          = "DISK"
-	INSTANCE      = "INSTANCE"
-	COS           = "COS"
-	CSP           = "CSP"
-	MySQL_MariaDB = "MySQL_MariaDB"
+	CFS              = "CFS"
+	DISK             = "DISK"
+	INSTANCE         = "INSTANCE"
+	COS              = "COS"
+	CSP              = "CSP"
+	MySQL_MariaDB    = "MySQL_MariaDB"
 	//PostgreSQL       = "PostgreSQL"
-	TDSQL_MySQL = "TDSQL_MySQL"
+	TDSQL_MySQL      = "TDSQL_MySQL"
 	//TDSQL_PostgreSQL = "TDSQL_PostgreSQL"
 	// filter
 	BACKUP_GROUP_ID = "backup-group-id"
@@ -32,12 +32,12 @@ var CreateResourceTypes = []string{
 	TDSQL_MySQL,
 }
 
-var ObejectStorage = []string{
+var ObejectStorage = []string {
 	COS,
 	CSP,
 }
 
-var DataBaseStorage = []string{
+var DataBaseStorage = []string {
 	MySQL_MariaDB,
 	//PostgreSQL,
 	TDSQL_MySQL,

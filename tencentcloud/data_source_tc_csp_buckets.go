@@ -1,7 +1,7 @@
 /*
 Use this data source to query the COS buckets of the current Cloud user.
 
-# Example Usage
+Example Usage
 
 ```hcl
 
@@ -16,9 +16,9 @@ package tencentcloud
 import (
 	"context"
 	"fmt"
+	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"log"
-	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
 )
 
 func init() {
@@ -30,7 +30,7 @@ func init() {
 			"bucket_list": "CSP桶列表",
 			"name":        "桶名称",
 			//"location":    "桶所在地域",
-			"create_date":        "桶创建时间",
+			"create_date": "桶创建时间",
 			"result_output_file": "用于保存数据源查询结果, 在前端可视化界面使用时，该参数不可用",
 		},
 	})

@@ -1,14 +1,12 @@
 /*
 Use this data source to query detailed information of tsf usable_unit_namespaces
 
-# Example Usage
+Example Usage
 
 ```hcl
-
-	data "tencentcloudenterprise_tsf_usable_unit_namespaces" "usable_unit_namespaces" {
-	  search_word = ""
-	}
-
+data "tencentcloudenterprise_tsf_usable_unit_namespaces" "usable_unit_namespaces" {
+  search_word = ""
+}
 ```
 */
 package tencentcloud
@@ -16,10 +14,10 @@ package tencentcloud
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	tsf "terraform-provider-tencentcloudenterprise/sdk/tsf/v20180326"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func init() {
@@ -27,13 +25,13 @@ func init() {
 		TerraformTypeCN: "TSF可用单元命名空间",
 		DescriptionCN:   "提供TSF可用单元命名空间数据源，用于查询TSF可用单元命名空间的详细信息。",
 		AttributesCN: map[string]string{
-			"search_word":    "搜索关键字（按命名空间ID或命名空间名称搜索）",
-			"result":         "命名空间对象列表",
-			"total_count":    "总数",
-			"content":        "命名空间列表",
-			"namespace_id":   "命名空间ID",
-			"namespace_name": "命名空间名称",
-			"id":             "单元命名空间ID。注意：此字段可能返回 null，表示取不到有效值。",
+			"search_word":        "搜索关键字（按命名空间ID或命名空间名称搜索）",
+			"result":             "命名空间对象列表",
+			"total_count":        "总数",
+			"content":            "命名空间列表",
+			"namespace_id":       "命名空间ID",
+			"namespace_name":     "命名空间名称",
+			"id":                 "单元命名空间ID。注意：此字段可能返回 null，表示取不到有效值。",
 			//"gateway_instance_id": "网关实体ID。注意：此字段可能返回 null，表示取不到有效值。",
 			//"created_time":       "创建时间。注意：此字段可能返回 null，表示取不到有效值。",
 			//"updated_time":       "更新时间。注意：此字段可能返回 null，表示取不到有效值。",
@@ -45,7 +43,7 @@ func init() {
 func dataSourceTencentCloudTsfUsableUnitNamespaces() *schema.Resource {
 	return &schema.Resource{
 		Description: "Use this data source to query detailed information of tsf usable_unit_namespaces",
-		Read:        dataSourceTencentCloudTsfUsableUnitNamespacesRead,
+		Read: dataSourceTencentCloudTsfUsableUnitNamespacesRead,
 		Schema: map[string]*schema.Schema{
 			"search_word": {
 				Optional:    true,

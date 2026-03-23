@@ -24,6 +24,6 @@ resource "tencentcloudenterprise_cwp_license_order" "license" {
 
 # CWP License Bind Attachment
 resource "tencentcloudenterprise_cwp_license_bind_attachment" "bind" {
-  resource_id = cloud_cwp_license_order.license.resource_id
+  resource_id = tencentcloudenterprise_cwp_license_order.license.resource_id
   quuid       = "quuid-xxxxx"
 }

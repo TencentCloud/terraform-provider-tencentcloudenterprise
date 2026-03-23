@@ -1,15 +1,13 @@
 /*
 Use this data source to query detailed information of brc auto backup policies
 
-# Example Usage
+Example Usage
 
 ```hcl
-
-	data "tencentcloudenterprise_brc_autobackup_policies" "instance_policies" {
-	  resource_type = "INSTANCE"
-	  result_output_file = "cvm_policies.json"
-	}
-
+data "tencentcloudenterprise_brc_autobackup_policies" "instance_policies" {
+  resource_type = "INSTANCE"
+  result_output_file = "cvm_policies.json"
+}
 ```
 */
 package tencentcloud
@@ -18,10 +16,10 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	brc "terraform-provider-tencentcloudenterprise/sdk/brc/v20220516"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/ratelimit"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func init() {
@@ -29,10 +27,10 @@ func init() {
 		TerraformTypeCN: "BRC自动备份策略列表",
 		DescriptionCN:   "提供BRC自动备份策略列表数据源，用于查询自动备份策略的详细信息。",
 		AttributesCN: map[string]string{
-			"resource_type":             "备份资源类型，有效值：INSTANCE(CVM实例)、DISK(CBS云硬盘)、CFS、COS、CSP、MySQL_MariaDB和TDSQL_MySQL",
+			"resource_type":        	 "备份资源类型，有效值：INSTANCE(CVM实例)、DISK(CBS云硬盘)、CFS、COS、CSP、MySQL_MariaDB和TDSQL_MySQL",
 			"auto_backup_policy_name":   "自动备份策略名称过滤器",
 			"auto_backup_policy_id":     "自动备份策略ID过滤器",
-			"is_activated":              "按激活状态过滤",
+			"auto_backup_policy_state":  "按自动备份策略状态过滤，取值范围：`NORMAL`和`ISOLATED`",
 			"result_output_file":        "用于保存结果",
 			"auto_backup_policy_list":   "自动备份策略列表",
 			"create_time":               "创建时间",
@@ -43,7 +41,6 @@ func init() {
 			"is_permanent":              "通过该定期备份策略创建的备份是否永久保留。false表示非永久保留，true表示永久保留，默认为false。",
 			"account_name":              "账户名称",
 			"advanced_retention_policy": "高级保留策略",
-			"auto_backup_policy_state":  "自动备份策略状态",
 			"full_backup_interval":      "每隔几个备份做一个全量备份，0表示全部做全量备份。",
 		},
 	})
@@ -55,9 +52,9 @@ func dataSourceTencentCloudBrcAutoBackupPolicies() *schema.Resource {
 		Description: "Use this data source to query detailed information of brc auto backup policies",
 		Schema: map[string]*schema.Schema{
 			"resource_type": {
-				Optional:    true,
-				Type:        schema.TypeString,
-				Description: "Resource type filter. Valid values: INSTANCE, DISK, CFS, COS, CSP, MySQL_MariaDB, TDSQL_MySQL.",
+				Optional:     true,
+				Type:         schema.TypeString,
+				Description:  "Resource type filter. Valid values: INSTANCE, DISK, CFS, COS, CSP, MySQL_MariaDB, TDSQL_MySQL.",
 				//ValidateFunc: validateAllowedStringValue(BackupResouceTypes),
 			},
 			"auto_backup_policy_name": {
@@ -70,10 +67,10 @@ func dataSourceTencentCloudBrcAutoBackupPolicies() *schema.Resource {
 				Type:        schema.TypeString,
 				Description: "Auto backup policy ID filter.",
 			},
-			"is_activated": {
+			"auto_backup_policy_state": {
 				Optional:    true,
-				Type:        schema.TypeBool,
-				Description: "Filter by activation status.",
+				Type:        schema.TypeString,
+				Description: "Filter by auto backup policy state, including: `NORMAL` and `ISOLATED`.",
 			},
 			"result_output_file": {
 				Type:        schema.TypeString,
@@ -240,6 +237,13 @@ func dataSourceTencentCloudBrcAutoBackupPoliciesRead(d *schema.ResourceData, met
 		})
 	}
 
+	if v, ok := d.GetOk("auto_backup_policy_state"); ok {
+		filters = append(filters, &brc.Filter{
+			Name:   helper.String("auto-backup-policy-state"),
+			Values: []*string{helper.String(v.(string))},
+		})
+	}
+
 	if len(filters) > 0 {
 		request.Filters = filters
 	}
@@ -255,13 +259,6 @@ func dataSourceTencentCloudBrcAutoBackupPoliciesRead(d *schema.ResourceData, met
 	policyList := make([]map[string]interface{}, 0)
 	if response.Response != nil && response.Response.AutoBackupPolicySet != nil {
 		for _, policy := range response.Response.AutoBackupPolicySet {
-			// 过滤激活状态
-			if v, ok := d.GetOk("is_activated"); ok {
-				if policy.IsActivated == nil || *policy.IsActivated != v.(bool) {
-					continue
-				}
-			}
-
 			policyMap := map[string]interface{}{
 				"auto_backup_policy_id":    policy.AutoBackupPolicyId,
 				"auto_backup_policy_name":  policy.AutoBackupPolicyName,

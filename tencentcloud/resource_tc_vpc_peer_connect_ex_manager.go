@@ -1,22 +1,20 @@
 /*
 Provides a resource to create and manage a VPC peering connection with extended features.
 
-# Example Usage
+Example Usage
 
 ```hcl
-
-	resource "tencentcloudenterprise_vpc_peer_connect_ex_manager" "example" {
-	  vpc_id                  = "vpc-45dvaaw9"
-	  peering_connection_name = "test-peer-connection-ex"
-	  peer_vpc_id             = "vpc-44fnavba"
-	  peer_uin                = "110000053176"
-	  peer_region             = "ap-shenzhen-region"
-	  bandwidth               = 500
-	}
-
+resource "tencentcloudenterprise_vpc_peer_connect_ex_manager" "example" {
+  vpc_id                  = "vpc-45dvaaw9"
+  peering_connection_name = "test-peer-connection-ex"
+  peer_vpc_id             = "vpc-44fnavba"
+  peer_uin                = "110000053176"
+  peer_region             = "ap-shenzhen-region"
+  bandwidth               = 500
+}
 ```
 
-# Import
+Import
 
 VPC peering connection ex can be imported using the id, e.g.
 
@@ -29,11 +27,11 @@ package tencentcloud
 import (
 	"context"
 	"fmt"
+	vpc "terraform-provider-tencentcloudenterprise/sdk/vpc/v20170312"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 	"log"
-	vpc "terraform-provider-tencentcloudenterprise/sdk/vpc/v20170312"
 
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
 )
@@ -90,17 +88,17 @@ func resourceTencentCloudVpcPeerConnectExManager() *schema.Resource {
 				Description: "Peer region.",
 			},
 			"bandwidth": {
-				Required:     true,
-				Type:         schema.TypeInt,
+				Required:    true,
+				Type:        schema.TypeInt,
 				ValidateFunc: validation.IntAtLeast(1),
-				Description:  "Peering connection bandwidth value.",
+				Description: "Peering connection bandwidth value.",
 			},
 		},
 	}
 }
 
 func resourceTencentCloudVpcPeerConnectExManagerCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.tencentcloudenterprise_vpc_peer_connect_ex_manager.create")()
+	defer logElapsed("resource.tencenttencentcloudenterprise_vpc_peer_connect_ex_manager.create")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -109,7 +107,7 @@ func resourceTencentCloudVpcPeerConnectExManagerCreate(d *schema.ResourceData, m
 		request             = vpc.NewCreateVpcPeeringConnectionExRequest()
 		peeringConnectionId string
 	)
-
+	
 	if v, ok := d.GetOk("vpc_id"); ok {
 		request.VpcId = helper.String(v.(string))
 	}
@@ -150,17 +148,17 @@ func resourceTencentCloudVpcPeerConnectExManagerCreate(d *schema.ResourceData, m
 
 	peeringConnectionName := d.Get("peering_connection_name").(string)
 	vpcId := d.Get("vpc_id").(string)
-
+	
 	err = resource.Retry(writeRetryTimeout, func() *resource.RetryError {
 		describeRequest := vpc.NewDescribeVpcPeeringConnectionsRequest()
 		describeResponse, e := meta.(*TencentCloudClient).apiV3Conn.UseVpcClient().DescribeVpcPeeringConnections(describeRequest)
 		if e != nil {
 			return retryError(e)
 		}
-
+		
 		for _, conn := range describeResponse.Response.PeerConnectionSet {
 			if conn.PeeringConnectionName != nil && *conn.PeeringConnectionName == peeringConnectionName &&
-				conn.VpcId != nil && *conn.VpcId == vpcId {
+			   conn.VpcId != nil && *conn.VpcId == vpcId {
 				if conn.PeeringConnectionId != nil {
 					peeringConnectionId = *conn.PeeringConnectionId
 					log.Printf("[DEBUG]%s Found created peering connection: %s", logId, peeringConnectionId)
@@ -168,26 +166,26 @@ func resourceTencentCloudVpcPeerConnectExManagerCreate(d *schema.ResourceData, m
 				}
 			}
 		}
-
+		
 		return resource.RetryableError(fmt.Errorf("peering connection not found yet, retrying"))
 	})
-
+	
 	if err != nil {
 		log.Printf("[CRITAL]%s find created vpc PeerConnectExManager failed, reason:%+v", logId, err)
 		return err
 	}
-
+	
 	if peeringConnectionId == "" {
 		return fmt.Errorf("create vpc peering connection ex succeeded but could not find the created connection")
 	}
-
+	
 	d.SetId(peeringConnectionId)
 
 	return resourceTencentCloudVpcPeerConnectExManagerRead(d, meta)
 }
 
 func resourceTencentCloudVpcPeerConnectExManagerRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.tencentcloudenterprise_vpc_peer_connect_ex_manager.read")()
+	defer logElapsed("resource.tencenttencentcloudenterprise_vpc_peer_connect_ex_manager.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -237,7 +235,7 @@ func resourceTencentCloudVpcPeerConnectExManagerRead(d *schema.ResourceData, met
 }
 
 func resourceTencentCloudVpcPeerConnectExManagerUpdate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.tencentcloudenterprise_vpc_peer_connect_ex_manager.update")()
+	defer logElapsed("resource.tencenttencentcloudenterprise_vpc_peer_connect_ex_manager.update")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -284,13 +282,13 @@ func resourceTencentCloudVpcPeerConnectExManagerUpdate(d *schema.ResourceData, m
 
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
 	service := VpcService{client: meta.(*TencentCloudClient).apiV3Conn}
-
+	
 	err = resource.Retry(writeRetryTimeout, func() *resource.RetryError {
 		peerConnection, e := service.DescribeVpcPeerConnectManagerById(ctx, d.Id())
 		if e != nil {
 			return retryError(e)
 		}
-
+		
 		if peerConnection == nil {
 			return resource.NonRetryableError(fmt.Errorf("peering connection not found"))
 		}
@@ -301,17 +299,17 @@ func resourceTencentCloudVpcPeerConnectExManagerUpdate(d *schema.ResourceData, m
 				return resource.RetryableError(fmt.Errorf("peering connection name not updated yet"))
 			}
 		}
-
+		
 		if d.HasChange("bandwidth") {
 			expectedBandwidth := int64(d.Get("bandwidth").(int))
 			if peerConnection.Bandwidth == nil || *peerConnection.Bandwidth != expectedBandwidth {
 				return resource.RetryableError(fmt.Errorf("peering connection bandwidth not updated yet"))
 			}
 		}
-
+		
 		return nil
 	})
-
+	
 	if err != nil {
 		log.Printf("[CRITAL]%s waiting for vpc PeerConnectExManager update to take effect failed, reason:%+v", logId, err)
 		return err
@@ -321,7 +319,7 @@ func resourceTencentCloudVpcPeerConnectExManagerUpdate(d *schema.ResourceData, m
 }
 
 func resourceTencentCloudVpcPeerConnectExManagerDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.tencentcloudenterprise_vpc_peer_connect_ex_manager.delete")()
+	defer logElapsed("resource.tencenttencentcloudenterprise_vpc_peer_connect_ex_manager.delete")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)

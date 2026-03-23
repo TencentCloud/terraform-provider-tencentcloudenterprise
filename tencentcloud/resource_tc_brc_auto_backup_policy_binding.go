@@ -1,26 +1,26 @@
 /*
 Provides a resource to create a brc auto_snapshot_policy binding
 
-# Example Usage
+Example Usage
 
 ```hcl
-
-	resource "tencentcloudenterprise_brc_auto_backup_policy_binding" "example" {
-	  auto_backup_policy_id = tencentcloudenterprise_brc_autobackup_policy.example.id
-	  instance_ids          = ["ins-21ahx7qj"]
-	  resource_type         = "INSTANCE"
-	}
-
+resource "tencentcloudenterprise_brc_auto_backup_policy_binding" "example" {
+  auto_backup_policy_id = tencentcloudenterprise_brc_autobackup_policy.example.id
+  instance_ids          = ["ins-21ahx7qj"]
+  resource_type         = "INSTANCE"
+}
 ```
+
 */
 package tencentcloud
 
 import (
 	"context"
 	"fmt"
-	"github.com/google/uuid"
 	brc "terraform-provider-tencentcloudenterprise/sdk/brc/v20220516"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
+	"github.com/google/uuid"
+
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
@@ -34,10 +34,10 @@ func init() {
 			"auto_backup_policy_id": "自动备份策略ID",
 			"instance_ids":          "实例ID列表",
 			"resource_type":         "资源类型",
-			"disk_ids":              "要绑定的云硬盘ID列表。",
-			"file_system_ids":       "要绑定的文件系统ID列表。",
-			"resource_ids":          "要绑定的实例资源ID列表。",
-			"bucket_details":        "需要绑定的备份源桶/前缀/桶所属地域对应关系映射，用于COS定期备份",
+			"disk_ids": 			 "要绑定的云硬盘ID列表。",
+			"file_system_ids": 		 "要绑定的文件系统ID列表。",
+			"resource_ids": 		 "要绑定的实例资源ID列表。",
+			"bucket_details": 		 "需要绑定的备份源桶/前缀/桶所属地域对应关系映射，用于COS定期备份",
 		},
 	})
 }
@@ -82,7 +82,7 @@ func resourceTencentCloudBrcAutoBackupPolicyBinding() *schema.Resource {
 				Elem: &schema.Schema{
 					Type: schema.TypeString,
 				},
-			},
+		    },
 			"resource_ids": {
 				Optional:    true,
 				ForceNew:    true,
@@ -93,17 +93,17 @@ func resourceTencentCloudBrcAutoBackupPolicyBinding() *schema.Resource {
 				},
 			},
 			"resource_type": {
-				Optional:    true,
-				ForceNew:    true,
-				Type:        schema.TypeString,
-				Description: "Resource type. Valid values: INSTANCE, DISK, CFS, COS, CSP, MySQL_MariaDB, TDSQL_MySQL.",
+				Optional:     true,
+				ForceNew:     true,
+				Type:         schema.TypeString,
+				Description:  "Resource type. Valid values: INSTANCE, DISK, CFS, COS, CSP, MySQL_MariaDB, TDSQL_MySQL.",
 				//ValidateFunc: validateAllowedStringValue(BackupResouceTypes),
 			},
 			"bucket_details": {
-				Optional:    true,
-				ForceNew:    true,
-				Type:        schema.TypeList,
-				Description: "The mapping of corresponding relationships between the backup source bucket to be bound, prefix, and the region where the bucket belongs, which is used for regular COS backup.",
+				Optional:     true,
+				ForceNew:     true,
+				Type:         schema.TypeList,
+				Description:  "The mapping of corresponding relationships between the backup source bucket to be bound, prefix, and the region where the bucket belongs, which is used for regular COS backup.",
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						"resource_id": {
@@ -147,6 +147,7 @@ func resourceTencentCloudBrcAutoBackupPolicyBindingCreate(d *schema.ResourceData
 		bucketDetails      []*brc.BucketDetail
 	)
 
+
 	if v, ok := d.GetOk("auto_backup_policy_id"); ok {
 		autoBackupPolicyId = helper.String(v.(string))
 	}
@@ -188,7 +189,7 @@ func resourceTencentCloudBrcAutoBackupPolicyBindingCreate(d *schema.ResourceData
 		for _, item := range bucketDetailsList {
 			detail := item.(map[string]interface{})
 			bucketDetail := &brc.BucketDetail{}
-
+			
 			if resourceId, ok := detail["resource_id"]; ok {
 				bucketDetail.ResourceId = &[]string{resourceId.(string)}[0]
 			}
@@ -198,7 +199,7 @@ func resourceTencentCloudBrcAutoBackupPolicyBindingCreate(d *schema.ResourceData
 			if cosRegion, ok := detail["cos_region"]; ok {
 				bucketDetail.CosRegion = &[]string{cosRegion.(string)}[0]
 			}
-
+			
 			bucketDetails = append(bucketDetails, bucketDetail)
 		}
 	}
@@ -232,6 +233,7 @@ func resourceTencentCloudBrcAutoBackupPolicyBindingDelete(d *schema.ResourceData
 		resourceIds        []*string
 		bucketDetails      []*brc.BucketDetail
 	)
+
 
 	if v, ok := d.GetOk("auto_backup_policy_id"); ok {
 		autoBackupPolicyId = helper.String(v.(string))

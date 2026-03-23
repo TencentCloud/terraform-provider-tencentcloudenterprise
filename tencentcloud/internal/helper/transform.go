@@ -144,6 +144,7 @@ func InterfacesIntUInt64Point(configured []interface{}) []*uint64 {
 	return vs
 }
 
+
 // StringsInterfaces Flatten to an array of raw strings and returns a []interface{}
 func StringsInterfaces(list []*string) []interface{} {
 	vs := make([]interface{}, 0, len(list))

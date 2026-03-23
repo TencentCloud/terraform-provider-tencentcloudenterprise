@@ -6071,6 +6071,7 @@ func (c *Client) DescribeNamespaceBundlesOpt(request *DescribeNamespaceBundlesOp
 	return
 }
 
+
 func NewDescribeRabbitMQNodeListRequest() (request *DescribeRabbitMQNodeListRequest) {
 	request = &DescribeRabbitMQNodeListRequest{
 		BaseRequest: &tchttp.BaseRequest{},
@@ -6095,6 +6096,7 @@ func (c *Client) DescribeRabbitMQNodeList(request *DescribeRabbitMQNodeListReque
 	err = c.Send(request, response)
 	return
 }
+
 
 func NewDescribeRabbitMQVipInstancesRequest() (request *DescribeRabbitMQVipInstancesRequest) {
 	request = &DescribeRabbitMQVipInstancesRequest{
@@ -6220,6 +6222,7 @@ func (c *Client) DeleteRabbitMQUser(request *DeleteRabbitMQUserRequest) (respons
 	err = c.Send(request, response)
 	return
 }
+
 
 func NewDescribeRabbitMQVipInstanceRequest() (request *DescribeRabbitMQVipInstanceRequest) {
 	request = &DescribeRabbitMQVipInstanceRequest{
@@ -6370,6 +6373,7 @@ func (c *Client) DescribeRabbitMQVirtualHost(request *DescribeRabbitMQVirtualHos
 	err = c.Send(request, response)
 	return
 }
+
 
 func NewModifyRabbitMQVirtualHostRequest() (request *ModifyRabbitMQVirtualHostRequest) {
 	request = &ModifyRabbitMQVirtualHostRequest{

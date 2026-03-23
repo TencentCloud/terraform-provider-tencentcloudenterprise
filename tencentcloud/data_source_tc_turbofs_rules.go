@@ -1,14 +1,14 @@
 /*
 Use this data source to query the detail information of Turbofs permission rule.
 
-# Example Usage
+Example Usage
 
 ```hcl
 
-	data "tencentcloudenterprise_turbofs_rules" "rules" {
-	  p_group_id = "pgroup-7nx89k7l"
-	  rule_id  = "rule-qcndbqzj"
-	}
+data "tencentcloudenterprise_turbofs_rules" "rules" {
+  p_group_id = "pgroup-7nx89k7l"
+  rule_id  = "rule-qcndbqzj"
+}
 
 ```
 */
@@ -16,12 +16,12 @@ package tencentcloud
 
 import (
 	"context"
-	"log"
 	turbofs "terraform-provider-tencentcloudenterprise/sdk/turbofs/v20190719"
+	"log"
 
+	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
 )
 
 func init() {
@@ -29,7 +29,7 @@ func init() {
 		TerraformTypeCN: "权限组规则",
 		DescriptionCN:   "提供TurboFS权限组规则数据源，用于查询TurboFS权限组规则的详细信息。",
 		AttributesCN: map[string]string{
-			"p_group_id":         "用于查询的指定权限组ID",
+			"p_group_id":    	  "用于查询的指定权限组ID",
 			"rule_id":            "用于查询的指定权限组规则ID",
 			"result_output_file": "用于保存结果，可视化界面不可用",
 			"rule_list":          "TurboFs权限组规则的信息列表",
@@ -131,7 +131,7 @@ func dataSourceTencentCloudTurbofsAccessRulesRead(d *schema.ResourceData, meta i
 	ids := make([]string, 0, len(rules))
 	for _, rule := range rules {
 		mapping := map[string]interface{}{
-			"rule_id":         rule.RuleId,
+			"rule_id":  	   rule.RuleId,
 			"auth_client_ip":  rule.AuthClientIp,
 			"rw_permission":   rule.RWPermission,
 			"user_permission": rule.UserPermission,

@@ -23,7 +23,7 @@ type (
 		VpcId            string        `json:"vpcId"`
 		SubnetId         string        `json:"subnetId"`
 		MsgRetentionTime int64         `json:"msgRetentionTime"`
-		ExData           map[string]interface{}
+		ExData           map[string]interface{} 
 	}
 	ProductsDetail struct {
 		CVM           int      `json:"cvm"`
@@ -50,7 +50,7 @@ func (gd *GoodsDetail) MarshalJSON() ([]byte, error) {
 		}
 		configAsMap[jsonTag] = value
 	}
-
+	
 	// ExData
 	if gd.ExData != nil {
 		for k, v := range gd.ExData {

@@ -1,7 +1,7 @@
 /*
 Provides a resource to create a dcdb flush_binlog_operation
 
-# Example Usage
+Example Usage
 
 ```hcl
 
@@ -16,10 +16,10 @@ package tencentcloud
 import (
 	"log"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	dcdb "terraform-provider-tencentcloudenterprise/sdk/dcdb/v20180411"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func init() {

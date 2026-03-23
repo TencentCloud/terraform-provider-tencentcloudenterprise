@@ -136,6 +136,7 @@ func (r *ModifyImageBuildPersonalRequest) FromJsonString(s string) error {
 	return json.Unmarshal([]byte(s), &r)
 }
 
+
 type TcrRepositoryInfo struct {
 	// 仓库名称
 	Name *string `json:"Name,omitnil,omitempty" name:"Name"`
@@ -343,7 +344,6 @@ type ManageInternalEndpointRequest struct {
 	// 请求的地域名称，用于实例复制地域
 	RegionName *string `json:"RegionName,omitnil,omitempty" name:"RegionName"`
 }
-
 func (r *ManageInternalEndpointRequest) ToJsonString() string {
 	b, _ := json.Marshal(r)
 	return string(b)
@@ -629,7 +629,6 @@ type ManageReplicationRequest struct {
 	// 开启跨主账号实例同步配置项
 	PeerReplicationOption *PeerReplicationOption `json:"PeerReplicationOption,omitnil,omitempty" name:"PeerReplicationOption"`
 }
-
 func (r *ManageReplicationRequest) ToJsonString() string {
 	b, _ := json.Marshal(r)
 	return string(b)
@@ -2472,6 +2471,7 @@ type TcrNamespaceInfo struct {
 	// 阻断漏洞等级，目前仅支持low、medium、high, 为""时表示没有设置
 	Severity *string `json:"Severity,omitnil,omitempty" name:"Severity"`
 }
+
 
 type NamespaceIsExistsResp struct {
 
@@ -4417,6 +4417,7 @@ type CreateInstanceTokenRequest struct {
 	Desc *string `json:"Desc,omitnil,omitempty" name:"Desc"`
 }
 
+
 func (r *CreateInstanceTokenRequest) ToJsonString() string {
 	b, _ := json.Marshal(r)
 	return string(b)
@@ -6269,6 +6270,7 @@ type ReplicationRegistry struct {
 	CreatedAt *string `json:"CreatedAt,omitnil,omitempty" name:"CreatedAt"`
 }
 
+
 // Predefined struct for user
 type DescribeReplicationInstancesRequestParams struct {
 	// 实例Id
@@ -6842,6 +6844,7 @@ func (r *DescribeWebhookTriggerLogResponse) FromJsonString(s string) error {
 	return json.Unmarshal([]byte(s), &r)
 }
 
+
 // Predefined struct for user
 type DescribeInstanceCustomizedDomainRequestParams struct {
 	// 主实例iD
@@ -6980,6 +6983,7 @@ func (r *DeleteImageAccelerateServiceResponse) FromJsonString(s string) error {
 
 // Predefined struct for user
 type DeleteImageLifecycleGlobalPersonalRequestParams struct {
+
 }
 
 // Predefined struct for user
@@ -7250,6 +7254,7 @@ type KeyValueString struct {
 	Value *string `json:"Value,omitnil,omitempty" name:"Value"`
 }
 
+
 // Predefined struct for user
 type ManageExternalEndpointRequestParams struct {
 	// 实例Id
@@ -7258,6 +7263,7 @@ type ManageExternalEndpointRequestParams struct {
 	// 操作（Create/Delete）
 	Operation *string `json:"Operation,omitnil,omitempty" name:"Operation"`
 }
+
 
 // Predefined struct for user
 type DescribeImmutableTagRulesResponseParams struct {
@@ -7540,6 +7546,7 @@ func (r *DescribeTagRetentionExecutionTaskResponse) FromJsonString(s string) err
 	return json.Unmarshal([]byte(s), &r)
 }
 
+
 // Predefined struct for user
 type ModifyServiceAccountPasswordRequestParams struct {
 	// 实例Id
@@ -7786,6 +7793,7 @@ func (r *CreateTagRetentionRuleResponse) ToJsonString() string {
 func (r *CreateTagRetentionRuleResponse) FromJsonString(s string) error {
 	return json.Unmarshal([]byte(s), &r)
 }
+
 
 // Predefined struct for user
 type ModifyTagRetentionRuleRequestParams struct {

@@ -1,13 +1,13 @@
 /*
 Provide a resource to create a TDMQ topic.
 
-# Example Usage
-
+Example Usage
 ```hcl
 
 	resource "tencentcloudenterprise_tdmq_instance" "foo" {
 	  cluster_name = "example"
 	  remark = "this is description."
+	  bind_cluster_name = "default"
 	}
 
 	resource "tencentcloudenterprise_tdmq_namespace" "bar" {
@@ -28,10 +28,8 @@ Provide a resource to create a TDMQ topic.
 
 ```
 
-# Import
-
+Import
 Tdmq Topic can be imported, e.g.
-
 ```
 $ terraform import tencentcloudenterprise_tdmq_topic.test topic_id
 ```
@@ -44,6 +42,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+
 	"terraform-provider-tencentcloudenterprise/sdk/common/errors"
 )
 

@@ -1,7 +1,7 @@
 /*
 Provides a CBS snapshot policy attachment resource.
 
-# Example Usage
+Example Usage
 
 ```hcl
 
@@ -20,9 +20,9 @@ import (
 	"log"
 	"strings"
 
+	cbs "terraform-provider-tencentcloudenterprise/sdk/cbs/v20170312"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	cbs "terraform-provider-tencentcloudenterprise/sdk/cbs/v20170312"
 )
 
 func init() {

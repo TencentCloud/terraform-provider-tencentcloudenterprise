@@ -1,7 +1,7 @@
 /*
 Use this data source to query bms placement group.
 
-# Example Usage
+Example Usage
 
 ```hcl
 
@@ -14,10 +14,10 @@ Use this data source to query bms placement group.
 package tencentcloud
 
 import (
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	bms "terraform-provider-tencentcloudenterprise/sdk/bms/v20180813"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func init() {

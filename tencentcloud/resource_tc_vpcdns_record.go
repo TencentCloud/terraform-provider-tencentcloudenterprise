@@ -1,7 +1,7 @@
 /*
 Provide a resource to create a VPCDNS record.
 
-# Example Usage
+Example Usage
 
 ```hcl
 
@@ -16,7 +16,7 @@ Provide a resource to create a VPCDNS record.
 
 ```
 
-# Import
+Import
 
 Vpc subnet instance can be imported, e.g.
 
@@ -29,12 +29,12 @@ package tencentcloud
 import (
 	"context"
 	"errors"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	"strconv"
 	sdkError "terraform-provider-tencentcloudenterprise/sdk/common/errors"
 	vpcdns "terraform-provider-tencentcloudenterprise/sdk/vpcdns/v20191025"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	"strconv"
 	"time"
 )
 

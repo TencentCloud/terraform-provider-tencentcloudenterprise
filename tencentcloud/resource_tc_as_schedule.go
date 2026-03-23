@@ -1,21 +1,19 @@
 /*
 Provides a resource for an AS (Auto scaling) schedule.
 
-# Example Usage
+Example Usage
 
 ```hcl
-
-	resource "tencentcloudenterprise_as_schedule" "schedule" {
-	  scaling_group_id     = "sg-12af45"
-	  schedule_action_name = "tf-as-schedule"
-	  max_size             = 10
-	  min_size             = 0
-	  desired_capacity     = 0
-	  start_time           = "2019-01-01T00:00:00+08:00"
-	  end_time             = "2019-12-01T00:00:00+08:00"
-	  recurrence           = "0 0 * * *"
-	}
-
+resource "tencentcloudenterprise_as_schedule" "schedule" {
+  scaling_group_id     = "sg-12af45"
+  schedule_action_name = "tf-as-schedule"
+  max_size             = 10
+  min_size             = 0
+  desired_capacity     = 0
+  start_time           = "2019-01-01T00:00:00+08:00"
+  end_time             = "2019-12-01T00:00:00+08:00"
+  recurrence           = "0 0 * * *"
+}
 ```
 */
 package tencentcloud
@@ -25,10 +23,10 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	as "terraform-provider-tencentcloudenterprise/sdk/as/v20180419"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func init() {

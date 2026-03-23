@@ -1,15 +1,13 @@
 /*
 Provides a resource to create a cvm reboot_instance
 
-# Example Usage
+Example Usage
 
 ```hcl
-
-	resource "tencentcloudenterprise_cvm_reboot_instance" "reboot_instance" {
-	  instance_id = "ins-xxxxx"
-	  stop_type = "SOFT"
-	}
-
+resource "tencentcloudenterprise_cvm_reboot_instance" "reboot_instance" {
+  instance_id = "ins-xxxxx"
+  stop_type = "SOFT"
+}
 ```
 */
 package tencentcloud
@@ -17,10 +15,10 @@ package tencentcloud
 import (
 	"log"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	cvm "terraform-provider-tencentcloudenterprise/sdk/cvm/v20170312"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func init() {

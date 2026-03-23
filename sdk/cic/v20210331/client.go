@@ -1474,3 +1474,53 @@ func (c *Client) DeleteUserSyncProvisioning(request *DeleteUserSyncProvisioningR
 	err = c.Send(request, response)
 	return
 }
+
+func NewListGroupsRequest() (request *ListGroupsRequest) {
+	request = &ListGroupsRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("cic", APIVersion, "ListGroups")
+	return
+}
+
+func NewListGroupsResponse() (response *ListGroupsResponse) {
+	response = &ListGroupsResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+func (c *Client) ListGroups(request *ListGroupsRequest) (response *ListGroupsResponse, err error) {
+	if request == nil {
+		request = NewListGroupsRequest()
+	}
+
+	response = NewListGroupsResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewListRoleConfigurationsRequest() (request *ListRoleConfigurationsRequest) {
+	request = &ListRoleConfigurationsRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("cic", APIVersion, "ListRoleConfigurations")
+	return
+}
+
+func NewListRoleConfigurationsResponse() (response *ListRoleConfigurationsResponse) {
+	response = &ListRoleConfigurationsResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+func (c *Client) ListRoleConfigurations(request *ListRoleConfigurationsRequest) (response *ListRoleConfigurationsResponse, err error) {
+	if request == nil {
+		request = NewListRoleConfigurationsRequest()
+	}
+
+	response = NewListRoleConfigurationsResponse()
+	err = c.Send(request, response)
+	return
+}

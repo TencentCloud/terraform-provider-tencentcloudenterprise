@@ -1,6 +1,7 @@
 package tencentcloud
 
 import (
+	"context"
 	"fmt"
 	"net"
 	"regexp"
@@ -15,6 +16,12 @@ import (
 	"gopkg.in/yaml.v2"
 )
 
+var (
+	internationalPhoneRegExp = regexp.MustCompile(`^\d{1,3}-\d{5,15}$`)
+	emailRegExp = regexp.MustCompile(`^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$`)
+	apmInstanceNameRegExp = regexp.MustCompile(`^[a-zA-Z0-9\x{4e00}-\x{9fa5}._-]+$`)
+)
+
 func validateNameRegex(v interface{}, k string) (ws []string, errors []error) {
 	value := v.(string)
 	if _, err := regexp.Compile(value); err != nil {
@@ -22,6 +29,25 @@ func validateNameRegex(v interface{}, k string) (ws []string, errors []error) {
 			"%q contains an invalid regular expression: %s",
 			k, err))
 	}
+	return
+}
+
+func validateApmInstanceName(v interface{}, k string) (ws []string, errors []error) {
+	value := v.(string)
+	length := utf8.RuneCountInString(value)
+	
+	if length < 1 || length > 40 {
+		errors = append(errors, fmt.Errorf(
+			"length of %q must be between 1 and 40: %d", k, length))
+		return
+	}
+	
+	if !apmInstanceNameRegExp.MatchString(value) {
+		errors = append(errors, fmt.Errorf(
+			"%q can only contain Chinese characters, English letters, numbers, and separators (\".\", \"_\", \"-\"): %s", k, value))
+		return
+	}
+	
 	return
 }
 
@@ -390,4 +416,99 @@ func validateTkeGpuDriverVersion(v interface{}, k string) (ws []string, errors [
 		}
 	}
 	return
+}
+
+func validateInternationalPhone(v interface{}, k string) (ws []string, errors []error) {
+	value := v.(string)
+
+	if !internationalPhoneRegExp.MatchString(value) {
+		errors = append(errors, fmt.Errorf(
+			"%q invalid format，requirement：Area code: 1-3 digits, phone number: 5-15 digits (e.g.: 1-5551234567)，actual value: %q",
+			k, value))
+	}
+	return
+}
+
+func validateEmail(v interface{}, k string) (ws []string, errors []error) {
+	value := v.(string)
+
+	if !emailRegExp.MatchString(value) {
+		errors = append(errors, fmt.Errorf(
+			"%q invalid format，requirement：Standard email format (e.g.: example@domain.com)，actual value: %q",
+			k, value))
+	}
+
+	// 检查邮箱总长度
+	if len(value) > 254 {
+		errors = append(errors, fmt.Errorf(
+			"%q is too long，maximum length is 254 characters，actual length: %d",
+			k, len(value)))
+	}
+
+	return
+}
+
+// vpc dcgateway validator
+func validateVpcDcGatewayProtocol(ctx context.Context, d *schema.ResourceDiff, meta interface{}) error {
+
+	protocolRaw := d.Get("protocol")
+
+	if _, err := validateAllowedStringValue(DC_GATEWAY_PROTOCOL)(protocolRaw, "protocol"); len(err) > 0 {
+		return err[0]
+	}
+
+	protocol := fmt.Sprint(protocolRaw)
+	sourcePort := fmt.Sprint(d.Get("source_port"))
+	destinationPort := fmt.Sprint(d.Get("destination_port"))
+
+	if protocol == DC_GATEWAY_PROTOCOL_ALL && (sourcePort != "0" || destinationPort != "0") {
+		return fmt.Errorf(
+			"invalid `source_port`: %v or `destination_port`: %v at protocol: %v. when `protocol` is `all`, "+
+				"the `source_port` and the `destination_port` must be set `0`", sourcePort, destinationPort, protocol)
+	}
+
+	return nil
+}
+
+func diffSuppressSingleIpCidr(k, old, new string, d *schema.ResourceData) bool {
+	return normalizeSingleIpCidr(old) == normalizeSingleIpCidr(new)
+}
+
+func normalizeSingleIpCidr(val string) string {
+	v := strings.TrimSpace(val)
+	if v == "" {
+		return v
+	}
+	if strings.Contains(v, "/") {
+		return v
+	}
+	return v + "/32"
+}
+
+// dc multicast validator
+func validateDcMulticast(ctx context.Context, d *schema.ResourceDiff, meta interface{}) error {
+	enableMulticast := d.Get("enable_multicast").(bool)
+
+	var multicastGroupsSet bool
+	if rawPlan := d.GetRawPlan(); !rawPlan.IsNull() && rawPlan.Type().IsObjectType() {
+		if attr := rawPlan.GetAttr("multicast_groups"); attr.IsNull() == false && attr.IsWhollyKnown() {
+			if str := attr.GoString(); strings.Trim(strings.Trim(str, "\""), " ") != "" {
+				multicastGroupsSet = true
+			}
+		}
+	}
+
+	if !multicastGroupsSet {
+		if _, newValue := d.GetChange("multicast_groups"); newValue != nil {
+			if str, ok := newValue.(string); ok && strings.TrimSpace(str) != "" {
+				multicastGroupsSet = true
+			}
+		}
+	}
+
+	if !enableMulticast && multicastGroupsSet {
+		return fmt.Errorf("invalid multicast config: when `enable_multicast` is `false`, `multicast_groups` must be unset")
+	}
+
+	return nil
 }

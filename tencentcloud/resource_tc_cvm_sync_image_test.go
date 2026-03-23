@@ -6,12 +6,12 @@ import (
 	"testing"
 	"time"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	cvm "terraform-provider-tencentcloudenterprise/sdk/cvm/v20170312"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 )
 
 func init() {
-	// go test -v ./tencentcloud -sweep=ap-guangzhou -sweep-run=cloud_cvm_sync_image
+	// go test -v ./tencentcloud -sweep=ap-guangzhou -sweep-run=tencentcloudenterprise_cvm_sync_image
 	resource.AddTestSweepers("tencentcloudenterprise_cvm_sync_image", &resource.Sweeper{
 		Name: "tencentcloudenterprise_cvm_sync_image",
 		F: func(r string) error {

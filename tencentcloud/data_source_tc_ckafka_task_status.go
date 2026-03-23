@@ -1,7 +1,7 @@
 /*
 Use this data source to query detailed information of ckafka task_status
 
-# Example Usage
+Example Usage
 
 ```hcl
 
@@ -17,9 +17,9 @@ import (
 	"context"
 	"strconv"
 
+	ckafka "terraform-provider-tencentcloudenterprise/sdk/ckafka/v20190819"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	ckafka "terraform-provider-tencentcloudenterprise/sdk/ckafka/v20190819"
 )
 
 func init() {

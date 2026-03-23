@@ -1,7 +1,7 @@
 /*
 Use this data source to query the metadata of an object stored inside a bucket.
 
-# Example Usage
+Example Usage
 
 ```hcl
 
@@ -21,8 +21,8 @@ import (
 	"github.com/tencentyun/cos-go-sdk-v5"
 	"log"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func init() {
@@ -54,7 +54,7 @@ func init() {
 }
 
 // dataSourceTencentCloudCspBucketObject defines the schema for the data source
-// cloud_csp_bucket_object get bucket object
+// tencentcloudenterprise_csp_bucket_object get bucket object
 func dataSourceTencentCloudCspBucketObject() *schema.Resource {
 	return &schema.Resource{
 		Description:        "Use this data source to query the metadata of an object stored inside a bucket.",

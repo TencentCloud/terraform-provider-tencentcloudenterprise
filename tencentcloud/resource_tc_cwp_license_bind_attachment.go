@@ -1,3 +1,36 @@
+/*
+Provides a CWP license bind attachment resource.
+
+~> **NOTE:** The license_id is automatically queried from the license order and is not a user input parameter.
+
+Example Usage
+
+```hcl
+# Basic CWP license bind attachment
+resource "tencentcloudenterprise_cwp_license_bind_attachment" "example" {
+  resource_id  = "cwplic-442d44a0"
+  license_type = 5
+  quuid        = "5c987cf1-b3c9-4b5c-ad45-6787d51f34d7"
+}
+
+# Batch bind multiple machines
+resource "tencentcloudenterprise_cwp_license_bind_attachment" "batch_bind" {
+  for_each = toset(["5c987cf1-b3c9-4b5c-ad45-6787d51f34d7", "another-quuid"])
+
+  resource_id  = "cwplic-442d44a0"
+  license_type = 5
+  quuid        = each.value
+}
+```
+
+Import
+
+CWP license bind attachment can be imported using the resource_id#quuid#license_type, e.g.
+
+```
+$ terraform import tencentcloudenterprise_cwp_license_bind_attachment.example cwplic-442d44a0#5c987cf1-b3c9-4b5c-ad45-6787d51f34d7#5
+```
+*/
 package tencentcloud
 
 import (
@@ -7,10 +40,10 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	cwp "terraform-provider-tencentcloudenterprise/sdk/cwp/v20180228"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func init() {
@@ -18,20 +51,20 @@ func init() {
 		TerraformTypeCN: "主机安全许可证绑定",
 		DescriptionCN:   "提供主机安全许可证绑定资源，用于将许可证绑定到主机。",
 		AttributesCN: map[string]string{
-			"resource_id":  "资源ID",
-			"license_id":   "许可证ID",
-			"license_type": "许可证类型",
-			"quuid":        "主机唯一标识",
+			"resource_id":   "资源ID",
+			"license_id":    "许可证ID",
+			"license_type":  "许可证类型",
+			"quuid":         "主机唯一标识",
 		},
 	})
 }
 
-func ResourceTencentCloudCwpLicenseBindAttachment() *schema.Resource {
+func resourceTencentCloudCwpLicenseBindAttachment() *schema.Resource {
 	return &schema.Resource{
 		Create:      resourceTencentCloudCwpLicenseBindAttachmentCreate,
 		Read:        resourceTencentCloudCwpLicenseBindAttachmentRead,
 		Delete:      resourceTencentCloudCwpLicenseBindAttachmentDelete,
-		Description: "Provides a resource to create and manage CWP license binding attachment",
+		Description: "Provides a resource to create and manage CWP license bind attachment.",
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
@@ -40,61 +73,59 @@ func ResourceTencentCloudCwpLicenseBindAttachment() *schema.Resource {
 				Required:    true,
 				ForceNew:    true,
 				Type:        schema.TypeString,
-				Description: "Resource ID.",
+				Description: "Resource ID of the license.",
 			},
 			"license_id": {
-				Required:    true,
-				ForceNew:    true,
+				Computed:    true,
 				Type:        schema.TypeInt,
-				Description: "License ID.",
+				Description: "License ID (automatically queried from license order).",
 			},
 			"license_type": {
 				Required:     true,
 				ForceNew:     true,
 				Type:         schema.TypeInt,
-				ValidateFunc: validateAllowedIntValue(LICENSE_TYPE),
-				Description:  "LicenseType, 0 CWP Pro - Pay as you go, 1 CWP Pro - Monthly subscription, 2 CWP Ultimate - Monthly subscription. Default is 0.",
+				Description:  "License type: 0=CWP Pro Pay-as-you-go, 1=CWP Pro Monthly, 5=CWP Ultimate Monthly.",
 			},
 			"quuid": {
 				Required:    true,
 				ForceNew:    true,
 				Type:        schema.TypeString,
-				Description: "Machine quota that needs to be bound.",
+				Description: "Machine unique identifier (UUID).",
 			},
 			"machine_name": {
 				Computed:    true,
 				Type:        schema.TypeString,
-				Description: "machine name.",
+				Description: "Machine name.",
 			},
 			"machine_wan_ip": {
 				Computed:    true,
 				Type:        schema.TypeString,
-				Description: "machine wan ip.",
+				Description: "Machine WAN IP.",
 			},
 			"machine_ip": {
 				Computed:    true,
 				Type:        schema.TypeString,
-				Description: "machine ip.",
+				Description: "Machine IP.",
 			},
 			"uuid": {
 				Computed:    true,
 				Type:        schema.TypeString,
-				Description: "uuid.",
+				Description: "Machine UUID.",
 			},
 			"agent_status": {
 				Computed:    true,
 				Type:        schema.TypeString,
-				Description: "agent status.",
+				Description: "Agent status.",
 			},
 			"is_unbind": {
 				Computed:    true,
 				Type:        schema.TypeBool,
-				Description: "Allow unbinding, false does not allow unbinding.",
+				Description: "Allow unbinding.",
 			},
 			"is_switch_bind": {
 				Computed:    true,
 				Type:        schema.TypeBool,
-				Description: "Is it allowed to change the binding, false is not allowed to change the binding.",
+				Description: "Allow switch binding.",
 			},
 		},
 	}
@@ -106,11 +137,12 @@ func resourceTencentCloudCwpLicenseBindAttachmentCreate(d *schema.ResourceData, 
 
 	var (
 		logId       = getLogId(contextNil)
+		ctx         = context.WithValue(context.TODO(), logIdKey, logId)
+		service     = CwpService{client: meta.(*TencentCloudClient).apiV3Conn}
 		request     = cwp.NewModifyLicenseBindsRequest()
 		response    = cwp.NewModifyLicenseBindsResponse()
 		taskRequest = cwp.NewDescribeLicenseBindScheduleRequest()
 		resourceId  string
-		licenseId   string
 		quuid       string
 		licenseType string
 	)
@@ -118,11 +150,6 @@ func resourceTencentCloudCwpLicenseBindAttachmentCreate(d *schema.ResourceData, 
 	if v, ok := d.GetOk("resource_id"); ok {
 		request.ResourceId = helper.String(v.(string))
 		resourceId = v.(string)
-	}
-
-	if v, ok := d.GetOkExists("license_id"); ok {
-		licenseIdInt := v.(int)
-		licenseId = strconv.Itoa(licenseIdInt)
 	}
 
 	if v, ok := d.GetOkExists("license_type"); ok {
@@ -135,6 +162,9 @@ func resourceTencentCloudCwpLicenseBindAttachmentCreate(d *schema.ResourceData, 
 		quuid = v.(string)
 		request.QuuidList = append(request.QuuidList, &quuid)
 	}
+
+	// Set IsAll to false since we're binding specific machines
+	request.IsAll = helper.Bool(false)
 
 	err := resource.Retry(writeRetryTimeout, func() *resource.RetryError {
 		result, e := meta.(*TencentCloudClient).apiV3Conn.UseCwpClient().ModifyLicenseBinds(request)
@@ -158,7 +188,18 @@ func resourceTencentCloudCwpLicenseBindAttachmentCreate(d *schema.ResourceData, 
 		return err
 	}
 
-	d.SetId(strings.Join([]string{resourceId, licenseId, quuid, licenseType}, FILED_SP))
+	// Query license_id from the license order
+	licenseOrder, err := service.DescribeCwpLicenseOrderById(ctx, resourceId)
+	if err != nil {
+		return fmt.Errorf("failed to query license_id from license order: %v", err)
+	}
+	if licenseOrder == nil || licenseOrder.LicenseId == nil {
+		return fmt.Errorf("license order not found or license_id is empty for resource_id: %s", resourceId)
+	}
+	licenseId := strconv.FormatUint(*licenseOrder.LicenseId, 10)
+	log.Printf("[DEBUG]%s queried license_id: %s for resource_id: %s\n", logId, licenseId, resourceId)
+
+	d.SetId(strings.Join([]string{resourceId, quuid, licenseType}, FILED_SP))
 
 	// wait
 	taskRequest.TaskId = response.Response.TaskId
@@ -195,20 +236,30 @@ func resourceTencentCloudCwpLicenseBindAttachmentRead(d *schema.ResourceData, me
 	var (
 		logId   = getLogId(contextNil)
 		ctx     = context.WithValue(context.TODO(), logIdKey, logId)
-		service = CwpService{client: meta.(*TencentCloudClient).apiV3Conn}
+		service  = CwpService{client: meta.(*TencentCloudClient).apiV3Conn}
 	)
 
 	idSplit := strings.Split(d.Id(), FILED_SP)
-	if len(idSplit) != 4 {
+	if len(idSplit) != 3 {
 		return fmt.Errorf("id is broken,%s", idSplit)
 	}
 	resourceId := idSplit[0]
-	licenseId := idSplit[1]
-	quuid := idSplit[2]
-	licenseType := idSplit[3]
+	quuid := idSplit[1]
+	licenseType := idSplit[2]
 
-	licenseIdInt, _ := strconv.ParseUint(licenseId, 10, 64)
 	licenseTypeInt, _ := strconv.ParseUint(licenseType, 10, 64)
+
+	// Query license_id from the license order
+	licenseOrder, err := service.DescribeCwpLicenseOrderById(ctx, resourceId)
+	if err != nil {
+		return err
+	}
+	if licenseOrder == nil || licenseOrder.LicenseId == nil {
+		d.SetId("")
+		log.Printf("[WARN]%s license order [%s] not found, please check if it has been deleted.\n", logId, resourceId)
+		return nil
+	}
+	licenseIdInt := *licenseOrder.LicenseId
 
 	licenseBindAttachment, err := service.DescribeCwpLicenseBindAttachmentById(ctx, resourceId, quuid, licenseIdInt, licenseTypeInt)
 	if err != nil {
@@ -264,16 +315,16 @@ func resourceTencentCloudCwpLicenseBindAttachmentDelete(d *schema.ResourceData, 
 	var (
 		logId   = getLogId(contextNil)
 		ctx     = context.WithValue(context.TODO(), logIdKey, logId)
-		service = CwpService{client: meta.(*TencentCloudClient).apiV3Conn}
+		service  = CwpService{client: meta.(*TencentCloudClient).apiV3Conn}
 	)
 
 	idSplit := strings.Split(d.Id(), FILED_SP)
-	if len(idSplit) != 4 {
+	if len(idSplit) != 3 {
 		return fmt.Errorf("id is broken,%s", idSplit)
 	}
 	resourceId := idSplit[0]
-	quuid := idSplit[2]
-	licenseType := idSplit[3]
+	quuid := idSplit[1]
+	licenseType := idSplit[2]
 
 	if err := service.DeleteCwpLicenseBindAttachmentById(ctx, resourceId, quuid, licenseType); err != nil {
 		return err

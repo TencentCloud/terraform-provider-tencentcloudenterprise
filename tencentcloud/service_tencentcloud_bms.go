@@ -3,11 +3,11 @@ package tencentcloud
 import (
 	"context"
 	"fmt"
-	"log"
 	bms "terraform-provider-tencentcloudenterprise/sdk/bms/v20180813"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/connectivity"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/ratelimit"
+	"log"
 )
 
 type BmsService struct {

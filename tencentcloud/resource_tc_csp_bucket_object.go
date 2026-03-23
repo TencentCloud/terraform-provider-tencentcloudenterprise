@@ -1,36 +1,32 @@
 /*
 Provides a csp object resource to put an object(content or file) to the bucket.
 
-# Example Usage
+Example Usage
 
-# Uploading a file to a bucket
+Uploading a file to a bucket
 
 ```hcl
-
-	resource "tencentcloudenterprise_csp_bucket_object" "myobject" {
-	  bucket = "mycsp-1258798060"
-	  key    = "new_object_key"
-	  acl    = "public-read"
-	  source = "path/to/file"
-	}
-
+resource "tencentcloudenterprise_csp_bucket_object" "myobject" {
+  bucket = "mycsp-1258798060"
+  key    = "new_object_key"
+  acl    = "public-read"
+  source = "path/to/file"
+}
 ```
 
-# Uploading a content to a bucket
+Uploading a content to a bucket
 
 ```hcl
+resource "tencentcloudenterprise_csp_bucket" "mycsp" {
+  bucket = "mycsp-1258798060"
+  acl    = "public-read"
+}
 
-	resource "tencentcloudenterprise_csp_bucket" "mycsp" {
-	  bucket = "mycsp-1258798060"
-	  acl    = "public-read"
-	}
-
-	resource "tencentcloudenterprise_csp_bucket_object" "myobject" {
-	  bucket  = tencentcloudenterprise_csp_bucket.mycsp.bucket
-	  key     = "new_object_key"
-	  content = "the content that you want to upload."
-	}
-
+resource "tencentcloudenterprise_csp_bucket_object" "myobject" {
+  bucket  = tencentcloudenterprise_csp_bucket.mycsp.bucket
+  key     = "new_object_key"
+  content = "the content that you want to upload."
+}
 ```
 */
 package tencentcloud
@@ -108,7 +104,7 @@ func resourceTencentCloudCspBucketObject() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 				// 同步csp bucket acl
-				Default: COS_BUCKET_OBJECT_ACL,
+				Default:  COS_BUCKET_OBJECT_ACL,
 				ValidateFunc: validateAllowedStringValue([]string{
 					COS_BUCKET_OBJECT_ACL,
 					s3.ObjectCannedACLPrivate,

@@ -1,19 +1,17 @@
-// /*
-// Provides a resource to create a redis renew_instance_operation
+///*
+//Provides a resource to create a redis renew_instance_operation
 //
-// # Example Usage
+//Example Usage
 //
-// ```hcl
+//```hcl
+//resource "tencentcloudenterprise_redis_renew_instance_operation" "renew_instance_operation" {
+//  instance_id = "crs-c1nl9rpv"
+//  period = 1
+//  modify_pay_mode = "prepaid"
+//}
+//```
 //
-//	resource "tencentcloudenterprise_redis_renew_instance_operation" "renew_instance_operation" {
-//	 instance_id = "crs-c1nl9rpv"
-//	 period = 1
-//	 modify_pay_mode = "prepaid"
-//	}
-//
-// ```
-//
-// */
+//*/
 package tencentcloud
 
 //专有云不支持为实例续费

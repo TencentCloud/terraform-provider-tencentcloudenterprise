@@ -1,22 +1,20 @@
 /*
 Provides a resource to create a brc group(cvm instance disks) backup
 
-# Example Usage
+Example Usage
 
 ```hcl
-
-	resource "tencentcloudenterprise_brc_backup_group" "example" {
-	  disk_ids          = ["disk-23h487qfj", "disk-da73ha9dj"]
-	  backup_group_name = "basic-backup-group"
-	  deadline          = "2024-12-31 23:59:59"
-	  backup_class      = "FULL"
-	  create_speed      = 50
-	  need_archive      = false
-	}
-
+resource "tencentcloudenterprise_brc_backup_group" "example" {
+  disk_ids          = ["disk-23h487qfj", "disk-da73ha9dj"]
+  backup_group_name = "basic-backup-group"
+  deadline          = "2024-12-31 23:59:59"
+  backup_class      = "FULL"
+  create_speed      = 50
+  need_archive      = false
+}
 ```
 
-# Import
+Import
 
 brc backup_group can be imported using the id, e.g.
 
@@ -35,9 +33,9 @@ import (
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/ratelimit"
 
+	brc "terraform-provider-tencentcloudenterprise/sdk/brc/v20220516"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	brc "terraform-provider-tencentcloudenterprise/sdk/brc/v20220516"
 )
 
 func init() {

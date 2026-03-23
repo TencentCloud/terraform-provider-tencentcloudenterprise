@@ -7,16 +7,16 @@ import (
 	"testing"
 	"time"
 
+	"terraform-provider-tencentcloudenterprise/sdk/common/errors"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
-	"terraform-provider-tencentcloudenterprise/sdk/common/errors"
 )
 
 var testTkeScaleWorkerResourceName = "tencentcloudenterprise_tke_kubernetes_scale_worker"
 var testTkeScaleWorkerResourceKey = testTkeScaleWorkerResourceName + ".test_scale"
 
 func init() {
-	// go test -v ./tencentcloud -sweep=ap-guangzhou -sweep-run=cloud_tke_kubernetes_scale_worker
+	// go test -v ./tencentcloud -sweep=ap-guangzhou -sweep-run=tencentcloudenterprise_tke_kubernetes_scale_worker
 	resource.AddTestSweepers("tencentcloudenterprise_tke_kubernetes_scale_worker", &resource.Sweeper{
 		Name: "tencentcloudenterprise_tke_kubernetes_scale_worker",
 		F: func(r string) error {
@@ -231,7 +231,7 @@ const testAccTkeScaleWorkerInstanceBasic = TkeExclusiveNetwork + TkeDataSource +
 
 const testAccTkeScaleWorkerInstance string = testAccTkeScaleWorkerInstanceBasic + `
 
-resource cloud_tke_kubernetes_scale_worker test_scale {
+resource tencentcloudenterprise_tke_kubernetes_scale_worker test_scale {
   cluster_id = local.cluster_id
   
   extra_args = [
@@ -269,7 +269,7 @@ resource cloud_tke_kubernetes_scale_worker test_scale {
 
 const testAccTkeScaleWorkerInstanceGpuInsTypeUpdate string = testAccTkeScaleWorkerInstanceBasic + `
 
-resource cloud_tke_kubernetes_scale_worker test_scale {
+resource tencentcloudenterprise_tke_kubernetes_scale_worker test_scale {
   cluster_id = local.cluster_id
   
   extra_args = [
@@ -323,7 +323,7 @@ resource cloud_tke_kubernetes_scale_worker test_scale {
 `
 
 const testAccTkeScaleWorkerConfig = `
-resource cloud_tke_kubernetes_scale_worker test_scale {
+resource tencentcloudenterprise_tke_kubernetes_scale_worker test_scale {
   cluster_id = "cls-9h465v27"
   desired_pod_num = 16
   labels = {

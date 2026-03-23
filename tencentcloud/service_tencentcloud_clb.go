@@ -1095,17 +1095,17 @@ func (me *ClbService) CreateTargetGroup(ctx context.Context, targetGroupName str
 
 */
 
-/*
 func (me *ClbService) CreateTopic(ctx context.Context, params map[string]interface{}) (response *clb.CreateTopicResponse, err error) {
 
 	request := clb.NewCreateTopicRequest()
 
 	if topicName, ok := params["topic_name"]; ok {
-		request.TopicName = common.StringPtr(topicName.(string))
+		request.TopicName = helper.String(topicName.(string))
 	}
 
 	if partitionCount, ok := params["partition_count"]; ok {
-		request.PartitionCount = common.Uint64Ptr((uint64)(partitionCount.(int)))
+		v := uint64(partitionCount.(int))
+		request.PartitionCount = &v
 	}
 
 	err = resource.Retry(writeRetryTimeout, func() *resource.RetryError {
@@ -1118,10 +1118,12 @@ func (me *ClbService) CreateTopic(ctx context.Context, params map[string]interfa
 		response = resp
 		return nil
 	})
+	if response == nil || response.Response == nil || response.Response.TopicId == nil {
+		err = fmt.Errorf("TencentCloud SDK %s return empty response", request.GetAction())
+		return
+	}
 	return
 }
-
-*/
 
 /*
 func (me *ClbService) ModifyTargetGroup(ctx context.Context, targetGroupId, targetGroupName string, port uint64) (err error) {
@@ -1521,14 +1523,13 @@ func (me *ClbService) ModifyTargetWeight(ctx context.Context, loadBalancerId, li
 	return nil
 }
 
-/*
 func (me *ClbService) DescribeClbLogSet(ctx context.Context) (logSetId string, healthId string, errRet error) {
 	logId := getLogId(ctx)
 	request := clb.NewDescribeClsLogSetRequest()
 	defer func() {
 		if errRet != nil {
 			log.Printf("[CRITAL]%s api[%s] fail, request body [%s], reason[%s]\n",
-				logId, "delete object", request.ToJsonString(), errRet.Error())
+				logId, request.GetAction(), request.ToJsonString(), errRet.Error())
 		}
 	}()
 	ratelimit.Check(request.GetAction())
@@ -1541,14 +1542,15 @@ func (me *ClbService) DescribeClbLogSet(ctx context.Context) (logSetId string, h
 	log.Printf("[DEBUG]%s api[%s] success, request body [%s], response body [%s]\n",
 		logId, request.GetAction(), request.ToJsonString(), response.ToJsonString())
 
+	if response.Response == nil {
+		errRet = fmt.Errorf("DescribeClsLogSet response.Response is nil")
+		return
+	}
 	logSetId = *response.Response.LogsetId
 	healthId = *response.Response.HealthLogsetId
 	return
 }
 
-*/
-
-/*
 func (me *ClbService) CreateClbLogSet(ctx context.Context, name string, logsetType string, period int) (id string, errRet error) {
 	logId := getLogId(ctx)
 	request := clb.NewCreateClsLogSetRequest()
@@ -1571,8 +1573,6 @@ func (me *ClbService) CreateClbLogSet(ctx context.Context, name string, logsetTy
 	}
 	return
 }
-
-*/
 
 func (me *ClbService) UpdateClsLogSet(ctx context.Context, request *cls.ModifyLogsetRequest) (errRet error) {
 	logId := getLogId(ctx)

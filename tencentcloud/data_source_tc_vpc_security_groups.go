@@ -1,7 +1,7 @@
 /*
 Use this data source to query detailed information of security groups.
 
-# Example Usage
+Example Usage
 
 ```hcl
 
@@ -21,10 +21,10 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	"github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/common"
 	vpc "terraform-provider-tencentcloudenterprise/sdk/vpc/v20170312"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	"github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/common"
 )
 
 func init() {

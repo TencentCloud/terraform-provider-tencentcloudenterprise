@@ -1,22 +1,19 @@
 /*
 Provides a resource to create a tsf api_rate_limit_rule
 
-# Example Usage
-
+Example Usage
 ```hcl
 
 	resource "tencentcloudenterprise_tsf_api_rate_limit_rule" "api_rate_limit_rule" {
 	  api_id = "api-xxxxxx"
 	  max_qps = 10
-	  usable_status = "enable"
+	  usable_status = "enabled"
 	}
 
 ```
 
-# Import
-
+Import
 tsf api_rate_limit_rule can be imported using the id, e.g.
-
 ```
 terraform import tencentcloudenterprise_tsf_api_rate_limit_rule.api_rate_limit_rule api_rate_limit_rule_id
 ```
@@ -31,6 +28,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+
 	tsf "terraform-provider-tencentcloudenterprise/sdk/tsf/v20180326"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
 )

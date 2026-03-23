@@ -1,19 +1,17 @@
 /*
 Use this data source to query detailed information of tsf config_summary
 
-# Example Usage
+Example Usage
 
 ```hcl
-
-	data "tencentcloudenterprise_tsf_config_summary" "config_summary" {
-		application_id = "application-a24x29xv"
-		search_word = "terraform"
-		order_by = "last_update_time"
-		order_type = 0
-		disable_program_auth_check = true
-		config_id_list = ["dcfg-y54wzk3a"]
-	}
-
+data "tencentcloudenterprise_tsf_config_summary" "config_summary" {
+	application_id = "application-a24x29xv"
+	search_word = "terraform"
+	order_by = "last_update_time"
+	order_type = 0
+	disable_program_auth_check = true
+	config_id_list = ["dcfg-y54wzk3a"]
+}
 ```
 */
 package tencentcloud
@@ -21,10 +19,10 @@ package tencentcloud
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	tsf "terraform-provider-tencentcloudenterprise/sdk/tsf/v20180326"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func init() {
@@ -32,28 +30,28 @@ func init() {
 		TerraformTypeCN: "TSF配置项概要",
 		DescriptionCN:   "提供TSF配置概要数据源，用于查询TSF配置概要的详细信息。",
 		AttributesCN: map[string]string{
-			"application_id":             "应用ID。不传入时查询所有。",
-			"search_word":                "查询关键字，模糊查询：应用名，配置项名称。不传入时查询所有。",
-			"order_by":                   "排序字段。支持按时间排序：creation_time；或者按名称排序：config_name。",
-			"order_type":                 "传入0时为升序，传入1时为降序。",
-			"config_tag_list":            "config标签列表。",
+			"application_id":           "应用ID。不传入时查询所有。",
+			"search_word":              "查询关键字，模糊查询：应用名，配置项名称。不传入时查询所有。",
+			"order_by":                 "排序字段。支持按时间排序：creation_time；或者按名称排序：config_name。",
+			"order_type":               "传入0时为升序，传入1时为降序。",
+			"config_tag_list":          "config标签列表。",
 			"disable_program_auth_check": "是否禁用程序鉴权。",
-			"config_id_list":             "配置项ID列表。",
-			"result":                     "配置项分页项。",
-			"total_count":                "总条数。",
-			"content":                    "配置项列表。",
-			"config_id":                  "配置项ID。注意：此字段可能返回 null，表示取不到有效值。",
-			"config_name":                "配置项名称。注意：此字段可能返回 null，表示取不到有效值。",
-			"config_version":             "配置版本。注意：此字段可能返回 null，表示取不到有效值。",
-			"config_version_desc":        "配置版本描述。注意：此字段可能返回 null，表示取不到有效值。",
-			"config_value":               "配置值。注意：此字段可能返回 null，表示取不到有效值。",
-			"config_type":                "配置类型。注意：此字段可能返回 null，表示取不到有效值。",
-			"creation_time":              "创建时间。注意：此字段可能返回 null，表示取不到有效值。",
-			"application_name":           "应用名称。注意：此字段可能返回 null，表示取不到有效值。",
-			"delete_flag":                "删除标识，true:可删除；false:不可删除。注意：此字段可能返回 null，表示取不到有效值。",
-			"last_update_time":           "最后更新时间。注意：此字段可能返回 null，表示取不到有效值。",
-			"config_version_count":       "配置版本数量。注意：此字段可能返回 null，表示取不到有效值。",
-			"result_output_file":         "用于保存结果。",
+			"config_id_list":           "配置项ID列表。",
+			"result":                   "配置项分页项。",
+			"total_count":              "总条数。",
+			"content":                  "配置项列表。",
+			"config_id":                "配置项ID。注意：此字段可能返回 null，表示取不到有效值。",
+			"config_name":              "配置项名称。注意：此字段可能返回 null，表示取不到有效值。",
+			"config_version":           "配置版本。注意：此字段可能返回 null，表示取不到有效值。",
+			"config_version_desc":      "配置版本描述。注意：此字段可能返回 null，表示取不到有效值。",
+			"config_value":             "配置值。注意：此字段可能返回 null，表示取不到有效值。",
+			"config_type":              "配置类型。注意：此字段可能返回 null，表示取不到有效值。",
+			"creation_time":            "创建时间。注意：此字段可能返回 null，表示取不到有效值。",
+			"application_name":         "应用名称。注意：此字段可能返回 null，表示取不到有效值。",
+			"delete_flag":              "删除标识，true:可删除；false:不可删除。注意：此字段可能返回 null，表示取不到有效值。",
+			"last_update_time":         "最后更新时间。注意：此字段可能返回 null，表示取不到有效值。",
+			"config_version_count":     "配置版本数量。注意：此字段可能返回 null，表示取不到有效值。",
+			"result_output_file":       "用于保存结果。",
 		},
 	})
 
@@ -62,7 +60,7 @@ func init() {
 func dataSourceTencentCloudTsfConfigSummary() *schema.Resource {
 	return &schema.Resource{
 		Description: "This data source provides detailed information of tsf config_summary",
-		Read:        dataSourceTencentCloudTsfConfigSummaryRead,
+		Read: dataSourceTencentCloudTsfConfigSummaryRead,
 		Schema: map[string]*schema.Schema{
 			"application_id": {
 				Optional:    true,

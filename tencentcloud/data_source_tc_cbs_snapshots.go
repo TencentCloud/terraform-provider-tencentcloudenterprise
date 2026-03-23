@@ -1,7 +1,7 @@
 /*
 Use this data source to query detailed information of CBS snapshots.
 
-# Example Usage
+Example Usage
 
 ```hcl
 
@@ -18,9 +18,9 @@ import (
 	"context"
 	"log"
 
+	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
 )
 
 func init() {

@@ -1,11 +1,10 @@
 /*
 Use this data source to query detailed information of tdmq environment_attributes
 
-# Example Usage
-
+Example Usage
 ```hcl
 
-	data "tencentcloudenterprise_tdmq_environment_attributes" "environment_attributes" {
+	data "tencentcloudenterprise_tdmq_environments" "environment" {
 	    environment_id = "keep-ns"
 	    cluster_id     = "pulsar-9n95ax58b9vn"
 	}
@@ -19,6 +18,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+
 	tdmq "terraform-provider-tencentcloudenterprise/sdk/tdmq/v20200217"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
 )
@@ -140,7 +140,7 @@ func dataSourceTencentCloudTdmqEnvironments() *schema.Resource {
 }
 
 func dataSourceTencentCloudTdmqEnvironmentsRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("data_source.tencentcloudenterprise_tdmq_environment_attributes.read")()
+	defer logElapsed("data_source.tencentcloudenterprise_tdmq_environment.read")()
 	defer inconsistentCheck(d, meta)()
 
 	var (

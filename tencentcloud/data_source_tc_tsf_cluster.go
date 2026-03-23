@@ -1,17 +1,15 @@
 /*
 Use this data source to query detailed information of tsf cluster
 
-# Example Usage
+Example Usage
 
 ```hcl
-
-	data "tencentcloudenterprise_tsf_cluster" "cluster" {
-	  cluster_id_list = ["cluster-vwgj5e6y"]
-	  cluster_type = "V"
-	  # search_word = ""
-	  disable_program_auth_check = true
-	}
-
+data "tencentcloudenterprise_tsf_cluster" "cluster" {
+  cluster_id_list = ["cluster-vwgj5e6y"]
+  cluster_type = "V"
+  # search_word = ""
+  disable_program_auth_check = true
+}
 ```
 */
 package tencentcloud
@@ -19,10 +17,10 @@ package tencentcloud
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	tsf "terraform-provider-tencentcloudenterprise/sdk/tsf/v20180326"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func init() {
@@ -30,56 +28,57 @@ func init() {
 		TerraformTypeCN: "TSF集群",
 		DescriptionCN:   "提供TSF集群数据源，用于查询TSF集群的详细信息。",
 		AttributesCN: map[string]string{
-			"cluster_id_list":            "集群ID列表",
-			"cluster_type":               "集群类型",
-			"search_word":                "搜索关键字",
+			"cluster_id_list":           "集群ID列表",
+			"cluster_type":              "集群类型",
+			"search_word":               "搜索关键字",
 			"disable_program_auth_check": "是否禁用程序鉴权",
-			"result":                     "TSF集群分页对象。注意：此字段可能返回 null，表示取不到有效值。",
-			"total_count":                "总条数。注意：此字段可能返回 null，表示取不到有效值。",
-			"content":                    "集群列表。注意：此字段可能返回 null，表示取不到有效值。",
-			"cluster_id":                 "集群ID。注意：此字段可能返回 null，表示取不到有效值。",
-			"cluster_name":               "集群名称。注意：此字段可能返回 null，表示取不到有效值。",
-			"cluster_desc":               "集群描述。注意：此字段可能返回 null，表示取不到有效值。",
-			"vpc_id":                     "集群私有网络ID。注意：此字段可能返回 null，表示取不到有效值。",
-			"cluster_status":             "集群状态。注意：此字段可能返回 null，表示取不到有效值。",
-			"cluster_cidr":               "集群CIDR。注意：此字段可能返回 null，表示取不到有效值。",
-			"cluster_total_cpu":          "集群总CPU，单位：核。注意：此字段可能返回 null，表示取不到有效值。",
-			"cluster_total_mem":          "集群总内存，单位：G。注意：此字段可能返回 null，表示取不到有效值。",
-			"cluster_used_cpu":           "集群已使用CPU，单位：核。注意：此字段可能返回 null，表示取不到有效值。",
-			"cluster_used_mem":           "集群已使用内存，单位：GB。注意：此字段可能返回 null，表示取不到有效值。",
-			"instance_count":             "集群实例数量。注意：此字段可能返回 null，表示取不到有效值。",
-			"run_instance_count":         "集群运行中实例数量。注意：此字段可能返回 null，表示取不到有效值。",
-			"normal_instance_count":      "集群正常实例数量。注意：此字段可能返回 null，表示取不到有效值。",
-			"delete_flag":                "删除标记：true表示可以删除，false表示不可删除。注意：此字段可能返回 null，表示取不到有效值。",
-			"create_time":                "创建时间。注意：此字段可能返回 null，表示取不到有效值。",
-			"update_time":                "最后更新时间。注意：此字段可能返回 null，表示取不到有效值。",
-			"tsf_region_id":              "TSF地域ID。注意：此字段可能返回 null，表示取不到有效值。",
-			"tsf_region_name":            "TSF地域名称。注意：此字段可能返回 null，表示取不到有效值。",
-			"tsf_zone_id":                "TSF可用区ID。注意：此字段可能返回 null，表示取不到有效值。",
-			"tsf_zone_name":              "TSF可用区名称。注意：此字段可能返回 null，表示取不到有效值。",
-			"delete_flag_reason":         "集群不可删除的原因。注意：此字段可能返回 null，表示取不到有效值。",
-			"cluster_limit_cpu":          "集群最大CPU限制，单位：核。注意：此字段可能返回 null，表示取不到有效值。",
-			"cluster_limit_mem":          "集群最大内存限制，单位：GB。注意：此字段可能返回 null，表示取不到有效值。",
+			"result":                    "TSF集群分页对象。注意：此字段可能返回 null，表示取不到有效值。",
+			"total_count":               "总条数。注意：此字段可能返回 null，表示取不到有效值。",
+			"content":                   "集群列表。注意：此字段可能返回 null，表示取不到有效值。",
+			"cluster_id":                "集群ID。注意：此字段可能返回 null，表示取不到有效值。",
+			"cluster_name":              "集群名称。注意：此字段可能返回 null，表示取不到有效值。",
+			"cluster_desc":              "集群描述。注意：此字段可能返回 null，表示取不到有效值。",
+			"vpc_id":                   "集群私有网络ID。注意：此字段可能返回 null，表示取不到有效值。",
+			"cluster_status":            "集群状态。注意：此字段可能返回 null，表示取不到有效值。",
+			"cluster_cidr":              "集群CIDR。注意：此字段可能返回 null，表示取不到有效值。",
+			"cluster_total_cpu":         "集群总CPU，单位：核。注意：此字段可能返回 null，表示取不到有效值。",
+			"cluster_total_mem":         "集群总内存，单位：G。注意：此字段可能返回 null，表示取不到有效值。",
+			"cluster_used_cpu":          "集群已使用CPU，单位：核。注意：此字段可能返回 null，表示取不到有效值。",
+			"cluster_used_mem":          "集群已使用内存，单位：GB。注意：此字段可能返回 null，表示取不到有效值。",
+			"instance_count":            "集群实例数量。注意：此字段可能返回 null，表示取不到有效值。",
+			"run_instance_count":        "集群运行中实例数量。注意：此字段可能返回 null，表示取不到有效值。",
+			"normal_instance_count":     "集群正常实例数量。注意：此字段可能返回 null，表示取不到有效值。",
+			"delete_flag":               "删除标记：true表示可以删除，false表示不可删除。注意：此字段可能返回 null，表示取不到有效值。",
+			"create_time":               "创建时间。注意：此字段可能返回 null，表示取不到有效值。",
+			"update_time":               "最后更新时间。注意：此字段可能返回 null，表示取不到有效值。",
+			"tsf_region_id":             "TSF地域ID。注意：此字段可能返回 null，表示取不到有效值。",
+			"tsf_region_name":           "TSF地域名称。注意：此字段可能返回 null，表示取不到有效值。",
+			"tsf_zone_id":               "TSF可用区ID。注意：此字段可能返回 null，表示取不到有效值。",
+			"tsf_zone_name":             "TSF可用区名称。注意：此字段可能返回 null，表示取不到有效值。",
+			"delete_flag_reason":        "集群不可删除的原因。注意：此字段可能返回 null，表示取不到有效值。",
+			"cluster_limit_cpu":         "集群最大CPU限制，单位：核。注意：此字段可能返回 null，表示取不到有效值。",
+			"cluster_limit_mem":         "集群最大内存限制，单位：GB。注意：此字段可能返回 null，表示取不到有效值。",
 			"run_service_instance_count": "集群可用服务实例数量。注意：此字段可能返回 null，表示取不到有效值。",
-			"subnet_id":                  "集群子网ID。注意：此字段可能返回 null，表示取不到有效值。",
-			"operation_info":             "返回前端控制信息。注意：此字段可能返回 null，表示取不到有效值。",
-			"init":                       "返回前端初始化按钮控制信息。注意：此字段可能返回 null，表示取不到有效值。",
-			"add_instance":               "添加实例按钮控制信息，注意：此字段可能返回 null，表示取不到有效值。",
-			"destroy":                    "销毁机器控制信息，注意：此字段可能返回 null，表示取不到有效值。",
-			"disabled_reason":            "不显示原因。注意：此字段可能返回 null，表示取不到有效值。",
-			"enabled":                    "按钮是否可点击，可能返回null表示信息不可用。",
-			"supported":                  "是否显示按钮。注意：此字段可能返回 null，表示取不到有效值。",
-			"cluster_version":            "集群版本，可能返回null表示不可用。",
-			"result_output_file":         "用于保存结果",
+			"subnet_id":                 "集群子网ID。注意：此字段可能返回 null，表示取不到有效值。",
+			"operation_info":            "返回前端控制信息。注意：此字段可能返回 null，表示取不到有效值。",
+			"init":                      "返回前端初始化按钮控制信息。注意：此字段可能返回 null，表示取不到有效值。",
+			"add_instance":              "添加实例按钮控制信息，注意：此字段可能返回 null，表示取不到有效值。",
+			"destroy":                   "销毁机器控制信息，注意：此字段可能返回 null，表示取不到有效值。",
+			"disabled_reason":           "不显示原因。注意：此字段可能返回 null，表示取不到有效值。",
+			"enabled":                   "按钮是否可点击，可能返回null表示信息不可用。",
+			"supported":                 "是否显示按钮。注意：此字段可能返回 null，表示取不到有效值。",
+			"cluster_version":           "集群版本，可能返回null表示不可用。",
+			"result_output_file":        "用于保存结果",
 		},
 	})
+
 
 }
 
 func dataSourceTencentCloudTsfCluster() *schema.Resource {
 	return &schema.Resource{
 		Description: "Use this data source to query detailed information of tsf cluster",
-		Read:        dataSourceTencentCloudTsfClusterRead,
+		Read: dataSourceTencentCloudTsfClusterRead,
 		Schema: map[string]*schema.Schema{
 			"cluster_id_list": {
 				Optional: true,

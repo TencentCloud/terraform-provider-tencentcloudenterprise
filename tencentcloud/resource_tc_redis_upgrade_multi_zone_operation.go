@@ -1,18 +1,16 @@
-// /*
-// Provides a resource to create a redis upgrade_multi_zone_operation
+///*
+//Provides a resource to create a redis upgrade_multi_zone_operation
 //
-// # Example Usage
+//Example Usage
 //
-// ```hcl
+//```hcl
+//resource "tencentcloudenterprise_redis_upgrade_multi_zone_operation" "upgrade_multi_zone_operation" {
+//  instance_id = "crs-c1nl9rpv"
+//  upgrade_proxy_and_redis_server =
+//}
+//```
 //
-//	resource "tencentcloudenterprise_redis_upgrade_multi_zone_operation" "upgrade_multi_zone_operation" {
-//	 instance_id = "crs-c1nl9rpv"
-//	 upgrade_proxy_and_redis_server =
-//	}
-//
-// ```
-//
-// */
+//*/
 package tencentcloud
 
 //专有云暂不支持redis升级实例到多az

@@ -1,7 +1,7 @@
 /*
 Use this data source to query VPC Network ACL information.
 
-# Example Usage
+Example Usage
 
 ```hcl
 data "tencentcloudenterprise_vpc_instances" "foo" {
@@ -23,8 +23,8 @@ import (
 	"context"
 	"log"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func init() {
@@ -56,7 +56,7 @@ func init() {
 func dataSourceTencentCloudVpcAcls() *schema.Resource {
 	return &schema.Resource{
 		Description:        "Use this data source to query VPC Network ACL information.",
-		DeprecationMessage: "This data source is deprecated. Please use cloud_vpc_acl_list instead.",
+		DeprecationMessage: "This data source is deprecated. Please use tencentcloudenterprise_vpc_acl_list instead.",
 		Read:               dataSourceTencentCloudVpcACLRead,
 
 		Schema: map[string]*schema.Schema{

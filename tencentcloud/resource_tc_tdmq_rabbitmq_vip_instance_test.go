@@ -6,9 +6,9 @@ import (
 	"testing"
 	"time"
 
+	sdkErrors "terraform-provider-tencentcloudenterprise/sdk/common/errors"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
-	sdkErrors "terraform-provider-tencentcloudenterprise/sdk/common/errors"
 )
 
 // go test -i; go test -test.run TestAccTencentCloudTdmqRabbitmqVipInstanceResource_basic -v

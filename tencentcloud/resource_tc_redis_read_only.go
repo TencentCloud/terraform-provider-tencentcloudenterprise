@@ -1,25 +1,23 @@
-// /*
-// Provides a resource to create a redis read_only
+///*
+//Provides a resource to create a redis read_only
 //
-// # Example Usage
+//Example Usage
 //
-// ```hcl
+//```hcl
+//resource "tencentcloudenterprise_redis_read_only" "read_only" {
+//  instance_id = "crs-c1nl9rpv"
+//  input_mode = "0"
+//}
+//```
 //
-//	resource "tencentcloudenterprise_redis_read_only" "read_only" {
-//	 instance_id = "crs-c1nl9rpv"
-//	 input_mode = "0"
-//	}
+//Import
 //
-// ```
+//redis read_only can be imported using the instanceId, e.g.
 //
-// # Import
-//
-// redis read_only can be imported using the instanceId, e.g.
-//
-// ```
-// terraform import tencentcloudenterprise_redis_read_only.read_only crs-c1nl9rpv
-// ```
-// */
+//```
+//terraform import tencentcloudenterprise_redis_read_only.read_only crs-c1nl9rpv
+//```
+//*/
 package tencentcloud
 
 // 专有云不支持修改实例只读

@@ -1,7 +1,7 @@
 /*
 Provide a resource to attach an existing  cvm to kubernetes cluster.
 
-# Example Usage
+Example Usage
 
 ```hcl
 
@@ -74,6 +74,7 @@ Provide a resource to attach an existing  cvm to kubernetes cluster.
 	    enhanced_monitor_service  = false
 	    user_data                 = "dGVzdA=="
 	    password                  = "ZZXXccvv1212"
+	    security_group_ids        = ["sg-xxxxxxxx"]
 	  }
 
 	  cluster_deploy_type = "MANAGED_CLUSTER"
@@ -85,12 +86,8 @@ Provide a resource to attach an existing  cvm to kubernetes cluster.
 	  password    = "Lo4wbdit"
 
 	  labels = {
-	    "test1" = "test1",
-	    "test2" = "test2",
-	  }
-
-	  worker_config_overrides {
-	    desired_pod_num = 8
+	    "test1" = "test1"
+	    "test2" = "test2"
 	  }
 	}
 
@@ -103,13 +100,13 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"terraform-provider-tencentcloudenterprise/sdk/common/errors"
 	cvm "terraform-provider-tencentcloudenterprise/sdk/cvm/v20170312"
 	tke "terraform-provider-tencentcloudenterprise/sdk/tke/v20180525"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/ratelimit"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func init() {
@@ -124,22 +121,22 @@ func init() {
 			"host_name":    "主机名",
 			"woker_config": "节点配置信息",
 			//"worker_config_overrides": "节点配置信息",
-			"labels":            "标签",
-			"unschedulable":     "是否参与调度",
-			"security_groups":   "安全组",
-			"state":             "状态",
-			"hostname":          "主机名",
-			"worker_config":     "节点配置信息",
-			"docker_graph_path": "Docker 图形路径。 默认为 `/var/lib/docker`.Docker 图形路径。 默认为“/var/lib/docker”。",
-			"data_disk":         "数据盘配置信息。数据盘配置信息。",
-			"disk_type":         "磁盘类型。可用值：`CLOUD_PREMIUM` 和 `CLOUD_SSD`。",
-			"disk_size":         "磁盘容量（单位：GB）。默认为 `0`。",
+			"labels":                "标签",
+			"unschedulable":         "是否参与调度",
+			"security_groups":       "安全组",
+			"state":                 "状态",
+			"hostname":              "主机名",
+			"worker_config":         "节点配置信息",
+			"docker_graph_path":     "Docker 图形路径。 默认为 `/var/lib/docker`.Docker 图形路径。 默认为“/var/lib/docker”。",
+			"data_disk":             "数据盘配置信息。数据盘配置信息。",
+			"disk_type":             "磁盘类型。可用值：`CLOUD_PREMIUM` 和 `CLOUD_SSD`。",
+			"disk_size":             "磁盘容量（单位：GB）。默认为 `0`。",
 			//"file_system":           "文件系统，例如 `ext3/ext4/xfs`。",
 			//"auto_format_and_mount": "是否自动格式化和挂载。默认为 `false`。",
-			"mount_target": "挂载目标。",
+			"mount_target":          "挂载目标。",
 			//"disk_partition":        "要挂载的设备或分区的名称。注意：此参数不支持在节点池中设置，否则会导致挂载错误。",
-			"extra_args": "与节点相关的自定义参数信息。这是一个白名单参数。",
-			"user_data":  "Base64 编码的用户数据文本，长度限制为 16KB。",
+			"extra_args":            "与节点相关的自定义参数信息。这是一个白名单参数。",
+			"user_data":             "Base64 编码的用户数据文本，长度限制为 16KB。",
 			//"is_schedule":           "指示是否调度添加节点。默认为 `true`。",
 			//"desired_pod_num": "指示在节点中设置所需的 pod 数。当集群是 podCIDR 时有效。",
 			//"gpu_args":        "GPU 驱动程序参数。",
@@ -401,18 +398,18 @@ func tkeGetInstanceAdvancedPara(dMap map[string]interface{}, meta interface{}) (
 
 		for _, d := range dataDisks {
 			var (
-				value    = d.(map[string]interface{})
-				diskType = value["disk_type"].(string)
-				diskSize = int64(value["disk_size"].(int))
+				value              = d.(map[string]interface{})
+				diskType           = value["disk_type"].(string)
+				diskSize           = int64(value["disk_size"].(int))
 				//fileSystem         = value["file_system"].(string)
 				//autoFormatAndMount = value["auto_format_and_mount"].(bool)
-				mountTarget = value["mount_target"].(string)
+				mountTarget        = value["mount_target"].(string)
 				//diskPartition      = value["disk_partition"].(string)
 				dataDisk = tke.DataDisk{
-					DiskType: &diskType,
+					DiskType:           &diskType,
 					//FileSystem:         &fileSystem,
 					//AutoFormatAndMount: &autoFormatAndMount,
-					MountTarget: &mountTarget,
+					MountTarget:        &mountTarget,
 					//DiskPartition:      &diskPartition,
 				}
 			)

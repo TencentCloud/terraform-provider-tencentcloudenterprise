@@ -27,12 +27,13 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"strconv"
 	"strings"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	vpc "terraform-provider-tencentcloudenterprise/sdk/vpc/v20170312"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func init() {
@@ -159,7 +160,7 @@ func resourceTencentCloudVpcEndPointServiceWhiteListRead(d *schema.ResourceData,
 
 	if endPointServiceWhiteList == nil {
 		d.SetId("")
-		return fmt.Errorf("resource `track` %s does not exist", d.Id())
+		return nil
 	}
 
 	if endPointServiceWhiteList.UserUin != nil {
@@ -175,7 +176,7 @@ func resourceTencentCloudVpcEndPointServiceWhiteListRead(d *schema.ResourceData,
 	}
 
 	if endPointServiceWhiteList.Owner != nil {
-		_ = d.Set("owner", helper.UInt64ToStr(*endPointServiceWhiteList.Owner))
+		_ = d.Set("owner", strconv.FormatInt(*endPointServiceWhiteList.Owner, 10))
 	}
 
 	if endPointServiceWhiteList.CreateTime != nil {

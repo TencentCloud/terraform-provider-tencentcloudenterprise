@@ -1,26 +1,24 @@
-/*
-	Use this data source to query detailed information of brc backup overviews
+ /*
+ Use this data source to query detailed information of brc backup overviews
 
-# Example Usage
+Example Usage
 
 ```hcl
-
-	 data "tencentcloudenterprise_brc_resource_backup_overview" "overview" {
-	   result_output_file = "backup_overview.json"
-	}
-
+  data "tencentcloudenterprise_brc_resource_backup_overview" "overview" {
+    result_output_file = "backup_overview.json"
+ }
 ```
-*/
+ */
 package tencentcloud
 
 import (
 	"fmt"
 	"log"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	brc "terraform-provider-tencentcloudenterprise/sdk/brc/v20220516"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/ratelimit"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func init() {
@@ -28,10 +26,10 @@ func init() {
 		TerraformTypeCN: "BRC资源备份概览",
 		DescriptionCN:   "提供BRC资源备份概览数据源，用于查询资源备份的概览信息。",
 		AttributesCN: map[string]string{
-			"resource_type":       "备份资源类型，有效值：INSTANCE(CVM实例)、DISK(CBS云硬盘)、CFS、COS、CSP、MySQL_MariaDB和TDSQL_MySQL",
-			"result_output_file":  "用于保存结果",
-			"backup_overview":     "备份概览列表",
-			"overview_detail_set": "概览详情集合",
+			"resource_type":        "备份资源类型，有效值：INSTANCE(CVM实例)、DISK(CBS云硬盘)、CFS、COS、CSP、MySQL_MariaDB和TDSQL_MySQL",
+			"result_output_file":   "用于保存结果",
+			"backup_overview":      "备份概览列表",
+			"overview_detail_set":  "概览详情集合",
 		},
 	})
 }
@@ -42,9 +40,9 @@ func dataSourceTencentCloudBrcResourceBackupOverview() *schema.Resource {
 		Description: "Use this data source to query detailed information of brc backup overviews",
 		Schema: map[string]*schema.Schema{
 			"resource_type": {
-				Optional:    true,
-				Type:        schema.TypeString,
-				Description: "Resource type filter. Valid values: INSTANCE, DISK, CFS, COS, CSP, MySQL_MariaDB, TDSQL_MySQL.",
+				Optional:     true,
+				Type:         schema.TypeString,
+				Description:  "Resource type filter. Valid values: INSTANCE, DISK, CFS, COS, CSP, MySQL_MariaDB, TDSQL_MySQL.",
 				//ValidateFunc: validateAllowedStringValue(BackupResouceTypes),
 			},
 			"result_output_file": {

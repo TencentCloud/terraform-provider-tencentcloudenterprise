@@ -16,7 +16,11 @@ func TestAccTencentCloudNeedFixClsCosRechargeResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			{
 				Config: testAccClsCosRecharge,
-				Check:  resource.ComposeTestCheckFunc(resource.TestCheckResourceAttrSet("tencentcloudenterprise_cls_cos_recharge.cos_recharge", "id")),
+				Check: resource.ComposeTestCheckFunc(
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_cls_cos_recharge.cos_recharge", "id"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_cls_cos_recharge.cos_recharge", "task_type", "1"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_cls_cos_recharge.cos_recharge", "metadata.#", "2"),
+				),
 			},
 			{
 				ResourceName:      "tencentcloudenterprise_cls_cos_recharge.cos_recharge",
@@ -37,6 +41,8 @@ resource "tencentcloudenterprise_cls_cos_recharge" "cos_recharge" {
   name          = "cos_recharge_for_test"
   prefix        = "test"
   topic_id      = "7e34a3a7-635e-4da8-9005-88106c1fde69"
+  task_type     = 1
+  metadata      = ["bucket", "object"]
 
   extract_rule_info {
     backtracking            = 0

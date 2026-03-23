@@ -1,20 +1,18 @@
 /*
 Provides a resource to create a brc disk(cbs) backup action
 
-# Example Usage
+Example Usage
 
 ```hcl
-
-	resource "tencentcloudenterprise_brc_backup_disk" "example" {
-	  disk_id      = "disk-ewei0a2q"
-	  backup_name  = "my-backup"
-	  deadline     = "2025-07-05 19:03:29"
-	  backup_class = "INC"
-	}
-
+resource "tencentcloudenterprise_brc_backup_disk" "example" {
+  disk_id      = "disk-ewei0a2q"
+  backup_name  = "my-backup"
+  deadline     = "2025-07-05 19:03:29"
+  backup_class = "INC"
+}
 ```
 
-# Import
+Import
 
 brc backup_disk can be imported using the id, e.g.
 
@@ -33,9 +31,9 @@ import (
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/ratelimit"
 
+	brc "terraform-provider-tencentcloudenterprise/sdk/brc/v20220516"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	brc "terraform-provider-tencentcloudenterprise/sdk/brc/v20220516"
 )
 
 func init() {
@@ -49,7 +47,7 @@ func init() {
 			"backup_class": "指定做全量或增量备份。取值范围: FULL：全量备份, INC：增量备份。",
 			"create_speed": "创建备份的带宽上限，范围：[0, 100]",
 			"need_archive": "标识该磁盘备份将用于归档。",
-			"backup_id":    "备份ID",
+			"backup_id":      "备份ID",
 		},
 	})
 }
@@ -133,11 +131,11 @@ func resourceTencentCloudBrcBackupDiskCreate(d *schema.ResourceData, meta interf
 	if v, ok := d.GetOk("backup_class"); ok {
 		request.BackupClass = helper.String(v.(string))
 	}
-
+	
 	if v, ok := d.GetOk("create_speed"); ok {
 		request.CreateSpeed = helper.Uint64(uint64(v.(int)))
 	}
-
+	
 	if v, ok := d.GetOkExists("need_archive"); ok {
 		request.NeedArchive = helper.Bool(v.(bool))
 	}

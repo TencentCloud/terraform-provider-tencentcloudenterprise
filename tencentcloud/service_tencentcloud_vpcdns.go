@@ -2,12 +2,12 @@ package tencentcloud
 
 import (
 	"context"
-	"github.com/pkg/errors"
-	"log"
 	vpcdns "terraform-provider-tencentcloudenterprise/sdk/vpcdns/v20191025"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/connectivity"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/ratelimit"
+	"github.com/pkg/errors"
+	"log"
 )
 
 type VpcDnsService struct {

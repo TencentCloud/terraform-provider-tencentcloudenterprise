@@ -1,20 +1,18 @@
 /*
 Provides a snapshot policy resource.
 
-# Example Usage
+Example Usage
 
 ```hcl
-
-	resource "tencentcloudenterprise_cbs_snapshot_policy" "snapshot_policy" {
-	  snapshot_policy_name = "mysnapshotpolicyname"
-	  repeat_weekdays      = [1, 4]
-	  repeat_hours         = [1]
-	  retention_days       = 7
-	}
-
+resource "tencentcloudenterprise_cbs_snapshot_policy" "snapshot_policy" {
+  snapshot_policy_name = "mysnapshotpolicyname"
+  repeat_weekdays      = [1, 4]
+  repeat_hours         = [1]
+  retention_days       = 7
+}
 ```
 
-# Import
+Import
 
 CBS snapshot policy can be imported using the id, e.g.
 
@@ -29,10 +27,10 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	cbs "terraform-provider-tencentcloudenterprise/sdk/cbs/v20170312"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func init() {

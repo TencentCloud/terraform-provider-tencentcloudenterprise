@@ -1,21 +1,19 @@
 /*
 Provides a resource to create a vpc ipv6_subnet_cidr_block
 
-# Example Usage
+Example Usage
 
 ```hcl
-
-	resource "tencentcloudenterprise_vpc_ipv6_subnet_cidr_block" "ipv6_subnet_cidr_block" {
-	  vpc_id = "vpc-7w3kgnpl"
-	  ipv6_subnet_cidr_blocks {
-	    subnet_id = "subnet-plg028y8"
-	    ipv6_cidr_block = "2402:4e00:1019:6a7b::/64"
-	  }
-	}
-
+resource "tencentcloudenterprise_vpc_ipv6_subnet_cidr_block" "ipv6_subnet_cidr_block" {
+  vpc_id = "vpc-7w3kgnpl"
+  ipv6_subnet_cidr_blocks {
+    subnet_id = "subnet-plg028y8"
+    ipv6_cidr_block = "2402:4e00:1019:6a7b::/64"
+  }
+}
 ```
 
-# Import
+Import
 
 vpc ipv6_subnet_cidr_block can be imported using the id, e.g.
 
@@ -31,10 +29,10 @@ import (
 	"log"
 	"strings"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	vpc "terraform-provider-tencentcloudenterprise/sdk/vpc/v20170312"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func init() {
@@ -42,8 +40,8 @@ func init() {
 		TerraformTypeCN: "创建VPC IPv6子网网段",
 		DescriptionCN:   "提供VPC IPv6子网网段资源，用于创建VPC IPv6子网网段。",
 		AttributesCN: map[string]string{
-			"vpc_id":                  "VPC实例ID",
-			"ipv6_cidr_block":         "IPv6子网网段",
+			"vpc_id":          "VPC实例ID",
+			"ipv6_cidr_block": "IPv6子网网段",
 			"ipv6_subnet_cidr_blocks": "IPv6子网网段列表",
 			"subnet_id":               "子网实例“ID”。例如`subnet-pxir56ns`",
 		},

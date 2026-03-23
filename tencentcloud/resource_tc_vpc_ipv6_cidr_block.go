@@ -1,23 +1,21 @@
 /*
 Provides a resource to create a vpc ipv6_cidr_block
 
-# Example Usage
+Example Usage
 
 ```hcl
+resource "tencentcloudenterprise_vpc" "cidr-block" {
+  name         = "ipv6-cidr-block-for-test"
+  cidr_block   = "10.0.0.0/16"
+  is_multicast = false
+}
 
-	resource "tencentcloudenterprise_vpc" "cidr-block" {
-	  name         = "ipv6-cidr-block-for-test"
-	  cidr_block   = "10.0.0.0/16"
-	  is_multicast = false
-	}
-
-	resource "tencentcloudenterprise_vpc_ipv6_cidr_block" "ipv6_cidr_block" {
-	  vpc_id = tencentcloudenterprise_vpc.cidr-block.id
-	}
-
+resource "tencentcloudenterprise_vpc_ipv6_cidr_block" "ipv6_cidr_block" {
+  vpc_id = tencentcloudenterprise_vpc.cidr-block.id
+}
 ```
 
-# Import
+Import
 
 vpc ipv6_cidr_block can be imported using the id, e.g.
 
@@ -31,10 +29,10 @@ import (
 	"context"
 	"log"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	vpc "terraform-provider-tencentcloudenterprise/sdk/vpc/v20170312"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func init() {

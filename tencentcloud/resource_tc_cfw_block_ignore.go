@@ -1,53 +1,28 @@
 /*
-Provides a resource to create a cloud firewall (cfw) block ignore.
-
-~> **NOTE:** If create domain rule, `RuleType` not support set 2.
+Provides a resource to create a cloud firewall (cfw) block ignore rule.
 
 Example Usage
 
-If create ip rule
-
 ```hcl
-resource "tencentcloudenterprise_cfw_block_ignore" "example" {
-  ip         = "1.1.1.1"
-  direction  = 0
-  comment    = "remark."
-  start_time = "2023-09-01 00:00:00"
-  end_time   = "2023-10-01 00:00:00"
-  rule_type  = 1
-}
-```
 
-If create domain rule
-
-```hcl
 resource "tencentcloudenterprise_cfw_block_ignore" "example" {
-  ip         = "1.1.1.1"
-  direction  = 0
-  comment    = "remark."
-  start_time = "2023-09-01 00:00:00"
-  end_time   = "2028-10-01 00:00:00"
-  rule_type  = 1
+  ip        = "1.1.1.1"
+  direction = "1"
+  end_time  = "2025-12-31 23:59:59"
+  comment   = "block rule example"
+  rule_type = 1
 }
+
 ```
 
 Import
 
-cfw block_ignore_list can be imported using the id, e.g.
-
-If import ip rule
+Cloud firewall block ignore rule can be imported using the id, e.g.
 
 ```
-terraform import tencentcloudenterprise_cfw_block_ignore.example 1.1.1.1##0#1
-```
-
-If import domain rule
-
-```
-terraform import tencentcloudenterprise_cfw_block_ignore.example domain.com##0#1
+$ terraform import tencentcloudenterprise_cfw_block_ignore.example rule_id
 ```
 */
-
 package tencentcloud
 
 import (
@@ -56,34 +31,19 @@ import (
 	"log"
 	"strconv"
 	"strings"
-	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
 
+	cfw "terraform-provider-tencentcloudenterprise/sdk/cfw/v20190904"
+	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	cfw "terraform-provider-tencentcloudenterprise/sdk/cfw/v20190904"
 )
-
-func init() {
-	registerResourceDescriptionProvider("tencentcloudenterprise_cfw_block_ignore", CNDescription{
-		TerraformTypeCN: "云防火墙封禁忽略",
-		DescriptionCN:   "提供云防火墙封禁忽略资源，用于创建和管理云防火墙封禁忽略规则。",
-		AttributesCN: map[string]string{
-			"ip":        "IP地址",
-			"domain":    "域名",
-			"comment":   "备注",
-			"direction": "规则方向",
-			"rule_type": "规则类型",
-		},
-	})
-}
 
 func resourceTencentCloudCfwBlockIgnore() *schema.Resource {
 	return &schema.Resource{
-		Create:      resourceTencentCloudCfwBlockIgnoreCreate,
-		Read:        resourceTencentCloudCfwBlockIgnoreRead,
-		Update:      resourceTencentCloudCfwBlockIgnoreUpdate,
-		Delete:      resourceTencentCloudCfwBlockIgnoreDelete,
-		Description: "Provides a resource to create and manage cloud firewall block ignore rules",
+		Create: resourceTencentCloudCfwBlockIgnoreCreate,
+		Read:   resourceTencentCloudCfwBlockIgnoreRead,
+		Update: resourceTencentCloudCfwBlockIgnoreUpdate,
+		Delete: resourceTencentCloudCfwBlockIgnoreDelete,
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
@@ -222,7 +182,7 @@ func resourceTencentCloudCfwBlockIgnoreRead(d *schema.ResourceData, meta interfa
 	direction := idSplit[2]
 	ruleType := idSplit[3]
 
-	blockIgnoreRule, err := service.DescribeBlockIgnoreListById(ctx, iP, domain, direction, ruleType)
+	blockIgnoreRule, err := service.DescribeCfwBlockIgnoreListById(ctx, iP, domain, direction, ruleType)
 	if err != nil {
 		return err
 	}
@@ -356,9 +316,25 @@ func resourceTencentCloudCfwBlockIgnoreDelete(d *schema.ResourceData, meta inter
 	direction := idSplit[2]
 	ruleType := idSplit[3]
 
-	if err := service.DeleteBlockIgnoreListById(ctx, iP, domain, direction, ruleType); err != nil {
+	if err := service.DeleteCfwBlockIgnoreListById(ctx, iP, domain, direction, ruleType); err != nil {
 		return err
 	}
 
 	return nil
+}
+
+func init() {
+	registerResourceDescriptionProvider("tencentcloudenterprise_cfw_block_ignore", CNDescription{
+		TerraformTypeCN: "入侵防御封禁忽略",
+		DescriptionCN:   "提供云防火墙入侵防御封禁忽略资源，用于创建和管理入侵防御的封禁和忽略规则。",
+		AttributesCN: map[string]string{
+			"ip":         "待处置IP地址，IP/Domain字段二选一",
+			"domain":     "待处置域名，IP/Domain字段二选一",
+			"direction":  "方向，0代表出站，1代表入站，3代表内网",
+			"end_time":   "规则结束时间，格式：2006-01-02 15:04:05，必须大于当前时间",
+			"comment":    "备注信息，长度不能超过50",
+			"start_time": "规则开始时间",
+			"rule_type":  "规则类型，1封禁，2放通，域名不支持封禁",
+		},
+	})
 }

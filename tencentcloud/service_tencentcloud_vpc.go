@@ -14,13 +14,13 @@ import (
 	"sync"
 	"time"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"terraform-provider-tencentcloudenterprise/sdk/common"
 	sdkErrors "terraform-provider-tencentcloudenterprise/sdk/common/errors"
 	vpc "terraform-provider-tencentcloudenterprise/sdk/vpc/v20170312"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/connectivity"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/ratelimit"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 )
 
 var eipUnattachLocker = &sync.Mutex{}
@@ -2423,6 +2423,32 @@ func (me *VpcService) AttachEip(ctx context.Context, eipId, instanceId string) e
 	log.Printf("[DEBUG]%s api[%s] success, request body [%s], response body [%s]\n",
 		logId, request.GetAction(), request.ToJsonString(), response.ToJsonString())
 
+	// Wait for task completion if TaskId is returned
+	if response.Response.TaskId == nil {
+		return nil
+	}
+	taskId, err := strconv.ParseUint(*response.Response.TaskId, 10, 64)
+	if err != nil {
+		return nil
+	}
+
+	taskRequest := vpc.NewDescribeTaskResultRequest()
+	taskRequest.TaskId = &taskId
+	err = resource.Retry(readRetryTimeout, func() *resource.RetryError {
+		ratelimit.Check(taskRequest.GetAction())
+		taskResponse, err := me.client.UseVpcClient().DescribeTaskResult(taskRequest)
+		if err != nil {
+			return retryError(err)
+		}
+		if taskResponse.Response.Result != nil && *taskResponse.Response.Result == EIP_TASK_STATUS_RUNNING {
+			return resource.RetryableError(errors.New("eip attach task is running"))
+		}
+		return nil
+	})
+	if err != nil {
+		return err
+	}
+
 	return nil
 }
 
@@ -2613,6 +2639,37 @@ func (me *VpcService) UnattachEip(ctx context.Context, eipId string) error {
 		if outErr != nil {
 			return outErr
 		}
+		return nil
+	}
+
+	// DisassociateAddress Doesn't support Disassociate HAVIP Address
+	if (eip.BindResourceType != nil && *eip.BindResourceType == "BIND_HAVIP") ||
+		(eip.InstanceId != nil && strings.HasPrefix(*eip.InstanceId, "havip-")) {
+		request := vpc.NewHaVipDisassociateAddressIpRequest()
+		request.HaVipId = eip.InstanceId
+		ratelimit.Check(request.GetAction())
+		_, err := me.client.UseVpcClient().HaVipDisassociateAddressIp(request)
+		if err != nil {
+			log.Printf("[CRITAL]%s api[%s] fail, request body [%s], reason[%s]\n",
+				logId, request.GetAction(), request.ToJsonString(), err.Error())
+			return err
+		}
+
+		outErr := resource.Retry(readRetryTimeout*3, func() *resource.RetryError {
+			eip, err := me.DescribeEipById(ctx, eipId)
+			if err != nil {
+				return retryError(err)
+			}
+			if eip != nil && *eip.AddressStatus != EIP_STATUS_UNBIND {
+				return resource.RetryableError(fmt.Errorf("eip is still %s", EIP_STATUS_UNBIND))
+			}
+			return nil
+		})
+
+		if outErr != nil {
+			return outErr
+		}
+		return nil
 	}
 
 	request := vpc.NewDisassociateAddressRequest()
@@ -2748,7 +2805,7 @@ func (me *VpcService) CreateEni(
 					return resource.NonRetryableError(err)
 				}
 			}
-		} else {
+		} else if ipv4Count != nil {
 			if len(ipv4Set) != *ipv4Count {
 				err := fmt.Errorf("api[%s] doesn't assign enough ip", createRequest.GetAction())
 				log.Printf("[CRITAL]%s %v", logId, err)
@@ -2756,6 +2813,19 @@ func (me *VpcService) CreateEni(
 			}
 
 			wantIpv4 = make([]string, 0, *ipv4Count)
+			for _, ipv4 := range ipv4Set {
+				if ipv4.PrivateIpAddress == nil {
+					err := fmt.Errorf("api[%s] eni ipv4 ip is nil", createRequest.GetAction())
+					log.Printf("[CRITAL]%s %v", logId, err)
+					return resource.NonRetryableError(err)
+				}
+
+				wantIpv4 = append(wantIpv4, *ipv4.PrivateIpAddress)
+			}
+		} else {
+			// Auto-assign mode: both ipv4s and ipv4Count are nil
+			// Just collect the IPs assigned by the cloud
+			wantIpv4 = make([]string, 0, len(ipv4Set))
 			for _, ipv4 := range ipv4Set {
 				if ipv4.PrivateIpAddress == nil {
 					err := fmt.Errorf("api[%s] eni ipv4 ip is nil", createRequest.GetAction())
@@ -5120,7 +5190,6 @@ func (me *VpcService) DeleteVpnGatewaySslClient(ctx context.Context, SslClientId
 }
 */
 
-/*
 func (me *VpcService) CreateNatGatewaySnat(ctx context.Context, natGatewayId string, snat *vpc.SourceIpTranslationNatRule) (errRet error) {
 	logId := getLogId(ctx)
 	request := vpc.NewCreateNatGatewaySourceIpTranslationNatRuleRequest()
@@ -5151,9 +5220,7 @@ func (me *VpcService) CreateNatGatewaySnat(ctx context.Context, natGatewayId str
 	}
 	return
 }
-*/
 
-/*
 func (me *VpcService) ModifyNatGatewaySnat(ctx context.Context, natGatewayId string, snat *vpc.SourceIpTranslationNatRule) (errRet error) {
 	logId := getLogId(ctx)
 	request := vpc.NewModifyNatGatewaySourceIpTranslationNatRuleRequest()
@@ -5183,9 +5250,7 @@ func (me *VpcService) ModifyNatGatewaySnat(ctx context.Context, natGatewayId str
 	}
 	return
 }
-*/
 
-/*
 func (me *VpcService) DeleteNatGatewaySnat(ctx context.Context, natGatewayId string, snatId string) (errRet error) {
 	logId := getLogId(ctx)
 	request := vpc.NewDeleteNatGatewaySourceIpTranslationNatRuleRequest()
@@ -5207,9 +5272,7 @@ func (me *VpcService) DeleteNatGatewaySnat(ctx context.Context, natGatewayId str
 	})
 	return
 }
-*/
 
-/*
 func (me *VpcService) DescribeNatGatewaySnats(ctx context.Context, natGatewayId string, filters []*vpc.Filter) (errRet error, result []*vpc.SourceIpTranslationNatRule) {
 	logId := getLogId(ctx)
 	request := vpc.NewDescribeNatGatewaySourceIpTranslationNatRulesRequest()
@@ -5251,7 +5314,6 @@ func (me *VpcService) DescribeNatGatewaySnats(ctx context.Context, natGatewayId 
 		offset = offset + limit
 	}
 }
-*/
 
 func (me *VpcService) DescribeAssistantCidr(ctx context.Context, vpcId string) (info []*vpc.AssistantCidr, errRet error) {
 	logId := getLogId(ctx)
@@ -8264,6 +8326,498 @@ func (me *VpcService) ModifyDirectConnectGatewayAttribute(ctx context.Context, d
 	return
 }
 
+// Local IP Translation NAT Rule methods
+func (me *VpcService) CreateLocalIpTranslationNatRule(ctx context.Context, vpcId, directConnectGatewayId,
+	originalIp, translationIp, description string) (errRet error) {
+	logId := getLogId(ctx)
+
+	request := vpc.NewCreateLocalIpTranslationNatRuleRequest()
+	request.VpcId = &vpcId
+	request.DirectConnectGatewayId = &directConnectGatewayId
+
+	localIpTranslationNatRule := &vpc.LocalIpTranslationNatRule{
+		OriginalIp:    &originalIp,
+		TranslationIp: &translationIp,
+		Description:   &description,
+	}
+	request.LocalIpTranslationNatRuleSet = []*vpc.LocalIpTranslationNatRule{localIpTranslationNatRule}
+
+	defer func() {
+		if errRet != nil {
+			log.Printf("[CRITAL]%s api[%s] fail, request body [%s], reason[%s]\n",
+				logId, request.GetAction(), request.ToJsonString(), errRet.Error())
+		}
+	}()
+
+	ratelimit.Check(request.GetAction())
+
+	response, err := me.client.UseVpcClient().CreateLocalIpTranslationNatRule(request)
+	if err != nil {
+		errRet = err
+		return
+	}
+
+	if response.Response != nil && response.Response.TaskId != nil {
+		taskId := *response.Response.TaskId
+		log.Printf("[DEBUG]%s api[%s] success, task id: %d", logId, request.GetAction(), taskId)
+
+		// 等待任务完成
+		err = resource.Retry(5*readRetryTimeout, func() *resource.RetryError {
+			// 通过查询资源来确认任务是否完成
+			rule, e := me.DescribeLocalIpTranslationNatRule(ctx, vpcId, directConnectGatewayId, originalIp, translationIp)
+			if e != nil {
+				return resource.NonRetryableError(e)
+			}
+			if rule == nil {
+				return resource.RetryableError(fmt.Errorf("NAT rule not found, waiting for task completion"))
+			}
+			return nil
+		})
+		if err != nil {
+			errRet = err
+		}
+	}
+
+	return
+}
+
+func (me *VpcService) DescribeLocalIpTranslationNatRule(ctx context.Context, vpcId, directConnectGatewayId,
+	originalIp, translationIp string) (rule *vpc.LocalIpTranslationNatRule, errRet error) {
+	logId := getLogId(ctx)
+
+	request := vpc.NewDescribeLocalIpTranslationNatRulesRequest()
+	request.VpcId = &vpcId
+	request.DirectConnectGatewayId = &directConnectGatewayId
+
+	defer func() {
+		if errRet != nil {
+			log.Printf("[CRITAL]%s api[%s] fail, request body [%s], reason[%s]\n",
+				logId, request.GetAction(), request.ToJsonString(), errRet.Error())
+		}
+	}()
+
+	// 分页查询所有规则
+	var offset int64 = 0
+	var limit int64 = 100
+
+	for {
+		request.Offset = &offset
+		request.Limit = &limit
+
+		ratelimit.Check(request.GetAction())
+
+		response, err := me.client.UseVpcClient().DescribeLocalIpTranslationNatRules(request)
+		if err != nil {
+			errRet = err
+			return
+		}
+		log.Printf("[DEBUG]%s api[%s] success, request body [%s], response body [%s]\n",
+			logId, request.GetAction(), request.ToJsonString(), response.ToJsonString())
+
+		if response == nil || response.Response == nil {
+			break
+		}
+
+		// 在每页结果中查找匹配的规则
+		if response.Response.LocalIpTranslationNatRuleSet != nil {
+			for _, r := range response.Response.LocalIpTranslationNatRuleSet {
+				if r.OriginalIp != nil && *r.OriginalIp == originalIp &&
+					r.TranslationIp != nil && *r.TranslationIp == translationIp {
+					rule = r
+					return // 找到匹配规则，直接返回
+				}
+			}
+		}
+
+		// 检查是否还有更多数据
+		if response.Response.TotalCount == nil ||
+			offset+limit >= *response.Response.TotalCount {
+			break
+		}
+
+		offset += limit
+	}
+
+	return
+}
+
+func (me *VpcService) ModifyLocalIpTranslationNatRule(ctx context.Context, vpcId, directConnectGatewayId,
+	oldOriginalIp, oldTranslationIp, originalIp, translationIp, description string) (errRet error) {
+	logId := getLogId(ctx)
+
+	request := vpc.NewModifyLocalIpTranslationNatRuleRequest()
+	request.VpcId = &vpcId
+	request.DirectConnectGatewayId = &directConnectGatewayId
+	request.OldOriginalIp = &oldOriginalIp
+	request.OldTranslationIp = &oldTranslationIp
+	request.OriginalIp = &originalIp
+	request.TranslationIp = &translationIp
+	request.Description = &description
+
+	defer func() {
+		if errRet != nil {
+			log.Printf("[CRITAL]%s api[%s] fail, request body [%s], reason[%s]\n",
+				logId, request.GetAction(), request.ToJsonString(), errRet.Error())
+		}
+	}()
+
+	ratelimit.Check(request.GetAction())
+
+	response, err := me.client.UseVpcClient().ModifyLocalIpTranslationNatRule(request)
+	if err != nil {
+		errRet = err
+		return
+	}
+
+	if response.Response != nil && response.Response.TaskId != nil {
+		taskId := *response.Response.TaskId
+		log.Printf("[DEBUG]%s api[%s] success, task id: %d", logId, request.GetAction(), taskId)
+
+		// 等待任务完成
+		err = resource.Retry(writeRetryTimeout, func() *resource.RetryError {
+			// 通过查询资源来确认任务是否完成
+			rule, e := me.DescribeLocalIpTranslationNatRule(ctx, vpcId, directConnectGatewayId, originalIp, translationIp)
+			if e != nil {
+				return resource.NonRetryableError(e)
+			}
+			if rule == nil {
+				return resource.RetryableError(fmt.Errorf("NAT rule not found, waiting for task completion"))
+			}
+			// 检查是否已更新为新的值
+			if rule.OriginalIp != nil && *rule.OriginalIp == originalIp &&
+				rule.TranslationIp != nil && *rule.TranslationIp == translationIp &&
+				rule.Description != nil && *rule.Description == description {
+				return nil
+			}
+			return resource.RetryableError(fmt.Errorf("NAT rule not updated yet, waiting for task completion"))
+		})
+		if err != nil {
+			errRet = err
+		}
+	}
+
+	return
+}
+
+func (me *VpcService) DeleteLocalIpTranslationNatRule(ctx context.Context, vpcId, directConnectGatewayId,
+	originalIp, translationIp string) (errRet error) {
+	logId := getLogId(ctx)
+
+	request := vpc.NewDeleteLocalIpTranslationNatRuleRequest()
+	request.VpcId = &vpcId
+	request.DirectConnectGatewayId = &directConnectGatewayId
+
+	localIpTranslationNatRule := &vpc.LocalIpTranslationNatRule{
+		OriginalIp:    &originalIp,
+		TranslationIp: &translationIp,
+	}
+	request.LocalIpTranslationNatRuleSet = []*vpc.LocalIpTranslationNatRule{localIpTranslationNatRule}
+
+	defer func() {
+		if errRet != nil {
+			log.Printf("[CRITAL]%s api[%s] fail, request body [%s], reason[%s]\n",
+				logId, request.GetAction(), request.ToJsonString(), errRet.Error())
+		}
+	}()
+
+	ratelimit.Check(request.GetAction())
+
+	_, err := me.client.UseVpcClient().DeleteLocalIpTranslationNatRule(request)
+	if err != nil {
+		errRet = err
+	}
+	return
+}
+
+// Local IP Translation ACL Rule methods
+func (me *VpcService) CreateLocalIpTranslationAclRule(ctx context.Context, vpcId, directConnectGatewayId, originalIp, translationIp,
+	protocol, sourcePort, destinationPort, destinationCidr string) (aclRuleId int, errRet error) {
+	logId := getLogId(ctx)
+
+	request := vpc.NewCreateLocalIpTranslationAclRuleRequest()
+	request.VpcId = &vpcId
+	request.DirectConnectGatewayId = &directConnectGatewayId
+	request.OriginalIp = &originalIp
+	request.TranslationIp = &translationIp
+
+	localIpTranslationAclRule := &vpc.LocalIpTranslationAclRule{
+		Protocol:        &protocol,
+		SourcePort:      &sourcePort,
+		DestinationPort: &destinationPort,
+		DestinationCidr: &destinationCidr,
+	}
+	request.LocalIpTranslationAclRuleSet = []*vpc.LocalIpTranslationAclRule{localIpTranslationAclRule}
+
+	defer func() {
+		if errRet != nil {
+			log.Printf("[CRITAL]%s api[%s] fail, request body [%s], reason[%s]\n",
+				logId, request.GetAction(), request.ToJsonString(), errRet.Error())
+		}
+	}()
+
+	ratelimit.Check(request.GetAction())
+
+	response, err := me.client.UseVpcClient().CreateLocalIpTranslationAclRule(request)
+	if err != nil {
+		errRet = err
+		return
+	}
+
+	log.Printf("[DEBUG]%s api[%s] success, request body [%s], response body [%s]\n",
+		logId, request.GetAction(), request.ToJsonString(), response.ToJsonString())
+
+	// 等待任务完成并获取创建的ACL规则ID
+	err = resource.Retry(writeRetryTimeout, func() *resource.RetryError {
+		rule, e := me.DescribeLocalIpTranslationAclRuleByFilter(ctx, vpcId, directConnectGatewayId, originalIp,
+			translationIp, protocol, sourcePort, destinationPort, destinationCidr)
+		if e != nil {
+			return resource.NonRetryableError(e)
+		}
+		if rule == nil || rule.AclRuleId == nil {
+			return resource.RetryableError(fmt.Errorf("ACL rule not found, waiting for task completion"))
+		}
+		aclRuleId = int(*rule.AclRuleId)
+		return nil
+	})
+	if err != nil {
+		errRet = err
+	}
+
+	return
+}
+
+func (me *VpcService) DescribeLocalIpTranslationAclRule(ctx context.Context, vpcId, directConnectGatewayId,
+	originalIp, translationIp string, aclRuleId int) (rule *vpc.LocalIpTranslationAclRule, errRet error) {
+	logId := getLogId(ctx)
+
+	request := vpc.NewDescribeLocalIpTranslationAclRulesRequest()
+	request.VpcId = &vpcId
+	request.DirectConnectGatewayId = &directConnectGatewayId
+
+	defer func() {
+		if errRet != nil {
+			log.Printf("[CRITAL]%s api[%s] fail, request body [%s], reason[%s]\n",
+				logId, request.GetAction(), request.ToJsonString(), errRet.Error())
+		}
+	}()
+
+	// 分页查询所有规则
+	var offset int64 = 0
+	var limit int64 = 100
+
+	for {
+		request.Offset = &offset
+		request.Limit = &limit
+
+		ratelimit.Check(request.GetAction())
+
+		response, err := me.client.UseVpcClient().DescribeLocalIpTranslationAclRules(request)
+		if err != nil {
+			errRet = err
+			return
+		}
+		log.Printf("[DEBUG]%s api[%s] success, request body [%s], response body [%s]\n",
+			logId, request.GetAction(), request.ToJsonString(), response.ToJsonString())
+
+		if response == nil || response.Response == nil {
+			break
+		}
+
+		// 在每页结果中查找匹配的规则
+		if response.Response.LocalIpTranslationAclRuleSet != nil {
+			for _, r := range response.Response.LocalIpTranslationAclRuleSet {
+				if r.AclRuleId != nil && int(*r.AclRuleId) == aclRuleId {
+					rule = r
+					return // 找到匹配规则，直接返回
+				}
+			}
+		}
+
+		// 检查是否还有更多数据
+		if response.Response.TotalCount == nil ||
+			offset+limit >= *response.Response.TotalCount {
+			break
+		}
+
+		offset += limit
+	}
+
+	return
+}
+
+// normalizeCidr 规范化CIDR地址，处理腾讯云API返回格式不一致的问题
+// 输入: "18.0.0.66/32" 或 "18.0.0.66"
+// 输出: "18.0.0.66" (统一去掉/32后缀)
+func normalizeCidr(cidr string) string {
+	if strings.HasSuffix(cidr, "/32") {
+		return strings.TrimSuffix(cidr, "/32")
+	}
+	return cidr
+}
+
+func (me *VpcService) DescribeLocalIpTranslationAclRuleByFilter(ctx context.Context, vpcId, directConnectGatewayId, originalIp, translationIp,
+	protocol, sourcePort, destinationPort, destinationCidr string) (rule *vpc.LocalIpTranslationAclRule, errRet error) {
+	logId := getLogId(ctx)
+
+	request := vpc.NewDescribeLocalIpTranslationAclRulesRequest()
+	request.VpcId = &vpcId
+	request.DirectConnectGatewayId = &directConnectGatewayId
+
+	filters := []*vpc.Filter{
+		{
+			Name:   helper.String("original-ip"),
+			Values: []*string{&originalIp},
+		},
+		{
+			Name:   helper.String("translation-ip"),
+			Values: []*string{&translationIp},
+		},
+	}
+	request.Filters = filters
+
+	defer func() {
+		if errRet != nil {
+			log.Printf("[CRITAL]%s api[%s] fail, request body [%s], reason[%s]\n", logId, request.GetAction(), request.ToJsonString(), errRet.Error())
+		}
+	}()
+
+	// 分页查询所有规则
+	var offset int64 = 0
+	var limit int64 = 100
+
+	for {
+		request.Offset = &offset
+		request.Limit = &limit
+
+		ratelimit.Check(request.GetAction())
+
+		response, err := me.client.UseVpcClient().DescribeLocalIpTranslationAclRules(request)
+		if err != nil {
+			errRet = err
+			return
+		}
+		log.Printf("[DEBUG]%s api[%s] success, request body [%s], response body [%s]\n", logId, request.GetAction(), request.ToJsonString(), response.ToJsonString())
+
+		if response == nil || response.Response == nil {
+			break
+		}
+
+		// 在每页结果中查找匹配的规则
+		if response.Response.LocalIpTranslationAclRuleSet != nil {
+			for _, r := range response.Response.LocalIpTranslationAclRuleSet {
+				if r.Protocol != nil && *r.Protocol == protocol &&
+					r.SourcePort != nil && *r.SourcePort == sourcePort &&
+					r.DestinationPort != nil && *r.DestinationPort == destinationPort &&
+					r.DestinationCidr != nil && normalizeCidr(*r.DestinationCidr) == normalizeCidr(destinationCidr) {
+					rule = r
+					return
+				}
+			}
+		}
+
+		// 检查是否还有更多数据
+		if response.Response.TotalCount == nil ||
+			offset+limit >= *response.Response.TotalCount {
+			break
+		}
+
+		offset += limit
+	}
+
+	return
+}
+
+func (me *VpcService) ModifyLocalIpTranslationAclRule(ctx context.Context, vpcId, directConnectGatewayId, originalIp,
+	translationIp string, aclRuleId int, protocol, sourcePort, destinationPort, destinationCidr string) (errRet error) {
+	logId := getLogId(ctx)
+
+	request := vpc.NewModifyLocalIpTranslationAclRuleRequest()
+	request.VpcId = &vpcId
+	request.DirectConnectGatewayId = &directConnectGatewayId
+	request.OriginalIp = &originalIp
+	request.TranslationIp = &translationIp
+
+	aclRuleId64 := int64(aclRuleId)
+	localIpTranslationAclRule := &vpc.LocalIpTranslationAclRuleNeedId{
+		Protocol:        &protocol,
+		SourcePort:      &sourcePort,
+		DestinationPort: &destinationPort,
+		DestinationCidr: &destinationCidr,
+		AclRuleId:       &aclRuleId64,
+	}
+	request.LocalIpTranslationAclRuleSet = []*vpc.LocalIpTranslationAclRuleNeedId{localIpTranslationAclRule}
+
+	defer func() {
+		if errRet != nil {
+			log.Printf("[CRITAL]%s api[%s] fail, request body [%s], reason[%s]\n", logId, request.GetAction(), request.ToJsonString(), errRet.Error())
+		}
+	}()
+
+	ratelimit.Check(request.GetAction())
+
+	response, err := me.client.UseVpcClient().ModifyLocalIpTranslationAclRule(request)
+	if err != nil {
+		errRet = err
+		return
+	}
+
+	log.Printf("[DEBUG]%s api[%s] success, request body [%s], response body [%s]\n", logId, request.GetAction(), request.ToJsonString(), response.ToJsonString())
+
+	// 等待任务完成，通过查询资源确认更新
+	err = resource.Retry(writeRetryTimeout, func() *resource.RetryError {
+		rule, e := me.DescribeLocalIpTranslationAclRule(ctx, vpcId, directConnectGatewayId, originalIp, translationIp, aclRuleId)
+		if e != nil {
+			return resource.NonRetryableError(e)
+		}
+		if rule == nil {
+			return resource.RetryableError(fmt.Errorf("ACL rule not found, waiting for update completion"))
+		}
+		// 检查是否已更新为新的值
+		if rule.Protocol != nil && *rule.Protocol == protocol &&
+			rule.SourcePort != nil && *rule.SourcePort == sourcePort &&
+			rule.DestinationPort != nil && *rule.DestinationPort == destinationPort &&
+			rule.DestinationCidr != nil && normalizeCidr(*rule.DestinationCidr) == normalizeCidr(destinationCidr) {
+			return nil
+		}
+		return resource.RetryableError(fmt.Errorf("ACL rule not updated yet, waiting for update completion"))
+	})
+	if err != nil {
+		errRet = err
+	}
+
+	return
+}
+
+func (me *VpcService) DeleteLocalIpTranslationAclRule(ctx context.Context, vpcId, directConnectGatewayId, originalIp, translationIp string, aclRuleId int) (errRet error) {
+	logId := getLogId(ctx)
+
+	request := vpc.NewDeleteLocalIpTranslationAclRuleRequest()
+	request.VpcId = &vpcId
+	request.DirectConnectGatewayId = &directConnectGatewayId
+	request.OriginalIp = &originalIp
+	request.TranslationIp = &translationIp
+
+	aclRuleId64 := int64(aclRuleId)
+	aclRule := &vpc.AclRuleId{
+		AclRuleId: &aclRuleId64,
+	}
+	request.LocalIpTranslationAclRuleSet = []*vpc.AclRuleId{aclRule}
+
+	defer func() {
+		if errRet != nil {
+			log.Printf("[CRITAL]%s api[%s] fail, request body [%s], reason[%s]\n", logId, request.GetAction(), request.ToJsonString(), errRet.Error())
+		}
+	}()
+
+	ratelimit.Check(request.GetAction())
+
+	_, err := me.client.UseVpcClient().DeleteLocalIpTranslationAclRule(request)
+	if err != nil {
+		errRet = err
+	}
+	return
+}
+
 func (me *VpcService) DescribeVpcPeerConnectManagerById(ctx context.Context, peeringConnectionId string) (PeerConnectManager *vpc.PeerConnection, errRet error) {
 	logId := getLogId(ctx)
 
@@ -8338,5 +8892,873 @@ func (me *VpcService) DeleteVpcPeerConnectExManagerById(ctx context.Context, pee
 	}
 	log.Printf("[DEBUG]%s api[%s] success, request body [%s], response body [%s]\n", logId, request.GetAction(), request.ToJsonString(), response.ToJsonString())
 
+	return
+}
+
+// Peer IP Translation NAT Rule methods for IDC side
+func (me *VpcService) CreatePeerIpTranslationNatRule(ctx context.Context, vpcId, directConnectGatewayId, originalIp, translationIp, description string) (errRet error) {
+	logId := getLogId(ctx)
+
+	request := vpc.NewCreatePeerIpTranslationNatRuleRequest()
+	request.VpcId = &vpcId
+	request.DirectConnectGatewayId = &directConnectGatewayId
+
+	peerIpTranslationNatRule := &vpc.LocalIpTranslationNatRule{
+		OriginalIp:    &originalIp,
+		TranslationIp: &translationIp,
+		Description:   &description,
+	}
+	request.PeerIpTranslationNatRuleSet = []*vpc.LocalIpTranslationNatRule{peerIpTranslationNatRule}
+
+	defer func() {
+		if errRet != nil {
+			log.Printf("[CRITAL]%s api[%s] fail, request body [%s], reason[%s]\n", logId, request.GetAction(), request.ToJsonString(), errRet.Error())
+		}
+	}()
+
+	ratelimit.Check(request.GetAction())
+
+	response, err := me.client.UseVpcClient().CreatePeerIpTranslationNatRule(request)
+	if err != nil {
+		errRet = err
+		return
+	}
+
+	log.Printf("[DEBUG]%s api[%s] success, request body [%s], response body [%s]\n", logId, request.GetAction(), request.ToJsonString(), response.ToJsonString())
+
+	// IDC侧IP转换创建后需要等待一段时间确认成功
+	err = resource.Retry(5*readRetryTimeout, func() *resource.RetryError {
+		rule, e := me.DescribePeerIpTranslationNatRule(ctx, vpcId, directConnectGatewayId, originalIp, translationIp)
+		if e != nil {
+			return resource.NonRetryableError(e)
+		}
+		if rule == nil {
+			return resource.RetryableError(fmt.Errorf("Peer IP translation NAT rule not found, waiting for creation completion"))
+		}
+		return nil
+	})
+	if err != nil {
+		errRet = err
+	}
+
+	return
+}
+
+func (me *VpcService) DescribePeerIpTranslationNatRule(ctx context.Context, vpcId, directConnectGatewayId, originalIp, translationIp string) (rule *vpc.LocalIpTranslationNatRule, errRet error) {
+	logId := getLogId(ctx)
+
+	request := vpc.NewDescribePeerIpTranslationNatRulesRequest()
+	request.VpcId = &vpcId
+	request.DirectConnectGatewayId = &directConnectGatewayId
+
+	defer func() {
+		if errRet != nil {
+			log.Printf("[CRITAL]%s api[%s] fail, request body [%s], reason[%s]\n", logId, request.GetAction(), request.ToJsonString(), errRet.Error())
+		}
+	}()
+
+	// 分页查询所有规则
+	var offset int64 = 0
+	var limit int64 = 100
+
+	for {
+		request.Offset = &offset
+		request.Limit = &limit
+
+		ratelimit.Check(request.GetAction())
+
+		response, err := me.client.UseVpcClient().DescribePeerIpTranslationNatRules(request)
+		if err != nil {
+			errRet = err
+			return
+		}
+		log.Printf("[DEBUG]%s api[%s] success, request body [%s], response body [%s]\n", logId, request.GetAction(), request.ToJsonString(), response.ToJsonString())
+
+		if response == nil || response.Response == nil {
+			break
+		}
+
+		// 在每页结果中查找匹配的规则
+		if response.Response.PeerIpTranslationNatRuleSet != nil {
+			for _, r := range response.Response.PeerIpTranslationNatRuleSet {
+				if r.OriginalIp != nil && *r.OriginalIp == originalIp &&
+					r.TranslationIp != nil && *r.TranslationIp == translationIp {
+					rule = r
+					return // 找到匹配规则，直接返回
+				}
+			}
+		}
+
+		// 检查是否还有更多数据
+		if response.Response.TotalCount == nil ||
+			offset+limit >= *response.Response.TotalCount {
+			break
+		}
+
+		offset += limit
+	}
+
+	return
+}
+
+func (me *VpcService) ModifyPeerIpTranslationNatRule(ctx context.Context, vpcId, directConnectGatewayId, oldOriginalIp, oldTranslationIp, originalIp, translationIp, description string) (errRet error) {
+	logId := getLogId(ctx)
+
+	request := vpc.NewModifyPeerIpTranslationNatRuleRequest()
+	request.VpcId = &vpcId
+	request.DirectConnectGatewayId = &directConnectGatewayId
+	request.OldOriginalIp = &oldOriginalIp
+	request.OldTranslationIp = &oldTranslationIp
+	request.OriginalIp = &originalIp
+	request.TranslationIp = &translationIp
+	request.Description = &description
+
+	defer func() {
+		if errRet != nil {
+			log.Printf("[CRITAL]%s api[%s] fail, request body [%s], reason[%s]\n", logId, request.GetAction(), request.ToJsonString(), errRet.Error())
+		}
+	}()
+
+	ratelimit.Check(request.GetAction())
+
+	response, err := me.client.UseVpcClient().ModifyPeerIpTranslationNatRule(request)
+	if err != nil {
+		errRet = err
+		return
+	}
+
+	log.Printf("[DEBUG]%s api[%s] success, request body [%s], response body [%s]\n", logId, request.GetAction(), request.ToJsonString(), response.ToJsonString())
+
+	// 等待修改完成，通过查询资源确认更新
+	err = resource.Retry(writeRetryTimeout, func() *resource.RetryError {
+		rule, e := me.DescribePeerIpTranslationNatRule(ctx, vpcId, directConnectGatewayId, originalIp, translationIp)
+		if e != nil {
+			return resource.NonRetryableError(e)
+		}
+		if rule == nil {
+			return resource.RetryableError(fmt.Errorf("Peer IP translation NAT rule not found, waiting for update completion"))
+		}
+		// 检查是否已更新为新的值
+		if rule.OriginalIp != nil && *rule.OriginalIp == originalIp &&
+			rule.TranslationIp != nil && *rule.TranslationIp == translationIp &&
+			rule.Description != nil && *rule.Description == description {
+			return nil
+		}
+		return resource.RetryableError(fmt.Errorf("Peer IP translation NAT rule not updated yet, waiting for update completion"))
+	})
+	if err != nil {
+		errRet = err
+	}
+
+	return
+}
+
+func (me *VpcService) DeletePeerIpTranslationNatRule(ctx context.Context, vpcId, directConnectGatewayId, originalIp, translationIp string) (errRet error) {
+	logId := getLogId(ctx)
+
+	request := vpc.NewDeletePeerIpTranslationNatRuleRequest()
+	request.VpcId = &vpcId
+	request.DirectConnectGatewayId = &directConnectGatewayId
+
+	peerIpTranslationNatRule := &vpc.LocalIpTranslationNatRule{
+		OriginalIp:    &originalIp,
+		TranslationIp: &translationIp,
+	}
+	request.PeerIpTranslationNatRuleSet = []*vpc.LocalIpTranslationNatRule{peerIpTranslationNatRule}
+
+	defer func() {
+		if errRet != nil {
+			log.Printf("[CRITAL]%s api[%s] fail, request body [%s], reason[%s]\n", logId, request.GetAction(), request.ToJsonString(), errRet.Error())
+		}
+	}()
+
+	ratelimit.Check(request.GetAction())
+
+	_, err := me.client.UseVpcClient().DeletePeerIpTranslationNatRule(request)
+	if err != nil {
+		errRet = err
+	}
+	return
+}
+
+// CreateLocalSourceIpPortTranslationNatRule 创建本地源IP端口转换NAT规则
+func (me *VpcService) CreateLocalSourceIpPortTranslationNatRule(ctx context.Context, vpcId, directConnectGatewayId, ipPool, description string) (errRet error) {
+	logId := getLogId(ctx)
+
+	request := vpc.NewCreateLocalSourceIpPortTranslationNatRuleRequest()
+	request.VpcId = &vpcId
+	request.DirectConnectGatewayId = &directConnectGatewayId
+
+	localSourceIpPortTranslationNatRule := &vpc.LocalSourceIpPortTranslationNatRule{
+		IpPool:      &ipPool,
+		Description: &description,
+	}
+	request.LocalSourceIpPortTranslationNatRuleSet = []*vpc.LocalSourceIpPortTranslationNatRule{localSourceIpPortTranslationNatRule}
+
+	defer func() {
+		if errRet != nil {
+			log.Printf("[CRITAL]%s api[%s] fail, request body [%s], reason[%s]\n", logId, request.GetAction(), request.ToJsonString(), errRet.Error())
+		}
+	}()
+
+	ratelimit.Check(request.GetAction())
+
+	response, err := me.client.UseVpcClient().CreateLocalSourceIpPortTranslationNatRule(request)
+	if err != nil {
+		errRet = err
+		return
+	}
+
+	// 检查是否有TaskId，如果有则等待任务完成
+	if response.Response != nil && response.Response.TaskId != nil {
+		taskId := *response.Response.TaskId
+		log.Printf("[DEBUG]%s api[%s] success, task id: %d", logId, request.GetAction(), taskId)
+
+		// 等待任务完成，通过查询规则是否存在来确认
+		err = resource.Retry(5*time.Minute, func() *resource.RetryError {
+			rule, e := me.DescribeLocalSourceIpPortTranslationNatRule(ctx, vpcId, directConnectGatewayId, ipPool)
+			if e != nil {
+				return resource.NonRetryableError(e)
+			}
+			if rule == nil {
+				return resource.RetryableError(fmt.Errorf("Local source IP port translation NAT rule not found, waiting for task completion"))
+			}
+			return nil
+		})
+		if err != nil {
+			errRet = err
+		}
+	}
+
+	return
+}
+
+// DescribeLocalSourceIpPortTranslationNatRule 查询本地源IP端口转换NAT规则
+func (me *VpcService) DescribeLocalSourceIpPortTranslationNatRule(ctx context.Context, vpcId, directConnectGatewayId, ipPool string) (rule *vpc.LocalSourceIpPortTranslationNatRule, errRet error) {
+	logId := getLogId(ctx)
+
+	request := vpc.NewDescribeLocalSourceIpPortTranslationNatRulesRequest()
+	request.VpcId = &vpcId
+	request.DirectConnectGatewayId = &directConnectGatewayId
+
+	defer func() {
+		if errRet != nil {
+			log.Printf("[CRITAL]%s api[%s] fail, request body [%s], reason[%s]\n", logId, request.GetAction(), request.ToJsonString(), errRet.Error())
+		}
+	}()
+
+	// 使用分页查询所有规则
+	var offset int64 = 0
+	var limit int64 = 100
+
+	for {
+		request.Offset = &offset
+		request.Limit = &limit
+
+		ratelimit.Check(request.GetAction())
+
+		response, err := me.client.UseVpcClient().DescribeLocalSourceIpPortTranslationNatRules(request)
+		if err != nil {
+			errRet = err
+			return
+		}
+
+		// 在当前页结果中查找匹配的规则
+		if response.Response.LocalSourceIpPortTranslationNatRuleSet != nil {
+			for _, r := range response.Response.LocalSourceIpPortTranslationNatRuleSet {
+				if r.IpPool != nil && *r.IpPool == ipPool {
+					rule = r
+					return
+				}
+			}
+		}
+
+		// 检查是否还有更多数据
+		if response.Response.TotalCount == nil ||
+			offset+limit >= *response.Response.TotalCount {
+			break
+		}
+
+		offset += limit
+	}
+
+	return
+}
+
+// ModifyLocalSourceIpPortTranslationNatRule 修改本地源IP端口转换NAT规则
+func (me *VpcService) ModifyLocalSourceIpPortTranslationNatRule(ctx context.Context, vpcId, directConnectGatewayId, oldIpPool, newIpPool, description string) (errRet error) {
+	logId := getLogId(ctx)
+
+	request := vpc.NewModifyLocalSourceIpPortTranslationNatRuleRequest()
+	request.VpcId = &vpcId
+	request.DirectConnectGatewayId = &directConnectGatewayId
+
+	oldRule := &vpc.LocalSourceIpPortTranslationNatRule{
+		IpPool: &oldIpPool,
+	}
+	request.OldLocalSourceIpPortTranslationNatRule = oldRule
+
+	newRule := &vpc.LocalSourceIpPortTranslationNatRule{
+		IpPool:      &newIpPool,
+		Description: &description,
+	}
+	request.NewLocalSourceIpPortTranslationNatRule = newRule
+
+	defer func() {
+		if errRet != nil {
+			log.Printf("[CRITAL]%s api[%s] fail, request body [%s], reason[%s]\n", logId, request.GetAction(), request.ToJsonString(), errRet.Error())
+		}
+	}()
+
+	ratelimit.Check(request.GetAction())
+
+	response, err := me.client.UseVpcClient().ModifyLocalSourceIpPortTranslationNatRule(request)
+	if err != nil {
+		errRet = err
+		return
+	}
+
+	// 检查是否有TaskId，如果有则等待任务完成
+	if response.Response != nil && response.Response.TaskId != nil {
+		taskId := *response.Response.TaskId
+		log.Printf("[DEBUG]%s api[%s] success, task id: %d", logId, request.GetAction(), taskId)
+
+		// 等待任务完成并验证字段更新
+		err = resource.Retry(5*time.Minute, func() *resource.RetryError {
+			rule, e := me.DescribeLocalSourceIpPortTranslationNatRule(ctx, vpcId, directConnectGatewayId, newIpPool)
+			if e != nil {
+				return resource.NonRetryableError(e)
+			}
+			if rule == nil {
+				return resource.RetryableError(fmt.Errorf("Local source IP port translation NAT rule not found, waiting for task completion"))
+			}
+			// 验证所有字段都已更新
+			if rule.IpPool != nil && *rule.IpPool == newIpPool &&
+				rule.Description != nil && *rule.Description == description {
+				return nil
+			}
+			return resource.RetryableError(fmt.Errorf("Local source IP port translation NAT rule not updated yet, waiting for task completion"))
+		})
+		if err != nil {
+			errRet = err
+		}
+	}
+
+	return
+}
+
+// DeleteLocalSourceIpPortTranslationNatRule 删除本地源IP端口转换NAT规则
+func (me *VpcService) DeleteLocalSourceIpPortTranslationNatRule(ctx context.Context, vpcId, directConnectGatewayId, ipPool string) (errRet error) {
+	logId := getLogId(ctx)
+
+	request := vpc.NewDeleteLocalSourceIpPortTranslationNatRuleRequest()
+	request.VpcId = &vpcId
+	request.DirectConnectGatewayId = &directConnectGatewayId
+
+	localSourceIpPortTranslationNatRule := &vpc.LocalSourceIpPortTranslationNatRule{
+		IpPool: &ipPool,
+	}
+	request.LocalSourceIpPortTranslationNatRuleSet = []*vpc.LocalSourceIpPortTranslationNatRule{localSourceIpPortTranslationNatRule}
+
+	defer func() {
+		if errRet != nil {
+			log.Printf("[CRITAL]%s api[%s] fail, request body [%s], reason[%s]\n", logId, request.GetAction(), request.ToJsonString(), errRet.Error())
+		}
+	}()
+
+	ratelimit.Check(request.GetAction())
+
+	_, err := me.client.UseVpcClient().DeleteLocalSourceIpPortTranslationNatRule(request)
+	if err != nil {
+		errRet = err
+	}
+	return
+}
+
+// CreateLocalSourceIpPortTranslationAclRule 创建本地源IP端口转换ACL规则
+func (me *VpcService) CreateLocalSourceIpPortTranslationAclRule(ctx context.Context, vpcId, directConnectGatewayId, translationIpPool, protocol, sourcePort, sourceCidr, destinationPort, destinationCidr string) (aclRuleId int, errRet error) {
+	logId := getLogId(ctx)
+
+	request := vpc.NewCreateLocalSourceIpPortTranslationAclRuleRequest()
+	request.VpcId = &vpcId
+	request.DirectConnectGatewayId = &directConnectGatewayId
+	request.TranslationIpPool = &translationIpPool
+
+	// 默认动作为允许 (0)
+	action := int64(0)
+	normalizedSourceCidr := normalizeSingleIpCidr(sourceCidr)
+	normalizedDestinationCidr := normalizeSingleIpCidr(destinationCidr)
+	localSourceIpPortTranslationAclRule := &vpc.LocalSourceIpPortTranslationAclRule{
+		Protocol:        &protocol,
+		SourcePort:      &sourcePort,
+		SourceCidr:      &normalizedSourceCidr,
+		DestinationPort: &destinationPort,
+		DestinationCidr: &normalizedDestinationCidr,
+		Action:          &action,
+	}
+	request.LocalSourceIpPortTranslationAclRuleSet = []*vpc.LocalSourceIpPortTranslationAclRule{localSourceIpPortTranslationAclRule}
+
+	defer func() {
+		if errRet != nil {
+			log.Printf("[CRITAL]%s api[%s] fail, request body [%s], reason[%s]\n", logId, request.GetAction(), request.ToJsonString(), errRet.Error())
+		}
+	}()
+
+	ratelimit.Check(request.GetAction())
+
+	_, err := me.client.UseVpcClient().CreateLocalSourceIpPortTranslationAclRule(request)
+	if err != nil {
+		errRet = err
+		return
+	}
+
+	// 等待规则创建完成，通过查询规则来确认
+	err = resource.Retry(5*time.Minute, func() *resource.RetryError {
+		rules, e := me.DescribeLocalSourceIpPortTranslationAclRules(ctx, vpcId, directConnectGatewayId)
+		if e != nil {
+			return resource.NonRetryableError(e)
+		}
+
+		// 查找匹配的规则
+		for _, rule := range rules {
+			if rule.Protocol != nil && *rule.Protocol == protocol &&
+				rule.SourcePort != nil && *rule.SourcePort == sourcePort &&
+				rule.SourceCidr != nil && normalizeSingleIpCidr(*rule.SourceCidr) == normalizedSourceCidr &&
+				rule.DestinationPort != nil && *rule.DestinationPort == destinationPort &&
+				rule.DestinationCidr != nil && normalizeSingleIpCidr(*rule.DestinationCidr) == normalizedDestinationCidr {
+				if rule.AclRuleId != nil {
+					aclRuleId = int(*rule.AclRuleId)
+					return nil
+				}
+			}
+		}
+		return resource.RetryableError(fmt.Errorf("Local source IP port translation ACL rule not found, waiting for creation completion"))
+	})
+	if err != nil {
+		errRet = err
+	}
+
+	return
+}
+
+// DescribeLocalSourceIpPortTranslationAclRules 查询本地源IP端口转换ACL规则列表
+func (me *VpcService) DescribeLocalSourceIpPortTranslationAclRules(ctx context.Context, vpcId, directConnectGatewayId string) (rules []*vpc.LocalSourceIpPortTranslationAclRule, errRet error) {
+	logId := getLogId(ctx)
+
+	request := vpc.NewDescribeLocalSourceIpPortTranslationAclRulesRequest()
+	request.VpcId = &vpcId
+	request.DirectConnectGatewayId = &directConnectGatewayId
+
+	defer func() {
+		if errRet != nil {
+			log.Printf("[CRITAL]%s api[%s] fail, request body [%s], reason[%s]\n", logId, request.GetAction(), request.ToJsonString(), errRet.Error())
+		}
+	}()
+
+	// 使用分页查询所有规则
+	var offset int64 = 0
+	var limit int64 = 100
+
+	for {
+		request.Offset = &offset
+		request.Limit = &limit
+
+		ratelimit.Check(request.GetAction())
+
+		response, err := me.client.UseVpcClient().DescribeLocalSourceIpPortTranslationAclRules(request)
+		if err != nil {
+			errRet = err
+			return
+		}
+
+		// 收集当前页的规则
+		if response.Response.LocalSourceIpPortTranslationAclRuleSet != nil {
+			// ACL 规则本身不包含 TranslationIpPool 字段，无法进行本地过滤
+			// 直接返回所有查询到的规则
+			rules = append(rules, response.Response.LocalSourceIpPortTranslationAclRuleSet...)
+		}
+
+		// 检查是否还有更多数据
+		if response.Response.TotalCount == nil ||
+			offset+limit >= *response.Response.TotalCount {
+			break
+		}
+
+		offset += limit
+	}
+
+	return
+}
+
+// DescribeLocalSourceIpPortTranslationAclRule 查询特定的本地源IP端口转换ACL规则
+func (me *VpcService) DescribeLocalSourceIpPortTranslationAclRule(ctx context.Context, vpcId, directConnectGatewayId string, aclRuleId int) (rule *vpc.LocalSourceIpPortTranslationAclRule, errRet error) {
+	rules, err := me.DescribeLocalSourceIpPortTranslationAclRules(ctx, vpcId, directConnectGatewayId)
+	if err != nil {
+		errRet = err
+		return
+	}
+
+	// 查找匹配的规则
+	for _, r := range rules {
+		if r.AclRuleId != nil && int(*r.AclRuleId) == aclRuleId {
+			rule = r
+			return
+		}
+	}
+
+	return
+}
+
+// ModifyLocalSourceIpPortTranslationAclRule 修改本地源IP端口转换ACL规则
+func (me *VpcService) ModifyLocalSourceIpPortTranslationAclRule(ctx context.Context, vpcId, directConnectGatewayId, translationIpPool string, aclRuleId int, protocol, sourcePort, sourceCidr, destinationPort, destinationCidr string) (errRet error) {
+	logId := getLogId(ctx)
+
+	request := vpc.NewModifyLocalSourceIpPortTranslationAclRuleRequest()
+	request.VpcId = &vpcId
+	request.DirectConnectGatewayId = &directConnectGatewayId
+	request.TranslationIpPool = &translationIpPool
+
+	// 默认动作为允许 (0)
+	action := int64(0)
+	normalizedSourceCidr := normalizeSingleIpCidr(sourceCidr)
+	normalizedDestinationCidr := normalizeSingleIpCidr(destinationCidr)
+	aclRuleIdInt64 := int64(aclRuleId)
+	localSourceIpPortTranslationAclRule := &vpc.LocalSourceIpPortTranslationAclRuleNeedId{
+		Protocol:        &protocol,
+		SourcePort:      &sourcePort,
+		SourceCidr:      &normalizedSourceCidr,
+		DestinationPort: &destinationPort,
+		DestinationCidr: &normalizedDestinationCidr,
+		Action:          &action,
+		AclRuleId:       &aclRuleIdInt64,
+	}
+	request.LocalSourceIpPortTranslationAclRuleSet = []*vpc.LocalSourceIpPortTranslationAclRuleNeedId{localSourceIpPortTranslationAclRule}
+
+	defer func() {
+		if errRet != nil {
+			log.Printf("[CRITAL]%s api[%s] fail, request body [%s], reason[%s]\n", logId, request.GetAction(), request.ToJsonString(), errRet.Error())
+		}
+	}()
+
+	ratelimit.Check(request.GetAction())
+
+	_, err := me.client.UseVpcClient().ModifyLocalSourceIpPortTranslationAclRule(request)
+	if err != nil {
+		errRet = err
+		return
+	}
+
+	// 等待规则修改完成
+	err = resource.Retry(5*time.Minute, func() *resource.RetryError {
+		rule, e := me.DescribeLocalSourceIpPortTranslationAclRule(ctx, vpcId, directConnectGatewayId, aclRuleId)
+		if e != nil {
+			return resource.NonRetryableError(e)
+		}
+		if rule == nil {
+			return resource.RetryableError(fmt.Errorf("Local source IP port translation ACL rule not found, waiting for modification completion"))
+		}
+		// 验证所有字段都已更新
+		if rule.Protocol != nil && *rule.Protocol == protocol &&
+			rule.SourcePort != nil && *rule.SourcePort == sourcePort &&
+			rule.SourceCidr != nil && normalizeSingleIpCidr(*rule.SourceCidr) == normalizedSourceCidr &&
+			rule.DestinationPort != nil && *rule.DestinationPort == destinationPort &&
+			rule.DestinationCidr != nil && normalizeSingleIpCidr(*rule.DestinationCidr) == normalizedDestinationCidr {
+			return nil
+		}
+		return resource.RetryableError(fmt.Errorf("Local source IP port translation ACL rule not updated yet, waiting for modification completion"))
+	})
+	if err != nil {
+		errRet = err
+	}
+
+	return
+}
+
+// DeleteLocalSourceIpPortTranslationAclRule 删除本地源IP端口转换ACL规则
+func (me *VpcService) DeleteLocalSourceIpPortTranslationAclRule(ctx context.Context, vpcId, directConnectGatewayId, translationIpPool string, aclRuleId int) (errRet error) {
+	logId := getLogId(ctx)
+
+	request := vpc.NewDeleteLocalSourceIpPortTranslationAclRuleRequest()
+	request.VpcId = &vpcId
+	request.DirectConnectGatewayId = &directConnectGatewayId
+	request.TranslationIpPool = &translationIpPool
+
+	aclRuleIdInt64 := int64(aclRuleId)
+	aclRule := &vpc.AclRuleIdType{
+		AclRuleId: &aclRuleIdInt64,
+	}
+	request.LocalSourceIpPortTranslationAclRuleSet = []*vpc.AclRuleIdType{aclRule}
+
+	defer func() {
+		if errRet != nil {
+			log.Printf("[CRITAL]%s api[%s] fail, request body [%s], reason[%s]\n", logId, request.GetAction(), request.ToJsonString(), errRet.Error())
+		}
+	}()
+
+	ratelimit.Check(request.GetAction())
+
+	_, err := me.client.UseVpcClient().DeleteLocalSourceIpPortTranslationAclRule(request)
+	if err != nil {
+		errRet = err
+	}
+	return
+}
+
+// CreateLocalDestinationIpPortTranslationNatRule 创建本地目的IP端口转换NAT规则
+func (me *VpcService) CreateLocalDestinationIpPortTranslationNatRule(ctx context.Context, vpcId, directConnectGatewayId, protocol, originalIp, translationIp, description string, originalPort, translationPort int64) (errRet error) {
+	logId := getLogId(ctx)
+
+	request := vpc.NewCreateLocalDestinationIpPortTranslationNatRuleRequest()
+	request.VpcId = &vpcId
+	request.DirectConnectGatewayId = &directConnectGatewayId
+
+	localDestinationIpPortTranslationNatRule := &vpc.LocalDestinationIpPortTranslationNatRule{
+		Protocol:        &protocol,
+		OriginalIp:      &originalIp,
+		OriginalPort:    &originalPort,
+		TranslationIp:   &translationIp,
+		TranslationPort: &translationPort,
+		Description:     &description,
+	}
+	request.LocalDestinationIpPortTranslationNatRuleSet = []*vpc.LocalDestinationIpPortTranslationNatRule{localDestinationIpPortTranslationNatRule}
+
+	defer func() {
+		if errRet != nil {
+			log.Printf("[CRITAL]%s api[%s] fail, request body [%s], reason[%s]\n", logId, request.GetAction(), request.ToJsonString(), errRet.Error())
+		}
+	}()
+
+	ratelimit.Check(request.GetAction())
+
+	response, err := me.client.UseVpcClient().CreateLocalDestinationIpPortTranslationNatRule(request)
+	if err != nil {
+		errRet = err
+		return
+	}
+
+	// 检查是否有TaskId，如果有则等待任务完成
+	if response.Response != nil && response.Response.TaskId != nil {
+		taskId := *response.Response.TaskId
+		log.Printf("[DEBUG]%s api[%s] success, task id: %d", logId, request.GetAction(), taskId)
+
+		// 等待任务完成，通过查询规则是否存在来确认
+		err = resource.Retry(5*time.Minute, func() *resource.RetryError {
+			rule, e := me.DescribeLocalDestinationIpPortTranslationNatRule(ctx, vpcId, directConnectGatewayId, protocol, originalIp, originalPort)
+			if e != nil {
+				return resource.NonRetryableError(e)
+			}
+			if rule == nil {
+				return resource.RetryableError(fmt.Errorf("Local destination IP port translation NAT rule not found, waiting for task completion"))
+			}
+			return nil
+		})
+		if err != nil {
+			errRet = err
+		}
+	}
+
+	return
+}
+
+// DescribeLocalDestinationIpPortTranslationNatRule 查询本地目的IP端口转换NAT规则
+func (me *VpcService) DescribeLocalDestinationIpPortTranslationNatRule(ctx context.Context, vpcId, directConnectGatewayId, protocol, originalIp string, originalPort int64) (rule *vpc.LocalDestinationIpPortTranslationNatRule, errRet error) {
+	logId := getLogId(ctx)
+
+	request := vpc.NewDescribeLocalDestinationIpPortTranslationNatRulesRequest()
+	request.VpcId = &vpcId
+	request.DirectConnectGatewayId = &directConnectGatewayId
+
+	defer func() {
+		if errRet != nil {
+			log.Printf("[CRITAL]%s api[%s] fail, request body [%s], reason[%s]\n", logId, request.GetAction(), request.ToJsonString(), errRet.Error())
+		}
+	}()
+
+	// 使用分页查询所有规则
+	var offset int64 = 0
+	var limit int64 = 100
+
+	for {
+		request.Offset = &offset
+		request.Limit = &limit
+
+		ratelimit.Check(request.GetAction())
+
+		response, err := me.client.UseVpcClient().DescribeLocalDestinationIpPortTranslationNatRules(request)
+		if err != nil {
+			errRet = err
+			return
+		}
+
+		// 在当前页结果中查找匹配的规则
+		if response.Response.LocalDestinationIpPortTranslationNatRuleSet != nil {
+			for _, r := range response.Response.LocalDestinationIpPortTranslationNatRuleSet {
+				if r.Protocol != nil && *r.Protocol == protocol &&
+					r.OriginalIp != nil && *r.OriginalIp == originalIp &&
+					r.OriginalPort != nil && *r.OriginalPort == originalPort {
+					rule = r
+					return
+				}
+			}
+		}
+
+		// 检查是否还有更多数据
+		if response.Response.TotalCount == nil ||
+			offset+limit >= *response.Response.TotalCount {
+			break
+		}
+
+		offset += limit
+	}
+
+	return
+}
+
+// ModifyLocalDestinationIpPortTranslationNatRule 修改本地目的IP端口转换NAT规则
+func (me *VpcService) ModifyLocalDestinationIpPortTranslationNatRule(ctx context.Context, vpcId, directConnectGatewayId,
+	oldProtocol, oldOriginalIp, oldTranslationIp, newProtocol, newOriginalIp, newTranslationIp, description string,
+	oldOriginalPort, newOriginalPort, newTranslationPort, oldTranslationPort int64) (errRet error) {
+	logId := getLogId(ctx)
+
+	request := vpc.NewModifyLocalDestinationIpPortTranslationNatRuleRequest()
+	request.VpcId = &vpcId
+	request.DirectConnectGatewayId = &directConnectGatewayId
+	request.OldProtocol = &oldProtocol
+	request.OldOriginalIp = &oldOriginalIp
+	request.OldTranslationIp = &oldTranslationIp
+	request.OldOriginalPort = &oldOriginalPort
+	request.OldTranslationPort = &oldTranslationPort
+	request.Protocol = &newProtocol
+	request.OriginalIp = &newOriginalIp
+	request.OriginalPort = &newOriginalPort
+	request.TranslationIp = &newTranslationIp
+	request.TranslationPort = &newTranslationPort
+	request.Description = &description
+
+	defer func() {
+		if errRet != nil {
+			log.Printf("[CRITAL]%s api[%s] fail, request body [%s], reason[%s]\n", logId, request.GetAction(), request.ToJsonString(), errRet.Error())
+		}
+	}()
+
+	ratelimit.Check(request.GetAction())
+
+	response, err := me.client.UseVpcClient().ModifyLocalDestinationIpPortTranslationNatRule(request)
+	if err != nil {
+		errRet = err
+		return
+	}
+
+	// 检查是否有TaskId，如果有则等待任务完成
+	if response.Response != nil && response.Response.TaskId != nil {
+		taskId := *response.Response.TaskId
+		log.Printf("[DEBUG]%s api[%s] success, task id: %d", logId, request.GetAction(), taskId)
+
+		// 等待任务完成并验证字段更新
+		err = resource.Retry(5*time.Minute, func() *resource.RetryError {
+			rule, e := me.DescribeLocalDestinationIpPortTranslationNatRule(ctx, vpcId, directConnectGatewayId, newProtocol, newOriginalIp, newOriginalPort)
+			if e != nil {
+				return resource.NonRetryableError(e)
+			}
+			if rule == nil {
+				return resource.RetryableError(fmt.Errorf("Local destination IP port translation NAT rule not found, waiting for task completion"))
+			}
+			// 验证所有字段都已更新
+			if rule.Protocol != nil && *rule.Protocol == newProtocol &&
+				rule.OriginalIp != nil && *rule.OriginalIp == newOriginalIp &&
+				rule.OriginalPort != nil && *rule.OriginalPort == newOriginalPort &&
+				rule.TranslationIp != nil && *rule.TranslationIp == newTranslationIp &&
+				rule.TranslationPort != nil && *rule.TranslationPort == newTranslationPort &&
+				rule.Description != nil && *rule.Description == description {
+				return nil
+			}
+			return resource.RetryableError(fmt.Errorf("Local destination IP port translation NAT rule not updated yet, waiting for task completion"))
+		})
+		if err != nil {
+			errRet = err
+		}
+	}
+
+	return
+}
+
+// DeleteLocalDestinationIpPortTranslationNatRule 删除本地目的IP端口转换NAT规则
+func (me *VpcService) DeleteLocalDestinationIpPortTranslationNatRule(ctx context.Context, vpcId, directConnectGatewayId,
+	protocol, originalIp string, originalPort int64, translationIp string, translationPort int64, description *string) (errRet error) {
+	logId := getLogId(ctx)
+
+	request := vpc.NewDeleteLocalDestinationIpPortTranslationNatRuleRequest()
+	request.VpcId = &vpcId
+	request.DirectConnectGatewayId = &directConnectGatewayId
+
+	localDestinationIpPortTranslationNatRule := &vpc.LocalDestinationIpPortTranslationNatRule{
+		Protocol:        &protocol,
+		OriginalIp:      &originalIp,
+		OriginalPort:    &originalPort,
+		TranslationPort: &translationPort,
+		TranslationIp:   &translationIp,
+	}
+	if description != nil {
+		localDestinationIpPortTranslationNatRule.Description = description
+	}
+	request.LocalDestinationIpPortTranslationNatRuleSet = []*vpc.LocalDestinationIpPortTranslationNatRule{localDestinationIpPortTranslationNatRule}
+
+	defer func() {
+		if errRet != nil {
+			log.Printf("[CRITAL]%s api[%s] fail, request body [%s], reason[%s]\n", logId, request.GetAction(), request.ToJsonString(), errRet.Error())
+		}
+	}()
+
+	ratelimit.Check(request.GetAction())
+
+	_, err := me.client.UseVpcClient().DeleteLocalDestinationIpPortTranslationNatRule(request)
+	if err != nil {
+		errRet = err
+	}
+	return
+}
+
+func (me *VpcService) DescribeAddressesByFilter(ctx context.Context, filters map[string]string) (addresses []*vpc.Address, errRet error) {
+	logId := getLogId(ctx)
+	request := vpc.NewDescribeAddressesRequest()
+
+	if len(filters) > 0 {
+		request.Filters = make([]*vpc.Filter, 0, len(filters))
+		for k, v := range filters {
+			filter := &vpc.Filter{
+				Name:   helper.String(k),
+				Values: []*string{helper.String(v)},
+			}
+			request.Filters = append(request.Filters, filter)
+		}
+	}
+
+	var offset int64 = 0
+	var pageSize int64 = 100
+	addresses = make([]*vpc.Address, 0)
+
+	for {
+		request.Offset = &offset
+		request.Limit = &pageSize
+		ratelimit.Check(request.GetAction())
+		response, err := me.client.UseVpcClient().DescribeAddresses(request)
+		if err != nil {
+			log.Printf("[CRITAL]%s api[%s] fail, request body [%s], reason[%s]\n",
+				logId, request.GetAction(), request.ToJsonString(), err.Error())
+			errRet = err
+			return
+		}
+		log.Printf("[DEBUG]%s api[%s] success, request body [%s], response body [%s]\n",
+			logId, request.GetAction(), request.ToJsonString(), response.ToJsonString())
+
+		if response.Response == nil || len(response.Response.AddressSet) < 1 {
+			break
+		}
+		addresses = append(addresses, response.Response.AddressSet...)
+		if len(response.Response.AddressSet) < int(pageSize) {
+			break
+		}
+		offset += pageSize
+	}
 	return
 }

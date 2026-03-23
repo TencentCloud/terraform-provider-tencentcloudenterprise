@@ -1,7 +1,7 @@
 /*
 Use this data source to query detailed information of cfs available_zone
 
-# Example Usage
+Example Usage
 
 ```hcl
 data "tencentcloudenterprise_cfs_available_zone" "available_zone" {}
@@ -12,10 +12,10 @@ package tencentcloud
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	cfs "terraform-provider-tencentcloudenterprise/sdk/cfs/v20190719"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func init() {
@@ -100,8 +100,8 @@ func dataSourceTencentCloudCfsAvailableZone() *schema.Resource {
 													Elem: &schema.Resource{
 														Schema: map[string]*schema.Schema{
 															"sale_status": {
-																Type:        schema.TypeString,
-																Computed:    true,
+																Type:     schema.TypeString,
+																Computed: true,
 																Description: "	Sale status. Valid values: sale_out (sold out), saling (purchasable), no_saling (non-purchasable).",
 															},
 															"protocol": {

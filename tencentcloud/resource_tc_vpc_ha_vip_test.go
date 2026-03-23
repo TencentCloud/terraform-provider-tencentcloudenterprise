@@ -3,16 +3,16 @@ package tencentcloud
 import (
 	"context"
 	"fmt"
+	sdkErrors "terraform-provider-tencentcloudenterprise/sdk/common/errors"
 	"log"
 	"strings"
-	sdkErrors "terraform-provider-tencentcloudenterprise/sdk/common/errors"
 	"testing"
 	"time"
 
+	vpc "terraform-provider-tencentcloudenterprise/sdk/vpc/v20170312"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 	"github.com/pkg/errors"
-	vpc "terraform-provider-tencentcloudenterprise/sdk/vpc/v20170312"
 )
 
 func init() {
@@ -226,6 +226,6 @@ resource "tencentcloudenterprise_vpc_ha_vip" "havip" {
   name      = "terraform_test"
   vpc_id    = var.vpc_id
   subnet_id = var.subnet_id
-  vip       = "203.0.113.137"
+  vip       = "172.16.0.137"
 }
 `

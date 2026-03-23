@@ -1,19 +1,17 @@
 /*
 Provides a resource to create a CLB customized config.
 
-# Example Usage
+Example Usage
 
 ```hcl
-
-	resource "tencentcloudenterprise_clb_customized_config" "foo" {
-	  config_content = "client_max_body_size 224M;\r\nclient_body_timeout 60s;"
-	  config_name    = "helloWorld"
-	  load_balancer_ids = [
-	    "${tencentcloudenterprise_clb_instance.internal_clb.id}",
-	    "${tencentcloudenterprise_clb_instance.internal_clb2.id}",
-	  ]
-	}
-
+resource "tencentcloudenterprise_clb_customized_config" "foo" {
+  config_content = "client_max_body_size 224M;\r\nclient_body_timeout 60s;"
+  config_name    = "helloWorld"
+  load_balancer_ids = [
+    "${tencentcloudenterprise_clb_instance.internal_clb.id}",
+    "${tencentcloudenterprise_clb_instance.internal_clb2.id}",
+  ]
+}
 ```
 Import
 
@@ -29,11 +27,11 @@ import (
 	"context"
 	"log"
 
+	clb "terraform-provider-tencentcloudenterprise/sdk/clb/v20180317"
+	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/pkg/errors"
-	clb "terraform-provider-tencentcloudenterprise/sdk/clb/v20180317"
-	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
 )
 
 func init() {

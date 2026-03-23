@@ -1,40 +1,36 @@
 /*
 Provide a resource to create a VPC.
 
-# Example Usage
+Example Usage
 
 ```hcl
+resource "tencentcloudenterprise_vpc" "foo" {
+  name         = "ci-temp-test-updated"
+  cidr_block   = "10.0.0.0/16"
+  dns_servers  = ["119.29.29.29", "8.8.8.8"]
+  is_multicast = false
 
-	resource "tencentcloudenterprise_vpc" "foo" {
-	  name         = "ci-temp-test-updated"
-	  cidr_block   = "10.0.0.0/16"
-	  dns_servers  = ["203.0.113.29", "8.8.8.8"]
-	  is_multicast = false
-
-	  tags = {
-	    "test" = "test"
-	  }
-	}
-
+  tags = {
+    "test" = "test"
+  }
+}
 ```
 
 Using Assistant CIDR
 ```hcl
+resource "tencentcloudenterprise_vpc" "foo" {
+  name            = "ci-temp-test-updated"
+  cidr_block      = "10.0.0.0/16"
+  is_multicast    = false
+  assistant_cidrs = ["172.16.0.0/24"]
 
-	resource "tencentcloudenterprise_vpc" "foo" {
-	  name            = "ci-temp-test-updated"
-	  cidr_block      = "10.0.0.0/16"
-	  is_multicast    = false
-	  assistant_cidrs = ["172.16.0.0/24"]
-
-	  tags = {
-	    "test" = "test"
-	  }
-	}
-
+  tags = {
+    "test" = "test"
+  }
+}
 ```
 
-# Import
+Import
 
 Vpc instance can be imported, e.g.
 
@@ -52,10 +48,10 @@ import (
 
 	vpc "terraform-provider-tencentcloudenterprise/sdk/vpc/v20170312"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"terraform-provider-tencentcloudenterprise/sdk/common/errors"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func init() {

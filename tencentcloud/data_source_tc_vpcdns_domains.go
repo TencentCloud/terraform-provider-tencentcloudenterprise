@@ -1,7 +1,7 @@
 /*
 Provide a resource to query VPCDNS domain.
 
-# Example Usage
+Example Usage
 
 ```hcl
 
@@ -24,10 +24,10 @@ package tencentcloud
 import (
 	"errors"
 	"fmt"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	vpcdns "terraform-provider-tencentcloudenterprise/sdk/vpcdns/v20191025"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func init() {

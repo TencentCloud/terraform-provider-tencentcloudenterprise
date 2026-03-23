@@ -1,24 +1,23 @@
 /*
 Provides a resource to create a ckafka datahub_topic
 
-# Example Usage
+Example Usage
 
 ```hcl
 data "tencentcloudenterprise_user_info" "user" {}
 
-	resource "tencentcloudenterprise_ckafka_datahub_topic" "datahub_topic" {
-	  name = format("%s-tf", data.tencentcloudenterprise_user_info.user.app_id)
-	  partition_num = 20
-	  retention_ms = 60000
-	  note = "for test"
-	  tags = {
-	    "createdBy" = "terraform"
-	  }
-	}
-
+resource "tencentcloudenterprise_ckafka_datahub_topic" "datahub_topic" {
+  name = format("%s-tf", data.tencentcloudenterprise_user_info.user.app_id)
+  partition_num = 20
+  retention_ms = 60000
+  note = "for test"
+  tags = {
+    "createdBy" = "terraform"
+  }
+}
 ```
 
-# Import
+Import
 
 ckafka datahub_topic can be imported using the id, e.g.
 

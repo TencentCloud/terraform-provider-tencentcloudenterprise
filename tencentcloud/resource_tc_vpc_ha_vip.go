@@ -1,20 +1,18 @@
 /*
 Provides a resource to create a HA VIP.
 
-# Example Usage
+Example Usage
 
 ```hcl
-
-	resource "tencentcloudenterprise_vpc_ha_vip" "foo" {
-	  name      = "terraform_test"
-	  vpc_id    = "vpc-gzea3dd7"
-	  subnet_id = "subnet-4d4m4cd4s"
-	  vip       = "10.0.4.16"
-	}
-
+resource "tencentcloudenterprise_vpc_ha_vip" "foo" {
+  name      = "terraform_test"
+  vpc_id    = "vpc-gzea3dd7"
+  subnet_id = "subnet-4d4m4cd4s"
+  vip       = "10.0.4.16"
+}
 ```
 
-# Import
+Import
 
 HA VIP can be imported using the id, e.g.
 
@@ -28,12 +26,12 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	"github.com/pkg/errors"
 	sdkErrors "terraform-provider-tencentcloudenterprise/sdk/common/errors"
 	vpc "terraform-provider-tencentcloudenterprise/sdk/vpc/v20170312"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	"github.com/pkg/errors"
 )
 
 func init() {

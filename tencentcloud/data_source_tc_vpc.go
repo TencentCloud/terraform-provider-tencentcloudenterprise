@@ -5,7 +5,7 @@ This resource can prove useful when a module accepts a vpc id as an input variab
 
 ~> **NOTE:** It has been deprecated and replaced by tencentcloudenterprise_vpc_instances.
 
-# Example Usage
+Example Usage
 
 ```hcl
 variable "vpc_id" {}
@@ -47,7 +47,7 @@ func init() {
 
 func dataSourceTencentCloudVpc() *schema.Resource {
 	return &schema.Resource{
-		DeprecationMessage: "This data source has been deprecated in Terraform TencentCloud provider version 1.10.0. Please use 'cloud_vpc_instances' instead.",
+		DeprecationMessage: "This data source has been deprecated in Terraform TencentCloud provider version 1.10.0. Please use 'tencentcloudenterprise_vpc_instances' instead.",
 		Read:               dataSourceTencentCloudVpcRead,
 
 		Schema: map[string]*schema.Schema{

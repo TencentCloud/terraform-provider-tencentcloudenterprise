@@ -1,7 +1,7 @@
 /*
 Use this data source to query instances type.
 
-# Example Usage
+Example Usage
 
 ```hcl
 
@@ -11,7 +11,7 @@ Use this data source to query instances type.
 	  memory_size       = 4
 	}
 
-	data cloud_cvm_instance_types "t1c1g" {
+	data tencentcloudenterprise_cvm_instance_types "t1c1g" {
 	  cpu_core_count    = 1
 	  memory_size       = 1
 	  exclude_sold_out=true
@@ -33,10 +33,10 @@ import (
 	"context"
 	"log"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	cvm "terraform-provider-tencentcloudenterprise/sdk/cvm/v20170312"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func init() {

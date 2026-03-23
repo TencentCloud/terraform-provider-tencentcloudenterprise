@@ -1,16 +1,14 @@
-// /*
-// Use this data source to query detailed information of redis instance_zone_info
+///*
+//Use this data source to query detailed information of redis instance_zone_info
 //
-// # Example Usage
+//Example Usage
 //
-// ```hcl
-//
-//	data "tencentcloudenterprise_redis_instance_zone_info" "instance_zone_info" {
-//	 instance_id = "crs-c1nl9rpv"
-//	}
-//
-// ```
-// */
+//```hcl
+//data "tencentcloudenterprise_redis_instance_zone_info" "instance_zone_info" {
+//  instance_id = "crs-c1nl9rpv"
+//}
+//```
+//*/
 package tencentcloud
 
 // 专有云不支持此接口

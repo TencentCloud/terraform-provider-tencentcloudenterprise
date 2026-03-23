@@ -3,10 +3,9 @@ package main
 import (
 	"context"
 	"flag"
-	"log"
 	"terraform-provider-tencentcloudenterprise/tencentcloud"
-
 	"github.com/hashicorp/terraform-plugin-sdk/v2/plugin"
+	"log"
 )
 
 func main() {
@@ -16,7 +15,7 @@ func main() {
 	flag.Parse()
 
 	if debugMode {
-		err := plugin.Debug(context.Background(), "",
+		err := plugin.Debug(context.Background(), "registry.terraform.io/tencentcloudstack/tencentcloud",
 			&plugin.ServeOpts{
 				ProviderFunc: tencentcloud.Provider,
 			})

@@ -1,31 +1,29 @@
 /*
 Provides a resource to create a tdmqRocketmq topic
 
-# Example Usage
+Example Usage
 
 ```hcl
+resource "tencentcloudenterprise_tdmq_rocketmq_cluster" "cluster" {
+	cluster_name = "test_rocketmq"
+	remark = "test recket mq"
+}
 
-	resource "tencentcloudenterprise_tdmq_rocketmq_cluster" "cluster" {
-		cluster_name = "test_rocketmq"
-		remark = "test recket mq"
-	}
+resource "tencentcloudenterprise_tdmq_rocketmq_namespace" "namespace" {
+  cluster_id = tencentcloudenterprise_tdmq_rocketmq_cluster.cluster.cluster_id
+  namespace_name = "test_namespace"
+  ttl = 65000
+  retention_time = 65000
+  remark = "test namespace"
+}
 
-	resource "tencentcloudenterprise_tdmq_rocketmq_namespace" "namespace" {
-	  cluster_id = tencentcloudenterprise_tdmq_rocketmq_cluster.cluster.cluster_id
-	  namespace_name = "test_namespace"
-	  ttl = 65000
-	  retention_time = 65000
-	  remark = "test namespace"
-	}
-
-	resource "tencentcloudenterprise_tdmq_rocketmq_topic" "topic" {
-	  topic_name = "test_rocketmq_topic"
-	  namespace_name = tencentcloudenterprise_tdmq_rocketmq_namespace.namespace.namespace_name
-	  type = "Normal"
-	  cluster_id = tencentcloudenterprise_tdmq_rocketmq_cluster.cluster.cluster_id
-	  remark = "test rocketmq topic"
-	}
-
+resource "tencentcloudenterprise_tdmq_rocketmq_topic" "topic" {
+  topic_name = "test_rocketmq_topic"
+  namespace_name = tencentcloudenterprise_tdmq_rocketmq_namespace.namespace.namespace_name
+  type = "Normal"
+  cluster_id = tencentcloudenterprise_tdmq_rocketmq_cluster.cluster.cluster_id
+  remark = "test rocketmq topic"
+}
 ```
 Import
 
@@ -42,10 +40,10 @@ import (
 	"log"
 	"strings"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	tdmqRocketmq "terraform-provider-tencentcloudenterprise/sdk/tdmq/v20200217"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func init() {

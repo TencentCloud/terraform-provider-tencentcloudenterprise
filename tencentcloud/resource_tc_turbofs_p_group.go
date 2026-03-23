@@ -1,18 +1,16 @@
 /*
 Provides a resource to create a TurboFS permission group.
 
-# Example Usage
+Example Usage
 
 ```hcl
-
 	resource "tencentcloudenterprise_turbofs_p_group" "foo" {
 	  name        = "test_p_group"
 	  desc_info = "test"
 	}
-
 ```
 
-# Import
+Import
 
 TurboFS permission group can be imported using the id, e.g.
 
@@ -26,11 +24,11 @@ import (
 	"context"
 	"log"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	turbofs "terraform-provider-tencentcloudenterprise/sdk/turbofs/v20190719"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/ratelimit"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func init() {
@@ -43,7 +41,7 @@ func init() {
 			"create_time":  "创建时间",
 			"p_group_id":   "分组Id",
 			"bind_cfs_num": "权限组关联文件系统个数",
-			"c_date":       "权限组创建时间",
+			"c_date":		"权限组创建时间",
 		},
 	})
 }
@@ -60,15 +58,15 @@ func resourceTencentCloudTurbofsPGroup() *schema.Resource {
 
 		Schema: map[string]*schema.Schema{
 			"name": {
-				Type:        schema.TypeString,
-				Required:    true,
-				Description: "Name of the permission group",
+				Type:         schema.TypeString,
+				Required:     true,
+				Description:  "Name of the permission group",
 			},
 			"desc_info": {
-				Type:        schema.TypeString,
-				Optional:    true,
-				Computed:    true,
-				Description: "Description of the permission group.",
+				Type:         schema.TypeString,
+				Optional:     true,
+				Computed:	  true,
+				Description:  "Description of the permission group.",
 			},
 			"c_date": {
 				Type:        schema.TypeString,
@@ -81,8 +79,8 @@ func resourceTencentCloudTurbofsPGroup() *schema.Resource {
 				Description: "Id of the permission group.",
 			},
 			"bind_cfs_num": {
-				Type:        schema.TypeInt,
-				Computed:    true,
+				Type:	schema.TypeInt,
+				Computed: true,
 				Description: "The number of file systems associated with the permission group.",
 			},
 		},

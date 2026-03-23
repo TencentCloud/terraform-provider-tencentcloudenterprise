@@ -3,53 +3,50 @@ Provides a resource to create a configuration for an AS (Auto scaling) instance.
 
 ~> **NOTE:**  In order to ensure the integrity of customer data, if the cvm instance was destroyed due to shrinking, it will keep the cbs associate with cvm by default. If you want to destroy together, please set `delete_with_instance` to `true`.
 
-# Example Usage
+
+Example Usage
 
 ```hcl
+resource "tencentcloudenterprise_as_scaling_config" "launch_configuration" {
+  configuration_name = "launch-configuration"
+  image_id           = "img-9qabwvbn"
+  instance_types     = ["SA1.SMALL1"]
+  project_id         = 0
+  system_disk_type   = "CLOUD_PREMIUM"
+  system_disk_size   = "50"
 
-	resource "tencentcloudenterprise_as_scaling_config" "launch_configuration" {
-	  configuration_name = "launch-configuration"
-	  image_id           = "img-9qabwvbn"
-	  instance_types     = ["SA1.SMALL1"]
-	  project_id         = 0
-	  system_disk_type   = "CLOUD_PREMIUM"
-	  system_disk_size   = "50"
+  data_disk {
+    disk_type = "CLOUD_PREMIUM"
+    disk_size = 50
+  }
 
-	  data_disk {
-	    disk_type = "CLOUD_PREMIUM"
-	    disk_size = 50
-	  }
+  internet_charge_type       = "TRAFFIC_POSTPAID_BY_HOUR"
+  internet_max_bandwidth_out = 10
+  public_ip_assigned         = true
+  password                   = "test123#"
+  enhanced_security_service  = false
+  enhanced_monitor_service   = false
+  user_data                  = "dGVzdA=="
 
-	  internet_charge_type       = "TRAFFIC_POSTPAID_BY_HOUR"
-	  internet_max_bandwidth_out = 10
-	  public_ip_assigned         = true
-	  password                   = "test123#"
-	  enhanced_security_service  = false
-	  enhanced_monitor_service   = false
-	  user_data                  = "dGVzdA=="
-
-	  instance_tags = {
-	    tag = "as"
-	  }
-	}
-
+  instance_tags = {
+    tag = "as"
+  }
+}
 ```
 
 Using SPOT charge type
 ```
-
-	resource "tencentcloudenterprise_as_scaling_config" "launch_configuration" {
-	  configuration_name = "launch-configuration"
-	  image_id           = "img-9qabwvbn"
-	  instance_types     = ["SA1.SMALL1"]
-	  instance_charge_type = "SPOTPAID"
-	  spot_instance_type = "one-time"
-	  spot_max_price = "1000"
-	}
-
+resource "tencentcloudenterprise_as_scaling_config" "launch_configuration" {
+  configuration_name = "launch-configuration"
+  image_id           = "img-9qabwvbn"
+  instance_types     = ["SA1.SMALL1"]
+  instance_charge_type = "SPOTPAID"
+  spot_instance_type = "one-time"
+  spot_max_price = "1000"
+}
 ```
 
-# Import
+Import
 
 AutoScaling Configuration can be imported using the id, e.g.
 
@@ -64,10 +61,10 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	as "terraform-provider-tencentcloudenterprise/sdk/as/v20180419"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func init() {

@@ -664,6 +664,7 @@ func NewDescribeLoadBalancersResponse() (response *DescribeLoadBalancersResponse
 }
 
 // 查询一个地域的负载均衡实例列表
+//
 func (c *Client) DescribeLoadBalancers(request *DescribeLoadBalancersRequest) (response *DescribeLoadBalancersResponse, err error) {
 	if request == nil {
 		request = NewDescribeLoadBalancersRequest()
@@ -1686,6 +1687,81 @@ func (c *Client) DescribeRewrite(request *DescribeRewriteRequest) (response *Des
 		request = NewDescribeRewriteRequest()
 	}
 	response = NewDescribeRewriteResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewDescribeClsLogSetRequest() (request *DescribeClsLogSetRequest) {
+	request = &DescribeClsLogSetRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("clb", APIVersion, "DescribeClsLogSet")
+	return
+}
+
+func NewDescribeClsLogSetResponse() (response *DescribeClsLogSetResponse) {
+	response = &DescribeClsLogSetResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// DescribeClsLogSet 查询CLB专有日志集
+func (c *Client) DescribeClsLogSet(request *DescribeClsLogSetRequest) (response *DescribeClsLogSetResponse, err error) {
+	if request == nil {
+		request = NewDescribeClsLogSetRequest()
+	}
+	response = NewDescribeClsLogSetResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewCreateClsLogSetRequest() (request *CreateClsLogSetRequest) {
+	request = &CreateClsLogSetRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("clb", APIVersion, "CreateClsLogSet")
+	return
+}
+
+func NewCreateClsLogSetResponse() (response *CreateClsLogSetResponse) {
+	response = &CreateClsLogSetResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// CreateClsLogSet 创建CLB专有日志集，用于存储CLB的日志
+func (c *Client) CreateClsLogSet(request *CreateClsLogSetRequest) (response *CreateClsLogSetResponse, err error) {
+	if request == nil {
+		request = NewCreateClsLogSetRequest()
+	}
+	response = NewCreateClsLogSetResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewCreateTopicRequest() (request *CreateTopicRequest) {
+	request = &CreateTopicRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("clb", APIVersion, "CreateTopic")
+	return
+}
+
+func NewCreateTopicResponse() (response *CreateTopicResponse) {
+	response = &CreateTopicResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// CreateTopic 创建CLB日志主题
+func (c *Client) CreateTopic(request *CreateTopicRequest) (response *CreateTopicResponse, err error) {
+	if request == nil {
+		request = NewCreateTopicRequest()
+	}
+	response = NewCreateTopicResponse()
 	err = c.Send(request, response)
 	return
 }

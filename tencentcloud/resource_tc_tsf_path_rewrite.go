@@ -1,21 +1,19 @@
 /*
 Provides a resource to create a tsf path_rewrite
 
-# Example Usage
+Example Usage
 
 ```hcl
-
-	resource "tencentcloudenterprise_tsf_path_rewrite" "path_rewrite" {
-	  gateway_group_id = "group-a2j9zxpv"
-	  regex = "/test"
-	  replacement = "/tt"
-	  blocked = "N"
-	  order = 2
-	}
-
+resource "tencentcloudenterprise_tsf_path_rewrite" "path_rewrite" {
+  gateway_group_id = "group-a2j9zxpv"
+  regex = "/test"
+  replacement = "/tt"
+  blocked = "N"
+  order = 2
+}
 ```
 
-# Import
+Import
 
 tsf path_rewrite can be imported using the id, e.g.
 
@@ -30,10 +28,10 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	tsf "terraform-provider-tencentcloudenterprise/sdk/tsf/v20180326"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func init() {

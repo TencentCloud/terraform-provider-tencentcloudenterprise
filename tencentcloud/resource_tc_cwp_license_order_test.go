@@ -10,8 +10,8 @@ import (
 func TestAccTencentCloudNeedFixCwpLicenseOrderResource_basic(t *testing.T) {
 	t.Parallel()
 	resource.Test(t, resource.TestCase{
-		PreCheck:  func() { testAccPreCheck(t) },
-		Providers: testAccProviders,
+		PreCheck:     func() { testAccPreCheck(t) },
+		Providers:    testAccProviders,
 		Steps: []resource.TestStep{
 			{
 				Config: testAccCwpLicenseOrder,
@@ -45,7 +45,7 @@ func TestAccTencentCloudNeedFixCwpLicenseOrderResource_basic(t *testing.T) {
 }
 
 const testAccCwpLicenseOrder = `
-resource "tencentcloud_cwp_license_order" "example" {
+resource "tencenttencentcloudenterprise_cwp_license_order" "example" {
   alias        = "tf_example"
   license_type = 0
   license_num  = 1
@@ -58,7 +58,7 @@ resource "tencentcloud_cwp_license_order" "example" {
 `
 
 const testAccCwpLicenseOrderUpdate = `
-resource "tencentcloud_cwp_license_order" "example" {
+resource "tencenttencentcloudenterprise_cwp_license_order" "example" {
   alias        = "tf_example1"
   license_type = 0
   license_num  = 2

@@ -4,7 +4,7 @@
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//	http://www.apache.org/licenses/LICENSE-2.0
+//    http://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -55,7 +55,7 @@ func (r *BaseResponse) ParseErrorFromHTTPResponse(body []byte) (err error) {
 	}
 	if resp.Response.Error.Code != "" {
 		return errors.NewCloudSDKError(resp.Response.Error.Code, resp.Response.Error.Message, resp.Response.RequestId)
-	} else if resp.Response.Error.Message != "" {
+	}else if resp.Response.Error.Message != "" {
 		return errors.NewCloudSDKError(resp.Response.Error.Code, resp.Response.Error.Message, resp.Response.RequestId)
 	}
 	deprecated := &DeprecatedAPIErrorResponse{}

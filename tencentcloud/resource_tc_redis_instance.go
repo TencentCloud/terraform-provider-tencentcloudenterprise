@@ -8,52 +8,37 @@ Provides a resource to create a instance and set its attributes.
 # Example Usage
 
 ```hcl
-data "tencentcloudenterprise_redis_zone_config" "zone" {
-}
 
-	resource "tencentcloudenterprise_redis_instance" "redis_instance_test_2" {
-	  availability_zone  = data.tencentcloudenterprise_redis_zone_config.zone.list[0].zone
-	  type_id            = data.tencentcloudenterprise_redis_zone_config.zone.list[0].type_id
+	resource "tencentcloudenterprise_redis_instance" "redis_instance_1" {
+	  availability_zone  = "az"
+	  type_id            = 5001
 	  password           = "test12345789"
 	  mem_size           = 8192
-	  redis_shard_num    = data.tencentcloudenterprise_redis_zone_config.zone.list[0].redis_shard_nums[0]
-	  redis_replicas_num = data.tencentcloudenterprise_redis_zone_config.zone.list[0].redis_replicas_nums[0]
+	  redis_shard_num    = 2
+	  redis_replicas_num = 4
 	  name               = "terrform_test"
 	  port               = 6379
+	  security_groups    = ["sg-h72u8uid"]
+	  subnet_id          = "subnet-u8ri29hw"
+	  vpc_id             = "vpc-i9oqk34u"
 	}
-
-```
 
 Using multi replica zone set
-```
-data "tencentcloudenterprise_availability_zones" "az" {
 
-}
-
-	variable "redis_replicas_num" {
-	  default = 3
-	}
-
-	resource "tencentcloudenterprise_redis_instance" "red1" {
-	  availability_zone  = data.tencentcloudenterprise_availability_zones.az.zones[0].name
+	resource "tencentcloudenterprise_redis_instance" "redis_instance_2" {
+	  availability_zone  = "az"
 	  charge_type        = "POSTPAID"
 	  mem_size           = 1024
 	  name               = "test-redis"
 	  port               = 6379
-	  project_id         = 0
-	  redis_replicas_num = var.redis_replicas_num
+	  redis_replicas_num = 3
 	  redis_shard_num    = 1
-	  security_groups    = [
-	    "sg-d765yoec",
-	  ]
+	  security_groups    = ["sg-d765yoec"]
 	  subnet_id          = "subnet-ie01x91v"
 	  type_id            = 6
 	  vpc_id             = "vpc-k4lrsafc"
-	  password = "a12121312334"
-
-	  replica_zone_ids = [
-	    for i in range(var.redis_replicas_num)
-	    : data.tencentcloudenterprise_availability_zones.az.zones[i % length(data.tencentcloudenterprise_availability_zones.az.zones)].id ]
+	  password           = "a12121312334"
+	  replica_zone_ids   = [5001, 5002]
 	}
 
 ```
@@ -74,12 +59,13 @@ import (
 	"log"
 	"sort"
 	"strings"
+
 	sdkErrors "terraform-provider-tencentcloudenterprise/sdk/common/errors"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	redis "terraform-provider-tencentcloudenterprise/sdk/redis/v20180412"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func init() {
@@ -154,7 +140,7 @@ func resourceTencentCloudRedisInstance() *schema.Resource {
 				Required:     true,
 				ForceNew:     true,
 				ValidateFunc: validateIntegerMin(2),
-				Description:  "Instance type. Available values reference data source `cloud_redis_zone_config` or [document](https://intl.cloud.tencent.com/document/product/239/32069), toggle immediately when modified.",
+				Description:  "Instance type. Available values reference data source `tencentcloudenterprise_redis_zone_config`, toggle immediately when modified.",
 			},
 			"redis_shard_num": {
 				Type:        schema.TypeInt,
@@ -190,7 +176,7 @@ func resourceTencentCloudRedisInstance() *schema.Resource {
 			// 		return
 			// 	},
 			// 	Deprecated:  "It has been deprecated from version 1.33.1. Please use 'type_id' instead.",
-			// 	Description: "Instance type. Available values: " + typeStr + ", specific region support specific types, need to refer data `cloud_redis_zone_config`.",
+			// 	Description: "Instance type. Available values: " + typeStr + ", specific region support specific types, need to refer data `tencentcloudenterprise_redis_zone_config`.",
 			// },
 			"password": {
 				Type:         schema.TypeString,
@@ -372,15 +358,24 @@ func resourceTencentCloudRedisInstanceCreate(d *schema.ResourceData, meta interf
 	region := client.Region
 
 	availabilityZone := d.Get("availability_zone").(string)
-	redisName := d.Get("name").(string)
-	redisType := d.Get("type").(string)
+	var redisName string
+	if v, ok := d.GetOk("name"); ok {
+		redisName = v.(string)
+	}
+	var redisType string
+	if v, ok := d.GetOk("type"); ok {
+		redisType = v.(string)
+	}
 	typeId := int64(d.Get("type_id").(int))
 	redisShardNum := 1
 	if v, ok := d.GetOk("redis_shard_num"); ok {
 		redisShardNum = v.(int)
 	}
 	redisReplicasNum := d.Get("redis_replicas_num").(int)
-	password := d.Get("password").(string)
+	var password string
+	if v, ok := d.GetOk("password"); ok {
+		password = v.(string)
+	}
 	noAuth := d.Get("no_auth").(bool)
 	memSize := d.Get("mem_size").(int)
 	vpcId := d.Get("vpc_id").(string)
@@ -638,7 +633,11 @@ func resourceTencentCloudRedisInstanceRead(d *schema.ResourceData, meta interfac
 	}
 	// not set field type_id
 	// process import case
-	if d.Get("type_id").(int) == 0 && d.Get("type").(string) != "" {
+	var typeStr string
+	if v, ok := d.GetOk("type"); ok {
+		typeStr = v.(string)
+	}
+	if d.Get("type_id").(int) == 0 && typeStr != "" {
 		typeName := REDIS_NAMES[*info.Type]
 		if typeName == "" {
 			err = fmt.Errorf("redis read unkwnow type %d", *info.Type)
@@ -754,7 +753,10 @@ func resourceTencentCloudRedisInstanceUpdate(d *schema.ResourceData, meta interf
 	// name\mem_size\password\project_id
 
 	if d.HasChange("name") {
-		name := d.Get("name").(string)
+		var name string
+		if v, ok := d.GetOk("name"); ok {
+			name = v.(string)
+		}
 		if name == "" {
 			name = id
 		}
@@ -838,10 +840,13 @@ func resourceTencentCloudRedisInstanceUpdate(d *schema.ResourceData, meta interf
 	if d.HasChange("password") || d.HasChange("no_auth") {
 		var (
 			taskId   int64
-			password = d.Get("password").(string)
+			password string
 			noAuth   = d.Get("no_auth").(bool)
 			err      error
 		)
+		if v, ok := d.GetOk("password"); ok {
+			password = v.(string)
+		}
 
 		// After redis spec modified, reset password may not successfully response immediately.
 		err = resource.Retry(writeRetryTimeout, func() *resource.RetryError {

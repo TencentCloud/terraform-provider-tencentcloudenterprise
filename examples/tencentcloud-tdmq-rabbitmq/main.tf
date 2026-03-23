@@ -32,7 +32,7 @@ resource "tencentcloudenterprise_tdmq_rabbitmq_vip_instance" "instance" {
 
 # RabbitMQ User
 resource "tencentcloudenterprise_tdmq_rabbitmq_user" "user" {
-  instance_id = cloud_tdmq_rabbitmq_vip_instance.instance.id
+  instance_id = tencentcloudenterprise_tdmq_rabbitmq_vip_instance.instance.id
   user        = "example-user"
   password    = "Password123!"
   description = "Example RabbitMQ user"
@@ -41,7 +41,7 @@ resource "tencentcloudenterprise_tdmq_rabbitmq_user" "user" {
 
 # RabbitMQ Virtual Host
 resource "tencentcloudenterprise_tdmq_rabbitmq_virtual_host" "vhost" {
-  instance_id  = cloud_tdmq_rabbitmq_vip_instance.instance.id
+  instance_id  = tencentcloudenterprise_tdmq_rabbitmq_vip_instance.instance.id
   virtual_host = "example-vhost"
   description  = "Example virtual host"
 }

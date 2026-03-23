@@ -1,24 +1,22 @@
 /*
 Provide a resource to create a KMS key.
 
-# Example Usage
+Example Usage
 
 ```hcl
+resource "tencentcloudenterprise_kms_key" "foo" {
+	alias = "test"
+	description = "describe key test message."
+	key_rotation_enabled = true
+	is_enabled = true
 
-	resource "tencentcloudenterprise_kms_key" "foo" {
-		alias = "test"
-		description = "describe key test message."
-		key_rotation_enabled = true
-		is_enabled = true
-
-		tags = {
-			"test-tag":"key-test"
-		}
+	tags = {
+		"test-tag":"key-test"
 	}
-
+}
 ```
 
-# Import
+Import
 
 KMS keys can be imported using the id, e.g.
 
@@ -31,19 +29,19 @@ package tencentcloud
 import (
 	"context"
 	"fmt"
-	"log"
 	sdkErrors "terraform-provider-tencentcloudenterprise/sdk/common/errors"
+	"log"
 
+	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	kms "github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/kms/v20190118"
-	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
 )
 
 func init() {
 	registerResourceDescriptionProvider("tencentcloudenterprise_kms_key", CNDescription{
-		TerraformTypeCN: "密钥管理系统密钥",
-		DescriptionCN:   "提供密钥管理系统密钥资源，用于创建和管理KMS密钥。",
+		TerraformTypeCN: "用户密钥",
+		DescriptionCN:   "提供KMS用户密钥资源，用于创建和管理KMS用户密钥。",
 		AttributesCN: map[string]string{
 			"alias":                "密钥别名",
 			"description":          "密钥描述",
@@ -59,6 +57,7 @@ func init() {
 			"creator_uin":          "创建者UIN",
 			"key_rotation_status":  "密钥轮换状态",
 			"next_rotate_time":     "下次轮换时间",
+			"pending_delete_window_in_days":"计划删除时间区间[7,30]",
 		},
 	})
 }

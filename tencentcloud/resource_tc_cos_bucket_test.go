@@ -12,7 +12,7 @@ import (
 )
 
 func init() {
-	// go test -v ./tencentcloud -sweep=ap-guangzhou -sweep-run=cloud_cos_bucket
+	// go test -v ./tencentcloud -sweep=ap-guangzhou -sweep-run=tencentcloudenterprise_cos_bucket
 	resource.AddTestSweepers("tencentcloudenterprise_cos_bucket", &resource.Sweeper{
 		Name: "tencentcloudenterprise_cos_bucket",
 		F:    testSweepCosBuckets,

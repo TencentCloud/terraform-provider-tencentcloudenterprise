@@ -1,0 +1,244 @@
+/*
+Provides a resource to create a CAM SAML provider.
+
+# Example Usage
+
+```hcl
+
+	resource "tencentcloudenterprise_cam_saml_provider" "saml_provider_basic" {
+	  name        = "cam-saml-provider-test"
+	  meta_data   = "PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz48bWQ6RW50aXR5RGVzY3JpcHRvciBlbnRpdHlJRD0iaHR0cDovL3d3dy5va3RhLmNvbS9leGsxa3F4bWNqUW1HQURNeTM1NyIgeG1sbnM6bWQ9InVybjpvYXNpczpuYW1lczp0YzpTQU1MOjIuMDptZXRhZGF0YSI+PG1kOklEUFNTT0Rlc2NyaXB0b3IgV2FudEF1dGhuUmVxdWVzdHNTaWduZWQ9ImZhbHNlIiBwcm90b2NvbFN1cHBvcnRFbnVtZXJhdGlvbj0idXJuOm9hc2lzOm5hbWVzOnRjOlNBTUw6Mi4wOnByb3RvY29sIj48bWQ6S2V5RGVzY3JpcHRvciB1c2U9InNpZ25pbmciPjxkczpLZXlJbmZvIHhtbG5zOmRzPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwLzA5L3htbGRzaWcjIj48ZHM6WDUwOURhdGE+PGRzOlg1MDlDZXJ0aWZpY2F0ZT5NSUlEb0RDQ0FvaWdBd0lCQWdJR0FXM0lTcExvTUEwR0NTcUdTSWIzRFFFQkN3VUFNSUdRTVFzd0NRWURWUVFHRXdKVlV6RVRNQkVHDQpBMVVFQ0F3S1EyRnNhV1p2Y201cFlURVdNQlFHQTFVRUJ3d05VMkZ1SUVaeVlXNWphWE5qYnpFTk1Bc0dBMVVFQ2d3RVQydDBZVEVVDQpNQklHQTFVRUN3d0xVMU5QVUhKdmRtbGtaWEl4RVRBUEJnTlZCQU1NQ0dsa2VIVmxkblJoTVJ3d0dnWUpLb1pJaHZjTkFRa0JGZzFwDQpibVp2UUc5cmRHRXVZMjl0TUI0WERURTVNVEF4TkRBek1qSXhNMW9YRFRJNU1UQXhOREF6TWpNeE0xb3dnWkF4Q3pBSkJnTlZCQVlUDQpBbFZUTVJNd0VRWURWUVFJREFwRFlXeHBabTl5Ym1saE1SWXdGQVlEVlFRSERBMVRZVzRnUm5KaGJtTnBjMk52TVEwd0N3WURWUVFLDQpEQVJQYTNSaE1SUXdFZ1lEVlFRTERBdFRVMDlRY205MmFXUmxjakVSTUE4R0ExVUVBd3dJYVdSNGRXVjJkR0V4SERBYUJna3Foa2lHDQo5dzBCQ1FFV0RXbHVabTlBYjJ0MFlTNWpiMjB3Z2dFaU1BMEdDU3FHU0liM0RRRUJBUVVBQTRJQkR3QXdnZ0VLQW9JQkFRQ2g4b3dqDQpZK2dQSUM3blQvNTduLzdmeXJzcDlHMXdxa2UxdXhjMHVrTndnQXozOVNpelY3QVhLMWRReTFLaThXWjJJMzFEczJkT0FNQ1FKR2pWDQpUWWNNbnA3KzhqUzNLdmxNUkRJamk5cmxuUi9vcnBvMll1RHVWby9jVzdidlRIS2h2REo1QWZRaWxzYlNPTXdUOWM2TVlYZGhBNVBwDQpzelFsK1UrdHJmcXUrdUorSER4SVQxdlhWaVI5YlY2SUFRSzZpbWZoc2wxWmVSUytjbVFVNEpjQWlYT0xtTnFVVWM2UkpxUzhrMW1mDQpBLzhmb2VyMGc3SG4xZDVXclpCc2gyUlR2Vzh1ZVdadHQ3dmh4QTlGdE5kSVlEcXJ0eElmMlZXcXhrSHM3WFZDSm5wTnJITVovT1BRDQpGY21YSGVxNlJJMlB3Q1RlOW8zZHZpM0hqeXBaOEl4dkFnTUJBQUV3RFFZSktvWklodmNOQVFFTEJRQURnZ0VCQUFHaHk1bG9nbGtTDQoyVHg2YS90MnF5VEx0YVV5cEwrNGhySGJoMVAweVVMc0NrSnFsM2wrWG9VZDZCY2FJaFNSVGFPQk95ODViL0UzelJ4K3JzQXJwTjVVDQp5ZThuUEM4a05PYW5vTk9wWnZvYmhpTzFlMFIvYmxEcnRBL0o5UlBwMWtmdlhmS2NSTTU3TlRCWXppTURlbnFQUTRFOWN1U2lGdFFxDQpJYmpIbThaM1B1YXgwRitldkZ3U1pJMDNCWXNISGw1d1EraEJBS3hTdTJINEZRdU93Zmpnb2EveEN6Z1NKYjJ2UXdEc1MxMk9mSkNiDQpSRm1ZL1VYZXQramFhdEVORktLZStZSUJpU0J2WG1adTN0MHN5NDZTNzlPVzBacXJ0NUh2bElsT2lpTFpaN1FZamxjM1kxeG1LZ1luDQpXM2M2WGZkdmhGWHo0ZDdkbWYvTUdpNGY0enM9PC9kczpYNTA5Q2VydGlmaWNhdGU+PC9kczpYNTA5RGF0YT48L2RzOktleUluZm8+PC9tZDpLZXlEZXNjcmlwdG9yPjxtZDpOYW1lSURGb3JtYXQ+dXJuOm9hc2lzOm5hbWVzOnRjOlNBTUw6MS4xOm5hbWVpZC1mb3JtYXQ6dW5zcGVjaWZpZWQ8L21kOk5hbWVJREZvcm1hdD48bWQ6TmFtZUlERm9ybWF0PnVybjpvYXNpczpuYW1lczp0YzpTQU1MOjEuMTpuYW1laWQtZm9ybWF0OmVtYWlsQWRkcmVzczwvbWQ6TmFtZUlERm9ybWF0PjxtZDpTaW5nbGVTaWduT25TZXJ2aWNlIEJpbmRpbmc9InVybjpvYXNpczpuYW1lczp0YzpTQU1MOjIuMDpiaW5kaW5nczpIVFRQLVBPU1QiIExvY2F0aW9uPSJodHRwczovL2lkeHVldnRhLm9rdGEuY29tL2FwcC9pZHh1ZW9yZzYzNzM1OF90ZXN0XzEvZXhrMWtxeG1jalFtR0FETXkzNTcvc3NvL3NhbWwiLz48bWQ6U2luZ2xlU2lnbk9uU2VydmljZSBCaW5kaW5nPSJ1cm46b2FzaXM6bmFtZXM6dGM6U0FNTDoyLjA6YmluZGluZ3M6SFRUUC1SZWRpcmVjdCIgTG9jYXRpb249Imh0dHBzOi8vaWR4dWV2dGEub2t0YS5jb20vYXBwL2lkeHVlb3JnNjM3MzU4X3Rlc3RfMS9leGsxa3F4bWNqUW1HQURNeTM1Ny9zc28vc2FtbCIvPjwvbWQ6SURQU1NPRGVzY3JpcHRvcj48L21kOkVudGl0eURlc2NyaXB0b3I+"
+	  description = "test"
+	}
+
+```
+
+# Import
+
+CAM SAML provider can be imported using the id, e.g.
+
+```
+$ terraform import tencentcloudenterprise_cam_saml_provider.foo cam-SAML-provider-test
+```
+*/
+package tencentcloud
+
+import (
+	"log"
+	"strings"
+	"time"
+
+	sdkErrors "terraform-provider-tencentcloudenterprise/sdk/common/errors"
+	open "terraform-provider-tencentcloudenterprise/sdk/open/v20201202"
+	"terraform-provider-tencentcloudenterprise/tencentcloud/connectivity"
+	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+)
+
+func init() {
+	registerResourceDescriptionProvider("tencentcloudenterprise_cam_saml_provider", CNDescription{
+		TerraformTypeCN: "CAM SAML身份提供商",
+		DescriptionCN:   "提供 CAM SAML 身份提供商资源，用于创建和管理 SAML 身份提供商。",
+		AttributesCN: map[string]string{
+			"name":         "提供商名称",
+			"description":  "描述",
+			"meta_data":    "SAML 元数据文档",
+			"create_time":  "创建时间",
+			"update_time":  "更新时间",
+			"provider_arn": "提供商 ARN",
+		},
+	})
+}
+
+func resourceTencentCloudCamSAMLProvider() *schema.Resource {
+	return &schema.Resource{
+		Create: resourceTencentCloudCamSAMLProviderCreate,
+		Read:   resourceTencentCloudCamSAMLProviderRead,
+		Delete: resourceTencentCloudCamSAMLProviderDelete,
+		Importer: &schema.ResourceImporter{
+			State: schema.ImportStatePassthrough,
+		},
+
+		Schema: map[string]*schema.Schema{
+			"name": {
+				Type:        schema.TypeString,
+				Required:    true,
+				ForceNew:    true,
+				Description: "Name of CAM SAML provider.",
+			},
+			"description": {
+				Type:        schema.TypeString,
+				Required:    true,
+				ForceNew:    true,
+				Description: "The description of the CAM SAML provider.",
+			},
+			"meta_data": {
+				Type:        schema.TypeString,
+				Required:    true,
+				ForceNew:    true,
+				Description: "The meta data document of the CAM SAML provider.",
+			},
+			"create_time": {
+				Type:        schema.TypeString,
+				Computed:    true,
+				Description: "The create time of the CAM SAML provider.",
+			},
+			"update_time": {
+				Type:        schema.TypeString,
+				Computed:    true,
+				Description: "The last update time of the CAM SAML provider.",
+			},
+			"provider_arn": {
+				Type:        schema.TypeString,
+				Computed:    true,
+				Description: "The ARN of the CAM SAML provider.",
+			},
+		},
+	}
+}
+
+func resourceTencentCloudCamSAMLProviderCreate(d *schema.ResourceData, meta interface{}) error {
+	defer logElapsed("resource.tencentcloudenterprise_cam_saml_provider.create")()
+
+	logId := getLogId(contextNil)
+
+	// Create Open SDK client
+	client := meta.(*TencentCloudClient).apiV3Conn
+	cpf := client.NewClientProfileTce(300)
+	openClient, _ := open.NewClient(client.CredentialTce, client.Region, cpf)
+	openClient.WithHttpTransport(&connectivity.LogRoundTripper{})
+
+	request := open.NewCreateSAMLProviderRequest()
+	request.Name = helper.String(d.Get("name").(string))
+	request.SAMLMetadataDocument = helper.String(d.Get("meta_data").(string))
+	if v, ok := d.GetOk("description"); ok {
+		request.Description = helper.String(v.(string))
+	}
+
+	err := resource.Retry(writeRetryTimeout, func() *resource.RetryError {
+		result, e := openClient.CreateSAMLProvider(request)
+		if e != nil {
+			if ee, ok := e.(*sdkErrors.CloudSDKError); ok {
+				errCode := ee.GetCode()
+				if strings.Contains(errCode, "IdentityNameInUse") {
+					return resource.NonRetryableError(e)
+				}
+			}
+			log.Printf("[CRITAL]%s api[%s] fail, request body [%s], reason[%s]\n",
+				logId, request.GetAction(), request.ToJsonString(), e.Error())
+			return retryError(e)
+		} else {
+			log.Printf("[DEBUG]%s api[%s] success, request body [%s], response body [%s]\n",
+				logId, request.GetAction(), request.ToJsonString(), result.ToJsonString())
+		}
+		return nil
+	})
+	if err != nil {
+		log.Printf("[CRITAL]%s create CAM SAML provider failed, reason:%s\n", logId, err.Error())
+		return err
+	}
+
+	// Set ID as the name
+	name := d.Get("name").(string)
+	d.SetId(name)
+
+	// Wait for creation to complete
+	time.Sleep(10 * time.Second)
+
+	return resourceTencentCloudCamSAMLProviderRead(d, meta)
+}
+
+func resourceTencentCloudCamSAMLProviderRead(d *schema.ResourceData, meta interface{}) error {
+	defer logElapsed("resource.tencentcloudenterprise_cam_saml_provider.read")()
+	defer inconsistentCheck(d, meta)()
+
+	logId := getLogId(contextNil)
+
+	samlProviderName := d.Id()
+
+	// Create Open SDK client
+	client := meta.(*TencentCloudClient).apiV3Conn
+	cpf := client.NewClientProfileTce(300)
+	openClient, _ := open.NewClient(client.CredentialTce, client.Region, cpf)
+	openClient.WithHttpTransport(&connectivity.LogRoundTripper{})
+
+	var instance *open.GetSAMLProviderResponse
+	err := resource.Retry(readRetryTimeout, func() *resource.RetryError {
+		request := open.NewGetSAMLProviderRequest()
+		request.Name = &samlProviderName
+
+		result, e := openClient.GetSAMLProvider(request)
+		if e != nil {
+			if ee, ok := e.(*sdkErrors.CloudSDKError); ok {
+				errCode := ee.GetCode()
+				if strings.Contains(errCode, "ResourceNotFound") || strings.Contains(errCode, "NotFound") {
+					log.Printf("[WARN]%s SAML provider %s not found, removing from state\n", logId, samlProviderName)
+					d.SetId("")
+					return nil
+				}
+			}
+			log.Printf("[CRITAL]%s api[GetSAMLProvider] fail, request body [%s], reason[%s]\n",
+				logId, request.ToJsonString(), e.Error())
+			return retryError(e)
+		}
+		instance = result
+		return nil
+	})
+	if err != nil {
+		log.Printf("[CRITAL]%s read CAM SAML provider failed, reason:%s\n", logId, err.Error())
+		return err
+	}
+
+	if instance == nil || instance.Response == nil || instance.Response.Name == nil {
+		d.SetId("")
+		return nil
+	}
+
+	_ = d.Set("name", *instance.Response.Name)
+	_ = d.Set("create_time", *instance.Response.CreateTime)
+	_ = d.Set("update_time", *instance.Response.ModifyTime)
+
+	// SAMLMetadata might not be returned by the API, but we keep it from the configuration
+	// If the API returns it, we update it; otherwise, we keep the existing value
+	if instance.Response.SAMLMetadata != nil && *instance.Response.SAMLMetadata != "" {
+		_ = d.Set("meta_data", *instance.Response.SAMLMetadata)
+	}
+
+	if instance.Response.Description != nil {
+		_ = d.Set("description", *instance.Response.Description)
+	}
+	return nil
+}
+
+func resourceTencentCloudCamSAMLProviderDelete(d *schema.ResourceData, meta interface{}) error {
+	defer logElapsed("resource.tencentcloudenterprise_cam_saml_provider.delete")()
+
+	logId := getLogId(contextNil)
+
+	samlProviderName := d.Id()
+
+	// Create Open SDK client
+	client := meta.(*TencentCloudClient).apiV3Conn
+	cpf := client.NewClientProfileTce(300)
+	openClient, _ := open.NewClient(client.CredentialTce, client.Region, cpf)
+	openClient.WithHttpTransport(&connectivity.LogRoundTripper{})
+
+	request := open.NewDeleteSAMLProviderRequest()
+	request.Name = &samlProviderName
+
+	err := resource.Retry(writeRetryTimeout, func() *resource.RetryError {
+		_, e := openClient.DeleteSAMLProvider(request)
+		if e != nil {
+			log.Printf("[CRITAL]%s reason[%s]\n", logId, e.Error())
+			return retryError(e)
+		}
+		return nil
+	})
+	if err != nil {
+		log.Printf("[CRITAL]%s delete CAM SAML provider failed, reason:%s\n", logId, err.Error())
+		return err
+	}
+
+	return nil
+}

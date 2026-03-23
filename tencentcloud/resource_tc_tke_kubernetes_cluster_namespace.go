@@ -1,19 +1,56 @@
 /*
-Provide a resource to increase instance to cluster
-
-~> **NOTE:** To use the custom Kubernetes component startup parameter function (parameter `extra_args`), you need to submit a ticket for application.
+Provide a resource to create/read/delete a namespace in cluster
 
 # Example Usage
 
+# JSON
+
 ```hcl
 
-	resource "tencentcloudenterprise_kubernetes_cluster_namespace" "app-csp-sm" {
-	  cluster_id = tencentcloudenterprise_tke_kubernetes_cluster.cluster.id
-	  namespace  = "app-csp-sm"
-	  path = "/apis/platform.tkestack.io/v1/clusters/cls-x8lxd2jx/apply"
-	  request_body = "{\"kind\":\"Namespace\",\"apiVersion\":\"v1\",\"metadata\":{\"name\":\"app-csp-sm\",\"annotations\":{\"description\":\"hkjc1\"}}}{\"kind\":\"Secret\",\"apiVersion\":\"v1\",\"metadata\":{\"name\":\"qcloudregistrykey\",\"namespace\":\"app-csp-sm\",\"labels\":{\"qcloud-app\":\"qcloudregistrykey\"}},\"type\":\"kubernetes.io/dockercfg\",\"data\":{\".dockercfg\":\"eyJjY3IudGNlMzEwMHBvYy5mc3BoZXJlLmNuIjp7InVzZXJuYW1lIjoiMTAwMDA0NjAzMTU3IiwicGFzc3dvcmQiOiJ7QXBwbGljYXRpb25Ub2tlbjo0OGJlNzY2ZTVkZmRmN2JhZTAwZjdlZTQ3NTQyNDJlMX0iLCJlbWFpbCI6Im5vdEB2YWwuaWQiLCJhdXRoIjoiTVRBd01EQTBOakF6TVRVM09udEJjSEJzYVdOaGRHbHZibFJ2YTJWdU9qUTRZbVUzTmpabE5XUm1aR1kzWW1GbE1EQm1OMlZsTkRjMU5ESTBNbVV4ZlE9PSJ9fQ==\"}}"
+	resource "tencentcloudenterprise_tke_kubernetes_cluster_namespace" "ns" {
+	  cluster_id = var.cluster_id
+	  namespace  = "tf-test"
+
+	  path = format("/apis/platform.tkestack.io/v1/clusters/%s/apply", var.cluster_id)
+
+	  request_body = jsonencode({
+	    apiVersion = "v1"
+	    kind       = "Namespace"
+	    metadata = {
+	      name = "tf-test"
+	      annotations = {
+	        description = "ddddd"
+	      }
+	    }
+	  })
 	}
 
+```
+
+# YAML
+
+```hcl
+
+	resource "tencentcloudenterprise_tke_kubernetes_cluster_namespace" "ns" {
+	  cluster_id = var.cluster_id
+	  namespace  = "tf-test"
+
+	  path = format("/apis/platform.tkestack.io/v1/clusters/%s/apply", var.cluster_id)
+
+	  request_body = <<-YAML
+
+apiVersion: v1
+kind: Namespace
+metadata:
+
+	name: tf-test
+	labels:
+	  env: dev
+	annotations:
+	  description: created-by-terraform
+
+YAML
+}
 ```
 */
 package tencentcloud
@@ -29,25 +66,15 @@ import (
 func init() {
 	registerResourceDescriptionProvider("tencentcloudenterprise_tke_kubernetes_cluster_namespace", CNDescription{
 		TerraformTypeCN: "集群命名空间",
-		DescriptionCN:   "提供集群命名空间资源，用于向集群增加命名空间。",
+		DescriptionCN:   "提供集群命名空间资源。创建时需提供集群ID、apply路径及Namespace清单（apiVersion=v1, kind=Namespace）。",
 		AttributesCN: map[string]string{
-			"cluster_id":            "集群ID",
-			"worker_config":         "worker实例配置信息",
-			"labels":                "worker实例标签",
-			"extra_args":            "worker实例额外参数",
-			"gpu_args":              "worker实例GPU参数",
-			"unschedulable":         "worker实例是否参与调度",
-			"desired_pod_num":       "worker实例期望pod数量",
-			"docker_graph_path":     "worker实例docker graph路径",
-			"mount_target":          "worker实例挂载目标",
-			"data_disk":             "worker实例数据盘配置",
-			"worker_instances_list": "worker实例列表",
-			"path":                  "命名空间路径",
-			"request_body":          "命名空间相关请求主体",
-			"namespace":             "集群命名空间",
-			"status":                "集群命名空间状态",
-			"message":               "接口响应信息",
-			"apiversion":            "API版本信息",
+			"cluster_id":   "集群ID",
+			"path":         "Namespace创建的apply路径，例如 /apis/platform.tkestack.io/v1/clusters/<cluster_id>/apply",
+			"request_body": "Namespace清单，支持JSON或YAML，需包含 apiVersion=v1 与 kind=Namespace",
+			"namespace":    "命名空间名称（用于查询/删除）",
+			"status":       "命名空间状态",
+			"message":      "接口响应信息",
+			"apiversion":   "API版本信息",
 		},
 	})
 }
@@ -68,7 +95,7 @@ type TkeForwardRequestNamespaceReadResponse struct {
 
 func resourceTencentCloudTkeClusterNamespace() *schema.Resource {
 	return &schema.Resource{
-		Description: "Provide a resource to increase ns to cluster",
+		Description: "Create/read/delete a namespace via TKE forward request. `path` should be the cluster apply endpoint, and `request_body` must be a Namespace manifest (apiVersion=v1, kind=Namespace).",
 		Create:      resourceTencentCloudTkeTkeClusterNamespaceCreate,
 		Read:        resourceTencentCloudTkeTkeClusterNamespaceRead,
 		Delete:      resourceTencentCloudTkeTkeClusterNamespaceDelete,
@@ -83,19 +110,19 @@ func resourceTencentCloudTkeClusterNamespace() *schema.Resource {
 				Type:        schema.TypeString,
 				ForceNew:    true,
 				Required:    true,
-				Description: "ns name",
+				Description: "Apply endpoint for namespace creation, e.g. /apis/platform.tkestack.io/v1/clusters/<cluster_id>/apply.",
 			},
 			"request_body": {
 				Type:        schema.TypeString,
 				ForceNew:    true,
 				Required:    true,
-				Description: "request_body",
+				Description: "Namespace manifest in JSON or YAML. Must include apiVersion=v1 and kind=Namespace.",
 			},
 			"namespace": {
 				Type:        schema.TypeString,
 				ForceNew:    true,
 				Required:    true,
-				Description: "namespace",
+				Description: "Namespace name used for read/delete.",
 			},
 			// Computed
 			"status": {
@@ -129,7 +156,7 @@ func resourceTencentCloudTkeTkeClusterNamespaceCreate(d *schema.ResourceData, me
 	)
 	service := TkeService{client: meta.(*TencentCloudClient).apiV3Conn}
 
-	body, err := service.ForwardRequest(ctx, TKE_FORWARD_METHOD_POST, path, clusterId, requestBody)
+	body, err := service.ForwardPlatformRequestV3(ctx, TKE_FORWARD_METHOD_POST, path, clusterId, requestBody)
 	if err != nil {
 		return err
 	}
@@ -164,7 +191,7 @@ func resourceTencentCloudTkeTkeClusterNamespaceRead(d *schema.ResourceData, meta
 		path      = fmt.Sprintf("/api/v1/namespaces?fieldSelector=metadata.name=%s", namespace)
 	)
 
-	body, err := service.ForwardRequest(ctx, TKE_FORWARD_METHOD_GET, path, clusterId, "")
+	body, err := service.ForwardPlatformRequestV3(ctx, TKE_FORWARD_METHOD_GET, path, clusterId, "")
 	if err != nil {
 		return err
 	}
@@ -192,7 +219,7 @@ func resourceTencentCloudTkeTkeClusterNamespaceDelete(d *schema.ResourceData, me
 		path      = fmt.Sprintf("/api/v1/namespaces/%s", namespace)
 	)
 
-	_, err := service.ForwardRequest(ctx, TKE_FORWARD_METHOD_DELETE, path, clusterId, "")
+	_, err := service.ForwardPlatformRequestV3(ctx, TKE_FORWARD_METHOD_DELETE, path, clusterId, "")
 	if err != nil {
 		return err
 	}

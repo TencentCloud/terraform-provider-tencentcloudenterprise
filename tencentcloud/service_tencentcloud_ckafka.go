@@ -6,12 +6,12 @@ import (
 	"log"
 	"strings"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	ckafka "terraform-provider-tencentcloudenterprise/sdk/ckafka/v20190819"
 	"terraform-provider-tencentcloudenterprise/sdk/common/errors"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/connectivity"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/ratelimit"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 )
 
 type CkafkaService struct {
@@ -145,7 +145,7 @@ func (me *CkafkaService) DescribeUserByUserId(ctx context.Context, userId string
 
 	items := strings.Split(userId, FILED_SP)
 	if len(items) != 2 {
-		errRet = fmt.Errorf("id of resource.cloud_ckafka_user is wrong")
+		errRet = fmt.Errorf("id of resource.tencentcloudenterprise_ckafka_user is wrong")
 		return
 	}
 	instanceId, user := items[0], items[1]
@@ -222,7 +222,7 @@ func (me *CkafkaService) DeleteUser(ctx context.Context, userId string) (errRet 
 
 	items := strings.Split(userId, FILED_SP)
 	if len(items) != 2 {
-		errRet = fmt.Errorf("id of resource.cloud_ckafka_user is wrong")
+		errRet = fmt.Errorf("id of resource.tencentcloudenterprise_ckafka_user is wrong")
 		return
 	}
 	instanceId, user := items[0], items[1]
@@ -383,7 +383,7 @@ func (me *CkafkaService) DescribeAclByAclId(ctx context.Context, aclId string) (
 	// acl id is organized by "instanceId + FILED_SP + permissionType + FILED_SP + principal + FILED_SP + host + FILED_SP + operation + FILED_SP + resourceType + FILED_SP + resourceName"
 	items := strings.Split(aclId, FILED_SP)
 	if len(items) != 7 {
-		errRet = fmt.Errorf("id of resource.cloud_ckafka_acl is wrong")
+		errRet = fmt.Errorf("id of resource.tencentcloudenterprise_ckafka_acl is wrong")
 		return
 	}
 	instanceId, permission, principal, host, operation, resourceType, resourceName := items[0], items[1], items[2], items[3], items[4], items[5], items[6]
@@ -416,7 +416,7 @@ func (me *CkafkaService) DeleteAcl(ctx context.Context, aclId string) (errRet er
 	// acl id is organized by "instanceId + FILED_SP + permissionType + FILED_SP + principal + FILED_SP + host + FILED_SP + operation + FILED_SP + resourceType + FILED_SP + resourceName"
 	items := strings.Split(aclId, FILED_SP)
 	if len(items) != 7 {
-		errRet = fmt.Errorf("id of resource.cloud_ckafka_acl is wrong")
+		errRet = fmt.Errorf("id of resource.tencentcloudenterprise_ckafka_acl is wrong")
 		return
 	}
 	instanceId, permission, principal, host, operation, resourceType, resourceName := items[0], items[1], items[2], items[3], items[4], items[5], items[6]
@@ -491,7 +491,7 @@ func (me *CkafkaService) DescribeTopicById(ctx context.Context, topicId string) 
 	request := ckafka.NewDescribeTopicAttributesRequest()
 	items := strings.Split(topicId, FILED_SP)
 	if len(items) != 2 {
-		errRet = fmt.Errorf("id of resource.cloud_ckafka_topic is wrong")
+		errRet = fmt.Errorf("id of resource.tencentcloudenterprise_ckafka_topic is wrong")
 		return
 	}
 	instanceId, topicName := items[0], items[1]
@@ -1728,5 +1728,110 @@ func (me *CkafkaService) DescribeCkafkaCkafkaZoneByFilter(ctx context.Context, p
 	}
 	ckafkaZone = response.Response.Result
 
+	return
+}
+
+// DescribeCkafkaRouteByKey 通过复合 key 匹配 route，用于 Create 阶段轮询。
+// 创建中 Processing=1 时 RouteId=0，需用 vipType+vpcId+subnet+accessType 组合定位；Processing=0 后可获取真实 RouteId。
+func (me *CkafkaService) DescribeCkafkaRouteByKey(ctx context.Context, instanceId string, vipType int64, vpcId, subnet string, accessType int64) (route *ckafka.Route, errRet error) {
+	logId := getLogId(ctx)
+
+	request := ckafka.NewDescribeRouteRequest()
+	request.InstanceId = &instanceId
+
+	defer func() {
+		if errRet != nil {
+			log.Printf("[CRITAL]%s api[%s] fail, request body [%s], reason[%s]\n", logId, request.GetAction(), request.ToJsonString(), errRet.Error())
+		}
+	}()
+
+	ratelimit.Check(request.GetAction())
+
+	response, err := me.client.UseCkafkaClient().DescribeRoute(request)
+	if err != nil {
+		errRet = err
+		return
+	}
+	log.Printf("[DEBUG]%s api[%s] success, request body [%s], response body [%s]\n", logId, request.GetAction(), request.ToJsonString(), response.ToJsonString())
+
+	if response.Response == nil || response.Response.Result == nil {
+		return
+	}
+
+	for _, r := range response.Response.Result.Routers {
+		if r.VipType == nil || r.AccessType == nil {
+			continue
+		}
+		routeVpcId := ""
+		if r.VpcId != nil {
+			routeVpcId = *r.VpcId
+		}
+		routeSubnet := ""
+		if r.Subnet != nil {
+			routeSubnet = *r.Subnet
+		}
+		if *r.VipType == vipType && routeVpcId == vpcId && routeSubnet == subnet && *r.AccessType == accessType {
+			route = r
+			return
+		}
+	}
+	return
+}
+
+func (me *CkafkaService) DescribeCkafkaRouteById(ctx context.Context, instanceId string, routeId int64) (route *ckafka.Route, errRet error) {
+	logId := getLogId(ctx)
+
+	request := ckafka.NewDescribeRouteRequest()
+	request.InstanceId = &instanceId
+
+	defer func() {
+		if errRet != nil {
+			log.Printf("[CRITAL]%s api[%s] fail, request body [%s], reason[%s]\n", logId, request.GetAction(), request.ToJsonString(), errRet.Error())
+		}
+	}()
+
+	ratelimit.Check(request.GetAction())
+
+	response, err := me.client.UseCkafkaClient().DescribeRoute(request)
+	if err != nil {
+		errRet = err
+		return
+	}
+	log.Printf("[DEBUG]%s api[%s] success, request body [%s], response body [%s]\n", logId, request.GetAction(), request.ToJsonString(), response.ToJsonString())
+
+	if response.Response == nil || response.Response.Result == nil {
+		return
+	}
+
+	for _, r := range response.Response.Result.Routers {
+		if r.RouteId != nil && *r.RouteId == routeId {
+			route = r
+			return
+		}
+	}
+	return
+}
+
+func (me *CkafkaService) DeleteCkafkaRouteById(ctx context.Context, instanceId string, routeId int64) (errRet error) {
+	logId := getLogId(ctx)
+
+	request := ckafka.NewDeleteRouteRequest()
+	request.InstanceId = &instanceId
+	request.RouteId = &routeId
+
+	defer func() {
+		if errRet != nil {
+			log.Printf("[CRITAL]%s api[%s] fail, request body [%s], reason[%s]\n", logId, request.GetAction(), request.ToJsonString(), errRet.Error())
+		}
+	}()
+
+	ratelimit.Check(request.GetAction())
+
+	response, err := me.client.UseCkafkaClient().DeleteRoute(request)
+	if err != nil {
+		errRet = err
+		return
+	}
+	log.Printf("[DEBUG]%s api[%s] success, request body [%s], response body [%s]\n", logId, request.GetAction(), request.ToJsonString(), response.ToJsonString())
 	return
 }

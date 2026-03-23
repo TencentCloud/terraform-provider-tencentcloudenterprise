@@ -2,7 +2,7 @@ package tencentcloud
 
 /*
 func init() {
-	// go test -v ./tencentcloud -sweep=ap-guangzhou -sweep-run=cloud_cbs_disk_backup
+	// go test -v ./tencentcloud -sweep=ap-guangzhou -sweep-run=tencentcloudenterprise_cbs_disk_backup
 	resource.AddTestSweepers("tencentcloudenterprise_cbs_disk_backup", &resource.Sweeper{
 		Name: "tencentcloudenterprise_cbs_disk_backup",
 		F: func(r string) error {

@@ -1,18 +1,16 @@
 /*
 Provides a resource to create a cvm renew_host
 
-# Example Usage
+Example Usage
 
 ```hcl
-
-	resource "tencentcloudenterprise_cvm_renew_host" "renew_host" {
-	  host_id = "xxxxxx"
-	  host_charge_prepaid {
-		period = 1
-		renew_flag = "NOTIFY_AND_MANUAL_RENEW"
-	  }
-	}
-
+resource "tencentcloudenterprise_cvm_renew_host" "renew_host" {
+  host_id = "xxxxxx"
+  host_charge_prepaid {
+	period = 1
+	renew_flag = "NOTIFY_AND_MANUAL_RENEW"
+  }
+}
 ```
 */
 package tencentcloud
@@ -20,10 +18,10 @@ package tencentcloud
 import (
 	"log"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	cvm "terraform-provider-tencentcloudenterprise/sdk/cvm/v20170312"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func init() {

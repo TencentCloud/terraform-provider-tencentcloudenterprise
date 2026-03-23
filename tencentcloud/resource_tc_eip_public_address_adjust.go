@@ -1,14 +1,12 @@
 /*
 Provides a resource to create a eip public_address_adjust
 
-# Example Usage
+Example Usage
 
 ```hcl
-
-	resource "tencentcloudenterprise_eip_public_address_adjust" "public_address_adjust" {
-	  instance_id = "ins-osckfnm7"
-	}
-
+resource "tencentcloudenterprise_eip_public_address_adjust" "public_address_adjust" {
+  instance_id = "ins-osckfnm7"
+}
 ```
 */
 package tencentcloud
@@ -17,10 +15,10 @@ import (
 	"log"
 	"time"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	vpc "terraform-provider-tencentcloudenterprise/sdk/vpc/v20170312"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func init() {

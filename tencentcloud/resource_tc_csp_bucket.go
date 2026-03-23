@@ -21,7 +21,6 @@ Example Usage
 	  bucket   = "mycos-1258798060"
 	  acl      = "private"
 	  versioning_enable = true
-	  force_clean       = true
 	}
 
 ```
@@ -192,12 +191,12 @@ func init() {
 		TerraformTypeCN: "创建存储桶（CSP）",
 		DescriptionCN:   "提供CSP存储桶资源，用于创建和管理CSP存储桶及其属性。",
 		AttributesCN: map[string]string{
-			"bucket":               "存储桶名称，格式为[自定义名称]-[appid]，例如：mycos-1258798060，appid可以在账号中心获取",
-			"acl":                  "权限控制, 可取值包括private(私有读写), public-read(公有读私有写)和public-read-write(公有读写)",
-			"encryption_algorithm": "加密算法, 合法取值包括AES256、SM4",
-			"versioning_enable":    "版本控制",
-			"acceleration_enable":  "加速配置",
-			"force_clean":          "强制清空存储桶",
+			"bucket":                    "存储桶名称，格式为[自定义名称]-[appid]，例如：mycos-1258798060，appid可以在账号中心获取",
+			"acl":                       "权限控制, 可取值包括private(私有读写), public-read(公有读私有写)和public-read-write(公有读写)",
+			"encryption_algorithm":      "加密算法, 合法取值包括AES256、SM4",
+			"versioning_enable":         "版本控制",
+			"acceleration_enable":       "加速配置",
+			"force_clean":               "强制清空存储桶",
 			//"replica_role":            "跨区域复制角色",
 			//"replica_rules":           "跨区域复制规则",
 			"id":                        "规则名称",
@@ -214,22 +213,22 @@ func init() {
 			"lifecycle_rules":           "生命周期规则，请至少填写一项非必选参数：non_current_expiration和expiration",
 			"filter_prefix":             "前缀匹配策略",
 			//"transition":                "过渡配置",
-			"expiration":     "当前版本文件过期配置",
-			"website":        "静态网站配置",
-			"index_document": "首页文档",
-			"error_document": "错误文档",
+			"expiration":                "当前版本文件过期配置",
+			"website":                   "静态网站配置",
+			"index_document":            "首页文档",
+			"error_document":            "错误文档",
 			// "endpoint":                  "静态网站域名",
-			"tags":              "标签",
-			"log_enable":        "日志开启",
-			"log_target_bucket": "日志存储桶",
-			"log_prefix":        "日志前缀",
-			"cos_bucket_url":    "存储桶访问地址",
+			"tags":                   "标签",
+			"log_enable":             "日志开启",
+			"log_target_bucket":      "日志存储桶",
+			"log_prefix":             "日志前缀",
+			"cos_bucket_url":         "存储桶访问地址",
 			//"non_current_transition": "非当前对象过渡配置",
 			"non_current_days":       "非当前版本指定规则生效天数，例如在非当前版本过期配置下，会在non_current_days天后过期",
 			"storage_class":          "存储类型",
 			"non_current_expiration": "非当前版本文件过期配置",
 			"days":                   "当前版本指定规则生效天数，例如在当前版本过期配置下，会在days天后过期",
-			"delete_marker":          "删除标记，该选项与expiration(当前版本文件过期配置)互斥，是版本控制中的逻辑标记，用于 “删除” 对象时保留历史版本，避免物理删除，可通过移除该标记恢复数据。",
+			"delete_marker":		  "删除标记，该选项与expiration(当前版本文件过期配置)互斥，是版本控制中的逻辑标记，用于 “删除” 对象时保留历史版本，避免物理删除，可通过移除该标记恢复数据。",
 		},
 	})
 }
@@ -1535,7 +1534,7 @@ func resourceTencentCloudCspBucketLogStatusUpdate(ctx context.Context, client *s
 	// 		}
 
 	// 		//set log target bucket and prefix
-	// 		//grant are solved by the cloud_cam_role_attachment resource
+	// 		//grant are solved by the tencentcloudenterprise_cam_role_attachment resource
 	// 		request := &s3.PutBucketLoggingInput{
 	// 			Bucket: aws.String(bucket),
 	// 			BucketLoggingStatus: &s3.BucketLoggingStatus{

@@ -28,7 +28,7 @@ variable "scale_instance_type" {
   default = "S2.LARGE16"
 }
 
-resource cloud_tke_kubernetes_scale_worker test_scale {
+resource tencentcloudenterprise_tke_kubernetes_scale_worker test_scale {
   cluster_id      = "cls-godovr32"
   desired_pod_num = 16
   labels = {
@@ -74,7 +74,7 @@ variable "scale_instance_type" {
   default = "S2.LARGE16"
 }
 
-resource cloud_tke_kubernetes_scale_worker test_scale {
+resource tencentcloudenterprise_tke_kubernetes_scale_worker test_scale {
   cluster_id = "cls-godovr32"
 
   extra_args = [

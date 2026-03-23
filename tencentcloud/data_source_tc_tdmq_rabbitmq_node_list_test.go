@@ -25,14 +25,12 @@ func TestAccTencentCloudNeedFixTdmqRabbitmqNodeListDataSource_basic(t *testing.T
 }
 
 const testAccTdmqRabbitmqNodeListDataSource = `
-data "tencentcloudenterprise_tdmq_rabbitmq_node_list" "rabbitmq_node_list" {
-  instance_id = "amqp-testtesttest"
-  node_name   = "keep-node"
-  filters {
-    name   = "nodeStatus"
-    values = ["running", "down"]
-  }
-  sort_element = "cpuUsage"
-  sort_order   = "descend"
+data "tencentcloudenterprise_tdmq_rabbitmq_node_list" "specific_node" {
+  instance_id = "amqp-xxxxxxxx"
+  node_name   = "rabbit@rabbitmq-broker-1.rabbitmq-broker-internal.amqp-7d39mjvn.svc.cluster.local"
+}
+
+output "node_status" {
+  value = data.tencentcloudenterprise_tdmq_rabbitmq_node_list.specific_node.node_list[0].node_status
 }
 `

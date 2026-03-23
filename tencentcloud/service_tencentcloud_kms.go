@@ -11,11 +11,11 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/pkg/errors"
-	kms "github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/kms/v20190118"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/connectivity"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/ratelimit"
+	"github.com/pkg/errors"
+	kms "github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/kms/v20190118"
 )
 
 type KmsService struct {

@@ -17,8 +17,8 @@ Provides a resource to create a cls machine group.
 	  machine_group_type {
 	    type   = "ip"
 	    values = [
-	      "203.0.113.101",
-	      "203.0.113.102",
+	      "192.168.1.1",
+	      "192.168.1.2",
 	    ]
 	  }
 	}
@@ -40,10 +40,10 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	cls "terraform-provider-tencentcloudenterprise/sdk/cls/v20201016"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func init() {
@@ -51,22 +51,25 @@ func init() {
 		TerraformTypeCN: "CLS机器组",
 		DescriptionCN:   "提供CLS机器组资源，用于创建和管理日志服务机器组。",
 		AttributesCN: map[string]string{
-			"group_name":         "机器组名字，不能重复",
-			"flag":               "TKE标志位，默认值为空字符串。空字符串表示日志不是来自于TKE，label_k8s表示日志来自于TKE。",
-			"delay_cleanup_time": "机器组中机器离线清理时间。单位：天",
-			"meta_tags":          "机器组元数据信息列表",
-			"os_type":            "系统类型，取值如下：  0：Linux （默认值） 1：Windows",
-			"service_logging":    "是否开启服务日志，用于记录因Loglistener 服务自身产生的log，开启后，会创建内部日志集cls_service_logging和日志主题loglistener_status,loglistener_alarm,loglistener_business，不产生计费。默认false",
-			"auto_update":        "是否开启机器组自动更新。true表示开启机器组自动更新，false表示关闭机器组自动更新。是否开启机器组自动更新。默认false",
-			"update_start_time":  "升级开始时间，建议业务低峰期升级LogListener",
-			"update_end_time":    "升级结束时间，建议业务低峰期升级LogListener",
-			"machine_group_type": "创建机器组类型。取值如下：  Type：ip，Values中为ip字符串列表创建机器组 Type：label，Values中为标签字符串列表创建机器组",
-			"tags":               "标签描述列表，通过指定该参数可以同时绑定标签到相应的机器组。最大支持10个标签键值对，同一个资源只能绑定到同一个标签键下。",
-			"group_id":           "机器组ID",
-			"key":                "元数据key",
-			"value":              "元数据value",
-			"type":               "机器组类型。支持 ip 和 label。  ip：表示该机器组Values中存的是采集机器的ip地址 label：表示该机器组Values中存储的是机器的标签",
-			"values":             "机器描述列表。",
+			"group_name":           "机器组名字，不能重复",
+			"flag":                 "TKE标志位，默认值为空字符串。空字符串表示日志不是来自于TKE，label_k8s表示日志来自于TKE。",
+			"delay_cleanup_time":   "机器组中机器离线清理时间。单位：天",
+			"meta_tags":            "机器组元数据信息列表",
+			"os_type":              "系统类型，取值如下：  0：Linux （默认值） 1：Windows",
+			"cluster_id":           "集群ID。当Flag为label_tke时，表示TKE集群ID。ClusterId与ClusterRegion必须同时填写，或者为空。",
+			"cluster_region":       "集群所在地域。当Flag为label_tke时，表示TKE集群地域。ClusterId与ClusterRegion必须同时填写，或者为空。",
+			"dedicated_cluster_id": "专用集群ID",
+			"service_logging":      "是否开启服务日志，用于记录因Loglistener 服务自身产生的log，开启后，会创建内部日志集cls_service_logging和日志主题loglistener_status,loglistener_alarm,loglistener_business，不产生计费。默认false",
+			"auto_update":          "是否开启机器组自动更新。true表示开启机器组自动更新，false表示关闭机器组自动更新。是否开启机器组自动更新。默认false",
+			"update_start_time":    "升级开始时间，建议业务低峰期升级LogListener",
+			"update_end_time":      "升级结束时间，建议业务低峰期升级LogListener",
+			"machine_group_type":   "创建机器组类型。取值如下：  Type：ip，Values中为ip字符串列表创建机器组 Type：label，Values中为标签字符串列表创建机器组",
+			"tags":                 "标签描述列表，通过指定该参数可以同时绑定标签到相应的机器组。最大支持10个标签键值对，同一个资源只能绑定到同一个标签键下。",
+			"group_id":             "机器组ID",
+			"key":                  "元数据key",
+			"value":                "元数据value",
+			"type":                 "机器组类型。支持 ip 和 label。  ip：表示该机器组Values中存的是采集机器的ip地址 label：表示该机器组Values中存储的是机器的标签",
+			"values":               "机器描述列表。",
 		},
 	})
 }
@@ -169,6 +172,24 @@ func resourceTencentCloudClsMachineGroup() *schema.Resource {
 				Optional:    true,
 				Description: "Operating system type. 0: Linux (default), 1: Windows.",
 			},
+			"cluster_id": {
+				Type:         schema.TypeString,
+				Optional:     true,
+				RequiredWith: []string{"cluster_region"},
+				Description:  "Cluster ID. When `flag` is `label_tke`, this means the TKE cluster ID. ClusterId and ClusterRegion must both be set or both be empty.",
+			},
+			"cluster_region": {
+				Type:         schema.TypeString,
+				Optional:     true,
+				RequiredWith: []string{"cluster_id"},
+				Description:  "Cluster region. When `flag` is `label_tke`, this means the TKE cluster region. ClusterId and ClusterRegion must both be set or both be empty.",
+			},
+			"dedicated_cluster_id": {
+				Type:        schema.TypeString,
+				Optional:    true,
+				ForceNew:    true,
+				Description: "Dedicated cluster ID.",
+			},
 			"group_id": {
 				Type:        schema.TypeString,
 				Computed:    true,
@@ -237,6 +258,46 @@ func resourceTencentCloudClsMachineGroupCreate(d *schema.ResourceData, meta inte
 		request.ServiceLogging = helper.Bool(v.(bool))
 	}
 
+	if v, ok := d.GetOk("flag"); ok {
+		request.Flag = helper.String(v.(string))
+	}
+
+	if v, ok := d.GetOk("delay_cleanup_time"); ok {
+		request.DelayCleanupTime = helper.IntInt64(v.(int))
+	}
+
+	if v, ok := d.GetOk("meta_tags"); ok {
+		metaTags := make([]*cls.MetaTagInfo, 0, 10)
+		for _, item := range v.([]interface{}) {
+			dMap := item.(map[string]interface{})
+			metaTag := cls.MetaTagInfo{}
+			if v, ok := dMap["key"]; ok {
+				metaTag.Key = helper.String(v.(string))
+			}
+			if v, ok := dMap["value"]; ok {
+				metaTag.Value = helper.String(v.(string))
+			}
+			metaTags = append(metaTags, &metaTag)
+		}
+		request.MetaTags = metaTags
+	}
+
+	if v, ok := d.GetOk("os_type"); ok {
+		request.OSType = helper.IntUint64(v.(int))
+	}
+
+	if v, ok := d.GetOk("cluster_id"); ok {
+		request.ClusterId = helper.String(v.(string))
+	}
+
+	if v, ok := d.GetOk("cluster_region"); ok {
+		request.ClusterRegion = helper.String(v.(string))
+	}
+
+	if v, ok := d.GetOk("dedicated_cluster_id"); ok {
+		request.DedicatedClusterId = helper.String(v.(string))
+	}
+
 	err := resource.Retry(writeRetryTimeout, func() *resource.RetryError {
 		result, e := meta.(*TencentCloudClient).apiV3Conn.UseClsClient().CreateMachineGroup(request)
 		if e != nil {
@@ -281,6 +342,7 @@ func resourceTencentCloudClsMachineGroupRead(d *schema.ResourceData, meta interf
 	}
 
 	_ = d.Set("group_name", machineGroup.GroupName)
+	_ = d.Set("group_id", machineGroup.GroupId)
 
 	machineGroupType := make([]map[string]interface{}, 0)
 
@@ -301,6 +363,38 @@ func resourceTencentCloudClsMachineGroupRead(d *schema.ResourceData, meta interf
 	_ = d.Set("update_start_time", machineGroup.UpdateStartTime)
 	_ = d.Set("update_end_time", machineGroup.UpdateEndTime)
 	_ = d.Set("service_logging", machineGroup.ServiceLogging)
+	if machineGroup.Flag != nil {
+		_ = d.Set("flag", machineGroup.Flag)
+	}
+	if machineGroup.DelayCleanupTime != nil {
+		_ = d.Set("delay_cleanup_time", machineGroup.DelayCleanupTime)
+	}
+	if machineGroup.MetaTags != nil {
+		metaTagsList := []interface{}{}
+		for _, metaTag := range machineGroup.MetaTags {
+			metaTagMap := map[string]interface{}{}
+			if metaTag.Key != nil {
+				metaTagMap["key"] = *metaTag.Key
+			}
+			if metaTag.Value != nil {
+				metaTagMap["value"] = *metaTag.Value
+			}
+			metaTagsList = append(metaTagsList, metaTagMap)
+		}
+		_ = d.Set("meta_tags", metaTagsList)
+	}
+	if machineGroup.OSType != nil {
+		_ = d.Set("os_type", int(*machineGroup.OSType))
+	}
+	if machineGroup.ClusterId != nil {
+		_ = d.Set("cluster_id", machineGroup.ClusterId)
+	}
+	if machineGroup.ClusterRegion != nil {
+		_ = d.Set("cluster_region", machineGroup.ClusterRegion)
+	}
+	if machineGroup.DedicatedClusterId != nil {
+		_ = d.Set("dedicated_cluster_id", machineGroup.DedicatedClusterId)
+	}
 
 	return nil
 }
@@ -356,6 +450,10 @@ func resourceTencentCloudClsMachineGroupUpdate(d *schema.ResourceData, meta inte
 		request.ServiceLogging = helper.Bool(d.Get("service_logging").(bool))
 	}
 
+	if d.HasChange("flag") {
+		request.Flag = helper.String(d.Get("flag").(string))
+	}
+
 	if d.HasChange("delay_cleanup_time") {
 		request.DelayCleanupTime = helper.IntInt64(d.Get("delay_cleanup_time").(int))
 	}
@@ -376,6 +474,11 @@ func resourceTencentCloudClsMachineGroupUpdate(d *schema.ResourceData, meta inte
 			}
 			request.MetaTags = metaTags
 		}
+	}
+
+	if d.HasChange("cluster_id") || d.HasChange("cluster_region") {
+		request.ClusterId = helper.String(d.Get("cluster_id").(string))
+		request.ClusterRegion = helper.String(d.Get("cluster_region").(string))
 	}
 
 	err := resource.Retry(writeRetryTimeout, func() *resource.RetryError {

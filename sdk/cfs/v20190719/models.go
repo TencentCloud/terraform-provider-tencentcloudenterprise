@@ -1888,7 +1888,7 @@ type AutoSnapshotPolicyInfo struct {
 	NextActiveTime *string `json:"NextActiveTime,omitempty" name:"NextActiveTime"`
 	// 策略状态
 
-	Status *string `json:"Status,omitempty" name:"Status"`
+	Status *string`json:"Status,omitempty" name:"Status"`
 	// 保留时间
 
 	AliveDays *uint64 `json:"AliveDays,omitempty" name:"AliveDays"`

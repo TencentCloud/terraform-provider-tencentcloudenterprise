@@ -69,52 +69,52 @@ func (c *Client) CreateWorkWeixinOpenAppConfig(request *CreateWorkWeixinOpenAppC
 	return
 }
 
-func NewGetWorkWeixinOpenAppMemberRequest() (request *GetWorkWeixinOpenAppMemberRequest) {
-	request = &GetWorkWeixinOpenAppMemberRequest{
+func NewUpdateWorkWeixinConfigRequest() (request *UpdateWorkWeixinConfigRequest) {
+	request = &UpdateWorkWeixinConfigRequest{
 		BaseRequest: &tchttp.BaseRequest{},
 	}
-	request.Init().WithApiInfo("open", APIVersion, "GetWorkWeixinOpenAppMember")
+	request.Init().WithApiInfo("open", APIVersion, "UpdateWorkWeixinConfig")
 	return
 }
 
-func NewGetWorkWeixinOpenAppMemberResponse() (response *GetWorkWeixinOpenAppMemberResponse) {
-	response = &GetWorkWeixinOpenAppMemberResponse{
+func NewUpdateWorkWeixinConfigResponse() (response *UpdateWorkWeixinConfigResponse) {
+	response = &UpdateWorkWeixinConfigResponse{
 		BaseResponse: &tchttp.BaseResponse{},
 	}
 	return
 }
 
-// 获取企业微信内部应用成员信息
-func (c *Client) GetWorkWeixinOpenAppMember(request *GetWorkWeixinOpenAppMemberRequest) (response *GetWorkWeixinOpenAppMemberResponse, err error) {
+// UpdateWorkWeixinConfig
+func (c *Client) UpdateWorkWeixinConfig(request *UpdateWorkWeixinConfigRequest) (response *UpdateWorkWeixinConfigResponse, err error) {
 	if request == nil {
-		request = NewGetWorkWeixinOpenAppMemberRequest()
+		request = NewUpdateWorkWeixinConfigRequest()
 	}
-	response = NewGetWorkWeixinOpenAppMemberResponse()
+	response = NewUpdateWorkWeixinConfigResponse()
 	err = c.Send(request, response)
 	return
 }
 
-func NewCreateLdapIdpRequest() (request *CreateLdapIdpRequest) {
-	request = &CreateLdapIdpRequest{
+func NewAddSamlConfigRequest() (request *AddSamlConfigRequest) {
+	request = &AddSamlConfigRequest{
 		BaseRequest: &tchttp.BaseRequest{},
 	}
-	request.Init().WithApiInfo("open", APIVersion, "CreateLdapIdp")
+	request.Init().WithApiInfo("open", APIVersion, "AddSamlConfig")
 	return
 }
 
-func NewCreateLdapIdpResponse() (response *CreateLdapIdpResponse) {
-	response = &CreateLdapIdpResponse{
+func NewAddSamlConfigResponse() (response *AddSamlConfigResponse) {
+	response = &AddSamlConfigResponse{
 		BaseResponse: &tchttp.BaseResponse{},
 	}
 	return
 }
 
-// 创建ldap认证源
-func (c *Client) CreateLdapIdp(request *CreateLdapIdpRequest) (response *CreateLdapIdpResponse, err error) {
+// 新增Saml配置
+func (c *Client) AddSamlConfig(request *AddSamlConfigRequest) (response *AddSamlConfigResponse, err error) {
 	if request == nil {
-		request = NewCreateLdapIdpRequest()
+		request = NewAddSamlConfigRequest()
 	}
-	response = NewCreateLdapIdpResponse()
+	response = NewAddSamlConfigResponse()
 	err = c.Send(request, response)
 	return
 }
@@ -144,102 +144,52 @@ func (c *Client) UpdateLdapIdp(request *UpdateLdapIdpRequest) (response *UpdateL
 	return
 }
 
-func NewListIdentityProviderRequest() (request *ListIdentityProviderRequest) {
-	request = &ListIdentityProviderRequest{
+func NewAddOidcConfigRequest() (request *AddOidcConfigRequest) {
+	request = &AddOidcConfigRequest{
 		BaseRequest: &tchttp.BaseRequest{},
 	}
-	request.Init().WithApiInfo("open", APIVersion, "ListIdentityProvider")
+	request.Init().WithApiInfo("open", APIVersion, "AddOidcConfig")
 	return
 }
 
-func NewListIdentityProviderResponse() (response *ListIdentityProviderResponse) {
-	response = &ListIdentityProviderResponse{
+func NewAddOidcConfigResponse() (response *AddOidcConfigResponse) {
+	response = &AddOidcConfigResponse{
 		BaseResponse: &tchttp.BaseResponse{},
 	}
 	return
 }
 
-// 获取认证源列表
-func (c *Client) ListIdentityProvider(request *ListIdentityProviderRequest) (response *ListIdentityProviderResponse, err error) {
+// 新增oidc企业登陆配置
+func (c *Client) AddOidcConfig(request *AddOidcConfigRequest) (response *AddOidcConfigResponse, err error) {
 	if request == nil {
-		request = NewListIdentityProviderRequest()
+		request = NewAddOidcConfigRequest()
 	}
-	response = NewListIdentityProviderResponse()
+	response = NewAddOidcConfigResponse()
 	err = c.Send(request, response)
 	return
 }
 
-func NewEnabledIdpConfigRequest() (request *EnabledIdpConfigRequest) {
-	request = &EnabledIdpConfigRequest{
+func NewBatchBindWorkWeixinAccountRequest() (request *BatchBindWorkWeixinAccountRequest) {
+	request = &BatchBindWorkWeixinAccountRequest{
 		BaseRequest: &tchttp.BaseRequest{},
 	}
-	request.Init().WithApiInfo("open", APIVersion, "EnabledIdpConfig")
+	request.Init().WithApiInfo("open", APIVersion, "BatchBindWorkWeixinAccount")
 	return
 }
 
-func NewEnabledIdpConfigResponse() (response *EnabledIdpConfigResponse) {
-	response = &EnabledIdpConfigResponse{
+func NewBatchBindWorkWeixinAccountResponse() (response *BatchBindWorkWeixinAccountResponse) {
+	response = &BatchBindWorkWeixinAccountResponse{
 		BaseResponse: &tchttp.BaseResponse{},
 	}
 	return
 }
 
-// 启用idp登录
-func (c *Client) EnabledIdpConfig(request *EnabledIdpConfigRequest) (response *EnabledIdpConfigResponse, err error) {
+// BatchBindWorkWeixinAccount
+func (c *Client) BatchBindWorkWeixinAccount(request *BatchBindWorkWeixinAccountRequest) (response *BatchBindWorkWeixinAccountResponse, err error) {
 	if request == nil {
-		request = NewEnabledIdpConfigRequest()
+		request = NewBatchBindWorkWeixinAccountRequest()
 	}
-	response = NewEnabledIdpConfigResponse()
-	err = c.Send(request, response)
-	return
-}
-
-func NewDisabledIdpConfigRequest() (request *DisabledIdpConfigRequest) {
-	request = &DisabledIdpConfigRequest{
-		BaseRequest: &tchttp.BaseRequest{},
-	}
-	request.Init().WithApiInfo("open", APIVersion, "DisabledIdpConfig")
-	return
-}
-
-func NewDisabledIdpConfigResponse() (response *DisabledIdpConfigResponse) {
-	response = &DisabledIdpConfigResponse{
-		BaseResponse: &tchttp.BaseResponse{},
-	}
-	return
-}
-
-// 关闭idp登录
-func (c *Client) DisabledIdpConfig(request *DisabledIdpConfigRequest) (response *DisabledIdpConfigResponse, err error) {
-	if request == nil {
-		request = NewDisabledIdpConfigRequest()
-	}
-	response = NewDisabledIdpConfigResponse()
-	err = c.Send(request, response)
-	return
-}
-
-func NewGetWorkWeixinOpenAppConfigRequest() (request *GetWorkWeixinOpenAppConfigRequest) {
-	request = &GetWorkWeixinOpenAppConfigRequest{
-		BaseRequest: &tchttp.BaseRequest{},
-	}
-	request.Init().WithApiInfo("open", APIVersion, "GetWorkWeixinOpenAppConfig")
-	return
-}
-
-func NewGetWorkWeixinOpenAppConfigResponse() (response *GetWorkWeixinOpenAppConfigResponse) {
-	response = &GetWorkWeixinOpenAppConfigResponse{
-		BaseResponse: &tchttp.BaseResponse{},
-	}
-	return
-}
-
-// 获取企业微信内部应用配置
-func (c *Client) GetWorkWeixinOpenAppConfig(request *GetWorkWeixinOpenAppConfigRequest) (response *GetWorkWeixinOpenAppConfigResponse, err error) {
-	if request == nil {
-		request = NewGetWorkWeixinOpenAppConfigRequest()
-	}
-	response = NewGetWorkWeixinOpenAppConfigResponse()
+	response = NewBatchBindWorkWeixinAccountResponse()
 	err = c.Send(request, response)
 	return
 }
@@ -269,6 +219,181 @@ func (c *Client) TestLdap(request *TestLdapRequest) (response *TestLdapResponse,
 	return
 }
 
+func NewGetWorkWeixinAuthorizationScopeRequest() (request *GetWorkWeixinAuthorizationScopeRequest) {
+	request = &GetWorkWeixinAuthorizationScopeRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("open", APIVersion, "GetWorkWeixinAuthorizationScope")
+	return
+}
+
+func NewGetWorkWeixinAuthorizationScopeResponse() (response *GetWorkWeixinAuthorizationScopeResponse) {
+	response = &GetWorkWeixinAuthorizationScopeResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// GetWorkWeixinAuthorizationScope
+func (c *Client) GetWorkWeixinAuthorizationScope(request *GetWorkWeixinAuthorizationScopeRequest) (response *GetWorkWeixinAuthorizationScopeResponse, err error) {
+	if request == nil {
+		request = NewGetWorkWeixinAuthorizationScopeRequest()
+	}
+	response = NewGetWorkWeixinAuthorizationScopeResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewGetWorkWeixinConfigRequest() (request *GetWorkWeixinConfigRequest) {
+	request = &GetWorkWeixinConfigRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("open", APIVersion, "GetWorkWeixinConfig")
+	return
+}
+
+func NewGetWorkWeixinConfigResponse() (response *GetWorkWeixinConfigResponse) {
+	response = &GetWorkWeixinConfigResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// GetWorkWeixinConfig
+func (c *Client) GetWorkWeixinConfig(request *GetWorkWeixinConfigRequest) (response *GetWorkWeixinConfigResponse, err error) {
+	if request == nil {
+		request = NewGetWorkWeixinConfigRequest()
+	}
+	response = NewGetWorkWeixinConfigResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewUpdateSamlConfigRequest() (request *UpdateSamlConfigRequest) {
+	request = &UpdateSamlConfigRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("open", APIVersion, "UpdateSamlConfig")
+	return
+}
+
+func NewUpdateSamlConfigResponse() (response *UpdateSamlConfigResponse) {
+	response = &UpdateSamlConfigResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 更新saml配置
+func (c *Client) UpdateSamlConfig(request *UpdateSamlConfigRequest) (response *UpdateSamlConfigResponse, err error) {
+	if request == nil {
+		request = NewUpdateSamlConfigRequest()
+	}
+	response = NewUpdateSamlConfigResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewCreateLdapIdpRequest() (request *CreateLdapIdpRequest) {
+	request = &CreateLdapIdpRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("open", APIVersion, "CreateLdapIdp")
+	return
+}
+
+func NewCreateLdapIdpResponse() (response *CreateLdapIdpResponse) {
+	response = &CreateLdapIdpResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 创建ldap认证源
+func (c *Client) CreateLdapIdp(request *CreateLdapIdpRequest) (response *CreateLdapIdpResponse, err error) {
+	if request == nil {
+		request = NewCreateLdapIdpRequest()
+	}
+	response = NewCreateLdapIdpResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewGetWorkWeixinOpenAppConfigRequest() (request *GetWorkWeixinOpenAppConfigRequest) {
+	request = &GetWorkWeixinOpenAppConfigRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("open", APIVersion, "GetWorkWeixinOpenAppConfig")
+	return
+}
+
+func NewGetWorkWeixinOpenAppConfigResponse() (response *GetWorkWeixinOpenAppConfigResponse) {
+	response = &GetWorkWeixinOpenAppConfigResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 获取企业微信内部应用配置
+func (c *Client) GetWorkWeixinOpenAppConfig(request *GetWorkWeixinOpenAppConfigRequest) (response *GetWorkWeixinOpenAppConfigResponse, err error) {
+	if request == nil {
+		request = NewGetWorkWeixinOpenAppConfigRequest()
+	}
+	response = NewGetWorkWeixinOpenAppConfigResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewDisabledIdpConfigRequest() (request *DisabledIdpConfigRequest) {
+	request = &DisabledIdpConfigRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("open", APIVersion, "DisabledIdpConfig")
+	return
+}
+
+func NewDisabledIdpConfigResponse() (response *DisabledIdpConfigResponse) {
+	response = &DisabledIdpConfigResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 关闭idp登录
+func (c *Client) DisabledIdpConfig(request *DisabledIdpConfigRequest) (response *DisabledIdpConfigResponse, err error) {
+	if request == nil {
+		request = NewDisabledIdpConfigRequest()
+	}
+	response = NewDisabledIdpConfigResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewGetWorkWeixinOpenAppMemberRequest() (request *GetWorkWeixinOpenAppMemberRequest) {
+	request = &GetWorkWeixinOpenAppMemberRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("open", APIVersion, "GetWorkWeixinOpenAppMember")
+	return
+}
+
+func NewGetWorkWeixinOpenAppMemberResponse() (response *GetWorkWeixinOpenAppMemberResponse) {
+	response = &GetWorkWeixinOpenAppMemberResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 获取企业微信内部应用成员信息
+func (c *Client) GetWorkWeixinOpenAppMember(request *GetWorkWeixinOpenAppMemberRequest) (response *GetWorkWeixinOpenAppMemberResponse, err error) {
+	if request == nil {
+		request = NewGetWorkWeixinOpenAppMemberRequest()
+	}
+	response = NewGetWorkWeixinOpenAppMemberResponse()
+	err = c.Send(request, response)
+	return
+}
+
 func NewBindWorkWeixinAccountRequest() (request *BindWorkWeixinAccountRequest) {
 	request = &BindWorkWeixinAccountRequest{
 		BaseRequest: &tchttp.BaseRequest{},
@@ -290,6 +415,81 @@ func (c *Client) BindWorkWeixinAccount(request *BindWorkWeixinAccountRequest) (r
 		request = NewBindWorkWeixinAccountRequest()
 	}
 	response = NewBindWorkWeixinAccountResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewUpdateWorkWeixinOpenAppConfigRequest() (request *UpdateWorkWeixinOpenAppConfigRequest) {
+	request = &UpdateWorkWeixinOpenAppConfigRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("open", APIVersion, "UpdateWorkWeixinOpenAppConfig")
+	return
+}
+
+func NewUpdateWorkWeixinOpenAppConfigResponse() (response *UpdateWorkWeixinOpenAppConfigResponse) {
+	response = &UpdateWorkWeixinOpenAppConfigResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 更新企业微信内部应用配置
+func (c *Client) UpdateWorkWeixinOpenAppConfig(request *UpdateWorkWeixinOpenAppConfigRequest) (response *UpdateWorkWeixinOpenAppConfigResponse, err error) {
+	if request == nil {
+		request = NewUpdateWorkWeixinOpenAppConfigRequest()
+	}
+	response = NewUpdateWorkWeixinOpenAppConfigResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewCreateCICUserSAMLConfigRequest() (request *CreateCICUserSAMLConfigRequest) {
+	request = &CreateCICUserSAMLConfigRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("open", APIVersion, "CreateCICUserSAMLConfig")
+	return
+}
+
+func NewCreateCICUserSAMLConfigResponse() (response *CreateCICUserSAMLConfigResponse) {
+	response = &CreateCICUserSAMLConfigResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 创建身份中心用户配置
+func (c *Client) CreateCICUserSAMLConfig(request *CreateCICUserSAMLConfigRequest) (response *CreateCICUserSAMLConfigResponse, err error) {
+	if request == nil {
+		request = NewCreateCICUserSAMLConfigRequest()
+	}
+	response = NewCreateCICUserSAMLConfigResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewEnabledIdpConfigRequest() (request *EnabledIdpConfigRequest) {
+	request = &EnabledIdpConfigRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("open", APIVersion, "EnabledIdpConfig")
+	return
+}
+
+func NewEnabledIdpConfigResponse() (response *EnabledIdpConfigResponse) {
+	response = &EnabledIdpConfigResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 启用idp登录
+func (c *Client) EnabledIdpConfig(request *EnabledIdpConfigRequest) (response *EnabledIdpConfigResponse, err error) {
+	if request == nil {
+		request = NewEnabledIdpConfigRequest()
+	}
+	response = NewEnabledIdpConfigResponse()
 	err = c.Send(request, response)
 	return
 }
@@ -319,27 +519,227 @@ func (c *Client) GetLdapIdpConfig(request *GetLdapIdpConfigRequest) (response *G
 	return
 }
 
-func NewUpdateWorkWeixinOpenAppConfigRequest() (request *UpdateWorkWeixinOpenAppConfigRequest) {
-	request = &UpdateWorkWeixinOpenAppConfigRequest{
+func NewUpdateCICUserSAMLConfigRequest() (request *UpdateCICUserSAMLConfigRequest) {
+	request = &UpdateCICUserSAMLConfigRequest{
 		BaseRequest: &tchttp.BaseRequest{},
 	}
-	request.Init().WithApiInfo("open", APIVersion, "UpdateWorkWeixinOpenAppConfig")
+	request.Init().WithApiInfo("open", APIVersion, "UpdateCICUserSAMLConfig")
 	return
 }
 
-func NewUpdateWorkWeixinOpenAppConfigResponse() (response *UpdateWorkWeixinOpenAppConfigResponse) {
-	response = &UpdateWorkWeixinOpenAppConfigResponse{
+func NewUpdateCICUserSAMLConfigResponse() (response *UpdateCICUserSAMLConfigResponse) {
+	response = &UpdateCICUserSAMLConfigResponse{
 		BaseResponse: &tchttp.BaseResponse{},
 	}
 	return
 }
 
-// 更新企业微信内部应用配置
-func (c *Client) UpdateWorkWeixinOpenAppConfig(request *UpdateWorkWeixinOpenAppConfigRequest) (response *UpdateWorkWeixinOpenAppConfigResponse, err error) {
+// 更新身份中心用户配置
+func (c *Client) UpdateCICUserSAMLConfig(request *UpdateCICUserSAMLConfigRequest) (response *UpdateCICUserSAMLConfigResponse, err error) {
 	if request == nil {
-		request = NewUpdateWorkWeixinOpenAppConfigRequest()
+		request = NewUpdateCICUserSAMLConfigRequest()
 	}
-	response = NewUpdateWorkWeixinOpenAppConfigResponse()
+	response = NewUpdateCICUserSAMLConfigResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewGrantInnerUserRequest() (request *GrantInnerUserRequest) {
+	request = &GrantInnerUserRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("open", APIVersion, "GrantInnerUser")
+	return
+}
+
+func NewGrantInnerUserResponse() (response *GrantInnerUserResponse) {
+	response = &GrantInnerUserResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// GrantInnerUser
+func (c *Client) GrantInnerUser(request *GrantInnerUserRequest) (response *GrantInnerUserResponse, err error) {
+	if request == nil {
+		request = NewGrantInnerUserRequest()
+	}
+	response = NewGrantInnerUserResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewCreateWorkWeixinConfigRequest() (request *CreateWorkWeixinConfigRequest) {
+	request = &CreateWorkWeixinConfigRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("open", APIVersion, "CreateWorkWeixinConfig")
+	return
+}
+
+func NewCreateWorkWeixinConfigResponse() (response *CreateWorkWeixinConfigResponse) {
+	response = &CreateWorkWeixinConfigResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// CreateWorkWeixinConfig
+func (c *Client) CreateWorkWeixinConfig(request *CreateWorkWeixinConfigRequest) (response *CreateWorkWeixinConfigResponse, err error) {
+	if request == nil {
+		request = NewCreateWorkWeixinConfigRequest()
+	}
+	response = NewCreateWorkWeixinConfigResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewUpdateOidcConfigRequest() (request *UpdateOidcConfigRequest) {
+	request = &UpdateOidcConfigRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("open", APIVersion, "UpdateOidcConfig")
+	return
+}
+
+func NewUpdateOidcConfigResponse() (response *UpdateOidcConfigResponse) {
+	response = &UpdateOidcConfigResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 修改oidc企业登陆配置
+func (c *Client) UpdateOidcConfig(request *UpdateOidcConfigRequest) (response *UpdateOidcConfigResponse, err error) {
+	if request == nil {
+		request = NewUpdateOidcConfigRequest()
+	}
+	response = NewUpdateOidcConfigResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewListIdentityProviderRequest() (request *ListIdentityProviderRequest) {
+	request = &ListIdentityProviderRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("open", APIVersion, "ListIdentityProvider")
+	return
+}
+
+func NewListIdentityProviderResponse() (response *ListIdentityProviderResponse) {
+	response = &ListIdentityProviderResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 获取认证源列表
+func (c *Client) ListIdentityProvider(request *ListIdentityProviderRequest) (response *ListIdentityProviderResponse, err error) {
+	if request == nil {
+		request = NewListIdentityProviderRequest()
+	}
+	response = NewListIdentityProviderResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewDescribeCICUserSAMLConfigRequest() (request *DescribeCICUserSAMLConfigRequest) {
+	request = &DescribeCICUserSAMLConfigRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("open", APIVersion, "DescribeCICUserSAMLConfig")
+	return
+}
+
+func NewDescribeCICUserSAMLConfigResponse() (response *DescribeCICUserSAMLConfigResponse) {
+	response = &DescribeCICUserSAMLConfigResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 查看身份中心用户配置
+func (c *Client) DescribeCICUserSAMLConfig(request *DescribeCICUserSAMLConfigRequest) (response *DescribeCICUserSAMLConfigResponse, err error) {
+	if request == nil {
+		request = NewDescribeCICUserSAMLConfigRequest()
+	}
+	response = NewDescribeCICUserSAMLConfigResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewGetSAMLProviderRequest() (request *GetSAMLProviderRequest) {
+	request = &GetSAMLProviderRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("open", APIVersion, "GetSAMLProvider")
+	return
+}
+
+func NewGetSAMLProviderResponse() (response *GetSAMLProviderResponse) {
+	response = &GetSAMLProviderResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 获取saml配置
+func (c *Client) GetSAMLProvider(request *GetSAMLProviderRequest) (response *GetSAMLProviderResponse, err error) {
+	if request == nil {
+		request = NewGetSAMLProviderRequest()
+	}
+	response = NewGetSAMLProviderResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewDeleteSAMLProviderRequest() (request *DeleteSAMLProviderRequest) {
+	request = &DeleteSAMLProviderRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("open", APIVersion, "DeleteSAMLProvider")
+	return
+}
+
+func NewDeleteSAMLProviderResponse() (response *DeleteSAMLProviderResponse) {
+	response = &DeleteSAMLProviderResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 删除saml配置
+func (c *Client) DeleteSAMLProvider(request *DeleteSAMLProviderRequest) (response *DeleteSAMLProviderResponse, err error) {
+	if request == nil {
+		request = NewDeleteSAMLProviderRequest()
+	}
+	response = NewDeleteSAMLProviderResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewCreateSAMLProviderRequest() (request *CreateSAMLProviderRequest) {
+	request = &CreateSAMLProviderRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("open", APIVersion, "CreateSAMLProvider")
+	return
+}
+
+func NewCreateSAMLProviderResponse() (response *CreateSAMLProviderResponse) {
+	response = &CreateSAMLProviderResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 创建saml配置
+func (c *Client) CreateSAMLProvider(request *CreateSAMLProviderRequest) (response *CreateSAMLProviderResponse, err error) {
+	if request == nil {
+		request = NewCreateSAMLProviderRequest()
+	}
+	response = NewCreateSAMLProviderResponse()
 	err = c.Send(request, response)
 	return
 }

@@ -4,19 +4,20 @@ Provide a resource to create a TDMQ Route.
 Example Usage
 ```hcl
 
-	resource "tencentcloudenterprise_tdmq_Route" "foo" {
+	resource "tencentcloudenterprise_tdmq_route" "foo" {
 	  remark = "this is description111."
 	  cluster_id = 0
 	  net_type = 2
+	  unique_vpc_id = "vpc-i2kgnu2p"
+	  unique_subnet_id = "subnet-jm7rdggo"
 	}
 
 ```
 
 Import
 Tdmq Route can be imported, e.g.
-
 ```
-$ terraform import tencentcloudenterprise_tdmq_Route.test tdmq_id
+$ terraform import tencentcloudenterprise_tdmq_route.test tdmq_id
 ```
 */
 package tencentcloud
@@ -117,7 +118,7 @@ func resourceTencentCloudTdmqRoute() *schema.Resource {
 
 func resourceTencentCloudTdmqRouteCreate(ctx context.Context, d *schema.ResourceData,
 	meta interface{}) diag.Diagnostics {
-	defer logElapsed("resource.tencentcloudenterprise_tdmq_Route.create")()
+	defer logElapsed("resource.tencentcloudenterprise_tdmq_route.create")()
 
 	logId := getLogId(contextNil)
 
@@ -173,7 +174,7 @@ func resourceTencentCloudTdmqRouteCreate(ctx context.Context, d *schema.Resource
 }
 
 func resourceTencentCloudTdmqRouteRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	defer logElapsed("resource.tencentcloudenterprise_tdmq_Route.read")()
+	defer logElapsed("resource.tencentcloudenterprise_tdmq_route.read")()
 	defer inconsistentCheck(d, meta)()
 
 	var (
@@ -204,13 +205,13 @@ func resourceTencentCloudTdmqRouteRead(ctx context.Context, d *schema.ResourceDa
 
 func resourceTencentCloudTdmqRouteUpdate(ctx context.Context, d *schema.ResourceData,
 	meta interface{}) diag.Diagnostics {
-	defer logElapsed("resource.tencentcloudenterprise_tdmq_Route.update")()
+	defer logElapsed("resource.tencentcloudenterprise_tdmq_route.update")()
 
 	return nil
 }
 
 func resourceTencentCloudTdmqRouteDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	defer logElapsed("resource.tencentcloudenterprise_tdmq_Route.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_tdmq_route.delete")()
 
 	var (
 		request = tdmq.NewDeleteRouteRequest()

@@ -38,7 +38,7 @@ resource "tencentcloudenterprise_vpcdns_domain" "domain" {
 
 # VPCDNS Record
 resource "tencentcloudenterprise_vpcdns_record" "record" {
-  zone_id = cloud_vpcdns_domain.domain.id
+  zone_id = tencentcloudenterprise_vpcdns_domain.domain.id
   
   sub_domain = "www"
   record_type = "A"
@@ -49,7 +49,7 @@ resource "tencentcloudenterprise_vpcdns_record" "record" {
 
 # VPCDNS Record (CNAME)
 resource "tencentcloudenterprise_vpcdns_record" "cname" {
-  zone_id = cloud_vpcdns_domain.domain.id
+  zone_id = tencentcloudenterprise_vpcdns_domain.domain.id
   
   sub_domain = "blog"
   record_type = "CNAME"
@@ -59,7 +59,7 @@ resource "tencentcloudenterprise_vpcdns_record" "cname" {
 
 # VPCDNS Record (MX)
 resource "tencentcloudenterprise_vpcdns_record" "mx" {
-  zone_id = cloud_vpcdns_domain.domain.id
+  zone_id = tencentcloudenterprise_vpcdns_domain.domain.id
   
   sub_domain = "@"
   record_type = "MX"
@@ -72,6 +72,6 @@ resource "tencentcloudenterprise_vpcdns_record" "mx" {
 resource "tencentcloudenterprise_vpcdns_forward_rule" "rule" {
   rule_name = "example-forward"
   rule_type = "DOWN"
-  zone_id   = cloud_vpcdns_domain.domain.id
+  zone_id   = tencentcloudenterprise_vpcdns_domain.domain.id
   endpoint  = "10.0.1.100"
 }

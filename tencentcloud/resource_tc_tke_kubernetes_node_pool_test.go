@@ -3,10 +3,10 @@ package tencentcloud
 import (
 	"context"
 	"fmt"
+	sdkErrors "terraform-provider-tencentcloudenterprise/sdk/common/errors"
 	"log"
 	"regexp"
 	"strings"
-	sdkErrors "terraform-provider-tencentcloudenterprise/sdk/common/errors"
 	"testing"
 
 	tke "terraform-provider-tencentcloudenterprise/sdk/tke/v20180525"
@@ -20,7 +20,7 @@ var testTkeClusterNodePoolName = "tencentcloudenterprise_kubernetes_node_pool"
 var testTkeClusterNodePoolResourceKey = testTkeClusterNodePoolName + ".np_test"
 
 func init() {
-	// go test -v ./tencentcloud -sweep=ap-guangzhou -sweep-run=cloud_node_pool
+	// go test -v ./tencentcloud -sweep=ap-guangzhou -sweep-run=tencentcloudenterprise_node_pool
 	resource.AddTestSweepers("tencentcloudenterprise_node_pool", &resource.Sweeper{
 		Name: "tencentcloudenterprise_node_pool",
 		F:    testNodePoolSweep,
@@ -540,6 +540,147 @@ resource "tencentcloudenterprise_kubernetes_node_pool" "np_test" {
         version = "8.2.4"
       }
     }
+  }
+}
+`
+
+func TestAccTencentCloudKubernetesNodePoolResource_NewFields(t *testing.T) {
+	t.Parallel()
+	resource.Test(t, resource.TestCase{
+		PreCheck:     func() { testAccPreCheck(t) },
+		Providers:    testAccProviders,
+		CheckDestroy: testAccCheckTkeNodePoolDestroy,
+		Steps: []resource.TestStep{
+			{
+				Config: testAccTkeNodePoolClusterNewFields,
+				Check: resource.ComposeTestCheckFunc(
+					testAccCheckTkeNodePoolExists,
+					resource.TestCheckResourceAttrSet(testTkeClusterNodePoolResourceKey, "cluster_id"),
+					resource.TestCheckResourceAttr(testTkeClusterNodePoolResourceKey, "deletion_protection", "true"),
+					resource.TestCheckResourceAttr(testTkeClusterNodePoolResourceKey, "container_runtime", "containerd"),
+					resource.TestCheckResourceAttr(testTkeClusterNodePoolResourceKey, "annotations.#", "2"),
+				),
+			},
+			{
+				Config: testAccTkeNodePoolClusterNewFieldsUpdate,
+				Check: resource.ComposeTestCheckFunc(
+					testAccCheckTkeNodePoolExists,
+					resource.TestCheckResourceAttrSet(testTkeClusterNodePoolResourceKey, "cluster_id"),
+					resource.TestCheckResourceAttr(testTkeClusterNodePoolResourceKey, "deletion_protection", "false"),
+					resource.TestCheckResourceAttr(testTkeClusterNodePoolResourceKey, "annotations.#", "1"),
+				),
+			},
+		},
+	})
+}
+
+const testAccTkeNodePoolClusterNewFields = testAccTkeNodePoolClusterBasic + `
+resource "tencentcloudenterprise_kubernetes_node_pool" "np_test" {
+  name = "np_new_fields"
+  cluster_id = local.cluster_id
+  max_size = 2
+  min_size = 1
+  vpc_id               = data.tencentcloudenterprise_vpc_subnets.vpc.instance_list.0.vpc_id
+  subnet_ids           = [data.tencentcloudenterprise_vpc_subnets.vpc.instance_list.0.subnet_id]
+  retry_policy         = "INCREMENTAL_INTERVALS"
+  desired_capacity     = 1
+  enable_auto_scale    = true
+  scaling_group_name   = "asg_np_new_fields"
+  default_cooldown     = 400
+  termination_policies = ["OLDEST_INSTANCE"]
+  scaling_group_project_id = var.default_project
+  delete_keep_instance = false
+  node_os = "tlinux3.1x86_64"
+
+  # New fields
+  deletion_protection = true
+  container_runtime = "containerd"
+
+  annotations {
+    name  = "test-annotation-1"
+    value = "value1"
+  }
+
+  annotations {
+    name  = "test-annotation-2"
+    value = "value2"
+  }
+
+  auto_scaling_config {
+    instance_type      = var.ins_type
+    system_disk_type   = "CLOUD_PREMIUM"
+    system_disk_size   = "50"
+    security_group_ids = [data.tencentcloudenterprise_vpc_security_groups.sg.security_groups[0].security_group_id]
+    cam_role_name      = "TCB_QcsRole"
+
+    data_disk {
+      disk_type = "CLOUD_PREMIUM"
+      disk_size = 50
+    }
+
+    public_ip_assigned         = false
+    password                   = "test123#"
+    enhanced_security_service  = false
+    enhanced_monitor_service   = false
+  }
+
+  unschedulable = 0
+
+  labels = {
+    "test1" = "test1"
+  }
+}
+`
+
+const testAccTkeNodePoolClusterNewFieldsUpdate = testAccTkeNodePoolClusterBasic + `
+resource "tencentcloudenterprise_kubernetes_node_pool" "np_test" {
+  name = "np_new_fields_updated"
+  cluster_id = local.cluster_id
+  max_size = 3
+  min_size = 1
+  vpc_id               = data.tencentcloudenterprise_vpc_subnets.vpc.instance_list.0.vpc_id
+  subnet_ids           = [data.tencentcloudenterprise_vpc_subnets.vpc.instance_list.0.subnet_id]
+  retry_policy         = "INCREMENTAL_INTERVALS"
+  desired_capacity     = 1
+  enable_auto_scale    = false
+  scaling_group_name   = "asg_np_new_fields"
+  default_cooldown     = 400
+  termination_policies = ["OLDEST_INSTANCE"]
+  scaling_group_project_id = var.default_project
+  delete_keep_instance = false
+  node_os = "tlinux3.1x86_64"
+
+  # Updated fields
+  deletion_protection = false
+  container_runtime = "containerd"
+
+  annotations {
+    name  = "test-annotation-updated"
+    value = "value-updated"
+  }
+
+  auto_scaling_config {
+    instance_type      = var.ins_type
+    system_disk_type   = "CLOUD_PREMIUM"
+    system_disk_size   = "50"
+    security_group_ids = [data.tencentcloudenterprise_vpc_security_groups.sg.security_groups[0].security_group_id]
+    cam_role_name      = "TCB_QcsRole"
+
+    data_disk {
+      disk_type = "CLOUD_PREMIUM"
+      disk_size = 50
+    }
+
+    public_ip_assigned         = false
+    password                   = "test123#"
+    enhanced_security_service  = false
+    enhanced_monitor_service   = false
+  }
+
+  unschedulable = 0
+
+  labels = {
+    "test1" = "test1"
   }
 }
 `

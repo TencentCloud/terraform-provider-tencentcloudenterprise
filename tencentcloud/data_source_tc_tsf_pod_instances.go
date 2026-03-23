@@ -1,15 +1,13 @@
 /*
 Use this data source to query detailed information of tsf pod_instances
 
-# Example Usage
+Example Usage
 
 ```hcl
-
-	data "tencentcloudenterprise_tsf_pod_instances" "pod_instances" {
-	  group_id = "group-ynd95rea"
-	  pod_name_list = ["keep-terraform-6f8f977688-zvphm"]
-	}
-
+data "tencentcloudenterprise_tsf_pod_instances" "pod_instances" {
+  group_id = "group-ynd95rea"
+  pod_name_list = ["keep-terraform-6f8f977688-zvphm"]
+}
 ```
 */
 package tencentcloud
@@ -17,10 +15,10 @@ package tencentcloud
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	tsf "terraform-provider-tencentcloudenterprise/sdk/tsf/v20180326"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func init() {
@@ -28,26 +26,26 @@ func init() {
 		TerraformTypeCN: "TSF实例列表",
 		DescriptionCN:   "提供TSF Pod实例数据源，用于查询TSF Pod实例的详细信息。",
 		AttributesCN: map[string]string{
-			"group_id":                  "实例所属的部署组ID",
-			"pod_name_list":             "过滤，pod名称列表",
-			"result":                    "实例列表",
-			"total_count":               "记录总数",
-			"content":                   "内容列表",
-			"pod_name":                  "实例名称（对应Kubernetes中的pod名称）",
-			"pod_id":                    "实例id（对应Kubernetes中的pod实例id）",
-			"status":                    "实例状态，请参考下面的实例和容器状态定义。启动中（pod未就绪）：Starting；运行中：Running；异常：Abnormal；已停止：Stopped；",
-			"reason":                    "实例当前状态原因",
-			"node_ip":                   "实例节点ip",
-			"ip":                        "实例ip",
-			"restart_count":             "实例重启次数",
-			"ready_count":               "实例就绪次数",
-			"runtime":                   "实例运行时长",
-			"created_at":                "实例启动时间",
-			"service_instance_status":   "实例服务状态",
+			"group_id":          "实例所属的部署组ID",
+			"pod_name_list":     "过滤，pod名称列表",
+			"result":            "实例列表",
+			"total_count":       "记录总数",
+			"content":           "内容列表",
+			"pod_name":          "实例名称（对应Kubernetes中的pod名称）",
+			"pod_id":            "实例id（对应Kubernetes中的pod实例id）",
+			"status":            "实例状态，请参考下面的实例和容器状态定义。启动中（pod未就绪）：Starting；运行中：Running；异常：Abnormal；已停止：Stopped；",
+			"reason":            "实例当前状态原因",
+			"node_ip":           "实例节点ip",
+			"ip":                "实例ip",
+			"restart_count":     "实例重启次数",
+			"ready_count":       "实例就绪次数",
+			"runtime":           "实例运行时长",
+			"created_at":        "实例启动时间",
+			"service_instance_status": "实例服务状态",
 			"instance_available_status": "实例可用状态",
-			"instance_status":           "实例状态",
-			"node_instance_id":          "实例节点id",
-			"result_output_file":        "用于保存结果",
+			"instance_status":   "实例状态",
+			"node_instance_id":  "实例节点id",
+			"result_output_file": "用于保存结果",
 		},
 	})
 
@@ -56,7 +54,7 @@ func init() {
 func dataSourceTencentCloudTsfPodInstances() *schema.Resource {
 	return &schema.Resource{
 		Description: "This data source provides detailed information of tsf pod_instances",
-		Read:        dataSourceTencentCloudTsfPodInstancesRead,
+		Read: dataSourceTencentCloudTsfPodInstancesRead,
 		Schema: map[string]*schema.Schema{
 			"group_id": {
 				Required:    true,

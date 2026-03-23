@@ -48,7 +48,7 @@ resource "tencentcloudenterprise_ckafka_topic" "kafka_topic" {
 	partition_num                   = 1
 	note                            = "test topic"
 	enable_white_list               = true
-	ip_white_list                   = ["203.0.113.101"]
+	ip_white_list                   = ["192.168.1.1"]
 	clean_up_policy                 = "delete"
 	sync_replica_min_num            = 1
 	unclean_leader_election_enable  = false

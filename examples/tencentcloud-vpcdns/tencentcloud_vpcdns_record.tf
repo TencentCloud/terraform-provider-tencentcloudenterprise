@@ -3,6 +3,6 @@ resource "tencentcloudenterprise_vpcdns_record" "foo" {
   mx          = 0
   record_type = "A"
   sub_domain  = "www"
-  value       = "203.0.113.3"
+  value       = "192.168.1.3"
   weight      = "100"
 }

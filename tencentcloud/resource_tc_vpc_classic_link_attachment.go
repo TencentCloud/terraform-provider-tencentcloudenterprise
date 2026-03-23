@@ -1,18 +1,16 @@
 /*
 Provides a resource to create a vpc classic_link_attachment
 
-# Example Usage
+Example Usage
 
 ```hcl
-
-	resource "tencentcloudenterprise_vpc_classic_link_attachment" "classic_link_attachment" {
-	  vpc_id       = "vpc-hdvfe0g1"
-	  instance_ids = ["ins-ceynqvnu"]
-	}
-
+resource "tencentcloudenterprise_vpc_classic_link_attachment" "classic_link_attachment" {
+  vpc_id       = "vpc-hdvfe0g1"
+  instance_ids = ["ins-ceynqvnu"]
+}
 ```
 
-# Import
+Import
 
 vpc classic_link_attachment can be imported using the id, e.g.
 
@@ -28,10 +26,10 @@ import (
 	"log"
 	"strings"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	vpc "terraform-provider-tencentcloudenterprise/sdk/vpc/v20170312"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func init() {

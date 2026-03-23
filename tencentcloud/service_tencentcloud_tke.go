@@ -6,17 +6,18 @@ import (
 	"log"
 	"strings"
 
-	tat "github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/tat/v20201028"
+	sdkErrors "terraform-provider-tencentcloudenterprise/sdk/common/errors"
 	cwp "terraform-provider-tencentcloudenterprise/sdk/cwp/v20180228"
+	tat "github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/tat/v20201028"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	"github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/common"
 	tke "terraform-provider-tencentcloudenterprise/sdk/tke/v20180525"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/connectivity"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/ratelimit"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	"github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/common"
 )
 
 type ClusterBasicSetting struct {
@@ -29,7 +30,10 @@ type ClusterBasicSetting struct {
 	ClusterLevel            *string
 	AutoUpgradeClusterLevel *bool
 	VpcId                   string
+	SubnetId                string
+	CdcId                   string
 	ProjectId               int64
+	NeedWorkSecurityGroup   bool
 	ClusterNodeNum          int64
 	ClusterStatus           string
 	Tags                    map[string]string
@@ -45,9 +49,16 @@ type ClusterAdvancedSettings struct {
 	NodeNameType            string
 	ExtraArgs               ClusterExtraArgs
 	NetworkType             string
+	VpcCniType              string
 	IsNonStaticIpMode       bool
 	DeletionProtection      bool
 	KubeProxyMode           string
+	AuditEnabled            bool
+	AuditLogsetId           string
+	AuditLogTopicId         string
+	DataPlaneV2             bool
+	QGPUShareEnable         bool
+	IsDualStack             bool
 }
 
 type ClusterExtraArgs struct {
@@ -62,14 +73,19 @@ type RunInstancesForNode struct {
 }
 
 type InstanceAdvancedSettings struct {
-	MountTarget     string
-	DockerGraphPath string
-	UserScript      string
-	Unschedulable   int64
-	DesiredPodNum   int64
-	Labels          []*tke.Label
-	DataDisks       []*tke.DataDisk
-	ExtraArgs       tke.InstanceExtraArgs
+	MountTarget        string
+	DockerGraphPath    string
+	UserScript         string
+	PreStartUserScript string
+	Unschedulable      int64
+	DesiredPodNum      int64
+	DesiredPodNumSet   bool
+	DataDiskPartition  string
+	GPUArgs            *tke.GPUArgs
+	Taints             []*tke.Taint
+	Labels             []*tke.Label
+	DataDisks          []*tke.DataDisk
+	ExtraArgs          tke.InstanceExtraArgs
 }
 
 type ClusterCidrSettings struct {
@@ -78,6 +94,7 @@ type ClusterCidrSettings struct {
 	MaxNodePodNum             int64
 	MaxClusterServiceNum      int64
 	ServiceCIDR               string
+	IgnoreServiceCIDRConflict bool
 	EniSubnetIds              []string
 	ClaimExpiredSeconds       int64
 }
@@ -240,8 +257,12 @@ func (me *TkeService) DescribeClusters(ctx context.Context, id string, name stri
 		clusterInfo.ClusterDescription = *cluster.ClusterDescription
 		clusterInfo.ClusterName = *cluster.ClusterName
 		clusterInfo.ClusterStatus = *cluster.ClusterStatus
-		//clusterInfo.ClusterLevel = cluster.ClusterLevel
-		//clusterInfo.AutoUpgradeClusterLevel = cluster.AutoUpgradeClusterLevel
+		if cluster.ClusterLevel != nil {
+			clusterInfo.ClusterLevel = cluster.ClusterLevel
+		}
+		if cluster.AutoUpgradeClusterLevel != nil {
+			clusterInfo.AutoUpgradeClusterLevel = cluster.AutoUpgradeClusterLevel
+		}
 
 		clusterInfo.ProjectId = int64(*cluster.ProjectId)
 		clusterInfo.VpcId = *cluster.ClusterNetworkSettings.VpcId
@@ -249,6 +270,9 @@ func (me *TkeService) DescribeClusters(ctx context.Context, id string, name stri
 
 		clusterInfo.IgnoreClusterCidrConflict = *cluster.ClusterNetworkSettings.IgnoreClusterCIDRConflict
 		clusterInfo.ClusterCidr = *cluster.ClusterNetworkSettings.ClusterCIDR
+		if cluster.ClusterNetworkSettings.IgnoreServiceCIDRConflict != nil {
+			clusterInfo.IgnoreServiceCIDRConflict = *cluster.ClusterNetworkSettings.IgnoreServiceCIDRConflict
+		}
 		clusterInfo.MaxClusterServiceNum = int64(*cluster.ClusterNetworkSettings.MaxClusterServiceNum)
 
 		clusterInfo.MaxNodePodNum = int64(*cluster.ClusterNetworkSettings.MaxNodePodNum)
@@ -306,8 +330,12 @@ func (me *TkeService) DescribeCluster(ctx context.Context, id string) (
 	clusterInfo.ClusterDescription = *cluster.ClusterDescription
 	clusterInfo.ClusterName = *cluster.ClusterName
 	clusterInfo.ClusterStatus = *cluster.ClusterStatus
-	//clusterInfo.ClusterLevel = cluster.ClusterLevel
-	//clusterInfo.AutoUpgradeClusterLevel = cluster.AutoUpgradeClusterLevel
+	if cluster.ClusterLevel != nil {
+		clusterInfo.ClusterLevel = cluster.ClusterLevel
+	}
+	if cluster.AutoUpgradeClusterLevel != nil {
+		clusterInfo.AutoUpgradeClusterLevel = cluster.AutoUpgradeClusterLevel
+	}
 
 	clusterInfo.ProjectId = int64(*cluster.ProjectId)
 	clusterInfo.VpcId = *cluster.ClusterNetworkSettings.VpcId
@@ -315,6 +343,9 @@ func (me *TkeService) DescribeCluster(ctx context.Context, id string) (
 
 	clusterInfo.IgnoreClusterCidrConflict = *cluster.ClusterNetworkSettings.IgnoreClusterCIDRConflict
 	clusterInfo.ClusterCidr = *cluster.ClusterNetworkSettings.ClusterCIDR
+	if cluster.ClusterNetworkSettings.IgnoreServiceCIDRConflict != nil {
+		clusterInfo.IgnoreServiceCIDRConflict = *cluster.ClusterNetworkSettings.IgnoreServiceCIDRConflict
+	}
 	clusterInfo.MaxClusterServiceNum = int64(*cluster.ClusterNetworkSettings.MaxClusterServiceNum)
 
 	clusterInfo.MaxNodePodNum = int64(*cluster.ClusterNetworkSettings.MaxNodePodNum)
@@ -332,7 +363,7 @@ func (me *TkeService) DescribeCluster(ctx context.Context, id string) (
 }
 
 func (me *TkeService) DescribeClusterCommonNames(ctx context.Context,
-	request *tke.DescribeClusterCommonNamesRequest) (commonNames []*tke.CommonNames, errRet error) {
+	request *tke.DescribeClusterCommonNamesRequest) (commonNames []*tke.CommonName, errRet error) {
 	logId := getLogId(ctx)
 	defer func() {
 		if errRet != nil {
@@ -478,14 +509,17 @@ func (me *TkeService) CreateCluster(ctx context.Context,
 	basic ClusterBasicSetting,
 	advanced ClusterAdvancedSettings,
 	cvms RunInstancesForNode,
+	runInstancesForNode []*tke.RunInstancesForNode,
+	clusterDeployType string,
 	iAdvanced InstanceAdvancedSettings,
-	cidrSetting ClusterCidrSettings,
+	cidrSetting tke.ClusterCIDRSettings,
 	tags map[string]string,
 	existedInstance []*tke.ExistedInstancesForNode,
 	overrideSettings *OverrideSettings,
 	iDiskMountSettings []*tke.InstanceDataDiskMountSetting,
 	clusterArch string,
-	//extensionAddons []*tke.ExtensionAddon,
+	extensionAddons []*tke.ExtensionAddon,
+	cdcId string,
 ) (id string, errRet error) {
 
 	logId := getLogId(ctx)
@@ -509,12 +543,18 @@ func (me *TkeService) CreateCluster(ctx context.Context,
 	request.ClusterBasicSettings.ClusterDescription = &basic.ClusterDescription
 	request.ClusterBasicSettings.ClusterName = &basic.ClusterName
 	request.ClusterBasicSettings.OsCustomizeType = &basic.ClusterOsType
-	//request.ClusterBasicSettings.ClusterLevel = basic.ClusterLevel
-	//if basic.AutoUpgradeClusterLevel != nil {
-	//	request.ClusterBasicSettings.AutoUpgradeClusterLevel = &tke.AutoUpgradeClusterLevel{
-	//		IsAutoUpgrade: basic.AutoUpgradeClusterLevel,
-	//	}
-	//}
+	if basic.SubnetId != "" {
+		request.ClusterBasicSettings.SubnetId = &basic.SubnetId
+	}
+	request.ClusterBasicSettings.NeedWorkSecurityGroup = &basic.NeedWorkSecurityGroup
+	if basic.ClusterLevel != nil {
+		request.ClusterBasicSettings.ClusterLevel = basic.ClusterLevel
+	}
+	if basic.AutoUpgradeClusterLevel != nil {
+		request.ClusterBasicSettings.AutoUpgradeClusterLevel = &tke.AutoUpgradeClusterLevel{
+			IsAutoUpgrade: basic.AutoUpgradeClusterLevel,
+		}
+	}
 	for k, v := range tags {
 		if len(request.ClusterBasicSettings.TagSpecification) == 0 {
 			request.ClusterBasicSettings.TagSpecification = []*tke.TagSpecification{{
@@ -527,46 +567,110 @@ func (me *TkeService) CreateCluster(ctx context.Context,
 			Value: helper.String(v),
 		})
 	}
+	if len(tags) == 0 {
+		request.ClusterBasicSettings.TagSpecification = []*tke.TagSpecification{{
+			ResourceType: helper.String("cluster"),
+			Tags:         []*tke.Tag{},
+		}}
+	}
 
 	request.ClusterAdvancedSettings = &tke.ClusterAdvancedSettings{}
 	request.ClusterAdvancedSettings.IPVS = &advanced.Ipvs
 	request.ClusterAdvancedSettings.AsEnabled = &advanced.AsEnabled
 	request.ClusterAdvancedSettings.ContainerRuntime = &advanced.ContainerRuntime
-	//request.ClusterAdvancedSettings.RuntimeVersion = &advanced.RuntimeVersion
+	request.ClusterAdvancedSettings.RuntimeVersion = &advanced.RuntimeVersion
 	request.ClusterAdvancedSettings.NodeNameType = &advanced.NodeNameType
-	//request.ClusterAdvancedSettings.EnableCustomizedPodCIDR = &advanced.EnableCustomizedPodCIDR
-	//request.ClusterAdvancedSettings.BasePodNumber = &advanced.BasePodNumber
+	request.ClusterAdvancedSettings.EnableCustomizedPodCIDR = &advanced.EnableCustomizedPodCIDR
+	request.ClusterAdvancedSettings.BasePodNumber = &advanced.BasePodNumber
+	// 确保 ExtraArgs 字段始终被初始化为空数组而不是 nil
 	request.ClusterAdvancedSettings.ExtraArgs = &tke.ClusterExtraArgs{
-		KubeAPIServer:         common.StringPtrs(advanced.ExtraArgs.KubeAPIServer),
-		KubeControllerManager: common.StringPtrs(advanced.ExtraArgs.KubeControllerManager),
-		KubeScheduler:         common.StringPtrs(advanced.ExtraArgs.KubeScheduler),
+		KubeAPIServer:         make([]*string, 0),
+		KubeControllerManager: make([]*string, 0),
+		KubeScheduler:         make([]*string, 0),
+	}
+	if len(advanced.ExtraArgs.KubeAPIServer) > 0 {
+		request.ClusterAdvancedSettings.ExtraArgs.KubeAPIServer = common.StringPtrs(advanced.ExtraArgs.KubeAPIServer)
+	}
+	if len(advanced.ExtraArgs.KubeControllerManager) > 0 {
+		request.ClusterAdvancedSettings.ExtraArgs.KubeControllerManager = common.StringPtrs(advanced.ExtraArgs.KubeControllerManager)
+	}
+	if len(advanced.ExtraArgs.KubeScheduler) > 0 {
+		request.ClusterAdvancedSettings.ExtraArgs.KubeScheduler = common.StringPtrs(advanced.ExtraArgs.KubeScheduler)
 	}
 	request.ClusterAdvancedSettings.NetworkType = &advanced.NetworkType
 	request.ClusterAdvancedSettings.IsNonStaticIpMode = &advanced.IsNonStaticIpMode
-	//request.ClusterAdvancedSettings.DeletionProtection = &advanced.DeletionProtection
-	//request.ClusterAdvancedSettings.KubeProxyMode = &advanced.KubeProxyMode
+	if advanced.VpcCniType != "" {
+		request.ClusterAdvancedSettings.VpcCniType = &advanced.VpcCniType
+	}
+	request.ClusterAdvancedSettings.DeletionProtection = &advanced.DeletionProtection
+	request.ClusterAdvancedSettings.KubeProxyMode = &advanced.KubeProxyMode
+	request.ClusterAdvancedSettings.AuditEnabled = &advanced.AuditEnabled
+	request.ClusterAdvancedSettings.AuditLogsetId = &advanced.AuditLogsetId
+	request.ClusterAdvancedSettings.AuditLogTopicId = &advanced.AuditLogTopicId
+	request.ClusterAdvancedSettings.DataPlaneV2 = &advanced.DataPlaneV2
+	request.ClusterAdvancedSettings.QGPUShareEnable = &advanced.QGPUShareEnable
+	request.ClusterAdvancedSettings.IsDualStack = &advanced.IsDualStack
 
-	request.InstanceAdvancedSettings = &tke.InstanceAdvancedSettings{}
-	request.InstanceAdvancedSettings.MountTarget = &iAdvanced.MountTarget
-	request.InstanceAdvancedSettings.DockerGraphPath = &iAdvanced.DockerGraphPath
-	request.InstanceAdvancedSettings.UserScript = &iAdvanced.UserScript
-	request.InstanceAdvancedSettings.Unschedulable = &iAdvanced.Unschedulable
-	//request.InstanceAdvancedSettings.DesiredPodNumber = &iAdvanced.DesiredPodNum
-	if len(iAdvanced.ExtraArgs.Kubelet) > 0 {
-		request.InstanceAdvancedSettings.ExtraArgs = &iAdvanced.ExtraArgs
+	hasInstanceAdvanced := iAdvanced.MountTarget != "" ||
+		iAdvanced.PreStartUserScript != "" ||
+		iAdvanced.DockerGraphPath != "" ||
+		iAdvanced.UserScript != "" ||
+		iAdvanced.Unschedulable != 0 ||
+		iAdvanced.DesiredPodNumSet ||
+		iAdvanced.DataDiskPartition != "" ||
+		iAdvanced.GPUArgs != nil ||
+		len(iAdvanced.Taints) > 0 ||
+		len(iAdvanced.Labels) > 0 ||
+		len(iAdvanced.DataDisks) > 0 ||
+		len(iAdvanced.ExtraArgs.Kubelet) > 0
+
+	if hasInstanceAdvanced {
+		request.InstanceAdvancedSettings = &tke.InstanceAdvancedSettings{}
+		if iAdvanced.MountTarget != "" {
+			request.InstanceAdvancedSettings.MountTarget = &iAdvanced.MountTarget
+		}
+		if iAdvanced.PreStartUserScript != "" {
+			request.InstanceAdvancedSettings.PreStartUserScript = &iAdvanced.PreStartUserScript
+		}
+		if iAdvanced.DockerGraphPath != "" {
+			request.InstanceAdvancedSettings.DockerGraphPath = &iAdvanced.DockerGraphPath
+		}
+		if iAdvanced.UserScript != "" {
+			request.InstanceAdvancedSettings.UserScript = &iAdvanced.UserScript
+		}
+		if iAdvanced.Unschedulable != 0 {
+			request.InstanceAdvancedSettings.Unschedulable = &iAdvanced.Unschedulable
+		}
+		if iAdvanced.DesiredPodNumSet {
+			request.InstanceAdvancedSettings.DesiredPodNumber = &iAdvanced.DesiredPodNum
+		}
+		if iAdvanced.DataDiskPartition != "" {
+			request.InstanceAdvancedSettings.DataDiskPartition = &iAdvanced.DataDiskPartition
+		}
+		if iAdvanced.GPUArgs != nil {
+			request.InstanceAdvancedSettings.GPUArgs = iAdvanced.GPUArgs
+		}
+		if len(iAdvanced.Taints) > 0 {
+			request.InstanceAdvancedSettings.Taints = iAdvanced.Taints
+		}
+		if len(iAdvanced.ExtraArgs.Kubelet) > 0 {
+			request.InstanceAdvancedSettings.ExtraArgs = &iAdvanced.ExtraArgs
+		}
+		if len(iAdvanced.Labels) > 0 {
+			request.InstanceAdvancedSettings.Labels = iAdvanced.Labels
+		}
+		if len(iAdvanced.DataDisks) > 0 {
+			request.InstanceAdvancedSettings.DataDisks = iAdvanced.DataDisks
+		}
 	}
 
-	if len(iAdvanced.Labels) > 0 {
-		request.InstanceAdvancedSettings.Labels = iAdvanced.Labels
+	if len(extensionAddons) > 0 {
+		request.ExtensionAddons = extensionAddons
 	}
 
-	if len(iAdvanced.DataDisks) > 0 {
-		request.InstanceAdvancedSettings.DataDisks = iAdvanced.DataDisks
+	if cdcId != "" {
+		request.CdcId = &cdcId
 	}
-
-	//if len(extensionAddons) > 0 {
-	//	request.ExtensionAddons = extensionAddons
-	//}
 
 	if overrideSettings != nil {
 		if len(overrideSettings.Master)+len(overrideSettings.Work) > 0 &&
@@ -576,9 +680,14 @@ func (me *TkeService) CreateCluster(ctx context.Context,
 	}
 
 	request.RunInstancesForNode = []*tke.RunInstancesForNode{}
-
-	if len(cvms.Master) != 0 {
-
+	if len(runInstancesForNode) != 0 {
+		request.RunInstancesForNode = runInstancesForNode
+		if clusterDeployType != "" {
+			request.ClusterType = helper.String(clusterDeployType)
+		}
+	} else if cdcId != "" {
+		request.ClusterType = helper.String(clusterDeployType)
+	} else if len(cvms.Master) != 0 {
 		var node tke.RunInstancesForNode
 		node.NodeRole = helper.String(TKE_ROLE_MASTER_ETCD)
 		node.RunInstancesPara = []*string{}
@@ -590,12 +699,11 @@ func (me *TkeService) CreateCluster(ctx context.Context,
 			}
 		}
 		request.RunInstancesForNode = append(request.RunInstancesForNode, &node)
-
 	} else {
 		request.ClusterType = helper.String(TKE_DEPLOY_TYPE_MANAGED)
 	}
 
-	if len(cvms.Work) != 0 {
+	if len(runInstancesForNode) == 0 && len(cvms.Work) != 0 {
 		var node tke.RunInstancesForNode
 		node.NodeRole = helper.String(TKE_ROLE_WORKER)
 		node.RunInstancesPara = []*string{}
@@ -612,18 +720,8 @@ func (me *TkeService) CreateCluster(ctx context.Context,
 		request.InstanceDataDiskMountSettings = iDiskMountSettings
 	}
 
-	request.ClusterCIDRSettings = &tke.ClusterCIDRSettings{}
-
-	maxNodePodNum := uint64(cidrSetting.MaxNodePodNum)
-	request.ClusterCIDRSettings.MaxNodePodNum = &maxNodePodNum
-
-	maxClusterServiceNum := uint64(cidrSetting.MaxClusterServiceNum)
-	request.ClusterCIDRSettings.MaxClusterServiceNum = &maxClusterServiceNum
-	request.ClusterCIDRSettings.ClusterCIDR = &cidrSetting.ClusterCidr
-	request.ClusterCIDRSettings.IgnoreClusterCIDRConflict = &cidrSetting.IgnoreClusterCidrConflict
-	request.ClusterCIDRSettings.ServiceCIDR = &cidrSetting.ServiceCIDR
-	request.ClusterCIDRSettings.EniSubnetIds = common.StringPtrs(cidrSetting.EniSubnetIds)
-	request.ClusterCIDRSettings.ClaimExpiredSeconds = &cidrSetting.ClaimExpiredSeconds
+	// 直接使用传入的 cidrSetting，它已经是 tke.ClusterCIDRSettings 类型
+	request.ClusterCIDRSettings = &cidrSetting
 
 	if len(existedInstance) > 0 {
 		request.ExistedInstancesForNode = existedInstance
@@ -752,7 +850,7 @@ func (me *TkeService) DeleteClusterInstances(ctx context.Context, id string, ins
 	return err
 }
 
-func (me *TkeService) DeleteCluster(ctx context.Context, id string) (errRet error) {
+func (me *TkeService) DeleteCluster(ctx context.Context, id string, instanceDeleteMode string, resourceDeleteOptions []*tke.ResourceDeleteOption) (errRet error) {
 
 	logId := getLogId(ctx)
 	request := tke.NewDeleteClusterRequest()
@@ -764,7 +862,14 @@ func (me *TkeService) DeleteCluster(ctx context.Context, id string) (errRet erro
 		}
 	}()
 	request.ClusterId = &id
-	request.InstanceDeleteMode = helper.String("terminate")
+	if instanceDeleteMode != "" {
+		request.InstanceDeleteMode = &instanceDeleteMode
+	} else {
+		request.InstanceDeleteMode = helper.String("terminate")
+	}
+	if len(resourceDeleteOptions) > 0 {
+		request.ResourceDeleteOptions = resourceDeleteOptions
+	}
 
 	ratelimit.Check(request.GetAction())
 	_, err := me.client.UseTkeClient().DeleteCluster(request)
@@ -786,6 +891,22 @@ func (me *TkeService) DescribeClusterSecurity(ctx context.Context, id string) (r
 	request.ClusterId = &id
 
 	return me.client.UseTkeClient().DescribeClusterSecurity(request)
+}
+
+func (me *TkeService) DescribeClusterEndpoints(ctx context.Context, id string) (ret *tke.DescribeClusterEndpointsResponse, errRet error) {
+
+	logId := getLogId(ctx)
+	request := tke.NewDescribeClusterEndpointsRequest()
+
+	defer func() {
+		if errRet != nil {
+			log.Printf("[CRITAL]%s api[%s] fail, request body [%s], reason[%s]\n",
+				logId, request.GetAction(), request.ToJsonString(), errRet.Error())
+		}
+	}()
+	request.ClusterId = &id
+
+	return me.client.UseTkeClient().DescribeClusterEndpoints(request)
 }
 
 func (me *TkeService) CreateClusterAsGroup(ctx context.Context, id, groupPara, configPara string, labels []*tke.Label, iAdvanced InstanceAdvancedSettings) (asGroupId string, errRet error) {
@@ -838,7 +959,7 @@ func (me *TkeService) DeleteClusterAsGroups(ctx context.Context, id, asGroupId s
 /*
 open internet access
 */
-func (me *TkeService) CreateClusterEndpoint(ctx context.Context, id string, subnetId, securityGroupId string, internet bool, domain string, extensiveParameters string) (errRet error) {
+func (me *TkeService) CreateClusterEndpoint(ctx context.Context, id string, subnetId, securityGroupId string, internet bool, domain string, extensiveParameters string, existedLoadBalancerId string) (errRet error) {
 	logId := getLogId(ctx)
 
 	request := tke.NewCreateClusterEndpointRequest()
@@ -865,6 +986,10 @@ func (me *TkeService) CreateClusterEndpoint(ctx context.Context, id string, subn
 
 	if extensiveParameters != "" {
 		request.ExtensiveParameters = helper.String(extensiveParameters)
+	}
+
+	if existedLoadBalancerId != "" {
+		request.ExistedLoadBalancerId = helper.String(existedLoadBalancerId)
 	}
 
 	ratelimit.Check(request.GetAction())
@@ -975,17 +1100,17 @@ func (me *TkeService) ModifyClusterAttribute(ctx context.Context, id string, pro
 		}
 	}()
 	request.ClusterId = &id
-	//request.ProjectId = &projectId
+	request.ProjectId = &projectId
 	request.ClusterName = &clusterName
 	request.ClusterDesc = &clusterDesc
 
-	//if clusterLevel != "" {
-	//	request.ClusterLevel = &clusterLevel
-	//}
+	if clusterLevel != "" {
+		request.ClusterLevel = &clusterLevel
+	}
 
-	//request.AutoUpgradeClusterLevel = &tke.AutoUpgradeClusterLevel{
-	//	IsAutoUpgrade: &autoUpgradeClusterLevel,
-	//}
+	request.AutoUpgradeClusterLevel = &tke.AutoUpgradeClusterLevel{
+		IsAutoUpgrade: &autoUpgradeClusterLevel,
+	}
 
 	ratelimit.Check(request.GetAction())
 
@@ -1248,9 +1373,10 @@ func (me *TkeService) ModifyClusterAsGroupAttribute(ctx context.Context, id, asG
 
 func (me *TkeService) CreateClusterNodePool(ctx context.Context, clusterId, name, groupPara, configPara string,
 	enableAutoScale bool, nodeOs string, nodeOsType string, labels []*tke.Label, taints []*tke.Taint,
-	iAdvanced tke.InstanceAdvancedSettings) (asGroupId string, errRet error) {
+	iAdvanced tke.InstanceAdvancedSettings, deletionProtection bool, annotations []*tke.AnnotationValue,
+	containerRuntime string, runtimeVersion string, tags []*tke.Tag) (nodePoolId string, errRet error) {
 	logId := getLogId(ctx)
-	request := tke.NewCreateClusterVirtualNodeRequest()
+	request := tke.NewCreateClusterNodePoolRequest()
 
 	defer func() {
 		if errRet != nil {
@@ -1258,42 +1384,58 @@ func (me *TkeService) CreateClusterNodePool(ctx context.Context, clusterId, name
 		}
 	}()
 	request.ClusterId = &clusterId
-	//request.Name = &name
-	//request.AutoScalingGroupPara = &groupPara
-	//request.LaunchConfigurePara = &configPara
-	//request.InstanceAdvancedSettings = &iAdvanced
-	//request.EnableAutoscale = &enableAutoScale
-	//request.DeletionProtection = &deletionProtection
-	//request.NodePoolOs = &nodeOs
-	//request.OsCustomizeType = &nodeOsType
+	request.Name = &name
+	request.AutoScalingGroupPara = &groupPara
+	request.LaunchConfigurePara = &configPara
+	request.InstanceAdvancedSettings = &iAdvanced
+	request.EnableAutoscale = &enableAutoScale
+	request.DeletionProtection = &deletionProtection
+	request.NodePoolOs = &nodeOs
+	request.OsCustomizeType = &nodeOsType
 
-	//if len(labels) > 0 {
-	//	request.Labels = labels
-	//}
+	if len(labels) > 0 {
+		request.Labels = labels
+	}
 
-	//if len(taints) > 0 {
-	//	request.Taints = taints
-	//}
+	if len(taints) > 0 {
+		request.Taints = taints
+	}
+
+	if len(annotations) > 0 {
+		request.Annotations = annotations
+	}
+
+	if containerRuntime != "" {
+		request.ContainerRuntime = &containerRuntime
+	}
+
+	if runtimeVersion != "" {
+		request.RuntimeVersion = &runtimeVersion
+	}
+
+	if len(tags) > 0 {
+		request.Tags = tags
+	}
 
 	ratelimit.Check(request.GetAction())
-	//response, err := me.client.UseTkeClient().CreateClusterVirtualNode(request)
-	//if err != nil {
-	//	errRet = err
-	//	return
-	//}
+	response, err := me.client.UseTkeClient().CreateClusterNodePool(request)
+	if err != nil {
+		errRet = err
+		return
+	}
 
-	//if response == nil || response.Response == nil || response.Response.NodePoolId == nil {
-	//	errRet = fmt.Errorf("CreateClusterNodePool return nil response")
-	//	return
-	//}
-	//
-	//asGroupId = *response.Response.NodePoolId
+	if response == nil || response.Response == nil || response.Response.NodePoolId == nil {
+		errRet = fmt.Errorf("CreateClusterNodePool return nil response")
+		return
+	}
+
+	nodePoolId = *response.Response.NodePoolId
 	return
 }
 
-func (me *TkeService) ModifyClusterNodePool(ctx context.Context, clusterId, nodePoolId string, name string, enableAutoScale bool, minSize int64, maxSize int64, nodeOs string, nodeOsType string, labels []*tke.Label, taints []*tke.Taint, tags map[string]string) (errRet error) {
+func (me *TkeService) ModifyClusterNodePool(ctx context.Context, clusterId, nodePoolId string, name string, enableAutoScale bool, minSize int64, maxSize int64, nodeOs string, nodeOsType string, labels []*tke.Label, taints []*tke.Taint, tags map[string]string, deletionProtection *bool, annotations []*tke.AnnotationValue) (errRet error) {
 	logId := getLogId(ctx)
-	request := tke.NewModifyClusterVirtualNodePoolRequest()
+	request := tke.NewModifyClusterNodePoolRequest()
 
 	defer func() {
 		if errRet != nil {
@@ -1302,33 +1444,42 @@ func (me *TkeService) ModifyClusterNodePool(ctx context.Context, clusterId, node
 	}()
 	request.ClusterId = &clusterId
 	request.NodePoolId = &nodePoolId
-	request.Taints = taints
-	request.Labels = labels
-	//request.EnableAutoscale = &enableAutoScale
-	//request.DeletionProtection = &deletionProtection
-	//request.MaxNodesNum = &maxSize
-	//request.MinNodesNum = &minSize
 	request.Name = &name
-	//request.OsName = &nodeOs
-	//request.OsCustomizeType = &nodeOsType
+	request.EnableAutoscale = &enableAutoScale
+	request.MaxNodesNum = &maxSize
+	request.MinNodesNum = &minSize
+	request.OsName = &nodeOs
+	request.OsCustomizeType = &nodeOsType
 
 	if len(labels) > 0 {
 		request.Labels = labels
 	}
 
-	//if len(tags) > 0 {
-	//	for k, v := range tags {
-	//		key := k
-	//		val := v
-	//		request.Tags = append(request.Tags, &tke.Tag{
-	//			Key:   &key,
-	//			Value: &val,
-	//		})
-	//	}
-	//}
+	if len(taints) > 0 {
+		request.Taints = taints
+	}
+
+	if len(tags) > 0 {
+		for k, v := range tags {
+			key := k
+			val := v
+			request.Tags = append(request.Tags, &tke.Tag{
+				Key:   &key,
+				Value: &val,
+			})
+		}
+	}
+
+	if deletionProtection != nil {
+		request.DeletionProtection = deletionProtection
+	}
+
+	if len(annotations) > 0 {
+		request.Annotations = annotations
+	}
 
 	ratelimit.Check(request.GetAction())
-	_, err := me.client.UseTkeClient().ModifyClusterVirtualNodePool(request)
+	_, err := me.client.UseTkeClient().ModifyClusterNodePool(request)
 	if err != nil {
 		errRet = err
 		return
@@ -1383,7 +1534,7 @@ func (me *TkeService) ModifyClusterNodePool(ctx context.Context, clusterId, node
 func (me *TkeService) DeleteClusterNodePool(ctx context.Context, id, nodePoolId string, deleteKeepInstance bool) (errRet error) {
 
 	logId := getLogId(ctx)
-	request := tke.NewDeleteClusterVirtualNodePoolRequest()
+	request := tke.NewDeleteClusterNodePoolRequest()
 
 	defer func() {
 		if errRet != nil {
@@ -1392,10 +1543,10 @@ func (me *TkeService) DeleteClusterNodePool(ctx context.Context, id, nodePoolId 
 	}()
 	request.ClusterId = &id
 	request.NodePoolIds = []*string{&nodePoolId}
-	//request.KeepInstance = &deleteKeepInstance
+	request.KeepInstance = &deleteKeepInstance
 
 	ratelimit.Check(request.GetAction())
-	_, err := me.client.UseTkeClient().DeleteClusterVirtualNodePool(request)
+	_, err := me.client.UseTkeClient().DeleteClusterNodePool(request)
 	if err != nil {
 		errRet = err
 	}
@@ -1403,7 +1554,7 @@ func (me *TkeService) DeleteClusterNodePool(ctx context.Context, id, nodePoolId 
 }
 
 func (me *TkeService) DescribeNodePool(ctx context.Context, clusterId string, nodePoolId string) (
-	nodePool []*tke.NodePoolSet,
+	nodePool *tke.NodePool,
 	has bool,
 	errRet error,
 ) {
@@ -1420,7 +1571,7 @@ func (me *TkeService) DescribeNodePool(ctx context.Context, clusterId string, no
 		return
 	}
 
-	request := tke.NewDescribeClusterVirtualNodePoolsRequest()
+	request := tke.NewDescribeClusterNodePoolDetailRequest()
 
 	defer func() {
 		if errRet != nil {
@@ -1430,22 +1581,22 @@ func (me *TkeService) DescribeNodePool(ctx context.Context, clusterId string, no
 	}()
 
 	request.ClusterId = helper.String(clusterId)
-	//request.NodePoolId = helper.String(nodePoolId)
+	request.NodePoolId = helper.String(nodePoolId)
 
 	ratelimit.Check(request.GetAction())
-	response, err := me.client.UseTkeClient().DescribeClusterVirtualNodePools(request)
+	response, err := me.client.UseTkeClient().DescribeClusterNodePoolDetail(request)
 
 	if err != nil {
 		errRet = err
 		return
 	}
 
-	if response.Response.NodePoolSet == nil {
+	if response.Response.NodePool == nil {
 		return
 	}
 
 	has = true
-	nodePool = response.Response.NodePoolSet
+	nodePool = response.Response.NodePool
 
 	return
 }
@@ -1512,79 +1663,79 @@ func (me *TkeService) DescribeClusterNodePoolGlobalConfig(ctx context.Context, c
 	return
 }
 
-//func (me *TkeService) WaitForAuthenticationOptionsUpdateSuccess(ctx context.Context, id string) (info *tke.ServiceAccountAuthenticationOptions, errRet error) {
-//	err := resource.Retry(readRetryTimeout, func() *resource.RetryError {
-//		options, state, _, err := me.DescribeClusterAuthenticationOptions(ctx, id)
-//		info = options
-//
-//		if err != nil {
-//			return resource.NonRetryableError(err)
-//		}
-//
-//		if state == "Success" {
-//			return nil
-//		}
-//
-//		if state == "Updating" {
-//			return resource.RetryableError(fmt.Errorf("state is %s, retry", state))
-//		}
-//
-//		return resource.NonRetryableError(fmt.Errorf("update failed: %s", state))
-//	})
-//
-//	if err != nil {
-//		errRet = err
-//		return
-//	}
-//	return
-//}
+func (me *TkeService) WaitForAuthenticationOptionsUpdateSuccess(ctx context.Context, id string) (info *tke.ServiceAccountAuthenticationOptions, errRet error) {
+	err := resource.Retry(readRetryTimeout, func() *resource.RetryError {
+		options, state, _, err := me.DescribeClusterAuthenticationOptions(ctx, id)
+		info = options
+
+		if err != nil {
+			return resource.NonRetryableError(err)
+		}
+
+		if state == "Success" {
+			return nil
+		}
+
+		if state == "Updating" {
+			return resource.RetryableError(fmt.Errorf("state is %s, retry", state))
+		}
+
+		return resource.NonRetryableError(fmt.Errorf("update failed: %s", state))
+	})
+
+	if err != nil {
+		errRet = err
+		return
+	}
+	return
+}
 
 // DescribeClusterAuthenticationOptions
 // Field `ServiceAccounts.AutoCreateDiscoveryAnonymousAuth` will always return null by design
-//func (me *TkeService) DescribeClusterAuthenticationOptions(ctx context.Context, id string) (options *tke.ServiceAccountAuthenticationOptions, state string, oidcConfig *tke.OIDCConfigAuthenticationOptions, errRet error) {
-//	logId := getLogId(ctx)
-//	request := tke.NewDescribeClusterAuthenticationOptionsRequest()
-//	request.ClusterId = helper.String(id)
-//	defer func() {
-//		if errRet != nil {
-//			log.Printf("[CRITAL]%s api[%s] fail, reason[%s]\n", logId, request.GetAction(), errRet.Error())
-//		}
-//	}()
-//
-//	ratelimit.Check(request.GetAction())
-//	res, err := me.client.UseTkeClient().DescribeClusterAuthenticationOptions(request)
-//	if err != nil {
-//		errRet = err
-//	}
-//
-//	if res.Response != nil {
-//		state = *res.Response.LatestOperationState
-//		options = res.Response.ServiceAccounts
-//		oidcConfig = res.Response.OIDCConfig
-//	}
-//
-//	return
-//}
+func (me *TkeService) DescribeClusterAuthenticationOptions(ctx context.Context, id string) (options *tke.ServiceAccountAuthenticationOptions, state string, oidcConfig *tke.OIDCConfigAuthenticationOptions, errRet error) {
+	logId := getLogId(ctx)
+	request := tke.NewDescribeClusterAuthenticationOptionsRequest()
+	request.ClusterId = helper.String(id)
+	defer func() {
+		if errRet != nil {
+			log.Printf("[CRITAL]%s api[%s] fail, reason[%s]\n", logId, request.GetAction(), errRet.Error())
+		}
+	}()
 
-//func (me *TkeService) ModifyClusterAuthenticationOptions(ctx context.Context, request *tke.ModifyClusterAuthenticationOptionsRequest) (errRet error) {
-//	logId := getLogId(ctx)
-//	defer func() {
-//		if errRet != nil {
-//			log.Printf("[CRITAL]%s api[%s] fail, reason[%s]\n", logId, request.GetAction(), errRet.Error())
-//		}
-//	}()
-//
-//	ratelimit.Check(request.GetAction())
-//	response, err := me.client.UseTkeClient().ModifyClusterAuthenticationOptions(request)
-//	if err != nil {
-//		errRet = err
-//	}
-//
-//	log.Printf("[DEBUG]%s api[%s] success, request body [%s], response body [%s]\n",
-//		logId, request.GetAction(), request.ToJsonString(), response.ToJsonString())
-//
-//	return
-//}
+	ratelimit.Check(request.GetAction())
+	res, err := me.client.UseTkeClient().DescribeClusterAuthenticationOptions(request)
+	if err != nil {
+		errRet = err
+	}
+
+	if res.Response != nil {
+		state = *res.Response.LatestOperationState
+		options = res.Response.ServiceAccounts
+		oidcConfig = res.Response.OIDCConfig
+	}
+
+	return
+}
+
+func (me *TkeService) ModifyClusterAuthenticationOptions(ctx context.Context, request *tke.ModifyClusterAuthenticationOptionsRequest) (errRet error) {
+	logId := getLogId(ctx)
+	defer func() {
+		if errRet != nil {
+			log.Printf("[CRITAL]%s api[%s] fail, reason[%s]\n", logId, request.GetAction(), errRet.Error())
+		}
+	}()
+
+	ratelimit.Check(request.GetAction())
+	response, err := me.client.UseTkeClient().ModifyClusterAuthenticationOptions(request)
+	if err != nil {
+		errRet = err
+	}
+
+	log.Printf("[DEBUG]%s api[%s] success, request body [%s], response body [%s]\n",
+		logId, request.GetAction(), request.ToJsonString(), response.ToJsonString())
+
+	return
+}
 
 //func (me *TkeService) ModifyDeletionProtection(ctx context.Context, id string, enable bool) (errRet error) {
 //	var (
@@ -1670,25 +1821,25 @@ func (me *TkeService) SwitchLogAgent(ctx context.Context, clusterId, rootDir str
 	return me.UninstallLogAgent(ctx, request)
 }
 
-//func (me *TkeService) SwitchEventPersistence(ctx context.Context, clusterId, logSetId, topicId string,
-//	enable, deleteEventLog bool) error {
-//	if enable {
-//		request := tke.NewEnableEventPersistenceRequest()
-//		request.ClusterId = &clusterId
-//		if logSetId != "" {
-//			request.LogsetId = &logSetId
-//		}
-//		if topicId != "" {
-//			request.TopicId = &topicId
-//		}
-//		return me.EnableEventPersistence(ctx, request)
-//	}
-//
-//	request := tke.NewDisableEventPersistenceRequest()
-//	request.ClusterId = &clusterId
-//	request.DeleteLogSetAndTopic = &deleteEventLog
-//	return me.DisableEventPersistence(ctx, request)
-//}
+func (me *TkeService) SwitchEventPersistence(ctx context.Context, clusterId, logSetId, topicId string,
+	enable, deleteEventLog bool) error {
+	if enable {
+		request := tke.NewEnableEventPersistenceRequest()
+		request.ClusterId = &clusterId
+		if logSetId != "" {
+			request.LogsetId = &logSetId
+		}
+		if topicId != "" {
+			request.TopicId = &topicId
+		}
+		return me.EnableEventPersistence(ctx, request)
+	}
+
+	request := tke.NewDisableEventPersistenceRequest()
+	request.ClusterId = &clusterId
+	request.DeleteLogSetAndTopic = &deleteEventLog
+	return me.DisableEventPersistence(ctx, request)
+}
 
 func (me *TkeService) SwitchClusterAudit(ctx context.Context, clusterId, logSetId, topicId string,
 	enable, deleteAuditLog bool) error {
@@ -1705,7 +1856,7 @@ func (me *TkeService) SwitchClusterAudit(ctx context.Context, clusterId, logSetI
 	}
 	request := tke.NewDisableClusterAuditRequest()
 	request.ClusterId = &clusterId
-	//request.DeleteLogSetAndTopic = &deleteAuditLog
+	request.DeleteLogSetAndTopic = &deleteAuditLog
 	return me.DisableClusterAudit(ctx, request)
 }
 
@@ -1755,55 +1906,56 @@ func (me *TkeService) UninstallLogAgent(ctx context.Context, request *tke.Uninst
 	return
 }
 
-//func (me *TkeService) EnableEventPersistence(ctx context.Context, request *tke.EnableEventPersistenceRequest) (errRet error) {
-//	logId := getLogId(ctx)
-//	defer func() {
-//		if errRet != nil {
-//			log.Printf("[CRITAL]%s api[%s] fail, request body [%s], reason[%s]\n",
-//				logId, request.GetAction(), request.ToJsonString(), errRet.Error())
-//		}
-//	}()
-//
-//	ratelimit.Check(request.GetAction())
-//	response, err := me.client.UseTkeClient().EnableEventPersistence(request)
-//
-//	if err != nil {
-//		errRet = err
-//		return
-//	}
-//
-//	log.Printf("[DEBUG]%s api[%s] success, request body [%s], response body [%s]\n",
-//		logId, request.GetAction(), request.ToJsonString(), response.ToJsonString())
-//
-//	return
-//}
+func (me *TkeService) EnableEventPersistence(ctx context.Context, request *tke.EnableEventPersistenceRequest) (errRet error) {
+	logId := getLogId(ctx)
+	defer func() {
+		if errRet != nil {
+			log.Printf("[CRITAL]%s api[%s] fail, request body [%s], reason[%s]\n",
+				logId, request.GetAction(), request.ToJsonString(), errRet.Error())
+		}
+	}()
 
-//func (me *TkeService) DisableEventPersistence(ctx context.Context, request *tke.DisableEventPersistenceRequest) (errRet error) {
-//	logId := getLogId(ctx)
-//	defer func() {
-//		if errRet != nil {
-//			log.Printf("[CRITAL]%s api[%s] fail, request body [%s], reason[%s]\n",
-//				logId, request.GetAction(), request.ToJsonString(), errRet.Error())
-//		}
-//	}()
-//
-//	ratelimit.Check(request.GetAction())
-//	response, err := me.client.UseTkeClient().DisableEventPersistence(request)
-//
-//	if err != nil {
-//		code := err.(*sdkErrors.CloudSDKError).Code
-//		if code == "InternalError.KubernetesDeleteOperationError" {
-//			return
-//		}
-//		errRet = err
-//		return
-//	}
-//
-//	log.Printf("[DEBUG]%s api[%s] success, request body [%s], response body [%s]\n",
-//		logId, request.GetAction(), request.ToJsonString(), response.ToJsonString())
-//
-//	return
-//}
+	ratelimit.Check(request.GetAction())
+	response, err := me.client.UseTkeClient().EnableEventPersistence(request)
+
+	if err != nil {
+		errRet = err
+		return
+	}
+
+	log.Printf("[DEBUG]%s api[%s] success, request body [%s], response body [%s]\n",
+		logId, request.GetAction(), request.ToJsonString(), response.ToJsonString())
+
+	return
+}
+
+func (me *TkeService) DisableEventPersistence(ctx context.Context, request *tke.DisableEventPersistenceRequest) (errRet error) {
+	logId := getLogId(ctx)
+	defer func() {
+		if errRet != nil {
+			log.Printf("[CRITAL]%s api[%s] fail, request body [%s], reason[%s]\n",
+				logId, request.GetAction(), request.ToJsonString(), errRet.Error())
+		}
+	}()
+
+	ratelimit.Check(request.GetAction())
+	response, err := me.client.UseTkeClient().DisableEventPersistence(request)
+
+	if err != nil {
+		if sdkErr, ok := err.(*sdkErrors.CloudSDKError); ok {
+			if sdkErr.Code == "InternalError.KubernetesDeleteOperationError" {
+				return
+			}
+		}
+		errRet = err
+		return
+	}
+
+	log.Printf("[DEBUG]%s api[%s] success, request body [%s], response body [%s]\n",
+		logId, request.GetAction(), request.ToJsonString(), response.ToJsonString())
+
+	return
+}
 
 func (me *TkeService) EnableClusterAudit(ctx context.Context, request *tke.EnableClusterAuditRequest) (errRet error) {
 	logId := getLogId(ctx)
@@ -1851,8 +2003,36 @@ func (me *TkeService) DisableClusterAudit(ctx context.Context, request *tke.Disa
 	return
 }
 
+func (me *TkeService) DescribeKubernetesLogConfigById(ctx context.Context, clusterId, logConfigName, clusterType string) (ret *tke.DescribeLogConfigsResponse, errRet error) {
+	logId := getLogId(ctx)
+	request := tke.NewDescribeLogConfigsRequest()
+	request.ClusterId = helper.String(clusterId)
+	request.ClusterType = helper.String(clusterType)
+	request.LogConfigNames = helper.String(logConfigName)
+
+	defer func() {
+		if errRet != nil {
+			log.Printf("[CRITAL]%s api[%s] fail, request body [%s], reason[%s]\n",
+				logId, request.GetAction(), request.ToJsonString(), errRet.Error())
+		}
+	}()
+
+	ratelimit.Check(request.GetAction())
+	response, err := me.client.UseTkeClient().DescribeLogConfigs(request)
+	if err != nil {
+		errRet = err
+		return
+	}
+
+	log.Printf("[DEBUG]%s api[%s] success, request body [%s], response body [%s]\n",
+		logId, request.GetAction(), request.ToJsonString(), response.ToJsonString())
+
+	ret = response
+	return
+}
+
 func (me *TkeService) DescribeServerlessNodePoolByClusterIdAndNodePoolId(ctx context.Context, clusterId,
-	nodePoolId string) (instance *tke.NodePoolSet, has bool, errRet error) {
+	nodePoolId string) (instance *tke.VirtualNodePool, has bool, errRet error) {
 	logId := getLogId(ctx)
 
 	request := tke.NewDescribeClusterVirtualNodePoolsRequest()
@@ -1964,7 +2144,7 @@ func (me *TkeService) ModifyClusterVirtualNodePool(ctx context.Context, request 
 }
 
 func (me *TkeService) DescribeClusterVirtualNode(ctx context.Context, clusterId,
-	nodePoolId string) (virtualNodes []tke.Node,
+	nodePoolId string) (virtualNodes []tke.VirtualNode,
 	errRet error) {
 	logId := getLogId(ctx)
 
@@ -2092,7 +2272,7 @@ func ModifyClusterInternetOrIntranetAccess(ctx context.Context, d *schema.Resour
 	// open access
 	if enable {
 		err := resource.Retry(writeRetryTimeout, func() *resource.RetryError {
-			inErr := tkeSvc.CreateClusterEndpoint(ctx, id, subnetId, sg, isInternet, domain, "")
+			inErr := tkeSvc.CreateClusterEndpoint(ctx, id, subnetId, sg, isInternet, domain, "", "")
 			if inErr != nil {
 				return retryError(inErr)
 			}
@@ -2310,6 +2490,111 @@ func (me *TkeService) ForwardRequest(ctx context.Context, method, path, clusterN
 	return *response.Response.ResponseBody, nil
 }
 
+func (me *TkeService) ForwardPlatformRequestV3(ctx context.Context, method, path, clusterName,
+	requestBody string) (responseBody string, errRet error) {
+	logId := getLogId(ctx)
+	request := tke.NewForwardPlatformRequestV3Request()
+
+	defer func() {
+		if errRet != nil {
+			log.Printf("[CRITAL]%s api[%s] fail, request body [%s], reason[%s]\n",
+				logId, request.GetAction(), request.ToJsonString(), errRet.Error())
+		}
+	}()
+
+	request.Method = common.StringPtr(method)
+	request.Path = common.StringPtr(path)
+	if clusterName != "" {
+		request.ClusterName = common.StringPtr(clusterName)
+	}
+	if requestBody != "" {
+		request.RequestBody = common.StringPtr(requestBody)
+	}
+	response, err := me.client.UseTkeClient().ForwardPlatformRequestV3(request)
+	if err != nil {
+		errRet = err
+		return
+	}
+	if response.Response.ResponseBody == nil {
+		errRet = fmt.Errorf("ResponseBody is Nil")
+		return
+	}
+	return *response.Response.ResponseBody, nil
+}
+
+func (me *TkeService) ForwardApplicationRequestV3(ctx context.Context, method, path, clusterName,
+	requestBody string) (responseBody string, errRet error) {
+	logId := getLogId(ctx)
+	request := tke.NewForwardApplicationRequestV3Request()
+
+	defer func() {
+		if errRet != nil {
+			log.Printf("[CRITAL]%s api[%s] fail, request body [%s], reason[%s]\n",
+				logId, request.GetAction(), request.ToJsonString(), errRet.Error())
+		}
+	}()
+
+	request.Method = common.StringPtr(method)
+	request.Path = common.StringPtr(path)
+	if clusterName != "" {
+		request.ClusterName = common.StringPtr(clusterName)
+	}
+	if requestBody != "" {
+		request.RequestBody = common.StringPtr(requestBody)
+	}
+	response, err := me.client.UseTkeClient().ForwardApplicationRequestV3(request)
+	if err != nil {
+		errRet = err
+		return
+	}
+	if response.Response.ResponseBody == nil {
+		errRet = fmt.Errorf("ResponseBody is Nil")
+		return
+	}
+	return *response.Response.ResponseBody, nil
+}
+
+func (me *TkeService) ForwardPlatformRequestV3WithOptions(ctx context.Context, method, path, clusterName,
+	requestBody, accept, contentType string, encodedBody *bool) (responseBody string, errRet error) {
+	logId := getLogId(ctx)
+	request := tke.NewForwardPlatformRequestV3Request()
+
+	defer func() {
+		if errRet != nil {
+			log.Printf("[CRITAL]%s api[%s] fail, request body [%s], reason[%s]\n",
+				logId, request.GetAction(), request.ToJsonString(), errRet.Error())
+		}
+	}()
+
+	request.Method = common.StringPtr(method)
+	request.Path = common.StringPtr(path)
+	if accept != "" {
+		request.Accept = common.StringPtr(accept)
+	}
+	if contentType != "" {
+		request.ContentType = common.StringPtr(contentType)
+	}
+	if clusterName != "" {
+		request.ClusterName = common.StringPtr(clusterName)
+	}
+	if requestBody != "" {
+		request.RequestBody = common.StringPtr(requestBody)
+	}
+	if encodedBody != nil {
+		request.EncodedBody = common.BoolPtr(*encodedBody)
+	}
+	response, err := me.client.UseTkeClient().ForwardPlatformRequestV3(request)
+	if err != nil {
+		errRet = err
+		return
+	}
+	if response.Response.ResponseBody == nil {
+		errRet = fmt.Errorf("ResponseBody is Nil")
+		return
+	}
+	return *response.Response.ResponseBody, nil
+}
+
 func (me *TkeService) ForwardRequestEncode(ctx context.Context, method, path, clusterName,
 	requestBody string, encodeBody bool) (responseBody string, errRet error) {
 	logId := getLogId(ctx)
@@ -2376,4 +2661,45 @@ func (me *TkeService) ForwardRequestContentType(ctx context.Context, method, pat
 		return
 	}
 	return *response.Response.ResponseBody, nil
+}
+
+func (me *TkeService) DescribeKubernetesChartsByFilter(ctx context.Context, param map[string]interface{}) (ret []*tke.AppChart, errRet error) {
+	var (
+		logId   = getLogId(ctx)
+		request = tke.NewGetTkeAppChartListRequest()
+	)
+
+	defer func() {
+		if errRet != nil {
+			log.Printf("[CRITAL]%s api[%s] fail, request body [%s], reason[%s]\n", logId, request.GetAction(), request.ToJsonString(), errRet.Error())
+		}
+	}()
+
+	for k, v := range param {
+		if k == "Kind" {
+			request.Kind = v.(*string)
+		}
+		if k == "Arch" {
+			request.Arch = v.(*string)
+		}
+		if k == "ClusterType" {
+			request.ClusterType = v.(*string)
+		}
+	}
+
+	ratelimit.Check(request.GetAction())
+
+	response, err := me.client.UseTkeClient().GetTkeAppChartList(request)
+	if err != nil {
+		errRet = err
+		return
+	}
+	log.Printf("[DEBUG]%s api[%s] success, request body [%s], response body [%s]\n", logId, request.GetAction(), request.ToJsonString(), response.ToJsonString())
+
+	if len(response.Response.AppCharts) < 1 {
+		return
+	}
+
+	ret = response.Response.AppCharts
+	return
 }

@@ -1,18 +1,16 @@
 /*
 Provides a resource to create a cvm security_group_attachment
 
-# Example Usage
+Example Usage
 
 ```hcl
-
-	resource "tencentcloudenterprise_cvm_security_group_attachment" "security_group_attachment" {
-	  security_group_id = "sg-xxxxxxx"
-	  instance_id = "ins-xxxxxxxx"
-	}
-
+resource "tencentcloudenterprise_cvm_security_group_attachment" "security_group_attachment" {
+  security_group_id = "sg-xxxxxxx"
+  instance_id = "ins-xxxxxxxx"
+}
 ```
 
-# Import
+Import
 
 cvm security_group_attachment can be imported using the id, e.g.
 
@@ -28,9 +26,9 @@ import (
 	"log"
 	"strings"
 
+	cvm "terraform-provider-tencentcloudenterprise/sdk/cvm/v20170312"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	cvm "terraform-provider-tencentcloudenterprise/sdk/cvm/v20170312"
 )
 
 func init() {

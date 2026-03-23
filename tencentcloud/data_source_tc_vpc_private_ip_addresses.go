@@ -1,13 +1,13 @@
 /*
 Use this data source to query detailed information of vpc private_ip_addresses
 
-# Example Usage
+Example Usage
 
 ```hcl
 
 	data "tencentcloudenterprise_vpc_private_ip_addresses" "private_ip_addresses" {
 	  vpc_id = "vpc-l0dw94uh"
-	  private_ip_addresses = ["203.0.113.1"]
+	  private_ip_addresses = ["10.0.0.1"]
 	}
 
 ```
@@ -17,10 +17,10 @@ package tencentcloud
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	vpc "terraform-provider-tencentcloudenterprise/sdk/vpc/v20170312"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func init() {

@@ -360,6 +360,7 @@ func NewDescribeAccessPointsResponse() (response *DescribeAccessPointsResponse) 
 }
 
 // 查询物理专线接入点
+//
 func (c *Client) DescribeAccessPoints(request *DescribeAccessPointsRequest) (response *DescribeAccessPointsResponse, err error) {
 	if request == nil {
 		request = NewDescribeAccessPointsRequest()

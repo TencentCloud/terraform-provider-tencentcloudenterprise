@@ -34,10 +34,10 @@ import (
 
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"terraform-provider-tencentcloudenterprise/sdk/common/errors"
 	cvm "terraform-provider-tencentcloudenterprise/sdk/cvm/v20170312"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func init() {
@@ -69,7 +69,7 @@ func resourceTencentCloudKeyPair() *schema.Resource {
 				Type:         schema.TypeString,
 				Required:     true,
 				ValidateFunc: validateKeyPairName,
-				Description:  "The key pair's name. It is the only in one TencentCloud account.",
+				Description:  "The key pair's name. It is the only in one account.",
 			},
 			"public_key": {
 				Type:     schema.TypeString,
@@ -89,7 +89,7 @@ func resourceTencentCloudKeyPair() *schema.Resource {
 						return ""
 					}
 				},
-				Description: "You can import an existing public key and using TencentCloud key pair to manage it.",
+				Description: "You can import an existing public key and using key pair to manage it.",
 			},
 			"private_key": {
 				Type:        schema.TypeString,

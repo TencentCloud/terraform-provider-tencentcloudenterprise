@@ -30,13 +30,19 @@ func TestAccTencentCloudClsExportResource_basic(t *testing.T) {
 const testAccClsExport = `
 
 resource "tencentcloudenterprise_cls_export" "export" {
-  topic_id  = "7e34a3a7-635e-4da8-9005-88106c1fde69"
-  log_count = 2
-  query     = "select count(*) as count"
-  from      = 1607499107000
-  to        = 1607499108000
-  order     = "desc"
-  format    = "json"
+  topic_id         = "7e34a3a7-635e-4da8-9005-88106c1fde69"
+  log_count        = 2
+  query            = "select count(*) as count"
+  from             = 1607499107000
+  to               = 1607499108000
+  order            = "desc"
+  format           = "json"
+  syntax_rule      = 0
+  derived_fields   = ["SOURCE", "HOSTNAME"]
+  separator        = ","
+  escape_character = "\""
+  fill_field       = "N/A"
+  display_header   = true
 }
 
 

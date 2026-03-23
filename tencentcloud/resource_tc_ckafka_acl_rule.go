@@ -1,36 +1,34 @@
-// /*
-// Provides a resource to create a ckafka acl_rule
+///*
+//Provides a resource to create a ckafka acl_rule
 //
-// # Example Usage
+//Example Usage
 //
-// ```hcl
+//```hcl
+//resource "tencentcloudenterprise_ckafka_acl_rule" "acl_rule" {
+//  instance_id = "ckafka-xxx"
+//  resource_type = "Topic"
+//  pattern_type = "PREFIXED"
+//  rule_name = "RuleName"
+//  rule_list {
+//		operation = "All"
+//		permission_type = "Deny"
+//		host = "*"
+//		principal = "User:*"
 //
-//	resource "tencentcloudenterprise_ckafka_acl_rule" "acl_rule" {
-//	 instance_id = "ckafka-xxx"
-//	 resource_type = "Topic"
-//	 pattern_type = "PREFIXED"
-//	 rule_name = "RuleName"
-//	 rule_list {
-//			operation = "All"
-//			permission_type = "Deny"
-//			host = "*"
-//			principal = "User:*"
+//  }
+//  pattern = "prefix"
+//  is_applied = 1
+//}
+//```
 //
-//	 }
-//	 pattern = "prefix"
-//	 is_applied = 1
-//	}
+//Import
 //
-// ```
+//ckafka acl_rule can be imported using the id, e.g.
 //
-// # Import
-//
-// ckafka acl_rule can be imported using the id, e.g.
-//
-// ```
-// terraform import tencentcloudenterprise_ckafka_acl_rule.acl_rule acl_rule_id
-// ```
-// */
+//```
+//terraform import tencentcloudenterprise_ckafka_acl_rule.acl_rule acl_rule_id
+//```
+//*/
 package tencentcloud
 
 //

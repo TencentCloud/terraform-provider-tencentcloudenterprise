@@ -1,36 +1,35 @@
 /*
 Provides a resource to create a CLB redirection.
 
-# Example Usage
+Example Usage
 
-# Manual Rewrite
-
-```hcl
-
-	resource "tencentcloudenterprise_clb_redirection" "foo" {
-	  clb_id             = "lb-p7olt9e5"
-	  source_listener_id = "lbl-jc1dx6ju"
-	  target_listener_id = "lbl-asj1hzuo"
-	  source_rule_id     = "loc-ft8fmngv"
-	  target_rule_id     = "loc-4xxr2cy7"
-	}
-
-```
-
-# Auto Rewrite
+Manual Rewrite
 
 ```hcl
-
-	resource "tencentcloudenterprise_clb_redirection" "foo" {
-	  clb_id             = "lb-p7olt9e5"
-	  target_listener_id = "lbl-asj1hzuo"
-	  target_rule_id     = "loc-4xxr2cy7"
-	  is_auto_rewrite    = true
-	}
-
+resource "tencentcloudenterprise_clb_redirection" "foo" {
+  clb_id             = "lb-p7olt9e5"
+  source_listener_id = "lbl-jc1dx6ju"
+  target_listener_id = "lbl-asj1hzuo"
+  source_rule_id     = "loc-ft8fmngv"
+  target_rule_id     = "loc-4xxr2cy7"
+}
 ```
 
-# Import
+Auto Rewrite
+When is_auto_rewrite is true, source listener and rule are invalid
+
+```hcl
+resource "tencentcloudenterprise_clb_redirection" "foo" {
+  clb_id             = "lb-p7olt9e5"
+  target_listener_id = "lbl-asj1hzuo"
+  target_rule_id     = "loc-4xxr2cy7"
+  source_listener_id = ""
+  source_rule_id     = ""
+  is_auto_rewrite    = true
+}
+```
+
+Import
 
 CLB redirection can be imported using the id, e.g.
 
@@ -45,11 +44,11 @@ import (
 	"fmt"
 	"log"
 
+	clb "terraform-provider-tencentcloudenterprise/sdk/clb/v20180317"
+	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/pkg/errors"
-	clb "terraform-provider-tencentcloudenterprise/sdk/clb/v20180317"
-	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
 )
 
 func init() {
@@ -57,12 +56,12 @@ func init() {
 		TerraformTypeCN: "CLB重定向",
 		DescriptionCN:   "提供CLB重定向资源，用于创建CLB监听器重定向关系。",
 		AttributesCN: map[string]string{
-			"clb_id":                  "负载均衡实例ID",
-			"source_listener_id":      "源监听器ID",
-			"target_listener_id":      "目标监听器ID",
-			"source_rule_id":          "源转发规则ID",
-			"target_rule_id":          "目标转发规则ID",
-			"is_auto_rewrite":         "是否自动重写，若启用自动重写，target_listener_id和target_rule_id必须符合https协议443端口，并且source_listener_id和source_rule_id无效，自动设置源监听器为http:80",
+			"clb_id":             "负载均衡实例ID",
+			"source_listener_id": "源监听器ID",
+			"target_listener_id": "目标监听器ID",
+			"source_rule_id":     "源转发规则ID",
+			"target_rule_id":     "目标转发规则ID",
+			"is_auto_rewrite":    "是否自动重写，若启用自动重写，target_listener_id和target_rule_id必须符合https协议443端口，并且source_listener_id和source_rule_id无效，自动设置源监听器为http:80",
 			"delete_all_auto_rewrite": "是否删除所有自动重写",
 		},
 	})

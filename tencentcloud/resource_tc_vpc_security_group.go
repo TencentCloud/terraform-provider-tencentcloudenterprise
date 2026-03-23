@@ -1,7 +1,7 @@
 /*
 Provides a resource to create security group.
 
-# Example Usage
+Example Usage
 
 ```hcl
 
@@ -13,7 +13,7 @@ Provides a resource to create security group.
 
 ```
 
-# Import
+Import
 
 Security group can be imported using the id, e.g.
 
@@ -31,10 +31,10 @@ import (
 	"log"
 	"strconv"
 
+	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/common"
-	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
 )
 
 func init() {

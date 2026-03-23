@@ -1,20 +1,18 @@
 /*
 Provides a resource to create a brc cfs backup
 
-# Example Usage
+Example Usage
 
 ```hcl
-
-	resource "tencentcloudenterprise_brc_backup_cfs" "example" {
-	  file_system_id = "cfs-bo74chkp"
-	  backup_name    = "test"
-	  deadline       = "2025-07-06 03:06:09"
-	  backup_class   = "INC"
-	}
-
+resource "tencentcloudenterprise_brc_backup_cfs" "example" {
+  file_system_id = "cfs-bo74chkp"
+  backup_name    = "test"
+  deadline       = "2025-07-06 03:06:09"
+  backup_class   = "INC"
+}
 ```
 
-# Import
+Import
 
 brc backup_cfs can be imported using the id, e.g.
 
@@ -33,9 +31,9 @@ import (
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/ratelimit"
 
+	brc "terraform-provider-tencentcloudenterprise/sdk/brc/v20220516"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	brc "terraform-provider-tencentcloudenterprise/sdk/brc/v20220516"
 )
 
 func init() {
@@ -308,7 +306,7 @@ func resourceTencentCloudBrcBackupCfsRead(d *schema.ResourceData, meta interface
 	//if backup.NeedArchive != nil {
 	//	_ = d.Set("need_archive", backup.NeedArchive)
 	//}
-
+	
 	//if backup.RemoteInfo != nil {
 	//	remoteInfo := make(map[string]interface{})
 	//
@@ -342,7 +340,7 @@ func resourceTencentCloudBrcBackupCfsRead(d *schema.ResourceData, meta interface
 	//
 	//	_ = d.Set("remote_info", []interface{}{remoteInfo})
 	//}
-
+	
 	return nil
 }
 

@@ -1,33 +1,31 @@
 /*
 Use this data source to query bms placement group.
 
-# Example Usage
+Example Usage
 
 ```hcl
-
-	data "tencentcloudenterprise_bms_flavors" "flavors" {
-	  result_output_file = "flavors.json"
-	}
-
+data "tencentcloudenterprise_bms_flavors" "flavors" {
+  result_output_file = "flavors.json"
+}
 ```
 */
 package tencentcloud
 
 import (
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	bms "terraform-provider-tencentcloudenterprise/sdk/bms/v20180813"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func init() {
 	registerDataDescriptionProvider("tencentcloudenterprise_bms_flavors", CNDescription{
 		TerraformTypeCN: "套餐列表",
 		DescriptionCN:   "提供BMS套餐列表数据源，用于查询BMS套餐规格列表信息。",
-		AttributesCN: map[string]string{
-			"flavor_ids":         "套餐 ID",
-			"zone":               "可用区",
-			"cpu_arch":           "CPU 架构",
+		AttributesCN:    map[string]string{
+			"flavor_ids":        "套餐 ID",
+			"zone":              "可用区",
+			"cpu_arch":          "CPU 架构",
 			"result_output_file": "用于保存结果",
 		},
 	})

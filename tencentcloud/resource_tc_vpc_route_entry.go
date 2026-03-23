@@ -3,36 +3,34 @@ Provides a resource to create a routing entry in a VPC routing table.
 
 ~> **NOTE:** It has been deprecated and replaced by tencentcloudenterprise_vpc_route_table_entry.
 
-# Example Usage
+Example Usage
 
 ```hcl
+resource "tencentcloudenterprise_vpc" "main" {
+  name       = "Used to test the routing entry"
+  cidr_block = "10.4.0.0/16"
+}
 
-	resource "tencentcloudenterprise_vpc" "main" {
-	  name       = "Used to test the routing entry"
-	  cidr_block = "10.4.0.0/16"
-	}
+resource "tencentcloudenterprise_route_table" "r" {
+  name   = "Used to test the routing entry"
+  vpc_id = tencentcloudenterprise_vpc.main.id
+}
 
-	resource "tencentcloudenterprise_route_table" "r" {
-	  name   = "Used to test the routing entry"
-	  vpc_id = tencentcloudenterprise_vpc.main.id
-	}
+resource "tencentcloudenterprise_route_entry" "rtb_entry_instance" {
+  vpc_id         = tencentcloudenterprise_route_table.main.vpc_id
+  route_table_id = tencentcloudenterprise_route_table.r.id
+  cidr_block     = "10.4.8.0/24"
+  next_type      = "instance"
+  next_hub       = "10.16.1.7"
+}
 
-	resource "tencentcloudenterprise_route_entry" "rtb_entry_instance" {
-	  vpc_id         = tencentcloudenterprise_route_table.main.vpc_id
-	  route_table_id = tencentcloudenterprise_route_table.r.id
-	  cidr_block     = "10.4.8.0/24"
-	  next_type      = "instance"
-	  next_hub       = "10.16.1.7"
-	}
-
-	resource "tencentcloudenterprise_route_entry" "rtb_entry_instance" {
-	  vpc_id         = tencentcloudenterprise_route_table.main.vpc_id
-	  route_table_id = tencentcloudenterprise_route_table.r.id
-	  cidr_block     = "10.4.5.0/24"
-	  next_type      = "vpn_gateway"
-	  next_hub       = "vpngw-db52irtl"
-	}
-
+resource "tencentcloudenterprise_route_entry" "rtb_entry_instance" {
+  vpc_id         = tencentcloudenterprise_route_table.main.vpc_id
+  route_table_id = tencentcloudenterprise_route_table.r.id
+  cidr_block     = "10.4.5.0/24"
+  next_type      = "vpn_gateway"
+  next_hub       = "vpngw-db52irtl"
+}
 ```
 */
 package tencentcloud
@@ -42,9 +40,9 @@ import (
 	"fmt"
 	"strings"
 
+	"terraform-provider-tencentcloudenterprise/sdk/common/errors"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	"terraform-provider-tencentcloudenterprise/sdk/common/errors"
 )
 
 var routeTypeApiMap = map[string]int{
@@ -92,7 +90,7 @@ func init() {
 }
 func resourceTencentCloudRouteEntry() *schema.Resource {
 	return &schema.Resource{
-		DeprecationMessage: "This resource has been deprecated in Terraform TencentCloud provider version 1.10.0. Please use 'cloud_vpc_route_table_entry' instead.",
+		DeprecationMessage: "This resource has been deprecated in Terraform TencentCloud provider version 1.10.0. Please use 'tencentcloudenterprise_vpc_route_table_entry' instead.",
 		Create:             resourceTencentCloudRouteEntryCreate,
 		Read:               resourceTencentCloudRouteEntryRead,
 		Delete:             resourceTencentCloudRouteEntryDelete,

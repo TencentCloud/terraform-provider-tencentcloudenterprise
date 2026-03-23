@@ -44,102 +44,27 @@ func NewClient(credential *common.Credential, region string, clientProfile *prof
 	return
 }
 
-func NewDescribeTagValuesRequest() (request *DescribeTagValuesRequest) {
-	request = &DescribeTagValuesRequest{
+func NewUnTagResourcesRequest() (request *UnTagResourcesRequest) {
+	request = &UnTagResourcesRequest{
 		BaseRequest: &tchttp.BaseRequest{},
 	}
-	request.Init().WithApiInfo("tag", APIVersion, "DescribeTagValues")
+	request.Init().WithApiInfo("tag", APIVersion, "UnTagResources")
 	return
 }
 
-func NewDescribeTagValuesResponse() (response *DescribeTagValuesResponse) {
-	response = &DescribeTagValuesResponse{
+func NewUnTagResourcesResponse() (response *UnTagResourcesResponse) {
+	response = &UnTagResourcesResponse{
 		BaseResponse: &tchttp.BaseResponse{},
 	}
 	return
 }
 
-// 查询标签值
-func (c *Client) DescribeTagValues(request *DescribeTagValuesRequest) (response *DescribeTagValuesResponse, err error) {
+// 指定的多个云产品的多个云资源统一解绑标签。
+func (c *Client) UnTagResources(request *UnTagResourcesRequest) (response *UnTagResourcesResponse, err error) {
 	if request == nil {
-		request = NewDescribeTagValuesRequest()
+		request = NewUnTagResourcesRequest()
 	}
-	response = NewDescribeTagValuesResponse()
-	err = c.Send(request, response)
-	return
-}
-
-func NewDescribeTagsRequest() (request *DescribeTagsRequest) {
-	request = &DescribeTagsRequest{
-		BaseRequest: &tchttp.BaseRequest{},
-	}
-	request.Init().WithApiInfo("tag", APIVersion, "DescribeTags")
-	return
-}
-
-func NewDescribeTagsResponse() (response *DescribeTagsResponse) {
-	response = &DescribeTagsResponse{
-		BaseResponse: &tchttp.BaseResponse{},
-	}
-	return
-}
-
-// 用于查询已建立的标签列表。
-func (c *Client) DescribeTags(request *DescribeTagsRequest) (response *DescribeTagsResponse, err error) {
-	if request == nil {
-		request = NewDescribeTagsRequest()
-	}
-	response = NewDescribeTagsResponse()
-	err = c.Send(request, response)
-	return
-}
-
-func NewDescribeResourcesByTagsRequest() (request *DescribeResourcesByTagsRequest) {
-	request = &DescribeResourcesByTagsRequest{
-		BaseRequest: &tchttp.BaseRequest{},
-	}
-	request.Init().WithApiInfo("tag", APIVersion, "DescribeResourcesByTags")
-	return
-}
-
-func NewDescribeResourcesByTagsResponse() (response *DescribeResourcesByTagsResponse) {
-	response = &DescribeResourcesByTagsResponse{
-		BaseResponse: &tchttp.BaseResponse{},
-	}
-	return
-}
-
-// 通过标签查询资源列表
-func (c *Client) DescribeResourcesByTags(request *DescribeResourcesByTagsRequest) (response *DescribeResourcesByTagsResponse, err error) {
-	if request == nil {
-		request = NewDescribeResourcesByTagsRequest()
-	}
-	response = NewDescribeResourcesByTagsResponse()
-	err = c.Send(request, response)
-	return
-}
-
-func NewDescribeResourceTagsRequest() (request *DescribeResourceTagsRequest) {
-	request = &DescribeResourceTagsRequest{
-		BaseRequest: &tchttp.BaseRequest{},
-	}
-	request.Init().WithApiInfo("tag", APIVersion, "DescribeResourceTags")
-	return
-}
-
-func NewDescribeResourceTagsResponse() (response *DescribeResourceTagsResponse) {
-	response = &DescribeResourceTagsResponse{
-		BaseResponse: &tchttp.BaseResponse{},
-	}
-	return
-}
-
-// 查询资源关联标签
-func (c *Client) DescribeResourceTags(request *DescribeResourceTagsRequest) (response *DescribeResourceTagsResponse, err error) {
-	if request == nil {
-		request = NewDescribeResourceTagsRequest()
-	}
-	response = NewDescribeResourceTagsResponse()
+	response = NewUnTagResourcesResponse()
 	err = c.Send(request, response)
 	return
 }
@@ -169,6 +94,31 @@ func (c *Client) DeleteTag(request *DeleteTagRequest) (response *DeleteTagRespon
 	return
 }
 
+func NewDescribeResourcesByTagsRequest() (request *DescribeResourcesByTagsRequest) {
+	request = &DescribeResourcesByTagsRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("tag", APIVersion, "DescribeResourcesByTags")
+	return
+}
+
+func NewDescribeResourcesByTagsResponse() (response *DescribeResourcesByTagsResponse) {
+	response = &DescribeResourcesByTagsResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 通过标签查询资源列表
+func (c *Client) DescribeResourcesByTags(request *DescribeResourcesByTagsRequest) (response *DescribeResourcesByTagsResponse, err error) {
+	if request == nil {
+		request = NewDescribeResourcesByTagsRequest()
+	}
+	response = NewDescribeResourcesByTagsResponse()
+	err = c.Send(request, response)
+	return
+}
+
 func NewDescribeResourceMenuRequest() (request *DescribeResourceMenuRequest) {
 	request = &DescribeResourceMenuRequest{
 		BaseRequest: &tchttp.BaseRequest{},
@@ -190,106 +140,6 @@ func (c *Client) DescribeResourceMenu(request *DescribeResourceMenuRequest) (res
 		request = NewDescribeResourceMenuRequest()
 	}
 	response = NewDescribeResourceMenuResponse()
-	err = c.Send(request, response)
-	return
-}
-
-func NewCreateTagRequest() (request *CreateTagRequest) {
-	request = &CreateTagRequest{
-		BaseRequest: &tchttp.BaseRequest{},
-	}
-	request.Init().WithApiInfo("tag", APIVersion, "CreateTag")
-	return
-}
-
-func NewCreateTagResponse() (response *CreateTagResponse) {
-	response = &CreateTagResponse{
-		BaseResponse: &tchttp.BaseResponse{},
-	}
-	return
-}
-
-// 本接口用于创建一对标签键和标签值
-func (c *Client) CreateTag(request *CreateTagRequest) (response *CreateTagResponse, err error) {
-	if request == nil {
-		request = NewCreateTagRequest()
-	}
-	response = NewCreateTagResponse()
-	err = c.Send(request, response)
-	return
-}
-
-func NewDescribeResourceTagsByTagKeysRequest() (request *DescribeResourceTagsByTagKeysRequest) {
-	request = &DescribeResourceTagsByTagKeysRequest{
-		BaseRequest: &tchttp.BaseRequest{},
-	}
-	request.Init().WithApiInfo("tag", APIVersion, "DescribeResourceTagsByTagKeys")
-	return
-}
-
-func NewDescribeResourceTagsByTagKeysResponse() (response *DescribeResourceTagsByTagKeysResponse) {
-	response = &DescribeResourceTagsByTagKeysResponse{
-		BaseResponse: &tchttp.BaseResponse{},
-	}
-	return
-}
-
-// 根据标签键获取资源标签
-func (c *Client) DescribeResourceTagsByTagKeys(request *DescribeResourceTagsByTagKeysRequest) (response *DescribeResourceTagsByTagKeysResponse, err error) {
-	if request == nil {
-		request = NewDescribeResourceTagsByTagKeysRequest()
-	}
-	response = NewDescribeResourceTagsByTagKeysResponse()
-	err = c.Send(request, response)
-	return
-}
-
-func NewAddResourceTagRequest() (request *AddResourceTagRequest) {
-	request = &AddResourceTagRequest{
-		BaseRequest: &tchttp.BaseRequest{},
-	}
-	request.Init().WithApiInfo("tag", APIVersion, "AddResourceTag")
-	return
-}
-
-func NewAddResourceTagResponse() (response *AddResourceTagResponse) {
-	response = &AddResourceTagResponse{
-		BaseResponse: &tchttp.BaseResponse{},
-	}
-	return
-}
-
-// 本接口用于给标签关联资源
-func (c *Client) AddResourceTag(request *AddResourceTagRequest) (response *AddResourceTagResponse, err error) {
-	if request == nil {
-		request = NewAddResourceTagRequest()
-	}
-	response = NewAddResourceTagResponse()
-	err = c.Send(request, response)
-	return
-}
-
-func NewDescribeResourceTagsByResourceIdsRequest() (request *DescribeResourceTagsByResourceIdsRequest) {
-	request = &DescribeResourceTagsByResourceIdsRequest{
-		BaseRequest: &tchttp.BaseRequest{},
-	}
-	request.Init().WithApiInfo("tag", APIVersion, "DescribeResourceTagsByResourceIds")
-	return
-}
-
-func NewDescribeResourceTagsByResourceIdsResponse() (response *DescribeResourceTagsByResourceIdsResponse) {
-	response = &DescribeResourceTagsByResourceIdsResponse{
-		BaseResponse: &tchttp.BaseResponse{},
-	}
-	return
-}
-
-// 用于查询已有资源标签键值对
-func (c *Client) DescribeResourceTagsByResourceIds(request *DescribeResourceTagsByResourceIdsRequest) (response *DescribeResourceTagsByResourceIdsResponse, err error) {
-	if request == nil {
-		request = NewDescribeResourceTagsByResourceIdsRequest()
-	}
-	response = NewDescribeResourceTagsByResourceIdsResponse()
 	err = c.Send(request, response)
 	return
 }
@@ -319,27 +169,52 @@ func (c *Client) ModifyResourceTags(request *ModifyResourceTagsRequest) (respons
 	return
 }
 
-func NewDescribeTagKeysRequest() (request *DescribeTagKeysRequest) {
-	request = &DescribeTagKeysRequest{
+func NewTagResourcesRequest() (request *TagResourcesRequest) {
+	request = &TagResourcesRequest{
 		BaseRequest: &tchttp.BaseRequest{},
 	}
-	request.Init().WithApiInfo("tag", APIVersion, "DescribeTagKeys")
+	request.Init().WithApiInfo("tag", APIVersion, "TagResources")
 	return
 }
 
-func NewDescribeTagKeysResponse() (response *DescribeTagKeysResponse) {
-	response = &DescribeTagKeysResponse{
+func NewTagResourcesResponse() (response *TagResourcesResponse) {
+	response = &TagResourcesResponse{
 		BaseResponse: &tchttp.BaseResponse{},
 	}
 	return
 }
 
-// 查询标签键
-func (c *Client) DescribeTagKeys(request *DescribeTagKeysRequest) (response *DescribeTagKeysResponse, err error) {
+// 为指定的多个云产品的多个云资源统一创建并绑定标签。
+func (c *Client) TagResources(request *TagResourcesRequest) (response *TagResourcesResponse, err error) {
 	if request == nil {
-		request = NewDescribeTagKeysRequest()
+		request = NewTagResourcesRequest()
 	}
-	response = NewDescribeTagKeysResponse()
+	response = NewTagResourcesResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewAddResourceTagRequest() (request *AddResourceTagRequest) {
+	request = &AddResourceTagRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("tag", APIVersion, "AddResourceTag")
+	return
+}
+
+func NewAddResourceTagResponse() (response *AddResourceTagResponse) {
+	response = &AddResourceTagResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 本接口用于给标签关联资源
+func (c *Client) AddResourceTag(request *AddResourceTagRequest) (response *AddResourceTagResponse, err error) {
+	if request == nil {
+		request = NewAddResourceTagRequest()
+	}
+	response = NewAddResourceTagResponse()
 	err = c.Send(request, response)
 	return
 }
@@ -369,6 +244,56 @@ func (c *Client) DescribeResourcesBindTag(request *DescribeResourcesBindTagReque
 	return
 }
 
+func NewDescribeResourceTagsByResourceIdsRequest() (request *DescribeResourceTagsByResourceIdsRequest) {
+	request = &DescribeResourceTagsByResourceIdsRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("tag", APIVersion, "DescribeResourceTagsByResourceIds")
+	return
+}
+
+func NewDescribeResourceTagsByResourceIdsResponse() (response *DescribeResourceTagsByResourceIdsResponse) {
+	response = &DescribeResourceTagsByResourceIdsResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 用于查询已有资源标签键值对
+func (c *Client) DescribeResourceTagsByResourceIds(request *DescribeResourceTagsByResourceIdsRequest) (response *DescribeResourceTagsByResourceIdsResponse, err error) {
+	if request == nil {
+		request = NewDescribeResourceTagsByResourceIdsRequest()
+	}
+	response = NewDescribeResourceTagsByResourceIdsResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewCreateTagRequest() (request *CreateTagRequest) {
+	request = &CreateTagRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("tag", APIVersion, "CreateTag")
+	return
+}
+
+func NewCreateTagResponse() (response *CreateTagResponse) {
+	response = &CreateTagResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 本接口用于创建一对标签键和标签值
+func (c *Client) CreateTag(request *CreateTagRequest) (response *CreateTagResponse, err error) {
+	if request == nil {
+		request = NewCreateTagRequest()
+	}
+	response = NewCreateTagResponse()
+	err = c.Send(request, response)
+	return
+}
+
 func NewDeleteResourceTagRequest() (request *DeleteResourceTagRequest) {
 	request = &DeleteResourceTagRequest{
 		BaseRequest: &tchttp.BaseRequest{},
@@ -394,6 +319,81 @@ func (c *Client) DeleteResourceTag(request *DeleteResourceTagRequest) (response 
 	return
 }
 
+func NewDescribeResourceTagsRequest() (request *DescribeResourceTagsRequest) {
+	request = &DescribeResourceTagsRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("tag", APIVersion, "DescribeResourceTags")
+	return
+}
+
+func NewDescribeResourceTagsResponse() (response *DescribeResourceTagsResponse) {
+	response = &DescribeResourceTagsResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 查询资源关联标签
+func (c *Client) DescribeResourceTags(request *DescribeResourceTagsRequest) (response *DescribeResourceTagsResponse, err error) {
+	if request == nil {
+		request = NewDescribeResourceTagsRequest()
+	}
+	response = NewDescribeResourceTagsResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewDescribeResourceTagsByTagKeysRequest() (request *DescribeResourceTagsByTagKeysRequest) {
+	request = &DescribeResourceTagsByTagKeysRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("tag", APIVersion, "DescribeResourceTagsByTagKeys")
+	return
+}
+
+func NewDescribeResourceTagsByTagKeysResponse() (response *DescribeResourceTagsByTagKeysResponse) {
+	response = &DescribeResourceTagsByTagKeysResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 根据标签键获取资源标签
+func (c *Client) DescribeResourceTagsByTagKeys(request *DescribeResourceTagsByTagKeysRequest) (response *DescribeResourceTagsByTagKeysResponse, err error) {
+	if request == nil {
+		request = NewDescribeResourceTagsByTagKeysRequest()
+	}
+	response = NewDescribeResourceTagsByTagKeysResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewDescribeTagKeysRequest() (request *DescribeTagKeysRequest) {
+	request = &DescribeTagKeysRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("tag", APIVersion, "DescribeTagKeys")
+	return
+}
+
+func NewDescribeTagKeysResponse() (response *DescribeTagKeysResponse) {
+	response = &DescribeTagKeysResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 查询标签键
+func (c *Client) DescribeTagKeys(request *DescribeTagKeysRequest) (response *DescribeTagKeysResponse, err error) {
+	if request == nil {
+		request = NewDescribeTagKeysRequest()
+	}
+	response = NewDescribeTagKeysResponse()
+	err = c.Send(request, response)
+	return
+}
+
 func NewBatchCreateTagRequest() (request *BatchCreateTagRequest) {
 	request = &BatchCreateTagRequest{
 		BaseRequest: &tchttp.BaseRequest{},
@@ -415,6 +415,81 @@ func (c *Client) BatchCreateTag(request *BatchCreateTagRequest) (response *Batch
 		request = NewBatchCreateTagRequest()
 	}
 	response = NewBatchCreateTagResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewDescribeTagsRequest() (request *DescribeTagsRequest) {
+	request = &DescribeTagsRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("tag", APIVersion, "DescribeTags")
+	return
+}
+
+func NewDescribeTagsResponse() (response *DescribeTagsResponse) {
+	response = &DescribeTagsResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 用于查询已建立的标签列表。
+func (c *Client) DescribeTags(request *DescribeTagsRequest) (response *DescribeTagsResponse, err error) {
+	if request == nil {
+		request = NewDescribeTagsRequest()
+	}
+	response = NewDescribeTagsResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewDescribeTagValuesRequest() (request *DescribeTagValuesRequest) {
+	request = &DescribeTagValuesRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("tag", APIVersion, "DescribeTagValues")
+	return
+}
+
+func NewDescribeTagValuesResponse() (response *DescribeTagValuesResponse) {
+	response = &DescribeTagValuesResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 查询标签值
+func (c *Client) DescribeTagValues(request *DescribeTagValuesRequest) (response *DescribeTagValuesResponse, err error) {
+	if request == nil {
+		request = NewDescribeTagValuesRequest()
+	}
+	response = NewDescribeTagValuesResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewGetResourcesRequest() (request *GetResourcesRequest) {
+	request = &GetResourcesRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("tag", APIVersion, "GetResources")
+	return
+}
+
+func NewGetResourcesResponse() (response *GetResourcesResponse) {
+	response = &GetResourcesResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 查询绑定了标签的资源列表。
+func (c *Client) GetResources(request *GetResourcesRequest) (response *GetResourcesResponse, err error) {
+	if request == nil {
+		request = NewGetResourcesRequest()
+	}
+	response = NewGetResourcesResponse()
 	err = c.Send(request, response)
 	return
 }

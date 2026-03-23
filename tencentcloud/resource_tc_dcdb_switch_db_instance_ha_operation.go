@@ -1,7 +1,7 @@
 /*
 Provides a resource to create a dcdb switch_db_instance_ha_operation
 
-# Example Usage
+Example Usage
 
 ```hcl
 
@@ -18,10 +18,10 @@ import (
 	"log"
 	"time"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	dcdb "terraform-provider-tencentcloudenterprise/sdk/dcdb/v20180411"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func init() {

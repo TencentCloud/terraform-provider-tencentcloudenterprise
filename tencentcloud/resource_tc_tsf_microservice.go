@@ -1,22 +1,20 @@
 /*
 Provides a resource to create a tsf microservice
 
-# Example Usage
+Example Usage
 
 ```hcl
-
-	resource "tencentcloudenterprise_tsf_microservice" "microservice" {
-	  namespace_id = "namespace-vjlkzkgy"
-	  microservice_name = "test-microservice"
-	  microservice_desc = "desc-microservice"
-	  tags = {
-	    "createdBy" = "terraform"
-	  }
-	}
-
+resource "tencentcloudenterprise_tsf_microservice" "microservice" {
+  namespace_id = "namespace-vjlkzkgy"
+  microservice_name = "test-microservice"
+  microservice_desc = "desc-microservice"
+  tags = {
+    "createdBy" = "terraform"
+  }
+}
 ```
 
-# Import
+Import
 
 tsf microservice can be imported using the namespaceId#microserviceId, e.g.
 
@@ -32,10 +30,10 @@ import (
 	"log"
 	"strings"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	tsf "terraform-provider-tencentcloudenterprise/sdk/tsf/v20180326"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func init() {

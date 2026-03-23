@@ -1,16 +1,14 @@
 /*
 Provides a resource to create a vpc enable_end_point_connect
 
-# Example Usage
+Example Usage
 
 ```hcl
-
-	resource "tencentcloudenterprise_vpc_enable_end_point_connect" "enable_end_point_connect" {
-	  end_point_service_id = "vpcsvc-98jddhcz"
-	  end_point_id         = ["vpce-6q0ftmke"]
-	  accept_flag          = true
-	}
-
+resource "tencentcloudenterprise_vpc_enable_end_point_connect" "enable_end_point_connect" {
+  end_point_service_id = "vpcsvc-98jddhcz"
+  end_point_id         = ["vpce-6q0ftmke"]
+  accept_flag          = true
+}
 ```
 */
 package tencentcloud
@@ -18,10 +16,10 @@ package tencentcloud
 import (
 	"log"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	vpc "terraform-provider-tencentcloudenterprise/sdk/vpc/v20170312"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func init() {

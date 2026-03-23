@@ -1,19 +1,17 @@
 /*
 Use this resource to create a backup config.
 
-# Example Usage
+Example Usage
 
 ```hcl
-
-	resource "tencentcloudenterprise_redis_backup_config" "redislab" {
-	  redis_id      = "crs-7yl0q0dd"
-	  backup_time   = "04:00-05:00"
-	  backup_period = ["Monday"]
-	}
-
+resource "tencentcloudenterprise_redis_backup_config" "redislab" {
+  redis_id      = "crs-7yl0q0dd"
+  backup_time   = "04:00-05:00"
+  backup_period = ["Monday"]
+}
 ```
 
-# Import
+Import
 
 Redis  backup config can be imported, e.g.
 
@@ -27,9 +25,9 @@ import (
 	"context"
 	"fmt"
 
+	"terraform-provider-tencentcloudenterprise/sdk/common/errors"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	"terraform-provider-tencentcloudenterprise/sdk/common/errors"
 )
 
 func init() {

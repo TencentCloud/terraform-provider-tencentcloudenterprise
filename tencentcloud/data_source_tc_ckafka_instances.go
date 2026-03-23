@@ -1,12 +1,11 @@
 /*
 Use this data source to query detailed instance information of Ckafka
 
-# Example Usage
-
+Example Usage
 ```hcl
 
 	data "tencentcloudenterprise_ckafka_instances" "foo" {
-	  instance_ids=["ckafka-vv7wpvae"]
+	  instance_id="ckafka-vv7wpvae"
 	}
 
 ```
@@ -15,6 +14,7 @@ package tencentcloud
 
 import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+
 	ckafka "terraform-provider-tencentcloudenterprise/sdk/ckafka/v20190819"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
 )

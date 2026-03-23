@@ -2,12 +2,12 @@ package tencentcloud
 
 import (
 	"context"
-	"log"
 	cls "terraform-provider-tencentcloudenterprise/sdk/cls/v20201016"
 	"terraform-provider-tencentcloudenterprise/sdk/common"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/connectivity"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/ratelimit"
+	"log"
 )
 
 type ClsService struct {
@@ -913,7 +913,82 @@ func (me *ClsService) DeleteClsAlarmNoticeById(ctx context.Context, alarmNoticeI
 	return
 }
 
-func (me *ClsService) DescribeClsCkafkaConsumerById(ctx context.Context, topicId string) (ckafkaConsumer *cls.DescribeConsumerResponseParams, errRet error) {
+func (me *ClsService) DescribeClsNoticeContentById(ctx context.Context, noticeContentId string) (noticeContent *cls.NoticeContentTemplate, errRet error) {
+	logId := getLogId(ctx)
+
+	request := cls.NewDescribeNoticeContentsRequest()
+	filter := &cls.Filter{
+		Key:    helper.String("noticeContentId"),
+		Values: []*string{&noticeContentId},
+	}
+	request.Filters = append(request.Filters, filter)
+
+	defer func() {
+		if errRet != nil {
+			log.Printf("[CRITAL]%s api[%s] fail, request body [%s], reason[%s]\n", logId, request.GetAction(), request.ToJsonString(), errRet.Error())
+		}
+	}()
+
+	ratelimit.Check(request.GetAction())
+
+	var (
+		offset int64 = 0
+		limit  int64 = 20
+	)
+	instances := make([]*cls.NoticeContentTemplate, 0)
+	for {
+		request.Offset = &offset
+		request.Limit = &limit
+		response, err := me.client.UseClsClient().DescribeNoticeContents(request)
+		if err != nil {
+			errRet = err
+			return
+		}
+		log.Printf("[DEBUG]%s api[%s] success, request body [%s], response body [%s]\n", logId, request.GetAction(), request.ToJsonString(), response.ToJsonString())
+
+		if response == nil || len(response.Response.NoticeContents) < 1 {
+			break
+		}
+		instances = append(instances, response.Response.NoticeContents...)
+		if len(response.Response.NoticeContents) < int(limit) {
+			break
+		}
+
+		offset += limit
+	}
+
+	if len(instances) < 1 {
+		return
+	}
+	noticeContent = instances[0]
+	return
+}
+
+func (me *ClsService) DeleteClsNoticeContentById(ctx context.Context, noticeContentId string) (errRet error) {
+	logId := getLogId(ctx)
+
+	request := cls.NewDeleteNoticeContentRequest()
+	request.NoticeContentId = &noticeContentId
+
+	defer func() {
+		if errRet != nil {
+			log.Printf("[CRITAL]%s api[%s] fail, request body [%s], reason[%s]\n", logId, request.GetAction(), request.ToJsonString(), errRet.Error())
+		}
+	}()
+
+	ratelimit.Check(request.GetAction())
+
+	response, err := me.client.UseClsClient().DeleteNoticeContent(request)
+	if err != nil {
+		errRet = err
+		return
+	}
+	log.Printf("[DEBUG]%s api[%s] success, request body [%s], response body [%s]\n", logId, request.GetAction(), request.ToJsonString(), response.ToJsonString())
+
+	return
+}
+
+func (me *ClsService) DescribeClsCkafkaConsumerById(ctx context.Context, topicId string) (ckafkaConsumer *cls.DescribeConsumerResponse, errRet error) {
 	logId := getLogId(ctx)
 
 	request := cls.NewDescribeConsumerRequest()
@@ -934,7 +1009,7 @@ func (me *ClsService) DescribeClsCkafkaConsumerById(ctx context.Context, topicId
 	}
 	log.Printf("[DEBUG]%s api[%s] success, request body [%s], response body [%s]\n", logId, request.GetAction(), request.ToJsonString(), response.ToJsonString())
 
-	ckafkaConsumer = response.Response
+	ckafkaConsumer = response
 	return
 }
 
@@ -1085,7 +1160,7 @@ func (me *ClsService) DescribeClsShipperTasksByFilter(ctx context.Context, param
 	return
 }
 
-func (me *ClsService) DescribeClsMachinesByFilter(ctx context.Context, param map[string]interface{}) (machines []*cls.MachineInfo, errRet error) {
+func (me *ClsService) DescribeClsMachinesByFilter(ctx context.Context, param map[string]interface{}) (machines []*cls.MachineInfo, response *cls.DescribeMachinesResponse, errRet error) {
 	var (
 		logId   = getLogId(ctx)
 		request = cls.NewDescribeMachinesRequest()
@@ -1144,5 +1219,63 @@ func (me *ClsService) DescribeClsMachineGroupConfigsByFilter(ctx context.Context
 	log.Printf("[DEBUG]%s api[%s] success, request body [%s], response body [%s]\n", logId, request.GetAction(), request.ToJsonString(), response.ToJsonString())
 
 	machineGroupConfigs = response.Response.Configs
+	return
+}
+
+func (me *ClsService) DescribeClsTopicsByFilter(ctx context.Context, param map[string]interface{}) (ret []*cls.TopicInfo, errRet error) {
+	var (
+		logId    = getLogId(ctx)
+		request  = cls.NewDescribeTopicsRequest()
+		response = cls.NewDescribeTopicsResponse()
+	)
+
+	defer func() {
+		if errRet != nil {
+			log.Printf("[CRITAL]%s api[%s] fail, request body [%s], reason[%s]\n", logId, request.GetAction(), request.ToJsonString(), errRet.Error())
+		}
+	}()
+
+	for k, v := range param {
+		if k == "Filters" {
+			request.Filters = v.([]*cls.Filter)
+		}
+		if k == "PreciseSearch" {
+			request.PreciseSearch = v.(*uint64)
+		}
+		if k == "BizType" {
+			request.BizType = v.(*uint64)
+		}
+	}
+
+	var (
+		offset int64 = 0
+		limit  int64 = 100
+	)
+
+	for {
+		request.Offset = &offset
+		request.Limit = &limit
+		ratelimit.Check(request.GetAction())
+		result, e := me.client.UseClsClient().DescribeTopics(request)
+		if e != nil {
+			errRet = e
+			return
+		}
+		log.Printf("[DEBUG]%s api[%s] success, request body [%s], response body [%s]\n",
+			logId, request.GetAction(), request.ToJsonString(), result.ToJsonString())
+
+		response = result
+		if response == nil || len(response.Response.Topics) < 1 {
+			break
+		}
+
+		ret = append(ret, response.Response.Topics...)
+		if len(response.Response.Topics) < int(limit) {
+			break
+		}
+
+		offset += limit
+	}
+
 	return
 }

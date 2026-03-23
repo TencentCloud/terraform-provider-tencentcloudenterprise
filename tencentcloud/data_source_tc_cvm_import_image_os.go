@@ -1,7 +1,7 @@
 /*
 Use this data source to query detailed information of cvm import_image_os
 
-# Example Usage
+Example Usage
 
 ```hcl
 data "tencentcloudenterprise_cvm_import_image_os" "import_image_os" {
@@ -13,10 +13,10 @@ package tencentcloud
 import (
 	"fmt"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	cvm "terraform-provider-tencentcloudenterprise/sdk/cvm/v20170312"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func init() {

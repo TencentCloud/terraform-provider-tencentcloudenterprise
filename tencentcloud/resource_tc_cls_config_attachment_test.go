@@ -84,8 +84,8 @@ resource "tencentcloudenterprise_cls_machine_group" "group" {
   machine_group_type {
     type   = "ip"
     values = [
-      "203.0.113.101",
-      "203.0.113.102",
+      "192.168.1.1",
+      "192.168.1.2",
     ]
   }
 }

@@ -1,18 +1,16 @@
 /*
 Provides a resource to create a tsf bind_api_group
 
-# Example Usage
+Example Usage
 
 ```hcl
-
-	resource "tencentcloudenterprise_tsf_bind_api_group" "bind_api_group" {
-	  gateway_deploy_group_id = "group-vzd97zpy"
-	  group_id = "grp-qp0rj3zi"
-	}
-
+resource "tencentcloudenterprise_tsf_bind_api_group" "bind_api_group" {
+  gateway_deploy_group_id = "group-vzd97zpy"
+  group_id = "grp-qp0rj3zi"
+}
 ```
 
-# Import
+Import
 
 tsf bind_api_group can be imported using the id, e.g.
 
@@ -28,9 +26,9 @@ import (
 	"log"
 	"strings"
 
+	tsf "terraform-provider-tencentcloudenterprise/sdk/tsf/v20180326"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	tsf "terraform-provider-tencentcloudenterprise/sdk/tsf/v20180326"
 )
 
 func init() {

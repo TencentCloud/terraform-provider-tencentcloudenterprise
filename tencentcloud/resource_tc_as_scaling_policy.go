@@ -1,24 +1,22 @@
 /*
 Provides a resource for an AS (Auto scaling) policy.
 
-# Example Usage
+Example Usage
 
 ```hcl
-
-	resource "tencentcloudenterprise_as_scaling_policy" "scaling_policy" {
-	  scaling_group_id    = "asg-n32ymck2"
-	  policy_name         = "tf-as-scaling-policy"
-	  adjustment_type     = "EXACT_CAPACITY"
-	  adjustment_value    = 0
-	  comparison_operator = "GREATER_THAN"
-	  metric_name         = "CPU_UTILIZATION"
-	  threshold           = 80
-	  period              = 300
-	  continuous_time     = 10
-	  statistic           = "AVERAGE"
-	  cooldown            = 360
-	}
-
+resource "tencentcloudenterprise_as_scaling_policy" "scaling_policy" {
+  scaling_group_id    = "asg-n32ymck2"
+  policy_name         = "tf-as-scaling-policy"
+  adjustment_type     = "EXACT_CAPACITY"
+  adjustment_value    = 0
+  comparison_operator = "GREATER_THAN"
+  metric_name         = "CPU_UTILIZATION"
+  threshold           = 80
+  period              = 300
+  continuous_time     = 10
+  statistic           = "AVERAGE"
+  cooldown            = 360
+}
 ```
 */
 package tencentcloud
@@ -28,10 +26,10 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	as "terraform-provider-tencentcloudenterprise/sdk/as/v20180419"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func init() {
@@ -39,17 +37,17 @@ func init() {
 		TerraformTypeCN: "自动伸缩组策略",
 		DescriptionCN:   "提供自动伸缩策略资源，用于创建和管理AS伸缩策略。",
 		AttributesCN: map[string]string{
-			"scaling_group_id":            "伸缩组ID",
-			"policy_name":                 "策略名称",
-			"adjustment_type":             "调整方式",
-			"adjustment_value":            "调整值",
-			"comparison_operator":         "比较运算符",
-			"metric_name":                 "指标名称",
-			"threshold":                   "阈值",
-			"period":                      "周期",
-			"continuous_time":             "持续时间",
-			"statistic":                   "统计方式",
-			"cooldown":                    "冷却时间",
+			"scaling_group_id":    "伸缩组ID",
+			"policy_name":         "策略名称",
+			"adjustment_type":     "调整方式",
+			"adjustment_value":    "调整值",
+			"comparison_operator": "比较运算符",
+			"metric_name":         "指标名称",
+			"threshold":           "阈值",
+			"period":              "周期",
+			"continuous_time":     "持续时间",
+			"statistic":           "统计方式",
+			"cooldown":            "冷却时间",
 			"notification_user_group_ids": "通知用户组ID",
 		},
 	})

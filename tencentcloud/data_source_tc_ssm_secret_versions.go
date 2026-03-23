@@ -3,11 +3,10 @@ Use this data source to query detailed information of SSM secret version
 Example Usage
 ```hcl
 
-	data "tencentcloudenterprise_ssm_secret_versions" "foo" {
-	  secret_name = "test"
-	  version_id = "v1"
-	}
-
+data "tencentcloudenterprise_ssm_secret_versions" "foo" {
+  secret_name = "test"
+  version_id = "v1"
+}
 ```
 */
 package tencentcloud
@@ -17,10 +16,10 @@ import (
 	"log"
 	"strings"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	sdkError "terraform-provider-tencentcloudenterprise/sdk/common/errors"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func init() {
@@ -28,12 +27,12 @@ func init() {
 		TerraformTypeCN: "SSM凭据版本",
 		DescriptionCN:   "用于查询SSM凭据版本的详细信息",
 		AttributesCN: map[string]string{
-			"secret_name":         "用于过滤结果的凭据名称",
-			"version_id":          "版本ID",
-			"result_output_file":  "用于保存结果",
+			"secret_name":        "用于过滤结果的凭据名称",
+			"version_id":         "版本ID",
+			"result_output_file": "用于保存结果",
 			"secret_version_list": "凭据版本列表",
-			"version_stage":       "版本阶段",
-			"create_time":         "创建时间",
+			"version_stage":      "版本阶段",
+			"create_time":        "创建时间",
 		},
 	})
 }

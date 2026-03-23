@@ -3,30 +3,26 @@ The NATs data source lists a number of NATs resource information owned by an Ten
 
 ~> **NOTE:** It has been deprecated and replaced by tencentcloudenterprise_vpc_nat_gateways.
 
-# Example Usage
+Example Usage
 
 ```hcl
 # Query the NAT gateway by ID
-
-	data "tencentcloudenterprise_nats" "anat" {
-	  id = "nat-k6ualnp2"
-	}
+data "tencentcloudenterprise_nats" "anat" {
+  id = "nat-k6ualnp2"
+}
 
 # Query the list of normal NAT gateways
-
-	data "tencentcloudenterprise_nats" "nat_state" {
-	  state = 0
-	}
+data "tencentcloudenterprise_nats" "nat_state" {
+  state = 0
+}
 
 # Multi conditional query NAT gateway list
-
-	data "tencentcloudenterprise_nats" "multi_nat" {
-	  name           = "terraform test"
-	  vpc_id         = "vpc-ezij4ltv"
-	  max_concurrent = 3000000
-	  bandwidth      = 500
-	}
-
+data "tencentcloudenterprise_nats" "multi_nat" {
+  name           = "terraform test"
+  vpc_id         = "vpc-ezij4ltv"
+  max_concurrent = 3000000
+  bandwidth      = 500
+}
 ```
 */
 package tencentcloud
@@ -34,15 +30,15 @@ package tencentcloud
 import (
 	"log"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	vpc "terraform-provider-tencentcloudenterprise/sdk/vpc/v20170312"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func dataSourceTencentCloudNats() *schema.Resource {
 	return &schema.Resource{
-		DeprecationMessage: "This resource has been deprecated in Terraform TencentCloud provider version 1.18.0. Please use 'cloud_vpc_nat_gateways' instead.",
+		DeprecationMessage: "This resource has been deprecated in Terraform TencentCloud provider version 1.18.0. Please use 'tencentcloudenterprise_vpc_nat_gateways' instead.",
 		Read:               dataSourceTencentCloudNatsRead,
 
 		Schema: map[string]*schema.Schema{

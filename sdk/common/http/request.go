@@ -4,7 +4,7 @@
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//	http://www.apache.org/licenses/LICENSE-2.0
+//    http://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -48,7 +48,7 @@ type Request interface {
 	GetService() string
 	GetUrl() string
 	GetVersion() string
-	GetLanguage() string
+    GetLanguage() string
 	SetScheme(string)
 	SetRootDomain(string)
 	SetDomain(string)
@@ -65,9 +65,9 @@ type BaseRequest struct {
 	params     map[string]string
 	formParams map[string]string
 
-	service  string
-	version  string
-	action   string
+	service string
+	version string
+	action  string
 	language string
 }
 

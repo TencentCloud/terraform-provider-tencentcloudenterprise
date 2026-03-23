@@ -4,13 +4,13 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"log"
 	tbase "terraform-provider-tencentcloudenterprise/sdk/tbase/v20190107"
+	"log"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/connectivity"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/ratelimit"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 )
 
 const (

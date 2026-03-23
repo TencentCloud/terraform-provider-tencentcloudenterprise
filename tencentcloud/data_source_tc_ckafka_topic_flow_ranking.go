@@ -1,9 +1,9 @@
-// /*
-// Use this data source to query detailed information of ckafka topic_flow_ranking
+///*
+//Use this data source to query detailed information of ckafka topic_flow_ranking
 //
-// # Example Usage
+//Example Usage
 //
-// ```hcl
+//```hcl
 //
 //	data "tencentcloudenterprise_ckafka_topic_flow_ranking" "topic_flow_ranking" {
 //	  instance_id = "ckafka-xxxxxx"
@@ -12,8 +12,8 @@
 //	  end_date = "2021-05-29T23:59:59+08:00"
 //	}
 //
-// ```
-// */
+//```
+//*/
 package tencentcloud
 
 //

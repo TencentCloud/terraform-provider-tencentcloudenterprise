@@ -1,38 +1,36 @@
 /*
 Provides a resource to create a group of AS (Auto scaling) instances.
 
-# Example Usage
+Example Usage
 
 ```hcl
+resource "tencentcloudenterprise_as_scaling_group" "scaling_group" {
+  scaling_group_name   = "tf-as-scaling-group"
+  configuration_id     = "asc-oqio4yyj"
+  max_size             = 1
+  min_size             = 0
+  vpc_id               = "vpc-3efmz0z"
+  subnet_ids           = ["subnet-mc3egos"]
+  project_id           = 0
+  default_cooldown     = 400
+  desired_capacity     = 1
+  termination_policies = ["NEWEST_INSTANCE"]
+  retry_policy         = "INCREMENTAL_INTERVALS"
 
-	resource "tencentcloudenterprise_as_scaling_group" "scaling_group" {
-	  scaling_group_name   = "tf-as-scaling-group"
-	  configuration_id     = "asc-oqio4yyj"
-	  max_size             = 1
-	  min_size             = 0
-	  vpc_id               = "vpc-3efmz0z"
-	  subnet_ids           = ["subnet-mc3egos"]
-	  project_id           = 0
-	  default_cooldown     = 400
-	  desired_capacity     = 1
-	  termination_policies = ["NEWEST_INSTANCE"]
-	  retry_policy         = "INCREMENTAL_INTERVALS"
+  forward_balancer_ids {
+    load_balancer_id = "lb-hk693b1l"
+    listener_id      = "lbl-81wr497k"
+    rule_id          = "loc-kiodx943"
 
-	  forward_balancer_ids {
-	    load_balancer_id = "lb-hk693b1l"
-	    listener_id      = "lbl-81wr497k"
-	    rule_id          = "loc-kiodx943"
-
-	    target_attribute {
-	      port   = 80
-	      weight = 90
-	    }
-	  }
-	}
-
+    target_attribute {
+      port   = 80
+      weight = 90
+    }
+  }
+}
 ```
 
-# Import
+Import
 
 AutoScaling Groups can be imported using the id, e.g.
 
@@ -47,12 +45,12 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	as "terraform-provider-tencentcloudenterprise/sdk/as/v20180419"
 	sdkErrors "terraform-provider-tencentcloudenterprise/sdk/common/errors"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/ratelimit"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func init() {

@@ -8,7 +8,7 @@ Provides a resource to create a cloud firewall (cfw) vpc policy.
 	resource "tencentcloudenterprise_cfw_vpc_policy" "example" {
 	  source_content = "0.0.0.0/0"
 	  source_type    = "net"
-	  dest_content   = "203.0.113.200"
+	  dest_content   = "192.168.0.2"
 	  dest_type      = "net"
 	  protocol       = "ANY"
 	  rule_action    = "log"
@@ -32,29 +32,36 @@ package tencentcloud
 import (
 	"context"
 	"fmt"
+	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
 	"log"
 	"strconv"
-	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
 
+	cfw "terraform-provider-tencentcloudenterprise/sdk/cfw/v20190904"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	cfw "terraform-provider-tencentcloudenterprise/sdk/cfw/v20190904"
 )
 
 func init() {
 	registerResourceDescriptionProvider("tencentcloudenterprise_cfw_vpc_policy", CNDescription{
-		TerraformTypeCN: "云防火墙VPC策略",
-		DescriptionCN:   "提供云防火墙VPC策略资源，用于创建和管理云防火墙VPC间访问控制策略。",
+		TerraformTypeCN: "VPC访问控制规则",
+		DescriptionCN:   "提供VPC访问控制规则资源，用于创建和管理云防火墙VPC访问控制规则。",
 		AttributesCN: map[string]string{
-			"source_content": "源地址",
-			"source_type":    "源地址类型",
-			"dest_content":   "目的地址",
-			"dest_type":      "目的地址类型",
-			"protocol":       "协议",
-			"rule_action":    "规则动作",
-			"port":           "端口",
-			"description":    "规则描述",
-			"enable":         "规则状态",
+			"source_content":      "源地址",
+			"source_type":         "源地址类型",
+			"dest_content":        "目的地址",
+			"dest_type":           "目的地址类型",
+			"protocol":            "协议",
+			"rule_action":         "规则动作",
+			"port":                "端口",
+			"description":         "规则描述",
+			"enable":              "规则状态",
+			"fw_group_id":         "防火墙组ID",
+			"uuid":                "规则ID",
+			"internal_uuid":       "内部ID",
+			"fw_group_name":       "防火墙组名称",
+			"beta_list":           "Beta任务详情",
+			"param_template_id":   "参数模板ID",
+			"param_template_name": "参数模板名称",
 		},
 	})
 }
@@ -73,7 +80,7 @@ func resourceTencentCloudCfwVpcPolicy() *schema.Resource {
 			"source_content": {
 				Type:        schema.TypeString,
 				Required:    true,
-				Description: "Access source examplnet:IP/CIDR(203.0.113.200).",
+				Description: "Access source examplnet:IP/CIDR(192.168.0.2).",
 			},
 			"source_type": {
 				Type:        schema.TypeString,
@@ -83,7 +90,7 @@ func resourceTencentCloudCfwVpcPolicy() *schema.Resource {
 			"dest_content": {
 				Type:        schema.TypeString,
 				Required:    true,
-				Description: "Access purpose example: net:IP/CIDR(203.0.113.200) domain:domain rule, for example*.qq.com.",
+				Description: "Access purpose example: net:IP/CIDR(192.168.0.2) domain:domain rule, for example*.qq.com.",
 			},
 			"dest_type": {
 				Type:        schema.TypeString,

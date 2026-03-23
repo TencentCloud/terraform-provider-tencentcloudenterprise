@@ -1,32 +1,31 @@
 /*
 Provides a resource to create a tsf application_config
 
-# Example Usage
+Example Usage
 
 ```hcl
-
-	resource "tencentcloudenterprise_tsf_application_config" "application_config" {
-		config_name = "tf-test-config"
-		config_version = "1.0"
-		config_value = "name: \"name\""
-		application_id = "application-oydl6xa2"
-		config_version_desc = "version desc"
-		// config_type = ""
-		// encode_with_base64 = false
-		// program_id_list =
-	}
-
+resource "tencentcloudenterprise_tsf_application_config" "application_config" {
+	config_name = "tf-test-config"
+	config_version = "1.0"
+	config_value = "name: \"name\""
+	application_id = "application-oydl6xa2"
+	config_version_desc = "version desc"
+	// config_type = ""
+	// encode_with_base64 = false
+	// program_id_list =
+}
 ```
+
 */
 package tencentcloud
 
 import (
 	"context"
 	"fmt"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
-	"log"
 	tsf "terraform-provider-tencentcloudenterprise/sdk/tsf/v20180326"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"log"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )

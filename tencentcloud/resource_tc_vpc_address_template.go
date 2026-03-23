@@ -1,18 +1,16 @@
 /*
 Provides a resource to manage address template.
 
-# Example Usage
+Example Usage
 
 ```hcl
-
-	resource "tencentcloudenterprise_vpc_address_template" "foo" {
-	  name                = "cam-user-test"
-	  addresses = ["203.0.113.1","10.0.1.0/24","203.0.113.1-203.0.113.100"]
-	}
-
+resource "tencentcloudenterprise_vpc_address_template" "foo" {
+  name                = "cam-user-test"
+  addresses = ["10.0.0.1","10.0.1.0/24","10.0.0.1-10.0.0.100"]
+}
 ```
 
-# Import
+Import
 
 Address template can be imported using the id, e.g.
 
@@ -64,7 +62,7 @@ func resourceTencentCloudAddressTemplate() *schema.Resource {
 					Type: schema.TypeString,
 				},
 				Required:    true,
-				Description: "Address list. IP(`203.0.113.1`), CIDR(`10.0.1.0/24`), IP range(`203.0.113.1-203.0.113.100`) format are supported.",
+				Description: "Address list. IP(`10.0.0.1`), CIDR(`10.0.1.0/24`), IP range(`10.0.0.1-10.0.0.100`) format are supported.",
 			},
 		},
 	}

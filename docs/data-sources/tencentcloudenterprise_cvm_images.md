@@ -53,6 +53,6 @@ In addition to all arguments above, the following attributes are exported:
     * `disk_usage` - Type of the cloud disk used to create the snapshot.
     * `snapshot_id` - Snapshot ID.
     * `snapshot_name` - Snapshot name, the user-defined snapshot alias.
-  * `support_cloud_init` - Whether support cloud-init.
+  * `support_tencentcloudenterprise_init` - Whether support cloud-init.
   * `sync_percent` - Sync percent of the image.
 

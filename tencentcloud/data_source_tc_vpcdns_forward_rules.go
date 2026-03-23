@@ -1,7 +1,7 @@
 /*
 Provide a resource to query VPCDNS domain.
 
-# Example Usage
+Example Usage
 
 ```hcl
 
@@ -11,7 +11,7 @@ Provide a resource to query VPCDNS domain.
 
 ```
 
-# Import
+Import
 
 Vpc subnet instance can be imported, e.g.
 
@@ -25,10 +25,10 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	vpcdns "terraform-provider-tencentcloudenterprise/sdk/vpcdns/v20191025"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func init() {
@@ -36,14 +36,14 @@ func init() {
 		TerraformTypeCN: "VPCDNS转发规则",
 		DescriptionCN:   "提供VPCDNS转发规则数据源，用于查询VPCDNS转发规则的详细信息。",
 		AttributesCN: map[string]string{
-			"rule_id":            "转发规则id",
-			"remark":             "转发规则名称",
-			"domain_id":          "转发域名id",
-			"domain_name":        "转发域名",
-			"forward_address":    "dns地址",
-			"vpc_infos":          "vpc关联信息",
-			"created_on":         "创建时间",
-			"updated_on":         "更新时间",
+			"rule_id":         "转发规则id",
+			"remark":          "转发规则名称",
+			"domain_id":       "转发域名id",
+			"domain_name":     "转发域名",
+			"forward_address": "dns地址",
+			"vpc_infos":       "vpc关联信息",
+			"created_on":      "创建时间",
+			"updated_on":      "更新时间",
 			"result_output_file": "数据源查询结果文件，白屏化界面不可用",
 		},
 	})

@@ -1,7 +1,7 @@
 /*
 Use this data source to query detailed information of dc access_points
 
-# Example Usage
+Example Usage
 
 ```hcl
 
@@ -17,10 +17,10 @@ import (
 	"context"
 	"strconv"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	dc "terraform-provider-tencentcloudenterprise/sdk/dc/v20180410"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func init() {

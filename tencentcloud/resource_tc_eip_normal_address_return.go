@@ -1,21 +1,19 @@
 /*
 Provides a resource to create a vpc normal_address_return
 
-# Example Usage
+Example Usage
 
 ```hcl
-
-	resource "tencentcloudenterprise_eip_normal_address_return" "normal_address_return" {
-	  address_ids = ["eip-8zei45vm"]
-	}
-
+resource "tencentcloudenterprise_eip_normal_address_return" "normal_address_return" {
+  address_ids = ["eip-8zei45vm"]
+}
 ```
 */
 package tencentcloud
 
 import (
-	"log"
 	cvm "terraform-provider-tencentcloudenterprise/sdk/cvm/v20170312"
+	"log"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"

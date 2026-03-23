@@ -3,14 +3,12 @@ Use this data source to query detailed information of security group.
 
 ~> **NOTE:** It has been deprecated and replaced by tencentcloudenterprise_vpc_security_groups.
 
-# Example Usage
+Example Usage
 
 ```hcl
-
-	data "tencentcloudenterprise_vpc_security_group" "sglab" {
-	  security_group_id = tencentcloudenterprise_vpc_security_group.sglab.id
-	}
-
+data "tencentcloudenterprise_vpc_security_group" "sglab" {
+  security_group_id = tencentcloudenterprise_vpc_security_group.sglab.id
+}
 ```
 */
 package tencentcloud
@@ -27,7 +25,7 @@ import (
 
 func dataSourceTencentCloudSecurityGroup() *schema.Resource {
 	return &schema.Resource{
-		DeprecationMessage: "This data source has been deprecated in Terraform TencentCloud provider version 1.14.0. Please use 'cloud_vpc_security_groups' instead.",
+		DeprecationMessage: "This data source has been deprecated in Terraform TencentCloud provider version 1.14.0. Please use 'tencentcloudenterprise_vpc_security_groups' instead.",
 		Read:               dataSourceTencentCloudSecurityGroupRead,
 		Schema: map[string]*schema.Schema{
 			"security_group_id": {

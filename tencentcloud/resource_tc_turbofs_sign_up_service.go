@@ -1,7 +1,7 @@
 /*
 Provides a resource to create a turbofs sign up service
 
-# Example Usage
+Example Usage
 
 ```hcl
 resource "tencentcloudenterprise_turbofs_sign_up_service" "sign_up" {}
@@ -12,9 +12,9 @@ package tencentcloud
 import (
 	"log"
 
+	turbofs "terraform-provider-tencentcloudenterprise/sdk/turbofs/v20190719"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	turbofs "terraform-provider-tencentcloudenterprise/sdk/turbofs/v20190719"
 )
 
 func init() {
@@ -52,8 +52,8 @@ func resourceTencentCloudTurbofsSignUpServiceCreate(d *schema.ResourceData, meta
 	logId := getLogId(contextNil)
 
 	var (
-		request              = turbofs.NewSignUpCfsServiceRequest()
-		response             = turbofs.NewSignUpCfsServiceResponse()
+		request          = turbofs.NewSignUpCfsServiceRequest()
+		response         = turbofs.NewSignUpCfsServiceResponse()
 		turbofsServiceStatus string
 	)
 	err := resource.Retry(writeRetryTimeout, func() *resource.RetryError {

@@ -8,9 +8,9 @@ import (
 	"testing"
 	"time"
 
+	vpc "terraform-provider-tencentcloudenterprise/sdk/vpc/v20170312"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
-	vpc "terraform-provider-tencentcloudenterprise/sdk/vpc/v20170312"
 )
 
 func init() {

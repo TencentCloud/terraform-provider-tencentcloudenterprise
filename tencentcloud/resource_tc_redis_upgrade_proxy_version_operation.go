@@ -1,20 +1,18 @@
-// /*
-// Provides a resource to create a redis upgrade_proxy_version_operation
+///*
+//Provides a resource to create a redis upgrade_proxy_version_operation
 //
-// # Example Usage
+//Example Usage
 //
-// ```hcl
+//```hcl
+//resource "tencentcloudenterprise_redis_upgrade_proxy_version_operation" "upgrade_proxy_version_operation" {
+//  instance_id = "crs-c1nl9rpv"
+//  current_proxy_version = "5.0.0"
+//  upgrade_proxy_version = "5.0.0"
+//  instance_type_upgrade_now = 1
+//}
+//```
 //
-//	resource "tencentcloudenterprise_redis_upgrade_proxy_version_operation" "upgrade_proxy_version_operation" {
-//	 instance_id = "crs-c1nl9rpv"
-//	 current_proxy_version = "5.0.0"
-//	 upgrade_proxy_version = "5.0.0"
-//	 instance_type_upgrade_now = 1
-//	}
-//
-// ```
-//
-// */
+//*/
 package tencentcloud
 
 //专有云不支持redis升级代理版本

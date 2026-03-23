@@ -15935,6 +15935,7 @@ type PrometheusEndpointInfo struct {
 	NodePrometheusAddress []*string `json:"NodePrometheusAddress,omitempty" name:"NodePrometheusAddress"`
 }
 
+
 type DeleteRabbitMQVipInstanceRequest struct {
 	*tchttp.BaseRequest
 
@@ -15954,6 +15955,7 @@ func (r *DeleteRabbitMQVipInstanceRequest) ToJsonString() string {
 func (r *DeleteRabbitMQVipInstanceRequest) FromJsonString(s string) error {
 	return json.Unmarshal([]byte(s), &r)
 }
+
 
 type DeleteRabbitMQVipInstanceResponse struct {
 	*tchttp.BaseResponse

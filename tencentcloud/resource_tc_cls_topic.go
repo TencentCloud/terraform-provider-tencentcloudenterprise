@@ -35,10 +35,10 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	cls "terraform-provider-tencentcloudenterprise/sdk/cls/v20201016"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func init() {
@@ -293,7 +293,11 @@ func resourceTencentCloudClsTopicRead(d *schema.ResourceData, meta interface{}) 
 	_ = d.Set("sub_assumer_name", topic.SubAssumerName)
 	_ = d.Set("describes", topic.Describes)
 	_ = d.Set("hot_period", topic.HotPeriod)
-	_ = d.Set("encryption", topic.Encryption)
+	if topic.KeyId != nil && *topic.KeyId != "" {
+		_ = d.Set("encryption", 1)
+	} else {
+		_ = d.Set("encryption", 0)
+	}
 	_ = d.Set("biz_type", topic.BizType)
 	_ = d.Set("topic_id", topic.TopicId)
 	_ = d.Set("is_web_tracking", topic.IsWebTracking)

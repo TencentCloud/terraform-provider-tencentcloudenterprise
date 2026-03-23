@@ -2,13 +2,14 @@ package tencentcloud
 
 import (
 	"context"
+	"log"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
-	"github.com/pkg/errors"
 	tag "terraform-provider-tencentcloudenterprise/sdk/tag/v20180813"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/connectivity"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/ratelimit"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/pkg/errors"
 )
 
 type TagService struct {
@@ -135,5 +136,136 @@ func diffTags(oldTags, newTags map[string]interface{}) (replaceTags map[string]s
 			deleteTags = append(deleteTags, k)
 		}
 	}
+	return
+}
+
+// DescribeTagById describes a tag by key and value using DescribeTags API
+func (me *TagService) DescribeTagById(ctx context.Context, tagKey string, tagValue string) (tagRes *tag.TagWithDelete, errRet error) {
+	logId := getLogId(ctx)
+
+	request := tag.NewDescribeTagsRequest()
+	request.TagKey = &tagKey
+	request.TagValue = &tagValue
+
+	defer func() {
+		if errRet != nil {
+			log.Printf("[CRITAL]%s api[%s] fail, request body [%s], reason[%s]\n", logId, request.GetAction(), request.ToJsonString(), errRet.Error())
+		}
+	}()
+
+	ratelimit.Check(request.GetAction())
+	response, err := me.client.UseTagClient().DescribeTags(request)
+	if err != nil {
+		errRet = err
+		return
+	}
+	log.Printf("[DEBUG]%s api[%s] success, request body [%s], response body [%s]\n", logId, request.GetAction(), request.ToJsonString(), response.ToJsonString())
+
+	if response == nil || response.Response == nil || len(response.Response.Tags) == 0 {
+		return
+	}
+
+	for _, v := range response.Response.Tags {
+		if v != nil && v.TagKey != nil && v.TagValue != nil {
+			if *v.TagKey == tagKey && *v.TagValue == tagValue {
+				tagRes = v
+				break
+			}
+		}
+	}
+
+	return
+}
+
+// DeleteTagById deletes a tag by key and value
+func (me *TagService) DeleteTagById(ctx context.Context, tagKey string, tagValue string) (errRet error) {
+	logId := getLogId(ctx)
+
+	request := tag.NewDeleteTagRequest()
+	request.TagKey = &tagKey
+	request.TagValue = &tagValue
+
+	defer func() {
+		if errRet != nil {
+			log.Printf("[CRITAL]%s api[%s] fail, request body [%s], reason[%s]\n", logId, request.GetAction(), request.ToJsonString(), errRet.Error())
+		}
+	}()
+
+	ratelimit.Check(request.GetAction())
+	response, err := me.client.UseTagClient().DeleteTag(request)
+	if err != nil {
+		errRet = err
+		return
+	}
+	log.Printf("[DEBUG]%s api[%s] success, request body [%s], response body [%s]\n", logId, request.GetAction(), request.ToJsonString(), response.ToJsonString())
+
+	return
+}
+
+// DescribeTagAttachmentById describes a tag attachment using GetResources API
+func (me *TagService) DescribeTagAttachmentById(ctx context.Context, tagKey string, tagValue string, resourceId string) (found bool, errRet error) {
+	logId := getLogId(ctx)
+
+	request := tag.NewGetResourcesRequest()
+	request.ResourceList = []*string{&resourceId}
+
+	defer func() {
+		if errRet != nil {
+			log.Printf("[CRITAL]%s api[%s] fail, request body [%s], reason[%s]\n", logId, request.GetAction(), request.ToJsonString(), errRet.Error())
+		}
+	}()
+
+	ratelimit.Check(request.GetAction())
+	response, err := me.client.UseTagClient().GetResources(request)
+	if err != nil {
+		errRet = err
+		return
+	}
+	log.Printf("[DEBUG]%s api[%s] success, request body [%s], response body [%s]\n", logId, request.GetAction(), request.ToJsonString(), response.ToJsonString())
+
+	if response == nil || response.Response == nil || len(response.Response.ResourceTagMappingList) == 0 {
+		return
+	}
+
+	for _, resourceTagMap := range response.Response.ResourceTagMappingList {
+		if resourceTagMap.Resource != nil && *resourceTagMap.Resource == resourceId {
+			for _, t := range resourceTagMap.Tags {
+				if t.TagKey != nil && t.TagValue != nil && *t.TagKey == tagKey && *t.TagValue == tagValue {
+					found = true
+					return
+				}
+			}
+		}
+	}
+
+	return
+}
+
+// DeleteTagAttachmentById deletes a tag attachment using ModifyResourceTags API
+func (me *TagService) DeleteTagAttachmentById(ctx context.Context, tagKey string, resourceId string) (errRet error) {
+	logId := getLogId(ctx)
+
+	request := tag.NewModifyResourceTagsRequest()
+	request.Resource = &resourceId
+	request.DeleteTags = []*tag.TagKeyObject{
+		{
+			TagKey: &tagKey,
+		},
+	}
+
+	defer func() {
+		if errRet != nil {
+			log.Printf("[CRITAL]%s api[%s] fail, request body [%s], reason[%s]\n", logId, request.GetAction(), request.ToJsonString(), errRet.Error())
+		}
+	}()
+
+	ratelimit.Check(request.GetAction())
+	response, err := me.client.UseTagClient().ModifyResourceTags(request)
+	if err != nil {
+		errRet = err
+		return
+	}
+	log.Printf("[DEBUG]%s api[%s] success, request body [%s], response body [%s]\n", logId, request.GetAction(), request.ToJsonString(), response.ToJsonString())
+
 	return
 }

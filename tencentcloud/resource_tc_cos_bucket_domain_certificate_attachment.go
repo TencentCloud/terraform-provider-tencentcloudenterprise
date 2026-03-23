@@ -1,23 +1,23 @@
 /*
 Provides a resource to attach/detach the corresponding certificate for the domain name in specified cos bucket.
 
-# Example Usage
+Example Usage
 
 ```hcl
 
-	resource "tencentcloudenterprise_cos_bucket_domain_certificate_attachment" "foo" {
-	  bucket = ""
-	  domain_certificate {
-		domain = "domain_name"
-	    certificate {
-	      cert_type = "CustomCert"
-	      custom_cert {
-	        cert        = "===CERTIFICATE==="
-	        private_key = "===PRIVATE_KEY==="
-	      }
-	    }
-	  }
-	}
+resource "tencentcloudenterprise_cos_bucket_domain_certificate_attachment" "foo" {
+  bucket = ""
+  domain_certificate {
+	domain = "domain_name"
+    certificate {
+      cert_type = "CustomCert"
+      custom_cert {
+        cert        = "===CERTIFICATE==="
+        private_key = "===PRIVATE_KEY==="
+      }
+    }
+  }
+}
 
 ```
 */
@@ -30,11 +30,11 @@ import (
 	"log"
 	"strings"
 
+	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/pkg/errors"
 	cos "github.com/tencentyun/cos-go-sdk-v5"
-	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
 )
 
 // TCE COS 不支持该功能

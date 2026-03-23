@@ -945,7 +945,7 @@ resource "tencentcloudenterprise_cvm_instance" "foo" {
   system_disk_type  = "CLOUD_PREMIUM"
   vpc_id            = var.cvm_vpc_id
   subnet_id         = var.cvm_subnet_id
-  private_ip        = "203.0.113.123"
+  private_ip        = "10.0.0.123"
 }
 `
 

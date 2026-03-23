@@ -1,7 +1,7 @@
 /*
 Use this data source to query detailed information of CBS storages in parallel.
 
-# Example Usage
+Example Usage
 
 ```hcl
 
@@ -18,8 +18,8 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func init() {
@@ -31,7 +31,7 @@ func init() {
 			"storage_name":           "要查询的CBS的名称",
 			"availability_zone":      "CBS实例所在的可用区域",
 			"project_id":             "与CBS关联的项目的ID",
-			"storage_type":           "按云磁盘介质类型筛选（`cloud_BASIC`：HDD云磁盘|`cloud_PREMIUM`：高级云存储|`cloud_SSD`：SSD云磁盘）",
+			"storage_type":           "按云磁盘介质类型筛选（`tencentcloudenterprise_BASIC`：HDD云磁盘|`tencentcloudenterprise_PREMIUM`：高级云存储|`tencentcloudenterprise_SSD`：SSD云磁盘）",
 			"storage_usage":          "按云磁盘类型（`SYSTEM_disk`：系统磁盘|`DATA_disk'：数据磁盘）筛选",
 			"charge_type":            "按磁盘费用类型（`POSTPAID_by_HOUR`|`PREPAID`）列出筛选器",
 			"portable":               "根据磁盘是否可移植进行筛选（布尔值“true”或“false”）",

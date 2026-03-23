@@ -44,52 +44,52 @@ func NewClient(credential *common.Credential, region string, clientProfile *prof
 	return
 }
 
-func NewReturnBackupIPRequest() (request *ReturnBackupIPRequest) {
-	request = &ReturnBackupIPRequest{
+func NewDeleteImageRequest() (request *DeleteImageRequest) {
+	request = &DeleteImageRequest{
 		BaseRequest: &tchttp.BaseRequest{},
 	}
-	request.Init().WithApiInfo("bms", APIVersion, "ReturnBackupIP")
+	request.Init().WithApiInfo("bms", APIVersion, "DeleteImage")
 	return
 }
 
-func NewReturnBackupIPResponse() (response *ReturnBackupIPResponse) {
-	response = &ReturnBackupIPResponse{
+func NewDeleteImageResponse() (response *DeleteImageResponse) {
+	response = &DeleteImageResponse{
 		BaseResponse: &tchttp.BaseResponse{},
 	}
 	return
 }
 
-// 退还备用IP
-func (c *Client) ReturnBackupIP(request *ReturnBackupIPRequest) (response *ReturnBackupIPResponse, err error) {
+// 删除用户自定义镜像
+func (c *Client) DeleteImage(request *DeleteImageRequest) (response *DeleteImageResponse, err error) {
 	if request == nil {
-		request = NewReturnBackupIPRequest()
+		request = NewDeleteImageRequest()
 	}
-	response = NewReturnBackupIPResponse()
+	response = NewDeleteImageResponse()
 	err = c.Send(request, response)
 	return
 }
 
-func NewRunInstancesRequest() (request *RunInstancesRequest) {
-	request = &RunInstancesRequest{
+func NewModifyHeartbeatRequest() (request *ModifyHeartbeatRequest) {
+	request = &ModifyHeartbeatRequest{
 		BaseRequest: &tchttp.BaseRequest{},
 	}
-	request.Init().WithApiInfo("bms", APIVersion, "RunInstances")
+	request.Init().WithApiInfo("bms", APIVersion, "ModifyHeartbeat")
 	return
 }
 
-func NewRunInstancesResponse() (response *RunInstancesResponse) {
-	response = &RunInstancesResponse{
+func NewModifyHeartbeatResponse() (response *ModifyHeartbeatResponse) {
+	response = &ModifyHeartbeatResponse{
 		BaseResponse: &tchttp.BaseResponse{},
 	}
 	return
 }
 
-// 本接口 (RunInstances) 用于创建一个或多个指定配置的实例。
-func (c *Client) RunInstances(request *RunInstancesRequest) (response *RunInstancesResponse, err error) {
+// 用于设置一个或多个bms心跳网络组
+func (c *Client) ModifyHeartbeat(request *ModifyHeartbeatRequest) (response *ModifyHeartbeatResponse, err error) {
 	if request == nil {
-		request = NewRunInstancesRequest()
+		request = NewModifyHeartbeatRequest()
 	}
-	response = NewRunInstancesResponse()
+	response = NewModifyHeartbeatResponse()
 	err = c.Send(request, response)
 	return
 }
@@ -115,56 +115,6 @@ func (c *Client) CreateBackupIP(request *CreateBackupIPRequest) (response *Creat
 		request = NewCreateBackupIPRequest()
 	}
 	response = NewCreateBackupIPResponse()
-	err = c.Send(request, response)
-	return
-}
-
-func NewQueryTaskRequest() (request *QueryTaskRequest) {
-	request = &QueryTaskRequest{
-		BaseRequest: &tchttp.BaseRequest{},
-	}
-	request.Init().WithApiInfo("bms", APIVersion, "QueryTask")
-	return
-}
-
-func NewQueryTaskResponse() (response *QueryTaskResponse) {
-	response = &QueryTaskResponse{
-		BaseResponse: &tchttp.BaseResponse{},
-	}
-	return
-}
-
-// 查询异步任务执行结果
-func (c *Client) QueryTask(request *QueryTaskRequest) (response *QueryTaskResponse, err error) {
-	if request == nil {
-		request = NewQueryTaskRequest()
-	}
-	response = NewQueryTaskResponse()
-	err = c.Send(request, response)
-	return
-}
-
-func NewDescribeOutbandIPRequest() (request *DescribeOutbandIPRequest) {
-	request = &DescribeOutbandIPRequest{
-		BaseRequest: &tchttp.BaseRequest{},
-	}
-	request.Init().WithApiInfo("bms", APIVersion, "DescribeOutbandIP")
-	return
-}
-
-func NewDescribeOutbandIPResponse() (response *DescribeOutbandIPResponse) {
-	response = &DescribeOutbandIPResponse{
-		BaseResponse: &tchttp.BaseResponse{},
-	}
-	return
-}
-
-// 显示带外映射
-func (c *Client) DescribeOutbandIP(request *DescribeOutbandIPRequest) (response *DescribeOutbandIPResponse, err error) {
-	if request == nil {
-		request = NewDescribeOutbandIPRequest()
-	}
-	response = NewDescribeOutbandIPResponse()
 	err = c.Send(request, response)
 	return
 }
@@ -197,55 +147,52 @@ func (c *Client) DescribeInstances(request *DescribeInstancesRequest) (response 
 	return
 }
 
-func NewResetInstanceRequest() (request *ResetInstanceRequest) {
-	request = &ResetInstanceRequest{
+func NewDescribeOutbandInfoRequest() (request *DescribeOutbandInfoRequest) {
+	request = &DescribeOutbandInfoRequest{
 		BaseRequest: &tchttp.BaseRequest{},
 	}
-	request.Init().WithApiInfo("bms", APIVersion, "ResetInstance")
+	request.Init().WithApiInfo("bms", APIVersion, "DescribeOutbandInfo")
 	return
 }
 
-func NewResetInstanceResponse() (response *ResetInstanceResponse) {
-	response = &ResetInstanceResponse{
+func NewDescribeOutbandInfoResponse() (response *DescribeOutbandInfoResponse) {
+	response = &DescribeOutbandInfoResponse{
 		BaseResponse: &tchttp.BaseResponse{},
 	}
 	return
 }
 
-// 本接口 (ResetInstance) 用于重装指定实例上的操作系统。
-//
-// * 如果指定了`OperatingSystem`参数，则使用指定的系统重装；否则按照当前实例使用的系统进行重装。
-// * 系统盘将会被格式化，并重置；请确保系统盘中无重要文件。
-func (c *Client) ResetInstance(request *ResetInstanceRequest) (response *ResetInstanceResponse, err error) {
+// 查询BMS带外账号密码
+func (c *Client) DescribeOutbandInfo(request *DescribeOutbandInfoRequest) (response *DescribeOutbandInfoResponse, err error) {
 	if request == nil {
-		request = NewResetInstanceRequest()
+		request = NewDescribeOutbandInfoRequest()
 	}
-	response = NewResetInstanceResponse()
+	response = NewDescribeOutbandInfoResponse()
 	err = c.Send(request, response)
 	return
 }
 
-func NewDeleteHeartbeatsRequest() (request *DeleteHeartbeatsRequest) {
-	request = &DeleteHeartbeatsRequest{
+func NewReturnBackupIPRequest() (request *ReturnBackupIPRequest) {
+	request = &ReturnBackupIPRequest{
 		BaseRequest: &tchttp.BaseRequest{},
 	}
-	request.Init().WithApiInfo("bms", APIVersion, "DeleteHeartbeats")
+	request.Init().WithApiInfo("bms", APIVersion, "ReturnBackupIP")
 	return
 }
 
-func NewDeleteHeartbeatsResponse() (response *DeleteHeartbeatsResponse) {
-	response = &DeleteHeartbeatsResponse{
+func NewReturnBackupIPResponse() (response *ReturnBackupIPResponse) {
+	response = &ReturnBackupIPResponse{
 		BaseResponse: &tchttp.BaseResponse{},
 	}
 	return
 }
 
-// 删除心跳网络组
-func (c *Client) DeleteHeartbeats(request *DeleteHeartbeatsRequest) (response *DeleteHeartbeatsResponse, err error) {
+// 退还备用IP
+func (c *Client) ReturnBackupIP(request *ReturnBackupIPRequest) (response *ReturnBackupIPResponse, err error) {
 	if request == nil {
-		request = NewDeleteHeartbeatsRequest()
+		request = NewReturnBackupIPRequest()
 	}
-	response = NewDeleteHeartbeatsResponse()
+	response = NewReturnBackupIPResponse()
 	err = c.Send(request, response)
 	return
 }
@@ -275,27 +222,82 @@ func (c *Client) DescribeDisasterRecoverGroups(request *DescribeDisasterRecoverG
 	return
 }
 
-func NewCreateHeartbeatRequest() (request *CreateHeartbeatRequest) {
-	request = &CreateHeartbeatRequest{
+func NewStartInstancesRequest() (request *StartInstancesRequest) {
+	request = &StartInstancesRequest{
 		BaseRequest: &tchttp.BaseRequest{},
 	}
-	request.Init().WithApiInfo("bms", APIVersion, "CreateHeartbeat")
+	request.Init().WithApiInfo("bms", APIVersion, "StartInstances")
 	return
 }
 
-func NewCreateHeartbeatResponse() (response *CreateHeartbeatResponse) {
-	response = &CreateHeartbeatResponse{
+func NewStartInstancesResponse() (response *StartInstancesResponse) {
+	response = &StartInstancesResponse{
 		BaseResponse: &tchttp.BaseResponse{},
 	}
 	return
 }
 
-// 创建心跳网络组
-func (c *Client) CreateHeartbeat(request *CreateHeartbeatRequest) (response *CreateHeartbeatResponse, err error) {
+// 本接口 (StartInstances) 用于启动一个或多个实例。
+//
+// * 只有状态为`STOPPED`的实例才可以进行此操作。
+// * 接口调用成功时，实例会进入`STARTING`状态；启动实例成功时，实例会进入`RUNNING`状态。
+func (c *Client) StartInstances(request *StartInstancesRequest) (response *StartInstancesResponse, err error) {
 	if request == nil {
-		request = NewCreateHeartbeatRequest()
+		request = NewStartInstancesRequest()
 	}
-	response = NewCreateHeartbeatResponse()
+	response = NewStartInstancesResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewTerminateInstancesRequest() (request *TerminateInstancesRequest) {
+	request = &TerminateInstancesRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("bms", APIVersion, "TerminateInstances")
+	return
+}
+
+func NewTerminateInstancesResponse() (response *TerminateInstancesResponse) {
+	response = &TerminateInstancesResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 本接口 (TerminateInstances) 用于主动退还实例。
+//
+// * 不再使用的实例，可通过本接口主动退还。
+func (c *Client) TerminateInstances(request *TerminateInstancesRequest) (response *TerminateInstancesResponse, err error) {
+	if request == nil {
+		request = NewTerminateInstancesRequest()
+	}
+	response = NewTerminateInstancesResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewDeleteOutbandIPRequest() (request *DeleteOutbandIPRequest) {
+	request = &DeleteOutbandIPRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("bms", APIVersion, "DeleteOutbandIP")
+	return
+}
+
+func NewDeleteOutbandIPResponse() (response *DeleteOutbandIPResponse) {
+	response = &DeleteOutbandIPResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 删除带外映射
+func (c *Client) DeleteOutbandIP(request *DeleteOutbandIPRequest) (response *DeleteOutbandIPResponse, err error) {
+	if request == nil {
+		request = NewDeleteOutbandIPRequest()
+	}
+	response = NewDeleteOutbandIPResponse()
 	err = c.Send(request, response)
 	return
 }
@@ -353,54 +355,80 @@ func (c *Client) ModifyInstancesAttribute(request *ModifyInstancesAttributeReque
 	return
 }
 
-func NewTerminateInstancesRequest() (request *TerminateInstancesRequest) {
-	request = &TerminateInstancesRequest{
+func NewUpdateHeartbeatRequest() (request *UpdateHeartbeatRequest) {
+	request = &UpdateHeartbeatRequest{
 		BaseRequest: &tchttp.BaseRequest{},
 	}
-	request.Init().WithApiInfo("bms", APIVersion, "TerminateInstances")
+	request.Init().WithApiInfo("bms", APIVersion, "UpdateHeartbeat")
 	return
 }
 
-func NewTerminateInstancesResponse() (response *TerminateInstancesResponse) {
-	response = &TerminateInstancesResponse{
+func NewUpdateHeartbeatResponse() (response *UpdateHeartbeatResponse) {
+	response = &UpdateHeartbeatResponse{
 		BaseResponse: &tchttp.BaseResponse{},
 	}
 	return
 }
 
-// 本接口 (TerminateInstances) 用于主动退还实例。
-//
-// * 不再使用的实例，可通过本接口主动退还。
-func (c *Client) TerminateInstances(request *TerminateInstancesRequest) (response *TerminateInstancesResponse, err error) {
+// 更新心跳网络组名称
+func (c *Client) UpdateHeartbeat(request *UpdateHeartbeatRequest) (response *UpdateHeartbeatResponse, err error) {
 	if request == nil {
-		request = NewTerminateInstancesRequest()
+		request = NewUpdateHeartbeatRequest()
 	}
-	response = NewTerminateInstancesResponse()
+	response = NewUpdateHeartbeatResponse()
 	err = c.Send(request, response)
 	return
 }
 
-func NewInquiryPriceBmsInstanceForTradeRequest() (request *InquiryPriceBmsInstanceForTradeRequest) {
-	request = &InquiryPriceBmsInstanceForTradeRequest{
+func NewAddTenantImageRequest() (request *AddTenantImageRequest) {
+	request = &AddTenantImageRequest{
 		BaseRequest: &tchttp.BaseRequest{},
 	}
-	request.Init().WithApiInfo("bms", APIVersion, "InquiryPriceBmsInstanceForTrade")
+	request.Init().WithApiInfo("bms", APIVersion, "AddTenantImage")
 	return
 }
 
-func NewInquiryPriceBmsInstanceForTradeResponse() (response *InquiryPriceBmsInstanceForTradeResponse) {
-	response = &InquiryPriceBmsInstanceForTradeResponse{
+func NewAddTenantImageResponse() (response *AddTenantImageResponse) {
+	response = &AddTenantImageResponse{
 		BaseResponse: &tchttp.BaseResponse{},
 	}
 	return
 }
 
-// bms询价
-func (c *Client) InquiryPriceBmsInstanceForTrade(request *InquiryPriceBmsInstanceForTradeRequest) (response *InquiryPriceBmsInstanceForTradeResponse, err error) {
+// 添加用户自定义镜像
+func (c *Client) AddTenantImage(request *AddTenantImageRequest) (response *AddTenantImageResponse, err error) {
 	if request == nil {
-		request = NewInquiryPriceBmsInstanceForTradeRequest()
+		request = NewAddTenantImageRequest()
 	}
-	response = NewInquiryPriceBmsInstanceForTradeResponse()
+	response = NewAddTenantImageResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewResetInstanceRequest() (request *ResetInstanceRequest) {
+	request = &ResetInstanceRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("bms", APIVersion, "ResetInstance")
+	return
+}
+
+func NewResetInstanceResponse() (response *ResetInstanceResponse) {
+	response = &ResetInstanceResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 本接口 (ResetInstance) 用于重装指定实例上的操作系统。
+//
+// * 如果指定了`OperatingSystem`参数，则使用指定的系统重装；否则按照当前实例使用的系统进行重装。
+// * 系统盘将会被格式化，并重置；请确保系统盘中无重要文件。
+func (c *Client) ResetInstance(request *ResetInstanceRequest) (response *ResetInstanceResponse, err error) {
+	if request == nil {
+		request = NewResetInstanceRequest()
+	}
+	response = NewResetInstanceResponse()
 	err = c.Send(request, response)
 	return
 }
@@ -430,52 +458,77 @@ func (c *Client) UpdateDisasterRecoverGroup(request *UpdateDisasterRecoverGroupR
 	return
 }
 
-func NewDeleteOutbandIPRequest() (request *DeleteOutbandIPRequest) {
-	request = &DeleteOutbandIPRequest{
+func NewDescribeHeartbeatsRequest() (request *DescribeHeartbeatsRequest) {
+	request = &DescribeHeartbeatsRequest{
 		BaseRequest: &tchttp.BaseRequest{},
 	}
-	request.Init().WithApiInfo("bms", APIVersion, "DeleteOutbandIP")
+	request.Init().WithApiInfo("bms", APIVersion, "DescribeHeartbeats")
 	return
 }
 
-func NewDeleteOutbandIPResponse() (response *DeleteOutbandIPResponse) {
-	response = &DeleteOutbandIPResponse{
+func NewDescribeHeartbeatsResponse() (response *DescribeHeartbeatsResponse) {
+	response = &DescribeHeartbeatsResponse{
 		BaseResponse: &tchttp.BaseResponse{},
 	}
 	return
 }
 
-// 删除带外映射
-func (c *Client) DeleteOutbandIP(request *DeleteOutbandIPRequest) (response *DeleteOutbandIPResponse, err error) {
+// 查询心跳网络组信息
+func (c *Client) DescribeHeartbeats(request *DescribeHeartbeatsRequest) (response *DescribeHeartbeatsResponse, err error) {
 	if request == nil {
-		request = NewDeleteOutbandIPRequest()
+		request = NewDescribeHeartbeatsRequest()
 	}
-	response = NewDeleteOutbandIPResponse()
+	response = NewDescribeHeartbeatsResponse()
 	err = c.Send(request, response)
 	return
 }
 
-func NewDescribeFlavorsRequest() (request *DescribeFlavorsRequest) {
-	request = &DescribeFlavorsRequest{
+func NewDescribeImageListRequest() (request *DescribeImageListRequest) {
+	request = &DescribeImageListRequest{
 		BaseRequest: &tchttp.BaseRequest{},
 	}
-	request.Init().WithApiInfo("bms", APIVersion, "DescribeFlavors")
+	request.Init().WithApiInfo("bms", APIVersion, "DescribeImageList")
 	return
 }
 
-func NewDescribeFlavorsResponse() (response *DescribeFlavorsResponse) {
-	response = &DescribeFlavorsResponse{
+func NewDescribeImageListResponse() (response *DescribeImageListResponse) {
+	response = &DescribeImageListResponse{
 		BaseResponse: &tchttp.BaseResponse{},
 	}
 	return
 }
 
-// 显示套餐列表详情。
-func (c *Client) DescribeFlavors(request *DescribeFlavorsRequest) (response *DescribeFlavorsResponse, err error) {
+// 镜像列表展示
+func (c *Client) DescribeImageList(request *DescribeImageListRequest) (response *DescribeImageListResponse, err error) {
 	if request == nil {
-		request = NewDescribeFlavorsRequest()
+		request = NewDescribeImageListRequest()
 	}
-	response = NewDescribeFlavorsResponse()
+	response = NewDescribeImageListResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewResetOutbandInfoRequest() (request *ResetOutbandInfoRequest) {
+	request = &ResetOutbandInfoRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("bms", APIVersion, "ResetOutbandInfo")
+	return
+}
+
+func NewResetOutbandInfoResponse() (response *ResetOutbandInfoResponse) {
+	response = &ResetOutbandInfoResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 重置BMS带外账号密码
+func (c *Client) ResetOutbandInfo(request *ResetOutbandInfoRequest) (response *ResetOutbandInfoResponse, err error) {
+	if request == nil {
+		request = NewResetOutbandInfoRequest()
+	}
+	response = NewResetOutbandInfoResponse()
 	err = c.Send(request, response)
 	return
 }
@@ -508,27 +561,177 @@ func (c *Client) StopInstances(request *StopInstancesRequest) (response *StopIns
 	return
 }
 
-func NewModifyInstancesGroupIdRequest() (request *ModifyInstancesGroupIdRequest) {
-	request = &ModifyInstancesGroupIdRequest{
+func NewCreateDisasterRecoverGroupRequest() (request *CreateDisasterRecoverGroupRequest) {
+	request = &CreateDisasterRecoverGroupRequest{
 		BaseRequest: &tchttp.BaseRequest{},
 	}
-	request.Init().WithApiInfo("bms", APIVersion, "ModifyInstancesGroupId")
+	request.Init().WithApiInfo("bms", APIVersion, "CreateDisasterRecoverGroup")
 	return
 }
 
-func NewModifyInstancesGroupIdResponse() (response *ModifyInstancesGroupIdResponse) {
-	response = &ModifyInstancesGroupIdResponse{
+func NewCreateDisasterRecoverGroupResponse() (response *CreateDisasterRecoverGroupResponse) {
+	response = &CreateDisasterRecoverGroupResponse{
 		BaseResponse: &tchttp.BaseResponse{},
 	}
 	return
 }
 
-// 本接口 (ModifyInstancesGroupId) 用于修改实例置放群组
-func (c *Client) ModifyInstancesGroupId(request *ModifyInstancesGroupIdRequest) (response *ModifyInstancesGroupIdResponse, err error) {
+// 创建分散置放群组，该功能对资源挑战较大，请谨慎使用。创建好的容灾组，可在创建实例的时指定。
+func (c *Client) CreateDisasterRecoverGroup(request *CreateDisasterRecoverGroupRequest) (response *CreateDisasterRecoverGroupResponse, err error) {
 	if request == nil {
-		request = NewModifyInstancesGroupIdRequest()
+		request = NewCreateDisasterRecoverGroupRequest()
 	}
-	response = NewModifyInstancesGroupIdResponse()
+	response = NewCreateDisasterRecoverGroupResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewDeleteDisasterRecoverGroupsRequest() (request *DeleteDisasterRecoverGroupsRequest) {
+	request = &DeleteDisasterRecoverGroupsRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("bms", APIVersion, "DeleteDisasterRecoverGroups")
+	return
+}
+
+func NewDeleteDisasterRecoverGroupsResponse() (response *DeleteDisasterRecoverGroupsResponse) {
+	response = &DeleteDisasterRecoverGroupsResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 本接口 (DeleteDisasterRecoverGroups)用于删除[分散置放群组]。只有空的置放群组才能被删除，非空的群组需要先销毁组内所有BMS服务器，才能执行删除操作，不然会产生删除置放群组失败的错误。
+func (c *Client) DeleteDisasterRecoverGroups(request *DeleteDisasterRecoverGroupsRequest) (response *DeleteDisasterRecoverGroupsResponse, err error) {
+	if request == nil {
+		request = NewDeleteDisasterRecoverGroupsRequest()
+	}
+	response = NewDeleteDisasterRecoverGroupsResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewDescribeFlavorsRequest() (request *DescribeFlavorsRequest) {
+	request = &DescribeFlavorsRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("bms", APIVersion, "DescribeFlavors")
+	return
+}
+
+func NewDescribeFlavorsResponse() (response *DescribeFlavorsResponse) {
+	response = &DescribeFlavorsResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 显示套餐列表详情。
+func (c *Client) DescribeFlavors(request *DescribeFlavorsRequest) (response *DescribeFlavorsResponse, err error) {
+	if request == nil {
+		request = NewDescribeFlavorsRequest()
+	}
+	response = NewDescribeFlavorsResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewCreateOutbandIPRequest() (request *CreateOutbandIPRequest) {
+	request = &CreateOutbandIPRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("bms", APIVersion, "CreateOutbandIP")
+	return
+}
+
+func NewCreateOutbandIPResponse() (response *CreateOutbandIPResponse) {
+	response = &CreateOutbandIPResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 创建带外映射
+func (c *Client) CreateOutbandIP(request *CreateOutbandIPRequest) (response *CreateOutbandIPResponse, err error) {
+	if request == nil {
+		request = NewCreateOutbandIPRequest()
+	}
+	response = NewCreateOutbandIPResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewCreateHeartbeatRequest() (request *CreateHeartbeatRequest) {
+	request = &CreateHeartbeatRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("bms", APIVersion, "CreateHeartbeat")
+	return
+}
+
+func NewCreateHeartbeatResponse() (response *CreateHeartbeatResponse) {
+	response = &CreateHeartbeatResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 创建心跳网络组
+func (c *Client) CreateHeartbeat(request *CreateHeartbeatRequest) (response *CreateHeartbeatResponse, err error) {
+	if request == nil {
+		request = NewCreateHeartbeatRequest()
+	}
+	response = NewCreateHeartbeatResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewDeleteHeartbeatsRequest() (request *DeleteHeartbeatsRequest) {
+	request = &DeleteHeartbeatsRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("bms", APIVersion, "DeleteHeartbeats")
+	return
+}
+
+func NewDeleteHeartbeatsResponse() (response *DeleteHeartbeatsResponse) {
+	response = &DeleteHeartbeatsResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 删除心跳网络组
+func (c *Client) DeleteHeartbeats(request *DeleteHeartbeatsRequest) (response *DeleteHeartbeatsResponse, err error) {
+	if request == nil {
+		request = NewDeleteHeartbeatsRequest()
+	}
+	response = NewDeleteHeartbeatsResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewQueryTaskRequest() (request *QueryTaskRequest) {
+	request = &QueryTaskRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("bms", APIVersion, "QueryTask")
+	return
+}
+
+func NewQueryTaskResponse() (response *QueryTaskResponse) {
+	response = &QueryTaskResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 查询异步任务执行结果
+func (c *Client) QueryTask(request *QueryTaskRequest) (response *QueryTaskResponse, err error) {
+	if request == nil {
+		request = NewQueryTaskRequest()
+	}
+	response = NewQueryTaskResponse()
 	err = c.Send(request, response)
 	return
 }
@@ -561,205 +764,127 @@ func (c *Client) RebootInstances(request *RebootInstancesRequest) (response *Reb
 	return
 }
 
-func NewUpdateHeartbeatRequest() (request *UpdateHeartbeatRequest) {
-	request = &UpdateHeartbeatRequest{
+func NewInquiryPriceBmsInstanceForTradeRequest() (request *InquiryPriceBmsInstanceForTradeRequest) {
+	request = &InquiryPriceBmsInstanceForTradeRequest{
 		BaseRequest: &tchttp.BaseRequest{},
 	}
-	request.Init().WithApiInfo("bms", APIVersion, "UpdateHeartbeat")
+	request.Init().WithApiInfo("bms", APIVersion, "InquiryPriceBmsInstanceForTrade")
 	return
 }
 
-func NewUpdateHeartbeatResponse() (response *UpdateHeartbeatResponse) {
-	response = &UpdateHeartbeatResponse{
+func NewInquiryPriceBmsInstanceForTradeResponse() (response *InquiryPriceBmsInstanceForTradeResponse) {
+	response = &InquiryPriceBmsInstanceForTradeResponse{
 		BaseResponse: &tchttp.BaseResponse{},
 	}
 	return
 }
 
-// 更新心跳网络组名称
-func (c *Client) UpdateHeartbeat(request *UpdateHeartbeatRequest) (response *UpdateHeartbeatResponse, err error) {
+// bms询价
+func (c *Client) InquiryPriceBmsInstanceForTrade(request *InquiryPriceBmsInstanceForTradeRequest) (response *InquiryPriceBmsInstanceForTradeResponse, err error) {
 	if request == nil {
-		request = NewUpdateHeartbeatRequest()
+		request = NewInquiryPriceBmsInstanceForTradeRequest()
 	}
-	response = NewUpdateHeartbeatResponse()
+	response = NewInquiryPriceBmsInstanceForTradeResponse()
 	err = c.Send(request, response)
 	return
 }
 
-func NewDescribeHeartbeatsRequest() (request *DescribeHeartbeatsRequest) {
-	request = &DescribeHeartbeatsRequest{
+func NewModifyInstancesGroupIdRequest() (request *ModifyInstancesGroupIdRequest) {
+	request = &ModifyInstancesGroupIdRequest{
 		BaseRequest: &tchttp.BaseRequest{},
 	}
-	request.Init().WithApiInfo("bms", APIVersion, "DescribeHeartbeats")
+	request.Init().WithApiInfo("bms", APIVersion, "ModifyInstancesGroupId")
 	return
 }
 
-func NewDescribeHeartbeatsResponse() (response *DescribeHeartbeatsResponse) {
-	response = &DescribeHeartbeatsResponse{
+func NewModifyInstancesGroupIdResponse() (response *ModifyInstancesGroupIdResponse) {
+	response = &ModifyInstancesGroupIdResponse{
 		BaseResponse: &tchttp.BaseResponse{},
 	}
 	return
 }
 
-// 查询心跳网络组信息
-func (c *Client) DescribeHeartbeats(request *DescribeHeartbeatsRequest) (response *DescribeHeartbeatsResponse, err error) {
+// 本接口 (ModifyInstancesGroupId) 用于修改实例置放群组
+func (c *Client) ModifyInstancesGroupId(request *ModifyInstancesGroupIdRequest) (response *ModifyInstancesGroupIdResponse, err error) {
 	if request == nil {
-		request = NewDescribeHeartbeatsRequest()
+		request = NewModifyInstancesGroupIdRequest()
 	}
-	response = NewDescribeHeartbeatsResponse()
+	response = NewModifyInstancesGroupIdResponse()
 	err = c.Send(request, response)
 	return
 }
 
-func NewDescribeOutbandInfoRequest() (request *DescribeOutbandInfoRequest) {
-	request = &DescribeOutbandInfoRequest{
+func NewModifyTenantImageRequest() (request *ModifyTenantImageRequest) {
+	request = &ModifyTenantImageRequest{
 		BaseRequest: &tchttp.BaseRequest{},
 	}
-	request.Init().WithApiInfo("bms", APIVersion, "DescribeOutbandInfo")
+	request.Init().WithApiInfo("bms", APIVersion, "ModifyTenantImage")
 	return
 }
 
-func NewDescribeOutbandInfoResponse() (response *DescribeOutbandInfoResponse) {
-	response = &DescribeOutbandInfoResponse{
+func NewModifyTenantImageResponse() (response *ModifyTenantImageResponse) {
+	response = &ModifyTenantImageResponse{
 		BaseResponse: &tchttp.BaseResponse{},
 	}
 	return
 }
 
-// 查询BMS带外账号密码
-func (c *Client) DescribeOutbandInfo(request *DescribeOutbandInfoRequest) (response *DescribeOutbandInfoResponse, err error) {
+// 修改用户自定义镜像
+func (c *Client) ModifyTenantImage(request *ModifyTenantImageRequest) (response *ModifyTenantImageResponse, err error) {
 	if request == nil {
-		request = NewDescribeOutbandInfoRequest()
+		request = NewModifyTenantImageRequest()
 	}
-	response = NewDescribeOutbandInfoResponse()
+	response = NewModifyTenantImageResponse()
 	err = c.Send(request, response)
 	return
 }
 
-func NewModifyHeartbeatRequest() (request *ModifyHeartbeatRequest) {
-	request = &ModifyHeartbeatRequest{
+func NewRunInstancesRequest() (request *RunInstancesRequest) {
+	request = &RunInstancesRequest{
 		BaseRequest: &tchttp.BaseRequest{},
 	}
-	request.Init().WithApiInfo("bms", APIVersion, "ModifyHeartbeat")
+	request.Init().WithApiInfo("bms", APIVersion, "RunInstances")
 	return
 }
 
-func NewModifyHeartbeatResponse() (response *ModifyHeartbeatResponse) {
-	response = &ModifyHeartbeatResponse{
+func NewRunInstancesResponse() (response *RunInstancesResponse) {
+	response = &RunInstancesResponse{
 		BaseResponse: &tchttp.BaseResponse{},
 	}
 	return
 }
 
-// 用于设置一个或多个bms心跳网络组
-func (c *Client) ModifyHeartbeat(request *ModifyHeartbeatRequest) (response *ModifyHeartbeatResponse, err error) {
+// 本接口 (RunInstances) 用于创建一个或多个指定配置的实例。
+func (c *Client) RunInstances(request *RunInstancesRequest) (response *RunInstancesResponse, err error) {
 	if request == nil {
-		request = NewModifyHeartbeatRequest()
+		request = NewRunInstancesRequest()
 	}
-	response = NewModifyHeartbeatResponse()
+	response = NewRunInstancesResponse()
 	err = c.Send(request, response)
 	return
 }
 
-func NewCreateDisasterRecoverGroupRequest() (request *CreateDisasterRecoverGroupRequest) {
-	request = &CreateDisasterRecoverGroupRequest{
+func NewDescribeOutbandIPRequest() (request *DescribeOutbandIPRequest) {
+	request = &DescribeOutbandIPRequest{
 		BaseRequest: &tchttp.BaseRequest{},
 	}
-	request.Init().WithApiInfo("bms", APIVersion, "CreateDisasterRecoverGroup")
+	request.Init().WithApiInfo("bms", APIVersion, "DescribeOutbandIP")
 	return
 }
 
-func NewCreateDisasterRecoverGroupResponse() (response *CreateDisasterRecoverGroupResponse) {
-	response = &CreateDisasterRecoverGroupResponse{
+func NewDescribeOutbandIPResponse() (response *DescribeOutbandIPResponse) {
+	response = &DescribeOutbandIPResponse{
 		BaseResponse: &tchttp.BaseResponse{},
 	}
 	return
 }
 
-// 创建分散置放群组，该功能对资源挑战较大，请谨慎使用。创建好的容灾组，可在创建实例的时指定。
-func (c *Client) CreateDisasterRecoverGroup(request *CreateDisasterRecoverGroupRequest) (response *CreateDisasterRecoverGroupResponse, err error) {
+// 显示带外映射
+func (c *Client) DescribeOutbandIP(request *DescribeOutbandIPRequest) (response *DescribeOutbandIPResponse, err error) {
 	if request == nil {
-		request = NewCreateDisasterRecoverGroupRequest()
+		request = NewDescribeOutbandIPRequest()
 	}
-	response = NewCreateDisasterRecoverGroupResponse()
-	err = c.Send(request, response)
-	return
-}
-
-func NewStartInstancesRequest() (request *StartInstancesRequest) {
-	request = &StartInstancesRequest{
-		BaseRequest: &tchttp.BaseRequest{},
-	}
-	request.Init().WithApiInfo("bms", APIVersion, "StartInstances")
-	return
-}
-
-func NewStartInstancesResponse() (response *StartInstancesResponse) {
-	response = &StartInstancesResponse{
-		BaseResponse: &tchttp.BaseResponse{},
-	}
-	return
-}
-
-// 本接口 (StartInstances) 用于启动一个或多个实例。
-//
-// * 只有状态为`STOPPED`的实例才可以进行此操作。
-// * 接口调用成功时，实例会进入`STARTING`状态；启动实例成功时，实例会进入`RUNNING`状态。
-func (c *Client) StartInstances(request *StartInstancesRequest) (response *StartInstancesResponse, err error) {
-	if request == nil {
-		request = NewStartInstancesRequest()
-	}
-	response = NewStartInstancesResponse()
-	err = c.Send(request, response)
-	return
-}
-
-func NewCreateOutbandIPRequest() (request *CreateOutbandIPRequest) {
-	request = &CreateOutbandIPRequest{
-		BaseRequest: &tchttp.BaseRequest{},
-	}
-	request.Init().WithApiInfo("bms", APIVersion, "CreateOutbandIP")
-	return
-}
-
-func NewCreateOutbandIPResponse() (response *CreateOutbandIPResponse) {
-	response = &CreateOutbandIPResponse{
-		BaseResponse: &tchttp.BaseResponse{},
-	}
-	return
-}
-
-// 创建带外映射
-func (c *Client) CreateOutbandIP(request *CreateOutbandIPRequest) (response *CreateOutbandIPResponse, err error) {
-	if request == nil {
-		request = NewCreateOutbandIPRequest()
-	}
-	response = NewCreateOutbandIPResponse()
-	err = c.Send(request, response)
-	return
-}
-
-func NewDeleteDisasterRecoverGroupsRequest() (request *DeleteDisasterRecoverGroupsRequest) {
-	request = &DeleteDisasterRecoverGroupsRequest{
-		BaseRequest: &tchttp.BaseRequest{},
-	}
-	request.Init().WithApiInfo("bms", APIVersion, "DeleteDisasterRecoverGroups")
-	return
-}
-
-func NewDeleteDisasterRecoverGroupsResponse() (response *DeleteDisasterRecoverGroupsResponse) {
-	response = &DeleteDisasterRecoverGroupsResponse{
-		BaseResponse: &tchttp.BaseResponse{},
-	}
-	return
-}
-
-// 本接口 (DeleteDisasterRecoverGroups)用于删除[分散置放群组]。只有空的置放群组才能被删除，非空的群组需要先销毁组内所有BMS服务器，才能执行删除操作，不然会产生删除置放群组失败的错误。
-func (c *Client) DeleteDisasterRecoverGroups(request *DeleteDisasterRecoverGroupsRequest) (response *DeleteDisasterRecoverGroupsResponse, err error) {
-	if request == nil {
-		request = NewDeleteDisasterRecoverGroupsRequest()
-	}
-	response = NewDeleteDisasterRecoverGroupsResponse()
+	response = NewDescribeOutbandIPResponse()
 	err = c.Send(request, response)
 	return
 }

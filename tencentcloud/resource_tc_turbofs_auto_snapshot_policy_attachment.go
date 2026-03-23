@@ -1,7 +1,7 @@
 /*
 Provides a resource to create a turbofs auto_snapshot_policy_attachment
 
-# Example Usage
+Example Usage
 
 ```hcl
 
@@ -12,7 +12,7 @@ Provides a resource to create a turbofs auto_snapshot_policy_attachment
 
 ```
 
-# Import
+Import
 
 turbofs auto_snapshot_policy_attachment can be imported using the id, e.g.
 
@@ -28,10 +28,10 @@ import (
 	"log"
 	"strings"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	turbofs "terraform-provider-tencentcloudenterprise/sdk/turbofs/v20190719"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func init() {
@@ -40,7 +40,7 @@ func init() {
 		DescriptionCN:   "提供TurboFS自动快照策略绑定资源，用于将自动快照策略绑定到TurboFS。",
 		AttributesCN: map[string]string{
 			"auto_snapshot_policy_id": "自动快照策略ID",
-			"file_system_id":          "文件系统ID",
+			"file_system_id":         "文件系统ID",
 		},
 	})
 }

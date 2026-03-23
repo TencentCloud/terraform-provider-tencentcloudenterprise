@@ -1,21 +1,19 @@
 /*
 Provides a resource to create and manage a VPC peering connection.
 
-# Example Usage
+Example Usage
 
 ```hcl
-
-	resource "tencentcloudenterprise_vpc_peer_connect_manager" "foo" {
-	  vpc_id                  = "vpc-4xxr2cy7"
-	  peering_connection_name = "test_peer_connection"
-	  peer_vpc_id             = "vpc-5ggr3dx8"
-	  peer_uin                = "100001234567"
-	  peer_region             = "ap-beijing"
-	}
-
+resource "tencentcloudenterprise_vpc_peer_connect_manager" "foo" {
+  vpc_id                  = "vpc-4xxr2cy7"
+  peering_connection_name = "test_peer_connection"
+  peer_vpc_id             = "vpc-5ggr3dx8"
+  peer_uin                = "100001234567"
+  peer_region             = "ap-beijing"
+}
 ```
 
-# Import
+Import
 
 VPC peering connection can be imported using the id, e.g.
 
@@ -30,9 +28,9 @@ import (
 	"fmt"
 	"log"
 
+	vpc "terraform-provider-tencentcloudenterprise/sdk/vpc/v20170312"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	vpc "terraform-provider-tencentcloudenterprise/sdk/vpc/v20170312"
 
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
 )
@@ -65,7 +63,7 @@ func resourceTencentCloudVpcPeerConnectManager() *schema.Resource {
 			"vpc_id": {
 				Required:    true,
 				Type:        schema.TypeString,
-				ForceNew:    true,
+				ForceNew: 	 true,
 				Description: "The unique ID of the local VPC.",
 			},
 
@@ -78,20 +76,20 @@ func resourceTencentCloudVpcPeerConnectManager() *schema.Resource {
 			"peer_vpc_id": {
 				Required:    true,
 				Type:        schema.TypeString,
-				ForceNew:    true,
+				ForceNew: 	 true,
 				Description: "The unique ID of the peer VPC.",
 			},
 
 			"peer_uin": {
 				Required:    true,
 				Type:        schema.TypeString,
-				ForceNew:    true,
+				ForceNew: 	 true,
 				Description: "Peer user UIN.",
 			},
 			"peer_region": {
 				Required:    true,
 				Type:        schema.TypeString,
-				ForceNew:    true,
+				ForceNew: 	 true,
 				Description: "Peer region.",
 			},
 		},
@@ -99,7 +97,7 @@ func resourceTencentCloudVpcPeerConnectManager() *schema.Resource {
 }
 
 func resourceTencentCloudVpcPeerConnectManagerCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.tencentcloudenterprise_vpc_peer_connect_manager.create")()
+	defer logElapsed("resource.tencenttencentcloudenterprise_vpc_peer_connect_manager.create")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -151,7 +149,7 @@ func resourceTencentCloudVpcPeerConnectManagerCreate(d *schema.ResourceData, met
 }
 
 func resourceTencentCloudVpcPeerConnectManagerRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.tencentcloudenterprise_vpc_peer_connect_manager.read")()
+	defer logElapsed("resource.tencenttencentcloudenterprise_vpc_peer_connect_manager.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -201,7 +199,7 @@ func resourceTencentCloudVpcPeerConnectManagerRead(d *schema.ResourceData, meta 
 }
 
 func resourceTencentCloudVpcPeerConnectManagerUpdate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.tencentcloudenterprise_vpc_peer_connect_manager.update")()
+	defer logElapsed("resource.tencenttencentcloudenterprise_vpc_peer_connect_manager.update")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -244,7 +242,7 @@ func resourceTencentCloudVpcPeerConnectManagerUpdate(d *schema.ResourceData, met
 }
 
 func resourceTencentCloudVpcPeerConnectManagerDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.tencentcloudenterprise_vpc_peer_connect_manager.delete")()
+	defer logElapsed("resource.tencenttencentcloudenterprise_vpc_peer_connect_manager.delete")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)

@@ -1,7 +1,7 @@
 /*
 Use this data source to query detailed information of CLB
 
-# Example Usage
+Example Usage
 
 ```hcl
 
@@ -21,10 +21,10 @@ import (
 	"context"
 	"log"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	clb "terraform-provider-tencentcloudenterprise/sdk/clb/v20180317"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func init() {

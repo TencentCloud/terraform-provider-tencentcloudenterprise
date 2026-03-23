@@ -1,13 +1,13 @@
-// /*
-// Use this data source to query detailed information of ckafka region
+///*
+//Use this data source to query detailed information of ckafka region
 //
-// # Example Usage
+//Example Usage
 //
-// ```hcl
-// data "tencentcloudenterprise_ckafka_region" "region" {
-// }
-// ```
-// */
+//```hcl
+//data "tencentcloudenterprise_ckafka_region" "region" {
+//}
+//```
+//*/
 package tencentcloud
 
 //

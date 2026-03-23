@@ -1,17 +1,17 @@
-// /*
-// Use this data source to query detailed information of ckafka topic_sync_replica
+///*
+//Use this data source to query detailed information of ckafka topic_sync_replica
 //
-// # Example Usage
+//Example Usage
 //
-// ```hcl
+//```hcl
 //
 //	data "tencentcloudenterprise_ckafka_topic_sync_replica" "topic_sync_replica" {
 //	  instance_id = "ckafka-xxxxxx"
 //	  topic_name = "xxxxxx"
 //	}
 //
-// ```
-// */
+//```
+//*/
 package tencentcloud
 
 //

@@ -26,7 +26,7 @@ func TestAccDataSourceTencentCloudDcV3InstancesBasic(t *testing.T) {
 }
 
 const TestAccDataSourceTencentCloudDcInstances = `
-data cloud_dc_instances  name_select {
+data tencentcloudenterprise_dc_instances  name_select {
     name ="x"
 }
 `

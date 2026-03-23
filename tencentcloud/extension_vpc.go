@@ -1,8 +1,8 @@
 package tencentcloud
 
 /*
-all gate way types
-https://cloud.tencent.com/document/api/215/15824#Route
+ all gate way types
+ https://cloud.tencent.com/document/api/215/15824#Route
 */
 const GATE_WAY_TYPE_CVM = "CVM"
 const GATE_WAY_TYPE_VPN = "VPN"
@@ -334,4 +334,16 @@ var Subnet_Type_Set = []int{
 	Subnet_Type_Normal,
 	Subnet_Type_BMS,
 	Subnet_Type_Out,
+}
+
+const(
+	DC_GATEWAY_PROTOCOL_ALL = "all"
+	DC_GATEWAY_PROTOCOL_TCP = "tcp"
+	DC_GATEWAY_PROTOCOL_UDP = "udp"
+)
+
+var DC_GATEWAY_PROTOCOL = []string{
+	DC_GATEWAY_PROTOCOL_ALL,
+	DC_GATEWAY_PROTOCOL_TCP,
+	DC_GATEWAY_PROTOCOL_UDP,
 }

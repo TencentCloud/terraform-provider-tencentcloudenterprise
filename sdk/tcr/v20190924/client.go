@@ -2101,6 +2101,7 @@ func NewCreateServiceAccountRequest() (request *CreateServiceAccountRequest) {
 
 	request.Init().WithApiInfo("tcr", APIVersion, "CreateServiceAccount")
 
+
 	return
 }
 
@@ -2116,18 +2117,18 @@ func NewCreateServiceAccountResponse() (response *CreateServiceAccountResponse) 
 // 创建服务级账户
 //
 // 可能返回的错误码:
-//
-//	FAILEDOPERATION = "FailedOperation"
-//	FAILEDOPERATION_DBERROR = "FailedOperation.DbError"
-//	INVALIDPARAMETER = "InvalidParameter"
-//	OPERATIONDENIED = "OperationDenied"
-//	OPERATIONDENIED_QUOTAOVERLIMIT = "OperationDenied.QuotaOverLimit"
-//	UNKNOWNPARAMETER = "UnknownParameter"
-//	UNSUPPORTEDOPERATION = "UnsupportedOperation"
+//  FAILEDOPERATION = "FailedOperation"
+//  FAILEDOPERATION_DBERROR = "FailedOperation.DbError"
+//  INVALIDPARAMETER = "InvalidParameter"
+//  OPERATIONDENIED = "OperationDenied"
+//  OPERATIONDENIED_QUOTAOVERLIMIT = "OperationDenied.QuotaOverLimit"
+//  UNKNOWNPARAMETER = "UnknownParameter"
+//  UNSUPPORTEDOPERATION = "UnsupportedOperation"
 func (c *Client) CreateServiceAccount(request *CreateServiceAccountRequest) (response *CreateServiceAccountResponse, err error) {
 	if request == nil {
 		request = NewCreateServiceAccountRequest()
 	}
+
 
 	response = NewCreateServiceAccountResponse()
 	err = c.Send(request, response)
@@ -2140,6 +2141,7 @@ func NewCreateNamespaceRequest() (request *CreateNamespaceRequest) {
 	}
 
 	request.Init().WithApiInfo("tcr", APIVersion, "CreateNamespace")
+
 
 	return
 }
@@ -2156,29 +2158,29 @@ func NewCreateNamespaceResponse() (response *CreateNamespaceResponse) {
 // 用于在企业版中创建命名空间
 //
 // 可能返回的错误码:
-//
-//	FAILEDOPERATION = "FailedOperation"
-//	FAILEDOPERATION_DEPENDENCEERROR = "FailedOperation.DependenceError"
-//	FAILEDOPERATION_ERRORTCRINVALIDMEDIATYPE = "FailedOperation.ErrorTcrInvalidMediaType"
-//	FAILEDOPERATION_ERRORTCRRESOURCECONFLICT = "FailedOperation.ErrorTcrResourceConflict"
-//	FAILEDOPERATION_ERRORTCRUNAUTHORIZED = "FailedOperation.ErrorTcrUnauthorized"
-//	FAILEDOPERATION_OPERATIONCANCEL = "FailedOperation.OperationCancel"
-//	INTERNALERROR = "InternalError"
-//	INTERNALERROR_DBERROR = "InternalError.DbError"
-//	INTERNALERROR_ERRORTCRINTERNAL = "InternalError.ErrorTcrInternal"
-//	INTERNALERROR_ERRORTCRINVALIDMEDIATYPE = "InternalError.ErrorTcrInvalidMediaType"
-//	INTERNALERROR_ERRORTCRRESOURCECONFLICT = "InternalError.ErrorTcrResourceConflict"
-//	INTERNALERROR_ERRORTCRUNAUTHORIZED = "InternalError.ErrorTcrUnauthorized"
-//	INVALIDPARAMETER = "InvalidParameter"
-//	INVALIDPARAMETER_ERRORTCRINVALIDPARAMETER = "InvalidParameter.ErrorTcrInvalidParameter"
-//	MISSINGPARAMETER = "MissingParameter"
-//	OPERATIONDENIED = "OperationDenied"
-//	RESOURCENOTFOUND = "ResourceNotFound"
-//	UNSUPPORTEDOPERATION = "UnsupportedOperation"
+//  FAILEDOPERATION = "FailedOperation"
+//  FAILEDOPERATION_DEPENDENCEERROR = "FailedOperation.DependenceError"
+//  FAILEDOPERATION_ERRORTCRINVALIDMEDIATYPE = "FailedOperation.ErrorTcrInvalidMediaType"
+//  FAILEDOPERATION_ERRORTCRRESOURCECONFLICT = "FailedOperation.ErrorTcrResourceConflict"
+//  FAILEDOPERATION_ERRORTCRUNAUTHORIZED = "FailedOperation.ErrorTcrUnauthorized"
+//  FAILEDOPERATION_OPERATIONCANCEL = "FailedOperation.OperationCancel"
+//  INTERNALERROR = "InternalError"
+//  INTERNALERROR_DBERROR = "InternalError.DbError"
+//  INTERNALERROR_ERRORTCRINTERNAL = "InternalError.ErrorTcrInternal"
+//  INTERNALERROR_ERRORTCRINVALIDMEDIATYPE = "InternalError.ErrorTcrInvalidMediaType"
+//  INTERNALERROR_ERRORTCRRESOURCECONFLICT = "InternalError.ErrorTcrResourceConflict"
+//  INTERNALERROR_ERRORTCRUNAUTHORIZED = "InternalError.ErrorTcrUnauthorized"
+//  INVALIDPARAMETER = "InvalidParameter"
+//  INVALIDPARAMETER_ERRORTCRINVALIDPARAMETER = "InvalidParameter.ErrorTcrInvalidParameter"
+//  MISSINGPARAMETER = "MissingParameter"
+//  OPERATIONDENIED = "OperationDenied"
+//  RESOURCENOTFOUND = "ResourceNotFound"
+//  UNSUPPORTEDOPERATION = "UnsupportedOperation"
 func (c *Client) CreateNamespace(request *CreateNamespaceRequest) (response *CreateNamespaceResponse, err error) {
 	if request == nil {
 		request = NewCreateNamespaceRequest()
 	}
+
 
 	response = NewCreateNamespaceResponse()
 	err = c.Send(request, response)
@@ -2191,6 +2193,7 @@ func NewModifyNamespaceRequest() (request *ModifyNamespaceRequest) {
 	}
 
 	request.Init().WithApiInfo("tcr", APIVersion, "ModifyNamespace")
+
 
 	return
 }
@@ -2207,24 +2210,24 @@ func NewModifyNamespaceResponse() (response *ModifyNamespaceResponse) {
 // 更新命名空间信息
 //
 // 可能返回的错误码:
-//
-//	FAILEDOPERATION_DEPENDENCEERROR = "FailedOperation.DependenceError"
-//	INTERNALERROR = "InternalError"
-//	INTERNALERROR_ERRORTCRINTERNAL = "InternalError.ErrorTcrInternal"
-//	INTERNALERROR_ERRORTCRINVALIDMEDIATYPE = "InternalError.ErrorTcrInvalidMediaType"
-//	INTERNALERROR_ERRORTCRRESOURCECONFLICT = "InternalError.ErrorTcrResourceConflict"
-//	INTERNALERROR_ERRORTCRUNAUTHORIZED = "InternalError.ErrorTcrUnauthorized"
-//	INVALIDPARAMETER = "InvalidParameter"
-//	INVALIDPARAMETER_ERRORTCRINVALIDPARAMETER = "InvalidParameter.ErrorTcrInvalidParameter"
-//	MISSINGPARAMETER = "MissingParameter"
-//	OPERATIONDENIED = "OperationDenied"
-//	RESOURCENOTFOUND = "ResourceNotFound"
-//	RESOURCENOTFOUND_TCRRESOURCENOTFOUND = "ResourceNotFound.TcrResourceNotFound"
-//	UNSUPPORTEDOPERATION = "UnsupportedOperation"
+//  FAILEDOPERATION_DEPENDENCEERROR = "FailedOperation.DependenceError"
+//  INTERNALERROR = "InternalError"
+//  INTERNALERROR_ERRORTCRINTERNAL = "InternalError.ErrorTcrInternal"
+//  INTERNALERROR_ERRORTCRINVALIDMEDIATYPE = "InternalError.ErrorTcrInvalidMediaType"
+//  INTERNALERROR_ERRORTCRRESOURCECONFLICT = "InternalError.ErrorTcrResourceConflict"
+//  INTERNALERROR_ERRORTCRUNAUTHORIZED = "InternalError.ErrorTcrUnauthorized"
+//  INVALIDPARAMETER = "InvalidParameter"
+//  INVALIDPARAMETER_ERRORTCRINVALIDPARAMETER = "InvalidParameter.ErrorTcrInvalidParameter"
+//  MISSINGPARAMETER = "MissingParameter"
+//  OPERATIONDENIED = "OperationDenied"
+//  RESOURCENOTFOUND = "ResourceNotFound"
+//  RESOURCENOTFOUND_TCRRESOURCENOTFOUND = "ResourceNotFound.TcrResourceNotFound"
+//  UNSUPPORTEDOPERATION = "UnsupportedOperation"
 func (c *Client) ModifyNamespace(request *ModifyNamespaceRequest) (response *ModifyNamespaceResponse, err error) {
 	if request == nil {
 		request = NewModifyNamespaceRequest()
 	}
+
 
 	response = NewModifyNamespaceResponse()
 	err = c.Send(request, response)
@@ -2237,6 +2240,7 @@ func NewDeleteNamespaceRequest() (request *DeleteNamespaceRequest) {
 	}
 
 	request.Init().WithApiInfo("tcr", APIVersion, "DeleteNamespace")
+
 
 	return
 }
@@ -2253,30 +2257,30 @@ func NewDeleteNamespaceResponse() (response *DeleteNamespaceResponse) {
 // 删除命名空间
 //
 // 可能返回的错误码:
-//
-//	FAILEDOPERATION = "FailedOperation"
-//	FAILEDOPERATION_DEPENDENCEERROR = "FailedOperation.DependenceError"
-//	FAILEDOPERATION_ERRORGETDBDATAERROR = "FailedOperation.ErrorGetDBDataError"
-//	FAILEDOPERATION_ERRORTCRRESOURCECONFLICT = "FailedOperation.ErrorTcrResourceConflict"
-//	FAILEDOPERATION_ERRORTCRUNAUTHORIZED = "FailedOperation.ErrorTcrUnauthorized"
-//	FAILEDOPERATION_GETDBDATAERROR = "FailedOperation.GetDBDataError"
-//	FAILEDOPERATION_PRECONDITIONFAILED = "FailedOperation.PreconditionFailed"
-//	INTERNALERROR = "InternalError"
-//	INTERNALERROR_DBERROR = "InternalError.DbError"
-//	INTERNALERROR_ERRORTCRINTERNAL = "InternalError.ErrorTcrInternal"
-//	INTERNALERROR_ERRORTCRINVALIDMEDIATYPE = "InternalError.ErrorTcrInvalidMediaType"
-//	INTERNALERROR_ERRORTCRRESOURCECONFLICT = "InternalError.ErrorTcrResourceConflict"
-//	INTERNALERROR_ERRORTCRUNAUTHORIZED = "InternalError.ErrorTcrUnauthorized"
-//	INVALIDPARAMETER = "InvalidParameter"
-//	MISSINGPARAMETER = "MissingParameter"
-//	OPERATIONDENIED = "OperationDenied"
-//	RESOURCENOTFOUND = "ResourceNotFound"
-//	RESOURCENOTFOUND_TCRRESOURCENOTFOUND = "ResourceNotFound.TcrResourceNotFound"
-//	UNSUPPORTEDOPERATION = "UnsupportedOperation"
+//  FAILEDOPERATION = "FailedOperation"
+//  FAILEDOPERATION_DEPENDENCEERROR = "FailedOperation.DependenceError"
+//  FAILEDOPERATION_ERRORGETDBDATAERROR = "FailedOperation.ErrorGetDBDataError"
+//  FAILEDOPERATION_ERRORTCRRESOURCECONFLICT = "FailedOperation.ErrorTcrResourceConflict"
+//  FAILEDOPERATION_ERRORTCRUNAUTHORIZED = "FailedOperation.ErrorTcrUnauthorized"
+//  FAILEDOPERATION_GETDBDATAERROR = "FailedOperation.GetDBDataError"
+//  FAILEDOPERATION_PRECONDITIONFAILED = "FailedOperation.PreconditionFailed"
+//  INTERNALERROR = "InternalError"
+//  INTERNALERROR_DBERROR = "InternalError.DbError"
+//  INTERNALERROR_ERRORTCRINTERNAL = "InternalError.ErrorTcrInternal"
+//  INTERNALERROR_ERRORTCRINVALIDMEDIATYPE = "InternalError.ErrorTcrInvalidMediaType"
+//  INTERNALERROR_ERRORTCRRESOURCECONFLICT = "InternalError.ErrorTcrResourceConflict"
+//  INTERNALERROR_ERRORTCRUNAUTHORIZED = "InternalError.ErrorTcrUnauthorized"
+//  INVALIDPARAMETER = "InvalidParameter"
+//  MISSINGPARAMETER = "MissingParameter"
+//  OPERATIONDENIED = "OperationDenied"
+//  RESOURCENOTFOUND = "ResourceNotFound"
+//  RESOURCENOTFOUND_TCRRESOURCENOTFOUND = "ResourceNotFound.TcrResourceNotFound"
+//  UNSUPPORTEDOPERATION = "UnsupportedOperation"
 func (c *Client) DeleteNamespace(request *DeleteNamespaceRequest) (response *DeleteNamespaceResponse, err error) {
 	if request == nil {
 		request = NewDeleteNamespaceRequest()
 	}
+
 
 	response = NewDeleteNamespaceResponse()
 	err = c.Send(request, response)
@@ -2289,6 +2293,7 @@ func NewDescribeNamespacesRequest() (request *DescribeNamespacesRequest) {
 	}
 
 	request.Init().WithApiInfo("tcr", APIVersion, "DescribeNamespaces")
+
 
 	return
 }
@@ -2305,27 +2310,26 @@ func NewDescribeNamespacesResponse() (response *DescribeNamespacesResponse) {
 // 查询命名空间列表或指定命名空间信息
 //
 // 可能返回的错误码:
-//
-//	FAILEDOPERATION = "FailedOperation"
-//	FAILEDOPERATION_DEPENDENCEERROR = "FailedOperation.DependenceError"
-//	FAILEDOPERATION_ERRORGETDBDATAERROR = "FailedOperation.ErrorGetDBDataError"
-//	FAILEDOPERATION_ERRORTCRRESOURCECONFLICT = "FailedOperation.ErrorTcrResourceConflict"
-//	FAILEDOPERATION_ERRORTCRUNAUTHORIZED = "FailedOperation.ErrorTcrUnauthorized"
-//	FAILEDOPERATION_GETDBDATAERROR = "FailedOperation.GetDBDataError"
-//	FAILEDOPERATION_OPERATIONCANCEL = "FailedOperation.OperationCancel"
-//	INTERNALERROR = "InternalError"
-//	INTERNALERROR_DBERROR = "InternalError.DbError"
-//	INTERNALERROR_ERRORTCRINTERNAL = "InternalError.ErrorTcrInternal"
-//	INTERNALERROR_ERRORTCRINVALIDMEDIATYPE = "InternalError.ErrorTcrInvalidMediaType"
-//	INTERNALERROR_ERRORTCRRESOURCECONFLICT = "InternalError.ErrorTcrResourceConflict"
-//	INTERNALERROR_ERRORTCRUNAUTHORIZED = "InternalError.ErrorTcrUnauthorized"
-//	INVALIDPARAMETER = "InvalidParameter"
-//	INVALIDPARAMETER_ERRORTCRINVALIDPARAMETER = "InvalidParameter.ErrorTcrInvalidParameter"
-//	MISSINGPARAMETER = "MissingParameter"
-//	OPERATIONDENIED = "OperationDenied"
-//	RESOURCENOTFOUND = "ResourceNotFound"
-//	RESOURCENOTFOUND_TCRRESOURCENOTFOUND = "ResourceNotFound.TcrResourceNotFound"
-//	UNSUPPORTEDOPERATION = "UnsupportedOperation"
+//  FAILEDOPERATION = "FailedOperation"
+//  FAILEDOPERATION_DEPENDENCEERROR = "FailedOperation.DependenceError"
+//  FAILEDOPERATION_ERRORGETDBDATAERROR = "FailedOperation.ErrorGetDBDataError"
+//  FAILEDOPERATION_ERRORTCRRESOURCECONFLICT = "FailedOperation.ErrorTcrResourceConflict"
+//  FAILEDOPERATION_ERRORTCRUNAUTHORIZED = "FailedOperation.ErrorTcrUnauthorized"
+//  FAILEDOPERATION_GETDBDATAERROR = "FailedOperation.GetDBDataError"
+//  FAILEDOPERATION_OPERATIONCANCEL = "FailedOperation.OperationCancel"
+//  INTERNALERROR = "InternalError"
+//  INTERNALERROR_DBERROR = "InternalError.DbError"
+//  INTERNALERROR_ERRORTCRINTERNAL = "InternalError.ErrorTcrInternal"
+//  INTERNALERROR_ERRORTCRINVALIDMEDIATYPE = "InternalError.ErrorTcrInvalidMediaType"
+//  INTERNALERROR_ERRORTCRRESOURCECONFLICT = "InternalError.ErrorTcrResourceConflict"
+//  INTERNALERROR_ERRORTCRUNAUTHORIZED = "InternalError.ErrorTcrUnauthorized"
+//  INVALIDPARAMETER = "InvalidParameter"
+//  INVALIDPARAMETER_ERRORTCRINVALIDPARAMETER = "InvalidParameter.ErrorTcrInvalidParameter"
+//  MISSINGPARAMETER = "MissingParameter"
+//  OPERATIONDENIED = "OperationDenied"
+//  RESOURCENOTFOUND = "ResourceNotFound"
+//  RESOURCENOTFOUND_TCRRESOURCENOTFOUND = "ResourceNotFound.TcrResourceNotFound"
+//  UNSUPPORTEDOPERATION = "UnsupportedOperation"
 func (c *Client) DescribeNamespaces(request *DescribeNamespacesRequest) (response *DescribeNamespacesResponse, err error) {
 	if request == nil {
 		request = NewDescribeNamespacesRequest()
@@ -2343,6 +2347,7 @@ func NewCreateRepositoryRequest() (request *CreateRepositoryRequest) {
 
 	request.Init().WithApiInfo("tcr", APIVersion, "CreateRepository")
 
+
 	return
 }
 
@@ -2358,19 +2363,18 @@ func NewCreateRepositoryResponse() (response *CreateRepositoryResponse) {
 // 用于企业版创建镜像仓库
 //
 // 可能返回的错误码:
-//
-//	FAILEDOPERATION_DEPENDENCEERROR = "FailedOperation.DependenceError"
-//	FAILEDOPERATION_OPERATIONCANCEL = "FailedOperation.OperationCancel"
-//	INTERNALERROR = "InternalError"
-//	INTERNALERROR_ERRORTCRINTERNAL = "InternalError.ErrorTcrInternal"
-//	INTERNALERROR_ERRORTCRINVALIDMEDIATYPE = "InternalError.ErrorTcrInvalidMediaType"
-//	INTERNALERROR_ERRORTCRRESOURCECONFLICT = "InternalError.ErrorTcrResourceConflict"
-//	INTERNALERROR_ERRORTCRUNAUTHORIZED = "InternalError.ErrorTcrUnauthorized"
-//	INVALIDPARAMETER = "InvalidParameter"
-//	INVALIDPARAMETER_ERRORTCRINVALIDPARAMETER = "InvalidParameter.ErrorTcrInvalidParameter"
-//	OPERATIONDENIED = "OperationDenied"
-//	RESOURCENOTFOUND = "ResourceNotFound"
-//	UNSUPPORTEDOPERATION = "UnsupportedOperation"
+//  FAILEDOPERATION_DEPENDENCEERROR = "FailedOperation.DependenceError"
+//  FAILEDOPERATION_OPERATIONCANCEL = "FailedOperation.OperationCancel"
+//  INTERNALERROR = "InternalError"
+//  INTERNALERROR_ERRORTCRINTERNAL = "InternalError.ErrorTcrInternal"
+//  INTERNALERROR_ERRORTCRINVALIDMEDIATYPE = "InternalError.ErrorTcrInvalidMediaType"
+//  INTERNALERROR_ERRORTCRRESOURCECONFLICT = "InternalError.ErrorTcrResourceConflict"
+//  INTERNALERROR_ERRORTCRUNAUTHORIZED = "InternalError.ErrorTcrUnauthorized"
+//  INVALIDPARAMETER = "InvalidParameter"
+//  INVALIDPARAMETER_ERRORTCRINVALIDPARAMETER = "InvalidParameter.ErrorTcrInvalidParameter"
+//  OPERATIONDENIED = "OperationDenied"
+//  RESOURCENOTFOUND = "ResourceNotFound"
+//  UNSUPPORTEDOPERATION = "UnsupportedOperation"
 func (c *Client) CreateRepository(request *CreateRepositoryRequest) (response *CreateRepositoryResponse, err error) {
 	if request == nil {
 		request = NewCreateRepositoryRequest()
@@ -2388,6 +2392,7 @@ func NewModifyRepositoryRequest() (request *ModifyRepositoryRequest) {
 
 	request.Init().WithApiInfo("tcr", APIVersion, "ModifyRepository")
 
+
 	return
 }
 
@@ -2403,18 +2408,17 @@ func NewModifyRepositoryResponse() (response *ModifyRepositoryResponse) {
 // 更新镜像仓库信息，可修改仓库描述信息
 //
 // 可能返回的错误码:
-//
-//	FAILEDOPERATION_DEPENDENCEERROR = "FailedOperation.DependenceError"
-//	INTERNALERROR = "InternalError"
-//	INTERNALERROR_ERRORTCRINTERNAL = "InternalError.ErrorTcrInternal"
-//	INTERNALERROR_ERRORTCRINVALIDMEDIATYPE = "InternalError.ErrorTcrInvalidMediaType"
-//	INTERNALERROR_ERRORTCRRESOURCECONFLICT = "InternalError.ErrorTcrResourceConflict"
-//	INTERNALERROR_ERRORTCRUNAUTHORIZED = "InternalError.ErrorTcrUnauthorized"
-//	INVALIDPARAMETER = "InvalidParameter"
-//	OPERATIONDENIED = "OperationDenied"
-//	RESOURCENOTFOUND = "ResourceNotFound"
-//	RESOURCENOTFOUND_TCRRESOURCENOTFOUND = "ResourceNotFound.TcrResourceNotFound"
-//	UNSUPPORTEDOPERATION = "UnsupportedOperation"
+//  FAILEDOPERATION_DEPENDENCEERROR = "FailedOperation.DependenceError"
+//  INTERNALERROR = "InternalError"
+//  INTERNALERROR_ERRORTCRINTERNAL = "InternalError.ErrorTcrInternal"
+//  INTERNALERROR_ERRORTCRINVALIDMEDIATYPE = "InternalError.ErrorTcrInvalidMediaType"
+//  INTERNALERROR_ERRORTCRRESOURCECONFLICT = "InternalError.ErrorTcrResourceConflict"
+//  INTERNALERROR_ERRORTCRUNAUTHORIZED = "InternalError.ErrorTcrUnauthorized"
+//  INVALIDPARAMETER = "InvalidParameter"
+//  OPERATIONDENIED = "OperationDenied"
+//  RESOURCENOTFOUND = "ResourceNotFound"
+//  RESOURCENOTFOUND_TCRRESOURCENOTFOUND = "ResourceNotFound.TcrResourceNotFound"
+//  UNSUPPORTEDOPERATION = "UnsupportedOperation"
 func (c *Client) ModifyRepository(request *ModifyRepositoryRequest) (response *ModifyRepositoryResponse, err error) {
 	if request == nil {
 		request = NewModifyRepositoryRequest()
@@ -2432,6 +2436,7 @@ func NewDeleteRepositoryRequest() (request *DeleteRepositoryRequest) {
 
 	request.Init().WithApiInfo("tcr", APIVersion, "DeleteRepository")
 
+
 	return
 }
 
@@ -2447,23 +2452,23 @@ func NewDeleteRepositoryResponse() (response *DeleteRepositoryResponse) {
 // 删除镜像仓库
 //
 // 可能返回的错误码:
-//
-//	FAILEDOPERATION_DEPENDENCEERROR = "FailedOperation.DependenceError"
-//	INTERNALERROR = "InternalError"
-//	INTERNALERROR_ERRORTCRINTERNAL = "InternalError.ErrorTcrInternal"
-//	INTERNALERROR_ERRORTCRINVALIDMEDIATYPE = "InternalError.ErrorTcrInvalidMediaType"
-//	INTERNALERROR_ERRORTCRRESOURCECONFLICT = "InternalError.ErrorTcrResourceConflict"
-//	INTERNALERROR_ERRORTCRUNAUTHORIZED = "InternalError.ErrorTcrUnauthorized"
-//	INVALIDPARAMETER = "InvalidParameter"
-//	MISSINGPARAMETER = "MissingParameter"
-//	OPERATIONDENIED = "OperationDenied"
-//	RESOURCENOTFOUND = "ResourceNotFound"
-//	RESOURCENOTFOUND_TCRRESOURCENOTFOUND = "ResourceNotFound.TcrResourceNotFound"
-//	UNSUPPORTEDOPERATION = "UnsupportedOperation"
+//  FAILEDOPERATION_DEPENDENCEERROR = "FailedOperation.DependenceError"
+//  INTERNALERROR = "InternalError"
+//  INTERNALERROR_ERRORTCRINTERNAL = "InternalError.ErrorTcrInternal"
+//  INTERNALERROR_ERRORTCRINVALIDMEDIATYPE = "InternalError.ErrorTcrInvalidMediaType"
+//  INTERNALERROR_ERRORTCRRESOURCECONFLICT = "InternalError.ErrorTcrResourceConflict"
+//  INTERNALERROR_ERRORTCRUNAUTHORIZED = "InternalError.ErrorTcrUnauthorized"
+//  INVALIDPARAMETER = "InvalidParameter"
+//  MISSINGPARAMETER = "MissingParameter"
+//  OPERATIONDENIED = "OperationDenied"
+//  RESOURCENOTFOUND = "ResourceNotFound"
+//  RESOURCENOTFOUND_TCRRESOURCENOTFOUND = "ResourceNotFound.TcrResourceNotFound"
+//  UNSUPPORTEDOPERATION = "UnsupportedOperation"
 func (c *Client) DeleteRepository(request *DeleteRepositoryRequest) (response *DeleteRepositoryResponse, err error) {
 	if request == nil {
 		request = NewDeleteRepositoryRequest()
 	}
+
 
 	response = NewDeleteRepositoryResponse()
 	err = c.Send(request, response)
@@ -2476,6 +2481,7 @@ func NewDescribeServiceAccountsRequest() (request *DescribeServiceAccountsReques
 	}
 
 	request.Init().WithApiInfo("tcr", APIVersion, "DescribeServiceAccounts")
+
 
 	return
 }
@@ -2492,13 +2498,12 @@ func NewDescribeServiceAccountsResponse() (response *DescribeServiceAccountsResp
 // 查询服务级账号
 //
 // 可能返回的错误码:
-//
-//	FAILEDOPERATION = "FailedOperation"
-//	FAILEDOPERATION_DBERROR = "FailedOperation.DbError"
-//	INVALIDPARAMETER = "InvalidParameter"
-//	OPERATIONDENIED = "OperationDenied"
-//	UNKNOWNPARAMETER = "UnknownParameter"
-//	UNSUPPORTEDOPERATION = "UnsupportedOperation"
+//  FAILEDOPERATION = "FailedOperation"
+//  FAILEDOPERATION_DBERROR = "FailedOperation.DbError"
+//  INVALIDPARAMETER = "InvalidParameter"
+//  OPERATIONDENIED = "OperationDenied"
+//  UNKNOWNPARAMETER = "UnknownParameter"
+//  UNSUPPORTEDOPERATION = "UnsupportedOperation"
 func (c *Client) DescribeServiceAccounts(request *DescribeServiceAccountsRequest) (response *DescribeServiceAccountsResponse, err error) {
 	if request == nil {
 		request = NewDescribeServiceAccountsRequest()
@@ -2516,6 +2521,7 @@ func NewModifyServiceAccountRequest() (request *ModifyServiceAccountRequest) {
 
 	request.Init().WithApiInfo("tcr", APIVersion, "ModifyServiceAccount")
 
+
 	return
 }
 
@@ -2531,12 +2537,11 @@ func NewModifyServiceAccountResponse() (response *ModifyServiceAccountResponse) 
 // 更新服务级账号
 //
 // 可能返回的错误码:
-//
-//	FAILEDOPERATION = "FailedOperation"
-//	FAILEDOPERATION_DBERROR = "FailedOperation.DbError"
-//	INVALIDPARAMETER = "InvalidParameter"
-//	OPERATIONDENIED = "OperationDenied"
-//	UNKNOWNPARAMETER = "UnknownParameter"
+//  FAILEDOPERATION = "FailedOperation"
+//  FAILEDOPERATION_DBERROR = "FailedOperation.DbError"
+//  INVALIDPARAMETER = "InvalidParameter"
+//  OPERATIONDENIED = "OperationDenied"
+//  UNKNOWNPARAMETER = "UnknownParameter"
 func (c *Client) ModifyServiceAccount(request *ModifyServiceAccountRequest) (response *ModifyServiceAccountResponse, err error) {
 	if request == nil {
 		request = NewModifyServiceAccountRequest()
@@ -2554,6 +2559,7 @@ func NewDeleteServiceAccountRequest() (request *DeleteServiceAccountRequest) {
 
 	request.Init().WithApiInfo("tcr", APIVersion, "DeleteServiceAccount")
 
+
 	return
 }
 
@@ -2569,12 +2575,11 @@ func NewDeleteServiceAccountResponse() (response *DeleteServiceAccountResponse) 
 // 删除服务级账号
 //
 // 可能返回的错误码:
-//
-//	FAILEDOPERATION = "FailedOperation"
-//	FAILEDOPERATION_DBERROR = "FailedOperation.DbError"
-//	INVALIDPARAMETER = "InvalidParameter"
-//	OPERATIONDENIED = "OperationDenied"
-//	UNKNOWNPARAMETER = "UnknownParameter"
+//  FAILEDOPERATION = "FailedOperation"
+//  FAILEDOPERATION_DBERROR = "FailedOperation.DbError"
+//  INVALIDPARAMETER = "InvalidParameter"
+//  OPERATIONDENIED = "OperationDenied"
+//  UNKNOWNPARAMETER = "UnknownParameter"
 func (c *Client) DeleteServiceAccount(request *DeleteServiceAccountRequest) (response *DeleteServiceAccountResponse, err error) {
 	if request == nil {
 		request = NewDeleteServiceAccountRequest()
@@ -2592,6 +2597,7 @@ func NewDescribeTagRetentionExecutionRequest() (request *DescribeTagRetentionExe
 
 	request.Init().WithApiInfo("tcr", APIVersion, "DescribeTagRetentionExecution")
 
+
 	return
 }
 
@@ -2607,21 +2613,20 @@ func NewDescribeTagRetentionExecutionResponse() (response *DescribeTagRetentionE
 // 查询版本保留执行记录
 //
 // 可能返回的错误码:
-//
-//	FAILEDOPERATION_DEPENDENCEERROR = "FailedOperation.DependenceError"
-//	INTERNALERROR = "InternalError"
-//	INTERNALERROR_DBERROR = "InternalError.DbError"
-//	INTERNALERROR_ERRCONFLICT = "InternalError.ErrConflict"
-//	INTERNALERROR_ERRNOTEXIST = "InternalError.ErrNotExist"
-//	INTERNALERROR_ERRORCONFLICT = "InternalError.ErrorConflict"
-//	INTERNALERROR_ERROROVERLIMIT = "InternalError.ErrorOverLimit"
-//	INVALIDPARAMETER = "InvalidParameter"
-//	INVALIDPARAMETER_ERRORTCRINVALIDPARAMETER = "InvalidParameter.ErrorTcrInvalidParameter"
-//	MISSINGPARAMETER = "MissingParameter"
-//	RESOURCENOTFOUND = "ResourceNotFound"
-//	UNAUTHORIZEDOPERATION = "UnauthorizedOperation"
-//	UNKNOWNPARAMETER = "UnknownParameter"
-//	UNSUPPORTEDOPERATION = "UnsupportedOperation"
+//  FAILEDOPERATION_DEPENDENCEERROR = "FailedOperation.DependenceError"
+//  INTERNALERROR = "InternalError"
+//  INTERNALERROR_DBERROR = "InternalError.DbError"
+//  INTERNALERROR_ERRCONFLICT = "InternalError.ErrConflict"
+//  INTERNALERROR_ERRNOTEXIST = "InternalError.ErrNotExist"
+//  INTERNALERROR_ERRORCONFLICT = "InternalError.ErrorConflict"
+//  INTERNALERROR_ERROROVERLIMIT = "InternalError.ErrorOverLimit"
+//  INVALIDPARAMETER = "InvalidParameter"
+//  INVALIDPARAMETER_ERRORTCRINVALIDPARAMETER = "InvalidParameter.ErrorTcrInvalidParameter"
+//  MISSINGPARAMETER = "MissingParameter"
+//  RESOURCENOTFOUND = "ResourceNotFound"
+//  UNAUTHORIZEDOPERATION = "UnauthorizedOperation"
+//  UNKNOWNPARAMETER = "UnknownParameter"
+//  UNSUPPORTEDOPERATION = "UnsupportedOperation"
 func (c *Client) DescribeTagRetentionExecution(request *DescribeTagRetentionExecutionRequest) (response *DescribeTagRetentionExecutionResponse, err error) {
 	if request == nil {
 		request = NewDescribeTagRetentionExecutionRequest()
@@ -2639,6 +2644,7 @@ func NewCreateTagRetentionExecutionRequest() (request *CreateTagRetentionExecuti
 
 	request.Init().WithApiInfo("tcr", APIVersion, "CreateTagRetentionExecution")
 
+
 	return
 }
 
@@ -2654,23 +2660,23 @@ func NewCreateTagRetentionExecutionResponse() (response *CreateTagRetentionExecu
 // 手动执行版本保留
 //
 // 可能返回的错误码:
-//
-//	INTERNALERROR = "InternalError"
-//	INTERNALERROR_DBERROR = "InternalError.DbError"
-//	INTERNALERROR_ERRCONFLICT = "InternalError.ErrConflict"
-//	INTERNALERROR_ERRNOTEXIST = "InternalError.ErrNotExist"
-//	INTERNALERROR_ERRORCONFLICT = "InternalError.ErrorConflict"
-//	INTERNALERROR_ERROROVERLIMIT = "InternalError.ErrorOverLimit"
-//	INVALIDPARAMETER = "InvalidParameter"
-//	MISSINGPARAMETER = "MissingParameter"
-//	RESOURCENOTFOUND = "ResourceNotFound"
-//	UNAUTHORIZEDOPERATION = "UnauthorizedOperation"
-//	UNKNOWNPARAMETER = "UnknownParameter"
-//	UNSUPPORTEDOPERATION = "UnsupportedOperation"
+//  INTERNALERROR = "InternalError"
+//  INTERNALERROR_DBERROR = "InternalError.DbError"
+//  INTERNALERROR_ERRCONFLICT = "InternalError.ErrConflict"
+//  INTERNALERROR_ERRNOTEXIST = "InternalError.ErrNotExist"
+//  INTERNALERROR_ERRORCONFLICT = "InternalError.ErrorConflict"
+//  INTERNALERROR_ERROROVERLIMIT = "InternalError.ErrorOverLimit"
+//  INVALIDPARAMETER = "InvalidParameter"
+//  MISSINGPARAMETER = "MissingParameter"
+//  RESOURCENOTFOUND = "ResourceNotFound"
+//  UNAUTHORIZEDOPERATION = "UnauthorizedOperation"
+//  UNKNOWNPARAMETER = "UnknownParameter"
+//  UNSUPPORTEDOPERATION = "UnsupportedOperation"
 func (c *Client) CreateTagRetentionExecution(request *CreateTagRetentionExecutionRequest) (response *CreateTagRetentionExecutionResponse, err error) {
 	if request == nil {
 		request = NewCreateTagRetentionExecutionRequest()
 	}
+
 
 	response = NewCreateTagRetentionExecutionResponse()
 	err = c.Send(request, response)
@@ -2683,6 +2689,7 @@ func NewDescribeRepositoriesRequest() (request *DescribeRepositoriesRequest) {
 	}
 
 	request.Init().WithApiInfo("tcr", APIVersion, "DescribeRepositories")
+
 
 	return
 }
@@ -2699,27 +2706,27 @@ func NewDescribeRepositoriesResponse() (response *DescribeRepositoriesResponse) 
 // 查询镜像仓库列表或指定镜像仓库信息
 //
 // 可能返回的错误码:
-//
-//	FAILEDOPERATION = "FailedOperation"
-//	FAILEDOPERATION_DEPENDENCEERROR = "FailedOperation.DependenceError"
-//	FAILEDOPERATION_EMPTYCOREBODY = "FailedOperation.EmptyCoreBody"
-//	INTERNALERROR = "InternalError"
-//	INTERNALERROR_DBERROR = "InternalError.DbError"
-//	INTERNALERROR_ERRORTCRINTERNAL = "InternalError.ErrorTcrInternal"
-//	INTERNALERROR_ERRORTCRINVALIDMEDIATYPE = "InternalError.ErrorTcrInvalidMediaType"
-//	INTERNALERROR_ERRORTCRRESOURCECONFLICT = "InternalError.ErrorTcrResourceConflict"
-//	INTERNALERROR_ERRORTCRUNAUTHORIZED = "InternalError.ErrorTcrUnauthorized"
-//	INVALIDPARAMETER = "InvalidParameter"
-//	INVALIDPARAMETER_ERRORTCRINVALIDPARAMETER = "InvalidParameter.ErrorTcrInvalidParameter"
-//	MISSINGPARAMETER = "MissingParameter"
-//	OPERATIONDENIED = "OperationDenied"
-//	RESOURCENOTFOUND = "ResourceNotFound"
-//	RESOURCENOTFOUND_TCRRESOURCENOTFOUND = "ResourceNotFound.TcrResourceNotFound"
-//	UNSUPPORTEDOPERATION = "UnsupportedOperation"
+//  FAILEDOPERATION = "FailedOperation"
+//  FAILEDOPERATION_DEPENDENCEERROR = "FailedOperation.DependenceError"
+//  FAILEDOPERATION_EMPTYCOREBODY = "FailedOperation.EmptyCoreBody"
+//  INTERNALERROR = "InternalError"
+//  INTERNALERROR_DBERROR = "InternalError.DbError"
+//  INTERNALERROR_ERRORTCRINTERNAL = "InternalError.ErrorTcrInternal"
+//  INTERNALERROR_ERRORTCRINVALIDMEDIATYPE = "InternalError.ErrorTcrInvalidMediaType"
+//  INTERNALERROR_ERRORTCRRESOURCECONFLICT = "InternalError.ErrorTcrResourceConflict"
+//  INTERNALERROR_ERRORTCRUNAUTHORIZED = "InternalError.ErrorTcrUnauthorized"
+//  INVALIDPARAMETER = "InvalidParameter"
+//  INVALIDPARAMETER_ERRORTCRINVALIDPARAMETER = "InvalidParameter.ErrorTcrInvalidParameter"
+//  MISSINGPARAMETER = "MissingParameter"
+//  OPERATIONDENIED = "OperationDenied"
+//  RESOURCENOTFOUND = "ResourceNotFound"
+//  RESOURCENOTFOUND_TCRRESOURCENOTFOUND = "ResourceNotFound.TcrResourceNotFound"
+//  UNSUPPORTEDOPERATION = "UnsupportedOperation"
 func (c *Client) DescribeRepositories(request *DescribeRepositoriesRequest) (response *DescribeRepositoriesResponse, err error) {
 	if request == nil {
 		request = NewDescribeRepositoriesRequest()
 	}
+
 
 	response = NewDescribeRepositoriesResponse()
 	err = c.Send(request, response)
@@ -2732,6 +2739,7 @@ func NewModifyInstanceTokenRequest() (request *ModifyInstanceTokenRequest) {
 	}
 
 	request.Init().WithApiInfo("tcr", APIVersion, "ModifyInstanceToken")
+
 
 	return
 }
@@ -2748,14 +2756,13 @@ func NewModifyInstanceTokenResponse() (response *ModifyInstanceTokenResponse) {
 // 更新实例内指定长期访问凭证的启用状态
 //
 // 可能返回的错误码:
-//
-//	INTERNALERROR = "InternalError"
-//	INTERNALERROR_DBERROR = "InternalError.DbError"
-//	INTERNALERROR_UNKNOWN = "InternalError.Unknown"
-//	INVALIDPARAMETER = "InvalidParameter"
-//	UNAUTHORIZEDOPERATION = "UnauthorizedOperation"
-//	UNKNOWNPARAMETER = "UnknownParameter"
-//	UNSUPPORTEDOPERATION = "UnsupportedOperation"
+//  INTERNALERROR = "InternalError"
+//  INTERNALERROR_DBERROR = "InternalError.DbError"
+//  INTERNALERROR_UNKNOWN = "InternalError.Unknown"
+//  INVALIDPARAMETER = "InvalidParameter"
+//  UNAUTHORIZEDOPERATION = "UnauthorizedOperation"
+//  UNKNOWNPARAMETER = "UnknownParameter"
+//  UNSUPPORTEDOPERATION = "UnsupportedOperation"
 func (c *Client) ModifyInstanceToken(request *ModifyInstanceTokenRequest) (response *ModifyInstanceTokenResponse, err error) {
 	if request == nil {
 		request = NewModifyInstanceTokenRequest()
@@ -2773,6 +2780,7 @@ func NewDeleteInstanceTokenRequest() (request *DeleteInstanceTokenRequest) {
 
 	request.Init().WithApiInfo("tcr", APIVersion, "DeleteInstanceToken")
 
+
 	return
 }
 
@@ -2788,14 +2796,13 @@ func NewDeleteInstanceTokenResponse() (response *DeleteInstanceTokenResponse) {
 // 删除长期访问凭证
 //
 // 可能返回的错误码:
-//
-//	INTERNALERROR = "InternalError"
-//	INTERNALERROR_DBERROR = "InternalError.DbError"
-//	INTERNALERROR_UNKNOWN = "InternalError.Unknown"
-//	INVALIDPARAMETER = "InvalidParameter"
-//	UNAUTHORIZEDOPERATION = "UnauthorizedOperation"
-//	UNKNOWNPARAMETER = "UnknownParameter"
-//	UNSUPPORTEDOPERATION = "UnsupportedOperation"
+//  INTERNALERROR = "InternalError"
+//  INTERNALERROR_DBERROR = "InternalError.DbError"
+//  INTERNALERROR_UNKNOWN = "InternalError.Unknown"
+//  INVALIDPARAMETER = "InvalidParameter"
+//  UNAUTHORIZEDOPERATION = "UnauthorizedOperation"
+//  UNKNOWNPARAMETER = "UnknownParameter"
+//  UNSUPPORTEDOPERATION = "UnsupportedOperation"
 func (c *Client) DeleteInstanceToken(request *DeleteInstanceTokenRequest) (response *DeleteInstanceTokenResponse, err error) {
 	if request == nil {
 		request = NewDeleteInstanceTokenRequest()
@@ -2813,6 +2820,7 @@ func NewDescribeInstanceTokenRequest() (request *DescribeInstanceTokenRequest) {
 
 	request.Init().WithApiInfo("tcr", APIVersion, "DescribeInstanceToken")
 
+
 	return
 }
 
@@ -2828,13 +2836,12 @@ func NewDescribeInstanceTokenResponse() (response *DescribeInstanceTokenResponse
 // 查询长期访问凭证信息
 //
 // 可能返回的错误码:
-//
-//	INTERNALERROR = "InternalError"
-//	INTERNALERROR_DBERROR = "InternalError.DbError"
-//	INVALIDPARAMETER = "InvalidParameter"
-//	UNAUTHORIZEDOPERATION = "UnauthorizedOperation"
-//	UNKNOWNPARAMETER = "UnknownParameter"
-//	UNSUPPORTEDOPERATION = "UnsupportedOperation"
+//  INTERNALERROR = "InternalError"
+//  INTERNALERROR_DBERROR = "InternalError.DbError"
+//  INVALIDPARAMETER = "InvalidParameter"
+//  UNAUTHORIZEDOPERATION = "UnauthorizedOperation"
+//  UNKNOWNPARAMETER = "UnknownParameter"
+//  UNSUPPORTEDOPERATION = "UnsupportedOperation"
 func (c *Client) DescribeInstanceToken(request *DescribeInstanceTokenRequest) (response *DescribeInstanceTokenResponse, err error) {
 	if request == nil {
 		request = NewDescribeInstanceTokenRequest()
@@ -2852,6 +2859,7 @@ func NewCreateInternalEndpointDnsRequest() (request *CreateInternalEndpointDnsRe
 
 	request.Init().WithApiInfo("tcr", APIVersion, "CreateInternalEndpointDns")
 
+
 	return
 }
 
@@ -2867,25 +2875,24 @@ func NewCreateInternalEndpointDnsResponse() (response *CreateInternalEndpointDns
 // 创建tcr内网私有域名解析
 //
 // 可能返回的错误码:
-//
-//	INTERNALERROR = "InternalError"
-//	INTERNALERROR_CREATEPRIVATEZONE = "InternalError.CreatePrivateZone"
-//	INTERNALERROR_CREATEPRIVATEZONERECORD = "InternalError.CreatePrivateZoneRecord"
-//	INTERNALERROR_DBERROR = "InternalError.DbError"
-//	INTERNALERROR_DELETEPRIVATEZONERECORD = "InternalError.DeletePrivateZoneRecord"
-//	INTERNALERROR_DESCRIBEINTERNALENDPOINTDNSSTATUS = "InternalError.DescribeInternalEndpointDnsStatus"
-//	INTERNALERROR_DESCRIBEPRIVATEZONELIST = "InternalError.DescribePrivateZoneList"
-//	INTERNALERROR_DESCRIBEPRIVATEZONERECORDLIST = "InternalError.DescribePrivateZoneRecordList"
-//	INTERNALERROR_DESCRIBEPRIVATEZONESERVICELIST = "InternalError.DescribePrivateZoneServiceList"
-//	INTERNALERROR_MODIFYPRIVATEZONEVPC = "InternalError.ModifyPrivateZoneVpc"
-//	INVALIDPARAMETER = "InvalidParameter"
-//	UNSUPPORTEDOPERATION = "UnsupportedOperation"
-//	UNSUPPORTEDOPERATION_CREATEPRIVATEZONE = "UnsupportedOperation.CreatePrivateZone"
-//	UNSUPPORTEDOPERATION_CREATEPRIVATEZONERECORD = "UnsupportedOperation.CreatePrivateZoneRecord"
-//	UNSUPPORTEDOPERATION_DESCRIBEPRIVATEZONELIST = "UnsupportedOperation.DescribePrivateZoneList"
-//	UNSUPPORTEDOPERATION_DESCRIBEPRIVATEZONERECORDLIST = "UnsupportedOperation.DescribePrivateZoneRecordList"
-//	UNSUPPORTEDOPERATION_MODIFYPRIVATEZONERECORD = "UnsupportedOperation.ModifyPrivateZoneRecord"
-//	UNSUPPORTEDOPERATION_MODIFYPRIVATEZONEVPC = "UnsupportedOperation.ModifyPrivateZoneVpc"
+//  INTERNALERROR = "InternalError"
+//  INTERNALERROR_CREATEPRIVATEZONE = "InternalError.CreatePrivateZone"
+//  INTERNALERROR_CREATEPRIVATEZONERECORD = "InternalError.CreatePrivateZoneRecord"
+//  INTERNALERROR_DBERROR = "InternalError.DbError"
+//  INTERNALERROR_DELETEPRIVATEZONERECORD = "InternalError.DeletePrivateZoneRecord"
+//  INTERNALERROR_DESCRIBEINTERNALENDPOINTDNSSTATUS = "InternalError.DescribeInternalEndpointDnsStatus"
+//  INTERNALERROR_DESCRIBEPRIVATEZONELIST = "InternalError.DescribePrivateZoneList"
+//  INTERNALERROR_DESCRIBEPRIVATEZONERECORDLIST = "InternalError.DescribePrivateZoneRecordList"
+//  INTERNALERROR_DESCRIBEPRIVATEZONESERVICELIST = "InternalError.DescribePrivateZoneServiceList"
+//  INTERNALERROR_MODIFYPRIVATEZONEVPC = "InternalError.ModifyPrivateZoneVpc"
+//  INVALIDPARAMETER = "InvalidParameter"
+//  UNSUPPORTEDOPERATION = "UnsupportedOperation"
+//  UNSUPPORTEDOPERATION_CREATEPRIVATEZONE = "UnsupportedOperation.CreatePrivateZone"
+//  UNSUPPORTEDOPERATION_CREATEPRIVATEZONERECORD = "UnsupportedOperation.CreatePrivateZoneRecord"
+//  UNSUPPORTEDOPERATION_DESCRIBEPRIVATEZONELIST = "UnsupportedOperation.DescribePrivateZoneList"
+//  UNSUPPORTEDOPERATION_DESCRIBEPRIVATEZONERECORDLIST = "UnsupportedOperation.DescribePrivateZoneRecordList"
+//  UNSUPPORTEDOPERATION_MODIFYPRIVATEZONERECORD = "UnsupportedOperation.ModifyPrivateZoneRecord"
+//  UNSUPPORTEDOPERATION_MODIFYPRIVATEZONEVPC = "UnsupportedOperation.ModifyPrivateZoneVpc"
 func (c *Client) CreateInternalEndpointDns(request *CreateInternalEndpointDnsRequest) (response *CreateInternalEndpointDnsResponse, err error) {
 	if request == nil {
 		request = NewCreateInternalEndpointDnsRequest()
@@ -2903,6 +2910,7 @@ func NewDeleteInternalEndpointDnsRequest() (request *DeleteInternalEndpointDnsRe
 
 	request.Init().WithApiInfo("tcr", APIVersion, "DeleteInternalEndpointDns")
 
+
 	return
 }
 
@@ -2918,21 +2926,20 @@ func NewDeleteInternalEndpointDnsResponse() (response *DeleteInternalEndpointDns
 // 删除tcr内网私有域名解析
 //
 // 可能返回的错误码:
-//
-//	INTERNALERROR = "InternalError"
-//	INTERNALERROR_CREATEPRIVATEZONE = "InternalError.CreatePrivateZone"
-//	INTERNALERROR_CREATEPRIVATEZONERECORD = "InternalError.CreatePrivateZoneRecord"
-//	INTERNALERROR_DBERROR = "InternalError.DbError"
-//	INTERNALERROR_DELETEPRIVATEZONERECORD = "InternalError.DeletePrivateZoneRecord"
-//	INTERNALERROR_DESCRIBEINTERNALENDPOINTDNSSTATUS = "InternalError.DescribeInternalEndpointDnsStatus"
-//	INTERNALERROR_DESCRIBEPRIVATEZONELIST = "InternalError.DescribePrivateZoneList"
-//	INTERNALERROR_DESCRIBEPRIVATEZONERECORDLIST = "InternalError.DescribePrivateZoneRecordList"
-//	INTERNALERROR_DESCRIBEPRIVATEZONESERVICELIST = "InternalError.DescribePrivateZoneServiceList"
-//	INVALIDPARAMETER = "InvalidParameter"
-//	UNSUPPORTEDOPERATION = "UnsupportedOperation"
-//	UNSUPPORTEDOPERATION_DELETEPRIVATEZONERECORD = "UnsupportedOperation.DeletePrivateZoneRecord"
-//	UNSUPPORTEDOPERATION_DESCRIBEPRIVATEZONELIST = "UnsupportedOperation.DescribePrivateZoneList"
-//	UNSUPPORTEDOPERATION_DESCRIBEPRIVATEZONERECORDLIST = "UnsupportedOperation.DescribePrivateZoneRecordList"
+//  INTERNALERROR = "InternalError"
+//  INTERNALERROR_CREATEPRIVATEZONE = "InternalError.CreatePrivateZone"
+//  INTERNALERROR_CREATEPRIVATEZONERECORD = "InternalError.CreatePrivateZoneRecord"
+//  INTERNALERROR_DBERROR = "InternalError.DbError"
+//  INTERNALERROR_DELETEPRIVATEZONERECORD = "InternalError.DeletePrivateZoneRecord"
+//  INTERNALERROR_DESCRIBEINTERNALENDPOINTDNSSTATUS = "InternalError.DescribeInternalEndpointDnsStatus"
+//  INTERNALERROR_DESCRIBEPRIVATEZONELIST = "InternalError.DescribePrivateZoneList"
+//  INTERNALERROR_DESCRIBEPRIVATEZONERECORDLIST = "InternalError.DescribePrivateZoneRecordList"
+//  INTERNALERROR_DESCRIBEPRIVATEZONESERVICELIST = "InternalError.DescribePrivateZoneServiceList"
+//  INVALIDPARAMETER = "InvalidParameter"
+//  UNSUPPORTEDOPERATION = "UnsupportedOperation"
+//  UNSUPPORTEDOPERATION_DELETEPRIVATEZONERECORD = "UnsupportedOperation.DeletePrivateZoneRecord"
+//  UNSUPPORTEDOPERATION_DESCRIBEPRIVATEZONELIST = "UnsupportedOperation.DescribePrivateZoneList"
+//  UNSUPPORTEDOPERATION_DESCRIBEPRIVATEZONERECORDLIST = "UnsupportedOperation.DescribePrivateZoneRecordList"
 func (c *Client) DeleteInternalEndpointDns(request *DeleteInternalEndpointDnsRequest) (response *DeleteInternalEndpointDnsResponse, err error) {
 	if request == nil {
 		request = NewDeleteInternalEndpointDnsRequest()
@@ -2950,6 +2957,7 @@ func NewDescribeInternalEndpointDnsStatusRequest() (request *DescribeInternalEnd
 
 	request.Init().WithApiInfo("tcr", APIVersion, "DescribeInternalEndpointDnsStatus")
 
+
 	return
 }
 
@@ -2965,18 +2973,17 @@ func NewDescribeInternalEndpointDnsStatusResponse() (response *DescribeInternalE
 // 批量查询vpc是否已经添加私有域名解析
 //
 // 可能返回的错误码:
-//
-//	INTERNALERROR = "InternalError"
-//	INTERNALERROR_CREATEPRIVATEZONE = "InternalError.CreatePrivateZone"
-//	INTERNALERROR_CREATEPRIVATEZONERECORD = "InternalError.CreatePrivateZoneRecord"
-//	INTERNALERROR_DBERROR = "InternalError.DbError"
-//	INTERNALERROR_DELETEPRIVATEZONERECORD = "InternalError.DeletePrivateZoneRecord"
-//	INTERNALERROR_DESCRIBEINTERNALENDPOINTDNSSTATUS = "InternalError.DescribeInternalEndpointDnsStatus"
-//	INTERNALERROR_DESCRIBEPRIVATEZONELIST = "InternalError.DescribePrivateZoneList"
-//	INTERNALERROR_DESCRIBEPRIVATEZONERECORDLIST = "InternalError.DescribePrivateZoneRecordList"
-//	INTERNALERROR_DESCRIBEPRIVATEZONESERVICELIST = "InternalError.DescribePrivateZoneServiceList"
-//	INVALIDPARAMETER = "InvalidParameter"
-//	UNSUPPORTEDOPERATION = "UnsupportedOperation"
+//  INTERNALERROR = "InternalError"
+//  INTERNALERROR_CREATEPRIVATEZONE = "InternalError.CreatePrivateZone"
+//  INTERNALERROR_CREATEPRIVATEZONERECORD = "InternalError.CreatePrivateZoneRecord"
+//  INTERNALERROR_DBERROR = "InternalError.DbError"
+//  INTERNALERROR_DELETEPRIVATEZONERECORD = "InternalError.DeletePrivateZoneRecord"
+//  INTERNALERROR_DESCRIBEINTERNALENDPOINTDNSSTATUS = "InternalError.DescribeInternalEndpointDnsStatus"
+//  INTERNALERROR_DESCRIBEPRIVATEZONELIST = "InternalError.DescribePrivateZoneList"
+//  INTERNALERROR_DESCRIBEPRIVATEZONERECORDLIST = "InternalError.DescribePrivateZoneRecordList"
+//  INTERNALERROR_DESCRIBEPRIVATEZONESERVICELIST = "InternalError.DescribePrivateZoneServiceList"
+//  INVALIDPARAMETER = "InvalidParameter"
+//  UNSUPPORTEDOPERATION = "UnsupportedOperation"
 func (c *Client) DescribeInternalEndpointDnsStatus(request *DescribeInternalEndpointDnsStatusRequest) (response *DescribeInternalEndpointDnsStatusResponse, err error) {
 	if request == nil {
 		request = NewDescribeInternalEndpointDnsStatusRequest()
@@ -2994,6 +3001,7 @@ func NewCreateReplicationInstanceRequest() (request *CreateReplicationInstanceRe
 
 	request.Init().WithApiInfo("tcr", APIVersion, "CreateReplicationInstance")
 
+
 	return
 }
 
@@ -3009,22 +3017,21 @@ func NewCreateReplicationInstanceResponse() (response *CreateReplicationInstance
 // 创建从实例
 //
 // 可能返回的错误码:
-//
-//	FAILEDOPERATION = "FailedOperation"
-//	INTERNALERROR = "InternalError"
-//	INTERNALERROR_DBERROR = "InternalError.DbError"
-//	INTERNALERROR_ERRCONFLICT = "InternalError.ErrConflict"
-//	INTERNALERROR_ERRNOTEXIST = "InternalError.ErrNotExist"
-//	INTERNALERROR_ERRORCONFLICT = "InternalError.ErrorConflict"
-//	INTERNALERROR_ERROROVERLIMIT = "InternalError.ErrorOverLimit"
-//	INVALIDPARAMETER = "InvalidParameter"
-//	INVALIDPARAMETER_REPLICATIONEXISTS = "InvalidParameter.ReplicationExists"
-//	INVALIDPARAMETER_UNSUPPORTEDREGION = "InvalidParameter.UnsupportedRegion"
-//	MISSINGPARAMETER = "MissingParameter"
-//	OPERATIONDENIED = "OperationDenied"
-//	UNAUTHORIZEDOPERATION = "UnauthorizedOperation"
-//	UNKNOWNPARAMETER = "UnknownParameter"
-//	UNSUPPORTEDOPERATION = "UnsupportedOperation"
+//  FAILEDOPERATION = "FailedOperation"
+//  INTERNALERROR = "InternalError"
+//  INTERNALERROR_DBERROR = "InternalError.DbError"
+//  INTERNALERROR_ERRCONFLICT = "InternalError.ErrConflict"
+//  INTERNALERROR_ERRNOTEXIST = "InternalError.ErrNotExist"
+//  INTERNALERROR_ERRORCONFLICT = "InternalError.ErrorConflict"
+//  INTERNALERROR_ERROROVERLIMIT = "InternalError.ErrorOverLimit"
+//  INVALIDPARAMETER = "InvalidParameter"
+//  INVALIDPARAMETER_REPLICATIONEXISTS = "InvalidParameter.ReplicationExists"
+//  INVALIDPARAMETER_UNSUPPORTEDREGION = "InvalidParameter.UnsupportedRegion"
+//  MISSINGPARAMETER = "MissingParameter"
+//  OPERATIONDENIED = "OperationDenied"
+//  UNAUTHORIZEDOPERATION = "UnauthorizedOperation"
+//  UNKNOWNPARAMETER = "UnknownParameter"
+//  UNSUPPORTEDOPERATION = "UnsupportedOperation"
 func (c *Client) CreateReplicationInstance(request *CreateReplicationInstanceRequest) (response *CreateReplicationInstanceResponse, err error) {
 	if request == nil {
 		request = NewCreateReplicationInstanceRequest()
@@ -3042,6 +3049,7 @@ func NewDescribeReplicationInstancesRequest() (request *DescribeReplicationInsta
 
 	request.Init().WithApiInfo("tcr", APIVersion, "DescribeReplicationInstances")
 
+
 	return
 }
 
@@ -3057,16 +3065,15 @@ func NewDescribeReplicationInstancesResponse() (response *DescribeReplicationIns
 // 查询从实例列表
 //
 // 可能返回的错误码:
-//
-//	INTERNALERROR = "InternalError"
-//	INTERNALERROR_DBERROR = "InternalError.DbError"
-//	INVALIDPARAMETER = "InvalidParameter"
-//	MISSINGPARAMETER = "MissingParameter"
-//	OPERATIONDENIED = "OperationDenied"
-//	RESOURCEINSUFFICIENT_ERRORINSTANCENOTRUNNING = "ResourceInsufficient.ErrorInstanceNotRunning"
-//	UNAUTHORIZEDOPERATION = "UnauthorizedOperation"
-//	UNKNOWNPARAMETER = "UnknownParameter"
-//	UNSUPPORTEDOPERATION = "UnsupportedOperation"
+//  INTERNALERROR = "InternalError"
+//  INTERNALERROR_DBERROR = "InternalError.DbError"
+//  INVALIDPARAMETER = "InvalidParameter"
+//  MISSINGPARAMETER = "MissingParameter"
+//  OPERATIONDENIED = "OperationDenied"
+//  RESOURCEINSUFFICIENT_ERRORINSTANCENOTRUNNING = "ResourceInsufficient.ErrorInstanceNotRunning"
+//  UNAUTHORIZEDOPERATION = "UnauthorizedOperation"
+//  UNKNOWNPARAMETER = "UnknownParameter"
+//  UNSUPPORTEDOPERATION = "UnsupportedOperation"
 func (c *Client) DescribeReplicationInstances(request *DescribeReplicationInstancesRequest) (response *DescribeReplicationInstancesResponse, err error) {
 	if request == nil {
 		request = NewDescribeReplicationInstancesRequest()
@@ -3084,6 +3091,7 @@ func NewDeleteReplicationInstanceRequest() (request *DeleteReplicationInstanceRe
 
 	request.Init().WithApiInfo("tcr", APIVersion, "DeleteReplicationInstance")
 
+
 	return
 }
 
@@ -3099,16 +3107,15 @@ func NewDeleteReplicationInstanceResponse() (response *DeleteReplicationInstance
 // 删除从实例
 //
 // 可能返回的错误码:
-//
-//	INTERNALERROR = "InternalError"
-//	INTERNALERROR_DBERROR = "InternalError.DbError"
-//	INTERNALERROR_ERRORCONFLICT = "InternalError.ErrorConflict"
-//	INVALIDPARAMETER = "InvalidParameter"
-//	MISSINGPARAMETER = "MissingParameter"
-//	RESOURCENOTFOUND = "ResourceNotFound"
-//	UNAUTHORIZEDOPERATION = "UnauthorizedOperation"
-//	UNKNOWNPARAMETER = "UnknownParameter"
-//	UNSUPPORTEDOPERATION = "UnsupportedOperation"
+//  INTERNALERROR = "InternalError"
+//  INTERNALERROR_DBERROR = "InternalError.DbError"
+//  INTERNALERROR_ERRORCONFLICT = "InternalError.ErrorConflict"
+//  INVALIDPARAMETER = "InvalidParameter"
+//  MISSINGPARAMETER = "MissingParameter"
+//  RESOURCENOTFOUND = "ResourceNotFound"
+//  UNAUTHORIZEDOPERATION = "UnauthorizedOperation"
+//  UNKNOWNPARAMETER = "UnknownParameter"
+//  UNSUPPORTEDOPERATION = "UnsupportedOperation"
 func (c *Client) DeleteReplicationInstance(request *DeleteReplicationInstanceRequest) (response *DeleteReplicationInstanceResponse, err error) {
 	if request == nil {
 		request = NewDeleteReplicationInstanceRequest()
@@ -3126,6 +3133,7 @@ func NewDescribeTagRetentionRulesRequest() (request *DescribeTagRetentionRulesRe
 
 	request.Init().WithApiInfo("tcr", APIVersion, "DescribeTagRetentionRules")
 
+
 	return
 }
 
@@ -3141,23 +3149,22 @@ func NewDescribeTagRetentionRulesResponse() (response *DescribeTagRetentionRules
 // 查询镜像版本保留规则
 //
 // 可能返回的错误码:
-//
-//	FAILEDOPERATION_DEPENDENCEERROR = "FailedOperation.DependenceError"
-//	FAILEDOPERATION_EMPTYCOREBODY = "FailedOperation.EmptyCoreBody"
-//	INTERNALERROR = "InternalError"
-//	INTERNALERROR_DBERROR = "InternalError.DbError"
-//	INTERNALERROR_ERRCONFLICT = "InternalError.ErrConflict"
-//	INTERNALERROR_ERRNOTEXIST = "InternalError.ErrNotExist"
-//	INTERNALERROR_ERRORCONFLICT = "InternalError.ErrorConflict"
-//	INTERNALERROR_ERROROVERLIMIT = "InternalError.ErrorOverLimit"
-//	INTERNALERROR_ERRORTCRINTERNAL = "InternalError.ErrorTcrInternal"
-//	INTERNALERROR_ERRORTCRUNAUTHORIZED = "InternalError.ErrorTcrUnauthorized"
-//	INVALIDPARAMETER = "InvalidParameter"
-//	MISSINGPARAMETER = "MissingParameter"
-//	RESOURCENOTFOUND = "ResourceNotFound"
-//	UNAUTHORIZEDOPERATION = "UnauthorizedOperation"
-//	UNKNOWNPARAMETER = "UnknownParameter"
-//	UNSUPPORTEDOPERATION = "UnsupportedOperation"
+//  FAILEDOPERATION_DEPENDENCEERROR = "FailedOperation.DependenceError"
+//  FAILEDOPERATION_EMPTYCOREBODY = "FailedOperation.EmptyCoreBody"
+//  INTERNALERROR = "InternalError"
+//  INTERNALERROR_DBERROR = "InternalError.DbError"
+//  INTERNALERROR_ERRCONFLICT = "InternalError.ErrConflict"
+//  INTERNALERROR_ERRNOTEXIST = "InternalError.ErrNotExist"
+//  INTERNALERROR_ERRORCONFLICT = "InternalError.ErrorConflict"
+//  INTERNALERROR_ERROROVERLIMIT = "InternalError.ErrorOverLimit"
+//  INTERNALERROR_ERRORTCRINTERNAL = "InternalError.ErrorTcrInternal"
+//  INTERNALERROR_ERRORTCRUNAUTHORIZED = "InternalError.ErrorTcrUnauthorized"
+//  INVALIDPARAMETER = "InvalidParameter"
+//  MISSINGPARAMETER = "MissingParameter"
+//  RESOURCENOTFOUND = "ResourceNotFound"
+//  UNAUTHORIZEDOPERATION = "UnauthorizedOperation"
+//  UNKNOWNPARAMETER = "UnknownParameter"
+//  UNSUPPORTEDOPERATION = "UnsupportedOperation"
 func (c *Client) DescribeTagRetentionRules(request *DescribeTagRetentionRulesRequest) (response *DescribeTagRetentionRulesResponse, err error) {
 	if request == nil {
 		request = NewDescribeTagRetentionRulesRequest()
@@ -3175,6 +3182,7 @@ func NewDeleteTagRetentionRuleRequest() (request *DeleteTagRetentionRuleRequest)
 
 	request.Init().WithApiInfo("tcr", APIVersion, "DeleteTagRetentionRule")
 
+
 	return
 }
 
@@ -3190,21 +3198,20 @@ func NewDeleteTagRetentionRuleResponse() (response *DeleteTagRetentionRuleRespon
 // 删除版本保留规则
 //
 // 可能返回的错误码:
-//
-//	FAILEDOPERATION_DEPENDENCEERROR = "FailedOperation.DependenceError"
-//	INTERNALERROR = "InternalError"
-//	INTERNALERROR_DBERROR = "InternalError.DbError"
-//	INTERNALERROR_ERRCONFLICT = "InternalError.ErrConflict"
-//	INTERNALERROR_ERRNOTEXIST = "InternalError.ErrNotExist"
-//	INTERNALERROR_ERRORCONFLICT = "InternalError.ErrorConflict"
-//	INTERNALERROR_ERROROVERLIMIT = "InternalError.ErrorOverLimit"
-//	INVALIDPARAMETER = "InvalidParameter"
-//	INVALIDPARAMETER_ERRORTCRINVALIDPARAMETER = "InvalidParameter.ErrorTcrInvalidParameter"
-//	MISSINGPARAMETER = "MissingParameter"
-//	RESOURCENOTFOUND = "ResourceNotFound"
-//	UNAUTHORIZEDOPERATION = "UnauthorizedOperation"
-//	UNKNOWNPARAMETER = "UnknownParameter"
-//	UNSUPPORTEDOPERATION = "UnsupportedOperation"
+//  FAILEDOPERATION_DEPENDENCEERROR = "FailedOperation.DependenceError"
+//  INTERNALERROR = "InternalError"
+//  INTERNALERROR_DBERROR = "InternalError.DbError"
+//  INTERNALERROR_ERRCONFLICT = "InternalError.ErrConflict"
+//  INTERNALERROR_ERRNOTEXIST = "InternalError.ErrNotExist"
+//  INTERNALERROR_ERRORCONFLICT = "InternalError.ErrorConflict"
+//  INTERNALERROR_ERROROVERLIMIT = "InternalError.ErrorOverLimit"
+//  INVALIDPARAMETER = "InvalidParameter"
+//  INVALIDPARAMETER_ERRORTCRINVALIDPARAMETER = "InvalidParameter.ErrorTcrInvalidParameter"
+//  MISSINGPARAMETER = "MissingParameter"
+//  RESOURCENOTFOUND = "ResourceNotFound"
+//  UNAUTHORIZEDOPERATION = "UnauthorizedOperation"
+//  UNKNOWNPARAMETER = "UnknownParameter"
+//  UNSUPPORTEDOPERATION = "UnsupportedOperation"
 func (c *Client) DeleteTagRetentionRule(request *DeleteTagRetentionRuleRequest) (response *DeleteTagRetentionRuleResponse, err error) {
 	if request == nil {
 		request = NewDeleteTagRetentionRuleRequest()
@@ -3222,6 +3229,7 @@ func NewDescribeWebhookTriggerRequest() (request *DescribeWebhookTriggerRequest)
 
 	request.Init().WithApiInfo("tcr", APIVersion, "DescribeWebhookTrigger")
 
+
 	return
 }
 
@@ -3237,17 +3245,16 @@ func NewDescribeWebhookTriggerResponse() (response *DescribeWebhookTriggerRespon
 // 查询触发器
 //
 // 可能返回的错误码:
-//
-//	FAILEDOPERATION_DEPENDENCEERROR = "FailedOperation.DependenceError"
-//	INTERNALERROR = "InternalError"
-//	INTERNALERROR_DBERROR = "InternalError.DbError"
-//	INTERNALERROR_ERRORTCRINTERNAL = "InternalError.ErrorTcrInternal"
-//	INTERNALERROR_ERRORTCRUNAUTHORIZED = "InternalError.ErrorTcrUnauthorized"
-//	INVALIDPARAMETER = "InvalidParameter"
-//	INVALIDPARAMETER_ERRORTCRINVALIDPARAMETER = "InvalidParameter.ErrorTcrInvalidParameter"
-//	RESOURCENOTFOUND = "ResourceNotFound"
-//	RESOURCENOTFOUND_TCRRESOURCENOTFOUND = "ResourceNotFound.TcrResourceNotFound"
-//	UNSUPPORTEDOPERATION = "UnsupportedOperation"
+//  FAILEDOPERATION_DEPENDENCEERROR = "FailedOperation.DependenceError"
+//  INTERNALERROR = "InternalError"
+//  INTERNALERROR_DBERROR = "InternalError.DbError"
+//  INTERNALERROR_ERRORTCRINTERNAL = "InternalError.ErrorTcrInternal"
+//  INTERNALERROR_ERRORTCRUNAUTHORIZED = "InternalError.ErrorTcrUnauthorized"
+//  INVALIDPARAMETER = "InvalidParameter"
+//  INVALIDPARAMETER_ERRORTCRINVALIDPARAMETER = "InvalidParameter.ErrorTcrInvalidParameter"
+//  RESOURCENOTFOUND = "ResourceNotFound"
+//  RESOURCENOTFOUND_TCRRESOURCENOTFOUND = "ResourceNotFound.TcrResourceNotFound"
+//  UNSUPPORTEDOPERATION = "UnsupportedOperation"
 func (c *Client) DescribeWebhookTrigger(request *DescribeWebhookTriggerRequest) (response *DescribeWebhookTriggerResponse, err error) {
 	if request == nil {
 		request = NewDescribeWebhookTriggerRequest()
@@ -3265,6 +3272,7 @@ func NewDeleteWebhookTriggerRequest() (request *DeleteWebhookTriggerRequest) {
 
 	request.Init().WithApiInfo("tcr", APIVersion, "DeleteWebhookTrigger")
 
+
 	return
 }
 
@@ -3280,16 +3288,15 @@ func NewDeleteWebhookTriggerResponse() (response *DeleteWebhookTriggerResponse) 
 // 删除触发器
 //
 // 可能返回的错误码:
-//
-//	FAILEDOPERATION_DEPENDENCEERROR = "FailedOperation.DependenceError"
-//	INTERNALERROR = "InternalError"
-//	INTERNALERROR_DBERROR = "InternalError.DbError"
-//	INTERNALERROR_ERRORTCRINTERNAL = "InternalError.ErrorTcrInternal"
-//	INVALIDPARAMETER = "InvalidParameter"
-//	INVALIDPARAMETER_ERRORTCRINVALIDPARAMETER = "InvalidParameter.ErrorTcrInvalidParameter"
-//	RESOURCENOTFOUND = "ResourceNotFound"
-//	RESOURCENOTFOUND_TCRRESOURCENOTFOUND = "ResourceNotFound.TcrResourceNotFound"
-//	UNSUPPORTEDOPERATION = "UnsupportedOperation"
+//  FAILEDOPERATION_DEPENDENCEERROR = "FailedOperation.DependenceError"
+//  INTERNALERROR = "InternalError"
+//  INTERNALERROR_DBERROR = "InternalError.DbError"
+//  INTERNALERROR_ERRORTCRINTERNAL = "InternalError.ErrorTcrInternal"
+//  INVALIDPARAMETER = "InvalidParameter"
+//  INVALIDPARAMETER_ERRORTCRINVALIDPARAMETER = "InvalidParameter.ErrorTcrInvalidParameter"
+//  RESOURCENOTFOUND = "ResourceNotFound"
+//  RESOURCENOTFOUND_TCRRESOURCENOTFOUND = "ResourceNotFound.TcrResourceNotFound"
+//  UNSUPPORTEDOPERATION = "UnsupportedOperation"
 func (c *Client) DeleteWebhookTrigger(request *DeleteWebhookTriggerRequest) (response *DeleteWebhookTriggerResponse, err error) {
 	if request == nil {
 		request = NewDeleteWebhookTriggerRequest()
@@ -3307,6 +3314,7 @@ func NewDescribeWebhookTriggerLogRequest() (request *DescribeWebhookTriggerLogRe
 
 	request.Init().WithApiInfo("tcr", APIVersion, "DescribeWebhookTriggerLog")
 
+
 	return
 }
 
@@ -3322,16 +3330,15 @@ func NewDescribeWebhookTriggerLogResponse() (response *DescribeWebhookTriggerLog
 // 获取触发器日志
 //
 // 可能返回的错误码:
-//
-//	FAILEDOPERATION_DEPENDENCEERROR = "FailedOperation.DependenceError"
-//	INTERNALERROR = "InternalError"
-//	INTERNALERROR_DBERROR = "InternalError.DbError"
-//	INTERNALERROR_ERRORTCRINTERNAL = "InternalError.ErrorTcrInternal"
-//	INTERNALERROR_ERRORTCRUNAUTHORIZED = "InternalError.ErrorTcrUnauthorized"
-//	INVALIDPARAMETER_ERRORTCRINVALIDPARAMETER = "InvalidParameter.ErrorTcrInvalidParameter"
-//	RESOURCENOTFOUND = "ResourceNotFound"
-//	RESOURCENOTFOUND_TCRRESOURCENOTFOUND = "ResourceNotFound.TcrResourceNotFound"
-//	UNSUPPORTEDOPERATION = "UnsupportedOperation"
+//  FAILEDOPERATION_DEPENDENCEERROR = "FailedOperation.DependenceError"
+//  INTERNALERROR = "InternalError"
+//  INTERNALERROR_DBERROR = "InternalError.DbError"
+//  INTERNALERROR_ERRORTCRINTERNAL = "InternalError.ErrorTcrInternal"
+//  INTERNALERROR_ERRORTCRUNAUTHORIZED = "InternalError.ErrorTcrUnauthorized"
+//  INVALIDPARAMETER_ERRORTCRINVALIDPARAMETER = "InvalidParameter.ErrorTcrInvalidParameter"
+//  RESOURCENOTFOUND = "ResourceNotFound"
+//  RESOURCENOTFOUND_TCRRESOURCENOTFOUND = "ResourceNotFound.TcrResourceNotFound"
+//  UNSUPPORTEDOPERATION = "UnsupportedOperation"
 func (c *Client) DescribeWebhookTriggerLog(request *DescribeWebhookTriggerLogRequest) (response *DescribeWebhookTriggerLogResponse, err error) {
 	if request == nil {
 		request = NewDescribeWebhookTriggerLogRequest()
@@ -3349,6 +3356,7 @@ func NewDescribeInstanceCustomizedDomainRequest() (request *DescribeInstanceCust
 
 	request.Init().WithApiInfo("tcr", APIVersion, "DescribeInstanceCustomizedDomain")
 
+
 	return
 }
 
@@ -3364,19 +3372,18 @@ func NewDescribeInstanceCustomizedDomainResponse() (response *DescribeInstanceCu
 // 查询实例自定义域名列表
 //
 // 可能返回的错误码:
-//
-//	INTERNALERROR = "InternalError"
-//	INTERNALERROR_DBERROR = "InternalError.DbError"
-//	INTERNALERROR_ERRCONFLICT = "InternalError.ErrConflict"
-//	INTERNALERROR_ERRNOTEXIST = "InternalError.ErrNotExist"
-//	INTERNALERROR_ERRORCONFLICT = "InternalError.ErrorConflict"
-//	INTERNALERROR_ERROROVERLIMIT = "InternalError.ErrorOverLimit"
-//	INVALIDPARAMETER = "InvalidParameter"
-//	INVALIDPARAMETER_UNSUPPORTEDREGION = "InvalidParameter.UnsupportedRegion"
-//	MISSINGPARAMETER = "MissingParameter"
-//	UNAUTHORIZEDOPERATION = "UnauthorizedOperation"
-//	UNKNOWNPARAMETER = "UnknownParameter"
-//	UNSUPPORTEDOPERATION = "UnsupportedOperation"
+//  INTERNALERROR = "InternalError"
+//  INTERNALERROR_DBERROR = "InternalError.DbError"
+//  INTERNALERROR_ERRCONFLICT = "InternalError.ErrConflict"
+//  INTERNALERROR_ERRNOTEXIST = "InternalError.ErrNotExist"
+//  INTERNALERROR_ERRORCONFLICT = "InternalError.ErrorConflict"
+//  INTERNALERROR_ERROROVERLIMIT = "InternalError.ErrorOverLimit"
+//  INVALIDPARAMETER = "InvalidParameter"
+//  INVALIDPARAMETER_UNSUPPORTEDREGION = "InvalidParameter.UnsupportedRegion"
+//  MISSINGPARAMETER = "MissingParameter"
+//  UNAUTHORIZEDOPERATION = "UnauthorizedOperation"
+//  UNKNOWNPARAMETER = "UnknownParameter"
+//  UNSUPPORTEDOPERATION = "UnsupportedOperation"
 func (c *Client) DescribeInstanceCustomizedDomain(request *DescribeInstanceCustomizedDomainRequest) (response *DescribeInstanceCustomizedDomainResponse, err error) {
 	if request == nil {
 		request = NewDescribeInstanceCustomizedDomainRequest()
@@ -3394,6 +3401,7 @@ func NewDeleteInstanceCustomizedDomainRequest() (request *DeleteInstanceCustomiz
 
 	request.Init().WithApiInfo("tcr", APIVersion, "DeleteInstanceCustomizedDomain")
 
+
 	return
 }
 
@@ -3409,21 +3417,20 @@ func NewDeleteInstanceCustomizedDomainResponse() (response *DeleteInstanceCustom
 // 删除自定义域名
 //
 // 可能返回的错误码:
-//
-//	FAILEDOPERATION = "FailedOperation"
-//	INTERNALERROR = "InternalError"
-//	INTERNALERROR_DBERROR = "InternalError.DbError"
-//	INTERNALERROR_ERRCONFLICT = "InternalError.ErrConflict"
-//	INTERNALERROR_ERRNOTEXIST = "InternalError.ErrNotExist"
-//	INTERNALERROR_ERRORCONFLICT = "InternalError.ErrorConflict"
-//	INTERNALERROR_ERROROVERLIMIT = "InternalError.ErrorOverLimit"
-//	INVALIDPARAMETER = "InvalidParameter"
-//	INVALIDPARAMETER_UNSUPPORTEDREGION = "InvalidParameter.UnsupportedRegion"
-//	MISSINGPARAMETER = "MissingParameter"
-//	RESOURCENOTFOUND = "ResourceNotFound"
-//	UNAUTHORIZEDOPERATION = "UnauthorizedOperation"
-//	UNKNOWNPARAMETER = "UnknownParameter"
-//	UNSUPPORTEDOPERATION = "UnsupportedOperation"
+//  FAILEDOPERATION = "FailedOperation"
+//  INTERNALERROR = "InternalError"
+//  INTERNALERROR_DBERROR = "InternalError.DbError"
+//  INTERNALERROR_ERRCONFLICT = "InternalError.ErrConflict"
+//  INTERNALERROR_ERRNOTEXIST = "InternalError.ErrNotExist"
+//  INTERNALERROR_ERRORCONFLICT = "InternalError.ErrorConflict"
+//  INTERNALERROR_ERROROVERLIMIT = "InternalError.ErrorOverLimit"
+//  INVALIDPARAMETER = "InvalidParameter"
+//  INVALIDPARAMETER_UNSUPPORTEDREGION = "InvalidParameter.UnsupportedRegion"
+//  MISSINGPARAMETER = "MissingParameter"
+//  RESOURCENOTFOUND = "ResourceNotFound"
+//  UNAUTHORIZEDOPERATION = "UnauthorizedOperation"
+//  UNKNOWNPARAMETER = "UnknownParameter"
+//  UNSUPPORTEDOPERATION = "UnsupportedOperation"
 func (c *Client) DeleteInstanceCustomizedDomain(request *DeleteInstanceCustomizedDomainRequest) (response *DeleteInstanceCustomizedDomainResponse, err error) {
 	if request == nil {
 		request = NewDeleteInstanceCustomizedDomainRequest()
@@ -3441,6 +3448,7 @@ func NewDescribeImmutableTagRulesRequest() (request *DescribeImmutableTagRulesRe
 
 	request.Init().WithApiInfo("tcr", APIVersion, "DescribeImmutableTagRules")
 
+
 	return
 }
 
@@ -3456,16 +3464,15 @@ func NewDescribeImmutableTagRulesResponse() (response *DescribeImmutableTagRules
 // 列出镜像不可变规则
 //
 // 可能返回的错误码:
-//
-//	AUTHFAILURE = "AuthFailure"
-//	FAILEDOPERATION = "FailedOperation"
-//	INTERNALERROR = "InternalError"
-//	INTERNALERROR_ERRORTCRINTERNAL = "InternalError.ErrorTcrInternal"
-//	INTERNALERROR_ERRORTCRUNAUTHORIZED = "InternalError.ErrorTcrUnauthorized"
-//	INTERNALERROR_UNKNOWN = "InternalError.Unknown"
-//	INVALIDPARAMETER = "InvalidParameter"
-//	RESOURCENOTFOUND = "ResourceNotFound"
-//	RESOURCENOTFOUND_TCRRESOURCENOTFOUND = "ResourceNotFound.TcrResourceNotFound"
+//  AUTHFAILURE = "AuthFailure"
+//  FAILEDOPERATION = "FailedOperation"
+//  INTERNALERROR = "InternalError"
+//  INTERNALERROR_ERRORTCRINTERNAL = "InternalError.ErrorTcrInternal"
+//  INTERNALERROR_ERRORTCRUNAUTHORIZED = "InternalError.ErrorTcrUnauthorized"
+//  INTERNALERROR_UNKNOWN = "InternalError.Unknown"
+//  INVALIDPARAMETER = "InvalidParameter"
+//  RESOURCENOTFOUND = "ResourceNotFound"
+//  RESOURCENOTFOUND_TCRRESOURCENOTFOUND = "ResourceNotFound.TcrResourceNotFound"
 func (c *Client) DescribeImmutableTagRules(request *DescribeImmutableTagRulesRequest) (response *DescribeImmutableTagRulesResponse, err error) {
 	if request == nil {
 		request = NewDescribeImmutableTagRulesRequest()
@@ -3483,6 +3490,7 @@ func NewDeleteImmutableTagRulesRequest() (request *DeleteImmutableTagRulesReques
 
 	request.Init().WithApiInfo("tcr", APIVersion, "DeleteImmutableTagRules")
 
+
 	return
 }
 
@@ -3495,17 +3503,15 @@ func NewDeleteImmutableTagRulesResponse() (response *DeleteImmutableTagRulesResp
 }
 
 // DeleteImmutableTagRules
-//
-//	删除镜像不可变规则
+//  删除镜像不可变规则
 //
 // 可能返回的错误码:
-//
-//	AUTHFAILURE = "AuthFailure"
-//	FAILEDOPERATION = "FailedOperation"
-//	INTERNALERROR = "InternalError"
-//	INTERNALERROR_UNKNOWN = "InternalError.Unknown"
-//	INVALIDPARAMETER = "InvalidParameter"
-//	RESOURCENOTFOUND = "ResourceNotFound"
+//  AUTHFAILURE = "AuthFailure"
+//  FAILEDOPERATION = "FailedOperation"
+//  INTERNALERROR = "InternalError"
+//  INTERNALERROR_UNKNOWN = "InternalError.Unknown"
+//  INVALIDPARAMETER = "InvalidParameter"
+//  RESOURCENOTFOUND = "ResourceNotFound"
 func (c *Client) DeleteImmutableTagRules(request *DeleteImmutableTagRulesRequest) (response *DeleteImmutableTagRulesResponse, err error) {
 	if request == nil {
 		request = NewDeleteImmutableTagRulesRequest()
@@ -3523,6 +3529,7 @@ func NewDescribeImagesRequest() (request *DescribeImagesRequest) {
 
 	request.Init().WithApiInfo("tcr", APIVersion, "DescribeImages")
 
+
 	return
 }
 
@@ -3538,23 +3545,22 @@ func NewDescribeImagesResponse() (response *DescribeImagesResponse) {
 // 查询镜像版本列表或指定容器镜像信息
 //
 // 可能返回的错误码:
-//
-//	FAILEDOPERATION = "FailedOperation"
-//	FAILEDOPERATION_DEPENDENCEERROR = "FailedOperation.DependenceError"
-//	FAILEDOPERATION_EMPTYCOREBODY = "FailedOperation.EmptyCoreBody"
-//	INTERNALERROR = "InternalError"
-//	INTERNALERROR_DBERROR = "InternalError.DbError"
-//	INTERNALERROR_ERRORTCRINTERNAL = "InternalError.ErrorTcrInternal"
-//	INTERNALERROR_ERRORTCRINVALIDMEDIATYPE = "InternalError.ErrorTcrInvalidMediaType"
-//	INTERNALERROR_ERRORTCRRESOURCECONFLICT = "InternalError.ErrorTcrResourceConflict"
-//	INTERNALERROR_ERRORTCRUNAUTHORIZED = "InternalError.ErrorTcrUnauthorized"
-//	INVALIDPARAMETER = "InvalidParameter"
-//	INVALIDPARAMETER_ERRORTCRINVALIDPARAMETER = "InvalidParameter.ErrorTcrInvalidParameter"
-//	MISSINGPARAMETER = "MissingParameter"
-//	OPERATIONDENIED = "OperationDenied"
-//	RESOURCENOTFOUND = "ResourceNotFound"
-//	RESOURCENOTFOUND_TCRRESOURCENOTFOUND = "ResourceNotFound.TcrResourceNotFound"
-//	UNSUPPORTEDOPERATION = "UnsupportedOperation"
+//  FAILEDOPERATION = "FailedOperation"
+//  FAILEDOPERATION_DEPENDENCEERROR = "FailedOperation.DependenceError"
+//  FAILEDOPERATION_EMPTYCOREBODY = "FailedOperation.EmptyCoreBody"
+//  INTERNALERROR = "InternalError"
+//  INTERNALERROR_DBERROR = "InternalError.DbError"
+//  INTERNALERROR_ERRORTCRINTERNAL = "InternalError.ErrorTcrInternal"
+//  INTERNALERROR_ERRORTCRINVALIDMEDIATYPE = "InternalError.ErrorTcrInvalidMediaType"
+//  INTERNALERROR_ERRORTCRRESOURCECONFLICT = "InternalError.ErrorTcrResourceConflict"
+//  INTERNALERROR_ERRORTCRUNAUTHORIZED = "InternalError.ErrorTcrUnauthorized"
+//  INVALIDPARAMETER = "InvalidParameter"
+//  INVALIDPARAMETER_ERRORTCRINVALIDPARAMETER = "InvalidParameter.ErrorTcrInvalidParameter"
+//  MISSINGPARAMETER = "MissingParameter"
+//  OPERATIONDENIED = "OperationDenied"
+//  RESOURCENOTFOUND = "ResourceNotFound"
+//  RESOURCENOTFOUND_TCRRESOURCENOTFOUND = "ResourceNotFound.TcrResourceNotFound"
+//  UNSUPPORTEDOPERATION = "UnsupportedOperation"
 func (c *Client) DescribeImages(request *DescribeImagesRequest) (response *DescribeImagesResponse, err error) {
 	if request == nil {
 		request = NewDescribeImagesRequest()
@@ -3572,6 +3578,7 @@ func NewDescribeImageManifestsRequest() (request *DescribeImageManifestsRequest)
 
 	request.Init().WithApiInfo("tcr", APIVersion, "DescribeImageManifests")
 
+
 	return
 }
 
@@ -3587,22 +3594,21 @@ func NewDescribeImageManifestsResponse() (response *DescribeImageManifestsRespon
 // 查询容器镜像Manifest信息
 //
 // 可能返回的错误码:
-//
-//	FAILEDOPERATION = "FailedOperation"
-//	FAILEDOPERATION_DEPENDENCEERROR = "FailedOperation.DependenceError"
-//	INTERNALERROR = "InternalError"
-//	INTERNALERROR_DBERROR = "InternalError.DbError"
-//	INTERNALERROR_ERRORTCRINTERNAL = "InternalError.ErrorTcrInternal"
-//	INTERNALERROR_ERRORTCRINVALIDMEDIATYPE = "InternalError.ErrorTcrInvalidMediaType"
-//	INTERNALERROR_ERRORTCRRESOURCECONFLICT = "InternalError.ErrorTcrResourceConflict"
-//	INTERNALERROR_ERRORTCRUNAUTHORIZED = "InternalError.ErrorTcrUnauthorized"
-//	INVALIDPARAMETER = "InvalidParameter"
-//	INVALIDPARAMETER_ERRORTCRINVALIDPARAMETER = "InvalidParameter.ErrorTcrInvalidParameter"
-//	MISSINGPARAMETER = "MissingParameter"
-//	OPERATIONDENIED = "OperationDenied"
-//	RESOURCENOTFOUND = "ResourceNotFound"
-//	RESOURCENOTFOUND_TCRRESOURCENOTFOUND = "ResourceNotFound.TcrResourceNotFound"
-//	UNSUPPORTEDOPERATION = "UnsupportedOperation"
+//  FAILEDOPERATION = "FailedOperation"
+//  FAILEDOPERATION_DEPENDENCEERROR = "FailedOperation.DependenceError"
+//  INTERNALERROR = "InternalError"
+//  INTERNALERROR_DBERROR = "InternalError.DbError"
+//  INTERNALERROR_ERRORTCRINTERNAL = "InternalError.ErrorTcrInternal"
+//  INTERNALERROR_ERRORTCRINVALIDMEDIATYPE = "InternalError.ErrorTcrInvalidMediaType"
+//  INTERNALERROR_ERRORTCRRESOURCECONFLICT = "InternalError.ErrorTcrResourceConflict"
+//  INTERNALERROR_ERRORTCRUNAUTHORIZED = "InternalError.ErrorTcrUnauthorized"
+//  INVALIDPARAMETER = "InvalidParameter"
+//  INVALIDPARAMETER_ERRORTCRINVALIDPARAMETER = "InvalidParameter.ErrorTcrInvalidParameter"
+//  MISSINGPARAMETER = "MissingParameter"
+//  OPERATIONDENIED = "OperationDenied"
+//  RESOURCENOTFOUND = "ResourceNotFound"
+//  RESOURCENOTFOUND_TCRRESOURCENOTFOUND = "ResourceNotFound.TcrResourceNotFound"
+//  UNSUPPORTEDOPERATION = "UnsupportedOperation"
 func (c *Client) DescribeImageManifests(request *DescribeImageManifestsRequest) (response *DescribeImageManifestsResponse, err error) {
 	if request == nil {
 		request = NewDescribeImageManifestsRequest()
@@ -3620,6 +3626,7 @@ func NewDescribeTagRetentionExecutionTaskRequest() (request *DescribeTagRetentio
 
 	request.Init().WithApiInfo("tcr", APIVersion, "DescribeTagRetentionExecutionTask")
 
+
 	return
 }
 
@@ -3635,20 +3642,19 @@ func NewDescribeTagRetentionExecutionTaskResponse() (response *DescribeTagRetent
 // 查询版本保留执行任务
 //
 // 可能返回的错误码:
-//
-//	FAILEDOPERATION_DEPENDENCEERROR = "FailedOperation.DependenceError"
-//	INTERNALERROR = "InternalError"
-//	INTERNALERROR_DBERROR = "InternalError.DbError"
-//	INTERNALERROR_ERRCONFLICT = "InternalError.ErrConflict"
-//	INTERNALERROR_ERRNOTEXIST = "InternalError.ErrNotExist"
-//	INTERNALERROR_ERRORCONFLICT = "InternalError.ErrorConflict"
-//	INTERNALERROR_ERROROVERLIMIT = "InternalError.ErrorOverLimit"
-//	INVALIDPARAMETER = "InvalidParameter"
-//	MISSINGPARAMETER = "MissingParameter"
-//	RESOURCENOTFOUND = "ResourceNotFound"
-//	UNAUTHORIZEDOPERATION = "UnauthorizedOperation"
-//	UNKNOWNPARAMETER = "UnknownParameter"
-//	UNSUPPORTEDOPERATION = "UnsupportedOperation"
+//  FAILEDOPERATION_DEPENDENCEERROR = "FailedOperation.DependenceError"
+//  INTERNALERROR = "InternalError"
+//  INTERNALERROR_DBERROR = "InternalError.DbError"
+//  INTERNALERROR_ERRCONFLICT = "InternalError.ErrConflict"
+//  INTERNALERROR_ERRNOTEXIST = "InternalError.ErrNotExist"
+//  INTERNALERROR_ERRORCONFLICT = "InternalError.ErrorConflict"
+//  INTERNALERROR_ERROROVERLIMIT = "InternalError.ErrorOverLimit"
+//  INVALIDPARAMETER = "InvalidParameter"
+//  MISSINGPARAMETER = "MissingParameter"
+//  RESOURCENOTFOUND = "ResourceNotFound"
+//  UNAUTHORIZEDOPERATION = "UnauthorizedOperation"
+//  UNKNOWNPARAMETER = "UnknownParameter"
+//  UNSUPPORTEDOPERATION = "UnsupportedOperation"
 func (c *Client) DescribeTagRetentionExecutionTask(request *DescribeTagRetentionExecutionTaskRequest) (response *DescribeTagRetentionExecutionTaskResponse, err error) {
 	if request == nil {
 		request = NewDescribeTagRetentionExecutionTaskRequest()
@@ -3666,6 +3672,7 @@ func NewModifyServiceAccountPasswordRequest() (request *ModifyServiceAccountPass
 
 	request.Init().WithApiInfo("tcr", APIVersion, "ModifyServiceAccountPassword")
 
+
 	return
 }
 
@@ -3681,12 +3688,11 @@ func NewModifyServiceAccountPasswordResponse() (response *ModifyServiceAccountPa
 // 更新服务级账号密码
 //
 // 可能返回的错误码:
-//
-//	FAILEDOPERATION = "FailedOperation"
-//	FAILEDOPERATION_DBERROR = "FailedOperation.DbError"
-//	INVALIDPARAMETER = "InvalidParameter"
-//	OPERATIONDENIED = "OperationDenied"
-//	UNKNOWNPARAMETER = "UnknownParameter"
+//  FAILEDOPERATION = "FailedOperation"
+//  FAILEDOPERATION_DBERROR = "FailedOperation.DbError"
+//  INVALIDPARAMETER = "InvalidParameter"
+//  OPERATIONDENIED = "OperationDenied"
+//  UNKNOWNPARAMETER = "UnknownParameter"
 func (c *Client) ModifyServiceAccountPassword(request *ModifyServiceAccountPasswordRequest) (response *ModifyServiceAccountPasswordResponse, err error) {
 	if request == nil {
 		request = NewModifyServiceAccountPasswordRequest()
@@ -3704,6 +3710,7 @@ func NewCreateMultipleSecurityPolicyRequest() (request *CreateMultipleSecurityPo
 
 	request.Init().WithApiInfo("tcr", APIVersion, "CreateMultipleSecurityPolicy")
 
+
 	return
 }
 
@@ -3719,19 +3726,18 @@ func NewCreateMultipleSecurityPolicyResponse() (response *CreateMultipleSecurity
 // 用于在TCR实例中，创建多个白名单策略
 //
 // 可能返回的错误码:
-//
-//	FAILEDOPERATION_DEPENDENCEERROR = "FailedOperation.DependenceError"
-//	FAILEDOPERATION_ERRORGETDBDATAERROR = "FailedOperation.ErrorGetDBDataError"
-//	FAILEDOPERATION_GETDBDATAERROR = "FailedOperation.GetDBDataError"
-//	FAILEDOPERATION_GETTCRCLIENT = "FailedOperation.GetTcrClient"
-//	INTERNALERROR = "InternalError"
-//	INTERNALERROR_DBERROR = "InternalError.DbError"
-//	INVALIDPARAMETER = "InvalidParameter"
-//	MISSINGPARAMETER = "MissingParameter"
-//	OPERATIONDENIED = "OperationDenied"
-//	UNAUTHORIZEDOPERATION = "UnauthorizedOperation"
-//	UNKNOWNPARAMETER = "UnknownParameter"
-//	UNSUPPORTEDOPERATION = "UnsupportedOperation"
+//  FAILEDOPERATION_DEPENDENCEERROR = "FailedOperation.DependenceError"
+//  FAILEDOPERATION_ERRORGETDBDATAERROR = "FailedOperation.ErrorGetDBDataError"
+//  FAILEDOPERATION_GETDBDATAERROR = "FailedOperation.GetDBDataError"
+//  FAILEDOPERATION_GETTCRCLIENT = "FailedOperation.GetTcrClient"
+//  INTERNALERROR = "InternalError"
+//  INTERNALERROR_DBERROR = "InternalError.DbError"
+//  INVALIDPARAMETER = "InvalidParameter"
+//  MISSINGPARAMETER = "MissingParameter"
+//  OPERATIONDENIED = "OperationDenied"
+//  UNAUTHORIZEDOPERATION = "UnauthorizedOperation"
+//  UNKNOWNPARAMETER = "UnknownParameter"
+//  UNSUPPORTEDOPERATION = "UnsupportedOperation"
 func (c *Client) CreateMultipleSecurityPolicy(request *CreateMultipleSecurityPolicyRequest) (response *CreateMultipleSecurityPolicyResponse, err error) {
 	if request == nil {
 		request = NewCreateMultipleSecurityPolicyRequest()
@@ -3749,6 +3755,7 @@ func NewDeleteMultipleSecurityPolicyRequest() (request *DeleteMultipleSecurityPo
 
 	request.Init().WithApiInfo("tcr", APIVersion, "DeleteMultipleSecurityPolicy")
 
+
 	return
 }
 
@@ -3764,14 +3771,13 @@ func NewDeleteMultipleSecurityPolicyResponse() (response *DeleteMultipleSecurity
 // 用于删除实例多个公网访问白名单策略
 //
 // 可能返回的错误码:
-//
-//	INTERNALERROR = "InternalError"
-//	INTERNALERROR_DBERROR = "InternalError.DbError"
-//	INVALIDPARAMETER = "InvalidParameter"
-//	MISSINGPARAMETER = "MissingParameter"
-//	UNAUTHORIZEDOPERATION = "UnauthorizedOperation"
-//	UNKNOWNPARAMETER = "UnknownParameter"
-//	UNSUPPORTEDOPERATION = "UnsupportedOperation"
+//  INTERNALERROR = "InternalError"
+//  INTERNALERROR_DBERROR = "InternalError.DbError"
+//  INVALIDPARAMETER = "InvalidParameter"
+//  MISSINGPARAMETER = "MissingParameter"
+//  UNAUTHORIZEDOPERATION = "UnauthorizedOperation"
+//  UNKNOWNPARAMETER = "UnknownParameter"
+//  UNSUPPORTEDOPERATION = "UnsupportedOperation"
 func (c *Client) DeleteMultipleSecurityPolicy(request *DeleteMultipleSecurityPolicyRequest) (response *DeleteMultipleSecurityPolicyResponse, err error) {
 	if request == nil {
 		request = NewDeleteMultipleSecurityPolicyRequest()
@@ -3789,6 +3795,7 @@ func NewCreateTagRetentionRuleRequest() (request *CreateTagRetentionRuleRequest)
 
 	request.Init().WithApiInfo("tcr", APIVersion, "CreateTagRetentionRule")
 
+
 	return
 }
 
@@ -3804,22 +3811,21 @@ func NewCreateTagRetentionRuleResponse() (response *CreateTagRetentionRuleRespon
 // 创建版本保留规则
 //
 // 可能返回的错误码:
-//
-//	FAILEDOPERATION_DEPENDENCEERROR = "FailedOperation.DependenceError"
-//	INTERNALERROR = "InternalError"
-//	INTERNALERROR_DBERROR = "InternalError.DbError"
-//	INTERNALERROR_ERRCONFLICT = "InternalError.ErrConflict"
-//	INTERNALERROR_ERRNOTEXIST = "InternalError.ErrNotExist"
-//	INTERNALERROR_ERRORCONFLICT = "InternalError.ErrorConflict"
-//	INTERNALERROR_ERROROVERLIMIT = "InternalError.ErrorOverLimit"
-//	INTERNALERROR_ERRORTCRUNAUTHORIZED = "InternalError.ErrorTcrUnauthorized"
-//	INVALIDPARAMETER = "InvalidParameter"
-//	INVALIDPARAMETER_ERRORTCRINVALIDPARAMETER = "InvalidParameter.ErrorTcrInvalidParameter"
-//	MISSINGPARAMETER = "MissingParameter"
-//	RESOURCENOTFOUND = "ResourceNotFound"
-//	UNAUTHORIZEDOPERATION = "UnauthorizedOperation"
-//	UNKNOWNPARAMETER = "UnknownParameter"
-//	UNSUPPORTEDOPERATION = "UnsupportedOperation"
+//  FAILEDOPERATION_DEPENDENCEERROR = "FailedOperation.DependenceError"
+//  INTERNALERROR = "InternalError"
+//  INTERNALERROR_DBERROR = "InternalError.DbError"
+//  INTERNALERROR_ERRCONFLICT = "InternalError.ErrConflict"
+//  INTERNALERROR_ERRNOTEXIST = "InternalError.ErrNotExist"
+//  INTERNALERROR_ERRORCONFLICT = "InternalError.ErrorConflict"
+//  INTERNALERROR_ERROROVERLIMIT = "InternalError.ErrorOverLimit"
+//  INTERNALERROR_ERRORTCRUNAUTHORIZED = "InternalError.ErrorTcrUnauthorized"
+//  INVALIDPARAMETER = "InvalidParameter"
+//  INVALIDPARAMETER_ERRORTCRINVALIDPARAMETER = "InvalidParameter.ErrorTcrInvalidParameter"
+//  MISSINGPARAMETER = "MissingParameter"
+//  RESOURCENOTFOUND = "ResourceNotFound"
+//  UNAUTHORIZEDOPERATION = "UnauthorizedOperation"
+//  UNKNOWNPARAMETER = "UnknownParameter"
+//  UNSUPPORTEDOPERATION = "UnsupportedOperation"
 func (c *Client) CreateTagRetentionRule(request *CreateTagRetentionRuleRequest) (response *CreateTagRetentionRuleResponse, err error) {
 	if request == nil {
 		request = NewCreateTagRetentionRuleRequest()
@@ -3837,6 +3843,7 @@ func NewModifyTagRetentionRuleRequest() (request *ModifyTagRetentionRuleRequest)
 
 	request.Init().WithApiInfo("tcr", APIVersion, "ModifyTagRetentionRule")
 
+
 	return
 }
 
@@ -3852,21 +3859,20 @@ func NewModifyTagRetentionRuleResponse() (response *ModifyTagRetentionRuleRespon
 // 更新版本保留规则
 //
 // 可能返回的错误码:
-//
-//	FAILEDOPERATION_DEPENDENCEERROR = "FailedOperation.DependenceError"
-//	INTERNALERROR = "InternalError"
-//	INTERNALERROR_DBERROR = "InternalError.DbError"
-//	INTERNALERROR_ERRCONFLICT = "InternalError.ErrConflict"
-//	INTERNALERROR_ERRNOTEXIST = "InternalError.ErrNotExist"
-//	INTERNALERROR_ERRORCONFLICT = "InternalError.ErrorConflict"
-//	INTERNALERROR_ERROROVERLIMIT = "InternalError.ErrorOverLimit"
-//	INVALIDPARAMETER = "InvalidParameter"
-//	INVALIDPARAMETER_ERRORTCRINVALIDPARAMETER = "InvalidParameter.ErrorTcrInvalidParameter"
-//	MISSINGPARAMETER = "MissingParameter"
-//	RESOURCENOTFOUND = "ResourceNotFound"
-//	UNAUTHORIZEDOPERATION = "UnauthorizedOperation"
-//	UNKNOWNPARAMETER = "UnknownParameter"
-//	UNSUPPORTEDOPERATION = "UnsupportedOperation"
+//  FAILEDOPERATION_DEPENDENCEERROR = "FailedOperation.DependenceError"
+//  INTERNALERROR = "InternalError"
+//  INTERNALERROR_DBERROR = "InternalError.DbError"
+//  INTERNALERROR_ERRCONFLICT = "InternalError.ErrConflict"
+//  INTERNALERROR_ERRNOTEXIST = "InternalError.ErrNotExist"
+//  INTERNALERROR_ERRORCONFLICT = "InternalError.ErrorConflict"
+//  INTERNALERROR_ERROROVERLIMIT = "InternalError.ErrorOverLimit"
+//  INVALIDPARAMETER = "InvalidParameter"
+//  INVALIDPARAMETER_ERRORTCRINVALIDPARAMETER = "InvalidParameter.ErrorTcrInvalidParameter"
+//  MISSINGPARAMETER = "MissingParameter"
+//  RESOURCENOTFOUND = "ResourceNotFound"
+//  UNAUTHORIZEDOPERATION = "UnauthorizedOperation"
+//  UNKNOWNPARAMETER = "UnknownParameter"
+//  UNSUPPORTEDOPERATION = "UnsupportedOperation"
 func (c *Client) ModifyTagRetentionRule(request *ModifyTagRetentionRuleRequest) (response *ModifyTagRetentionRuleResponse, err error) {
 	if request == nil {
 		request = NewModifyTagRetentionRuleRequest()
@@ -3884,6 +3890,7 @@ func NewCreateImmutableTagRulesRequest() (request *CreateImmutableTagRulesReques
 
 	request.Init().WithApiInfo("tcr", APIVersion, "CreateImmutableTagRules")
 
+
 	return
 }
 
@@ -3899,15 +3906,14 @@ func NewCreateImmutableTagRulesResponse() (response *CreateImmutableTagRulesResp
 // 创建镜像不可变规则
 //
 // 可能返回的错误码:
-//
-//	AUTHFAILURE = "AuthFailure"
-//	FAILEDOPERATION = "FailedOperation"
-//	INTERNALERROR = "InternalError"
-//	INTERNALERROR_ERRORTCRRESOURCECONFLICT = "InternalError.ErrorTcrResourceConflict"
-//	INTERNALERROR_UNKNOWN = "InternalError.Unknown"
-//	INVALIDPARAMETER = "InvalidParameter"
-//	INVALIDPARAMETER_ERRORTCRINVALIDPARAMETER = "InvalidParameter.ErrorTcrInvalidParameter"
-//	RESOURCENOTFOUND = "ResourceNotFound"
+//  AUTHFAILURE = "AuthFailure"
+//  FAILEDOPERATION = "FailedOperation"
+//  INTERNALERROR = "InternalError"
+//  INTERNALERROR_ERRORTCRRESOURCECONFLICT = "InternalError.ErrorTcrResourceConflict"
+//  INTERNALERROR_UNKNOWN = "InternalError.Unknown"
+//  INVALIDPARAMETER = "InvalidParameter"
+//  INVALIDPARAMETER_ERRORTCRINVALIDPARAMETER = "InvalidParameter.ErrorTcrInvalidParameter"
+//  RESOURCENOTFOUND = "ResourceNotFound"
 func (c *Client) CreateImmutableTagRules(request *CreateImmutableTagRulesRequest) (response *CreateImmutableTagRulesResponse, err error) {
 	if request == nil {
 		request = NewCreateImmutableTagRulesRequest()
@@ -3925,6 +3931,7 @@ func NewModifyImmutableTagRulesRequest() (request *ModifyImmutableTagRulesReques
 
 	request.Init().WithApiInfo("tcr", APIVersion, "ModifyImmutableTagRules")
 
+
 	return
 }
 
@@ -3940,13 +3947,12 @@ func NewModifyImmutableTagRulesResponse() (response *ModifyImmutableTagRulesResp
 // 更新镜像不可变规则
 //
 // 可能返回的错误码:
-//
-//	AUTHFAILURE = "AuthFailure"
-//	FAILEDOPERATION = "FailedOperation"
-//	INTERNALERROR = "InternalError"
-//	INTERNALERROR_UNKNOWN = "InternalError.Unknown"
-//	INVALIDPARAMETER = "InvalidParameter"
-//	INVALIDPARAMETER_ERRORTCRINVALIDPARAMETER = "InvalidParameter.ErrorTcrInvalidParameter"
+//  AUTHFAILURE = "AuthFailure"
+//  FAILEDOPERATION = "FailedOperation"
+//  INTERNALERROR = "InternalError"
+//  INTERNALERROR_UNKNOWN = "InternalError.Unknown"
+//  INVALIDPARAMETER = "InvalidParameter"
+//  INVALIDPARAMETER_ERRORTCRINVALIDPARAMETER = "InvalidParameter.ErrorTcrInvalidParameter"
 func (c *Client) ModifyImmutableTagRules(request *ModifyImmutableTagRulesRequest) (response *ModifyImmutableTagRulesResponse, err error) {
 	if request == nil {
 		request = NewModifyImmutableTagRulesRequest()
@@ -3964,6 +3970,7 @@ func NewDeleteImageRequest() (request *DeleteImageRequest) {
 
 	request.Init().WithApiInfo("tcr", APIVersion, "DeleteImage")
 
+
 	return
 }
 
@@ -3979,19 +3986,18 @@ func NewDeleteImageResponse() (response *DeleteImageResponse) {
 // 删除指定镜像
 //
 // 可能返回的错误码:
-//
-//	FAILEDOPERATION_DEPENDENCEERROR = "FailedOperation.DependenceError"
-//	INTERNALERROR = "InternalError"
-//	INTERNALERROR_ERRORTCRINTERNAL = "InternalError.ErrorTcrInternal"
-//	INTERNALERROR_ERRORTCRINVALIDMEDIATYPE = "InternalError.ErrorTcrInvalidMediaType"
-//	INTERNALERROR_ERRORTCRRESOURCECONFLICT = "InternalError.ErrorTcrResourceConflict"
-//	INTERNALERROR_ERRORTCRUNAUTHORIZED = "InternalError.ErrorTcrUnauthorized"
-//	INVALIDPARAMETER = "InvalidParameter"
-//	MISSINGPARAMETER = "MissingParameter"
-//	OPERATIONDENIED = "OperationDenied"
-//	RESOURCENOTFOUND = "ResourceNotFound"
-//	RESOURCENOTFOUND_TCRRESOURCENOTFOUND = "ResourceNotFound.TcrResourceNotFound"
-//	UNSUPPORTEDOPERATION = "UnsupportedOperation"
+//  FAILEDOPERATION_DEPENDENCEERROR = "FailedOperation.DependenceError"
+//  INTERNALERROR = "InternalError"
+//  INTERNALERROR_ERRORTCRINTERNAL = "InternalError.ErrorTcrInternal"
+//  INTERNALERROR_ERRORTCRINVALIDMEDIATYPE = "InternalError.ErrorTcrInvalidMediaType"
+//  INTERNALERROR_ERRORTCRRESOURCECONFLICT = "InternalError.ErrorTcrResourceConflict"
+//  INTERNALERROR_ERRORTCRUNAUTHORIZED = "InternalError.ErrorTcrUnauthorized"
+//  INVALIDPARAMETER = "InvalidParameter"
+//  MISSINGPARAMETER = "MissingParameter"
+//  OPERATIONDENIED = "OperationDenied"
+//  RESOURCENOTFOUND = "ResourceNotFound"
+//  RESOURCENOTFOUND_TCRRESOURCENOTFOUND = "ResourceNotFound.TcrResourceNotFound"
+//  UNSUPPORTEDOPERATION = "UnsupportedOperation"
 func (c *Client) DeleteImage(request *DeleteImageRequest) (response *DeleteImageResponse, err error) {
 	if request == nil {
 		request = NewDeleteImageRequest()
@@ -4009,6 +4015,7 @@ func NewCreateInstanceCustomizedDomainRequest() (request *CreateInstanceCustomiz
 
 	request.Init().WithApiInfo("tcr", APIVersion, "CreateInstanceCustomizedDomain")
 
+
 	return
 }
 
@@ -4024,22 +4031,21 @@ func NewCreateInstanceCustomizedDomainResponse() (response *CreateInstanceCustom
 // 创建自定义域名
 //
 // 可能返回的错误码:
-//
-//	INTERNALERROR = "InternalError"
-//	INTERNALERROR_DBERROR = "InternalError.DbError"
-//	INTERNALERROR_ERRCONFLICT = "InternalError.ErrConflict"
-//	INTERNALERROR_ERRNOTEXIST = "InternalError.ErrNotExist"
-//	INTERNALERROR_ERRORCONFLICT = "InternalError.ErrorConflict"
-//	INTERNALERROR_ERROROVERLIMIT = "InternalError.ErrorOverLimit"
-//	INVALIDPARAMETER = "InvalidParameter"
-//	INVALIDPARAMETER_UNSUPPORTEDREGION = "InvalidParameter.UnsupportedRegion"
-//	MISSINGPARAMETER = "MissingParameter"
-//	OPERATIONDENIED = "OperationDenied"
-//	RESOURCENOTFOUND = "ResourceNotFound"
-//	UNAUTHORIZEDOPERATION = "UnauthorizedOperation"
-//	UNAUTHORIZEDOPERATION_ERRORTCRUNAUTHORIZED = "UnauthorizedOperation.ErrorTcrUnauthorized"
-//	UNKNOWNPARAMETER = "UnknownParameter"
-//	UNSUPPORTEDOPERATION = "UnsupportedOperation"
+//  INTERNALERROR = "InternalError"
+//  INTERNALERROR_DBERROR = "InternalError.DbError"
+//  INTERNALERROR_ERRCONFLICT = "InternalError.ErrConflict"
+//  INTERNALERROR_ERRNOTEXIST = "InternalError.ErrNotExist"
+//  INTERNALERROR_ERRORCONFLICT = "InternalError.ErrorConflict"
+//  INTERNALERROR_ERROROVERLIMIT = "InternalError.ErrorOverLimit"
+//  INVALIDPARAMETER = "InvalidParameter"
+//  INVALIDPARAMETER_UNSUPPORTEDREGION = "InvalidParameter.UnsupportedRegion"
+//  MISSINGPARAMETER = "MissingParameter"
+//  OPERATIONDENIED = "OperationDenied"
+//  RESOURCENOTFOUND = "ResourceNotFound"
+//  UNAUTHORIZEDOPERATION = "UnauthorizedOperation"
+//  UNAUTHORIZEDOPERATION_ERRORTCRUNAUTHORIZED = "UnauthorizedOperation.ErrorTcrUnauthorized"
+//  UNKNOWNPARAMETER = "UnknownParameter"
+//  UNSUPPORTEDOPERATION = "UnsupportedOperation"
 func (c *Client) CreateInstanceCustomizedDomain(request *CreateInstanceCustomizedDomainRequest) (response *CreateInstanceCustomizedDomainResponse, err error) {
 	if request == nil {
 		request = NewCreateInstanceCustomizedDomainRequest()
@@ -4057,6 +4063,7 @@ func NewCreateSignatureRequest() (request *CreateSignatureRequest) {
 
 	request.Init().WithApiInfo("tcr", APIVersion, "CreateSignature")
 
+
 	return
 }
 
@@ -4072,20 +4079,19 @@ func NewCreateSignatureResponse() (response *CreateSignatureResponse) {
 // 为一个镜像版本创建签名
 //
 // 可能返回的错误码:
-//
-//	FAILEDOPERATION_DEPENDENCEERROR = "FailedOperation.DependenceError"
-//	FAILEDOPERATION_OPERATIONCANCEL = "FailedOperation.OperationCancel"
-//	INTERNALERROR = "InternalError"
-//	INTERNALERROR_ERRORTCRINTERNAL = "InternalError.ErrorTcrInternal"
-//	INTERNALERROR_ERRORTCRINVALIDMEDIATYPE = "InternalError.ErrorTcrInvalidMediaType"
-//	INTERNALERROR_ERRORTCRRESOURCECONFLICT = "InternalError.ErrorTcrResourceConflict"
-//	INTERNALERROR_ERRORTCRUNAUTHORIZED = "InternalError.ErrorTcrUnauthorized"
-//	INVALIDPARAMETER = "InvalidParameter"
-//	INVALIDPARAMETER_ERRORTCRINVALIDPARAMETER = "InvalidParameter.ErrorTcrInvalidParameter"
-//	OPERATIONDENIED = "OperationDenied"
-//	RESOURCENOTFOUND = "ResourceNotFound"
-//	RESOURCENOTFOUND_TCRRESOURCENOTFOUND = "ResourceNotFound.TcrResourceNotFound"
-//	UNSUPPORTEDOPERATION = "UnsupportedOperation"
+//  FAILEDOPERATION_DEPENDENCEERROR = "FailedOperation.DependenceError"
+//  FAILEDOPERATION_OPERATIONCANCEL = "FailedOperation.OperationCancel"
+//  INTERNALERROR = "InternalError"
+//  INTERNALERROR_ERRORTCRINTERNAL = "InternalError.ErrorTcrInternal"
+//  INTERNALERROR_ERRORTCRINVALIDMEDIATYPE = "InternalError.ErrorTcrInvalidMediaType"
+//  INTERNALERROR_ERRORTCRRESOURCECONFLICT = "InternalError.ErrorTcrResourceConflict"
+//  INTERNALERROR_ERRORTCRUNAUTHORIZED = "InternalError.ErrorTcrUnauthorized"
+//  INVALIDPARAMETER = "InvalidParameter"
+//  INVALIDPARAMETER_ERRORTCRINVALIDPARAMETER = "InvalidParameter.ErrorTcrInvalidParameter"
+//  OPERATIONDENIED = "OperationDenied"
+//  RESOURCENOTFOUND = "ResourceNotFound"
+//  RESOURCENOTFOUND_TCRRESOURCENOTFOUND = "ResourceNotFound.TcrResourceNotFound"
+//  UNSUPPORTEDOPERATION = "UnsupportedOperation"
 func (c *Client) CreateSignature(request *CreateSignatureRequest) (response *CreateSignatureResponse, err error) {
 	if request == nil {
 		request = NewCreateSignatureRequest()
@@ -4103,6 +4109,7 @@ func NewCreateWebhookTriggerRequest() (request *CreateWebhookTriggerRequest) {
 
 	request.Init().WithApiInfo("tcr", APIVersion, "CreateWebhookTrigger")
 
+
 	return
 }
 
@@ -4118,14 +4125,13 @@ func NewCreateWebhookTriggerResponse() (response *CreateWebhookTriggerResponse) 
 // 创建触发器
 //
 // 可能返回的错误码:
-//
-//	INTERNALERROR = "InternalError"
-//	INTERNALERROR_DBERROR = "InternalError.DbError"
-//	INTERNALERROR_ERRORTCRINTERNAL = "InternalError.ErrorTcrInternal"
-//	INTERNALERROR_ERRORTCRUNAUTHORIZED = "InternalError.ErrorTcrUnauthorized"
-//	INVALIDPARAMETER_ERRORTCRINVALIDPARAMETER = "InvalidParameter.ErrorTcrInvalidParameter"
-//	RESOURCENOTFOUND = "ResourceNotFound"
-//	RESOURCENOTFOUND_TCRRESOURCENOTFOUND = "ResourceNotFound.TcrResourceNotFound"
+//  INTERNALERROR = "InternalError"
+//  INTERNALERROR_DBERROR = "InternalError.DbError"
+//  INTERNALERROR_ERRORTCRINTERNAL = "InternalError.ErrorTcrInternal"
+//  INTERNALERROR_ERRORTCRUNAUTHORIZED = "InternalError.ErrorTcrUnauthorized"
+//  INVALIDPARAMETER_ERRORTCRINVALIDPARAMETER = "InvalidParameter.ErrorTcrInvalidParameter"
+//  RESOURCENOTFOUND = "ResourceNotFound"
+//  RESOURCENOTFOUND_TCRRESOURCENOTFOUND = "ResourceNotFound.TcrResourceNotFound"
 func (c *Client) CreateWebhookTrigger(request *CreateWebhookTriggerRequest) (response *CreateWebhookTriggerResponse, err error) {
 	if request == nil {
 		request = NewCreateWebhookTriggerRequest()
@@ -4143,6 +4149,7 @@ func NewModifyWebhookTriggerRequest() (request *ModifyWebhookTriggerRequest) {
 
 	request.Init().WithApiInfo("tcr", APIVersion, "ModifyWebhookTrigger")
 
+
 	return
 }
 
@@ -4158,16 +4165,15 @@ func NewModifyWebhookTriggerResponse() (response *ModifyWebhookTriggerResponse) 
 // 更新触发器
 //
 // 可能返回的错误码:
-//
-//	FAILEDOPERATION_DEPENDENCEERROR = "FailedOperation.DependenceError"
-//	INTERNALERROR = "InternalError"
-//	INTERNALERROR_DBERROR = "InternalError.DbError"
-//	INTERNALERROR_ERRORTCRINTERNAL = "InternalError.ErrorTcrInternal"
-//	INVALIDPARAMETER = "InvalidParameter"
-//	INVALIDPARAMETER_ERRORTCRINVALIDPARAMETER = "InvalidParameter.ErrorTcrInvalidParameter"
-//	RESOURCENOTFOUND = "ResourceNotFound"
-//	RESOURCENOTFOUND_TCRRESOURCENOTFOUND = "ResourceNotFound.TcrResourceNotFound"
-//	UNSUPPORTEDOPERATION = "UnsupportedOperation"
+//  FAILEDOPERATION_DEPENDENCEERROR = "FailedOperation.DependenceError"
+//  INTERNALERROR = "InternalError"
+//  INTERNALERROR_DBERROR = "InternalError.DbError"
+//  INTERNALERROR_ERRORTCRINTERNAL = "InternalError.ErrorTcrInternal"
+//  INVALIDPARAMETER = "InvalidParameter"
+//  INVALIDPARAMETER_ERRORTCRINVALIDPARAMETER = "InvalidParameter.ErrorTcrInvalidParameter"
+//  RESOURCENOTFOUND = "ResourceNotFound"
+//  RESOURCENOTFOUND_TCRRESOURCENOTFOUND = "ResourceNotFound.TcrResourceNotFound"
+//  UNSUPPORTEDOPERATION = "UnsupportedOperation"
 func (c *Client) ModifyWebhookTrigger(request *ModifyWebhookTriggerRequest) (response *ModifyWebhookTriggerResponse, err error) {
 	if request == nil {
 		request = NewModifyWebhookTriggerRequest()

@@ -1,7 +1,7 @@
 /*
 Provides a resource to create a cloud file system(CFS).
 
-# Example Usage
+Example Usage
 
 ```hcl
 
@@ -17,7 +17,7 @@ Provides a resource to create a cloud file system(CFS).
 
 ```
 
-# Import
+Import
 
 Cloud file system can be imported using the id, e.g.
 
@@ -32,11 +32,11 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	cfs "terraform-provider-tencentcloudenterprise/sdk/cfs/v20190719"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/ratelimit"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func init() {

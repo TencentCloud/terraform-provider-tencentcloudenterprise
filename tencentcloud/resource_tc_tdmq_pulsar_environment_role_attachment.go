@@ -7,12 +7,13 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
 )
 
 func init() {
 	registerResourceDescriptionProvider("tencentcloudenterprise_tdmq_pulsar_environment_role_attachment", CNDescription{
-		TerraformTypeCN: "TDMQ Pulsar环境",
+		TerraformTypeCN: "TDMQ Pulsar环境角色授权",
 		DescriptionCN:   "提供TDMQ Pulsar环境角色授权资源，用于为Pulsar角色授权访问指定环境的权限。",
 		AttributesCN: map[string]string{
 			"environ_id":  "环境ID",

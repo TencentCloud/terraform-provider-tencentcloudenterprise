@@ -1,37 +1,35 @@
 /*
 Provides a resource to create a param
 
-# Example Usage
+Example Usage
 
 ```hcl
-
-	resource "tencentcloudenterprise_redis_param" "param" {
-	    instance_id     = "crs-c1nl9rpv"
-	    instance_params = {
-	        "cluster-node-timeout"          = "15000"
-	        "disable-command-list"          = "\"\""
-	        "hash-max-ziplist-entries"      = "512"
-	        "hash-max-ziplist-value"        = "64"
-	        "hz"                            = "10"
-	        "lazyfree-lazy-eviction"        = "yes"
-	        "lazyfree-lazy-expire"          = "yes"
-	        "lazyfree-lazy-server-del"      = "yes"
-	        "maxmemory-policy"              = "noeviction"
-	        "notify-keyspace-events"        = "\"\""
-	        "proxy-slowlog-log-slower-than" = "500"
-	        "replica-lazy-flush"            = "yes"
-	        "sentineauth"                   = "no"
-	        "set-max-intset-entries"        = "512"
-	        "slowlog-log-slower-than"       = "10"
-	        "timeout"                       = "31536000"
-	        "zset-max-ziplist-entries"      = "128"
-	        "zset-max-ziplist-value"        = "64"
-	    }
-	}
-
+resource "tencentcloudenterprise_redis_param" "param" {
+    instance_id     = "crs-c1nl9rpv"
+    instance_params = {
+        "cluster-node-timeout"          = "15000"
+        "disable-command-list"          = "\"\""
+        "hash-max-ziplist-entries"      = "512"
+        "hash-max-ziplist-value"        = "64"
+        "hz"                            = "10"
+        "lazyfree-lazy-eviction"        = "yes"
+        "lazyfree-lazy-expire"          = "yes"
+        "lazyfree-lazy-server-del"      = "yes"
+        "maxmemory-policy"              = "noeviction"
+        "notify-keyspace-events"        = "\"\""
+        "proxy-slowlog-log-slower-than" = "500"
+        "replica-lazy-flush"            = "yes"
+        "sentineauth"                   = "no"
+        "set-max-intset-entries"        = "512"
+        "slowlog-log-slower-than"       = "10"
+        "timeout"                       = "31536000"
+        "zset-max-ziplist-entries"      = "128"
+        "zset-max-ziplist-value"        = "64"
+    }
+}
 ```
 
-# Import
+Import
 
 redis param can be imported using the instanceId, e.g.
 
@@ -44,13 +42,13 @@ package tencentcloud
 import (
 	"context"
 	"fmt"
-	"log"
 	sdkErrors "terraform-provider-tencentcloudenterprise/sdk/common/errors"
+	"log"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	redis "terraform-provider-tencentcloudenterprise/sdk/redis/v20180412"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func init() {

@@ -14,30 +14,30 @@ Provides a resource to create a TDMQ rabbitmq vip instance
 ## Example Usage
 
 ```hcl
-data "cloud_availability_zones" "zones" {
+data "tencentcloudenterprise_availability_zones" "zones" {
   name = "ap-guangzhou-6"
 }
 
 # create vpc
-resource "cloud_vpc" "vpc" {
+resource "tencentcloudenterprise_vpc" "vpc" {
   name       = "vpc"
   cidr_block = "10.0.0.0/16"
 }
 
 # create vpc subnet
-resource "cloud_vpc_subnet" "subnet" {
+resource "tencentcloudenterprise_vpc_subnet" "subnet" {
   name              = "subnet"
-  vpc_id            = cloud_vpc.vpc.id
+  vpc_id            = tencentcloudenterprise_vpc.vpc.id
   availability_zone = "ap-guangzhou-6"
   cidr_block        = "10.0.20.0/28"
   is_multicast      = false
 }
 
 # create rabbitmq instance
-resource "cloud_tdmq_rabbitmq_vip_instance" "example" {
-  zone_ids                              = [data.cloud_availability_zones.zones.zones.0.id]
-  vpc_id                                = cloud_vpc.vpc.id
-  subnet_id                             = cloud_vpc_subnet.subnet.id
+resource "tencentcloudenterprise_tdmq_rabbitmq_vip_instance" "example" {
+  zone_ids                              = [data.tencentcloudenterprise_availability_zones.zones.zones.0.id]
+  vpc_id                                = tencentcloudenterprise_vpc.vpc.id
+  subnet_id                             = tencentcloudenterprise_vpc_subnet.subnet.id
   cluster_name                          = "tf-example-rabbitmq-vip-instance"
   node_spec                             = "rabbit-vip-basic-1"
   node_num                              = 1
@@ -48,10 +48,10 @@ resource "cloud_tdmq_rabbitmq_vip_instance" "example" {
 }
 
 # create postpaid rabbitmq instance
-resource "cloud_tdmq_rabbitmq_vip_instance" "example2" {
-  zone_ids                              = [data.cloud_availability_zones.zones.zones.0.id]
-  vpc_id                                = cloud_vpc.vpc.id
-  subnet_id                             = cloud_vpc_subnet.subnet.id
+resource "tencentcloudenterprise_tdmq_rabbitmq_vip_instance" "example2" {
+  zone_ids                              = [data.tencentcloudenterprise_availability_zones.zones.zones.0.id]
+  vpc_id                                = tencentcloudenterprise_vpc.vpc.id
+  subnet_id                             = tencentcloudenterprise_vpc_subnet.subnet.id
   cluster_name                          = "tf-example-rabbitmq-vip-instance"
   node_spec                             = "rabbit-vip-basic-1"
   node_num                              = 1
@@ -101,7 +101,7 @@ tencentcloudenterprise_tdmq_rabbitmq_vip_instance can be imported using the id, 
 TDMQ rabbitmq vip instance can be imported using the id, e.g.
 
 ```
-terraform import cloud_tdmq_rabbitmq_vip_instance.example amqp-mok52gmn
+terraform import tencentcloudenterprise_tdmq_rabbitmq_vip_instance.example amqp-mok52gmn
 ```
 ```
 

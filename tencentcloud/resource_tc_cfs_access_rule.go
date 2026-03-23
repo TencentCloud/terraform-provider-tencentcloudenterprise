@@ -1,18 +1,16 @@
 /*
 Provides a resource to create a CFS access rule.
 
-# Example Usage
+Example Usage
 
 ```hcl
-
-	resource "tencentcloudenterprise_cfs_access_rule" "foo" {
-	  access_group_id = "pgroup-7nx89k7l"
-	  auth_client_ip  = "10.10.1.0/24"
-	  priority        = 1
-	  rw_permission   = "RO"
-	  user_permission = "root_squash"
-	}
-
+resource "tencentcloudenterprise_cfs_access_rule" "foo" {
+  access_group_id = "pgroup-7nx89k7l"
+  auth_client_ip  = "10.10.1.0/24"
+  priority        = 1
+  rw_permission   = "RO"
+  user_permission = "root_squash"
+}
 ```
 */
 package tencentcloud
@@ -23,11 +21,11 @@ import (
 	"log"
 	"strings"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	cfs "terraform-provider-tencentcloudenterprise/sdk/cfs/v20190719"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/ratelimit"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func init() {
@@ -61,7 +59,7 @@ func resourceTencentCloudCfsAccessRule() *schema.Resource {
 			"auth_client_ip": {
 				Type:        schema.TypeString,
 				Required:    true,
-				Description: "A single IP or a single IP address range such as 203.0.113.11 or 10.10.1.0/24 indicates that all IPs are allowed. Please note that the IP entered should be CVM's private IP.",
+				Description: "A single IP or a single IP address range such as 10.1.10.11 or 10.10.1.0/24 indicates that all IPs are allowed. Please note that the IP entered should be CVM's private IP.",
 			},
 			"priority": {
 				Type:         schema.TypeInt,

@@ -1,7 +1,7 @@
 /*
 Use this data source to query detailed information of DC instances.
 
-# Example Usage
+Example Usage
 
 ```hcl
 

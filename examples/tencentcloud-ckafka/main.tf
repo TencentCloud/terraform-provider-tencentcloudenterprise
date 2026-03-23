@@ -85,14 +85,14 @@ resource "tencentcloudenterprise_ckafka_instance" "instance" {
 
 # CKafka User
 resource "tencentcloudenterprise_ckafka_user" "user" {
-  instance_id = cloud_ckafka_instance.instance.id
+  instance_id = tencentcloudenterprise_ckafka_instance.instance.id
   account_name = "example-user"
   password     = "Password123!"
 }
 
 # CKafka Topic
 resource "tencentcloudenterprise_ckafka_topic" "topic" {
-  instance_id                     = cloud_ckafka_instance.instance.id
+  instance_id                     = tencentcloudenterprise_ckafka_instance.instance.id
   topic_name                      = "example-topic"
   note                            = "Example topic"
   replica_num                     = 2
@@ -109,18 +109,18 @@ resource "tencentcloudenterprise_ckafka_topic" "topic" {
 
 # CKafka ACL
 resource "tencentcloudenterprise_ckafka_acl" "acl" {
-  instance_id     = cloud_ckafka_instance.instance.id
+  instance_id     = tencentcloudenterprise_ckafka_instance.instance.id
   resource_type   = "TOPIC"
-  resource_name   = cloud_ckafka_topic.topic.topic_name
+  resource_name   = tencentcloudenterprise_ckafka_topic.topic.topic_name
   operation_type  = "WRITE"
   permission_type = "ALLOW"
   host            = "*"
-  principal       = cloud_ckafka_user.user.account_name
+  principal       = tencentcloudenterprise_ckafka_user.user.account_name
 }
 
 # CKafka ACL Rule
 resource "tencentcloudenterprise_ckafka_acl_rule" "rule" {
-  instance_id     = cloud_ckafka_instance.instance.id
+  instance_id     = tencentcloudenterprise_ckafka_instance.instance.id
   resource_type   = "TOPIC"
   pattern_type    = "LITERAL"
   rule_name       = "example-rule"
@@ -128,13 +128,13 @@ resource "tencentcloudenterprise_ckafka_acl_rule" "rule" {
     operation       = "Read"
     permission_type = "Allow"
     host            = "*"
-    principal       = cloud_ckafka_user.user.account_name
+    principal       = tencentcloudenterprise_ckafka_user.user.account_name
   }
 }
 
 # CKafka Consumer Group
 resource "tencentcloudenterprise_ckafka_consumer_group" "group" {
-  instance_id = cloud_ckafka_instance.instance.id
+  instance_id = tencentcloudenterprise_ckafka_instance.instance.id
   group_name  = "example-group"
 }
 
@@ -148,14 +148,14 @@ resource "tencentcloudenterprise_ckafka_datahub_task" "task" {
   target_resource {
     type = "CKAFKA"
     kafka_param {
-      instance_id = cloud_ckafka_instance.instance.id
-      topic_name  = cloud_ckafka_topic.topic.topic_name
+      instance_id = tencentcloudenterprise_ckafka_instance.instance.id
+      topic_name  = tencentcloudenterprise_ckafka_topic.topic.topic_name
     }
   }
 }
 
 # CKafka Renew Instance
 resource "tencentcloudenterprise_ckafka_renew_instance" "renew" {
-  instance_id = cloud_ckafka_instance.instance.id
+  instance_id = tencentcloudenterprise_ckafka_instance.instance.id
   time_span   = 1
 }

@@ -4,12 +4,12 @@ layout: "tencentcloudenterprise"
 page_title: "TencentCloudEnterprise: tencentcloudenterprise_vpc_security_group_rule_set"
 sidebar_current: "docs-tencentcloudenterprise-resource-vpc_security_group_rule_set"
 description: |-
-  Provides a resource to create security group rule. This resource is similar with cloud_vpc_security_group_lite_rule, rules can be ordered and configure descriptions.
+  Provides a resource to create security group rule. This resource is similar with tencentcloudenterprise_vpc_security_group_lite_rule, rules can be ordered and configure descriptions.
 ---
 
 # tencentcloudenterprise_vpc_security_group_rule_set
 
-Provides a resource to create security group rule. This resource is similar with cloud_vpc_security_group_lite_rule, rules can be ordered and configure descriptions.
+Provides a resource to create security group rule. This resource is similar with tencentcloudenterprise_vpc_security_group_lite_rule, rules can be ordered and configure descriptions.
 
 ~> **NOTE:** This resource must exclusive in one security group, do not declare additional rule resources of this security group elsewhere.
 
@@ -106,7 +106,7 @@ In addition to all arguments above, the following attributes are exported:
 tencentcloudenterprise_vpc_security_group_rule_set can be imported using the id, e.g.
 
 ```
-Resource cloud_vpc_security_group_rule_set can be imported by passing security grou id:
+Resource tencentcloudenterprise_vpc_security_group_rule_set can be imported by passing security grou id:
 
 ```
 terraform import tencentcloudenterprise_vpc_security_group_rule_set.sglab_1 sg-xxxxxxxx

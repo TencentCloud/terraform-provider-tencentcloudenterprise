@@ -1,20 +1,18 @@
 /*
 Provide a resource to manage image.
 
-# Example Usage
+Example Usage
 
 ```hcl
-
-	resource "tencentcloudenterprise_cvm_image" "image_snap" {
-		image_name   		= "image-snapshot-keep"
-		snapshot_ids 		= ["snap-nbp3xy1d", "snap-nvzu3dmh"]
-		force_poweroff 		= true
-		image_description 	= "create image with snapshot"
-	}
-
+resource "tencentcloudenterprise_cvm_image" "image_snap" {
+	image_name   		= "image-snapshot-keep"
+	snapshot_ids 		= ["snap-nbp3xy1d", "snap-nvzu3dmh"]
+	force_poweroff 		= true
+	image_description 	= "create image with snapshot"
+}
 ```
 
-# Import
+Import
 
 image instance can be imported using the id, e.g.
 
@@ -29,11 +27,11 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	cvm "terraform-provider-tencentcloudenterprise/sdk/cvm/v20170312"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/ratelimit"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func init() {

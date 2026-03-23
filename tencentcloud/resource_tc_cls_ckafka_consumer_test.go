@@ -22,6 +22,9 @@ func TestAccTencentCloudNeedFixClsCkafkaConsumerResource_basic(t *testing.T) {
 				ResourceName:      "tencentcloudenterprise_cls_ckafka_consumer.ckafka_consumer",
 				ImportState:       true,
 				ImportStateVerify: true,
+				ImportStateVerifyIgnore: []string{
+					"advanced_config",
+				},
 			},
 		},
 	})
@@ -39,8 +42,12 @@ resource "tencentcloudenterprise_cls_ckafka_consumer" "ckafka_consumer" {
     instance_name = "ckafka-instance"
     topic_id      = "topic-c6tm4kpm"
     topic_name    = "name"
-    vip           = "203.0.113.23"
+    vip           = "172.16.112.23"
     vport         = "9092"
+  }
+
+  advanced_config {
+    partition_hash_status = false
   }
 
   content {

@@ -7,18 +7,18 @@ import (
 	"strings"
 	"time"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	dcdb "terraform-provider-tencentcloudenterprise/sdk/dcdb/v20180411"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/connectivity"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/ratelimit"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 )
 
 type DcdbService struct {
 	client *connectivity.TencentCloudClient
 }
 
-// dc_account
+//dc_account
 func (me *DcdbService) DescribeDcdbAccount(ctx context.Context, instanceId, userName string) (
 	accounts []*dcdb.DBAccount, errRet error) {
 	var (
@@ -150,7 +150,7 @@ func (me *DcdbService) InitDcdbDbInstance(ctx context.Context, instanceId string
 	return true, flowId, nil
 }
 
-// dc_hourdb_instance
+//dc_hourdb_instance
 func (me *DcdbService) DescribeDcdbHourdbInstance(ctx context.Context,
 	instanceId string) (hourdbInstance []*dcdb.DCDBInstanceInfo, errRet error) {
 	params := make(map[string]interface{})
@@ -250,7 +250,7 @@ func (me *DcdbService) DeleteDcdbSecurityGroupAttachmentById(ctx context.Context
 }
 
 // for data_source
-// cloud_dcdb_instances
+// tencentcloudenterprise_dcdb_instances
 func (me *DcdbService) DescribeDcdbInstancesByFilter(ctx context.Context, params map[string]interface{}) (instances []*dcdb.DCDBInstanceInfo, errRet error) {
 	var (
 		logId   = getLogId(ctx)
@@ -334,7 +334,7 @@ func (me *DcdbService) DescribeDcdbInstancesByFilter(ctx context.Context, params
 	return
 }
 
-// cloud_dcdb_accounts
+// tencentcloudenterprise_dcdb_accounts
 func (me *DcdbService) DescribeDcdbAccountsByFilter(ctx context.Context, param map[string]interface{}) (accounts []*dcdb.DBAccount, errRet error) {
 	var (
 		logId   = getLogId(ctx)
@@ -382,7 +382,7 @@ func (me *DcdbService) DescribeDcdbAccountsByFilter(ctx context.Context, param m
 	return
 }
 
-// cloud_dcdb_databases
+// tencentcloudenterprise_dcdb_databases
 func (me *DcdbService) DescribeDcdbDatabasesByFilter(ctx context.Context, param map[string]interface{}) (databases []*dcdb.Database, errRet error) {
 	var (
 		logId   = getLogId(ctx)
@@ -430,7 +430,7 @@ func (me *DcdbService) DescribeDcdbDatabasesByFilter(ctx context.Context, param 
 	return
 }
 
-// cloud_dcdb_parameters
+// tencentcloudenterprise_dcdb_parameters
 func (me *DcdbService) DescribeDcdbParametersByFilter(ctx context.Context, param map[string]interface{}) (parameters []*dcdb.ParamDesc, errRet error) {
 	var (
 		logId   = getLogId(ctx)
@@ -466,7 +466,7 @@ func (me *DcdbService) DescribeDcdbParametersByFilter(ctx context.Context, param
 	return
 }
 
-// cloud_dcdb_shards
+// tencentcloudenterprise_dcdb_shards
 func (me *DcdbService) DescribeDcdbShardsByFilter(ctx context.Context, param map[string]interface{}) (shards []*dcdb.DCDBShardInfo, errRet error) {
 	var (
 		logId   = getLogId(ctx)
@@ -520,7 +520,7 @@ func (me *DcdbService) DescribeDcdbShardsByFilter(ctx context.Context, param map
 	return
 }
 
-// cloud_dcdb_security_groups
+// tencentcloudenterprise_dcdb_security_groups
 func (me *DcdbService) DescribeDcdbSecurityGroupsByFilter(ctx context.Context, param map[string]interface{}) (securityGroups []*dcdb.SecurityGroup, errRet error) {
 	var (
 		logId   = getLogId(ctx)
@@ -557,7 +557,7 @@ func (me *DcdbService) DescribeDcdbSecurityGroupsByFilter(ctx context.Context, p
 	return
 }
 
-// cloud_dcdb_db_instance
+// tencentcloudenterprise_dcdb_db_instance
 func (me *DcdbService) DeleteDcdbDbInstanceById(ctx context.Context, instanceId string) (errRet error) {
 	logId := getLogId(ctx)
 
@@ -673,7 +673,7 @@ func (me *DcdbService) DcdbDbInstanceStateRefreshFunc(flowId *int64, failStates 
 	}
 }
 
-// DescribeDcdbAccountPrivilegesById cloud_dcdb_account_privileges
+// DescribeDcdbAccountPrivilegesById tencentcloudenterprise_dcdb_account_privileges
 func (me *DcdbService) DescribeDcdbAccountPrivilegesById(ctx context.Context, ids string, dbName, aType, object, colName *string) (accountPrivileges *dcdb.DescribeAccountPrivilegesResponse, errRet error) {
 	logId := getLogId(ctx)
 
@@ -810,7 +810,7 @@ func (me *DcdbService) DescribeDcdbDBObjects(ctx context.Context, instanceId str
 	return
 }
 
-// cloud_dcdb_db_parameters
+// tencentcloudenterprise_dcdb_db_parameters
 func (me *DcdbService) DescribeDcdbDbParametersById(ctx context.Context, instanceId string) (dbParameters *dcdb.DescribeDBParametersResponse, errRet error) {
 	logId := getLogId(ctx)
 
@@ -836,7 +836,7 @@ func (me *DcdbService) DescribeDcdbDbParametersById(ctx context.Context, instanc
 	return
 }
 
-// cloud_dcdb_database_objects
+// tencentcloudenterprise_dcdb_database_objects
 func (me *DcdbService) DescribeDcdbDBObjectsByFilter(ctx context.Context, param map[string]interface{}) (response *dcdb.DescribeDatabaseObjectsResponse, errRet error) {
 	var (
 		logId      = getLogId(ctx)
@@ -868,7 +868,7 @@ func (me *DcdbService) DescribeDcdbDBObjectsByFilter(ctx context.Context, param 
 	return
 }
 
-// cloud_dcdb_database_tables
+// tencentcloudenterprise_dcdb_database_tables
 func (me *DcdbService) DescribeDcdbDBTablesByFilter(ctx context.Context, param map[string]interface{}) (response *dcdb.DescribeDatabaseTableResponse, errRet error) {
 	var (
 		logId      = getLogId(ctx)

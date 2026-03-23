@@ -1,59 +1,57 @@
 /*
 Provides a resource to create a cvm launch_template
 
-# Example Usage
+Example Usage
 
 ```hcl
-
-	resource "tencentcloudenterprise_cvm_launch_template" "launch_template" {
-	  launch_template_name = "test_launch_template"
-	  placement {
-	    project_id = 0
-	    zone       = yfm18
-	  }
-	  image_id                            = "img-95xgn7er"
-	  launch_template_version_description = "test111"
-	  instance_type                       = "S5l.SMALL1"
-	  system_disk {
-	    disk_size = 50
-	    disk_type = "CLOUD_BASIC"
-	  }
-	  virtual_private_cloud {
-	    vpc_id             = "vpc-cs6ffr73"
-	    subnet_id          = "subnet-38oi34ta"
-	    as_vpc_gateway     = false
-	    ipv6_address_count = 0
-	  }
-	  internet_accessible {
-	    internet_charge_type       = "TRAFFIC_POSTPAID_BY_HOUR"
-	    internet_max_bandwidth_out = 0
-	    public_ip_assigned         = false
-	  }
-	  instance_count     = 1
-	  instance_name      = "test_instance_name"
-	  security_group_ids = ["sg-9s7k6qgw"]
-	  enhanced_service {
-	    security_service {
-	      enabled = true
-	    }
-	    monitor_service {
-	      enabled = true
-	    }
-	  }
-	  instance_charge_type = "POSTPAID_BY_HOUR"
-	}
-
+resource "tencentcloudenterprise_cvm_launch_template" "launch_template" {
+  launch_template_name = "test_launch_template"
+  placement {
+    project_id = 0
+    zone       = yfm18
+  }
+  image_id                            = "img-95xgn7er"
+  launch_template_version_description = "test111"
+  instance_type                       = "S5l.SMALL1"
+  system_disk {
+    disk_size = 50
+    disk_type = "CLOUD_BASIC"
+  }
+  virtual_private_cloud {
+    vpc_id             = "vpc-cs6ffr73"
+    subnet_id          = "subnet-38oi34ta"
+    as_vpc_gateway     = false
+    ipv6_address_count = 0
+  }
+  internet_accessible {
+    internet_charge_type       = "TRAFFIC_POSTPAID_BY_HOUR"
+    internet_max_bandwidth_out = 0
+    public_ip_assigned         = false
+  }
+  instance_count     = 1
+  instance_name      = "test_instance_name"
+  security_group_ids = ["sg-9s7k6qgw"]
+  enhanced_service {
+    security_service {
+      enabled = true
+    }
+    monitor_service {
+      enabled = true
+    }
+  }
+  instance_charge_type = "POSTPAID_BY_HOUR"
+}
 ```
 */
 package tencentcloud
 
 import (
 	"context"
+	cvm "terraform-provider-tencentcloudenterprise/sdk/cvm/v20170312"
+	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"log"
-	cvm "terraform-provider-tencentcloudenterprise/sdk/cvm/v20170312"
-	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
 )
 
 func init() {
@@ -61,87 +59,87 @@ func init() {
 		TerraformTypeCN: "云服务器启动模板",
 		DescriptionCN:   "提供云服务器启动模板资源，用于创建和管理云服务器启动模板。",
 		AttributesCN: map[string]string{
-			"launch_template_id":                  "启动模板ID",
-			"launch_template_name":                "启动模板名称",
-			"launch_template_version":             "启动模板版本号",
-			"latest_version_number":               "最新版本号",
-			"create_time":                         "创建时间",
-			"update_time":                         "更新时间",
-			"created_by":                          "创建者",
-			"default_version_number":              "默认版本号",
-			"total_count":                         "启动模板总数",
-			"security_group_ids":                  "安全组ID",
-			"tags":                                "标签",
-			"client_token":                        "客户端令牌",
-			"hpc_cluster_id":                      "HPC集群ID",
-			"instance_count":                      "实例数量",
-			"user_data":                           "用户数据",
-			"dry_run":                             "是否预检此请求",
-			"instance_name":                       "实例名称",
-			"disaster_recover_group_ids":          "容灾组ID",
-			"instance_charge_type":                "实例计费类型",
-			"instance_type":                       "实例类型",
-			"image_id":                            "镜像ID",
+			"launch_template_id":      "启动模板ID",
+			"launch_template_name":    "启动模板名称",
+			"launch_template_version": "启动模板版本号",
+			"latest_version_number":   "最新版本号",
+			"create_time":             "创建时间",
+			"update_time":             "更新时间",
+			"created_by":              "创建者",
+			"default_version_number":  "默认版本号",
+			"total_count":             "启动模板总数",
+			"security_group_ids":      "安全组ID",
+			"tags":                    "标签",
+			"client_token":            "客户端令牌",
+			"hpc_cluster_id":          "HPC集群ID",
+			"instance_count":          "实例数量",
+			"user_data":               "用户数据",
+			"dry_run":                 "是否预检此请求",
+			"instance_name":           "实例名称",
+			"disaster_recover_group_ids": "容灾组ID",
+			"instance_charge_type":    "实例计费类型",
+			"instance_type":           "实例类型",
+			"image_id":                "镜像ID",
 			"launch_template_version_description": "启动模板版本描述",
-			"host_name":                           "主机名",
-			"cam_role_name":                       "CAM角色名称",
-			"data_disks":                          "数据盘",
-			"enhanced_service":                    "增强服务",
-			"instance_charge_prepaid":             "预付费计费模式",
-			"placement":                           "位置信息",
-			"system_disk":                         "系统盘",
-			"virtual_private_cloud":               "虚拟专用网络",
-			"internet_accessible":                 "公网带宽",
-			"action_timer":                        "定时任务",
-			"tag_specification":                   "标签描述",
-			"instance_market_options":             "市场选项",
-			"login_settings":                      "登录设置",
-			"action_time":                         "执行时间",
-			"as_vpc_gateway":                      "它是否用作公共网络网关，TRUE或FALSE",
-			"automation_service":                  "启用TencentCloud自动化工具（TAT）",
-			"bandwidth_package_id":                "带宽包的ID",
-			"delete_with_instance":                "数据磁盘是否随实例一起销毁，true或false",
-			"disk_id":                             "数据磁盘ID",
-			"disk_size":                           "数据磁盘的大小",
-			"disk_type":                           "数据磁盘的类型",
-			"enabled":                             "是否启用TencentCloud自动化工具（TAT），TRUE或FALSE",
-			"encrypt":                             "数据磁盘是否加密，TRUE或FALSE",
-			"externals":                           "扩展数据",
-			"host_ids":                            "实例的CDH ID列表（输入）",
-			"host_ips":                            "指定主机ip",
-			"internet_charge_type":                "互联网收费的类型",
-			"internet_max_bandwidth_out":          "互联网出站带宽上限，Mbps",
-			"ipv6_address_count":                  "弹性网络接口的ipv6地址数",
-			"keep_image_login":                    "保持镜像的原始设置",
-			"key":                                 "标签的钥匙",
-			"key_ids":                             "密钥ID列表",
-			"kms_key_id":                          "自定义CMK的id",
-			"market_type":                         "市场期权类型，目前仅支持价值现货",
-			"max_price":                           "投标",
-			"max_size":                            "HDD本地存储的最大容量",
-			"min_size":                            "HDD本地存储的最小容量",
-			"monitor_service":                     "启用云监控服务",
-			"password":                            "实例的登录密码",
-			"period":                              "采购实例的周期",
-			"private_ip_addresses":                "私有ip地址",
-			"project_id":                          "实例的项目ID",
-			"public_ip_assigned":                  "是否分配公网IP，TRUE或FALSE",
-			"release_address":                     "发布地址",
-			"renew_flag":                          "自动续订标志",
-			"resource_type":                       "资源的类型",
-			"security_service":                    "启用云安全服务",
-			"snapshot_id":                         "数据磁盘快照ID",
-			"spot_instance_type":                  "招标请求类型，目前仅支持一次性类型",
-			"spot_options":                        "与投标相关的选项",
-			"storage_block_attr":                  "HDD本地存储属性",
-			"subnet_id":                           "子网的id",
-			"throughput_performance":              "云磁盘性能，MB/s",
-			"timer_action":                        "定时器名称",
-			"type":                                "HDD本地存储的类型",
-			"unsupport_networks":                  "不支持的网络类型",
-			"value":                               "标签的值",
-			"vpc_id":                              "VPC的id",
-			"zone":                                "实例的可用区域ID",
+			"host_name":               "主机名",
+			"cam_role_name":           "CAM角色名称",
+			"data_disks":              "数据盘",
+			"enhanced_service":        "增强服务",
+			"instance_charge_prepaid": "预付费计费模式",
+			"placement":               "位置信息",
+			"system_disk":             "系统盘",
+			"virtual_private_cloud":   "虚拟专用网络",
+			"internet_accessible":     "公网带宽",
+			"action_timer":            "定时任务",
+			"tag_specification":       "标签描述",
+			"instance_market_options": "市场选项",
+			"login_settings":          "登录设置",
+			"action_time":             "执行时间",
+			"as_vpc_gateway":          "它是否用作公共网络网关，TRUE或FALSE",
+			"automation_service":      "启用TencentCloud自动化工具（TAT）",
+			"bandwidth_package_id":    "带宽包的ID",
+			"delete_with_instance":    "数据磁盘是否随实例一起销毁，true或false",
+			"disk_id":                 "数据磁盘ID",
+			"disk_size":               "数据磁盘的大小",
+			"disk_type":               "数据磁盘的类型",
+			"enabled":                 "是否启用TencentCloud自动化工具（TAT），TRUE或FALSE",
+			"encrypt":                 "数据磁盘是否加密，TRUE或FALSE",
+			"externals":               "扩展数据",
+			"host_ids":                "实例的CDH ID列表（输入）",
+			"host_ips":                "指定主机ip",
+			"internet_charge_type":    "互联网收费的类型",
+			"internet_max_bandwidth_out": "互联网出站带宽上限，Mbps",
+			"ipv6_address_count":      "弹性网络接口的ipv6地址数",
+			"keep_image_login":        "保持镜像的原始设置",
+			"key":                     "标签的钥匙",
+			"key_ids":                 "密钥ID列表",
+			"kms_key_id":              "自定义CMK的id",
+			"market_type":             "市场期权类型，目前仅支持价值现货",
+			"max_price":               "投标",
+			"max_size":                "HDD本地存储的最大容量",
+			"min_size":                "HDD本地存储的最小容量",
+			"monitor_service":         "启用云监控服务",
+			"password":                "实例的登录密码",
+			"period":                  "采购实例的周期",
+			"private_ip_addresses":    "私有ip地址",
+			"project_id":              "实例的项目ID",
+			"public_ip_assigned":      "是否分配公网IP，TRUE或FALSE",
+			"release_address":         "发布地址",
+			"renew_flag":              "自动续订标志",
+			"resource_type":           "资源的类型",
+			"security_service":        "启用云安全服务",
+			"snapshot_id":             "数据磁盘快照ID",
+			"spot_instance_type":      "招标请求类型，目前仅支持一次性类型",
+			"spot_options":            "与投标相关的选项",
+			"storage_block_attr":      "HDD本地存储属性",
+			"subnet_id":               "子网的id",
+			"throughput_performance":  "云磁盘性能，MB/s",
+			"timer_action":            "定时器名称",
+			"type":                    "HDD本地存储的类型",
+			"unsupport_networks":      "不支持的网络类型",
+			"value":                   "标签的值",
+			"vpc_id":                  "VPC的id",
+			"zone":                    "实例的可用区域ID",
 		},
 	})
 }

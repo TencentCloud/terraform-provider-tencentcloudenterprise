@@ -1,9 +1,9 @@
 /*
 Provides a resource to create a Ckafka Acl.
 
-# Example Usage
+Example Usage
 
-# Ckafka Acl
+Ckafka Acl
 
 ```hcl
 
@@ -19,7 +19,7 @@ Provides a resource to create a Ckafka Acl.
 
 ```
 
-# Import
+Import
 
 Ckafka acl can be imported using the instance_id#permission_type#principal#host#operation_type#resource_type#resource_type_name, e.g.
 

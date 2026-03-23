@@ -1,36 +1,35 @@
-// /*
-// Provides a resource to create a ckafka connect_resource
+///*
+//Provides a resource to create a ckafka connect_resource
 //
-// # Example Usage
+//Example Usage
 //
-// ```hcl
+//```hcl
+//resource "tencentcloudenterprise_ckafka_connect_resource" "connect_resource" {
+//  resource_name = "terraform-test"
+//  type          = "MYSQL"
+//  description   = "for terraform test"
 //
-//	resource "tencentcloudenterprise_ckafka_connect_resource" "connect_resource" {
-//	 resource_name = "terraform-test"
-//	 type          = "MYSQL"
-//	 description   = "for terraform test"
+//  mysql_connect_param {
+//    port        = 3306
+//    user_name   = "root"
+//    password    = "xxxxxxxxx"
+//    resource    = "cdb-fitq5t9h"
+//    service_vip = "172.16.80.59"
+//    uniq_vpc_id = "vpc-4owdpnwr"
+//    self_built  = false
+//  }
+//}
 //
-//	 mysql_connect_param {
-//	   port        = 3306
-//	   user_name   = "root"
-//	   password    = "xxxxxxxxx"
-//	   resource    = "cdb-fitq5t9h"
-//	   service_vip = "203.0.113.59"
-//	   uniq_vpc_id = "vpc-4owdpnwr"
-//	   self_built  = false
-//	 }
-//	}
+//```
 //
-// ```
+//Import
 //
-// # Import
+//ckafka connect_resource can be imported using the id, e.g.
 //
-// ckafka connect_resource can be imported using the id, e.g.
-//
-// ```
-// terraform import tencentcloudenterprise_ckafka_connect_resource.connect_resource connect_resource_id
-// ```
-// */
+//```
+//terraform import tencentcloudenterprise_ckafka_connect_resource.connect_resource connect_resource_id
+//```
+//*/
 package tencentcloud
 
 //

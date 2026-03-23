@@ -1,25 +1,23 @@
 /*
 Provides a resource to creating direct connect gateway instance.
 
-# Example Usage
+Example Usage
 
 ```hcl
+resource "tencentcloudenterprise_vpc" "main" {
+  name       = "ci-vpc-instance-test"
+  cidr_block = "10.0.0.0/16"
+}
 
-	resource "tencentcloudenterprise_vpc" "main" {
-	  name       = "ci-vpc-instance-test"
-	  cidr_block = "10.0.0.0/16"
-	}
-
-	resource "tencentcloudenterprise_vpc_dc_gateway" "vpc_main" {
-	  name                = "ci-cdg-vpc-test"
-	  network_instance_id = tencentcloudenterprise_vpc.main.id
-	  network_type        = "VPC"
-	  gateway_type        = "NAT"
-	}
-
+resource "tencentcloudenterprise_vpc_dc_gateway" "vpc_main" {
+  name                = "ci-cdg-vpc-test"
+  network_instance_id = tencentcloudenterprise_vpc.main.id
+  network_type        = "VPC"
+  gateway_type        = "NAT"
+}
 ```
 
-# Import
+Import
 
 Direct connect gateway instance can be imported, e.g.
 
@@ -32,6 +30,7 @@ package tencentcloud
 import (
 	"context"
 	"fmt"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 	"strings"
 	"time"
 
@@ -46,12 +45,16 @@ func init() {
 		AttributesCN: map[string]string{
 			"name":                "专线网关名称",
 			"network_type":        "网络类型",
-			"network_instance_id": "网络实例ID",
-			"gateway_type":        "网关类型",
-			"band_with":           "带宽",
-			"cnn_route_type":      "CCN路由类型",
-			"enable_bgp":          "是否启用BGP",
-			"create_time":         "创建时间",
+			"network_instance_id": "网络实例ID，当network_type为VPC时填写VPC ID",
+			"gateway_type":        "网关类型：NORMAL（普通网关）、NAT（NAT网关）",
+			"bandwidth":           "带宽",
+			"cnn_route_type":              "CCN路由类型",
+			"enable_bgp":                  "是否启用BGP",
+			"create_time":                 "创建时间",
+			"vpc_id":                      "VPC ID",
+			"ccn_id":                      "CCN ID",
+			"direct_connect_gateway_ip":   "专线网关IP地址",
+			"enable_bgp_community":        "是否启用BGP Community属性",
 		},
 	})
 }
@@ -72,32 +75,33 @@ func resourceTencentCloudDcGatewayInstance() *schema.Resource {
 				Type:         schema.TypeString,
 				Required:     true,
 				ValidateFunc: validateStringLengthInRange(1, 60),
-				Description:  "Name of the DCG.",
+				Description:  "Name of the direct connect gateway.",
 			},
 			"network_type": {
-				Type:     schema.TypeString,
-				Required: true,
-				ForceNew: true,
+				Type:         schema.TypeString,
+				Required:     true,
+				ForceNew:     true,
 				// ValidateFunc: validateAllowedStringValue(DCG_NETWORK_TYPES),
-				Description: "Type of associated network. Valid value: `VPC`.",
+				Description:  "Type of associated network. Valid value: `VPC`.",
 			},
 			"network_instance_id": {
 				Type:        schema.TypeString,
 				Required:    true,
 				ForceNew:    true,
-				Description: "If the `network_type` value is `VPC`, the available value is VPC ID.",
+				Description: "If the `network_type` value is `VPC`, the available value is VPC ID.", 
 			},
 			"gateway_type": {
-				Type:     schema.TypeString,
-				Required: true,
-				// Default:      DCG_GATEWAY_TYPE_NORMAL,
+				Type:         schema.TypeString,
+				Required:     true,
+				ForceNew:	  true,
 				ValidateFunc: validateAllowedStringValue(DCG_GATEWAY_TYPES),
 				Description:  "Type of the gateway. Valid value: `NORMAL` and `NAT`. Default is `NORMAL`.",
 			},
-			"band_with": {
-				Type:        schema.TypeInt,
-				Optional:    true,
-				Description: "The bandwith speed limit of the gateway.",
+			"bandwidth": {
+				Type:        	schema.TypeInt,
+				Optional:    	true,
+				ValidateFunc:	validation.IntAtLeast(1),
+				Description: 	"The bandwidth speed limit of the gateway.",
 			},
 
 			//compute
@@ -116,6 +120,26 @@ func resourceTencentCloudDcGatewayInstance() *schema.Resource {
 				Computed:    true,
 				Description: "Creation time of resource.",
 			},
+			"vpc_id": {
+				Type:        schema.TypeString,
+				Computed:    true,
+				Description: "VPC ID when network_type is VPC.",
+			},
+			"ccn_id": {
+				Type:        schema.TypeString,
+				Computed:    true,
+				Description: "CCN ID when network_type is CCN.",
+			},
+			"direct_connect_gateway_ip": {
+				Type:        schema.TypeString,
+				Computed:    true,
+				Description: "Direct connect gateway IP address.",
+			},
+			"enable_bgp_community": {
+				Type:        schema.TypeBool,
+				Computed:    true,
+				Description: "Whether BGP community attribute is enabled.",
+			},
 		},
 	}
 }
@@ -133,7 +157,7 @@ func resourceTencentCloudDcGatewayCreate(d *schema.ResourceData, meta interface{
 		networkType       = d.Get("network_type").(string)
 		networkInstanceId = d.Get("network_instance_id").(string)
 		gatewayType       = d.Get("gateway_type").(string)
-		bandwith          = int64(d.Get("band_with").(int))
+		bandwidth          = int64(d.Get("bandwidth").(int))
 	)
 
 	if networkType == DCG_NETWORK_TYPE_VPC &&
@@ -157,7 +181,7 @@ func resourceTencentCloudDcGatewayCreate(d *schema.ResourceData, meta interface{
 			DCG_GATEWAY_TYPE_NORMAL)
 	}
 
-	dcgId, err := service.CreateDirectConnectGateway(ctx, name, gatewayType, networkInstanceId, networkType, bandwith)
+	dcgId, err := service.CreateDirectConnectGateway(ctx, name, gatewayType, networkInstanceId, networkType, bandwidth)
 	if err != nil {
 		return err
 	}
@@ -183,13 +207,43 @@ func resourceTencentCloudDcGatewayRead(d *schema.ResourceData, meta interface{})
 			return retryError(e)
 		}
 
-		_ = d.Set("name", info.DirectConnectGatewayName)
-		_ = d.Set("network_type", info.NetworkType)
-		_ = d.Set("network_instance_id", info.NetworkInstanceId)
-		_ = d.Set("gateway_type", info.GatewayType)
-		_ = d.Set("cnn_route_type", info.CcnRouteType)
-		_ = d.Set("enable_bgp", info.EnableBGP)
-		_ = d.Set("create_time", info.CreateTime)
+		if info == nil {
+			return resource.NonRetryableError(fmt.Errorf("direct connect gateway %s not found", d.Id()))
+		}
+
+		if info.DirectConnectGatewayName != nil {
+			_ = d.Set("name", *info.DirectConnectGatewayName)
+		}
+		if info.NetworkType != nil {
+			_ = d.Set("network_type", *info.NetworkType)
+		}
+		if info.NetworkInstanceId != nil {
+			_ = d.Set("network_instance_id", *info.NetworkInstanceId)
+		}
+		if info.GatewayType != nil {
+			_ = d.Set("gateway_type", *info.GatewayType)
+		}
+		if info.CcnRouteType != nil {
+			_ = d.Set("cnn_route_type", *info.CcnRouteType)
+		}
+		if info.EnableBGP != nil {
+			_ = d.Set("enable_bgp", *info.EnableBGP)
+		}
+		if info.CreateTime != nil {
+			_ = d.Set("create_time", *info.CreateTime)
+		}
+		if info.VpcId != nil {
+			_ = d.Set("vpc_id", *info.VpcId)
+		}
+		if info.CcnId != nil {
+			_ = d.Set("ccn_id", *info.CcnId)
+		}
+		if info.DirectConnectGatewayIp != nil {
+			_ = d.Set("direct_connect_gateway_ip", *info.DirectConnectGatewayIp)
+		}
+		if info.EnableBGPCommunity != nil {
+			_ = d.Set("enable_bgp_community", *info.EnableBGPCommunity)
+		}
 		return nil
 	})
 	if err != nil {
@@ -204,11 +258,15 @@ func resourceTencentCloudDcGatewayUpdate(d *schema.ResourceData, meta interface{
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
 
+	if d.HasChange("gateway_type") {
+		return fmt.Errorf("argument `gateway_type` cannot be changed")
+	}
+
 	service := VpcService{client: meta.(*TencentCloudClient).apiV3Conn}
-	if d.HasChange("name") || d.HasChanges("band_with") {
+	if d.HasChange("name") || d.HasChange("bandwidth") {
 		var name = d.Get("name").(string)
-		var bandwith = int64(d.Get("band_with").(int))
-		return service.ModifyDirectConnectGatewayAttribute(ctx, d.Id(), name, bandwith)
+		var bandwidth = int64(d.Get("bandwidth").(int))
+		return service.ModifyDirectConnectGatewayAttribute(ctx, d.Id(), name, bandwidth)
 	}
 
 	return resourceTencentCloudDcGatewayRead(d, meta)

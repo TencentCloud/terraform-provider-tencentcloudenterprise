@@ -20,10 +20,10 @@ import (
 	"context"
 	"log"
 
+	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	kms "github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/kms/v20190118"
-	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
 )
 
 func init() {
@@ -76,7 +76,7 @@ func dataSourceTencentCloudKmsKeys() *schema.Resource {
 				Type:        schema.TypeString,
 				Optional:    true,
 				Default:     KMS_ORIGIN_ALL,
-				Description: "Filter by origin of CMK. `TENCENT_KMS` - CMK created by KMS, `EXTERNAL` - CMK imported by user, `ALL` - all CMKs. Default value is `ALL`.",
+				Description: "Filter by origin of CMK.",
 			},
 			"key_usage": {
 				Type:        schema.TypeString,
@@ -158,7 +158,7 @@ func dataSourceTencentCloudKmsKeys() *schema.Resource {
 						"origin": {
 							Type:        schema.TypeString,
 							Computed:    true,
-							Description: "Origin of CMK. `TENCENT_KMS` - CMK created by KMS, `EXTERNAL` - CMK imported by user.",
+							Description: "Origin of CMK.",
 						},
 						"valid_to": {
 							Type:        schema.TypeInt,

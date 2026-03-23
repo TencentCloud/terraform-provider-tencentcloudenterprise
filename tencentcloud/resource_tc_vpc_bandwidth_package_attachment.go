@@ -1,17 +1,16 @@
 /*
 Provides a resource to create a vpc bandwidth_package_attachment
 
-# Example Usage
+Example Usage
 
 ```hcl
-
-	resource "tencentcloudenterprise_vpc_bandwidth_package_attachment" "bandwidth_package_attachment" {
-	  resource_id           = "lb-dv1ai6ma"
-	  bandwidth_package_id  = "bwp-atmf0p9g"
-	  network_type          = "BGP"
-	  resource_type         = "LoadBalance"
-	  protocol              = ""
-	}
+resource "tencentcloudenterprise_vpc_bandwidth_package_attachment" "bandwidth_package_attachment" {
+  resource_id           = "lb-dv1ai6ma"
+  bandwidth_package_id  = "bwp-atmf0p9g"
+  network_type          = "BGP"
+  resource_type         = "LoadBalance"
+  protocol              = ""
+}
 
 ```
 */
@@ -23,10 +22,10 @@ import (
 	"log"
 	"strings"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	vpc "terraform-provider-tencentcloudenterprise/sdk/vpc/v20170312"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func init() {
@@ -168,7 +167,7 @@ func resourceTencentCloudVpcBandwidthPackageAttachmentRead(d *schema.ResourceDat
 
 	if bandwidthPackageAttachment == nil {
 		d.SetId("")
-		log.Printf("[WARN]%s resource `cloud_vpc_bandwidth_package_attachment` [%s] not found, please check if it has been deleted.",
+		log.Printf("[WARN]%s resource `tencentcloudenterprise_vpc_bandwidth_package_attachment` [%s] not found, please check if it has been deleted.",
 			logId, bandwidthPackageId,
 		)
 		return nil

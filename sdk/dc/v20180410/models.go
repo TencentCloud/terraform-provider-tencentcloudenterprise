@@ -497,6 +497,9 @@ type ModifyDirectConnectAttributeRequest struct {
 	// 物理的专线带宽。
 
 	Bandwidth *uint64 `json:"Bandwidth,omitempty" name:"Bandwidth"`
+
+	// 是否共享
+	IsShare *bool `json:"IsShare,omitempty" name:"IsShare"`
 }
 
 func (r *ModifyDirectConnectAttributeRequest) ToJsonString() string {
@@ -747,12 +750,18 @@ type DirectConnect struct {
 	// IDC所在城市
 
 	IdcCity *string `json:"IdcCity,omitempty" name:"IdcCity"`
+	// 物理专线接入IDC侧端口类型,取值：100Base-T：百兆电口,1000Base-T（默认值）：千兆电口,1000Base-LX：千兆单模光口（10千米）,10GBase-T：万兆电口10GBase-LR：万兆单模光口（10千米），默认值，千兆单模光口（10千米）。
+
+	IdcPortType *string `json:"IdcPortType,omitempty" name:"IdcPortType"`
 	// 云侧端口类型
 
 	CloudPortType *string `json:"CloudPortType,omitempty" name:"CloudPortType"`
 	// 申请ID
 
 	ApplyId *uint64 `json:"ApplyId,omitempty" name:"ApplyId"`
+
+	// 是否共享
+	IsShare *bool `json:"IsShare,omitempty" name:"IsShare"`
 }
 
 type TcapAccessPoint struct {

@@ -1,14 +1,12 @@
 /*
 Use this data source to query detailed information of tsf delivery_configs
 
-# Example Usage
+Example Usage
 
 ```hcl
-
-	data "tencentcloudenterprise_tsf_delivery_configs" "delivery_configs" {
-	  search_word = "test"
-	}
-
+data "tencentcloudenterprise_tsf_delivery_configs" "delivery_configs" {
+  search_word = "test"
+}
 ```
 */
 package tencentcloud
@@ -16,10 +14,10 @@ package tencentcloud
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	tsf "terraform-provider-tencentcloudenterprise/sdk/tsf/v20180326"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func init() {
@@ -51,7 +49,7 @@ func init() {
 func dataSourceTencentCloudTsfDeliveryConfigs() *schema.Resource {
 	return &schema.Resource{
 		Description: "This data source provides detailed information of tsf delivery_configs",
-		Read:        dataSourceTencentCloudTsfDeliveryConfigsRead,
+		Read: dataSourceTencentCloudTsfDeliveryConfigsRead,
 		Schema: map[string]*schema.Schema{
 			"search_word": {
 				Optional:    true,

@@ -1,24 +1,22 @@
 /*
 Use this data source to query detailed information of tdmq publishers
 
-# Example Usage
+Example Usage
 
 ```hcl
-
-	data "tencentcloudenterprise_tdmq_publishers" "publishers" {
-	  cluster_id = "pulsar-9n95ax58b9vn"
-	  namespace  = "keep-ns"
-	  topic      = "keep-topic"
-	  filters {
-	    name   = "ProducerName"
-	    values = ["test"]
-	  }
-	  sort {
-	    name  = "ProducerName"
-	    order = "DESC"
-	  }
-	}
-
+data "tencentcloudenterprise_tdmq_publishers" "publishers" {
+  cluster_id = "pulsar-9n95ax58b9vn"
+  namespace  = "keep-ns"
+  topic      = "keep-topic"
+  filters {
+    name   = "ProducerName"
+    values = ["test"]
+  }
+  sort {
+    name  = "ProducerName"
+    order = "DESC"
+  }
+}
 ```
 */
 package tencentcloud

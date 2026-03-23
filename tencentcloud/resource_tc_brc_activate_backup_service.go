@@ -1,7 +1,7 @@
 /*
 Provides a resource to activate a brc backup service
 
-# Example Usage
+Example Usage
 
 ```hcl
 
@@ -16,12 +16,12 @@ package tencentcloud
 import (
 	"context"
 	"fmt"
-	"log"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
+	"log"
 
+	brc "terraform-provider-tencentcloudenterprise/sdk/brc/v20220516"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	brc "terraform-provider-tencentcloudenterprise/sdk/brc/v20220516"
 )
 
 func init() {
@@ -45,8 +45,8 @@ func resourceTencentCloudBrcActivateBackupService() *schema.Resource {
 		},
 		Schema: map[string]*schema.Schema{
 			"resource_type": {
-				Required: true,
-				ForceNew: true,
+				Required:    true,
+				ForceNew:	true,
 				//ValidateFunc: validateAllowedStringValue(BackupResouceTypes),
 				Type:        schema.TypeString,
 				Description: "The resource type to be backed up. Valid values: 'CFS','COS', 'CSP', 'DISK', 'INSTANCE', 'MySQL_MariaDB', 'TDSQL_MySQL'",

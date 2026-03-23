@@ -230,7 +230,7 @@ func resourceTencentCloudClbListener() *schema.Resource {
 				Type:         schema.TypeString,
 				Required:     true,
 				ValidateFunc: validateStringLengthInRange(1, 60),
-				Description:  "Name of the CLB listener, and available values can only be Chinese characters, English letters, numbers, underscore and hyphen '-'.",
+				Description:  "Name of the CLB listener, and available values can only be English letters, numbers, underscore and hyphen '-'.",
 			},
 			"port": {
 				Type:         schema.TypeInt,
@@ -264,7 +264,7 @@ func resourceTencentCloudClbListener() *schema.Resource {
 				Optional:     true,
 				Computed:     true,
 				ValidateFunc: validateIntegerInRange(2, 300),
-				Description:  "Interval time of health check. Valid value ranges: [2~300] sec. and the default is 5 sec. NOTES: TCP/UDP listener allows direct configuration, HTTP/HTTPS listener needs to be configured in `cloud_clb_listener_rule`.",
+				Description:  "Interval time of health check. Valid value ranges: [2~300] sec. and the default is 5 sec. NOTES: TCP/UDP listener allows direct configuration, HTTP/HTTPS listener needs to be configured in `tencentcloudenterprise_clb_listener_rule`.",
 			},
 			"health_check_health_num": {
 				Type:         schema.TypeInt,
@@ -282,7 +282,7 @@ func resourceTencentCloudClbListener() *schema.Resource {
 					"If a success result is returned for the health check 3 consecutive times, " +
 					"the CVM is identified as unhealthy. The value range is [2-10]. " +
 					"NOTES: TCP/UDP listener allows direct configuration, " +
-					"HTTP/HTTPS listener needs to be configured in `cloud_clb_listener_rule`.",
+					"HTTP/HTTPS listener needs to be configured in `tencentcloudenterprise_clb_listener_rule`.",
 			},
 			"health_check_type": {
 				Type:         schema.TypeString,
@@ -384,20 +384,20 @@ func resourceTencentCloudClbListener() *schema.Resource {
 				Type:     schema.TypeInt,
 				Optional: true,
 				// ValidateFunc: validateIntegerInRange(30, 3600),
-				Description: "Time of session persistence within the CLB listener. NOTES: Available when scheduler is specified as `WRR`. NOTES: TCP/UDP listener allows direct configuration, HTTP/HTTPS listener needs to be configured in `cloud_clb_listener_rule`.",
+				Description: "Time of session persistence within the CLB listener. NOTES: Available when scheduler is specified as `WRR`. NOTES: TCP/UDP listener allows direct configuration, HTTP/HTTPS listener needs to be configured in `tencentcloudenterprise_clb_listener_rule`.",
 			},
 			"scheduler": {
 				Type:         schema.TypeString,
 				Default:      CLB_LISTENER_SCHEDULER_WRR,
 				Optional:     true,
 				ValidateFunc: validateAllowedStringValue(CLB_LISTENER_SCHEDULER),
-				Description:  "Scheduling method of the CLB listener, and available values are 'WRR' and 'LEAST_CONN'. The default is 'WRR'. NOTES: The listener of `HTTP` and `HTTPS` protocol additionally supports the `IP Hash` method. NOTES: TCP/UDP listener allows direct configuration, HTTP/HTTPS listener needs to be configured in `cloud_clb_listener_rule`.",
+				Description:  "Scheduling method of the CLB listener, and available values are 'WRR' and 'LEAST_CONN'. The default is 'WRR'. NOTES: The listener of `HTTP` and `HTTPS` protocol additionally supports the `IP Hash` method. NOTES: TCP/UDP listener allows direct configuration, HTTP/HTTPS listener needs to be configured in `tencentcloudenterprise_clb_listener_rule`.",
 			},
 			"sni_switch": {
 				Type:        schema.TypeBool,
 				ForceNew:    true,
 				Optional:    true,
-				Description: "Indicates whether SNI is enabled, and only supported with protocol `HTTPS`. If enabled, you can set a certificate for each rule in `cloud_clb_listener_rule`, otherwise all rules have a certificate.",
+				Description: "Indicates whether SNI is enabled, and only supported with protocol `HTTPS`. If enabled, you can set a certificate for each rule in `tencentcloudenterprise_clb_listener_rule`, otherwise all rules have a certificate.",
 			},
 			"target_type": {
 				Type:         schema.TypeString,

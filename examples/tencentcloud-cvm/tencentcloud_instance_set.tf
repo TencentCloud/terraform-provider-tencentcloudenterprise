@@ -17,15 +17,15 @@ data "tencentcloudenterprise_availability_zones" "my_favorite_zones" {}
 
 // Create VPC resource
 resource "tencentcloudenterprise_vpc" "app" {
-  cidr_block = "203.0.113.0/24"
+  cidr_block = "10.0.0.0/16"
   name       = "awesome_app_vpc"
 }
 
 resource "tencentcloudenterprise_vpc_subnet" "app" {
-  vpc_id            = cloud_vpc.app.id
-  availability_zone = data.cloud_availability_zones.my_favorite_zones.zones.0.name
+  vpc_id            = tencentcloudenterprise_vpc.app.id
+  availability_zone = data.tencentcloudenterprise_availability_zones.my_favorite_zones.zones.0.name
   name              = "awesome_app_subnet"
-  cidr_block        = "203.0.113.0/28"
+  cidr_block        = "10.0.1.0/24"
 }
 
 // Create 2 CVM instances to host awesome_app
@@ -37,14 +37,14 @@ resource "tencentcloudenterprise_instance_set" "my_awesome_app" {
   }
   instance_name     = "awesome_app"
   instance_count    = 5
-  availability_zone = data.cloud_availability_zones.my_favorite_zones.zones.0.name
-  image_id          = data.cloud_cvm_images.my_favorite_image.images.0.image_id
-  instance_type     = data.cloud_cvm_instance_types.my_favorite_instance_types.instance_types.0.instance_type
+  availability_zone = data.tencentcloudenterprise_availability_zones.my_favorite_zones.zones.0.name
+  image_id          = data.tencentcloudenterprise_cvm_images.my_favorite_image.images.0.image_id
+  instance_type     = data.tencentcloudenterprise_cvm_instance_types.my_favorite_instance_types.instance_types.0.instance_type
   system_disk_type  = "CLOUD_PREMIUM"
   system_disk_size  = 60
   hostname          = "user"
-  vpc_id            = cloud_vpc.app.id
-  subnet_id         = cloud_vpc_subnet.app.id
+  vpc_id            = tencentcloudenterprise_vpc.app.id
+  subnet_id         = tencentcloudenterprise_vpc_subnet.app.id
 
   #  data_disks {
   #    data_disk_type = "CLOUD_PREMIUM"

@@ -3072,3 +3072,144 @@ func (r *DeleteUserSyncProvisioningResponse) ToJsonString() string {
 func (r *DeleteUserSyncProvisioningResponse) FromJsonString(s string) error {
 	return json.Unmarshal([]byte(s), &r)
 }
+
+// ListGroups
+
+type ListGroupsRequest struct {
+	*tchttp.BaseRequest
+
+	// 空间 ID。
+	ZoneId *string `json:"ZoneId,omitnil,omitempty" name:"ZoneId"`
+
+	// 查询返回结果下一页的令牌。首次调用不需要 NextToken。
+	NextToken *string `json:"NextToken,omitnil,omitempty" name:"NextToken"`
+
+	// 每页的最大数据条数，取值范围：1~100，默认值：10。
+	MaxResults *int64 `json:"MaxResults,omitnil,omitempty" name:"MaxResults"`
+
+	// 过滤条件。格式：<Attribute> <Operator> <Value>，不区分大小写。
+	// 目前 <Attribute> 只支持 GroupName，<Operator> 只支持 eq 和 sw。
+	Filter *string `json:"Filter,omitnil,omitempty" name:"Filter"`
+
+	// 用户组的类型。Manual：手动创建，Synchronized：外部导入。
+	GroupType *string `json:"GroupType,omitnil,omitempty" name:"GroupType"`
+
+	// 筛选的用户，该用户关联的用户组会返回 IsSelected=true。
+	FilterUsers []*string `json:"FilterUsers,omitnil,omitempty" name:"FilterUsers"`
+
+	// 排序字段，目前只支持 CreateTime，默认是 CreateTime。
+	SortField *string `json:"SortField,omitnil,omitempty" name:"SortField"`
+
+	// 排序类型：Desc 倒序，Asc 正序。需与 SortField 一起设置。
+	SortType *string `json:"SortType,omitnil,omitempty" name:"SortType"`
+}
+
+func (r *ListGroupsRequest) ToJsonString() string {
+	b, _ := json.Marshal(r)
+	return string(b)
+}
+
+func (r *ListGroupsRequest) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
+type ListGroupsResponseParams struct {
+	// 查询返回结果下一页的令牌，仅 IsTruncated 为 true 时显示。
+	NextToken *string `json:"NextToken,omitnil,omitempty" name:"NextToken"`
+
+	// 用户组列表。
+	Groups []*GroupInfo `json:"Groups,omitnil,omitempty" name:"Groups"`
+
+	// 每页的最大数据条数。
+	MaxResults *int64 `json:"MaxResults,omitnil,omitempty" name:"MaxResults"`
+
+	// 符合请求参数条件的数据总条数。
+	TotalCounts *int64 `json:"TotalCounts,omitnil,omitempty" name:"TotalCounts"`
+
+	// 返回结果是否被截断。true：已截断；false：未截断。
+	IsTruncated *bool `json:"IsTruncated,omitnil,omitempty" name:"IsTruncated"`
+
+	// 唯一请求 ID。
+	RequestId *string `json:"RequestId,omitnil,omitempty" name:"RequestId"`
+}
+
+type ListGroupsResponse struct {
+	*tchttp.BaseResponse
+	Response *ListGroupsResponseParams `json:"Response"`
+}
+
+func (r *ListGroupsResponse) ToJsonString() string {
+	b, _ := json.Marshal(r)
+	return string(b)
+}
+
+func (r *ListGroupsResponse) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
+// ListRoleConfigurations
+
+type ListRoleConfigurationsRequest struct {
+	*tchttp.BaseRequest
+
+	// 空间 ID。
+	ZoneId *string `json:"ZoneId,omitnil,omitempty" name:"ZoneId"`
+
+	// 查询返回结果下一页的令牌。首次调用不需要 NextToken。
+	NextToken *string `json:"NextToken,omitnil,omitempty" name:"NextToken"`
+
+	// 每页的最大数据条数，取值范围：1~100，默认值：10。
+	MaxResults *int64 `json:"MaxResults,omitnil,omitempty" name:"MaxResults"`
+
+	// 过滤文本，不区分大小写。支持 RoleConfigurationName 和 Description。
+	Filter *string `json:"Filter,omitnil,omitempty" name:"Filter"`
+
+	// 检索成员账号是否配置过权限，如果配置过返回 IsSelected: true，否则返回 false。
+	FilterTargets []*int64 `json:"FilterTargets,omitnil,omitempty" name:"FilterTargets"`
+
+	// 授权的用户 UserId 或用户组 GroupId，必须和 FilterTargets 一起设置。
+	PrincipalId *string `json:"PrincipalId,omitnil,omitempty" name:"PrincipalId"`
+}
+
+func (r *ListRoleConfigurationsRequest) ToJsonString() string {
+	b, _ := json.Marshal(r)
+	return string(b)
+}
+
+func (r *ListRoleConfigurationsRequest) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
+type ListRoleConfigurationsResponseParams struct {
+	// 符合请求参数条件的数据总条数。
+	TotalCounts *int64 `json:"TotalCounts,omitnil,omitempty" name:"TotalCounts"`
+
+	// 每页的最大数据条数。
+	MaxResults *int64 `json:"MaxResults,omitnil,omitempty" name:"MaxResults"`
+
+	// 返回结果是否被截断。true：已截断；false：未截断。
+	IsTruncated *bool `json:"IsTruncated,omitnil,omitempty" name:"IsTruncated"`
+
+	// 查询返回结果下一页的令牌，仅 IsTruncated 为 true 时显示。
+	NextToken *string `json:"NextToken,omitnil,omitempty" name:"NextToken"`
+
+	// 权限配置列表。
+	RoleConfigurations []*RoleConfiguration `json:"RoleConfigurations,omitnil,omitempty" name:"RoleConfigurations"`
+
+	// 唯一请求 ID。
+	RequestId *string `json:"RequestId,omitnil,omitempty" name:"RequestId"`
+}
+
+type ListRoleConfigurationsResponse struct {
+	*tchttp.BaseResponse
+	Response *ListRoleConfigurationsResponseParams `json:"Response"`
+}
+
+func (r *ListRoleConfigurationsResponse) ToJsonString() string {
+	b, _ := json.Marshal(r)
+	return string(b)
+}
+
+func (r *ListRoleConfigurationsResponse) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}

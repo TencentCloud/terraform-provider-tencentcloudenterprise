@@ -1,21 +1,20 @@
 /*
 Provides a resource to create CBS set.
 
-# Example Usage
+Example Usage
 
 ```hcl
-
-	resource "tencentcloudenterprise_cbs_storage_set" "storage" {
-	        disk_count 		  = 10
-	        storage_name      = "mystorage"
-	        storage_type      = "CLOUD_SSD"
-	        storage_size      = 100
-	        availability_zone = "ap-guangzhou-3"
-	        project_id        = 0
-	        encrypt           = false
-	}
-
+resource "tencentcloudenterprise_cbs_storage_set" "storage" {
+        disk_count 		  = 10
+        storage_name      = "mystorage"
+        storage_type      = "CLOUD_SSD"
+        storage_size      = 100
+        availability_zone = "ap-guangzhou-3"
+        project_id        = 0
+        encrypt           = false
+}
 ```
+
 */
 package tencentcloud
 
@@ -28,10 +27,10 @@ import (
 
 	sdkErrors "terraform-provider-tencentcloudenterprise/sdk/common/errors"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	cbs "terraform-provider-tencentcloudenterprise/sdk/cbs/v20170312"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func init() {
@@ -262,7 +261,7 @@ func resourceTencentCloudCbsStorageSetRead(d *schema.ResourceData, meta interfac
 func resourceTencentCloudCbsStorageSetUpdate(d *schema.ResourceData, meta interface{}) error {
 	defer logElapsed("resource.tencentcloudenterprise_cbs_storage_set.update")()
 
-	return fmt.Errorf("`cloud_cbs_storage_set` do not support change now.")
+	return fmt.Errorf("`tencentcloudenterprise_cbs_storage_set` do not support change now.")
 }
 
 func resourceTencentCloudCbsStorageSetDelete(d *schema.ResourceData, meta interface{}) error {

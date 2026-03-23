@@ -1,14 +1,12 @@
 /*
 Use this data source to query cvm instances.
 
-# Example Usage
+Example Usage
 
 ```hcl
-
-	data "tencentcloudenterprise_cvm_instances" "foo" {
-	  instance_id = "ins-da412f5a"
-	}
-
+data "tencentcloudenterprise_cvm_instances" "foo" {
+  instance_id = "ins-da412f5a"
+}
 ```
 */
 package tencentcloud
@@ -18,10 +16,10 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	cvm "terraform-provider-tencentcloudenterprise/sdk/cvm/v20170312"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func init() {

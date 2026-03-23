@@ -13,8 +13,8 @@ Provide a resource to create a kubernetes cluster.
 
 ~> **NOTE:** To use the custom Kubernetes component startup parameter function (parameter `extra_args`), you need to submit a ticket for application.
 
-~> **NOTE:** We recommend this usage that uses the `cloud_tke_kubernetes_cluster` resource to create a cluster without any `worker_config`, then adds nodes by the `cloud_kubernetes_node_pool` resource.
-It's more flexible than managing worker config directly with `cloud_tke_kubernetes_cluster`, `cloud_tke_kubernetes_scale_worker`, or existing node management of `cloud_kubernetes_attachment`. The reason is that `worker_config` is unchangeable and may cause the whole cluster resource to `ForceNew`.
+~> **NOTE:** We recommend this usage that uses the `tencentcloudenterprise_tke_kubernetes_cluster` resource to create a cluster without any `worker_config`, then adds nodes by the `tencentcloudenterprise_kubernetes_node_pool` resource.
+It's more flexible than managing worker config directly with `tencentcloudenterprise_tke_kubernetes_cluster`, `tencentcloudenterprise_tke_kubernetes_scale_worker`, or existing node management of `tencentcloudenterprise_kubernetes_attachment`. The reason is that `worker_config` is unchangeable and may cause the whole cluster resource to `ForceNew`.
 
 ## Example Usage
 
@@ -466,13 +466,13 @@ The following arguments are supported:
 * `cluster_desc` - (Optional, String) Description of the cluster.
 * `cluster_extra_args` - (Optional, List, ForceNew) Customized parameters for master component,such as kube-apiserver, kube-controller-manager, kube-scheduler.
 * `cluster_ipvs` - (Optional, Bool, ForceNew) Indicates whether `ipvs` is enabled. Default is true. False means `iptables` is enabled.
-* `cluster_level` - (Optional, String) Specify cluster level, valid for managed cluster, use data source `cloud_kubernetes_cluster_levels` to query available levels. Available value examples `L5`, `L20`, `L50`, `L100`, etc.
+* `cluster_level` - (Optional, String) Specify cluster level, valid for managed cluster, use data source `tencentcloudenterprise_kubernetes_cluster_levels` to query available levels. Available value examples `L5`, `L20`, `L50`, `L100`, etc.
 * `cluster_max_pod_num` - (Optional, Int, ForceNew) The maximum number of Pods per node in the cluster. Default is 256. The minimum value is 4. When its power unequal to 2, it will round upward to the closest power of 2.
 * `cluster_max_service_num` - (Optional, Int, ForceNew) The maximum number of services in the cluster. Default is 256. The range is from 32 to 32768. When its power unequal to 2, it will round upward to the closest power of 2.
 * `cluster_name` - (Optional, String) Name of the cluster.
 * `cluster_os_type` - (Optional, String, ForceNew) Image type of the cluster os, the available values include: 'GENERAL'. Default is 'GENERAL'.
 * `cluster_os` - (Optional, String, ForceNew) Operating system of the cluster, the available values include: 'centos7.6.0_x64','ubuntu18.04.1x86_64','tlinux2.4x86_64'. Default is 'tlinux2.4x86_64'.
-* `cluster_version` - (Optional, String) Version of the cluster, Default is '1.10.5'. Use `cloud_tke_kubernetes_available_cluster_versions` to get the available versions.
+* `cluster_version` - (Optional, String) Version of the cluster, Default is '1.10.5'. Use `tencentcloudenterprise_tke_kubernetes_available_cluster_versions` to get the available versions.
 * `container_runtime` - (Optional, String, ForceNew) Runtime type of the cluster, the available values include: 'docker' and 'containerd'.The Kubernetes v1.24 has removed dockershim, so please use containerd in v1.24 or higher.Default is 'docker'.
 * `docker_graph_path` - (Optional, String, ForceNew) Docker graph path. Default is `/var/lib/docker`.
 * `eni_subnet_ids` - (Optional, List: [`String`]) Subnet Ids for cluster with VPC-CNI network mode. This field can only set when field `network_type` is 'VPC-CNI'. `eni_subnet_ids` can not empty once be set.
@@ -486,7 +486,7 @@ The following arguments are supported:
 * `service_cidr` - (Optional, String, ForceNew) A network address block of the service. Different from vpc cidr and cidr of other clusters within this vpc. Must be in  10./192.168/172.[16-31] segments.
 * `tags` - (Optional, Map) The tags of the cluster.
 * `unschedulable` - (Optional, Int, ForceNew) Sets whether the joining node participates in the schedule. Default is '0'. Participate in scheduling.
-* `worker_config` - (Optional, List, ForceNew) Deploy the machine configuration information of the 'WORKER' service, and create <=20 units for common users. The other 'WORK' service are added by 'cloud_kubernetes_worker'.
+* `worker_config` - (Optional, List, ForceNew) Deploy the machine configuration information of the 'WORKER' service, and create <=20 units for common users. The other 'WORK' service are added by 'tencentcloudenterprise_kubernetes_worker'.
 
 The `cluster_extra_args` object supports the following:
 

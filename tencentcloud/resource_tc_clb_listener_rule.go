@@ -126,21 +126,21 @@ func resourceTencentCloudClbListenerRule() *schema.Resource {
 				Optional:     true,
 				Computed:     true,
 				ValidateFunc: validateIntegerInRange(2, 300),
-				Description:  "Interval time of health check. Valid value ranges: (2~300) sec. and the default is `5` sec. NOTES: TCP/UDP listener allows direct configuration, HTTP/HTTPS listener needs to be configured in `cloud_clb_listener_rule`.",
+				Description:  "Interval time of health check. Valid value ranges: (2~300) sec. and the default is `5` sec. NOTES: TCP/UDP listener allows direct configuration, HTTP/HTTPS listener needs to be configured in `tencentcloudenterprise_clb_listener_rule`.",
 			},
 			"health_check_health_num": {
 				Type:         schema.TypeInt,
 				Optional:     true,
 				Computed:     true,
 				ValidateFunc: validateIntegerInRange(2, 10),
-				Description:  "Health threshold of health check, and the default is `3`. If a success result is returned for the health check 3 consecutive times, indicates that the forwarding is normal. The value range is [2-10]. NOTES: TCP/UDP listener allows direct configuration, HTTP/HTTPS listener needs to be configured in `cloud_clb_listener_rule`.",
+				Description:  "Health threshold of health check, and the default is `3`. If a success result is returned for the health check 3 consecutive times, indicates that the forwarding is normal. The value range is [2-10]. NOTES: TCP/UDP listener allows direct configuration, HTTP/HTTPS listener needs to be configured in `tencentcloudenterprise_clb_listener_rule`.",
 			},
 			"health_check_unhealth_num": {
 				Type:         schema.TypeInt,
 				Optional:     true,
 				Computed:     true,
 				ValidateFunc: validateIntegerInRange(2, 10),
-				Description:  "Unhealthy threshold of health check, and the default is `3`. If the unhealthy result is returned 3 consecutive times, indicates that the forwarding is abnormal. The value range is [2-10].  NOTES: TCP/UDP listener allows direct configuration, HTTP/HTTPS listener needs to be configured in `cloud_clb_listener_rule`.",
+				Description:  "Unhealthy threshold of health check, and the default is `3`. If the unhealthy result is returned 3 consecutive times, indicates that the forwarding is abnormal. The value range is [2-10].  NOTES: TCP/UDP listener allows direct configuration, HTTP/HTTPS listener needs to be configured in `tencentcloudenterprise_clb_listener_rule`.",
 			},
 			"health_check_type": {
 				Type:         schema.TypeString,
@@ -203,7 +203,7 @@ func resourceTencentCloudClbListenerRule() *schema.Resource {
 				Type:     schema.TypeInt,
 				Optional: true,
 				// ValidateFunc: validateIntegerInRange(30, 3600),
-				Description: "Time of session persistence within the CLB listener. NOTES: Available when scheduler is specified as `WRR`.  NOTES: TCP/UDP listener allows direct configuration, HTTP/HTTPS listener needs to be configured in `cloud_clb_listener_rule`.",
+				Description: "Time of session persistence within the CLB listener. NOTES: Available when scheduler is specified as `WRR`.  NOTES: TCP/UDP listener allows direct configuration, HTTP/HTTPS listener needs to be configured in `tencentcloudenterprise_clb_listener_rule`.",
 			},
 			"http2_switch": {
 				Type:        schema.TypeBool,
@@ -217,7 +217,7 @@ func resourceTencentCloudClbListenerRule() *schema.Resource {
 				Default:      CLB_LISTENER_SCHEDULER_WRR,
 				ValidateFunc: validateAllowedStringValue(CLB_LISTENER_SCHEDULER),
 				Description: "Scheduling method of the CLB listener rules. Valid values: `WRR`, `IP_HASH`, " +
-					"`LEAST_CONN`. The default is `WRR`.  NOTES: TCP/UDP listener allows direct configuration, HTTP/HTTPS listener needs to be configured in `cloud_clb_listener_rule`.",
+					"`LEAST_CONN`. The default is `WRR`.  NOTES: TCP/UDP listener allows direct configuration, HTTP/HTTPS listener needs to be configured in `tencentcloudenterprise_clb_listener_rule`.",
 			},
 			"target_type": {
 				Type:         schema.TypeString,

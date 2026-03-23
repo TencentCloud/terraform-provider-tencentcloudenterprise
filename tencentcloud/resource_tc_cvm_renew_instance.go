@@ -1,19 +1,17 @@
 /*
 Provides a resource to create a cvm renew_instance
 
-# Example Usage
+Example Usage
 
 ```hcl
-
-	resource "tencentcloudenterprise_cvm_renew_instance" "renew_instance" {
-	  instance_id = "xxx"
-	  instance_charge_prepaid {
-		period = 1
-		renew_flag = "NOTIFY_AND_AUTO_RENEW"
-	  }
-	  renew_portable_data_disk = true
-	}
-
+resource "tencentcloudenterprise_cvm_renew_instance" "renew_instance" {
+  instance_id = "xxx"
+  instance_charge_prepaid {
+	period = 1
+	renew_flag = "NOTIFY_AND_AUTO_RENEW"
+  }
+  renew_portable_data_disk = true
+}
 ```
 */
 package tencentcloud
@@ -21,9 +19,9 @@ package tencentcloud
 import (
 	"log"
 
+	cvm "terraform-provider-tencentcloudenterprise/sdk/cvm/v20170312"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	cvm "terraform-provider-tencentcloudenterprise/sdk/cvm/v20170312"
 )
 
 func init() {
@@ -36,11 +34,11 @@ func init() {
 				"通过该参数可以指定包年包月实例的购买时长以及是否设置自动续费如果指定实例的付费模式为预付费，则该参数必传",
 			"renew_portable_data_disk": "是否续费弹性数据盘",
 			"period":                   "认购期；单位月；有效值1、2、3、4、5、6、7、8、9、10、11、12、24、36、48、60。注意：此字段可能返回null，表示找不到有效值",
-			"renew_flag": "自动续订标志。有效值\n" +
-				"- `NOTIFY_AND_AUTO_RENEW`:到期时通知并自动续订；\n" +
-				"- `NOTIFY_AND_MANUAL_RENEW `:到期时通知，但不自动续订；\n" +
-				"- `DISABLE_NOTIFY_AND_MANUAL_RENEW`:到期时不通知，也不自动续订；\n" +
-				"默认值:通知_和_手动_续订。如果此参数被指定为NOTIFY_AND_AUTO_RENEW，则如果帐户余额充足，例程将每月自动续订一次。注意:该字段可能返回null，表示没有找到有效值。",
+			"renew_flag":               "自动续订标志。有效值\n" +
+										"- `NOTIFY_AND_AUTO_RENEW`:到期时通知并自动续订；\n" + 
+										"- `NOTIFY_AND_MANUAL_RENEW `:到期时通知，但不自动续订；\n" + 
+										"- `DISABLE_NOTIFY_AND_MANUAL_RENEW`:到期时不通知，也不自动续订；\n" +
+										"默认值:通知_和_手动_续订。如果此参数被指定为NOTIFY_AND_AUTO_RENEW，则如果帐户余额充足，例程将每月自动续订一次。注意:该字段可能返回null，表示没有找到有效值。",
 		},
 	})
 }

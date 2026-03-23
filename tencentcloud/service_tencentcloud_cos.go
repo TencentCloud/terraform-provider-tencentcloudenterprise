@@ -14,13 +14,13 @@ import (
 
 	"github.com/tencentyun/cos-go-sdk-v5"
 
+	"terraform-provider-tencentcloudenterprise/tencentcloud/connectivity"
+	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
+	"terraform-provider-tencentcloudenterprise/tencentcloud/ratelimit"
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/awserr"
 	"github.com/aws/aws-sdk-go/service/s3"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	"terraform-provider-tencentcloudenterprise/tencentcloud/connectivity"
-	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
-	"terraform-provider-tencentcloudenterprise/tencentcloud/ratelimit"
 )
 
 type CosService struct {
@@ -255,20 +255,34 @@ func (me *CosService) HeadBucket(ctx context.Context, bucket string) (errRet err
 func (me *CosService) TencentcloudHeadBucket(ctx context.Context, bucket string) (code int, header http.Header, errRet error) {
 	logId := getLogId(ctx)
 
-	response, err := me.GetClient(bucket).Bucket.Head(ctx)
-
-	if response != nil {
-		code = response.StatusCode
-		header = response.Header
+	// 使用统一的S3 SDK，确保使用服务域名
+	request := s3.HeadBucketInput{
+		Bucket: aws.String(bucket),
 	}
+	
+	ratelimit.Check("HeadBucket")
+	_, err := me.client.UseCosS3Client(me.useCspClient).HeadBucket(&request)
 
 	if err != nil {
 		log.Printf("[CRITAL]%s api[%s] fail, reason[%s]\n",
 			logId, "HeadBucket", err.Error())
 		errRet = err
+		// 对于S3 SDK，我们需要从错误中提取状态码
+		if awsErr, ok := err.(awserr.Error); ok {
+			if awsErr.Code() == "NotFound" {
+				code = 404
+			} else {
+				code = 500
+			}
+		} else {
+			code = 500
+		}
 		return
 	}
 
+	// 成功的情况
+	code = 200
+	header = make(http.Header)
 	log.Printf("[DEBUG]%s api[%s] success\n",
 		logId, "HeadBucket")
 
@@ -1124,25 +1138,44 @@ func (c *CosService) GetBucketACL(ctx context.Context, bucket string) (result *c
 	}()
 
 	ratelimit.Check("TencentcloudCosPutBucketACL")
-	acl, _, err := c.GetClient(bucket).Bucket.GetACL(ctx)
-
+	// PathStyle：直接构造请求到 cos.<region>.<domain>/{bucket}?acl
+	client := c.client.UseCosS3Client(c.useCspClient)
+	request := &s3.GetBucketAclInput{
+		Bucket: aws.String(bucket),
+	}
+	response, err := client.GetBucketAcl(request)
 	if err != nil {
 		errRet = fmt.Errorf("cos [GetBucketACL] error: %s, bucket: %s", err.Error(), bucket)
 		return
 	}
 
-	aclXML, err := xml.Marshal(acl)
-
-	if err != nil {
-		errRet = fmt.Errorf("cos [GetBucketACL] xml marshal error: %s, bucket: %s", err.Error(), bucket)
-		return nil, errRet
+	// 转换 S3 ACL 响应为 cos.BucketGetACLResult 格式
+	if response.Owner == nil {
+		errRet = fmt.Errorf("cos [GetBucketACL] error: owner is nil, bucket: %s", bucket)
+	}
+	result = &cos.BucketGetACLResult{
+		Owner: &cos.Owner{
+			ID:          *response.Owner.ID,
+			DisplayName: *response.Owner.DisplayName,
+		},
+		AccessControlList: make([]cos.ACLGrant, len(response.Grants)),
 	}
 
-	log.Printf("[DEBUG]%s api[%s] success, response body:\n%s\n",
-		logId, "GetBucketACL", aclXML)
+	for i, grant := range response.Grants {
+		if grant.Grantee == nil {
+			continue
+		}
+		result.AccessControlList[i] = cos.ACLGrant{
+			Grantee: &cos.ACLGrantee{
+				Type: *grant.Grantee.Type,
+				URI:  aws.StringValue(grant.Grantee.URI),
+				ID:   aws.StringValue(grant.Grantee.ID),
+			},
+			Permission: *grant.Permission,
+		}
+	}
 
-	result = acl
-
+	log.Printf("[DEBUG]%s api[%s] success\n", logId, "GetBucketACL")
 	return
 }
 

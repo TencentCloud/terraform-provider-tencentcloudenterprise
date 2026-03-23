@@ -14,7 +14,7 @@ Provide a resource to create a TDMQ Pulsar cluster.
 ## Example Usage
 
 ```hcl
-resource "cloud_tdmq_pulsar_cluster" "example" {
+resource "tencentcloudenterprise_tdmq_pulsar_cluster" "example" {
   cluster_name = "tf_example"
   remark       = "remark."
   tags = {
@@ -49,7 +49,7 @@ tencentcloudenterprise_tdmq_pulsar_cluster can be imported using the id, e.g.
 Tdmq cluster can be imported, e.g.
 
 ```
-$ terraform import cloud_tdmq_pulsar_cluster.example pulsar-78bwjaj8epxv
+$ terraform import tencentcloudenterprise_tdmq_pulsar_cluster.example pulsar-78bwjaj8epxv
 ```
 ```
 

@@ -1,21 +1,19 @@
 /*
 Provides a resource for an AS (Auto scaling) lifecycle hook.
 
-# Example Usage
+Example Usage
 
 ```hcl
-
-	resource "tencentcloudenterprise_as_lifecycle_hook" "lifecycle_hook" {
-	  scaling_group_id         = "sg-12af45"
-	  lifecycle_hook_name      = "tf-as-lifecycle-hook"
-	  lifecycle_transition     = "INSTANCE_LAUNCHING"
-	  default_result           = "CONTINUE"
-	  heartbeat_timeout        = 500
-	  notification_metadata    = "tf test"
-	  notification_target_type = "CMQ_QUEUE"
-	  notification_queue_name  = "lifcyclehook"
-	}
-
+resource "tencentcloudenterprise_as_lifecycle_hook" "lifecycle_hook" {
+  scaling_group_id         = "sg-12af45"
+  lifecycle_hook_name      = "tf-as-lifecycle-hook"
+  lifecycle_transition     = "INSTANCE_LAUNCHING"
+  default_result           = "CONTINUE"
+  heartbeat_timeout        = 500
+  notification_metadata    = "tf test"
+  notification_target_type = "CMQ_QUEUE"
+  notification_queue_name  = "lifcyclehook"
+}
 ```
 */
 package tencentcloud
@@ -25,10 +23,10 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	as "terraform-provider-tencentcloudenterprise/sdk/as/v20180419"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func init() {

@@ -384,6 +384,8 @@ func NewCreateSnapshotGroupResponse() (response *CreateSnapshotGroupResponse) {
 
 // 本接口用于创建快照组：
 // * 创建快照组的盘列表必须挂载在同一实例上，可选择挂载在实例上的全部或部分盘创建快照组
+//
+//
 func (c *Client) CreateSnapshotGroup(request *CreateSnapshotGroupRequest) (response *CreateSnapshotGroupResponse, err error) {
 	if request == nil {
 		request = NewCreateSnapshotGroupRequest()
@@ -659,6 +661,7 @@ func NewBindAutoSnapshotPolicyResponse() (response *BindAutoSnapshotPolicyRespon
 //
 // * 每个地域最多可创建10个定期快照策略, 每个定期快照策略最多能绑定80个云硬盘。
 // * 当已绑定定期快照策略的云硬盘处于未使用状态（即弹性云盘未挂载或非弹性云盘的主机处于关机状态）将不会创建定期快照。
+//
 func (c *Client) BindAutoSnapshotPolicy(request *BindAutoSnapshotPolicyRequest) (response *BindAutoSnapshotPolicyResponse, err error) {
 	if request == nil {
 		request = NewBindAutoSnapshotPolicyRequest()
@@ -845,6 +848,7 @@ func NewDescribeAutoSnapshotPoliciesResponse() (response *DescribeAutoSnapshotPo
 //
 // * 可以根据定期快照策略ID、名称或者状态等信息来查询定期快照策略的详细信息，不同条件之间为与(AND)的关系，过滤信息详细请见过滤器`Filter`。
 // * 如果参数为空，返回当前用户一定数量（`Limit`所指定的数量，默认为20）的定期快照策略表。
+//
 func (c *Client) DescribeAutoSnapshotPolicies(request *DescribeAutoSnapshotPoliciesRequest) (response *DescribeAutoSnapshotPoliciesResponse, err error) {
 	if request == nil {
 		request = NewDescribeAutoSnapshotPoliciesRequest()
@@ -1242,9 +1246,9 @@ func NewInquiryPriceModifyDiskAttributesResponse() (response *InquiryPriceModify
 //
 // * 当前仅支持弹性云盘修改类型（[DescribeDisks](/document/product/362/16315)接口的返回字段Portable为true表示弹性云盘）。
 // * 当前仅支持云盘类型升级，不支持降级，具体如下:
-//   - CLOUD_BASIC变更为CLOUD_PREMIUM；
-//   - CLOUD_BASIC变更为CLOUD_SSD；
-//   - CLOUD_PREMIUM变更为CLOUD_SSD。
+//     * CLOUD_BASIC变更为CLOUD_PREMIUM；
+//     * CLOUD_BASIC变更为CLOUD_SSD；
+//     * CLOUD_PREMIUM变更为CLOUD_SSD。
 func (c *Client) InquiryPriceModifyDiskAttributes(request *InquiryPriceModifyDiskAttributesRequest) (response *InquiryPriceModifyDiskAttributesResponse, err error) {
 	if request == nil {
 		request = NewInquiryPriceModifyDiskAttributesRequest()

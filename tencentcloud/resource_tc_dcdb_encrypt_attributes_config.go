@@ -3,8 +3,7 @@ Provides a resource to create a dcdb encrypt_attributes_config
 
 ~> **NOTE:**  This resource currently only supports the newly created MySQL 8.0.24 version.
 
-# Example Usage
-
+Example Usage
 ```hcl
 
 	data "tencentcloudenterprise_vpc_security_groups" "internal" {
@@ -19,28 +18,14 @@ Provides a resource to create a dcdb encrypt_attributes_config
 		vpc_id = data.tencentcloudenterprise_vpc_instances.vpc.instance_list.0.vpc_id
 	}
 
+	variable "default_az" {
+	  	default = "ap-beijing-region-jcctest-ops-1"
+	}
+
 	locals {
 		vpc_id = data.tencentcloudenterprise_vpc_subnets.subnet.instance_list.0.vpc_id
 		subnet_id = data.tencentcloudenterprise_vpc_subnets.subnet.instance_list.0.subnet_id
 		sg_id = data.tencentcloudenterprise_vpc_security_groups.internal.security_groups.0.security_group_id
-	}
-
-	resource "tencentcloudenterprise_dcdb_db_instance" "prepaid_instance" {
-		instance_name = "test_dcdb_db_post_instance"
-		zones = [var.default_az]
-		period = 1
-		shard_memory = "2"
-		shard_storage = "10"
-		shard_node_count = "2"
-		shard_count = "2"
-		vpc_id = local.vpc_id
-		subnet_id = local.subnet_id
-		db_version_id = "8.0"
-		resource_tags {
-		  tag_key = "aaa"
-		  tag_value = "bbb"
-		}
-		security_group_ids = [local.sg_id]
 	}
 
 	resource "tencentcloudenterprise_dcdb_instance" "hourdb_instance" {
@@ -58,10 +43,11 @@ Provides a resource to create a dcdb encrypt_attributes_config
 		  tag_key = "aaa"
 		  tag_value = "bbb"
 		}
+		init_params {
+		}
 	}
 
 	locals {
-		prepaid_dcdb_id = tencentcloudenterprise_dcdb_db_instance.prepaid_instance.id
 		hourdb_dcdb_id = tencentcloudenterprise_dcdb_instance.hourdb_instance.id
 	}
 
@@ -72,19 +58,10 @@ Provides a resource to create a dcdb encrypt_attributes_config
 	  encrypt_enabled = 1
 	}
 
-// for prepaid instance
-
-	resource "tencentcloudenterprise_dcdb_encrypt_attributes_config" "config_prepaid" {
-	  instance_id = local.prepaid_dcdb_id
-	  encrypt_enabled = 1
-	}
-
 ```
 
-# Import
-
+Import
 dcdb encrypt_attributes_config can be imported using the id, e.g.
-
 ```
 terraform import tencentcloudenterprise_dcdb_encrypt_attributes_config.encrypt_attributes_config encrypt_attributes_config_id
 ```
@@ -97,6 +74,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+
 	dcdb "terraform-provider-tencentcloudenterprise/sdk/dcdb/v20180411"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
 )

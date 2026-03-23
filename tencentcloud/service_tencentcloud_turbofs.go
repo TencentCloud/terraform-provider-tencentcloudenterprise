@@ -5,12 +5,12 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"terraform-provider-tencentcloudenterprise/sdk/common/errors"
 	turbofs "terraform-provider-tencentcloudenterprise/sdk/turbofs/v20190719"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/connectivity"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/ratelimit"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 )
 
 type TurbofsService struct {
@@ -119,7 +119,7 @@ func (me *TurbofsService) ScaleUpFileSystem(ctx context.Context, fsId string, ta
 
 func (me *TurbofsService) WaitForFileSystemAvailable(ctx context.Context, fsId string) error {
 	logId := getLogId(ctx)
-
+	
 	return resource.Retry(10*readRetryTimeout, func() *resource.RetryError {
 		fileSystems, errRet := me.DescribeFileSystem(ctx, &fsId)
 		if errRet != nil {

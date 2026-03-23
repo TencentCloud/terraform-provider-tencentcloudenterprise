@@ -24,6 +24,141 @@ import (
 var _ = tchttp.POST
 var _ = json.Marshal
 
+type GetUidByUinArrRequest struct {
+	*tchttp.BaseRequest
+
+	// uin列表
+
+	UinList []*uint64 `json:"UinList,omitempty" name:"UinList"`
+}
+
+func (r *GetUidByUinArrRequest) ToJsonString() string {
+	b, _ := json.Marshal(r)
+	return string(b)
+}
+
+func (r *GetUidByUinArrRequest) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
+type GetUinListByRolePolicyResponse struct {
+	*tchttp.BaseResponse
+
+	Response *struct {
+		// uin列表
+
+		UinList []*UinList `json:"UinList,omitempty" name:"UinList"`
+		// 组列表
+
+		GroupList []*GroupList `json:"GroupList,omitempty" name:"GroupList"`
+		// Unique request ID, returned on each request. You need to provide this request when locating a problem RequestId。
+		RequestId *string `json:"RequestId,omitempty" name:"RequestId"`
+	} `json:"Response"`
+}
+
+func (r *GetUinListByRolePolicyResponse) ToJsonString() string {
+	b, _ := json.Marshal(r)
+	return string(b)
+}
+
+func (r *GetUinListByRolePolicyResponse) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
+type AssumeRole struct {
+
+	// 主账号UIN
+
+	OwnerUin *string `json:"OwnerUin,omitempty" name:"OwnerUin"`
+	// 角色名
+
+	RoleName *string `json:"RoleName,omitempty" name:"RoleName"`
+	// 角色ID
+
+	RoleId *string `json:"RoleId,omitempty" name:"RoleId"`
+	// 用户名
+
+	UserName *string `json:"UserName,omitempty" name:"UserName"`
+	// 角色状态
+
+	Status *string `json:"Status,omitempty" name:"Status"`
+}
+
+type BatchCheckUserHavePoliciesResponse struct {
+	*tchttp.BaseResponse
+
+	Response *struct {
+		// 检查成功结果
+
+		Success []*BatchCheckResult `json:"Success,omitempty" name:"Success"`
+		// 检查失败结果
+
+		Failure []*BatchCheckResult `json:"Failure,omitempty" name:"Failure"`
+		// Unique request ID, returned on each request. You need to provide this request when locating a problem RequestId。
+		RequestId *string `json:"RequestId,omitempty" name:"RequestId"`
+	} `json:"Response"`
+}
+
+func (r *BatchCheckUserHavePoliciesResponse) ToJsonString() string {
+	b, _ := json.Marshal(r)
+	return string(b)
+}
+
+func (r *BatchCheckUserHavePoliciesResponse) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
+type BatchCheckUserHavePoliciesRequest struct {
+	*tchttp.BaseRequest
+
+	// 查询策略
+
+	Policies []*PolicyToCheck `json:"Policies,omitempty" name:"Policies"`
+	// 查询子账号uin
+
+	UserUins []*int64 `json:"UserUins,omitempty" name:"UserUins"`
+}
+
+func (r *BatchCheckUserHavePoliciesRequest) ToJsonString() string {
+	b, _ := json.Marshal(r)
+	return string(b)
+}
+
+func (r *BatchCheckUserHavePoliciesRequest) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
+type GetUidByUinArrResponse struct {
+	*tchttp.BaseResponse
+
+	Response *struct {
+		// uin对应的Uid信息
+
+		UinInfo []*UinInfo `json:"UinInfo,omitempty" name:"UinInfo"`
+		// Unique request ID, returned on each request. You need to provide this request when locating a problem RequestId。
+		RequestId *string `json:"RequestId,omitempty" name:"RequestId"`
+	} `json:"Response"`
+}
+
+func (r *GetUidByUinArrResponse) ToJsonString() string {
+	b, _ := json.Marshal(r)
+	return string(b)
+}
+
+func (r *GetUidByUinArrResponse) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
+type GroupList struct {
+
+	// 组ID
+
+	GroupId *uint64 `json:"GroupId,omitempty" name:"GroupId"`
+	// 组名
+
+	GroupName *string `json:"GroupName,omitempty" name:"GroupName"`
+}
+
 type GetRoleListByOwnerUinRequest struct {
 	*tchttp.BaseRequest
 }
@@ -35,6 +170,126 @@ func (r *GetRoleListByOwnerUinRequest) ToJsonString() string {
 
 func (r *GetRoleListByOwnerUinRequest) FromJsonString(s string) error {
 	return json.Unmarshal([]byte(s), &r)
+}
+
+type UpdateRelatedRolePolicyResponse struct {
+	*tchttp.BaseResponse
+
+	Response *struct {
+		// Unique request ID, returned on each request. You need to provide this request when locating a problem RequestId。
+		RequestId *string `json:"RequestId,omitempty" name:"RequestId"`
+	} `json:"Response"`
+}
+
+func (r *UpdateRelatedRolePolicyResponse) ToJsonString() string {
+	b, _ := json.Marshal(r)
+	return string(b)
+}
+
+func (r *UpdateRelatedRolePolicyResponse) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
+type UpdateRelatedRolePolicyRequest struct {
+	*tchttp.BaseRequest
+
+	// 需关联的uin列表
+
+	TargetUin []*uint64 `json:"TargetUin,omitempty" name:"TargetUin"`
+	// 策略名
+
+	PolicyName *string `json:"PolicyName,omitempty" name:"PolicyName"`
+	// 需关联的GroupId列表
+
+	TargetGroupId []*uint64 `json:"TargetGroupId,omitempty" name:"TargetGroupId"`
+}
+
+func (r *UpdateRelatedRolePolicyRequest) ToJsonString() string {
+	b, _ := json.Marshal(r)
+	return string(b)
+}
+
+func (r *UpdateRelatedRolePolicyRequest) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
+type PolicyCheckResult struct {
+
+	// 策略名称
+
+	Name *string `json:"Name,omitempty" name:"Name"`
+	// 是否拥有该策略
+
+	OK *bool `json:"OK,omitempty" name:"OK"`
+}
+
+type LoginData struct {
+
+	// 用户名
+
+	Account *string `json:"Account,omitempty" name:"Account"`
+	// 登陆密码
+
+	Password *string `json:"Password,omitempty" name:"Password"`
+}
+
+type GetRoleListByOwnerUinResponse struct {
+	*tchttp.BaseResponse
+
+	Response *struct {
+		// 角色列表
+
+		RoleList []*AssumeRole `json:"RoleList,omitempty" name:"RoleList"`
+		// Unique request ID, returned on each request. You need to provide this request when locating a problem RequestId。
+		RequestId *string `json:"RequestId,omitempty" name:"RequestId"`
+	} `json:"Response"`
+}
+
+func (r *GetRoleListByOwnerUinResponse) ToJsonString() string {
+	b, _ := json.Marshal(r)
+	return string(b)
+}
+
+func (r *GetRoleListByOwnerUinResponse) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
+type PolicyToCheck struct {
+
+	// 策略名称
+
+	Name *string `json:"Name,omitempty" name:"Name"`
+	// 策略关联项目ID
+
+	ProjectId *string `json:"ProjectId,omitempty" name:"ProjectId"`
+}
+
+type VerifyMenuResponse struct {
+	*tchttp.BaseResponse
+
+	Response *struct {
+		// Unique request ID, returned on each request. You need to provide this request when locating a problem RequestId。
+		RequestId *string `json:"RequestId,omitempty" name:"RequestId"`
+	} `json:"Response"`
+}
+
+func (r *VerifyMenuResponse) ToJsonString() string {
+	b, _ := json.Marshal(r)
+	return string(b)
+}
+
+func (r *VerifyMenuResponse) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
+type UinInfo struct {
+
+	// uin
+
+	Uin *uint64 `json:"Uin,omitempty" name:"Uin"`
+	// 用户uid
+
+	UserId *string `json:"UserId,omitempty" name:"UserId"`
 }
 
 type GroupUserInfo struct {
@@ -77,101 +332,34 @@ type GroupUserInfo struct {
 	SystemType *string `json:"SystemType,omitempty" name:"SystemType"`
 }
 
-type UpdateRelatedRolePolicyResponse struct {
-	*tchttp.BaseResponse
-
-	Response *struct {
-		// 唯一请求 ID，每次请求都会返回。定位问题时需要提供该次请求的 RequestId。
-		RequestId *string `json:"RequestId,omitempty" name:"RequestId"`
-	} `json:"Response"`
-}
-
-func (r *UpdateRelatedRolePolicyResponse) ToJsonString() string {
-	b, _ := json.Marshal(r)
-	return string(b)
-}
-
-func (r *UpdateRelatedRolePolicyResponse) FromJsonString(s string) error {
-	return json.Unmarshal([]byte(s), &r)
-}
-
-type GetRoleListByOwnerUinResponse struct {
-	*tchttp.BaseResponse
-
-	Response *struct {
-		// 唯一请求 ID，每次请求都会返回。定位问题时需要提供该次请求的 RequestId。
-		RequestId *string `json:"RequestId,omitempty" name:"RequestId"`
-	} `json:"Response"`
-}
-
-func (r *GetRoleListByOwnerUinResponse) ToJsonString() string {
-	b, _ := json.Marshal(r)
-	return string(b)
-}
-
-func (r *GetRoleListByOwnerUinResponse) FromJsonString(s string) error {
-	return json.Unmarshal([]byte(s), &r)
-}
-
-type LoginData struct {
-
-	// 用户名
-
-	Account *string `json:"Account,omitempty" name:"Account"`
-	// 登陆密码
-
-	Password *string `json:"Password,omitempty" name:"Password"`
-}
-
-type VerifyMenuResponse struct {
-	*tchttp.BaseResponse
-
-	Response *struct {
-		// 唯一请求 ID，每次请求都会返回。定位问题时需要提供该次请求的 RequestId。
-		RequestId *string `json:"RequestId,omitempty" name:"RequestId"`
-	} `json:"Response"`
-}
-
-func (r *VerifyMenuResponse) ToJsonString() string {
-	b, _ := json.Marshal(r)
-	return string(b)
-}
-
-func (r *VerifyMenuResponse) FromJsonString(s string) error {
-	return json.Unmarshal([]byte(s), &r)
-}
-
-type UinInfo struct {
-
-	// uin
-
-	Uin *uint64 `json:"Uin,omitempty" name:"Uin"`
-	// 用户uid
-
-	UserId *string `json:"UserId,omitempty" name:"UserId"`
-}
-
-type UpdateRelatedRolePolicyRequest struct {
+type VerifyMenuRequest struct {
 	*tchttp.BaseRequest
 
-	// 需关联的uin列表
+	// 菜单
 
-	TargetUin []*uint64 `json:"TargetUin,omitempty" name:"TargetUin"`
-	// 策略名
+	Menu *string `json:"Menu,omitempty" name:"Menu"`
+	// 子菜单
 
-	PolicyName *string `json:"PolicyName,omitempty" name:"PolicyName"`
-	// 需关联的GroupId列表
-
-	TargetGroupId []*uint64 `json:"TargetGroupId,omitempty" name:"TargetGroupId"`
+	Submenu *string `json:"Submenu,omitempty" name:"Submenu"`
 }
 
-func (r *UpdateRelatedRolePolicyRequest) ToJsonString() string {
+func (r *VerifyMenuRequest) ToJsonString() string {
 	b, _ := json.Marshal(r)
 	return string(b)
 }
 
-func (r *UpdateRelatedRolePolicyRequest) FromJsonString(s string) error {
+func (r *VerifyMenuRequest) FromJsonString(s string) error {
 	return json.Unmarshal([]byte(s), &r)
+}
+
+type ProductMenuItem struct {
+
+	// 产品名
+
+	ProductName *string `json:"ProductName,omitempty" name:"ProductName"`
+	// 菜单uuid
+
+	Uuid *string `json:"Uuid,omitempty" name:"Uuid"`
 }
 
 type CheckLoginDetail struct {
@@ -193,27 +381,6 @@ type CheckLoginDetail struct {
 	MFAUsed *string `json:"MFAUsed,omitempty" name:"MFAUsed"`
 }
 
-type GetUidByUinArrResponse struct {
-	*tchttp.BaseResponse
-
-	Response *struct {
-		// uin对应的Uid信息
-
-		UinInfo []*UinInfo `json:"UinInfo,omitempty" name:"UinInfo"`
-		// 唯一请求 ID，每次请求都会返回。定位问题时需要提供该次请求的 RequestId。
-		RequestId *string `json:"RequestId,omitempty" name:"RequestId"`
-	} `json:"Response"`
-}
-
-func (r *GetUidByUinArrResponse) ToJsonString() string {
-	b, _ := json.Marshal(r)
-	return string(b)
-}
-
-func (r *GetUidByUinArrResponse) FromJsonString(s string) error {
-	return json.Unmarshal([]byte(s), &r)
-}
-
 type LoginDetail struct {
 
 	// 登陆账户类型
@@ -230,45 +397,27 @@ type LoginDetail struct {
 	ClientType *string `json:"ClientType,omitempty" name:"ClientType"`
 }
 
-type VerifyMenuRequest struct {
-	*tchttp.BaseRequest
+type BatchCheckResult struct {
 
-	// 菜单
+	// 批量查询结果
 
-	Menu *string `json:"Menu,omitempty" name:"Menu"`
-	// 子菜单
+	PolicyCheckResults []*PolicyCheckResult `json:"PolicyCheckResults,omitempty" name:"PolicyCheckResults"`
+	// 查询子账号Uin
 
-	Submenu *string `json:"Submenu,omitempty" name:"Submenu"`
+	UserUin *int64 `json:"UserUin,omitempty" name:"UserUin"`
+	// Error
+
+	Error *string `json:"Error,omitempty" name:"Error"`
 }
 
-func (r *VerifyMenuRequest) ToJsonString() string {
-	b, _ := json.Marshal(r)
-	return string(b)
-}
+type UinList struct {
 
-func (r *VerifyMenuRequest) FromJsonString(s string) error {
-	return json.Unmarshal([]byte(s), &r)
-}
+	// 账号UIN
 
-type GetUinListByRolePolicyResponse struct {
-	*tchttp.BaseResponse
+	Uin *uint64 `json:"Uin,omitempty" name:"Uin"`
+	// 用户名
 
-	Response *struct {
-		// uin列表
-
-		UinList []*uint64 `json:"UinList,omitempty" name:"UinList"`
-		// 唯一请求 ID，每次请求都会返回。定位问题时需要提供该次请求的 RequestId。
-		RequestId *string `json:"RequestId,omitempty" name:"RequestId"`
-	} `json:"Response"`
-}
-
-func (r *GetUinListByRolePolicyResponse) ToJsonString() string {
-	b, _ := json.Marshal(r)
-	return string(b)
-}
-
-func (r *GetUinListByRolePolicyResponse) FromJsonString(s string) error {
-	return json.Unmarshal([]byte(s), &r)
+	UserName *string `json:"UserName,omitempty" name:"UserName"`
 }
 
 type GetUinListByRolePolicyRequest struct {
@@ -277,6 +426,9 @@ type GetUinListByRolePolicyRequest struct {
 	// 角色名
 
 	RoleName *string `json:"RoleName,omitempty" name:"RoleName"`
+	// 角色所属OwnerUin
+
+	RoleOwnerUin *string `json:"RoleOwnerUin,omitempty" name:"RoleOwnerUin"`
 }
 
 func (r *GetUinListByRolePolicyRequest) ToJsonString() string {
@@ -285,22 +437,5 @@ func (r *GetUinListByRolePolicyRequest) ToJsonString() string {
 }
 
 func (r *GetUinListByRolePolicyRequest) FromJsonString(s string) error {
-	return json.Unmarshal([]byte(s), &r)
-}
-
-type GetUidByUinArrRequest struct {
-	*tchttp.BaseRequest
-
-	// uin列表
-
-	UinList []*uint64 `json:"UinList,omitempty" name:"UinList"`
-}
-
-func (r *GetUidByUinArrRequest) ToJsonString() string {
-	b, _ := json.Marshal(r)
-	return string(b)
-}
-
-func (r *GetUidByUinArrRequest) FromJsonString(s string) error {
 	return json.Unmarshal([]byte(s), &r)
 }

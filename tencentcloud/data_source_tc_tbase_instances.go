@@ -1,28 +1,26 @@
 /*
 Use this data source to query detailed information of dcdb instances
 
-# Example Usage
+Example Usage
 
 ```hcl
-
-	data "tencentcloudenterprise_tbase_instances" "foo" {
-	  instance_ids = ["tdpg-8xg0uenw", "tdpg-4uq7ufzw"]
-	  result_output_file = "foo.json"
-	}
-
+data "tencentcloudenterprise_tbase_instances" "foo" {
+  instance_ids = ["tdpg-8xg0uenw", "tdpg-4uq7ufzw"]
+  result_output_file = "foo.json"
+}
 ```
 */
 package tencentcloud
 
 import (
 	"context"
+	tbase "terraform-provider-tencentcloudenterprise/sdk/tbase/v20190107"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"log"
-	tbase "terraform-provider-tencentcloudenterprise/sdk/tbase/v20190107"
 
+	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
 )
 
 func init() {

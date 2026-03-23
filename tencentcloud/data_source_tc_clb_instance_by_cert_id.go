@@ -1,7 +1,7 @@
 /*
 Use this data source to query detailed information of clb instance_by_cert_id
 
-# Example Usage
+Example Usage
 
 ```hcl
 
@@ -16,10 +16,10 @@ package tencentcloud
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	clb "terraform-provider-tencentcloudenterprise/sdk/clb/v20180317"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func init() {

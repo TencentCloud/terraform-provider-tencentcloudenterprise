@@ -1,7 +1,7 @@
 /*
 Use this data source to query detailed user information of Ckafka
 
-# Example Usage
+Example Usage
 
 ```hcl
 
@@ -17,8 +17,8 @@ package tencentcloud
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func init() {

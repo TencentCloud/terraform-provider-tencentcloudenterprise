@@ -1,14 +1,12 @@
 /*
 Use this data source to query detailed information of tsf application_attribute
 
-# Example Usage
+Example Usage
 
 ```hcl
-
-	data "tencentcloudenterprise_tsf_application_attribute" "application_attribute" {
-	  application_id = "application-a24x29xv"
-	}
-
+data "tencentcloudenterprise_tsf_application_attribute" "application_attribute" {
+  application_id = "application-a24x29xv"
+}
 ```
 */
 package tencentcloud
@@ -16,10 +14,10 @@ package tencentcloud
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	tsf "terraform-provider-tencentcloudenterprise/sdk/tsf/v20180326"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func init() {
@@ -27,11 +25,11 @@ func init() {
 		TerraformTypeCN: "TSF应用属性",
 		DescriptionCN:   "提供TSF应用属性数据源，用于查询TSF应用属性的详细信息。",
 		AttributesCN: map[string]string{
-			"application_id":     "应用ID",
-			"result":             "应用列表其他属性",
-			"instance_count":     "实例总数",
+			"application_id": "应用ID",
+			"result":        "应用列表其他属性",
+			"instance_count": "实例总数",
 			"run_instance_count": "运行实例数",
-			"group_count":        "部署组数量",
+			"group_count": "部署组数量",
 			"result_output_file": "用于保存结果",
 		},
 	})
@@ -41,7 +39,7 @@ func init() {
 func dataSourceTencentCloudTsfApplicationAttribute() *schema.Resource {
 	return &schema.Resource{
 		Description: "This data source provides detailed information of tsf application_attribute",
-		Read:        dataSourceTencentCloudTsfApplicationAttributeRead,
+		Read: dataSourceTencentCloudTsfApplicationAttributeRead,
 		Schema: map[string]*schema.Schema{
 			"application_id": {
 				Required:    true,

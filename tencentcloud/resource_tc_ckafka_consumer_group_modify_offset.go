@@ -1,18 +1,16 @@
 /*
 Provides a resource to create a ckafka consumer_group_modify_offset
 
-# Example Usage
+Example Usage
 
 ```hcl
-
-	resource "tencentcloudenterprise_ckafka_consumer_group_modify_offset" "consumer_group_modify_offset" {
-	  instance_id = "ckafka-xxxxxx"
-	  group = "xxxxxx"
-	  offset = 0
-	  strategy = 2
-	  topics = ["xxxxxx"]
-	}
-
+resource "tencentcloudenterprise_ckafka_consumer_group_modify_offset" "consumer_group_modify_offset" {
+  instance_id = "ckafka-xxxxxx"
+  group = "xxxxxx"
+  offset = 0
+  strategy = 2
+  topics = ["xxxxxx"]
+}
 ```
 */
 package tencentcloud
@@ -20,10 +18,10 @@ package tencentcloud
 import (
 	"log"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	ckafka "terraform-provider-tencentcloudenterprise/sdk/ckafka/v20190819"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func resourceTencentCloudCkafkaConsumerGroupModifyOffset() *schema.Resource {

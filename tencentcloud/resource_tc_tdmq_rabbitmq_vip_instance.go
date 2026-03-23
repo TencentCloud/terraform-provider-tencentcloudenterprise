@@ -1,3 +1,54 @@
+/*
+Provides a resource to create and manage TDMQ RabbitMQ VIP instance
+
+Example Usage
+
+### Create a basic RabbitMQ VIP instance with single node
+
+```hcl
+resource "tencentcloudenterprise_tdmq_rabbitmq_vip_instance" "example" {
+  cluster_name = "rabbitmq-cluster"
+  zone_ids     = ["ap-chongqing-1"]
+  vpc_id       = "vpc-xxxxxxxx"
+  subnet_id    = "subnet-xxxxxxxx"
+  node_spec    = "rabbit-vip-basic-1"
+  node_num     = 3
+  storage_size = 200
+  cluster_version = "3.8.30"
+}
+```
+
+### Create a high-availability RabbitMQ VIP instance with multi-zone deployment
+
+```hcl
+resource "tencentcloudenterprise_tdmq_rabbitmq_vip_instance" "ha_instance" {
+  cluster_name = "rabbitmq-ha-cluster"
+  zone_ids     = ["ap-chongqing-1", "ap-chongqing-2", "ap-chongqing-3"]
+  vpc_id       = "vpc-xxxxxxxx"
+  subnet_id    = "subnet-xxxxxxxx"
+  node_spec    = "rabbit-vip-basic-2"
+  node_num     = 3
+  storage_size = 500
+  enable_create_default_ha_mirror_queue = true
+  cluster_version = "3.11.8"
+}
+```
+
+### Create a production RabbitMQ VIP instance with enhanced resources
+
+```hcl
+resource "tencentcloudenterprise_tdmq_rabbitmq_vip_instance" "production" {
+  cluster_name = "rabbitmq-prod"
+  zone_ids     = ["ap-chongqing-1"]
+  vpc_id       = "vpc-xxxxxxxx"
+  subnet_id    = "subnet-xxxxxxxx"
+  node_spec    = "rabbit-vip-basic-4"
+  node_num     = 3
+  storage_size = 1000
+  cluster_version = "3.11.8"
+}
+```
+*/
 package tencentcloud
 
 import (
@@ -5,9 +56,9 @@ import (
 	"fmt"
 	"log"
 
+	tdmq "terraform-provider-tencentcloudenterprise/sdk/tdmq/v20200217"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	tdmq "terraform-provider-tencentcloudenterprise/sdk/tdmq/v20200217"
 
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
 )
@@ -17,18 +68,22 @@ func init() {
 		TerraformTypeCN: "TDMQ RabbitMQ实例",
 		DescriptionCN:   "提供TDMQ RabbitMQ实例资源，用于创建和管理TDMQ RabbitMQ专享实例。",
 		AttributesCN: map[string]string{
-			"zone_ids":                              "可用区",
-			"vpc_id":                                "VPC ID",
-			"subnet_id":                             "子网ID",
-			"cluster_name":                          "集群名称",
-			"node_spec":                             "节点规格",
-			"node_num":                              "节点数量",
-			"storage_size":                          "存储大小",
-			"enable_create_default_ha_mirror_queue": "是否创建默认HA镜像队列",
-			"auto_renew_flag":                       "自动续费标志",
-			"time_span":                             "购买时长",
-			"pay_mode":                              "付费模式",
-			"cluster_version":                       "集群版本",
+			"zone_ids":                              "可用区ID列表,支持多可用区部署",
+			"vpc_id":                                "私有网络VPC ID",
+			"subnet_id":                             "私有网络子网ID",
+			"cluster_name":                          "集群名称,3-64个字符,只能包含字母、数字、\"-\" 及 \"_\"",
+			"node_spec":                             "节点规格,可选值:rabbit-vip-basic-1(4C8G)、rabbit-vip-basic-2(8C16G)、rabbit-vip-basic-4(16C32G)等",
+			"node_num":                              "节点数量,必填且必须大于0,单可用区通常配置1个节点,多可用区至少需要3个节点以保证高可用,请根据实际环境配置",
+			"storage_size":                          "单节点存储容量,默认200GB",
+			"enable_create_default_ha_mirror_queue": "是否创建默认的HA镜像队列,一般为true，请根据需要配置",
+			"auto_renew_flag":                       "自动续费标志,默认为true",
+			"time_span":                             "购买时长,默认为1(月)",
+			"pay_mode":                              "付费模式,0表示后付费,1表示预付费,默认为预付费",
+			"cluster_version":                       "集群版本,支持3.8.30和3.11.8,默认为3.8.30",
+			"public_access_endpoint":                "公网接入点地址",
+			"vpcs":                                  "VPC接入点列表",
+			"vpc_endpoint":                          "VPC访问端点地址",
+			"vpc_data_stream_endpoint_status":       "VPC端点状态",
 		},
 	})
 }
@@ -48,95 +103,82 @@ func resourceTencentCloudTdmqRabbitmqVipInstance() *schema.Resource {
 				Required:    true,
 				Type:        schema.TypeSet,
 				Elem:        &schema.Schema{Type: schema.TypeInt},
-				Description: "availability zone.",
+				Description: "Availability zone ID list. For single availability zone deployment, provide one zone ID; for multi-availability zone deployment, provide multiple zone IDs. Multi-availability zone instances require at least 3 nodes.",
 			},
 			"vpc_id": {
 				Required:    true,
 				Type:        schema.TypeString,
-				Description: "Private network VpcId.",
+				Description: "VPC (Virtual Private Cloud) ID where the RabbitMQ instance will be deployed. Format: vpc-xxxxxxxx.",
 			},
 			"subnet_id": {
 				Required:    true,
 				Type:        schema.TypeString,
-				Description: "Private network SubnetId.",
+				Description: "Subnet ID within the specified VPC where the instance will be deployed. Format: subnet-xxxxxxxx.",
 			},
 			"cluster_name": {
 				Required:    true,
 				Type:        schema.TypeString,
-				Description: "cluster name.",
+				Description: "RabbitMQ cluster name. Length must be between 3-64 characters. Only letters, numbers, hyphens (-), and underscores (_) are allowed.",
 			},
 			"node_spec": {
 				Optional:    true,
+				Computed:    true,
 				Type:        schema.TypeString,
-				Description: "Node specifications. Valid values: rabbit-vip-basic-5 (for 2C4G), rabbit-vip-profession-2c8g (for 2C8G), rabbit-vip-basic-1 (for 4C8G), rabbit-vip-profession-4c16g (for 4C16G), rabbit-vip-basic-2 (for 8C16G), rabbit-vip-profession-8c32g (for 8C32G), rabbit-vip-basic-4 (for 16C32G), rabbit-vip-profession-16c64g (for 16C64G). The default is rabbit-vip-basic-1. NOTE: The above specifications may be sold out or removed from the shelves.",
+				Description: "Node specification. Valid values: `rabbit-vip-basic-5` (2C4G), `rabbit-vip-profession-2c8g` (2C8G), `rabbit-vip-basic-1` (4C8G, default), `rabbit-vip-profession-4c16g` (4C16G), `rabbit-vip-basic-2` (8C16G), `rabbit-vip-profession-8c32g` (8C32G), `rabbit-vip-basic-4` (16C32G), `rabbit-vip-profession-16c64g` (16C64G). Note: Some specifications may be unavailable due to stock limitations.",
 			},
 			"node_num": {
-				Optional:    true,
-				Type:        schema.TypeInt,
-				Description: "The number of nodes, a minimum of 3 nodes for a multi-availability zone. If not passed, the default single availability zone is 1, and the multi-availability zone is 3.",
+				Required:     true,
+				Type:         schema.TypeInt,
+				ValidateFunc: validateIntegerMin(1),
+				Description:  "Number of nodes in the cluster. Must be greater than 0. For single availability zone deployment, typically use 1 node; for multi-availability zone deployment, minimum 3 nodes are required for high availability. Please configure based on your actual environment and requirements.",
 			},
 			"storage_size": {
 				Optional:    true,
+				Computed:    true,
 				Type:        schema.TypeInt,
-				Description: "Single node storage specification, the default is 200G.",
+				Description: "Storage capacity per node in GB. Default is 200GB.",
 			},
 			"enable_create_default_ha_mirror_queue": {
-				Optional:    true,
+				Required:    true,
 				Type:        schema.TypeBool,
-				Description: "Mirrored queue, the default is false.",
-			},
-			"auto_renew_flag": {
-				Optional:    true,
-				Type:        schema.TypeBool,
-				Description: "Automatic renewal, the default is true.",
-			},
-			"time_span": {
-				Optional:    true,
-				Type:        schema.TypeInt,
-				Description: "Purchase duration, the default is 1 (month).",
-			},
-			"pay_mode": {
-				Optional:    true,
-				Type:        schema.TypeInt,
-				Computed:    true,
-				Description: "Payment method: 0 indicates postpaid; 1 indicates prepaid. Default: prepaid.",
+				Description: "Whether to create a default HA (High Availability) mirrored queue. When enabled, queues will be automatically mirrored across nodes for high availability. Default is true.",
 			},
 			"cluster_version": {
 				Optional:    true,
 				Type:        schema.TypeString,
 				Computed:    true,
-				Description: "Cluster version, the default is `3.8.30`, valid values: `3.8.30` and `3.11.8`.",
+				Description: "RabbitMQ cluster version. Valid values: `3.8.30` (default), `3.11.8`. Different versions may have different features and performance characteristics.",
 			},
 			"public_access_endpoint": {
 				Type:        schema.TypeString,
 				Computed:    true,
-				Description: "Public Network Access Point.",
+				Description: "Public network access endpoint address. Used to access the RabbitMQ instance from the internet.",
 			},
 			"vpcs": {
 				Type:        schema.TypeList,
 				Computed:    true,
-				Description: "List of VPC Access Points.",
+				Description: "List of VPC access points. Contains VPC network endpoint information for accessing the RabbitMQ instance from within VPC.",
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						"vpc_id": {
 							Type:        schema.TypeString,
 							Computed:    true,
-							Description: "VPC ID.",
+							Description: "VPC ID where the access endpoint is located.",
 						},
 						"subnet_id": {
 							Type:        schema.TypeString,
 							Computed:    true,
-							Description: "Subnet ID.",
+							Description: "Subnet ID where the access endpoint is located.",
 						},
 						"vpc_endpoint": {
 							Type:        schema.TypeString,
 							Computed:    true,
-							Description: "VPC Endpoint.",
+							Description: "VPC private network access endpoint address. Use this address to connect to RabbitMQ from within the VPC.",
 						},
 						"vpc_data_stream_endpoint_status": {
 							Type:        schema.TypeString,
 							Computed:    true,
-							Description: "Status Of Vpc Endpoint.",
+							Description: "Status of the VPC endpoint. Indicates the availability status of the VPC access point.",
 						},
 					},
 				},
@@ -182,29 +224,16 @@ func resourceTencentCloudTdmqRabbitmqVipInstanceCreate(d *schema.ResourceData, m
 		request.NodeSpec = helper.String(v.(string))
 	}
 
-	if v, ok := d.GetOkExists("node_num"); ok {
+	if v, ok := d.GetOk("node_num"); ok {
 		request.NodeNum = helper.IntInt64(v.(int))
 	}
 
-	if v, ok := d.GetOkExists("storage_size"); ok {
+	if v, ok := d.GetOk("storage_size"); ok {
 		request.StorageSize = helper.IntInt64(v.(int))
 	}
 
-	if v, ok := d.GetOkExists("enable_create_default_ha_mirror_queue"); ok {
-		request.EnableCreateDefaultHaMirrorQueue = helper.Bool(v.(bool))
-	}
-
-	if v, ok := d.GetOkExists("auto_renew_flag"); ok {
-		request.AutoRenewFlag = helper.Bool(v.(bool))
-	}
-
-	if v, ok := d.GetOkExists("time_span"); ok {
-		request.TimeSpan = helper.IntInt64(v.(int))
-	}
-
-	if v, ok := d.GetOkExists("pay_mode"); ok {
-		request.PayMode = helper.IntUint64(v.(int))
-	}
+	// Get enable_create_default_ha_mirror_queue with default value applied
+	request.EnableCreateDefaultHaMirrorQueue = helper.Bool(d.Get("enable_create_default_ha_mirror_queue").(bool))
 
 	if v, ok := d.GetOk("cluster_version"); ok {
 		request.ClusterVersion = helper.String(v.(string))
@@ -244,11 +273,11 @@ func resourceTencentCloudTdmqRabbitmqVipInstanceCreate(d *schema.ResourceData, m
 		}
 
 		if result == nil {
-			return resource.NonRetryableError(fmt.Errorf("resource `cloud_tdmq_rabbitmq_vip_instance` %s does not exist", instanceId))
+			return resource.NonRetryableError(fmt.Errorf("resource `tencentcloudenterprise_tdmq_rabbitmq_vip_instance` %s does not exist", instanceId))
 		}
 
 		if len(result) != 1 {
-			return resource.NonRetryableError(fmt.Errorf("resource `cloud_tdmq_rabbitmq_vip_instance` %s id error", instanceId))
+			return resource.NonRetryableError(fmt.Errorf("resource `tencentcloudenterprise_tdmq_rabbitmq_vip_instance` %s id error", instanceId))
 		}
 
 		switch *result[0].Status {
@@ -312,12 +341,14 @@ func resourceTencentCloudTdmqRabbitmqVipInstanceRead(d *schema.ResourceData, met
 		_ = d.Set("storage_size", rabbitmqVipInstance.ClusterSpecInfo.MaxStorage)
 	}
 
-	if rabbitmqVipInstance.ClusterInfo.PayMode != nil {
-		_ = d.Set("pay_mode", rabbitmqVipInstance.ClusterInfo.PayMode)
-	}
-
 	if rabbitmqVipInstance.ClusterInfo.ClusterVersion != nil {
 		_ = d.Set("cluster_version", rabbitmqVipInstance.ClusterInfo.ClusterVersion)
+	}
+
+	// Set enable_create_default_ha_mirror_queue from MirrorQueuePolicyFlag
+	// MirrorQueuePolicyFlag: 1 = enabled, 0 = disabled
+	if rabbitmqVipInstance.ClusterInfo.MirrorQueuePolicyFlag != nil {
+		_ = d.Set("enable_create_default_ha_mirror_queue", *rabbitmqVipInstance.ClusterInfo.MirrorQueuePolicyFlag == 1)
 	}
 
 	paramMap := make(map[string]interface{})
@@ -339,14 +370,6 @@ func resourceTencentCloudTdmqRabbitmqVipInstanceRead(d *schema.ResourceData, met
 
 		if result[0].InstanceName != nil {
 			_ = d.Set("cluster_name", result[0].InstanceName)
-		}
-
-		if result[0].AutoRenewFlag != nil {
-			if *result[0].AutoRenewFlag == AutoRenewFlagTrue {
-				_ = d.Set("auto_renew_flag", true)
-			} else {
-				_ = d.Set("auto_renew_flag", false)
-			}
 		}
 
 		if result[0].PublicAccessEndpoint != nil {
@@ -397,9 +420,8 @@ func resourceTencentCloudTdmqRabbitmqVipInstanceUpdate(d *schema.ResourceData, m
 	)
 
 	immutableArgs := []string{
-		"zone_ids", "vpc_id", "subnet_id", "node_spec", "node_num",
-		"storage_size", "enable_create_default_ha_mirror_queue",
-		"auto_renew_flag", "time_span", "pay_mode", "cluster_version",
+		"zone_ids", "vpc_id", "subnet_id", "node_spec", "node_num", "storage_size",
+		"enable_create_default_ha_mirror_queue", "cluster_version",
 	}
 
 	for _, v := range immutableArgs {

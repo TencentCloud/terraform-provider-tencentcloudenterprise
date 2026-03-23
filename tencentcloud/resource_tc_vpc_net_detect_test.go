@@ -39,11 +39,11 @@ resource "tencentcloudenterprise_vpc_net_detect" "net_detect" {
   net_detect_name       = "terrform-test"
   vpc_id                = "vpc-4owdpnwr"
   subnet_id             = "subnet-c1l35990"
-  next_hop_destination  = "203.0.113.57"
+  next_hop_destination  = "172.16.128.57"
   next_hop_type         = "NORMAL_CVM"
   detect_destination_ip = [
-    "203.0.113.1",
-    "203.0.113.2",
+    "10.0.0.1",
+    "10.0.0.2",
   ]
 }
 
@@ -55,11 +55,11 @@ resource "tencentcloudenterprise_vpc_net_detect" "net_detect" {
   net_detect_name       = "terraform-for-test"
   vpc_id                = "vpc-4owdpnwr"
   subnet_id             = "subnet-c1l35990"
-  next_hop_destination  = "203.0.113.57"
+  next_hop_destination  = "172.16.128.57"
   next_hop_type         = "NORMAL_CVM"
   detect_destination_ip = [
-    "203.0.113.1",
-    "203.0.113.2",
+    "10.0.0.1",
+    "10.0.0.2",
   ]
 }
 

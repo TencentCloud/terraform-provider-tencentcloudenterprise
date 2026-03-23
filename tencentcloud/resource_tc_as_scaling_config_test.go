@@ -12,7 +12,7 @@ import (
 )
 
 func init() {
-	// go test -v ./tencentcloud -sweep=ap-guangzhou -sweep-run=cloud_as_scaling_config
+	// go test -v ./tencentcloud -sweep=ap-guangzhou -sweep-run=tencentcloudenterprise_as_scaling_config
 	resource.AddTestSweepers("tencentcloudenterprise_as_scaling_config", &resource.Sweeper{
 		Name: "tencentcloudenterprise_as_scaling_config",
 		F: func(r string) error {

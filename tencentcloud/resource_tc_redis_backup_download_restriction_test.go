@@ -53,7 +53,7 @@ resource "tencentcloudenterprise_redis_backup_download_restriction" "backup_down
 		  region = "ap-guangzhou"
 		  vpc_list = ["vpc-4owdpnwr"]
 	}
-	limit_ip = ["203.0.113.12", "203.0.113.13"]
+	limit_ip = ["10.1.1.12", "10.1.1.13"]
 }
 
 `

@@ -1,32 +1,29 @@
 /*
 Provides a resource to create a brc resource backup
 
-# Example Usage
+Example Usage
 
 ```hcl
 # cos backup
-
-	resource "tencentcloudenterprise_brc_backup_resource" "cos_backup" {
-	  resource_type = "COS"
-	  backup_name   = "my-cos-backup"
-	  bucket_detail {
-	    cos_region = "chongqing"
-	    prefix = "/"
-	    resource_id = "test-456-1255000252"
-	  }
-	}
+resource "tencentcloudenterprise_brc_backup_resource" "cos_backup" {
+  resource_type = "COS"
+  backup_name   = "my-cos-backup"
+  bucket_detail {
+    cos_region = "chongqing"
+    prefix = "/"
+    resource_id = "test-456-1255000252"
+  }
+}
 
 # mysql backup
-
-	resource "tencentcloudenterprise_brc_backup_resource" "mysql_backup" {
-	  resource_type = "MySQL_MariaDB"
-	  backup_name   = "my-mysql-backup"
-	  resource_id = "tdsql-baxmqi05"
-	}
-
+resource "tencentcloudenterprise_brc_backup_resource" "mysql_backup" {
+  resource_type = "MySQL_MariaDB"
+  backup_name   = "my-mysql-backup"
+  resource_id = "tdsql-baxmqi05"
+}
 ```
 
-# Import
+Import
 
 brc backup_resource can be imported using the id, e.g.
 
@@ -52,16 +49,16 @@ func init() {
 		TerraformTypeCN: "资源备份",
 		DescriptionCN:   "提供BRC资源备份资源，用于创建和管理COS、CSP和数据库资源的备份。",
 		AttributesCN: map[string]string{
-			"resource_type":           "创建备份的资源类型。取值范围：TDSQL_MySQL：TDSQL_MySQL版, MySQL_MariaDB：关系型数据库(MySQL_MariaDB), COS：对象存储COS。",
-			"backup_name":             "备份名称",
-			"resource_id":             "创建备份的资源ID",
-			"cos_region":              "COS地域",
-			"prefix":                  "COS前缀",
-			"create_speed":            "创建备份的带宽上限，范围：[0, 100]",
-			"deadline":                "指定备份组到期时间，如果未传入该参数，默认为永久保留。示例：\"2024-04-26 10:00:00\"",
-			"bucket_detail":           "创建COS备份时桶/前缀/桶所在地域映射关系，COS备份必传参数。",
-			"delete_retreated_backup": "是否删除回档的备份数据，用于删除资源时使用",
-			"backup_id":               "备份ID",
+			"resource_type":            "创建备份的资源类型。取值范围：TDSQL_MySQL：TDSQL_MySQL版, MySQL_MariaDB：关系型数据库(MySQL_MariaDB), COS：对象存储COS。",
+			"backup_name":              "备份名称",
+			"resource_id":              "创建备份的资源ID",
+			"cos_region":               "COS地域",
+			"prefix":                   "COS前缀",
+			"create_speed":				"创建备份的带宽上限，范围：[0, 100]",
+			"deadline":          		"指定备份组到期时间，如果未传入该参数，默认为永久保留。示例：\"2024-04-26 10:00:00\"",
+			"bucket_detail":			"创建COS备份时桶/前缀/桶所在地域映射关系，COS备份必传参数。",
+			"delete_retreated_backup":  "是否删除回档的备份数据，用于删除资源时使用",
+			"backup_id":                "备份ID",
 		},
 	})
 }
@@ -106,10 +103,10 @@ func resourceTencentCloudBrcBackupResource() *schema.Resource {
 				Description: "Bandwidth limit for backup creation, range: [0, 100] Mbps.",
 			},
 			"bucket_detail": {
-				Optional:    true,
+				Optional: true,
 				ForceNew:    true,
 				Type:        schema.TypeList,
-				MaxItems:    1,
+				MaxItems: 1,
 				Description: "Bucket details mapping for COS backup. Required for COS resource type.",
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
@@ -159,7 +156,7 @@ func resourceTencentCloudBrcBackupResourceCreate(d *schema.ResourceData, meta in
 		resourceType *string
 		resourceId   *string
 		backupName   *string
-		deadline     *time.Time
+		deadline	 *time.Time
 		createSpeed  *uint64
 		bucketDetail *brc.BucketDetail
 	)

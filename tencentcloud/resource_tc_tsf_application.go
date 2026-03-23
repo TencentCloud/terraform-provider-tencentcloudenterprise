@@ -1,29 +1,27 @@
 /*
 Provides a resource to create a tsf application
 
-# Example Usage
+Example Usage
 
 ```hcl
-
-	resource "tencentcloudenterprise_tsf_application" "application" {
-		application_name = "terraform-test"
-		application_type = "V"
-		microservice_type = "N"
-		application_desc = "This is my application"
-		application_runtime_type = "Java"
-		service_config_list {
-		  name = "my-service"
-		  ports {
-			target_port = 8080
-			protocol = "HTTP"
-		  }
-		  health_check {
-			path = "/health"
-		  }
-		}
-		// ignore_create_image_repository = true
+resource "tencentcloudenterprise_tsf_application" "application" {
+	application_name = "terraform-test"
+	application_type = "V"
+	microservice_type = "N"
+	application_desc = "This is my application"
+	application_runtime_type = "Java"
+	service_config_list {
+	  name = "my-service"
+	  ports {
+		target_port = 8080
+		protocol = "HTTP"
+	  }
+	  health_check {
+		path = "/health"
+	  }
 	}
-
+	// ignore_create_image_repository = true
+}
 ```
 */
 package tencentcloud
@@ -33,10 +31,10 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	tsf "terraform-provider-tencentcloudenterprise/sdk/tsf/v20180326"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func init() {

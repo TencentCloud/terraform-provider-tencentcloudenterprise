@@ -26,14 +26,14 @@ resource "tencentcloudenterprise_tdmq_pulsar_cluster" "cluster" {
 
 # Pulsar Route (HTTP access)
 resource "tencentcloudenterprise_tdmq_pulsar_route" "route" {
-  cluster_id  = cloud_tdmq_pulsar_cluster.cluster.cluster_id
+  cluster_id  = tencentcloudenterprise_tdmq_pulsar_cluster.cluster.cluster_id
   route_type  = 0
 }
 
 # Pulsar Environment (Namespace)
 resource "tencentcloudenterprise_tdmq_pulsar_environment" "env" {
   environment_name = "example-namespace"
-  cluster_id       = cloud_tdmq_pulsar_cluster.cluster.cluster_id
+  cluster_id       = tencentcloudenterprise_tdmq_pulsar_cluster.cluster.cluster_id
   msg_ttl          = 300
   remark           = "Example namespace"
   retention_policy {
@@ -44,9 +44,9 @@ resource "tencentcloudenterprise_tdmq_pulsar_environment" "env" {
 
 # Pulsar Topic
 resource "tencentcloudenterprise_tdmq_pulsar_topic" "topic" {
-  environment_id = cloud_tdmq_pulsar_environment.env.environment_id
+  environment_id = tencentcloudenterprise_tdmq_pulsar_environment.env.environment_id
   topic_name     = "example-topic"
-  cluster_id     = cloud_tdmq_pulsar_cluster.cluster.cluster_id
+  cluster_id     = tencentcloudenterprise_tdmq_pulsar_cluster.cluster.cluster_id
   partitions     = 3
   topic_type     = 0
   remark         = "Example topic"
@@ -55,14 +55,14 @@ resource "tencentcloudenterprise_tdmq_pulsar_topic" "topic" {
 # Pulsar Role
 resource "tencentcloudenterprise_tdmq_pulsar_role" "role" {
   role_name  = "example-role"
-  cluster_id = cloud_tdmq_pulsar_cluster.cluster.cluster_id
+  cluster_id = tencentcloudenterprise_tdmq_pulsar_cluster.cluster.cluster_id
   remark     = "Example role"
 }
 
 # Pulsar Environment Role Attachment
 resource "tencentcloudenterprise_tdmq_pulsar_environment_role_attachment" "attachment" {
-  environment_id = cloud_tdmq_pulsar_environment.env.environment_id
-  role_name      = cloud_tdmq_pulsar_role.role.role_name
+  environment_id = tencentcloudenterprise_tdmq_pulsar_environment.env.environment_id
+  role_name      = tencentcloudenterprise_tdmq_pulsar_role.role.role_name
   permissions    = ["produce", "consume"]
-  cluster_id     = cloud_tdmq_pulsar_cluster.cluster.cluster_id
+  cluster_id     = tencentcloudenterprise_tdmq_pulsar_cluster.cluster.cluster_id
 }

@@ -11,7 +11,7 @@ import (
 )
 
 func init() {
-	// go test -v ./tencentcloud -sweep=ap-guangzhou -sweep-run=cloud_cfs_access_group
+	// go test -v ./tencentcloud -sweep=ap-guangzhou -sweep-run=tencentcloudenterprise_cfs_access_group
 	resource.AddTestSweepers("tencentcloudenterprise_cfs_access_group", &resource.Sweeper{
 		Name: "tencentcloudenterprise_cfs_access_group",
 		F: func(r string) error {

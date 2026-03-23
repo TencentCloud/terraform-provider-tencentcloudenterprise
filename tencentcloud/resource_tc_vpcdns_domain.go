@@ -1,21 +1,19 @@
 /*
 Provide a resource to create a VPCDNS domain.
 
-# Example Usage
+Example Usage
 
 ```hcl
-
-	resource "tencentcloudenterprise_vpcdns_domain" "foo" {
-	  domain      = "brucezylin.cc"
-	  dns_forward_status = "ENABLED"
-	  tags = {
-	    "createdBy" = "terraform3"
-	  }
-	}
-
+resource "tencentcloudenterprise_vpcdns_domain" "foo" {
+  domain      = "brucezylin.cc"
+  dns_forward_status = "ENABLED"
+  tags = {
+    "createdBy" = "terraform3"
+  }
+}
 ```
 
-# Import
+Import
 
 Vpc subnet instance can be imported, e.g.
 
@@ -29,12 +27,12 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	"strconv"
 	sdkError "terraform-provider-tencentcloudenterprise/sdk/common/errors"
 	vpcdns "terraform-provider-tencentcloudenterprise/sdk/vpcdns/v20191025"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	"strconv"
 	"time"
 )
 
@@ -47,7 +45,7 @@ func init() {
 			"create_time":        "创建时间",
 			"tags":               "标签",
 			"dns_forward_status": "DNS转发状态",
-			"domain_id":          "域名ID",
+			"domain_id":		  "域名ID",
 		},
 	})
 }

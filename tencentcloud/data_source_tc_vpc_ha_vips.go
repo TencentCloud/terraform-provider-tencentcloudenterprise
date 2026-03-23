@@ -1,8 +1,7 @@
 /*
 Use this data source to query detailed information of HA VIPs.
 
-# Example Usage
-
+Example Usage
 ```hcl
 
 	data "tencentcloudenterprise_vpc_ha_vips" "havips" {
@@ -23,6 +22,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/pkg/errors"
+
 	vpc "terraform-provider-tencentcloudenterprise/sdk/vpc/v20170312"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
 )
@@ -172,7 +172,7 @@ func dataSourceTencentCloudHaVipsRead(d *schema.ResourceData, meta interface{}) 
 		params["subnet-id"] = v.(string)
 	}
 	if v, ok := d.GetOk("vpc_id"); ok {
-		params["vpc-ip"] = v.(string)
+		params["vpc-id"] = v.(string)
 	}
 	request.Filters = make([]*vpc.Filter, 0, len(params))
 	for k, v := range params {

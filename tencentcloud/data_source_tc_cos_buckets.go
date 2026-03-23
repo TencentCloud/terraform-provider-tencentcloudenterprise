@@ -1,14 +1,12 @@
 /*
 Use this data source to query the COS buckets of the current Cloud user.
 
-# Example Usage
+Example Usage
 
 ```hcl
-
-	data "tencentcloudenterprise_cos_buckets" "cos_buckets" {
-	  result_output_file = "mytestpath"
-	}
-
+data "tencentcloudenterprise_cos_buckets" "cos_buckets" {
+  result_output_file = "mytestpath"
+}
 ```
 */
 package tencentcloud
@@ -16,9 +14,9 @@ package tencentcloud
 import (
 	"context"
 	"fmt"
+	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"log"
-	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
 )
 
 func init() {
@@ -26,9 +24,9 @@ func init() {
 		TerraformTypeCN: "获取存储桶列表（COS）",
 		DescriptionCN:   "提供COS存储桶数据源，用于查询当前云用户的COS存储桶。",
 		AttributesCN: map[string]string{
-			"owner":       "桶的所有者信息，包含 id 和 display_name 字段，分别表示所有者的唯一标识和显示名称",
-			"bucket_list": "COS桶列表",
-			"name":        "桶名称",
+			"owner":       		  "桶的所有者信息，包含 id 和 display_name 字段，分别表示所有者的唯一标识和显示名称",
+			"bucket_list":        "COS桶列表",
+			"name":               "桶名称",
 			//"location":           "桶所在地域",
 			"create_date":        "桶创建时间",
 			"result_output_file": "用于保存数据源查询结果, 在前端可视化界面使用时，该参数不可用",

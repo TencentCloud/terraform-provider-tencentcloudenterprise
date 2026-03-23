@@ -1,3 +1,44 @@
+/*
+Provides a resource to create and manage TDMQ RabbitMQ user
+
+Example Usage
+
+### Create a RabbitMQ user with administrator role
+
+```hcl
+resource "tencentcloudenterprise_tdmq_rabbitmq_user" "example" {
+  instance_id = "amqp-xxxxxxxx"
+  user        = "admin_user"
+  password    = "AdminPassword123!"
+  description = "Administrator user for RabbitMQ"
+  tags        = ["administrator"]
+}
+```
+
+### Create a RabbitMQ user with monitoring role
+
+```hcl
+resource "tencentcloudenterprise_tdmq_rabbitmq_user" "monitoring" {
+  instance_id = "amqp-xxxxxxxx"
+  user        = "monitor_user"
+  password    = "MonitorPass123!"
+  description = "Monitoring user for RabbitMQ"
+  tags        = ["monitoring"]
+}
+```
+
+### Create a RabbitMQ user with management role
+
+```hcl
+resource "tencentcloudenterprise_tdmq_rabbitmq_user" "management" {
+  instance_id = "amqp-xxxxxxxx"
+  user        = "mgmt_user"
+  password    = "ManagementPass123!"
+  description = "Management user for RabbitMQ"
+  tags        = ["management"]
+}
+```
+*/
 package tencentcloud
 
 import (
@@ -6,9 +47,9 @@ import (
 	"log"
 	"strings"
 
+	tdmq "terraform-provider-tencentcloudenterprise/sdk/tdmq/v20200217"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	tdmq "terraform-provider-tencentcloudenterprise/sdk/tdmq/v20200217"
 
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
 )
@@ -18,13 +59,11 @@ func init() {
 		TerraformTypeCN: "TDMQ RabbitMQ用户",
 		DescriptionCN:   "提供TDMQ RabbitMQ用户资源，用于创建和管理TDMQ RabbitMQ用户。",
 		AttributesCN: map[string]string{
-			"instance_id":     "实例ID",
-			"user":            "用户名",
-			"password":        "密码",
-			"description":     "用户描述",
-			"tags":            "用户标签",
-			"max_connections": "最大连接数",
-			"max_channels":    "最大通道数",
+			"instance_id":     "RabbitMQ实例ID",
+			"user":            "用户名,用于登录RabbitMQ服务",
+			"password":        "密码,用于登录RabbitMQ服务",
+			"description":     "用户描述信息",
+			"tags":            "用户角色,可选值:administrator(管理员)、monitoring(监控)、policymaker(策略制定者)、management(管理)、none(无角色)",
 		},
 	})
 }
@@ -43,39 +82,29 @@ func resourceTencentCloudTdmqRabbitmqUser() *schema.Resource {
 			"instance_id": {
 				Required:    true,
 				Type:        schema.TypeString,
-				Description: "Cluster instance ID.",
+				Description: "RabbitMQ cluster instance ID. The ID of the RabbitMQ instance where the user will be created.",
 			},
 			"user": {
 				Required:    true,
 				Type:        schema.TypeString,
-				Description: "Username, used when logging in.",
+				Description: "Username for RabbitMQ authentication. This will be used to log in to the RabbitMQ server and management console.",
 			},
 			"password": {
 				Required:    true,
 				Type:        schema.TypeString,
 				Sensitive:   true,
-				Description: "Password, used when logging in.",
+				Description: "Password for RabbitMQ authentication. This will be used to log in to the RabbitMQ server and management console. The password is stored securely and will not be displayed in logs.",
 			},
 			"description": {
 				Optional:    true,
 				Type:        schema.TypeString,
-				Description: "Describe.",
+				Description: "Description for the user. Provides additional information about the user's purpose or role.",
 			},
 			"tags": {
-				Optional:    true,
+				Required:    true,
 				Type:        schema.TypeList,
 				Elem:        &schema.Schema{Type: schema.TypeString},
-				Description: "User tag, used to determine the permission range for changing user access to RabbitMQ Management. Management: regular console user, monitoring: management console user, other values: non console user.",
-			},
-			"max_connections": {
-				Optional:    true,
-				Type:        schema.TypeInt,
-				Description: "The maximum number of connections for this user, if not filled in, there is no limit.",
-			},
-			"max_channels": {
-				Optional:    true,
-				Type:        schema.TypeInt,
-				Description: "The maximum number of channels for this user, if not filled in, there is no limit.",
+				Description: "User tags. Determines the user's access permissions to RabbitMQ Management console. Valid values: `administrator` (full admin access, default), `monitoring` (read-only monitoring access), `policymaker` (can manage policies), `management` (can manage resources), `none` (no management console access).",
 			},
 		},
 	}
@@ -113,15 +142,6 @@ func resourceTencentCloudTdmqRabbitmqUserCreate(d *schema.ResourceData, meta int
 	if v, ok := d.GetOk("tags"); ok {
 		request.Tags = helper.InterfacesStringsPoint(v.([]interface{}))
 	}
-
-	if v, ok := d.GetOkExists("max_connections"); ok {
-		request.MaxConnections = helper.IntInt64(v.(int))
-	}
-
-	if v, ok := d.GetOkExists("max_channels"); ok {
-		request.MaxChannels = helper.IntInt64(v.(int))
-	}
-
 	err := resource.Retry(writeRetryTimeout, func() *resource.RetryError {
 		result, e := meta.(*TencentCloudClient).apiV3Conn.UseTdmqClient().CreateRabbitMQUser(request)
 		if e != nil {
@@ -194,14 +214,6 @@ func resourceTencentCloudTdmqRabbitmqUserRead(d *schema.ResourceData, meta inter
 		_ = d.Set("tags", rabbitmqUser.Tags)
 	}
 
-	if rabbitmqUser.MaxConnections != nil {
-		_ = d.Set("max_connections", rabbitmqUser.MaxConnections)
-	}
-
-	if rabbitmqUser.MaxChannels != nil {
-		_ = d.Set("max_channels", rabbitmqUser.MaxChannels)
-	}
-
 	return nil
 }
 
@@ -230,7 +242,7 @@ func resourceTencentCloudTdmqRabbitmqUserUpdate(d *schema.ResourceData, meta int
 		}
 	}
 
-	if d.HasChange("description") || d.HasChange("tags") || d.HasChange("max_connections") || d.HasChange("max_channels") {
+	if d.HasChange("description") || d.HasChange("tags") {
 		request.InstanceId = &instanceId
 		request.User = &user
 
@@ -244,14 +256,6 @@ func resourceTencentCloudTdmqRabbitmqUserUpdate(d *schema.ResourceData, meta int
 
 		if v, ok := d.GetOk("tags"); ok {
 			request.Tags = helper.InterfacesStringsPoint(v.([]interface{}))
-		}
-
-		if v, ok := d.GetOkExists("max_connections"); ok {
-			request.MaxConnections = helper.IntInt64(v.(int))
-		}
-
-		if v, ok := d.GetOkExists("max_channels"); ok {
-			request.MaxChannels = helper.IntInt64(v.(int))
 		}
 
 		err := resource.Retry(writeRetryTimeout, func() *resource.RetryError {

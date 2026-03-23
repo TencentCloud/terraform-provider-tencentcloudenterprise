@@ -1,18 +1,17 @@
 /*
 Provides a resource to create a tsf namespace
 
-# Example Usage
+Example Usage
 
 ```hcl
-
-	resource "tencentcloudenterprise_tsf_namespace" "namespace" {
-		namespace_name = "terraform-namespace-name"
-		namespace_desc = "terraform-test"
-		namespace_type = "DEF"
-		is_ha_enable = "0"
-	}
-
+resource "tencentcloudenterprise_tsf_namespace" "namespace" {
+	namespace_name = "terraform-namespace-name"
+	namespace_desc = "terraform-test"
+	namespace_type = "DEF"
+	is_ha_enable = "0"
+}
 ```
+
 */
 package tencentcloud
 
@@ -21,10 +20,10 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	tsf "terraform-provider-tencentcloudenterprise/sdk/tsf/v20180326"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func init() {

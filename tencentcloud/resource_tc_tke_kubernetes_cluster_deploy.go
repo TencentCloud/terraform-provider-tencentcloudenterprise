@@ -7,7 +7,7 @@ Provide a resource to increase instance to cluster
 
 ```hcl
 
-	resource "tencentcloudenterprise_kubernetes_cluster_deploy" "app-csp-sm" {
+	resource "tencentcloudenterprise_tke_kubernetes_cluster_deploy" "app-csp-sm" {
 	  cluster_id = tencentcloudenterprise_tke_kubernetes_cluster.cluster.id
 	  namespace  = "app-csp-sm"
 	  path = "/apis/platform.tkestack.io/v1/clusters/cls-x8lxd2jx/apply"
@@ -52,6 +52,12 @@ func resourceTencentCloudTkeClusterDeploy() *schema.Resource {
 				Required:    true,
 				Description: "ID of the cluster.",
 			},
+			"path": {
+				Type:        schema.TypeString,
+				ForceNew:    true,
+				Optional:    true,
+				Description: "Apply or proxy path for workload creation. If empty, defaults to /apis/platform.tke/v1/clusters/<cluster_id>/apply?notUpdate=true.",
+			},
 			"namespace": {
 				Type:        schema.TypeString,
 				ForceNew:    true,
@@ -63,6 +69,13 @@ func resourceTencentCloudTkeClusterDeploy() *schema.Resource {
 				ForceNew:    true,
 				Required:    true,
 				Description: "request_body",
+			},
+			"encoded_body": {
+				Type:        schema.TypeBool,
+				Optional:    true,
+				ForceNew:    true,
+				Default:     false,
+				Description: "Whether request_body is base64 encoded.",
 			},
 			"deploy_name": {
 				Type:        schema.TypeString,
@@ -82,13 +95,17 @@ func resourceTencentCloudTkeTkeClusterDeployCreate(d *schema.ResourceData, meta 
 	var (
 		clusterId   = d.Get("cluster_id").(string)
 		requestBody = d.Get("request_body").(string)
+		encodedBody = d.Get("encoded_body").(bool)
 
 		deploy = d.Get("deploy_name").(string)
-		path   = fmt.Sprintf("/apis/platform.tkestack.io/v1/clusters/%s/apply", clusterId)
+		path   = d.Get("path").(string)
 	)
+	if path == "" {
+		path = fmt.Sprintf("/apis/platform.tke/v1/clusters/%s/apply?notUpdate=true", clusterId)
+	}
 	service := TkeService{client: meta.(*TencentCloudClient).apiV3Conn}
 
-	_, err := service.ForwardRequest(ctx, TKE_FORWARD_METHOD_POST, path, clusterId, requestBody)
+	_, err := service.ForwardPlatformRequestV3WithOptions(ctx, TKE_FORWARD_METHOD_POST, path, clusterId, requestBody, "", "", &encodedBody)
 	if err != nil {
 		return err
 	}
@@ -111,7 +128,7 @@ func resourceTencentCloudTkeTkeClusterDeployRead(d *schema.ResourceData, meta in
 
 	service := TkeService{client: meta.(*TencentCloudClient).apiV3Conn}
 
-	_, err := service.ForwardRequest(ctx, TKE_FORWARD_METHOD_GET, path, clusterId, "")
+	_, err := service.ForwardPlatformRequestV3(ctx, TKE_FORWARD_METHOD_GET, path, clusterId, "")
 	if err != nil {
 		return err
 	}
@@ -144,7 +161,7 @@ func resourceTencentCloudTkeTkeClusterDeployDelete(d *schema.ResourceData, meta 
 	)
 
 	// delete deploy
-	_, err := service.ForwardRequest(ctx, TKE_FORWARD_METHOD_DELETE, path, clusterId, requestBody)
+	_, err := service.ForwardPlatformRequestV3(ctx, TKE_FORWARD_METHOD_DELETE, path, clusterId, requestBody)
 	if err != nil {
 		return err
 	}

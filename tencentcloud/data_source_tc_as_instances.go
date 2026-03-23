@@ -1,10 +1,9 @@
 /*
 Use this data source to query detailed information of as instances
 
-# Example Usage
+Example Usage
 
 ```hcl
-
 	resource "tencentcloudenterprise_as_scaling_group" "scaling_group" {
 	  scaling_group_name = "tf-as-group-ds-ins-basic"
 	  configuration_id   = "your_launch_configuration_id"
@@ -32,10 +31,10 @@ package tencentcloud
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	as "terraform-provider-tencentcloudenterprise/sdk/as/v20180419"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func init() {

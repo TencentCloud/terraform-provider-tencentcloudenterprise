@@ -5,7 +5,7 @@ This resource can prove useful when a module accepts a subnet id as an input var
 
 ~> **NOTE:** It has been deprecated and replaced by tencentcloudenterprise_vpc_subnets.
 
-# Example Usage
+Example Usage
 
 ```hcl
 variable "subnet_id" {}
@@ -43,7 +43,7 @@ import (
 
 func dataSourceTencentCloudSubnet() *schema.Resource {
 	return &schema.Resource{
-		DeprecationMessage: "This data source has been deprecated in Terraform TencentCloud provider version 1.10.0. Please use 'cloud_vpc_subnets' instead.",
+		DeprecationMessage: "This data source has been deprecated in Terraform TencentCloud provider version 1.10.0. Please use 'tencentcloudenterprise_vpc_subnets' instead.",
 		Read:               dataSourceTencentCloudSubnetRead,
 
 		Schema: map[string]*schema.Schema{

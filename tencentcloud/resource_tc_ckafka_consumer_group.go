@@ -1,26 +1,24 @@
-// /*
-// Provides a resource to create a ckafka consumer_group
+///*
+//Provides a resource to create a ckafka consumer_group
 //
-// # Example Usage
+//Example Usage
 //
-// ```hcl
+//```hcl
+//resource "tencentcloudenterprise_ckafka_consumer_group" "consumer_group" {
+//  instance_id = "InstanceId"
+//  group_name = "GroupName"
+//  topic_name_list = ["xxxxxx"]
+//}
+//```
 //
-//	resource "tencentcloudenterprise_ckafka_consumer_group" "consumer_group" {
-//	 instance_id = "InstanceId"
-//	 group_name = "GroupName"
-//	 topic_name_list = ["xxxxxx"]
-//	}
+//Import
 //
-// ```
+//ckafka consumer_group can be imported using the id, e.g.
 //
-// # Import
-//
-// ckafka consumer_group can be imported using the id, e.g.
-//
-// ```
-// terraform import tencentcloudenterprise_ckafka_consumer_group.consumer_group consumer_group_id
-// ```
-// */
+//```
+//terraform import tencentcloudenterprise_ckafka_consumer_group.consumer_group consumer_group_id
+//```
+//*/
 package tencentcloud
 
 //

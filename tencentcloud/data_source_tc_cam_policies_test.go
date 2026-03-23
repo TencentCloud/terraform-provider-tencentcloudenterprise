@@ -1,0 +1,36 @@
+package tencentcloud
+
+import (
+	"testing"
+
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+)
+
+func TestAccTencentCloudCamPoliciesDataSource_basic(t *testing.T) {
+	t.Parallel()
+	resource.Test(t, resource.TestCase{
+		PreCheck:     func() { testAccPreCheck(t) },
+		Providers:    testAccProviders,
+		CheckDestroy: testAccCheckCamPolicyDestroy,
+		Steps: []resource.TestStep{
+			{
+				Config: testAccCamPoliciesDataSource_basic,
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_cam_policies.policies", "policy_list.#"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_cam_policies.policies", "policy_list.0.name"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_cam_policies.policies", "policy_list.0.description"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_cam_policies.policies", "policy_list.0.attachments"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_cam_policies.policies", "policy_list.0.create_time"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_cam_policies.policies", "policy_list.0.create_mode"),
+					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_cam_policies.policies", "policy_list.0.policy_id"),
+				),
+			},
+		},
+	})
+}
+
+const testAccCamPoliciesDataSource_basic = defaultCamVariables + `
+data "tencentcloudenterprise_cam_policies" "policies" {
+  name = var.cam_policy_basic
+}
+`

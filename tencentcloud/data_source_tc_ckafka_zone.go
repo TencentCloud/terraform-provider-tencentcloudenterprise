@@ -1,7 +1,7 @@
 /*
 Use this data source to query detailed information of ckafka zone
 
-# Example Usage
+Example Usage
 
 ```hcl
 data "tencentcloudenterprise_ckafka_zone" "ckafka_zone" {
@@ -13,10 +13,10 @@ package tencentcloud
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	ckafka "terraform-provider-tencentcloudenterprise/sdk/ckafka/v20190819"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func init() {

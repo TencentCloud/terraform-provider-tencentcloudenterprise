@@ -5,11 +5,11 @@ import (
 	"log"
 	"sync"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	cbs "terraform-provider-tencentcloudenterprise/sdk/cbs/v20170312"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/connectivity"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/ratelimit"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 )
 
 type CbsService struct {

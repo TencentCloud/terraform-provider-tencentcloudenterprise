@@ -66,11 +66,11 @@ func (c *Client) Send(request tchttp.Request, response tchttp.Response) (err err
 	}
 
 	tchttp.CompleteCommonParams(request, c.GetRegion())
-
+	
 	if v := os.Getenv(PROVIDER_LANGUAGE); v != "" {
 		request.SetLanguage(v)
 	}
-
+	
 	if c.signMethod == "HmacSHA1" || c.signMethod == "HmacSHA256" {
 		return c.sendWithSignatureV1(request, response)
 	} else {

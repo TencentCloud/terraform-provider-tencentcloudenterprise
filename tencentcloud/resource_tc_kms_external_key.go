@@ -1,22 +1,20 @@
 /*
 Provide a resource to create a KMS external key.
 
-# Example Usage
+Example Usage
 
 ```hcl
-
-	resource "tencentcloudenterprise_kms_external_key" "foo" {
-		alias = "test"
-		description = "describe key test message."
-		wrapping_algorithm = "RSAES_PKCS1_V1_5"
-		key_material_base64 = "MTIzMTIzMTIzMTIzMTIzQQ=="
-		valid_to = 2147443200
-		is_enabled = true
-	}
-
+resource "tencentcloudenterprise_kms_external_key" "foo" {
+	alias = "test"
+	description = "describe key test message."
+	wrapping_algorithm = "RSAES_PKCS1_V1_5"
+	key_material_base64 = "MTIzMTIzMTIzMTIzMTIzQQ=="
+	valid_to = 2147443200
+	is_enabled = true
+}
 ```
 
-# Import
+Import
 
 KMS external keys can be imported using the id, e.g.
 
@@ -31,16 +29,16 @@ import (
 	"fmt"
 	"log"
 
+	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	kms "github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/kms/v20190118"
-	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
 )
 
 func init() {
 	registerResourceDescriptionProvider("tencentcloudenterprise_kms_external_key", CNDescription{
 		TerraformTypeCN: "外部密钥",
-		DescriptionCN:   "提供外部密钥资源，用于创建和管理KMS外部密钥。",
+		DescriptionCN:   "提供KMS外部密钥资源，用于创建和管理KMS外部密钥。",
 		AttributesCN: map[string]string{
 			"alias":               "密钥别名",
 			"description":         "密钥描述",
@@ -54,6 +52,8 @@ func init() {
 			"key_state":           "密钥状态",
 			"create_time":         "创建时间",
 			"creator_uin":         "创建者UIN",
+			"pending_delete_window_in_days":"计划删除时间区间[7,30]",
+			"is_archived":		   "是否对密钥进行归档，被归档的密钥只能用于解密，不能加密",
 		},
 	})
 }

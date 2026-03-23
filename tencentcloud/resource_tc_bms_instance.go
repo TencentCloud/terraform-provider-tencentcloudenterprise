@@ -208,20 +208,21 @@ func resourceTencentCloudBmsInstance() *schema.Resource {
 				Required:    true,
 				Description: "The ID of a VPC subnet.",
 			},
-			//"private_ip": {
-			//	Type:        schema.TypeString,
-			//	Optional:    true,
-			//	Computed:    true,
-			//	Description: "The private IP to be assigned to this instance, must be in the provided subnet and available.",
-			//},
-			"private_ip": {
-				Type:     schema.TypeSet,
-				Optional: true,
-				Elem: &schema.Schema{
-					Type: schema.TypeString,
-				},
-				Description: "The private IP to be assigned to this instance, must be in the provided subnet and available.",
+		//"private_ip": {
+		//	Type:        schema.TypeString,
+		//	Optional:    true,
+		//	Computed:    true,
+		//	Description: "The private IP to be assigned to this instance, must be in the provided subnet and available.",
+		//},
+		"private_ip": {
+			Type:     schema.TypeSet,
+			Optional: true,
+			Computed: true,
+			Elem: &schema.Schema{
+				Type: schema.TypeString,
 			},
+			Description: "The private IP to be assigned to this instance, must be in the provided subnet and available.",
+		},
 
 			// storage
 			//"system_disk_type": {
@@ -386,6 +387,8 @@ func resourceTencentCloudBmsInstanceCreate(d *schema.ResourceData, meta interfac
 	request.FlavorId = helper.String(d.Get("flavor_id").(string))
 	request.OperatingSystem = helper.String(d.Get("operating_system").(string))
 	request.OperatingSystemType = helper.String(d.Get("operating_system_type").(string))
+	request.UserImage = helper.Bool(false)
+	request.InstanceCount = helper.Int64(1)
 	if v, ok := d.GetOk("hostname"); ok {
 		request.HostName = helper.String(v.(string))
 	}
@@ -468,9 +471,9 @@ func resourceTencentCloudBmsInstanceCreate(d *schema.ResourceData, meta interfac
 			request.LoginSettings.KeyIds = []*string{helper.String(v.(string))}
 		}
 	*/
-	if v, ok := d.GetOk("password"); ok {
-		request.LoginSettings.Password = helper.String(v.(string))
-	}
+	// Always set password field, even if it's an empty string
+	password := d.Get("password").(string)
+	request.LoginSettings.Password = helper.String(password)
 	/*
 		v := d.Get("keep_image_login").(bool)
 		if v {
@@ -644,6 +647,7 @@ func resourceTencentCloudBmsInstanceRead(d *schema.ResourceData, meta interface{
 	// we should remove this tag, otherwise it will cause terraform state change
 	_ = d.Set("tags", tags)
 
+	// Always update private_ip from API response since it's a computed field
 	if len(instance.PrivateIpAddresses) > 0 {
 		_ = d.Set("private_ip", instance.PrivateIpAddresses)
 	}
@@ -653,7 +657,69 @@ func resourceTencentCloudBmsInstanceRead(d *schema.ResourceData, meta interface{
 
 func resourceTencentCloudBmsInstanceUpdate(d *schema.ResourceData, meta interface{}) (err error) {
 	defer logElapsed("resource.tencentcloudenterprise_cvm_instance.update")()
-	return nil
+
+	logId := getLogId(contextNil)
+	ctx := context.WithValue(context.TODO(), logIdKey, logId)
+
+	instanceId := d.Id()
+
+	client := meta.(*TencentCloudClient).apiV3Conn
+	bmsService := BmsService{
+		client: client,
+	}
+
+	// Check if instance_name has changed
+	if d.HasChange("instance_name") {
+		instanceName := d.Get("instance_name").(string)
+
+		request := bms.NewModifyInstancesAttributeRequest()
+		request.InstanceIds = []*string{helper.String(instanceId)}
+		request.InstanceName = helper.String(instanceName)
+
+		log.Printf("[DEBUG]%s api[%s] request body [%s]\n",
+			logId, request.GetAction(), request.ToJsonString())
+
+		err := resource.Retry(writeRetryTimeout, func() *resource.RetryError {
+			ratelimit.Check(request.GetAction())
+			response, e := client.UseBmsClient().ModifyInstancesAttribute(request)
+			if e != nil {
+				log.Printf("[CRITAL]%s api[%s] fail, request body [%s], reason[%s]\n",
+					logId, request.GetAction(), request.ToJsonString(), e.Error())
+				return retryError(e)
+			}
+			log.Printf("[DEBUG]%s api[%s] success, request body [%s], response body [%s]\n",
+				logId, request.GetAction(), request.ToJsonString(), response.ToJsonString())
+			return nil
+		})
+
+		if err != nil {
+			log.Printf("[CRITAL]%s update bms instance name failed, reason:%s\n", logId, err.Error())
+			return err
+		}
+
+		// Wait for the instance to be in a stable state after modification
+		err = resource.Retry(readRetryTimeout, func() *resource.RetryError {
+			instance, errRet := bmsService.DescribeInstanceById(ctx, instanceId)
+			if errRet != nil {
+				return retryError(errRet, InternalError)
+			}
+			if instance != nil && instance.Status != nil {
+				// Check if instance is in a stable state
+				if *instance.Status == "RUNNING" || *instance.Status == "STOPPED" {
+					return nil
+				}
+				return resource.RetryableError(fmt.Errorf("waiting for instance %s to be in stable state, current status: %s", instanceId, *instance.Status))
+			}
+			return resource.NonRetryableError(fmt.Errorf("instance %s not found", instanceId))
+		})
+
+		if err != nil {
+			log.Printf("[CRITAL]%s wait for bms instance stable state failed, reason:%s\n", logId, err.Error())
+			return err
+		}
+	}
+
+	return resourceTencentCloudBmsInstanceRead(d, meta)
 }
 
 func resourceTencentCloudBmsInstanceDelete(d *schema.ResourceData, meta interface{}) error {
