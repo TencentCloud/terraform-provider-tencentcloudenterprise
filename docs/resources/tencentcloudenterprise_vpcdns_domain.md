@@ -37,7 +37,7 @@ In addition to all arguments above, the following attributes are exported:
 
 * `id` - ID of the resource.
 * `create_time` - Creation time of VpcDns Domain.
-* `domain_id` - id of vpcdns domain
+* `domain_id` - id of vpcdns domain.
 
 ## Import
 

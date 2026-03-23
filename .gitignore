@@ -3,3 +3,4 @@
 /.vscode
 /terraform-provider-tencent
 /terraform-provider-cloud
+/gendoc/gendoc

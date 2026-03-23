@@ -1,5 +1,5 @@
 ---
-subcategory: "TDSQL PostgreSQL (Tbase)"
+subcategory: "TDSQL PostgreSQL(Tbase)"
 layout: "tencentcloudenterprise"
 page_title: "TencentCloudEnterprise: tencentcloudenterprise_tbase_pg_instance"
 sidebar_current: "docs-tencentcloudenterprise-resource-tbase_pg_instance"
@@ -47,7 +47,7 @@ The following arguments are supported:
 
 * `charset` - (Required, String) charset.
 * `cpu` - (Required, Int) Cpu.
-* `engine_type` - (Required, String) engine type. `PostgreSQL`, `TbaseXC`
+* `engine_type` - (Required, String) engine type. `PostgreSQL`, `TbaseXC`.
 * `engine_version` - (Required, String) Engine version.
 * `instance_count` - (Required, Int) instance count.
 * `instance_role` - (Required, String) instance role, current only support `master` type.

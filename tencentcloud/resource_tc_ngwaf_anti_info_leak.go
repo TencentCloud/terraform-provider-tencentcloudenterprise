@@ -1,3 +1,31 @@
+/*
+Provides a resource to create a NGWAF anti information leak rule.
+
+Example Usage
+
+```hcl
+resource "tencentcloudenterprise_ngwaf_anti_info_leak" "example" {
+  domain      = "example.com"
+  name        = "anti-info-leak-rule"
+  action_type = 1
+  uri         = "/api/user"
+  status      = 1
+
+  strategies {
+    field   = "information"
+    content = "phone"
+  }
+}
+```
+
+Import
+
+NGWAF anti info leak rule can be imported using the id, e.g.
+
+```
+$ terraform import tencentcloudenterprise_ngwaf_anti_info_leak.example rule_id#example.com
+```
+*/
 package tencentcloud
 
 import (

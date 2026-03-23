@@ -1,5 +1,5 @@
 ---
-subcategory: "TDMQ for RocketMQ(trocket)"
+subcategory: "TDMQ"
 layout: "tencentcloudenterprise"
 page_title: "TencentCloudEnterprise: tencentcloudenterprise_tdmq_send_rocketmq_message"
 sidebar_current: "docs-tencentcloudenterprise-resource-tdmq_send_rocketmq_message"

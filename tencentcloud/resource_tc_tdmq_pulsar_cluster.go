@@ -1,3 +1,33 @@
+/*
+Provides a resource to create a TDMQ Pulsar cluster.
+
+# Example Usage
+
+```hcl
+
+	resource "tencentcloudenterprise_tdmq_pulsar_cluster" "example" {
+	  cluster_name       = "my-pulsar-cluster"
+	  bind_cluster_name  = "default"
+	  bind_cluster_id    = 0
+	  remark             = "Example Pulsar cluster"
+	  project_id         = "0"
+
+	  tags = {
+	    Environment = "dev"
+	    Team        = "data"
+	  }
+	}
+
+```
+
+# Import
+
+TDMQ Pulsar cluster can be imported using the cluster_id, e.g
+
+```
+$ terraform import tencentcloudenterprise_tdmq_pulsar_cluster.example pulsar-xxxxxxxx
+```
+*/
 package tencentcloud
 
 import (

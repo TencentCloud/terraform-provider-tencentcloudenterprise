@@ -219,7 +219,7 @@ The following arguments are supported:
 * `disk_size` - (Required, Int, ForceNew) Disk Size. Its interval varies with bandwidth, and the input must be within the interval, which can be viewed through the control. If it is not within the interval, the plan will cause a change when first created.
 * `goods_num` - (Required, Int) Quantity.
 * `instance_name` - (Required, String) Instance name.
-* `pid` - (Required, Int, ForceNew) Pricing formula ID. 1-9
+* `pid` - (Required, Int, ForceNew) Pricing formula ID. 1-9.
 * `product_info` - (Required, List) Product information. When Specs Type is Standard Edition, Instance Name is optional. When Specs Type is Pro Edition, Instance Name and Product Model are optional; all other fields are required:
   - name: Region, value: example-region
   - name: Cluster, value: example-cluster
@@ -231,14 +231,14 @@ The following arguments are supported:
   - name: Disk Capacity, value: 300GB
   - name: Message Retention Period, value: 72 hours
   - name: Network, value: vpc-kltzarib
-  - name: Subnet, value: subnet-7qt1q9h6
+  - name: Subnet, value: subnet-7qt1q9h6.
 * `region_id` - (Required, Int) Region ID.
 * `region_name` - (Required, String) Region Name.
 * `subnet_id` - (Required, String) Subnet id.
 * `vpc_id` - (Required, String) Vpc id.
 * `zone_id` - (Required, Int) Available zone id.
 * `cluster_id` - (Optional, Int, ForceNew) Cluster-ID represents  the cluster to which Ckafa belongs, associated with cluster_name only needs to select one of them.
-* `disk_type` - (Optional, String) Type of disk. [SSD]
+* `disk_type` - (Optional, String) Type of disk. [SSD].
 * `instance_id` - (Optional, String) Ckafka instance ID.
 * `instance_type` - (Optional, String) Description of instance type. [Basic, High Performance].
 * `kafka_version` - (Optional, String) Kafka version (2.4.1/2.8.1).
@@ -247,7 +247,7 @@ The following arguments are supported:
 * `partition` - (Optional, Int) Partition Size. Its interval varies with bandwidth, and the input must be within the interval, which can be viewed through the control. If it is not within the interval, the plan will cause a change when first created.
 * `renew_flag` - (Optional, Int) Prepaid automatic renewal mark, 0 means the default state, the initial state, 1 means automatic renewal, 2 means clear no automatic renewal (user setting).
 * `tag_set` - (Optional, Map) Tag set of instance.
-* `topic` - (Optional, Int) Topic Size
+* `topic` - (Optional, Int) Topic Size.
 * `zone_ids` - (Optional, Set: [`Int`]) List of available zone id. NOTE: this argument must set together with `multi_zone_flag`.
 
 The `product_info` object supports the following:

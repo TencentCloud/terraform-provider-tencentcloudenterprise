@@ -1,3 +1,32 @@
+/*
+Provides a resource to create a TDMQ Pulsar namespace (environment).
+
+# Example Usage
+
+```hcl
+
+	resource "tencentcloudenterprise_tdmq_pulsar_environment" "example" {
+	  environ_name  = "my-namespace"
+	  cluster_id    = "pulsar-xxxxxxxx"
+	  msg_ttl       = 86400
+	  remark        = "Example namespace"
+
+	  retention_policy {
+	    time_in_minutes = 1440
+	    size_in_mb      = 1024
+	  }
+	}
+
+```
+
+# Import
+
+# TDMQ Pulsar namespace can be imported using the id, e.g
+
+```
+$ terraform import tencentcloudenterprise_tdmq_pulsar_environment.example pulsar-xxxxxxxx#my-namespace
+```
+*/
 package tencentcloud
 
 import (

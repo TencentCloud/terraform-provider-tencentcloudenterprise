@@ -102,14 +102,14 @@ The following arguments are supported:
 * `internet_max_bandwidth_out` - (Optional, Int) Maximum outgoing bandwidth to the public network, measured in Mbps (Mega bits per second). This value does not need to be set when `allocate_public_ip` is false.
 * `keep_image_login` - (Optional, Bool) Whether to keep image login or not, default is `false`. When the image type is private or shared or imported, this parameter can be set `true`. Modifying will cause the instance reset.
 * `key_ids` - (Optional, Set: [`String`]) The key pair to use for the instance, it looks like `skey-16jig7tx`. Modifying will cause the instance reset.
-* `key_name` - (Optional, String, **Deprecated**) Please use `key_ids` instead.  (Optional, String, *Deprecated*) Please use `key_ids` instead. The key pair to use for the instance, it looks like `skey-16jig7tx`. Modifying will cause the instance reset.
+* `key_name` - (Optional, String, **Deprecated**) Please use `key_ids` instead. (Optional, String, *Deprecated*) Please use `key_ids` instead. The key pair to use for the instance, it looks like `skey-16jig7tx`. Modifying will cause the instance reset.
 * `orderly_security_groups` - (Optional, List: [`String`]) A list of orderly security group IDs to associate with.
 * `password` - (Optional, String) Password for the instance. In order for the new password to take effect, the instance will be restarted after the password change. Modifying will cause the instance reset.
 * `placement_group_id` - (Optional, String, ForceNew) The ID of a placement group.
-* `platform_project_id` - (Optional, String) The project the instance belongs to
+* `platform_project_id` - (Optional, String) The project the instance belongs to.
 * `private_ip` - (Optional, String) The private IP to be assigned to this instance, must be in the provided subnet and available.
 * `project_id` - (Optional, Int) The project the instance belongs to, default to 0.
-* `resource_type` - (Optional, String) resource type, default instance
+* `resource_type` - (Optional, String) resource type, default instance.
 * `running_flag` - (Optional, Bool) Set instance to running or stop. Default value is true, the instance will shutdown when this flag is false.
 * `security_groups` - (Optional, Set: [`String`], **Deprecated**) It will be deprecated. Use `orderly_security_groups` instead. (Optional, Set, `Deprecated`) Please use `orderly_security_groups` instead. A list of security group IDs to associate with.
 * `stopped_mode` - (Optional, String) Billing method of a pay-as-you-go instance after shutdown. Available values: `KEEP_CHARGING`,`STOP_CHARGING`. Default `KEEP_CHARGING`.

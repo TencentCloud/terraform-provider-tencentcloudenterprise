@@ -1,3 +1,25 @@
+/*
+Provides a resource to create NGWAF auto deny rules.
+
+Example Usage
+
+```hcl
+resource "tencentcloudenterprise_ngwaf_auto_deny_rules" "example" {
+  domain               = "example.com"
+  attack_threshold     = 10
+  time_threshold       = 10
+  deny_time_threshold  = 30
+}
+```
+
+Import
+
+NGWAF auto deny rules can be imported using the id, e.g.
+
+```
+$ terraform import tencentcloudenterprise_ngwaf_auto_deny_rules.example example.com
+```
+*/
 package tencentcloud
 
 import (

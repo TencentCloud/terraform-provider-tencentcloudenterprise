@@ -1,3 +1,27 @@
+/*
+Provides a resource to create a NGWAF bot resource.
+
+Example Usage
+
+```hcl
+resource "tencentcloudenterprise_ngwaf_bot_resource" "example" {
+  instance_id = "waf-xxxxxxxx"
+  region_id   = "1"
+  pay_mode    = 1
+  pid         = 1000
+  project_id  = 0
+  goods_num   = 1
+}
+```
+
+Import
+
+NGWAF bot resource can be imported using the id, e.g.
+
+```
+$ terraform import tencentcloudenterprise_ngwaf_bot_resource.example waf-xxxxxxxx
+```
+*/
 package tencentcloud
 
 import (

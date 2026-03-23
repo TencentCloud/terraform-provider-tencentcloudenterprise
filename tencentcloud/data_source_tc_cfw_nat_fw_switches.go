@@ -1,3 +1,24 @@
+/*
+Use this data source to query detailed information of cloud firewall (cfw) NAT firewall switches.
+
+# Example Usage
+
+```hcl
+# Query all NAT firewall switches
+
+	data "tencentcloudenterprise_cfw_nat_fw_switches" "example" {
+	  nat_ins_id = "cfwnat-xxxxxxxx"
+	}
+
+# Query NAT firewall switches with specific enable status
+
+	data "tencentcloudenterprise_cfw_nat_fw_switches" "enabled_only" {
+	  nat_ins_id = "cfwnat-xxxxxxxx"
+	  enable     = 1
+	}
+
+```
+*/
 package tencentcloud
 
 import (

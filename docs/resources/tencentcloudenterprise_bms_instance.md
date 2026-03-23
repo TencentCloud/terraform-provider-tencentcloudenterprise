@@ -45,7 +45,7 @@ The following arguments are supported:
 * `vpc_id` - (Required, String) The ID of a VPC network.
 * `allocate_public_ip` - (Optional, Bool, ForceNew) Associate a public IP address with an instance in a VPC or Classic. Boolean value, Default is false.
 * `hostname` - (Optional, String) The hostname of the instance. The name should be a combination of 2 to 60 characters, supporting multiple periods (.). The piece between two periods is composed of letters (case insensitive), numbers, and hyphens (-). Modifying will cause the instance reset.
-* `internet_max_bandwidth_out` - (Optional, Int) Maximum outgoing bandwidth to the public network, measured in Mbps (Mega bits per second). This value does not need to be set when `allocate_public_ip` is false. The max values is 1000
+* `internet_max_bandwidth_out` - (Optional, Int) Maximum outgoing bandwidth to the public network, measured in Mbps (Mega bits per second). This value does not need to be set when `allocate_public_ip` is false. The max values is 1000.
 * `internet_service_provider` - (Optional, String) The Internet Service Provider (ISP) associated with the instance.
 * `ipv6_address` - (Optional, Bool) Whether to allocate an IPv6 address. Defaults to not allocating if not specified.
 * `placement_group_id` - (Optional, String, ForceNew) The ID of a placement group.

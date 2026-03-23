@@ -1,3 +1,21 @@
+/*
+Use this data source to query NGWAF protected domains.
+
+# Example Usage
+
+```hcl
+
+	data "tencentcloudenterprise_ngwaf_domains" "example" {
+	  instance_id = "waf-xxxxxxxx"
+	  domain      = "example.com"
+	}
+
+	data "tencentcloudenterprise_ngwaf_domains" "all" {
+	  instance_id = "waf-xxxxxxxx"
+	}
+
+```
+*/
 package tencentcloud
 
 import (

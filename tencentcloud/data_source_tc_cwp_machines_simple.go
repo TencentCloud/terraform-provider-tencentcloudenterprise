@@ -1,3 +1,27 @@
+/*
+Use this data source to query detailed information of CWP (Cloud Workload Protection) machines in a simplified format.
+
+# Example Usage
+
+```hcl
+
+	data "tencentcloudenterprise_cwp_machines_simple" "cvm_machines" {
+	  machine_type   = "CVM"
+	  machine_region = "ap-beijing"
+	}
+
+	data "tencentcloudenterprise_cwp_machines_simple" "all_machines" {
+	  machine_type   = "ALL"
+	  machine_region = "ap-shanghai"
+
+	  filters {
+	    name   = "MachineStatus"
+	    values = ["Online"]
+	  }
+	}
+
+```
+*/
 package tencentcloud
 
 import (

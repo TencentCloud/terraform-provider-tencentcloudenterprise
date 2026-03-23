@@ -129,7 +129,7 @@ The `data_disk` object supports the following:
 * `disk_partition` - (Required, String, ForceNew) The device or partition name to mount.
 * `mount_target` - (Required, String, ForceNew) Mount target.
 * `auto_format_and_mount` - (Optional, Bool, ForceNew) Indicate whether to auto format and mount or not. Default is `false`.
-* `disk_pool_group` - (Optional, String, ForceNew) disk pool group
+* `disk_pool_group` - (Optional, String, ForceNew) disk pool group.
 * `disk_size` - (Optional, Int, ForceNew) Volume of disk in GB. Default is `0`.
 * `disk_type` - (Optional, String, ForceNew) Types of disk, available values: `CLOUD_PREMIUM` and `CLOUD_SSD` and `CLOUD_HSSD` and `CLOUD_TSSD`.
 * `file_system` - (Optional, String, ForceNew) File system, e.g. `ext3/ext4/xfs`.
@@ -164,7 +164,7 @@ The `worker_config` object supports the following:
 * `password` - (Optional, String, ForceNew) Password to access, should be set if `key_ids` not set.
 * `public_ip_assigned` - (Optional, Bool, ForceNew) Specify whether to assign an Internet IP address.
 * `security_group_ids` - (Optional, List, ForceNew) Security groups to which a CVM instance belongs.
-* `system_disk_pool_group` - (Optional, String, ForceNew) System disk pool group
+* `system_disk_pool_group` - (Optional, String, ForceNew) System disk pool group.
 * `system_disk_size` - (Optional, Int, ForceNew) Volume of system disk in GB. Default is `50`.
 * `system_disk_type` - (Optional, String, ForceNew) System disk type. For more information on limits of system disk types, see [Storage Overview](https://intl.cloud.com/document/product/213/4952). Valid values: `LOCAL_BASIC`: local disk, `LOCAL_SSD`: local SSD disk, `CLOUD_SSD`: SSD, `CLOUD_PREMIUM`: Premium Cloud Storage. NOTE: `CLOUD_BASIC`, `LOCAL_BASIC` and `LOCAL_SSD` are deprecated.
 * `user_data` - (Optional, String, ForceNew) Ase64-encoded User Data text, the length limit is 16KB.

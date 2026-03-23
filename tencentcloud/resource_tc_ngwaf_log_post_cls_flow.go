@@ -1,3 +1,25 @@
+/*
+Provides a resource to manage NGWAF log posting to CLS (Cloud Log Service).
+
+Example Usage
+
+```hcl
+resource "tencentcloudenterprise_ngwaf_log_post_cls_flow" "example" {
+  cls_region     = "ap-shanghai"
+  logset_name    = "waf_post_logset"
+  log_type       = 1
+  log_topic_name = "waf_post_logtopic"
+}
+```
+
+Import
+
+NGWAF log post cls flow can be imported using the id, e.g.
+
+```
+$ terraform import tencentcloudenterprise_ngwaf_log_post_cls_flow.example flow_id#log_type
+```
+*/
 package tencentcloud
 
 import (

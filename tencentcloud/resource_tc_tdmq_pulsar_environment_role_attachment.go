@@ -1,3 +1,27 @@
+/*
+Provides a resource to attach a TDMQ Pulsar role to a namespace with specific permissions.
+
+# Example Usage
+
+```hcl
+
+	resource "tencentcloudenterprise_tdmq_pulsar_environment_role_attachment" "example" {
+	  cluster_id   = "pulsar-xxxxxxxx"
+	  environ_id   = "my-namespace"
+	  role_name    = "my-role"
+	  permissions  = ["produce", "consume"]
+	}
+
+```
+
+# Import
+
+# TDMQ Pulsar namespace role attachment can be imported using the id, e.g
+
+```
+$ terraform import tencentcloudenterprise_tdmq_pulsar_environment_role_attachment.example pulsar-xxxxxxxx#my-namespace#my-role
+```
+*/
 package tencentcloud
 
 import (

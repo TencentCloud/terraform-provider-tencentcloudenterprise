@@ -1,3 +1,13 @@
+/*
+Use this data source to query user's domains configured in NGWAF.
+
+# Example Usage
+
+```hcl
+data "tencentcloudenterprise_ngwaf_user_domains" "example" {
+}
+```
+*/
 package tencentcloud
 
 import (
@@ -116,34 +126,34 @@ func dataSourceTencentCloudNgwafUserDomainsRead(d *schema.ResourceData, meta int
 				userDomainInfoMap["domain"] = userDomainInfo.Domain
 			}
 
-		if userDomainInfo.DomainId != nil {
-			userDomainInfoMap["domain_id"] = userDomainInfo.DomainId
-			ids = append(ids, *userDomainInfo.DomainId)
-		}
+			if userDomainInfo.DomainId != nil {
+				userDomainInfoMap["domain_id"] = userDomainInfo.DomainId
+				ids = append(ids, *userDomainInfo.DomainId)
+			}
 
-		if userDomainInfo.InstanceId != nil {
-			userDomainInfoMap["instance_id"] = userDomainInfo.InstanceId
-		}
+			if userDomainInfo.InstanceId != nil {
+				userDomainInfoMap["instance_id"] = userDomainInfo.InstanceId
+			}
 
-		if userDomainInfo.InstanceName != nil {
-			userDomainInfoMap["instance_name"] = userDomainInfo.InstanceName
-		}
+			if userDomainInfo.InstanceName != nil {
+				userDomainInfoMap["instance_name"] = userDomainInfo.InstanceName
+			}
 
-		if userDomainInfo.Edition != nil {
-			userDomainInfoMap["edition"] = userDomainInfo.Edition
-		}
+			if userDomainInfo.Edition != nil {
+				userDomainInfoMap["edition"] = userDomainInfo.Edition
+			}
 
-		if userDomainInfo.Level != nil {
-			userDomainInfoMap["level"] = userDomainInfo.Level
-		}
+			if userDomainInfo.Level != nil {
+				userDomainInfoMap["level"] = userDomainInfo.Level
+			}
 
-		if userDomainInfo.WriteConfig != nil {
-			userDomainInfoMap["write_config"] = userDomainInfo.WriteConfig
-		}
+			if userDomainInfo.WriteConfig != nil {
+				userDomainInfoMap["write_config"] = userDomainInfo.WriteConfig
+			}
 
-		if userDomainInfo.Cls != nil {
-			userDomainInfoMap["cls"] = userDomainInfo.Cls
-		}
+			if userDomainInfo.Cls != nil {
+				userDomainInfoMap["cls"] = userDomainInfo.Cls
+			}
 			tmpList = append(tmpList, userDomainInfoMap)
 		}
 

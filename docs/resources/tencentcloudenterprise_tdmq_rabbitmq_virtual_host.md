@@ -1,5 +1,5 @@
 ---
-subcategory: "TDMQ for RabbitMQ(trabbit)"
+subcategory: "TDMQ"
 layout: "tencentcloudenterprise"
 page_title: "TencentCloudEnterprise: tencentcloudenterprise_tdmq_rabbitmq_virtual_host"
 sidebar_current: "docs-tencentcloudenterprise-resource-tdmq_rabbitmq_virtual_host"

@@ -1,3 +1,18 @@
+/*
+Use this data source to query the total count of NGWAF attacks within a specified time period.
+
+# Example Usage
+
+```hcl
+
+	data "tencentcloudenterprise_ngwaf_attack_total_count" "example" {
+	  start_time   = "2023-01-01 00:00:00"
+	  end_time     = "2023-01-31 23:59:59"
+	  query_string = "severity:high"
+	}
+
+```
+*/
 package tencentcloud
 
 import (

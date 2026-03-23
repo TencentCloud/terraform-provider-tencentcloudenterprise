@@ -1,3 +1,25 @@
+/*
+Provides a resource to create a NGWAF anti fake URL rule.
+
+Example Usage
+
+```hcl
+resource "tencentcloudenterprise_ngwaf_anti_fake" "example" {
+  domain = "example.com"
+  name   = "anti-fake-rule"
+  uri    = "/index.html"
+  status = 1
+}
+```
+
+Import
+
+NGWAF anti fake rule can be imported using the id, e.g.
+
+```
+$ terraform import tencentcloudenterprise_ngwaf_anti_fake.example rule_id#example.com
+```
+*/
 package tencentcloud
 
 import (

@@ -1,3 +1,13 @@
+/*
+Use this data source to query available TLS versions supported by NGWAF.
+
+# Example Usage
+
+```hcl
+data "tencentcloudenterprise_ngwaf_tls_versions" "example" {
+}
+```
+*/
 package tencentcloud
 
 import (
@@ -77,12 +87,12 @@ func dataSourceTencentCloudNgwafTlsVersionsRead(d *schema.ResourceData, meta int
 				tLSVersionMap["version_id"] = tLSVersion.VersionId
 			}
 
-		if tLSVersion.VersionName != nil {
-			tLSVersionMap["version_name"] = tLSVersion.VersionName
-			ids = append(ids, *tLSVersion.VersionName)
-		}
+			if tLSVersion.VersionName != nil {
+				tLSVersionMap["version_name"] = tLSVersion.VersionName
+				ids = append(ids, *tLSVersion.VersionName)
+			}
 
-		tmpList = append(tmpList, tLSVersionMap)
+			tmpList = append(tmpList, tLSVersionMap)
 		}
 
 		_ = d.Set("tls", tmpList)

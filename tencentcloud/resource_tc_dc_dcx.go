@@ -3,49 +3,49 @@ Provides a resource to creating dedicated tunnels instances.
 
 ~> **NOTE:** 1. ID of the DC is queried, can only apply for this resource offline.
 
-Example Usage
+# Example Usage
 
 ```hcl
 
-	variable "dc_id" {
-	  default = "dc-kax48sg7"
-	}
+		variable "dc_id" {
+		  default = "dc-kax48sg7"
+		}
 
-	variable "dcg_id" {
-	  default = "dcg-dmbhf7jf"
-	}
+		variable "dcg_id" {
+		  default = "dcg-dmbhf7jf"
+		}
 
-	variable "vpc_id" {
-	  default = "vpc-4h9v4mo3"
-	}
+		variable "vpc_id" {
+		  default = "vpc-4h9v4mo3"
+		}
 
-	resource "tencentcloudenterprise_dc_dcx" "bgp_main" {
-	  bandwidth    = 900
-	  dc_id        = var.dc_id
-	  dcg_id       = var.dcg_id
-	  name         = "bgp_main"
-	  network_type = "VPC"
-	  route_type   = "BGP"
-	  vlan         = 306
-	  vpc_id       = var.vpc_id
-	}
+		resource "tencentcloudenterprise_dc_dcx" "bgp_main" {
+		  bandwidth    = 900
+		  dc_id        = var.dc_id
+		  dcg_id       = var.dcg_id
+		  name         = "bgp_main"
+		  network_type = "VPC"
+		  route_type   = "BGP"
+		  vlan         = 306
+		  vpc_id       = var.vpc_id
+		}
 
-	resource "tencentcloudenterprise_dc_dcx" "static_main" {
-	  bandwidth             = 900
-	  dc_id                 = var.dc_id
-	  dcg_id                = var.dcg_id
-	  name                  = "static_main"
-	  network_type          = "VPC"
-	  route_type            = "STATIC"
-	  vlan                  = 301
-	  vpc_id                = var.vpc_id
-	  tencentcloudenterprise_address       = "100.93.46.1/30"
-	  customer_address      = "100.93.46.2/30"
-	  idc_routes = [
-      "10.0.0.0/16",
-      "10.2.0.0/16"
-    ]
-	}
+		resource "tencentcloudenterprise_dc_dcx" "static_main" {
+		  bandwidth             = 900
+		  dc_id                 = var.dc_id
+		  dcg_id                = var.dcg_id
+		  name                  = "static_main"
+		  network_type          = "VPC"
+		  route_type            = "STATIC"
+		  vlan                  = 301
+		  vpc_id                = var.vpc_id
+		  tencentcloudenterprise_address       = "100.93.46.1/30"
+		  customer_address      = "100.93.46.2/30"
+		  idc_routes = [
+	      "10.0.0.0/16",
+	      "10.2.0.0/16"
+	    ]
+		}
 
 ```
 */
@@ -90,8 +90,8 @@ func init() {
 			"connect_subnet_mask":              "互联地址掩码",
 			"network_region":                   "互联地址掩码",
 			"ip_type":                          "通道IP协议类型",
-			"enable_multicast":					"是否开启组播，仅可在修改时设置",
-			"multicast_groups":					"通道组播组地址，当开启组播时可用，仅可在修改时设置",
+			"enable_multicast":                 "是否开启组播，仅可在修改时设置",
+			"multicast_groups":                 "通道组播组地址，当开启组播时可用，仅可在修改时设置",
 			"state":                            "专线通道状态",
 			"bfd_state":                        "BFD协议状态",
 			"created_time":                     "创建时间",
@@ -159,9 +159,10 @@ func resourceTencentCloudDcxInstance() *schema.Resource {
 				Description: "ID of the DC Gateway. Currently only new in the console.",
 			},
 			"bgp_peer": {
-				Type:     schema.TypeList,
-				Optional: true,
-				MaxItems: 1,
+				Type:        schema.TypeList,
+				Optional:    true,
+				MaxItems:    1,
+				Description: "BGP peer information configured by the user, including Asn and AuthKey.",
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						"bgp_asn": {
@@ -234,18 +235,18 @@ func resourceTencentCloudDcxInstance() *schema.Resource {
 			"connect_subnet_mask": {
 				Type:        schema.TypeInt,
 				Required:    true,
-				ForceNew:	 true,
+				ForceNew:    true,
 				Description: "Mask of the interconnect address.",
 			},
 			"network_region": {
 				Type:        schema.TypeString,
 				Required:    true,
-				ForceNew:	 true,
+				ForceNew:    true,
 				Description: "Region of the vpc.",
 			},
 			"ip_type": {
 				Type:        schema.TypeString,
-				ForceNew:	 true,
+				ForceNew:    true,
 				Optional:    true,
 				Description: "Protocol type of the tunnel IP.",
 			},
@@ -309,29 +310,29 @@ func resourceTencentCloudDcxInstanceCreate(d *schema.ResourceData, meta interfac
 	service := DcService{client: meta.(*TencentCloudClient).apiV3Conn}
 
 	var (
-		dcId                        string
-		dcTunnelName                string
-		networkType                 string
-		networkRegion               string
-		vpcId                       int64
-		vpcName                     string
-		routeType                   string
-		bgpAsn                      int64
-		bgpAuthKey                  string
-		vlan                        int64
-		cloudAddress                string
-		customerAddress             string
-		bandwidth                   int64
+		dcId            string
+		dcTunnelName    string
+		networkType     string
+		networkRegion   string
+		vpcId           int64
+		vpcName         string
+		routeType       string
+		bgpAsn          int64
+		bgpAuthKey      string
+		vlan            int64
+		cloudAddress    string
+		customerAddress string
+		bandwidth       int64
 		//routeFilterPrefixes []string
-		dcgId                       string
-		loadMode                    string
+		dcgId                        string
+		loadMode                     string
 		relatedDirectConnectTunnelId string
-		enableBfd                   bool
-		bfdInterval                 int64
-		connectSubnetMask           uint64
-		ipType                      string
-		idcRoutes                   string
-		ownerAccount                string
+		enableBfd                    bool
+		bfdInterval                  int64
+		connectSubnetMask            uint64
+		ipType                       string
+		idcRoutes                    string
+		ownerAccount                 string
 	)
 
 	// 获取必需字段 - 使用正确的schema字段名
@@ -585,7 +586,7 @@ func resourceTencentCloudDcxInstanceUpdate(d *schema.ResourceData, meta interfac
 	if d.HasChange("load_mode") || d.HasChange("related_direct_connect_tunnel_id") {
 		loadMode := d.Get("load_mode").(string)
 		relatedDirectConnectTunnelId := d.Get("related_direct_connect_tunnel_id").(string)
-		
+
 		err := service.UpdateVifAssociated(ctx, dcTunnelId, loadMode, relatedDirectConnectTunnelId)
 		if err != nil {
 			return err
@@ -593,21 +594,21 @@ func resourceTencentCloudDcxInstanceUpdate(d *schema.ResourceData, meta interfac
 	}
 
 	// 检查是否有其他字段需要更新
-	if d.HasChange("direct_connect_tunnel_name") || d.HasChange("bandwidth") || 
+	if d.HasChange("direct_connect_tunnel_name") || d.HasChange("bandwidth") ||
 		d.HasChange("bgp_peer") || d.HasChange("enable_bfd") || d.HasChange("bfd_interval") ||
 		d.HasChange("idc_routes") || d.HasChange("enable_multicast") || d.HasChange("multicast_groups") {
-		
+
 		var (
-			dcTunnelName            string
-			bandwidth               int64
-			bgpAsn                  int64
-			bgpAuthKey              string
-			enableBfd               bool
-			bfdInterval             int64
-			enableMulticast         bool
-			multicastGroups         string
-			oldEnableMulticastRaw   interface{}
-			oldMulticastGroupsRaw   interface{}
+			dcTunnelName          string
+			bandwidth             int64
+			bgpAsn                int64
+			bgpAuthKey            string
+			enableBfd             bool
+			bfdInterval           int64
+			enableMulticast       bool
+			multicastGroups       string
+			oldEnableMulticastRaw interface{}
+			oldMulticastGroupsRaw interface{}
 		)
 
 		if d.HasChange("enable_multicast") {

@@ -1,3 +1,26 @@
+/*
+Provides a resource to create a TDMQ Pulsar role.
+
+# Example Usage
+
+```hcl
+
+	resource "tencentcloudenterprise_tdmq_pulsar_role" "example" {
+	  cluster_id = "pulsar-xxxxxxxx"
+	  role_name  = "my-pulsar-role"
+	  remark     = "Example Pulsar role"
+	}
+
+```
+
+# Import
+
+# TDMQ Pulsar role can be imported using the id, e.g
+
+```
+$ terraform import tencentcloudenterprise_tdmq_pulsar_role.example pulsar-xxxxxxxx#my-pulsar-role
+```
+*/
 package tencentcloud
 
 import (

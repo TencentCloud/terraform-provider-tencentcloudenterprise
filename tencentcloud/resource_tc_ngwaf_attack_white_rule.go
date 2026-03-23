@@ -1,3 +1,33 @@
+/*
+Provides a resource to create a NGWAF attack white rule.
+
+Example Usage
+
+```hcl
+resource "tencentcloudenterprise_ngwaf_attack_white_rule" "example" {
+  domain = "example.com"
+  status = 1
+
+  rules {
+    match_field   = "URI"
+    match_method  = "equal"
+    match_content = "/api/health"
+  }
+
+  signature_ids = ["rule-100001"]
+  mode          = 0
+  name          = "example-white-rule"
+}
+```
+
+Import
+
+NGWAF attack white rule can be imported using the id, e.g.
+
+```
+$ terraform import tencentcloudenterprise_ngwaf_attack_white_rule.example example.com#rule_id
+```
+*/
 package tencentcloud
 
 import (

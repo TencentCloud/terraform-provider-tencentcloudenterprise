@@ -1,3 +1,21 @@
+/*
+Use this data source to query NGWAF peak statistics for specific metrics within a time period.
+
+# Example Usage
+
+```hcl
+
+	data "tencentcloudenterprise_ngwaf_peak_points" "example" {
+	  from_time    = "2023-01-01 00:00:00"
+	  to_time      = "2023-01-31 23:59:59"
+	  metric_name  = "access"
+	  domain       = "example.com"
+	  edition      = "clb-waf"
+	  instance_id  = "waf-xxxxxxxx"
+	}
+
+```
+*/
 package tencentcloud
 
 import (

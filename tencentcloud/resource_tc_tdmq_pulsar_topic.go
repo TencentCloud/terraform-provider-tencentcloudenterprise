@@ -1,3 +1,29 @@
+/*
+Provides a resource to create a TDMQ Pulsar topic.
+
+# Example Usage
+
+```hcl
+
+	resource "tencentcloudenterprise_tdmq_pulsar_topic" "example" {
+	  cluster_id         = "pulsar-xxxxxxxx"
+	  environ_id         = "my-namespace"
+	  topic_name         = "my-topic"
+	  partitions         = 3
+	  pulsar_topic_type  = 0
+	  remark             = "Example topic"
+	}
+
+```
+
+# Import
+
+# TDMQ Pulsar topic can be imported using the id, e.g
+
+```
+$ terraform import tencentcloudenterprise_tdmq_pulsar_topic.example pulsar-xxxxxxxx#my-namespace#my-topic
+```
+*/
 package tencentcloud
 
 import (
@@ -247,7 +273,6 @@ func resourceTencentCloudTdmqPulsarTopicDelete(d *schema.ResourceData, meta inte
 	topicName := d.Id()
 	environId := d.Get("environ_id").(string)
 	clusterId := d.Get("cluster_id").(string)
-
 
 	err := service.DeleteTdmqTopic(ctx, environId, topicName, clusterId)
 	if err != nil {

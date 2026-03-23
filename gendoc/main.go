@@ -38,6 +38,48 @@ var (
 	statsFailed  int
 )
 
+// productNameMap maps resource prefix to human-readable product name for subcategory.
+// Resources not matching any key here will have their prefix auto-capitalized.
+var productNameMap = map[string]string{
+	"apm":          "Application Performance Management(APM)",
+	"as":           "Auto Scaling(AS)",
+	"availability": "Provider Data Sources",
+	"bms":          "Bare Metal Server(BMS)",
+	"brc":          "Backup and Recovery(BRC)",
+	"cam":          "Cloud Access Management(CAM)",
+	"cbs":          "Cloud Block Storage(CBS)",
+	"ccn":          "Cloud Connect Network(CCN)",
+	"cfs":          "Cloud File Storage(CFS)",
+	"cfw":          "Cloud Firewall(CFW)",
+	"cic":          "Corporate Identity Center(CIC)",
+	"ckafka":       "Cloud Kafka(ckafka)",
+	"clb":          "Cloud Load Balancer(CLB)",
+	"cls":          "Cloud Log Service(CLS)",
+	"cos":          "Cloud Object Storage(COS)",
+	"csp":          "Cloud Storage Platform(CSP)",
+	"cvm":          "Cloud Virtual Machine(CVM)",
+	"cwp":          "Cloud Workload Protection Platform(CWP)",
+	"dc":           "Direct Connect(DC)",
+	"dcdb":         "TDSQL for MySQL(DCDB)",
+	"dcx":          "Direct Connect Gateway(DCX)",
+	"eip":          "Cloud Elastic IP(EIP)",
+	"eips":         "Cloud Elastic IP(EIP)",
+	"kms":          "Key Management Service(KMS)",
+	"ngwaf":        "Web Application Firewall(NGWAF)",
+	"organization": "Tencent Cloud Organization",
+	"redis":        "TencentDB for Redis(crs)",
+	"ssm":          "Secrets Manager(SSM)",
+	"tag":          "Tag",
+	"tbase":        "TDSQL PostgreSQL(Tbase)",
+	"tcr":          "Tencent Container Registry(TCR)",
+	"tdmq":         "TDMQ",
+	"tke":          "Tencent Kubernetes Engine(TKE)",
+	"tsf":          "Tencent Service Framework(TSF)",
+	"turbofs":      "TurboFS",
+	"vpc":          "Virtual Private Cloud(VPC)",
+	"vpcdns":       "Virtual Private Cloud DNS(VPCDNS)",
+}
+
 func main() {
 	provider := cloud.Provider()
 	vProvider := runtime.FuncForPC(reflect.ValueOf(cloud.Provider).Pointer())
@@ -46,8 +88,12 @@ func main() {
 	filePath := filepath.Dir(filename)
 	message("generating doc from: %s\n", filePath)
 
-	// document for Index
-	products := genIdx(filePath)
+	// Build product list from provider schema (not from comments)
+	products := buildProductsFromProvider(provider)
+	message("discovered %d products from provider schema\n", len(products))
+
+	// Generate index page
+	genIdx(products)
 
 	for _, product := range products {
 		// document for DataSources
@@ -79,52 +125,84 @@ func main() {
 	message("========================\n")
 }
 
-// genIdx generating index for resource
-func genIdx(filePath string) (prods []Product) {
-	filename := "provider.go"
+// buildProductsFromProvider scans provider.ResourcesMap and DataSourcesMap
+// to discover all products and their resources, instead of parsing comments.
+func buildProductsFromProvider(provider *schema.Provider) []Product {
+	productMap := make(map[string]*Product)
 
-	message("[START]get description from file: %s\n", filename)
-
-	description, err := getFileDescription(filepath.Join(filePath, filename))
-	if err != nil {
-		message("[SKIP!]get description failed, skip: %s", err)
-		return
+	for name := range provider.DataSourcesMap {
+		prefix := getProductPrefix(name)
+		productName := getProductName(prefix)
+		if _, ok := productMap[productName]; !ok {
+			productMap[productName] = &Product{Name: productName}
+		}
+		productMap[productName].DataSources = append(productMap[productName].DataSources, name)
 	}
 
-	description = strings.TrimSpace(description)
-	if description == "" {
-		message("[SKIP!]description empty, skip: %s\n", filename)
-		return
+	for name := range provider.ResourcesMap {
+		prefix := getProductPrefix(name)
+		productName := getProductName(prefix)
+		if _, ok := productMap[productName]; !ok {
+			productMap[productName] = &Product{Name: productName}
+		}
+		productMap[productName].Resources = append(productMap[productName].Resources, name)
 	}
 
-	// Support both "# Resources List" and "Resources List"
-	pos := strings.Index(description, "\n# Resources List\n")
-	offset := 18 // len("\n# Resources List\n")
-	if pos == -1 {
-		pos = strings.Index(description, "\nResources List\n")
-		offset = 16 // len("\nResources List\n")
-	}
-	if pos == -1 {
-		message("[SKIP!]resource list missing, skip: %s\n", filename)
-		return
+	// Convert map to sorted slice
+	var products []Product
+	for _, prod := range productMap {
+		sort.Strings(prod.DataSources)
+		sort.Strings(prod.Resources)
+		products = append(products, *prod)
 	}
 
-	doc := strings.TrimSpace(description[pos+offset:])
+	sort.Slice(products, func(i, j int) bool {
+		// Provider Data Sources first
+		if products[i].Name == "Provider Data Sources" {
+			return true
+		}
+		if products[j].Name == "Provider Data Sources" {
+			return false
+		}
+		return products[i].Name < products[j].Name
+	})
 
-	prods, err = GetIndex(doc)
-	if err != nil {
-		message("[FAIL!]: %s", err)
-		os.Exit(1)
+	return products
+}
+
+// getProductPrefix extracts the product prefix from a full resource name.
+// e.g. "tencentcloudenterprise_cvm_instance" -> "cvm"
+// e.g. "tencentcloudenterprise_availability_zones" -> "availability"
+func getProductPrefix(name string) string {
+	short := strings.TrimPrefix(name, cloudPrefix)
+	if strings.HasPrefix(short, "availability_") {
+		return "availability"
 	}
+	parts := strings.SplitN(short, "_", 2)
+	if len(parts) > 0 {
+		return parts[0]
+	}
+	return "other"
+}
 
+// getProductName maps a product prefix to the human-readable product name.
+func getProductName(prefix string) string {
+	if name, ok := productNameMap[prefix]; ok {
+		return name
+	}
+	return strings.ToUpper(prefix)
+}
+
+// genIdx generates the index page (docs/index.md)
+func genIdx(products []Product) {
 	data := map[string]interface{}{
 		"cloud_mark":  cloudMark,
 		"cloud_title": cloudTitle,
 		"cloudPrefix": cloudPrefix,
-		"Products":    prods,
+		"Products":    products,
 	}
 
-	filename = filepath.Join(docRoot, "index.md")
+	filename := filepath.Join(docRoot, "index.md")
 
 	// Ensure output directory exists
 	if err := os.MkdirAll(filepath.Dir(filename), 0755); err != nil {
@@ -148,12 +226,11 @@ func genIdx(filePath string) (prods []Product) {
 	}
 
 	message("[SUCC.]write doc to file success: %s", filename)
-	return
 }
 
 // genDoc generating doc for data source and resource
 func genDoc(product, dtype, fpath, name string, resource *schema.Resource) {
-	// Convert dtype to singular form for sidebar_current (remove hyphen and 's')
+	// Convert dtype to singular form for sidebar_current
 	dtypeSingular := dtype
 	if dtype == "data-sources" {
 		dtypeSingular = "datasource"
@@ -195,37 +272,23 @@ func genDoc(product, dtype, fpath, name string, resource *schema.Resource) {
 		return
 	}
 
-	// Support both "# Import" and "Import"
-	importPos := strings.Index(description, "\n# Import\n")
-	offset := 10 // len("\n# Import\n")
-	if importPos == -1 {
-		importPos = strings.Index(description, "\nImport\n")
-		offset = 8 // len("\nImport\n")
-	}
-	if importPos != -1 {
-		data["import"] = strings.TrimSpace(description[importPos+offset:])
-		description = strings.TrimSpace(description[:importPos])
+	// Use regex-based heading parser (supports both "# Import" and "Import")
+	if before, after, ok := splitDocSection(description, "Import"); ok {
+		data["import"] = strings.TrimSpace(after)
+		description = strings.TrimSpace(before)
 	}
 
-	// Support both "# Example Usage" and "Example Usage"
-	pos := strings.Index(description, "\n# Example Usage\n")
-	offset = 18 // len("\n# Example Usage\n")
-	if pos == -1 {
-		pos = strings.Index(description, "\nExample Usage\n")
-		offset = 15 // len("\nExample Usage\n")
-	}
-
-	if pos == -1 {
+	if before, after, ok := splitDocSection(description, "Example Usage"); ok {
+		data["example"] = formatHCL(after)
+		description = strings.TrimSpace(before)
+	} else {
 		message("[SKIP]example usage missing: %s\n", filename)
 		statsSkipped++
 		return
 	}
 
-	data["example"] = formatHCL(description[pos+offset:])
-	description = strings.TrimSpace(description[:pos])
-
 	data["description"] = description
-	pos = strings.Index(description, "\n\n")
+	pos := strings.Index(description, "\n\n")
 	if pos != -1 {
 		data["description_short"] = strings.TrimSpace(description[:pos])
 	} else {
@@ -257,7 +320,7 @@ func genDoc(product, dtype, fpath, name string, resource *schema.Resource) {
 			statsSkipped++
 			return
 		} else {
-			checkDescription(k, v.Description)
+			v.Description = checkDescription(k, v.Description)
 		}
 		if dtype == "data-sources" && v.ForceNew {
 			message("[SKIP]Don't set ForceNew on data source: '%s' in %s\n", k, filename)
@@ -383,7 +446,7 @@ func getAttributes(step int, k string, v *schema.Schema) []string {
 	if v.Description == "" {
 		return attributes
 	} else {
-		checkDescription(k, v.Description)
+		v.Description = checkDescription(k, v.Description)
 	}
 
 	if v.Computed {
@@ -439,6 +502,36 @@ func getFileDescription(fname string) (string, error) {
 	return parsedAst.Doc.Text(), nil
 }
 
+// splitDocSection splits doc text by a heading line. Supports headings with optional '#' prefix.
+// Returns text before heading, text after heading, and whether the heading was found.
+func splitDocSection(text, heading string) (string, string, bool) {
+	if text == "" {
+		return "", "", false
+	}
+
+	re := regexp.MustCompile("(?m)^\\s*#*\\s*" + regexp.QuoteMeta(heading) + "\\s*$")
+	loc := re.FindStringIndex(text)
+	if loc == nil {
+		return text, "", false
+	}
+
+	before := strings.TrimSpace(text[:loc[0]])
+	afterStart := loc[1]
+	if afterStart < len(text) {
+		if text[afterStart] == '\r' {
+			afterStart++
+			if afterStart < len(text) && text[afterStart] == '\n' {
+				afterStart++
+			}
+		} else if text[afterStart] == '\n' {
+			afterStart++
+		}
+	}
+	after := strings.TrimLeft(text[afterStart:], "\r\n")
+
+	return before, after, true
+}
+
 // getSubStruct get sub structure from go file
 func getSubStruct(step int, k string, v *schema.Schema) []string {
 	var subStructs []string
@@ -446,7 +539,7 @@ func getSubStruct(step int, k string, v *schema.Schema) []string {
 	if v.Description == "" {
 		return subStructs
 	} else {
-		checkDescription(k, v.Description)
+		v.Description = checkDescription(k, v.Description)
 	}
 
 	var subStruct []string
@@ -458,6 +551,7 @@ func getSubStruct(step int, k string, v *schema.Schema) []string {
 				optionalArgs []string
 			)
 			for kk, vv := range v.Elem.(*schema.Resource).Schema {
+				desc := checkDescription(kk, vv.Description)
 				if vv.Required {
 					opt := "Required"
 					valueType := parseType(vv)
@@ -465,7 +559,7 @@ func getSubStruct(step int, k string, v *schema.Schema) []string {
 					if vv.ForceNew {
 						opt += ", ForceNew"
 					}
-					requiredArgs = append(requiredArgs, fmt.Sprintf("* `%s` - (%s) %s", kk, opt, vv.Description))
+					requiredArgs = append(requiredArgs, fmt.Sprintf("* `%s` - (%s) %s", kk, opt, desc))
 				} else if vv.Optional {
 					opt := "Optional"
 					valueType := parseType(vv)
@@ -473,7 +567,7 @@ func getSubStruct(step int, k string, v *schema.Schema) []string {
 					if vv.ForceNew {
 						opt += ", ForceNew"
 					}
-					optionalArgs = append(optionalArgs, fmt.Sprintf("* `%s` - (%s) %s", kk, opt, vv.Description))
+					optionalArgs = append(optionalArgs, fmt.Sprintf("* `%s` - (%s) %s", kk, opt, desc))
 				}
 			}
 			sort.Strings(requiredArgs)
@@ -491,7 +585,7 @@ func getSubStruct(step int, k string, v *schema.Schema) []string {
 	return subStructs
 }
 
-// formatHCL format HLC code
+// formatHCL format HCL code
 func formatHCL(s string) string {
 	var rr []string
 
@@ -511,43 +605,45 @@ func formatHCL(s string) string {
 	return strings.TrimSpace(strings.Join(rr, "\n"))
 }
 
-// checkDescription check description format
-func checkDescription(k, s string) {
+// checkDescription check description format and auto-fix issues when possible.
+// Returns the (possibly fixed) description string.
+func checkDescription(k, s string) string {
 	if s == "" {
-		return
+		return s
 	}
 
+	// Auto-fix: trim leading spaces
 	if strings.TrimLeft(s, " ") != s {
-		message("[WARN]There is space on the left of description: '%s': '%s'\n", k, s)
-		// Skip instead of exit
-		return
+		message("[WARN]Auto-fixed: trimmed leading space from description: '%s'\n", k)
+		s = strings.TrimLeft(s, " ")
 	}
 
+	// Auto-fix: trim trailing spaces
 	if strings.TrimRight(s, " ") != s {
-		message("[WARN]There is space on the right of description: '%s': '%s'\n", k, s)
-		// Skip instead of exit
-		return
+		message("[WARN]Auto-fixed: trimmed trailing space from description: '%s'\n", k)
+		s = strings.TrimRight(s, " ")
 	}
 
-	if s[len(s)-1] != '.' && s[len(s)-1] != ':' {
-		message("[WARN]There is no ending charset(. or :) on the description: '%s': '%s'\n", k, s)
-		// Skip instead of exit
-		return
+	// Auto-fix: add ending punctuation if missing
+	if len(s) > 0 && s[len(s)-1] != '.' && s[len(s)-1] != ':' {
+		message("[WARN]Auto-fixed: added ending '.' to description: '%s'\n", k)
+		s = s + "."
 	}
 
+	// Warning only: unexpected symbols (non-ASCII)
 	if c := containsBigSymbol(s); c != "" {
-		message("[WARN]There is unexcepted symbol '%s' on the description: '%s': '%s'\n", c, k, s)
-		// Skip instead of exit
-		return
+		message("[WARN]There is unexpected symbol '%s' on the description: '%s': '%s'\n", c, k, s)
 	}
 
+	// Warning only: space before punctuation
 	for _, v := range []string{",", ".", ";", ":", "?", "!"} {
 		if strings.Contains(s, " "+v) {
 			message("[WARN]There is space before '%s' on the description: '%s': '%s'\n", v, k, s)
-			// Skip instead of exit
-			return
+			break
 		}
 	}
+
+	return s
 }
 
 // containsBigSymbol returns the Big symbol if found

@@ -1,3 +1,24 @@
+/*
+Provides a resource to manage the bot status configuration for a NGWAF protected domain.
+
+Example Usage
+
+```hcl
+resource "tencentcloudenterprise_ngwaf_bot_status_config" "example" {
+  instance_id = "waf-xxxxxxxx"
+  domain      = "example.com"
+  status      = "1"
+}
+```
+
+Import
+
+NGWAF bot status config can be imported using the id, e.g.
+
+```
+$ terraform import tencentcloudenterprise_ngwaf_bot_status_config.example waf-xxxxxxxx#example.com
+```
+*/
 package tencentcloud
 
 import (

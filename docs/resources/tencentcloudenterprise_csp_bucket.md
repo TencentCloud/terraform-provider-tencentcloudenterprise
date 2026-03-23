@@ -1,5 +1,5 @@
 ---
-subcategory: "Cloud Object Storage(CSP)"
+subcategory: "Cloud Storage Platform(CSP)"
 layout: "tencentcloudenterprise"
 page_title: "TencentCloudEnterprise: tencentcloudenterprise_csp_bucket"
 sidebar_current: "docs-tencentcloudenterprise-resource-csp_bucket"

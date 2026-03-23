@@ -1,3 +1,29 @@
+/*
+Provides a resource to create a TDMQ Pulsar route for VPC connectivity.
+
+# Example Usage
+
+```hcl
+
+	resource "tencentcloudenterprise_tdmq_pulsar_route" "example" {
+	  cluster_id         = "pulsar-xxxxxxxx"
+	  unique_vpc_id      = "vpc-xxxxxxxx"
+	  unique_subnet_id   = "subnet-xxxxxxxx"
+	  net_type           = 2
+	  encrypt_type       = 1
+	  remark             = "Example route with TLS encryption"
+	}
+
+```
+
+# Import
+
+# TDMQ Pulsar route can be imported using the id, e.g
+
+```
+$ terraform import tencentcloudenterprise_tdmq_pulsar_route.example pulsar-xxxxxxxx#vpc-xxxxxxxx#subnet-xxxxxxxx
+```
+*/
 package tencentcloud
 
 import (

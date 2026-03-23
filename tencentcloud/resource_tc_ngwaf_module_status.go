@@ -1,3 +1,28 @@
+/*
+Provides a resource to manage NGWAF module status for a domain.
+
+Example Usage
+
+```hcl
+resource "tencentcloudenterprise_ngwaf_module_status" "example" {
+  domain         = "example.com"
+  web_security   = 1
+  access_control = 1
+  cc_protection  = 1
+  api_protection = 0
+  anti_tamper    = 0
+  anti_leakage   = 0
+}
+```
+
+Import
+
+NGWAF module status can be imported using the id, e.g.
+
+```
+$ terraform import tencentcloudenterprise_ngwaf_module_status.example example.com
+```
+*/
 package tencentcloud
 
 import (

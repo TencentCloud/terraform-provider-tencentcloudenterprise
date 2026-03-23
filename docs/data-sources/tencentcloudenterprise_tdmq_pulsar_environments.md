@@ -1,5 +1,5 @@
 ---
-subcategory: "TDMQ for Pulsar(tpulsar)"
+subcategory: "TDMQ"
 layout: "tencentcloudenterprise"
 page_title: "TencentCloudEnterprise: tencentcloudenterprise_tdmq_pulsar_environments"
 sidebar_current: "docs-tencentcloudenterprise-datasource-tdmq_pulsar_environments"

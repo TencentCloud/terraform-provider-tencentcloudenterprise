@@ -1,3 +1,19 @@
+/*
+Use this data source to query NGWAF attack overview statistics for a specified time period.
+
+# Example Usage
+
+```hcl
+
+	data "tencentcloudenterprise_ngwaf_attack_overview" "example" {
+	  from_time   = "2023-01-01 00:00:00"
+	  to_time     = "2023-01-31 23:59:59"
+	  domain      = "example.com"
+	  instance_id = "waf-xxxxxxxx"
+	}
+
+```
+*/
 package tencentcloud
 
 import (
@@ -171,13 +187,9 @@ func dataSourceTencentCloudNgwafAttackOverviewRead(d *schema.ResourceData, meta 
 		param["ToTime"] = helper.String(v.(string))
 	}
 
-
-
 	if v, ok := d.GetOk("domain"); ok {
 		param["Domain"] = helper.String(v.(string))
 	}
-
-
 
 	if v, ok := d.GetOk("instance_id"); ok {
 		param["InstanceID"] = helper.String(v.(string))
@@ -284,32 +296,32 @@ func dataSourceTencentCloudNgwafAttackOverviewRead(d *schema.ResourceData, meta 
 	output, ok := d.GetOk("result_output_file")
 	if ok && output.(string) != "" {
 		attackOverviewMap := map[string]interface{}{
-			"access_count":               d.Get("access_count"),
-			"attack_count":               d.Get("attack_count"),
-			"acl_count":                  d.Get("acl_count"),
-			"cc_count":                   d.Get("cc_count"),
-			"bot_count":                  d.Get("bot_count"),
-			"api_assets_count":           d.Get("api_assets_count"),
-			"api_risk_event_count":       d.Get("api_risk_event_count"),
-			"applet_count":               d.Get("applet_count"),
-			"ip_black_count":             d.Get("ip_black_count"),
-			"leak_count":                 d.Get("leak_count"),
-			"tamper_count":               d.Get("tamper_count"),
-			"acl_circle_count":           d.Get("acl_circle_count"),
-			"access_circle_count":        d.Get("access_circle_count"),
-			"api_assets_circle_count":    d.Get("api_assets_circle_count"),
+			"access_count":                d.Get("access_count"),
+			"attack_count":                d.Get("attack_count"),
+			"acl_count":                   d.Get("acl_count"),
+			"cc_count":                    d.Get("cc_count"),
+			"bot_count":                   d.Get("bot_count"),
+			"api_assets_count":            d.Get("api_assets_count"),
+			"api_risk_event_count":        d.Get("api_risk_event_count"),
+			"applet_count":                d.Get("applet_count"),
+			"ip_black_count":              d.Get("ip_black_count"),
+			"leak_count":                  d.Get("leak_count"),
+			"tamper_count":                d.Get("tamper_count"),
+			"acl_circle_count":            d.Get("acl_circle_count"),
+			"access_circle_count":         d.Get("access_circle_count"),
+			"api_assets_circle_count":     d.Get("api_assets_circle_count"),
 			"api_risk_event_circle_count": d.Get("api_risk_event_circle_count"),
-			"applet_circle_count":        d.Get("applet_circle_count"),
-			"attack_circle_count":        d.Get("attack_circle_count"),
-			"bot_circle_count":           d.Get("bot_circle_count"),
-			"cc_circle_count":            d.Get("cc_circle_count"),
-			"ip_black_circle_count":      d.Get("ip_black_circle_count"),
-			"leak_circle_count":          d.Get("leak_circle_count"),
-			"tamper_circle_count":        d.Get("tamper_circle_count"),
-			"from_time":                  d.Get("from_time"),
-			"to_time":                    d.Get("to_time"),
-			"domain":                     d.Get("domain"),
-			"instance_id":                d.Get("instance_id"),
+			"applet_circle_count":         d.Get("applet_circle_count"),
+			"attack_circle_count":         d.Get("attack_circle_count"),
+			"bot_circle_count":            d.Get("bot_circle_count"),
+			"cc_circle_count":             d.Get("cc_circle_count"),
+			"ip_black_circle_count":       d.Get("ip_black_circle_count"),
+			"leak_circle_count":           d.Get("leak_circle_count"),
+			"tamper_circle_count":         d.Get("tamper_circle_count"),
+			"from_time":                   d.Get("from_time"),
+			"to_time":                     d.Get("to_time"),
+			"domain":                      d.Get("domain"),
+			"instance_id":                 d.Get("instance_id"),
 		}
 		if e := writeToFile(output.(string), attackOverviewMap); e != nil {
 			return e

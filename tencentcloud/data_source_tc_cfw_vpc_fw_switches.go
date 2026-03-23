@@ -1,3 +1,16 @@
+/*
+Use this data source to query detailed information of cloud firewall (cfw) VPC firewall switches.
+
+# Example Usage
+
+```hcl
+
+	data "tencentcloudenterprise_cfw_vpc_fw_switches" "example" {
+	  vpc_ins_id = "cfwins-xxxxxxxx"
+	}
+
+```
+*/
 package tencentcloud
 
 import (

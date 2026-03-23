@@ -4,6 +4,6 @@ resource "tencentcloudenterprise_ckafka_acl" "terraform_acl" {
   resource_name = "terraform_create_third_times"
   operation_type = "WRITE"
   permission_type = "ALLOW"
-  host = "203.0.113.12"
+  host = "10.25.0.12"
   principal = "*"
 }

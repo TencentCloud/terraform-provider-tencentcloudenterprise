@@ -1,12 +1,22 @@
+/*
+Use this data source to query available SSL/TLS ciphers supported by NGWAF.
+
+# Example Usage
+
+```hcl
+data "tencentcloudenterprise_ngwaf_ciphers" "example" {
+}
+```
+*/
 package tencentcloud
 
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	ngwaf "terraform-provider-tencentcloudenterprise/sdk/ngwaf/v20180125"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func dataSourceTencentCloudNgwafCiphers() *schema.Resource {

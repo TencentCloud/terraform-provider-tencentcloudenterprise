@@ -1,5 +1,5 @@
 ---
-subcategory: "TDSQL PostgreSQL (Tbase)"
+subcategory: "TDSQL PostgreSQL(Tbase)"
 layout: "tencentcloudenterprise"
 page_title: "TencentCloudEnterprise: tencentcloudenterprise_tbase_instance"
 sidebar_current: "docs-tencentcloudenterprise-resource-tbase_instance"

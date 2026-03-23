@@ -1,3 +1,17 @@
+/*
+Use this data source to query NGWAF ports configuration.
+
+# Example Usage
+
+```hcl
+
+	data "tencentcloudenterprise_ngwaf_ports" "example" {
+	  edition     = "clb-waf"
+	  instance_id = "waf-xxxxxxxx"
+	}
+
+```
+*/
 package tencentcloud
 
 import (

@@ -1,3 +1,20 @@
+/*
+Use this data source to query TDMQ Pulsar clusters.
+
+# Example Usage
+
+```hcl
+
+	data "tencentcloudenterprise_tdmq_pulsar_clusters" "example" {
+	  cluster_ids = ["pulsar-xxxxxxxx"]
+	}
+
+	data "tencentcloudenterprise_tdmq_pulsar_clusters" "by_name" {
+	  cluster_name = "my-cluster"
+	}
+
+```
+*/
 package tencentcloud
 
 import (

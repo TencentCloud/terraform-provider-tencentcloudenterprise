@@ -1,3 +1,21 @@
+/*
+Use this data source to query detailed attack logs from NGWAF (Next-Generation Web Application Firewall).
+
+# Example Usage
+
+```hcl
+
+	data "tencentcloudenterprise_ngwaf_attack_log_list" "example" {
+	  start_time   = "2023-01-01 00:00:00"
+	  end_time     = "2023-01-31 23:59:59"
+	  query_string = "action:block"
+	  query_count  = 20
+	  page         = 0
+	  sort         = "desc"
+	}
+
+```
+*/
 package tencentcloud
 
 import (

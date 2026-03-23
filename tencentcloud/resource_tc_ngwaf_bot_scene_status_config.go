@@ -1,3 +1,24 @@
+/*
+Provides a resource to manage the bot scene status configuration for a NGWAF protected domain.
+
+Example Usage
+
+```hcl
+resource "tencentcloudenterprise_ngwaf_bot_scene_status_config" "example" {
+  domain   = "example.com"
+  scene_id = "scene-xxxxxxxx"
+  status   = true
+}
+```
+
+Import
+
+NGWAF bot scene status config can be imported using the id, e.g.
+
+```
+$ terraform import tencentcloudenterprise_ngwaf_bot_scene_status_config.example example.com#scene-xxxxxxxx
+```
+*/
 package tencentcloud
 
 import (

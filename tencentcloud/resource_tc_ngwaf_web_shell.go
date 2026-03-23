@@ -1,3 +1,23 @@
+/*
+Provides a resource to manage NGWAF web shell detection status for a domain.
+
+Example Usage
+
+```hcl
+resource "tencentcloudenterprise_ngwaf_web_shell" "example" {
+  domain = "example.com"
+  status = 1
+}
+```
+
+Import
+
+NGWAF web shell can be imported using the id, e.g.
+
+```
+$ terraform import tencentcloudenterprise_ngwaf_web_shell.example example.com
+```
+*/
 package tencentcloud
 
 import (
