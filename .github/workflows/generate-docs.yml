@@ -1,0 +1,70 @@
+name: Generate Documentation
+
+on:
+  push:
+    branches:
+      - main
+      - '*.*.*.0-dev'
+    paths:
+      - 'tencentcloud/**'
+      - 'gendoc/**'
+      - 'go.mod'
+      - 'go.sum'
+      - '.github/workflows/generate-docs.yml'
+  pull_request:
+    paths:
+      - 'tencentcloud/**'
+      - 'gendoc/**'
+      - 'go.mod'
+      - 'go.sum'
+      - '.github/workflows/generate-docs.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  generate-docs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref || github.ref_name }}
+          fetch-depth: 0
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: 'go.mod'
+          cache: true
+
+      - name: Build gendoc tool
+        run: |
+          cd gendoc
+          go build -o gendoc .
+
+      - name: Generate documentation
+        run: |
+          cd gendoc
+          ./gendoc
+
+      - name: Check for documentation changes
+        id: diff
+        run: |
+          git diff --exit-code docs/ && echo "changed=false" >> $GITHUB_OUTPUT || echo "changed=true" >> $GITHUB_OUTPUT
+
+      - name: Commit and push documentation
+        if: steps.diff.outputs.changed == 'true' && github.event_name == 'push'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add docs/
+          git commit -m "docs: auto-generate documentation from source code"
+          git push
+
+      - name: Fail PR if docs are outdated
+        if: steps.diff.outputs.changed == 'true' && github.event_name == 'pull_request'
+        run: |
+          echo "::error::Documentation is out of date. Run 'make doc' locally and commit the changes."
+          git diff --stat docs/
+          exit 1
