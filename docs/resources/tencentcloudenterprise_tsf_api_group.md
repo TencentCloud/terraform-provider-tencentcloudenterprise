@@ -33,7 +33,7 @@ resource "tencentcloudenterprise_tsf_api_group" "api_group" {
 The following arguments are supported:
 
 * `group_context` - (Required, String) Grouping context.
-* `group_name` - (Required, String) Group name, cannot contain Chinese.
+* `group_name` - (Required, String) Group name.
 * `auth_type` - (Optional, String) Authentication type. secret: key authentication; none: no authentication.
 * `description` - (Optional, String) Remarks.
 * `gateway_instance_id` - (Optional, String) Gateway entity ID.

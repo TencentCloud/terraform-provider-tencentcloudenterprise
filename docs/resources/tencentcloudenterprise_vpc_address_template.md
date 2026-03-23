@@ -16,7 +16,7 @@ Provides a resource to manage address template.
 ```hcl
 resource "tencentcloudenterprise_vpc_address_template" "foo" {
   name      = "cam-user-test"
-  addresses = ["203.0.113.1", "10.0.1.0/24", "203.0.113.1-203.0.113.100"]
+  addresses = ["10.0.0.1", "10.0.1.0/24", "10.0.0.1-10.0.0.100"]
 }
 ```
 
@@ -24,7 +24,7 @@ resource "tencentcloudenterprise_vpc_address_template" "foo" {
 
 The following arguments are supported:
 
-* `addresses` - (Required, Set: [`String`]) Address list. IP(`203.0.113.1`), CIDR(`10.0.1.0/24`), IP range(`203.0.113.1-203.0.113.100`) format are supported.
+* `addresses` - (Required, Set: [`String`]) Address list. IP(`10.0.0.1`), CIDR(`10.0.1.0/24`), IP range(`10.0.0.1-10.0.0.100`) format are supported.
 * `name` - (Required, String, ForceNew) Name of the address template.
 
 ## Attributes Reference

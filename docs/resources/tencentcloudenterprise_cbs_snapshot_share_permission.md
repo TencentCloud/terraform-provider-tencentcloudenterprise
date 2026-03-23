@@ -24,8 +24,8 @@ resource "tencentcloudenterprise_cbs_snapshot_share_permission" "snapshot_share_
 
 The following arguments are supported:
 
-* `account_ids` - (Required, Set: [`String`]) List of account IDs with which a snapshot is shared. For the format of array-type parameters, see[API Introduction](https://cloud.tencent.com/document/api/213/568). You can find the account ID in[Account Information](https://console.cloud.tencent.com/developer).
-* `snapshot_id` - (Required, String) The ID of the snapshot to be queried. You can obtain this by using [DescribeSnapshots](https://cloud.tencent.com/document/api/362/15647).
+* `account_ids` - (Required, Set: [`String`]) List of account IDs with which a snapshot is shared.
+* `snapshot_id` - (Required, String) The ID of the snapshot to be queried.
 
 ## Attributes Reference
 

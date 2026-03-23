@@ -4,58 +4,48 @@ layout: "tencentcloudenterprise"
 page_title: "TencentCloudEnterprise: tencentcloudenterprise_tdmq_rabbitmq_user"
 sidebar_current: "docs-tencentcloudenterprise-resource-tdmq_rabbitmq_user"
 description: |-
-  Provides a resource to create a tdmq rabbitmq_user
+  Provides a resource to create and manage TDMQ RabbitMQ user
 ---
 
 # tencentcloudenterprise_tdmq_rabbitmq_user
 
-Provides a resource to create a tdmq rabbitmq_user
+Provides a resource to create and manage TDMQ RabbitMQ user
 
 ## Example Usage
 
+### ### Create a RabbitMQ user with administrator role
+
 ```hcl
-data "tencentcloudenterprise_availability_zones" "zones" {
-  name = "ap-guangzhou-6"
-}
-
-# create vpc
-resource "tencentcloudenterprise_vpc" "vpc" {
-  name       = "vpc"
-  cidr_block = "10.0.0.0/16"
-}
-
-# create vpc subnet
-resource "tencentcloudenterprise_vpc_subnet" "subnet" {
-  name              = "subnet"
-  vpc_id            = tencentcloudenterprise_vpc.vpc.id
-  availability_zone = "ap-guangzhou-6"
-  cidr_block        = "10.0.20.0/28"
-  is_multicast      = false
-}
-
-# create rabbitmq instance
-resource "tencentcloudenterprise_tdmq_rabbitmq_vip_instance" "example" {
-  zone_ids                              = [data.tencentcloudenterprise_availability_zones.zones.zones.0.id]
-  vpc_id                                = tencentcloudenterprise_vpc.vpc.id
-  subnet_id                             = tencentcloudenterprise_vpc_subnet.subnet.id
-  cluster_name                          = "tf-example-rabbitmq-vip-instance"
-  node_spec                             = "rabbit-vip-basic-1"
-  node_num                              = 1
-  storage_size                          = 200
-  enable_create_default_ha_mirror_queue = false
-  auto_renew_flag                       = true
-  time_span                             = 1
-}
-
-# create rabbitmq user
 resource "tencentcloudenterprise_tdmq_rabbitmq_user" "example" {
-  instance_id     = tencentcloudenterprise_tdmq_rabbitmq_vip_instance.example.id
-  user            = "tf-example-user"
-  password        = "$Password"
-  description     = "desc."
-  tags            = ["management", "monitoring", "example"]
-  max_connections = 3
-  max_channels    = 3
+  instance_id = "amqp-xxxxxxxx"
+  user        = "admin_user"
+  password    = "AdminPassword123!"
+  description = "Administrator user for RabbitMQ"
+  tags        = ["administrator"]
+}
+```
+
+### ### Create a RabbitMQ user with monitoring role
+
+```hcl
+resource "tencentcloudenterprise_tdmq_rabbitmq_user" "monitoring" {
+  instance_id = "amqp-xxxxxxxx"
+  user        = "monitor_user"
+  password    = "MonitorPass123!"
+  description = "Monitoring user for RabbitMQ"
+  tags        = ["monitoring"]
+}
+```
+
+### ### Create a RabbitMQ user with management role
+
+```hcl
+resource "tencentcloudenterprise_tdmq_rabbitmq_user" "management" {
+  instance_id = "amqp-xxxxxxxx"
+  user        = "mgmt_user"
+  password    = "ManagementPass123!"
+  description = "Management user for RabbitMQ"
+  tags        = ["management"]
 }
 ```
 
@@ -63,13 +53,11 @@ resource "tencentcloudenterprise_tdmq_rabbitmq_user" "example" {
 
 The following arguments are supported:
 
-* `instance_id` - (Required, String) Cluster instance ID.
-* `password` - (Required, String) Password, used when logging in.
-* `user` - (Required, String) Username, used when logging in.
-* `description` - (Optional, String) Describe.
-* `max_channels` - (Optional, Int) The maximum number of channels for this user, if not filled in, there is no limit.
-* `max_connections` - (Optional, Int) The maximum number of connections for this user, if not filled in, there is no limit.
-* `tags` - (Optional, List: [`String`]) User tag, used to determine the permission range for changing user access to RabbitMQ Management. Management: regular console user, monitoring: management console user, other values: non console user.
+* `instance_id` - (Required, String) RabbitMQ cluster instance ID. The ID of the RabbitMQ instance where the user will be created.
+* `password` - (Required, String) Password for RabbitMQ authentication. This will be used to log in to the RabbitMQ server and management console. The password is stored securely and will not be displayed in logs.
+* `tags` - (Required, List: [`String`]) User tags. Determines the user's access permissions to RabbitMQ Management console. Valid values: `administrator` (full admin access, default), `monitoring` (read-only monitoring access), `policymaker` (can manage policies), `management` (can manage resources), `none` (no management console access).
+* `user` - (Required, String) Username for RabbitMQ authentication. This will be used to log in to the RabbitMQ server and management console.
+* `description` - (Optional, String) Description for the user. Provides additional information about the user's purpose or role.
 
 ## Attributes Reference
 
@@ -77,16 +65,4 @@ In addition to all arguments above, the following attributes are exported:
 
 * `id` - ID of the resource.
 
-
-## Import
-
-tencentcloudenterprise_tdmq_rabbitmq_user can be imported using the id, e.g.
-
-```
-tdmq rabbitmq_user can be imported using the id, e.g.
-
-```
-terraform import tencentcloudenterprise_tdmq_rabbitmq_user.example amqp-8xzx822q#tf-example-user
-```
-```
 

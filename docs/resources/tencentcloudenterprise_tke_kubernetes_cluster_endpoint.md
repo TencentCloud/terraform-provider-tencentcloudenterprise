@@ -16,19 +16,21 @@ Provide a resource to create a KubernetesClusterEndpoint. This resource allows y
 ## Example Usage
 
 ```hcl
-resource "tencentcloudenterprise_kubernetes_node_pool" "pool1" {}
-
 resource "tencentcloudenterprise_tke_kubernetes_cluster_endpoint" "foo" {
-  cluster_id       = "cls-xxxxxxxx"
-  cluster_internet = true
-  cluster_intranet = true
-  managed_cluster_internet_security_policies = [
-    "192.168.0.0/24"
-  ]
-  cluster_intranet_subnet_id = "subnet-xxxxxxxx"
-  depends_on = [
-    tencentcloudenterprise_kubernetes_node_pool.pool1
-  ]
+  cluster_id                      = "cls-xxxxxxxx"
+  cluster_internet                = true
+  cluster_intranet                = true
+  cluster_internet_security_group = "sg-xxxxxxxx"
+  cluster_intranet_subnet_id      = "subnet-xxxxxxxx"
+}
+
+# Use existed CLB
+
+resource "tencentcloudenterprise_tke_kubernetes_cluster_endpoint" "with_clb" {
+  cluster_id                      = "cls-xxxxxxxx"
+  cluster_internet                = true
+  cluster_internet_security_group = "sg-xxxxxxxx"
+  existed_load_balancer_id        = "lb-xxxxxxxx"
 }
 ```
 
@@ -36,22 +38,26 @@ resource "tencentcloudenterprise_tke_kubernetes_cluster_endpoint" "foo" {
 
 The following arguments are supported:
 
-* `cluster_id` - (Required, String) Specify cluster ID.
+* `cluster_id` - (Required, String, ForceNew) Specify cluster ID.
 * `cluster_internet_domain` - (Optional, String) Domain name for cluster Kube-apiserver internet access.  Be careful if you modify value of this parameter, the cluster_external_endpoint value may be changed automatically too.
 * `cluster_internet_security_group` - (Optional, String) Specify security group, NOTE: This argument must not be empty if cluster internet enabled.
 * `cluster_internet` - (Optional, Bool) Open internet access or not.
-* `cluster_intranet_domain` - (Optional, String) Domain name for cluster Kube-apiserver intranet access. Be careful if you modify value of this parameter, the pgw_endpoint value may be changed automatically too.
+* `cluster_intranet_domain` - (Optional, String) Domain name for cluster Kube-apiserver intranet access. Be careful if you modify value of this parameter, the cluster_intranet_endpoint value may be changed automatically too.
 * `cluster_intranet_subnet_id` - (Optional, String) Subnet id who can access this independent cluster, this field must and can only set  when `cluster_intranet` is true. `cluster_intranet_subnet_id` can not modify once be set.
 * `cluster_intranet` - (Optional, Bool) Open intranet access or not.
+* `existed_load_balancer_id` - (Optional, String, ForceNew) Use existed CLB to enable internet/intranet access.
 * `extensive_parameters` - (Optional, String, ForceNew) The LB parameter. Only used for public network access.
-* `managed_cluster_internet_security_policies` - (Optional, List: [`String`], **Deprecated**) this argument was deprecated, use `cluster_internet_security_group` instead. Security policies for managed cluster internet, like:'192.168.1.0/24' or '203.0.113.27', '0.0.0.0/0' means all. This field can only set when field `cluster_deploy_type` is 'MANAGED_CLUSTER' and `cluster_internet` is true. `managed_cluster_internet_security_policies` can not delete or empty once be set.
 
 ## Attributes Reference
 
 In addition to all arguments above, the following attributes are exported:
 
 * `id` - ID of the resource.
-
+* `certification_authority` - The CA certificate used for access.
+* `cluster_domain` - Cluster domain name.
+* `cluster_external_acl` - External network access ACL list.
+* `cluster_external_endpoint` - External network address to access.
+* `cluster_intranet_endpoint` - Intranet network address to access.
 
 ## Import
 

@@ -31,20 +31,24 @@ resource "tencentcloudenterprise_vpc_dc_gateway" "vpc_main" {
 
 The following arguments are supported:
 
-* `gateway_type` - (Required, String) Type of the gateway. Valid value: `NORMAL` and `NAT`. Default is `NORMAL`.
-* `name` - (Required, String) Name of the DCG.
+* `gateway_type` - (Required, String, ForceNew) Type of the gateway. Valid value: `NORMAL` and `NAT`. Default is `NORMAL`.
+* `name` - (Required, String) Name of the direct connect gateway.
 * `network_instance_id` - (Required, String, ForceNew) If the `network_type` value is `VPC`, the available value is VPC ID.
 * `network_type` - (Required, String, ForceNew) Type of associated network. Valid value: `VPC`.
-* `band_with` - (Optional, Int) The bandwith speed limit of the gateway.
+* `bandwidth` - (Optional, Int) The bandwidth speed limit of the gateway.
 
 ## Attributes Reference
 
 In addition to all arguments above, the following attributes are exported:
 
 * `id` - ID of the resource.
+* `ccn_id` - CCN ID when network_type is CCN.
 * `cnn_route_type` - Type of CCN route. Valid value: `BGP` and `STATIC`. The property is available when the DCG type is CCN gateway and BGP enabled.
 * `create_time` - Creation time of resource.
+* `direct_connect_gateway_ip` - Direct connect gateway IP address.
+* `enable_bgp_community` - Whether BGP community attribute is enabled.
 * `enable_bgp` - Indicates whether the BGP is enabled.
+* `vpc_id` - VPC ID when network_type is VPC.
 
 ## Import
 

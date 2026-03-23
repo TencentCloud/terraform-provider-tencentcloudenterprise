@@ -29,7 +29,7 @@ data "tencentcloudenterprise_vpc_dnats" "foo" {
 # query by elastic ip
 
 data "tencentcloudenterprise_vpc_dnats" "foo" {
-  elastic_ip = "203.0.113.1"
+  elastic_ip = "123.207.115.136"
 }
 ```
 

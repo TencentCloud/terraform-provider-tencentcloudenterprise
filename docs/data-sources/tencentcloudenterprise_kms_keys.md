@@ -29,7 +29,7 @@ The following arguments are supported:
 * `key_state` - (Optional, Int) Filter by state of CMK. `0` - all CMKs are queried, `1` - only Enabled CMKs are queried, `2` - only Disabled CMKs are queried, `3` - only PendingDelete CMKs are queried, `4` - only PendingImport CMKs are queried, `5` - only Archived CMKs are queried.
 * `key_usage` - (Optional, String) Filter by usage of CMK. Available values include `ALL`, `ENCRYPT_DECRYPT`, `ASYMMETRIC_DECRYPT_RSA_2048`, `ASYMMETRIC_DECRYPT_SM2`, `ASYMMETRIC_SIGN_VERIFY_SM2`, `ASYMMETRIC_SIGN_VERIFY_RSA_2048`, `ASYMMETRIC_SIGN_VERIFY_ECC`. Default value is `ENCRYPT_DECRYPT`.
 * `order_type` - (Optional, Int) Order to sort the CMK create time. `0` - desc, `1` - asc. Default value is `0`.
-* `origin` - (Optional, String) Filter by origin of CMK. `TENCENT_KMS` - CMK created by KMS, `EXTERNAL` - CMK imported by user, `ALL` - all CMKs. Default value is `ALL`.
+* `origin` - (Optional, String) Filter by origin of CMK.
 * `result_output_file` - (Optional, String) Used to save results.
 * `role` - (Optional, Int) Filter by role of the CMK creator. `0` - created by user, `1` - created by cloud product. Default value is `0`.
 * `search_key_alias` - (Optional, String) Words used to match the results, and the words can be: key_id and alias.
@@ -50,7 +50,7 @@ In addition to all arguments above, the following attributes are exported:
   * `key_state` - State of CMK.
   * `key_usage` - Usage of CMK.
   * `next_rotate_time` - Next rotate time of CMK when key_rotation_enabled is true.
-  * `origin` - Origin of CMK. `TENCENT_KMS` - CMK created by KMS, `EXTERNAL` - CMK imported by user.
+  * `origin` - Origin of CMK.
   * `owner` - Creator of CMK.
   * `valid_to` - Valid when origin is `EXTERNAL`, it means the effective date of the key material.
 

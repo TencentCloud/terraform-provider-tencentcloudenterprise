@@ -17,10 +17,10 @@ Provides a resource to create a NAT forwarding.
 resource "tencentcloudenterprise_vpc_dnat" "foo" {
   vpc_id       = "vpc-asg3sfa3"
   nat_id       = "nat-2515tdg"
-  protocol     = "tcp"
-  elastic_ip   = "203.0.113.1"
+  protocol     = "TCP"
+  elastic_ip   = "139.199.232.238"
   elastic_port = 80
-  private_ip   = "203.0.113.2"
+  private_ip   = "10.0.0.1"
   private_port = 22
   description  = "test"
 }

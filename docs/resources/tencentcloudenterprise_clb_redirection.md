@@ -13,7 +13,7 @@ Provides a resource to create a CLB redirection.
 
 ## Example Usage
 
-### # Manual Rewrite
+### Manual Rewrite
 
 ```hcl
 resource "tencentcloudenterprise_clb_redirection" "foo" {
@@ -25,13 +25,17 @@ resource "tencentcloudenterprise_clb_redirection" "foo" {
 }
 ```
 
-### # Auto Rewrite
+### Auto Rewrite
+
+When is_auto_rewrite is true, source listener and rule are invalid
 
 ```hcl
 resource "tencentcloudenterprise_clb_redirection" "foo" {
   clb_id             = "lb-p7olt9e5"
   target_listener_id = "lbl-asj1hzuo"
   target_rule_id     = "loc-4xxr2cy7"
+  source_listener_id = ""
+  source_rule_id     = ""
   is_auto_rewrite    = true
 }
 ```

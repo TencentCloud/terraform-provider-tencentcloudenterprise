@@ -4,17 +4,17 @@ layout: "tencentcloudenterprise"
 page_title: "TencentCloudEnterprise: tencentcloudenterprise_tdmq_pulsar_environments"
 sidebar_current: "docs-tencentcloudenterprise-datasource-tdmq_pulsar_environments"
 description: |-
-  Use this data source to query detailed information of tdmq pulsar environments
+  Use this data source to query detailed information of tdmq environment_attributes
 ---
 
 # tencentcloudenterprise_tdmq_pulsar_environments
 
-Use this data source to query detailed information of tdmq pulsar environments
+Use this data source to query detailed information of tdmq environment_attributes
 
 ## Example Usage
 
 ```hcl
-data "tencentcloudenterprise_tdmq_pulsar_environments" "example" {
+data "tencentcloudenterprise_tdmq_pulsar_environments" "environment" {
   environment_id = "keep-ns"
   cluster_id     = "pulsar-9n95ax58b9vn"
 }

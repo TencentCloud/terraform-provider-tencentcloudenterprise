@@ -5,12 +5,6 @@ on:
     branches:
       - main
       - '*.*.*.0-dev'
-    paths:
-      - 'tencentcloud/**'
-      - 'gendoc/**'
-      - 'go.mod'
-      - 'go.sum'
-      - '.github/workflows/generate-docs.yml'
   pull_request:
     paths:
       - 'tencentcloud/**'

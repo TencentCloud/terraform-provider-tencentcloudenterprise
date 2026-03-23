@@ -93,9 +93,7 @@ tencentcloudenterprise_vpc_eni_attachment can be imported using the id, e.g.
 ENI attachment can be imported using the id, e.g.
 
 ```
-
-	$ terraform import tencentcloudenterprise_vpc_eni_attachment.foo eni-gtlvkjvz+ins-0h3a5new
-
+  $ terraform import tencentcloudenterprise_vpc_eni_attachment.foo eni-gtlvkjvz+ins-0h3a5new
 ```
 ```
 

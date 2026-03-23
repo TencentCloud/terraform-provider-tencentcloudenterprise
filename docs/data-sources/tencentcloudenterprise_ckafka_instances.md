@@ -15,7 +15,7 @@ Use this data source to query detailed instance information of Ckafka
 
 ```hcl
 data "tencentcloudenterprise_ckafka_instances" "foo" {
-  instance_ids = ["ckafka-vv7wpvae"]
+  instance_id = "ckafka-vv7wpvae"
 }
 ```
 

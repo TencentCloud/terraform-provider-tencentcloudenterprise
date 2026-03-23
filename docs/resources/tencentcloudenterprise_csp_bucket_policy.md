@@ -49,7 +49,7 @@ EOF
 The following arguments are supported:
 
 * `bucket` - (Required, String, ForceNew) The name of a bucket to be created. Bucket format should be [custom name]-[appid], for example `mycsp-1258798060`.
-* `policy` - (Required, String) The text of the policy. For more info please refer to [Tencent official doc](https://intl.cloud.tencent.com/document/product/436/18023).
+* `policy` - (Required, String) The text of the policy.
 
 ## Attributes Reference
 

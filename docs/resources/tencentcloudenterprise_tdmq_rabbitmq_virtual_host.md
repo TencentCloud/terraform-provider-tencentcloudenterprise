@@ -4,55 +4,44 @@ layout: "tencentcloudenterprise"
 page_title: "TencentCloudEnterprise: tencentcloudenterprise_tdmq_rabbitmq_virtual_host"
 sidebar_current: "docs-tencentcloudenterprise-resource-tdmq_rabbitmq_virtual_host"
 description: |-
-  Provides a resource to create a tdmq rabbitmq_virtual_host
+  Provides a resource to create and manage TDMQ RabbitMQ virtual host
 ---
 
 # tencentcloudenterprise_tdmq_rabbitmq_virtual_host
 
-Provides a resource to create a tdmq rabbitmq_virtual_host
+Provides a resource to create and manage TDMQ RabbitMQ virtual host
 
 ## Example Usage
 
+### ### Create a basic virtual host
+
 ```hcl
-data "tencentcloudenterprise_availability_zones" "zones" {
-  name = "ap-guangzhou-6"
-}
-
-# create vpc
-resource "tencentcloudenterprise_vpc" "vpc" {
-  name       = "vpc"
-  cidr_block = "10.0.0.0/16"
-}
-
-# create vpc subnet
-resource "tencentcloudenterprise_vpc_subnet" "subnet" {
-  name              = "subnet"
-  vpc_id            = tencentcloudenterprise_vpc.vpc.id
-  availability_zone = "ap-guangzhou-6"
-  cidr_block        = "10.0.20.0/28"
-  is_multicast      = false
-}
-
-# create rabbitmq instance
-resource "tencentcloudenterprise_tdmq_rabbitmq_vip_instance" "example" {
-  zone_ids                              = [data.tencentcloudenterprise_availability_zones.zones.zones.0.id]
-  vpc_id                                = tencentcloudenterprise_vpc.vpc.id
-  subnet_id                             = tencentcloudenterprise_vpc_subnet.subnet.id
-  cluster_name                          = "tf-example-rabbitmq-vip-instance"
-  node_spec                             = "rabbit-vip-basic-1"
-  node_num                              = 1
-  storage_size                          = 200
-  enable_create_default_ha_mirror_queue = false
-  auto_renew_flag                       = true
-  time_span                             = 1
-}
-
-# create virtual host
 resource "tencentcloudenterprise_tdmq_rabbitmq_virtual_host" "example" {
-  instance_id  = tencentcloudenterprise_tdmq_rabbitmq_vip_instance.example.id
-  virtual_host = "tf-example-vhost"
-  description  = "desc."
-  trace_flag   = true
+  instance_id  = "amqp-xxxxxxxx"
+  virtual_host = "my_vhost"
+  description  = "Virtual host for application 1"
+}
+```
+
+### ### Create a virtual host with mirror queue policy
+
+```hcl
+resource "tencentcloudenterprise_tdmq_rabbitmq_virtual_host" "with_mirror" {
+  instance_id              = "amqp-xxxxxxxx"
+  virtual_host             = "mirror_vhost"
+  description              = "Virtual host with mirror queue policy enabled"
+  mirror_queue_policy_flag = true
+}
+```
+
+### ### Create a virtual host without mirror queue policy
+
+```hcl
+resource "tencentcloudenterprise_tdmq_rabbitmq_virtual_host" "without_mirror" {
+  instance_id              = "amqp-xxxxxxxx"
+  virtual_host             = "no_mirror_vhost"
+  description              = "Virtual host without mirror queue policy"
+  mirror_queue_policy_flag = false
 }
 ```
 
@@ -60,27 +49,15 @@ resource "tencentcloudenterprise_tdmq_rabbitmq_virtual_host" "example" {
 
 The following arguments are supported:
 
-* `instance_id` - (Required, String) Cluster instance ID.
-* `virtual_host` - (Required, String) vhost name.
-* `description` - (Optional, String) describe.
-* `trace_flag` - (Optional, Bool) Message track switch, true is on, false is off, default is off.
+* `instance_id` - (Required, String) RabbitMQ cluster instance ID. The ID of the RabbitMQ instance where the virtual host will be created.
+* `virtual_host` - (Required, String) Virtual host (vhost) name. Virtual hosts provide logical grouping and separation of resources (exchanges, queues, bindings) within a RabbitMQ instance, allowing multiple applications to share the same RabbitMQ instance securely.
+* `description` - (Optional, String) Description for the virtual host. Provides additional information about the vhost's purpose or usage.
+* `mirror_queue_policy_flag` - (Optional, Bool, ForceNew) Whether to create a mirror queue policy. When enabled (`true`), a mirror queue policy will be automatically created to replicate queues across cluster nodes for high availability. When disabled (`false`), no mirror queue policy is created. Default is `true` (enabled). Note: This can only be set during virtual host creation and cannot be modified afterwards.
 
 ## Attributes Reference
 
 In addition to all arguments above, the following attributes are exported:
 
 * `id` - ID of the resource.
-
-
-## Import
-
-tencentcloudenterprise_tdmq_rabbitmq_virtual_host can be imported using the id, e.g.
-
-```
-tdmq rabbitmq_virtual_host can be imported using the id, e.g.
-
-```
-terraform import tencentcloudenterprise_tdmq_rabbitmq_virtual_host.example amqp-pbavw2wd#tf-example-vhost
-```
-```
+* `trace_flag` - Message tracing switch status (read-only).
 

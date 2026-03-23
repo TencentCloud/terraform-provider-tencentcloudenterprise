@@ -18,52 +18,36 @@ Provides a resource to create a instance and set its attributes.
 ## Example Usage
 
 ```hcl
-data "tencentcloudenterprise_redis_zone_config" "zone" {
-}
-
-resource "tencentcloudenterprise_redis_instance" "redis_instance_test_2" {
-  availability_zone  = data.tencentcloudenterprise_redis_zone_config.zone.list[0].zone
-  type_id            = data.tencentcloudenterprise_redis_zone_config.zone.list[0].type_id
+resource "tencentcloudenterprise_redis_instance" "redis_instance_1" {
+  availability_zone  = "az"
+  type_id            = 5001
   password           = "test12345789"
   mem_size           = 8192
-  redis_shard_num    = data.tencentcloudenterprise_redis_zone_config.zone.list[0].redis_shard_nums[0]
-  redis_replicas_num = data.tencentcloudenterprise_redis_zone_config.zone.list[0].redis_replicas_nums[0]
+  redis_shard_num    = 2
+  redis_replicas_num = 4
   name               = "terrform_test"
   port               = 6379
-}
-```
-
-### Using multi replica zone set
-
-```hcl
-data "tencentcloudenterprise_availability_zones" "az" {
-
+  security_groups    = ["sg-h72u8uid"]
+  subnet_id          = "subnet-u8ri29hw"
+  vpc_id             = "vpc-i9oqk34u"
 }
 
-variable "redis_replicas_num" {
-  default = 3
-}
+Using multi replica zone set
 
-resource "tencentcloudenterprise_redis_instance" "red1" {
-  availability_zone  = data.tencentcloudenterprise_availability_zones.az.zones[0].name
+resource "tencentcloudenterprise_redis_instance" "redis_instance_2" {
+  availability_zone  = "az"
   charge_type        = "POSTPAID"
   mem_size           = 1024
   name               = "test-redis"
   port               = 6379
-  project_id         = 0
-  redis_replicas_num = var.redis_replicas_num
+  redis_replicas_num = 3
   redis_shard_num    = 1
-  security_groups = [
-    "sg-d765yoec",
-  ]
-  subnet_id = "subnet-ie01x91v"
-  type_id   = 6
-  vpc_id    = "vpc-k4lrsafc"
-  password  = "a12121312334"
-
-  replica_zone_ids = [
-    for i in range(var.redis_replicas_num)
-  : data.tencentcloudenterprise_availability_zones.az.zones[i % length(data.tencentcloudenterprise_availability_zones.az.zones)].id]
+  security_groups    = ["sg-d765yoec"]
+  subnet_id          = "subnet-ie01x91v"
+  type_id            = 6
+  vpc_id             = "vpc-k4lrsafc"
+  password           = "a12121312334"
+  replica_zone_ids   = [5001, 5002]
 }
 ```
 
@@ -75,7 +59,7 @@ The following arguments are supported:
 * `mem_size` - (Required, Int) The memory volume of an available instance(in MB), please refer to `tencentcloudenterprise_redis_zone_config.list[zone].shard_memories`. When redis is standard type, it represents total memory size of the instance; when Redis is cluster type, it represents memory size of per sharding.
 * `security_groups` - (Required, Set: [`String`]) ID of security group. If both vpc_id and subnet_id are not set, this argument should not be set either.
 * `subnet_id` - (Required, String) Specifies which subnet the instance should belong to. When the `operation_network` is `changeVpc` or `changeBaseToVpc`, this parameter needs to be configured.
-* `type_id` - (Required, Int, ForceNew) Instance type. Available values reference data source `tencentcloudenterprise_redis_zone_config` or [document](https://intl.cloud.tencent.com/document/product/239/32069), toggle immediately when modified.
+* `type_id` - (Required, Int, ForceNew) Instance type. Available values reference data source `tencentcloudenterprise_redis_zone_config`, toggle immediately when modified.
 * `vpc_id` - (Required, String) ID of the vpc with which the instance is to be associated. When the `operation_network` is `changeVpc` or `changeBaseToVpc`, this parameter needs to be configured.
 * `auto_renew_flag` - (Optional, Int, ForceNew) Auto-renew flag. 0 - default state (manual renewal); 1 - automatic renewal; 2 - explicit no automatic renewal.
 * `charge_type` - (Optional, String, ForceNew) The charge type of instance. Valid values: `PREPAID` and `POSTPAID`. Default value is `POSTPAID`. Note: TencentCloud International only supports `POSTPAID`. Caution that update operation on this field will delete old instances and create new with new charge type.

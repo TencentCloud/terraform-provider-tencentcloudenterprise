@@ -1,5 +1,5 @@
 ---
-subcategory: "Tencent Distributed Message Queue(TDMQ)"
+subcategory: "TDMQ for Pulsar(tpulsar)"
 layout: "tencentcloudenterprise"
 page_title: "TencentCloudEnterprise: tencentcloudenterprise_tdmq_environments"
 sidebar_current: "docs-tencentcloudenterprise-datasource-tdmq_environments"
@@ -14,7 +14,7 @@ Use this data source to query detailed information of tdmq environment_attribute
 ## Example Usage
 
 ```hcl
-data "tencentcloudenterprise_tdmq_environment_attributes" "environment_attributes" {
+data "tencentcloudenterprise_tdmq_environments" "environment" {
   environment_id = "keep-ns"
   cluster_id     = "pulsar-9n95ax58b9vn"
 }
@@ -41,5 +41,4 @@ In addition to all arguments above, the following attributes are exported:
   * `remark` - Remarks, within 128 characters.
   * `topic_num` - Number of topics.
   * `update_time` - Last modification time.
-
 

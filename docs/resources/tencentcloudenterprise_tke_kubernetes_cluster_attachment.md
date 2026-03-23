@@ -83,6 +83,7 @@ resource "tencentcloudenterprise_tke_kubernetes_cluster" "managed_cluster" {
     enhanced_monitor_service  = false
     user_data                 = "dGVzdA=="
     password                  = "ZZXXccvv1212"
+    security_group_ids        = ["sg-xxxxxxxx"]
   }
 
   cluster_deploy_type = "MANAGED_CLUSTER"
@@ -94,12 +95,8 @@ resource "tencentcloudenterprise_tke_kubernetes_cluster_attachment" "test_attach
   password    = "Lo4wbdit"
 
   labels = {
-    "test1" = "test1",
-    "test2" = "test2",
-  }
-
-  worker_config_overrides {
-    desired_pod_num = 8
+    "test1" = "test1"
+    "test2" = "test2"
   }
 }
 ```

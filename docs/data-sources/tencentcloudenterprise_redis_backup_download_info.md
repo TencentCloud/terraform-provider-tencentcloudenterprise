@@ -32,7 +32,7 @@ data "tencentcloudenterprise_redis_backup_download_info" "backup_download_info" 
 
 The following arguments are supported:
 
-* `backup_id` - (Required, String) The backup ID, which can be accessed via [DescribeInstanceBackups](https://cloud.tencent.com/document/product/239/20011) interface returns the parameter RedisBackupSet to get.
+* `backup_id` - (Required, String) The backup ID.
 * `instance_id` - (Required, String) The ID of instance.
 * `result_output_file` - (Optional, String) Used to save results.
 

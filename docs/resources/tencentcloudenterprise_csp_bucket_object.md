@@ -13,7 +13,7 @@ Provides a csp object resource to put an object(content or file) to the bucket.
 
 ## Example Usage
 
-### # Uploading a file to a bucket
+### Uploading a file to a bucket
 
 ```hcl
 resource "tencentcloudenterprise_csp_bucket_object" "myobject" {
@@ -24,7 +24,7 @@ resource "tencentcloudenterprise_csp_bucket_object" "myobject" {
 }
 ```
 
-### # Uploading a content to a bucket
+### Uploading a content to a bucket
 
 ```hcl
 resource "tencentcloudenterprise_csp_bucket" "mycsp" {

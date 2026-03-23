@@ -33,8 +33,8 @@ data "tencentcloudenterprise_cvm_image" "my_favorate_image" {
 The following arguments are supported:
 
 * `filter` - (Optional, Set) One or more name/value pairs to filter.
-* `image_name_regex` - (Optional, String) A regex string to apply to the image list returned by TencentCloud. **NOTE**: it is not wildcard, should look like `image_name_regex = "^CentOS\s+6\.8\s+64\w*"`.
-* `os_name` - (Optional, String) A string to apply with fuzzy match to the os_name attribute on the image list returned by TencentCloud. **NOTE**: when os_name is provided, highest priority is applied in this field instead of `image_name_regex`.
+* `image_name_regex` - (Optional, String) A regex string to apply to the image list returned by cloud. **NOTE**: it is not wildcard, should look like `image_name_regex = "^CentOS\s+6\.8\s+64\w*"`.
+* `os_name` - (Optional, String) A string to apply with fuzzy match to the os_name attribute on the image list returned by cloud. **NOTE**: when os_name is provided, highest priority is applied in this field instead of `image_name_regex`.
 * `result_output_file` - (Optional, String) Used to save results.
 
 The `filter` object supports the following:

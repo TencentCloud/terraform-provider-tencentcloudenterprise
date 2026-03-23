@@ -137,8 +137,7 @@ variable "product_info_list_profession" {
 }
 
 data "tencentcloudenterprise_availability_zones" "gz" {
-  name    = "ap-guangzhou-3"
-  product = "ckafka"
+  name = "ap-beijing-region-jcctest-ops-1"
 }
 
 resource "tencentcloudenterprise_ckafka_instance" "kafka_instance" {
@@ -152,11 +151,13 @@ resource "tencentcloudenterprise_ckafka_instance" "kafka_instance" {
   msg_retention_time = 1300
   renew_flag         = 0
   kafka_version      = "2.4.1"
+  band_width         = 1024
   disk_size          = 1000
   disk_type          = "SSD"
   instance_type      = "Basic"
   topic              = 20
   partition          = 4
+  goods_num          = 1
   dynamic "product_info" {
     for_each = var.product_info_list_profession
     content {
@@ -219,20 +220,18 @@ The following arguments are supported:
 * `goods_num` - (Required, Int) Quantity.
 * `instance_name` - (Required, String) Instance name.
 * `pid` - (Required, Int, ForceNew) Pricing formula ID. 1-9
-* `product_info` - (Required, List) Product information, when 规格类型=标准版 :
- When '规格类型' is '标准版','实例名' is optional; when '规格类型' is '专业版','实例名' and '产品型号'
- are optional, all other fields are required:
-  - name: 地域, value: 2R3AZ仲裁区集成测试环境北京
-  - name: 集群, value: cqyfm7 cluster
-  - name: 可用区, value: 重庆云福M7
-  - name: 实例名, value: test111
-  - name: 规格类型, value: 标准版
-  - name: 产品型号, value: 入门型
-  - name: 峰值带宽, value: 40MB/s
-  - name: 磁盘容量, value: 300GB
-  - name: 信息保留时长, value: 72小时
-  - name: 网络, value: vpc-kltzarib
-  - name: 子网, value: subnet-7qt1q9h6
+* `product_info` - (Required, List) Product information. When Specs Type is Standard Edition, Instance Name is optional. When Specs Type is Pro Edition, Instance Name and Product Model are optional; all other fields are required:
+  - name: Region, value: example-region
+  - name: Cluster, value: example-cluster
+  - name: AZ, value: example-az
+  - name: Instance Name, value: test111
+  - name: Specs Type, value: Standard Edition
+  - name: Product Model, value: Basic
+  - name: Peak Bandwidth, value: 40MB/s
+  - name: Disk Capacity, value: 300GB
+  - name: Message Retention Period, value: 72 hours
+  - name: Network, value: vpc-kltzarib
+  - name: Subnet, value: subnet-7qt1q9h6
 * `region_id` - (Required, Int) Region ID.
 * `region_name` - (Required, String) Region Name.
 * `subnet_id` - (Required, String) Subnet id.
@@ -270,7 +269,6 @@ tencentcloudenterprise_ckafka_instance can be imported using the id, e.g.
 
 ```
 ckafka instance can be imported using the instance_id, e.g.
-
 ```
 $ terraform import tencentcloudenterprise_ckafka_instance.foo ckafka-f9ife4zz
 ```

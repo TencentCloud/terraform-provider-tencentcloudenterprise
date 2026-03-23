@@ -17,7 +17,7 @@ Provides a resource to create a tsf api_rate_limit_rule
 resource "tencentcloudenterprise_tsf_api_rate_limit_rule" "api_rate_limit_rule" {
   api_id        = "api-xxxxxx"
   max_qps       = 10
-  usable_status = "enable"
+  usable_status = "enabled"
 }
 ```
 
@@ -48,7 +48,6 @@ tencentcloudenterprise_tsf_api_rate_limit_rule can be imported using the id, e.g
 
 ```
 tsf api_rate_limit_rule can be imported using the id, e.g.
-
 ```
 terraform import tencentcloudenterprise_tsf_api_rate_limit_rule.api_rate_limit_rule api_rate_limit_rule_id
 ```

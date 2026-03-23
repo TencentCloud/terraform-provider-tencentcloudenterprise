@@ -125,6 +125,13 @@ func genIdx(filePath string) (prods []Product) {
 	}
 
 	filename = filepath.Join(docRoot, "index.md")
+
+	// Ensure output directory exists
+	if err := os.MkdirAll(filepath.Dir(filename), 0755); err != nil {
+		message("[FAIL!]create directory %s failed: %s", filepath.Dir(filename), err)
+		os.Exit(1)
+	}
+
 	fd, err := os.OpenFile(filename, os.O_WRONLY|os.O_CREATE|os.O_TRUNC, 0644)
 	if err != nil {
 		message("[FAIL!]open file %s failed: %s", filename, err)
@@ -340,6 +347,13 @@ func genDoc(product, dtype, fpath, name string, resource *schema.Resource) {
 	}
 
 	filename = filepath.Join(docRoot, dtype, fmt.Sprintf("%s.md", cloudPrefix+data["resource"]))
+
+	// Ensure output directory exists
+	if err := os.MkdirAll(filepath.Dir(filename), 0755); err != nil {
+		message("[FAIL]create directory %s failed: %s\n", filepath.Dir(filename), err)
+		statsFailed++
+		return
+	}
 
 	fd, err := os.OpenFile(filename, os.O_WRONLY|os.O_CREATE|os.O_TRUNC, 0644)
 	if err != nil {

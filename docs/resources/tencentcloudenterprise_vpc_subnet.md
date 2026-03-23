@@ -14,17 +14,13 @@ Provide a resource to create a VPC subnet.
 ## Example Usage
 
 ```hcl
-variable "availability_zone" {
-  default = "ap-guangzhou-3"
-}
-
 resource "tencentcloudenterprise_vpc" "foo" {
   name       = "guagua-ci-temp-test"
   cidr_block = "10.0.0.0/16"
 }
 
 resource "tencentcloudenterprise_vpc_subnet" "subnet" {
-  availability_zone = var.availability_zone
+  availability_zone = "ap-guangzhou-3"
   name              = "guagua-ci-temp-test"
   vpc_id            = tencentcloudenterprise_vpc.foo.id
   cidr_block        = "10.0.20.0/28"

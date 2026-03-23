@@ -35,7 +35,7 @@ The following arguments are supported:
 * `name` - (Required, String) Name of the NAT gateway.
 * `vpc_id` - (Required, String, ForceNew) ID of the vpc.
 * `bandwidth` - (Optional, Int) The maximum public network output bandwidth of NAT gateway (unit: Mbps). Valid values: `20`, `50`, `100`, `200`, `500`, `1000`, `2000`, `5000`. Default is 100.
-* `internet_service_provider` - (Optional, String) The ISP of the NAT gateway. Valid values: `CTCC` (China Telecom), `CUCC` (China Unicom), `CMCC` (China Mobile). Default is `CTCC`.
+* `internet_service_provider` - (Optional, String) The ISP of the NAT gateway.
 * `max_concurrent` - (Optional, Int) The upper limit of concurrent connection of NAT gateway. Valid values: `1000000`, `3000000`, `10000000`. Default is `1000000`.
 * `tags` - (Optional, Map) The available tags within this NAT gateway.
 

@@ -13,7 +13,7 @@ Provides a resource to create a Ckafka user.
 
 ## Example Usage
 
-### # Ckafka User
+### Ckafka User
 
 ```hcl
 resource "tencentcloudenterprise_ckafka_user" "foo" {

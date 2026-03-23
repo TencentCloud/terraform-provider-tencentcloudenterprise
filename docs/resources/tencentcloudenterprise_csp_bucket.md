@@ -29,7 +29,6 @@ resource "tencentcloudenterprise_csp_bucket" "mycsp" {
   bucket            = "mycos-1258798060"
   acl               = "private"
   versioning_enable = true
-  force_clean       = true
 }
 ```
 

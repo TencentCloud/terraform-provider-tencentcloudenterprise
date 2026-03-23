@@ -4,63 +4,58 @@ layout: "tencentcloudenterprise"
 page_title: "TencentCloudEnterprise: tencentcloudenterprise_tdmq_rabbitmq_vip_instance"
 sidebar_current: "docs-tencentcloudenterprise-resource-tdmq_rabbitmq_vip_instance"
 description: |-
-  Provides a resource to create a TDMQ rabbitmq vip instance
+  Provides a resource to create and manage TDMQ RabbitMQ VIP instance
 ---
 
 # tencentcloudenterprise_tdmq_rabbitmq_vip_instance
 
-Provides a resource to create a TDMQ rabbitmq vip instance
+Provides a resource to create and manage TDMQ RabbitMQ VIP instance
 
 ## Example Usage
 
+### ### Create a basic RabbitMQ VIP instance with single node
+
 ```hcl
-data "tencentcloudenterprise_availability_zones" "zones" {
-  name = "ap-guangzhou-6"
-}
-
-# create vpc
-resource "tencentcloudenterprise_vpc" "vpc" {
-  name       = "vpc"
-  cidr_block = "10.0.0.0/16"
-}
-
-# create vpc subnet
-resource "tencentcloudenterprise_vpc_subnet" "subnet" {
-  name              = "subnet"
-  vpc_id            = tencentcloudenterprise_vpc.vpc.id
-  availability_zone = "ap-guangzhou-6"
-  cidr_block        = "10.0.20.0/28"
-  is_multicast      = false
-}
-
-# create rabbitmq instance
 resource "tencentcloudenterprise_tdmq_rabbitmq_vip_instance" "example" {
-  zone_ids                              = [data.tencentcloudenterprise_availability_zones.zones.zones.0.id]
-  vpc_id                                = tencentcloudenterprise_vpc.vpc.id
-  subnet_id                             = tencentcloudenterprise_vpc_subnet.subnet.id
-  cluster_name                          = "tf-example-rabbitmq-vip-instance"
-  node_spec                             = "rabbit-vip-basic-1"
-  node_num                              = 1
-  storage_size                          = 200
-  enable_create_default_ha_mirror_queue = false
-  auto_renew_flag                       = true
-  time_span                             = 1
+  cluster_name    = "rabbitmq-cluster"
+  zone_ids        = ["ap-chongqing-1"]
+  vpc_id          = "vpc-xxxxxxxx"
+  subnet_id       = "subnet-xxxxxxxx"
+  node_spec       = "rabbit-vip-basic-1"
+  node_num        = 3
+  storage_size    = 200
+  cluster_version = "3.8.30"
 }
+```
 
-# create postpaid rabbitmq instance
-resource "tencentcloudenterprise_tdmq_rabbitmq_vip_instance" "example2" {
-  zone_ids                              = [data.tencentcloudenterprise_availability_zones.zones.zones.0.id]
-  vpc_id                                = tencentcloudenterprise_vpc.vpc.id
-  subnet_id                             = tencentcloudenterprise_vpc_subnet.subnet.id
-  cluster_name                          = "tf-example-rabbitmq-vip-instance"
-  node_spec                             = "rabbit-vip-basic-1"
-  node_num                              = 1
-  storage_size                          = 200
-  enable_create_default_ha_mirror_queue = false
-  auto_renew_flag                       = true
-  time_span                             = 1
-  pay_mode                              = 0
+### ### Create a high-availability RabbitMQ VIP instance with multi-zone deployment
+
+```hcl
+resource "tencentcloudenterprise_tdmq_rabbitmq_vip_instance" "ha_instance" {
+  cluster_name                          = "rabbitmq-ha-cluster"
+  zone_ids                              = ["ap-chongqing-1", "ap-chongqing-2", "ap-chongqing-3"]
+  vpc_id                                = "vpc-xxxxxxxx"
+  subnet_id                             = "subnet-xxxxxxxx"
+  node_spec                             = "rabbit-vip-basic-2"
+  node_num                              = 3
+  storage_size                          = 500
+  enable_create_default_ha_mirror_queue = true
   cluster_version                       = "3.11.8"
+}
+```
+
+### ### Create a production RabbitMQ VIP instance with enhanced resources
+
+```hcl
+resource "tencentcloudenterprise_tdmq_rabbitmq_vip_instance" "production" {
+  cluster_name    = "rabbitmq-prod"
+  zone_ids        = ["ap-chongqing-1"]
+  vpc_id          = "vpc-xxxxxxxx"
+  subnet_id       = "subnet-xxxxxxxx"
+  node_spec       = "rabbit-vip-basic-4"
+  node_num        = 3
+  storage_size    = 1000
+  cluster_version = "3.11.8"
 }
 ```
 
@@ -68,40 +63,25 @@ resource "tencentcloudenterprise_tdmq_rabbitmq_vip_instance" "example2" {
 
 The following arguments are supported:
 
-* `cluster_name` - (Required, String) cluster name.
-* `subnet_id` - (Required, String) Private network SubnetId.
-* `vpc_id` - (Required, String) Private network VpcId.
-* `zone_ids` - (Required, Set: [`Int`]) availability zone.
-* `auto_renew_flag` - (Optional, Bool) Automatic renewal, the default is true.
-* `cluster_version` - (Optional, String) Cluster version, the default is `3.8.30`, valid values: `3.8.30` and `3.11.8`.
-* `enable_create_default_ha_mirror_queue` - (Optional, Bool) Mirrored queue, the default is false.
-* `node_num` - (Optional, Int) The number of nodes, a minimum of 3 nodes for a multi-availability zone. If not passed, the default single availability zone is 1, and the multi-availability zone is 3.
-* `node_spec` - (Optional, String) Node specifications. Valid values: rabbit-vip-basic-5 (for 2C4G), rabbit-vip-profession-2c8g (for 2C8G), rabbit-vip-basic-1 (for 4C8G), rabbit-vip-profession-4c16g (for 4C16G), rabbit-vip-basic-2 (for 8C16G), rabbit-vip-profession-8c32g (for 8C32G), rabbit-vip-basic-4 (for 16C32G), rabbit-vip-profession-16c64g (for 16C64G). The default is rabbit-vip-basic-1. NOTE: The above specifications may be sold out or removed from the shelves.
-* `pay_mode` - (Optional, Int) Payment method: 0 indicates postpaid; 1 indicates prepaid. Default: prepaid.
-* `storage_size` - (Optional, Int) Single node storage specification, the default is 200G.
-* `time_span` - (Optional, Int) Purchase duration, the default is 1 (month).
+* `cluster_name` - (Required, String) RabbitMQ cluster name. Length must be between 3-64 characters. Only letters, numbers, hyphens (-), and underscores (_) are allowed.
+* `enable_create_default_ha_mirror_queue` - (Required, Bool) Whether to create a default HA (High Availability) mirrored queue. When enabled, queues will be automatically mirrored across nodes for high availability. Default is true.
+* `node_num` - (Required, Int) Number of nodes in the cluster. Must be greater than 0. For single availability zone deployment, typically use 1 node; for multi-availability zone deployment, minimum 3 nodes are required for high availability. Please configure based on your actual environment and requirements.
+* `subnet_id` - (Required, String) Subnet ID within the specified VPC where the instance will be deployed. Format: subnet-xxxxxxxx.
+* `vpc_id` - (Required, String) VPC (Virtual Private Cloud) ID where the RabbitMQ instance will be deployed. Format: vpc-xxxxxxxx.
+* `zone_ids` - (Required, Set: [`Int`]) Availability zone ID list. For single availability zone deployment, provide one zone ID; for multi-availability zone deployment, provide multiple zone IDs. Multi-availability zone instances require at least 3 nodes.
+* `cluster_version` - (Optional, String) RabbitMQ cluster version. Valid values: `3.8.30` (default), `3.11.8`. Different versions may have different features and performance characteristics.
+* `node_spec` - (Optional, String) Node specification. Valid values: `rabbit-vip-basic-5` (2C4G), `rabbit-vip-profession-2c8g` (2C8G), `rabbit-vip-basic-1` (4C8G, default), `rabbit-vip-profession-4c16g` (4C16G), `rabbit-vip-basic-2` (8C16G), `rabbit-vip-profession-8c32g` (8C32G), `rabbit-vip-basic-4` (16C32G), `rabbit-vip-profession-16c64g` (16C64G). Note: Some specifications may be unavailable due to stock limitations.
+* `storage_size` - (Optional, Int) Storage capacity per node in GB. Default is 200GB.
 
 ## Attributes Reference
 
 In addition to all arguments above, the following attributes are exported:
 
 * `id` - ID of the resource.
-* `public_access_endpoint` - Public Network Access Point.
-* `vpcs` - List of VPC Access Points.
-  * `subnet_id` - Subnet ID.
-  * `vpc_data_stream_endpoint_status` - Status Of Vpc Endpoint.
-  * `vpc_endpoint` - VPC Endpoint.
-  * `vpc_id` - VPC ID.
-
-## Import
-
-tencentcloudenterprise_tdmq_rabbitmq_vip_instance can be imported using the id, e.g.
-
-```
-TDMQ rabbitmq vip instance can be imported using the id, e.g.
-
-```
-terraform import tencentcloudenterprise_tdmq_rabbitmq_vip_instance.example amqp-mok52gmn
-```
-```
+* `public_access_endpoint` - Public network access endpoint address. Used to access the RabbitMQ instance from the internet.
+* `vpcs` - List of VPC access points. Contains VPC network endpoint information for accessing the RabbitMQ instance from within VPC.
+  * `subnet_id` - Subnet ID where the access endpoint is located.
+  * `vpc_data_stream_endpoint_status` - Status of the VPC endpoint. Indicates the availability status of the VPC access point.
+  * `vpc_endpoint` - VPC private network access endpoint address. Use this address to connect to RabbitMQ from within the VPC.
+  * `vpc_id` - VPC ID where the access endpoint is located.
 

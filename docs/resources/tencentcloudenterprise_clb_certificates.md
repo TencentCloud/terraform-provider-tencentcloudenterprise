@@ -54,9 +54,7 @@ tencentcloudenterprise_clb_certificates can be imported using the id, e.g.
 ssl certificate can be imported using the id, e.g.
 
 ```
-
-	$ terraform import tencentcloudenterprise_clb_certificates.cert GjTNRoK7
-
+  $ terraform import tencentcloudenterprise_clb_certificates.cert GjTNRoK7
 ```
 ```
 

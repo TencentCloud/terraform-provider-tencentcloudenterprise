@@ -28,28 +28,14 @@ data "tencentcloudenterprise_vpc_subnets" "subnet" {
   vpc_id = data.tencentcloudenterprise_vpc_instances.vpc.instance_list.0.vpc_id
 }
 
+variable "default_az" {
+  default = "ap-beijing-region-jcctest-ops-1"
+}
+
 locals {
   vpc_id    = data.tencentcloudenterprise_vpc_subnets.subnet.instance_list.0.vpc_id
   subnet_id = data.tencentcloudenterprise_vpc_subnets.subnet.instance_list.0.subnet_id
   sg_id     = data.tencentcloudenterprise_vpc_security_groups.internal.security_groups.0.security_group_id
-}
-
-resource "tencentcloudenterprise_dcdb_db_instance" "prepaid_instance" {
-  instance_name    = "test_dcdb_db_post_instance"
-  zones            = [var.default_az]
-  period           = 1
-  shard_memory     = "2"
-  shard_storage    = "10"
-  shard_node_count = "2"
-  shard_count      = "2"
-  vpc_id           = local.vpc_id
-  subnet_id        = local.subnet_id
-  db_version_id    = "8.0"
-  resource_tags {
-    tag_key   = "aaa"
-    tag_value = "bbb"
-  }
-  security_group_ids = [local.sg_id]
 }
 
 resource "tencentcloudenterprise_dcdb_instance" "hourdb_instance" {
@@ -67,24 +53,18 @@ resource "tencentcloudenterprise_dcdb_instance" "hourdb_instance" {
     tag_key   = "aaa"
     tag_value = "bbb"
   }
+  init_params {
+  }
 }
 
 locals {
-  prepaid_dcdb_id = tencentcloudenterprise_dcdb_db_instance.prepaid_instance.id
-  hourdb_dcdb_id  = tencentcloudenterprise_dcdb_instance.hourdb_instance.id
+  hourdb_dcdb_id = tencentcloudenterprise_dcdb_instance.hourdb_instance.id
 }
 
 // for postpaid instance
 
 resource "tencentcloudenterprise_dcdb_encrypt_attributes_config" "config_hourdb" {
   instance_id     = local.hourdb_dcdb_id
-  encrypt_enabled = 1
-}
-
-// for prepaid instance
-
-resource "tencentcloudenterprise_dcdb_encrypt_attributes_config" "config_prepaid" {
-  instance_id     = local.prepaid_dcdb_id
   encrypt_enabled = 1
 }
 ```
@@ -109,7 +89,6 @@ tencentcloudenterprise_dcdb_encrypt_attributes_config can be imported using the 
 
 ```
 dcdb encrypt_attributes_config can be imported using the id, e.g.
-
 ```
 terraform import tencentcloudenterprise_dcdb_encrypt_attributes_config.encrypt_attributes_config encrypt_attributes_config_id
 ```

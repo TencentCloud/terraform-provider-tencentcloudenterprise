@@ -65,9 +65,7 @@ tencentcloudenterprise_vpc_security_group_lite_rule can be imported using the id
 Security group lite rule can be imported using the id, e.g.
 
 ```
-
-	$ terraform import tencentcloudenterprise_vpc_security_group_lite_rule.foo sg-ey3wmiz1
-
+  $ terraform import tencentcloudenterprise_vpc_security_group_lite_rule.foo sg-ey3wmiz1
 ```
 ```
 

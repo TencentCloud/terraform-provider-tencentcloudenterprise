@@ -15,7 +15,8 @@ Provide a resource to query VPCDNS records.
 
 ```hcl
 data "tencentcloudenterprise_vpcdns_records" "foo" {
-  domain_id = "xxx"
+  domain_id  = 123
+  sub_domain = "doamin.com"
 }
 ```
 
@@ -49,7 +50,6 @@ tencentcloudenterprise_vpcdns_records can be imported using the id, e.g.
 
 ```
 Vpc subnet instance can be imported, e.g.
-
 ```
 $ terraform import tencentcloudenterprise_vpcdns_domain.test domain_id
 ```

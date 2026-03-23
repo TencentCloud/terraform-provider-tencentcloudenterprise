@@ -14,21 +14,27 @@ Use this data source to query detailed information of kubernetes cluster addons.
 ## Example Usage
 
 ```hcl
-data "tencentcloudenterprise_tke_kubernetes_charts" "name" {}
+data "tencentcloudenterprise_tke_kubernetes_charts" "name" {
+  kind         = "network"
+  arch         = "amd64"
+  cluster_type = "tke"
+}
 ```
 
 ## Argument Reference
 
 The following arguments are supported:
 
+* `arch` - (Optional, String) Operation system app supported. Available values: `arm32`, `arm64`, `amd64`.
+* `cluster_type` - (Optional, String) Cluster type. Available values: `tke`, `eks`.
+* `kind` - (Optional, String) Kind of app chart. Available values: `log`, `scheduler`, `network`, `storage`, `monitor`, `dns`, `image`, `other`, `invisible`.
 * `result_output_file` - (Optional, String) Used to save results.
-* `search` - (Optional, String) Search of chart.
 
 ## Attributes Reference
 
 In addition to all arguments above, the following attributes are exported:
 
-* `list` - App chart list.
+* `chart_list` - App chart list.
   * `label` - Label of chart.
   * `latest_version` - Chart latest version.
   * `name` - Name of chart.
