@@ -3050,3 +3050,57 @@ func (r *QuitOrganizationResponse) ToJsonString() string {
 func (r *QuitOrganizationResponse) FromJsonString(s string) error {
 	return json.Unmarshal([]byte(s), &r)
 }
+
+type UpdateOrganizationMemberRequest struct {
+	*tchttp.BaseRequest
+
+	// 是否允许成员退出组织。取值：Allow-允许、Denied-不允许
+
+	IsAllowQuit *string `json:"IsAllowQuit,omitempty" name:"IsAllowQuit"`
+	// 代付者Uin。成员财务权限有代付费时需要，取值为成员对应主体的主体管理员Uin
+
+	PayUin *string `json:"PayUin,omitempty" name:"PayUin"`
+	// 成员Uin。
+
+	MemberUin *uint64 `json:"MemberUin,omitempty" name:"MemberUin"`
+	// 成员名称。最大长度为25个字符，支持英文字母、数字、汉字、符号+@、&._[]-:,
+
+	Name *string `json:"Name,omitempty" name:"Name"`
+	// 备注。最大长度为40个字符
+
+	Remark *string `json:"Remark,omitempty" name:"Remark"`
+	// 关系策略类型。PolicyType不为空，PermissionIds不能为空。取值：Financial
+
+	PolicyType *string `json:"PolicyType,omitempty" name:"PolicyType"`
+	// 成员财务权限ID列表。PermissionIds不为空，PolicyType不能为空。
+	// 取值：1-查看账单、2-查看余额、3-资金划拨、4-合并出账、5-开票、6-优惠继承、7-代付费、8-成本分析，如果有值，1、2 默认必须
+
+	PermissionIds []*uint64 `json:"PermissionIds,omitempty" name:"PermissionIds"`
+}
+
+func (r *UpdateOrganizationMemberRequest) ToJsonString() string {
+	b, _ := json.Marshal(r)
+	return string(b)
+}
+
+func (r *UpdateOrganizationMemberRequest) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
+type UpdateOrganizationMemberResponse struct {
+	*tchttp.BaseResponse
+
+	Response *struct {
+		// 唯一请求 ID，每次请求都会返回。定位问题时需要提供该次请求的 RequestId。
+		RequestId *string `json:"RequestId,omitempty" name:"RequestId"`
+	} `json:"Response"`
+}
+
+func (r *UpdateOrganizationMemberResponse) ToJsonString() string {
+	b, _ := json.Marshal(r)
+	return string(b)
+}
+
+func (r *UpdateOrganizationMemberResponse) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}

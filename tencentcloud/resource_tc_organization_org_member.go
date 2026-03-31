@@ -1,21 +1,22 @@
 /*
 Provides a resource to create a organization org_member
 
-Example Usage
+# Example Usage
 
 ```hcl
-resource "tencentcloudenterprise_organization_org_member" "org_member" {
-  name            = "terraform_test"
-  node_id         = 2003721
-  permission_ids  = [
-    1,
-    2,
-    3,
-    4,
-  ]
-  policy_type     = "Financial"
-  remark          = "for terraform test"
-}
+
+	resource "tencentcloudenterprise_organization_org_member" "org_member" {
+	  name            = "terraform_test"
+	  node_id         = 2003721
+	  permission_ids  = [
+	    1,
+	    2,
+	    3,
+	    4,
+	  ]
+	  policy_type     = "Financial"
+	  remark          = "for terraform test"
+	}
 
 ```
 Import
@@ -43,22 +44,22 @@ func init() {
 		TerraformTypeCN: "企业组织成员",
 		DescriptionCN:   "提供企业组织成员资源，用于创建和管理企业组织成员账号。",
 		AttributesCN: map[string]string{
-			"name":                    "成员名称",
-			"policy_type":             "策略类型",
-			"permission_ids":          "权限ID列表",
-			"node_id":                 "部门节点ID",
-			"account_name":            "账号名称",
-			"remark":                  "备注",
-			"record_id":               "记录ID",
-			"pay_uin":                 "代付者UIN",
-			"pay_name":                "代付者名称",
-			"member_uin":              "成员UIN",
-			"member_type":             "成员类型",
-			"org_policy_type":         "组织策略类型",
-			"org_policy_name":         "组织策略名称",
-			"org_permission_ids":      "组织权限ID列表",
-			"is_allow_quit":           "是否允许退出",
-			"tags":                    "标签",
+			"name":               "成员名称",
+			"policy_type":        "策略类型",
+			"permission_ids":     "权限ID列表",
+			"node_id":            "部门节点ID",
+			"account_name":       "账号名称",
+			"remark":             "备注",
+			"record_id":          "记录ID",
+			"pay_uin":            "代付者UIN",
+			"pay_name":           "代付者名称",
+			"member_uin":         "成员UIN",
+			"member_type":        "成员类型",
+			"org_policy_type":    "组织策略类型",
+			"org_policy_name":    "组织策略名称",
+			"org_permission_ids": "组织权限ID列表",
+			"is_allow_quit":      "是否允许退出",
+			"tags":               "标签",
 		},
 	})
 }
@@ -357,16 +358,34 @@ func resourceTencentCloudOrganizationOrgMemberUpdate(d *schema.ResourceData, met
 
 	logId := getLogId(contextNil)
 
-	request := organization.NewMoveOrganizationNodeMembersRequest()
-
 	orgMemberId := d.Id()
 
-	request.MemberUin = []*uint64{helper.Uint64(helper.StrToUInt64(orgMemberId))}
+	// 使用 UpdateOrganizationMember 更新 name 和 remark
+	if d.HasChange("name") || d.HasChange("remark") {
+		updateRequest := organization.NewUpdateOrganizationMemberRequest()
+		updateRequest.MemberUin = helper.Uint64(helper.StrToUInt64(orgMemberId))
 
-	if d.HasChange("name") {
+		if v, ok := d.GetOk("name"); ok {
+			updateRequest.Name = helper.String(v.(string))
+		}
+		if v, ok := d.GetOk("remark"); ok {
+			updateRequest.Remark = helper.String(v.(string))
+		}
 
-		return fmt.Errorf("`name` do not support change now.")
-
+		err := resource.Retry(writeRetryTimeout, func() *resource.RetryError {
+			result, e := meta.(*TencentCloudClient).apiV3Conn.UseOrganizationClient().UpdateOrganizationMember(updateRequest)
+			if e != nil {
+				return retryError(e)
+			} else {
+				log.Printf("[DEBUG]%s api[%s] success, request body [%s], response body [%s]\n",
+					logId, updateRequest.GetAction(), updateRequest.ToJsonString(), result.ToJsonString())
+			}
+			return nil
+		})
+		if err != nil {
+			log.Printf("[CRITAL]%s update organization orgMember failed, reason:%+v", logId, err)
+			return err
+		}
 	}
 
 	if d.HasChange("policy_type") {
@@ -381,16 +400,28 @@ func resourceTencentCloudOrganizationOrgMemberUpdate(d *schema.ResourceData, met
 
 	}
 
+	// 使用 MoveOrganizationNodeMembers 移动部门节点
 	if d.HasChange("node_id") {
+		request := organization.NewMoveOrganizationNodeMembersRequest()
+		request.MemberUin = []*uint64{helper.Uint64(helper.StrToUInt64(orgMemberId))}
 		if v, _ := d.GetOk("node_id"); v != nil {
 			request.NodeId = helper.IntInt64(v.(int))
 		}
-	}
 
-	if d.HasChange("remark") {
-
-		return fmt.Errorf("`remark` do not support change now.")
-
+		err := resource.Retry(writeRetryTimeout, func() *resource.RetryError {
+			result, e := meta.(*TencentCloudClient).apiV3Conn.UseOrganizationClient().MoveOrganizationNodeMembers(request)
+			if e != nil {
+				return retryError(e)
+			} else {
+				log.Printf("[DEBUG]%s api[%s] success, request body [%s], response body [%s]\n",
+					logId, request.GetAction(), request.ToJsonString(), result.ToJsonString())
+			}
+			return nil
+		})
+		if err != nil {
+			log.Printf("[CRITAL]%s move organization orgMember node failed, reason:%+v", logId, err)
+			return err
+		}
 	}
 
 	if d.HasChange("record_id") {
@@ -403,22 +434,6 @@ func resourceTencentCloudOrganizationOrgMemberUpdate(d *schema.ResourceData, met
 
 		return fmt.Errorf("`pay_uin` do not support change now.")
 
-	}
-
-	err := resource.Retry(writeRetryTimeout, func() *resource.RetryError {
-		result, e := meta.(*TencentCloudClient).apiV3Conn.UseOrganizationClient().MoveOrganizationNodeMembers(request)
-		if e != nil {
-			return retryError(e)
-		} else {
-			log.Printf("[DEBUG]%s api[%s] success, request body [%s], response body [%s]\n",
-				logId, request.GetAction(), request.ToJsonString(), result.ToJsonString())
-		}
-		return nil
-	})
-
-	if err != nil {
-		log.Printf("[CRITAL]%s create organization orgMember failed, reason:%+v", logId, err)
-		return err
 	}
 
 	return resourceTencentCloudOrganizationOrgMemberRead(d, meta)

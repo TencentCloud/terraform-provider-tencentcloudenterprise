@@ -21,6 +21,7 @@ import (
 	account "terraform-provider-tencentcloudenterprise/sdk/account/v20190325"
 	apm "terraform-provider-tencentcloudenterprise/sdk/apm/v20210622"
 	as "terraform-provider-tencentcloudenterprise/sdk/as/v20180419"
+	bhsaas "terraform-provider-tencentcloudenterprise/sdk/bhsaas/v20191018"
 	bms "terraform-provider-tencentcloudenterprise/sdk/bms/v20180813"
 	brc "terraform-provider-tencentcloudenterprise/sdk/brc/v20220516"
 	cam "terraform-provider-tencentcloudenterprise/sdk/cam/v20190116"
@@ -120,6 +121,7 @@ type TencentCloudClient struct {
 	redisConn           *redis.Client
 	asConn              *as.Client
 	bmsConn             *bms.Client
+	bhsaasConn          *bhsaas.Client
 	vpcConn             *vpc.Client
 	vpcdnsConn          *vpcdns.Client
 	cbsConn             *cbs.Client
@@ -260,6 +262,17 @@ func (me *TencentCloudClient) UseBmsClient() *bms.Client {
 	me.bmsConn, _ = bms.NewClient(me.CredentialTce, me.Region, cpf)
 	me.bmsConn.WithHttpTransport(&LogRoundTripper{})
 	return me.bmsConn
+}
+
+// UseBhsaasClient returns bhsaas client for service
+func (me *TencentCloudClient) UseBhsaasClient() *bhsaas.Client {
+	if me.bhsaasConn != nil {
+		return me.bhsaasConn
+	}
+	cpf := me.NewClientProfileTce(300)
+	me.bhsaasConn, _ = bhsaas.NewClient(me.CredentialTce, me.Region, cpf)
+	me.bhsaasConn.WithHttpTransport(&LogRoundTripper{})
+	return me.bhsaasConn
 }
 
 // UseCcnClient returns ccn client for service
