@@ -48,21 +48,21 @@ var logFirstTime = ""
 var logAtomicId int64 = 0
 
 // readRetryTimeout is read retry timeout
-//const readRetryTimeout = 3 * time.Minute
+// const readRetryTimeout = 3 * time.Minute
 var readRetry = getEnvDefault(PROVIDER_READ_RETRY_TIMEOUT, 3)
 var readRetryTimeout = time.Duration(readRetry) * time.Minute
 
 // writeRetryTimeout is write retry timeout
-//const writeRetryTimeout = 5 * time.Minute
+// const writeRetryTimeout = 5 * time.Minute
 var writeRetry = getEnvDefault(PROVIDER_WRITE_RETRY_TIMEOUT, 5)
 var writeRetryTimeout = time.Duration(writeRetry) * time.Minute
 
 // writeRetryTimeout is write retry timeout
-//const writeRetryTimeout = 5 * time.Minute
+// const writeRetryTimeout = 5 * time.Minute
 var waitRead = getEnvDefault(PROVIDER_WAIT_READ_TIMEOUT, 1)
 var waitReadTimeout = time.Duration(waitRead) * time.Second
 
-//const writeRetryTimeout = 5 * time.Minute
+// const writeRetryTimeout = 5 * time.Minute
 var needProtect = getEnvDefault(SWEEPER_NEED_PROTECT, 0)
 
 // InternalError common internalError, do not add in retryableErrorCode,
@@ -93,6 +93,24 @@ var nonRetryableErrorCode = []string{
 	"FailedOperation.DisableQuitSelfCreatedOrganization",
 	"FailedOperation.OrganizationExistAlready",
 	"FailedOperation.InvalidRequest",
+}
+
+// ignoreParseJsonError filters out ClientError.ParseJsonError from SDK response parsing.
+// When this error occurs, the API request has already succeeded (business errors are checked
+// before JSON unmarshalling in SDK), but the response body contains fields with unexpected
+// types (e.g. Region returned as number instead of string). This function logs a warning
+// and returns nil, allowing non-read operations to proceed without error.
+func ignoreParseJsonError(err error) error {
+	if err == nil {
+		return nil
+	}
+	if sdkErr, ok := errors.Cause(err).(*sdkErrors.CloudSDKError); ok {
+		if sdkErr.Code == "ClientError.ParseJsonError" {
+			log.Printf("[WARN] SDK response parse error ignored (API succeeded): %s", sdkErr.Message)
+			return nil
+		}
+	}
+	return err
 }
 
 // retryableCosErrorCode is retryable error code for COS/CI SDK
@@ -527,7 +545,7 @@ func GetListDiffs(o []int, n []int) (adds []int, lacks []int) {
 	return
 }
 
-//GoRoutine Limit
+// GoRoutine Limit
 type GoRoutineLimit struct {
 	Count int
 	Chan  chan struct{}

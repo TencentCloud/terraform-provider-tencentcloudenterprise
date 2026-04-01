@@ -1,7 +1,7 @@
 /*
 Use this data source to query vpc instances' information.
 
-Example Usage
+# Example Usage
 
 ```hcl
 
@@ -109,6 +109,11 @@ func dataSourceTencentCloudVpcInstances() *schema.Resource {
 							Computed:    true,
 							Description: "ID of the VPC.",
 						},
+						"vpc_num_id": {
+							Type:        schema.TypeInt,
+							Computed:    true,
+							Description: "Numeric ID of the VPC.",
+						},
 						"name": {
 							Type:        schema.TypeString,
 							Computed:    true,
@@ -215,6 +220,7 @@ func dataSourceTencentCloudVpcInstancesRead(d *schema.ResourceData, meta interfa
 	for _, item := range vpcInfos {
 		var infoMap = make(map[string]interface{})
 		infoMap["vpc_id"] = item.vpcId
+		infoMap["vpc_num_id"] = item.vpcNumId
 		infoMap["name"] = item.name
 		infoMap["cidr_block"] = item.cidr
 		infoMap["is_default"] = item.isDefault

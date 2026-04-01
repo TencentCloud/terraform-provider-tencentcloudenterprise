@@ -54,4 +54,5 @@ In addition to all arguments above, the following attributes are exported:
   * `subnet_ids` - A ID list of subnets within this VPC.
   * `tags` - Tags of the VPC.
   * `vpc_id` - ID of the VPC.
+  * `vpc_num_id` - Numeric ID of the VPC.
 

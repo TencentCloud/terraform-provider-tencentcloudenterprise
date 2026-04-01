@@ -6,6 +6,7 @@ import (
 	"terraform-provider-tencentcloudenterprise/tencentcloud/connectivity"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/ratelimit"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/pkg/errors"
 	"log"
 )
@@ -313,4 +314,70 @@ func (me *VpcDnsService) DeleteVpcDnsForwardRule(ctx context.Context, ruleId str
 	log.Printf("[DEBUG]%s api[%s] success, request body [%s]\n",
 		logId, request.GetAction(), request.ToJsonString())
 	return
+}
+
+// DescribeVpcDnsZoneRecordByFilter describe zone records with pagination
+func (me *VpcDnsService) DescribeVpcDnsZoneRecordByFilter(ctx context.Context, zoneId string,
+	recordId string) (recordInfos []*vpcdns.PrivateZoneRecord, errRet error) {
+	logId := getLogId(ctx)
+	request := vpcdns.NewDescribePrivateZoneRecordListRequest()
+	defer func() {
+		if errRet != nil {
+			log.Printf("[CRITAL]%s api[%s] fail, request body [%s], reason[%s]\n",
+				logId, request.GetAction(), request.ToJsonString(), errRet.Error())
+		}
+	}()
+	var (
+		limit  int64 = 20
+		offset int64 = 0
+		total  int64 = -1
+	)
+	request.ZoneId = &zoneId
+	request.Filters = make([]*vpcdns.Filter, 0)
+
+	if recordId != "" {
+		filter := vpcdns.Filter{
+			Name:   helper.String("RecordId"),
+			Values: []*string{&recordId},
+		}
+		request.Filters = append(request.Filters, &filter)
+	}
+
+getMoreData:
+
+	if total >= 0 {
+		if offset >= total {
+			return
+		}
+	}
+	var response *vpcdns.DescribePrivateZoneRecordListResponse
+
+	ratelimit.Check(request.GetAction())
+	request.Limit = &limit
+	request.Offset = &offset
+
+	if err := resource.Retry(readRetryTimeout, func() *resource.RetryError {
+		ratelimit.Check(request.GetAction())
+		result, err := me.client.UseVpcDnsClient().DescribePrivateZoneRecordList(request)
+		if err != nil {
+			return retryError(err, InternalError)
+		}
+		response = result
+		return nil
+	}); err != nil {
+		log.Printf("[CRITAL]%s read vpcdns zone record failed, reason: %v", logId, err)
+		return nil, err
+	}
+	if total < 0 {
+		total = *response.Response.TotalCount
+	}
+
+	if len(response.Response.RecordSet) > 0 {
+		offset = offset + limit
+	} else {
+		return
+	}
+
+	recordInfos = append(recordInfos, response.Response.RecordSet...)
+	goto getMoreData
 }

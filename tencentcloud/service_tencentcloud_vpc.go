@@ -29,6 +29,7 @@ var eipUnattachLocker = &sync.Mutex{}
 // VPC basic information
 type VpcBasicInfo struct {
 	vpcId                string
+	vpcNumId             uint64
 	name                 string
 	cidr                 string
 	isMulticast          bool
@@ -374,6 +375,9 @@ getMoreData:
 		basicInfo.isMulticast = *item.EnableMulticast
 		basicInfo.name = *item.VpcName
 		basicInfo.vpcId = *item.VpcId
+		if item.VpcNumId != nil {
+			basicInfo.vpcNumId = *item.VpcNumId
+		}
 
 		if hasVpc[basicInfo.vpcId] {
 			errRet = fmt.Errorf("get repeated vpc_id[%s] when doing DescribeVpcs", basicInfo.vpcId)

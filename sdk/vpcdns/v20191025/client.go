@@ -389,3 +389,253 @@ func (c *Client) DeleteVpcDnsForwardRule(request *DeleteVpcDnsForwardRuleRequest
 	err = c.Send(request, response)
 	return
 }
+
+func NewCreatePrivateZoneRequest() (request *CreatePrivateZoneRequest) {
+	request = &CreatePrivateZoneRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("vpcdns", APIVersion, "CreatePrivateZone")
+	return
+}
+
+func NewCreatePrivateZoneResponse() (response *CreatePrivateZoneResponse) {
+	response = &CreatePrivateZoneResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 创建私有域
+func (c *Client) CreatePrivateZone(request *CreatePrivateZoneRequest) (response *CreatePrivateZoneResponse, err error) {
+	if request == nil {
+		request = NewCreatePrivateZoneRequest()
+	}
+	response = NewCreatePrivateZoneResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewDescribePrivateZoneRequest() (request *DescribePrivateZoneRequest) {
+	request = &DescribePrivateZoneRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("vpcdns", APIVersion, "DescribePrivateZone")
+	return
+}
+
+func NewDescribePrivateZoneResponse() (response *DescribePrivateZoneResponse) {
+	response = &DescribePrivateZoneResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 获取私有域信息
+func (c *Client) DescribePrivateZone(request *DescribePrivateZoneRequest) (response *DescribePrivateZoneResponse, err error) {
+	if request == nil {
+		request = NewDescribePrivateZoneRequest()
+	}
+	response = NewDescribePrivateZoneResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewModifyPrivateZoneRequest() (request *ModifyPrivateZoneRequest) {
+	request = &ModifyPrivateZoneRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("vpcdns", APIVersion, "ModifyPrivateZone")
+	return
+}
+
+func NewModifyPrivateZoneResponse() (response *ModifyPrivateZoneResponse) {
+	response = &ModifyPrivateZoneResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 修改私有域信息
+func (c *Client) ModifyPrivateZone(request *ModifyPrivateZoneRequest) (response *ModifyPrivateZoneResponse, err error) {
+	if request == nil {
+		request = NewModifyPrivateZoneRequest()
+	}
+	response = NewModifyPrivateZoneResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewDeletePrivateZoneRequest() (request *DeletePrivateZoneRequest) {
+	request = &DeletePrivateZoneRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("vpcdns", APIVersion, "DeletePrivateZone")
+	return
+}
+
+func NewDeletePrivateZoneResponse() (response *DeletePrivateZoneResponse) {
+	response = &DeletePrivateZoneResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 删除私有域并停止解析
+func (c *Client) DeletePrivateZone(request *DeletePrivateZoneRequest) (response *DeletePrivateZoneResponse, err error) {
+	if request == nil {
+		request = NewDeletePrivateZoneRequest()
+	}
+	response = NewDeletePrivateZoneResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewCreatePrivateZoneRecordRequest() (request *CreatePrivateZoneRecordRequest) {
+	request = &CreatePrivateZoneRecordRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("vpcdns", APIVersion, "CreatePrivateZoneRecord")
+	return
+}
+
+func NewCreatePrivateZoneRecordResponse() (response *CreatePrivateZoneRecordResponse) {
+	response = &CreatePrivateZoneRecordResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 添加私有域解析记录
+func (c *Client) CreatePrivateZoneRecord(request *CreatePrivateZoneRecordRequest) (response *CreatePrivateZoneRecordResponse, err error) {
+	if request == nil {
+		request = NewCreatePrivateZoneRecordRequest()
+	}
+	response = NewCreatePrivateZoneRecordResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewModifyPrivateZoneRecordRequest() (request *ModifyPrivateZoneRecordRequest) {
+	request = &ModifyPrivateZoneRecordRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("vpcdns", APIVersion, "ModifyPrivateZoneRecord")
+	return
+}
+
+func NewModifyPrivateZoneRecordResponse() (response *ModifyPrivateZoneRecordResponse) {
+	response = &ModifyPrivateZoneRecordResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 修改私有域解析记录
+func (c *Client) ModifyPrivateZoneRecord(request *ModifyPrivateZoneRecordRequest) (response *ModifyPrivateZoneRecordResponse, err error) {
+	if request == nil {
+		request = NewModifyPrivateZoneRecordRequest()
+	}
+	response = NewModifyPrivateZoneRecordResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewDeletePrivateZoneRecordRequest() (request *DeletePrivateZoneRecordRequest) {
+	request = &DeletePrivateZoneRecordRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("vpcdns", APIVersion, "DeletePrivateZoneRecord")
+	return
+}
+
+func NewDeletePrivateZoneRecordResponse() (response *DeletePrivateZoneRecordResponse) {
+	response = &DeletePrivateZoneRecordResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 删除私有域解析记录
+func (c *Client) DeletePrivateZoneRecord(request *DeletePrivateZoneRecordRequest) (response *DeletePrivateZoneRecordResponse, err error) {
+	if request == nil {
+		request = NewDeletePrivateZoneRecordRequest()
+	}
+	response = NewDeletePrivateZoneRecordResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewDescribePrivateZoneRecordListRequest() (request *DescribePrivateZoneRecordListRequest) {
+	request = &DescribePrivateZoneRecordListRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("vpcdns", APIVersion, "DescribePrivateZoneRecordList")
+	return
+}
+
+func NewDescribePrivateZoneRecordListResponse() (response *DescribePrivateZoneRecordListResponse) {
+	response = &DescribePrivateZoneRecordListResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 获取私有域记录列表
+func (c *Client) DescribePrivateZoneRecordList(request *DescribePrivateZoneRecordListRequest) (response *DescribePrivateZoneRecordListResponse, err error) {
+	if request == nil {
+		request = NewDescribePrivateZoneRecordListRequest()
+	}
+	response = NewDescribePrivateZoneRecordListResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewModifyPrivateZoneVpcRequest() (request *ModifyPrivateZoneVpcRequest) {
+	request = &ModifyPrivateZoneVpcRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("vpcdns", APIVersion, "ModifyPrivateZoneVpc")
+	return
+}
+
+func NewModifyPrivateZoneVpcResponse() (response *ModifyPrivateZoneVpcResponse) {
+	response = &ModifyPrivateZoneVpcResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 修改私有域关联的VPC
+func (c *Client) ModifyPrivateZoneVpc(request *ModifyPrivateZoneVpcRequest) (response *ModifyPrivateZoneVpcResponse, err error) {
+	if request == nil {
+		request = NewModifyPrivateZoneVpcRequest()
+	}
+	response = NewModifyPrivateZoneVpcResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewModifyRecordsStatusRequest() (request *ModifyRecordsStatusRequest) {
+	request = &ModifyRecordsStatusRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("vpcdns", APIVersion, "ModifyRecordsStatus")
+	return
+}
+
+func NewModifyRecordsStatusResponse() (response *ModifyRecordsStatusResponse) {
+	response = &ModifyRecordsStatusResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 修改解析记录状态
+func (c *Client) ModifyRecordsStatus(request *ModifyRecordsStatusRequest) (response *ModifyRecordsStatusResponse, err error) {
+	if request == nil {
+		request = NewModifyRecordsStatusRequest()
+	}
+	response = NewModifyRecordsStatusResponse()
+	err = c.Send(request, response)
+	return
+}

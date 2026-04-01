@@ -5182,6 +5182,9 @@ type Vpc struct {
 	// 扩展cidr列表。
 
 	ExtendCidrSet []*ExtendCidr `json:"ExtendCidrSet,omitempty" name:"ExtendCidrSet"`
+	// VPC数字ID。
+
+	VpcNumId *uint64 `json:"VpcNumId,omitempty" name:"VpcNumId"`
 }
 
 type BandwidthSpecification struct {
