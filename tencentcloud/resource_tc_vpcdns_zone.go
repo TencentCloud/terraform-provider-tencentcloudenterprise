@@ -95,6 +95,7 @@ func resourceTencentCloudVpcDnsZone() *schema.Resource {
 			"vpc_set": {
 				Type:        schema.TypeList,
 				Optional:    true,
+				Computed:    true,
 				Description: "Associates the private domain to a VPC when it is created.",
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
@@ -119,12 +120,21 @@ func resourceTencentCloudVpcDnsZone() *schema.Resource {
 			"dns_forward_status": {
 				Type:         schema.TypeString,
 				Optional:     true,
+				Default:      "DISABLED",
 				ValidateFunc: validateAllowedStringValue(PRIVATE_DNS_FORWARD_STATUS),
 				Description:  "Whether to enable subdomain recursive DNS. Valid values: ENABLED, DISABLED. Default value: DISABLED.",
+			},
+			"cname_speedup_status": {
+				Type:         schema.TypeString,
+				Optional:     true,
+				Default:      "ENABLED",
+				ValidateFunc: validateAllowedStringValue([]string{"ENABLED", "DISABLED"}),
+				Description:  "Whether to enable CNAME speedup. Valid values: ENABLED, DISABLED. Default value: ENABLED.",
 			},
 			"account_vpc_set": {
 				Type:        schema.TypeList,
 				Optional:    true,
+				Computed:    true,
 				Description: "List of authorized accounts' VPCs to associate with the private domain.",
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
@@ -198,8 +208,11 @@ func resourceTencentCloudVpcDnsZoneCreate(d *schema.ResourceData, meta interface
 	}
 
 	if v, ok := d.GetOk("dns_forward_status"); ok {
-		dnsForwardStatus := v.(string)
-		request.DnsForwardStatus = helper.String(dnsForwardStatus)
+		request.DnsForwardStatus = helper.String(v.(string))
+	}
+
+	if v, ok := d.GetOk("cname_speedup_status"); ok {
+		request.CnameSpeedupStatus = helper.String(v.(string))
 	}
 
 	if v, ok := d.GetOk("account_vpc_set"); ok {
@@ -305,6 +318,7 @@ func resourceTencentCloudVpcDnsZoneRead(d *schema.ResourceData, meta interface{}
 	_ = d.Set("vpc_set", vpcSet)
 	_ = d.Set("remark", info.Remark)
 	_ = d.Set("dns_forward_status", info.DnsForwardStatus)
+	_ = d.Set("cname_speedup_status", info.CnameSpeedupStatus)
 
 	accountVpcSet := make([]map[string]interface{}, 0, len(info.AccountVpcSet))
 	for _, item := range info.AccountVpcSet {
@@ -325,7 +339,7 @@ func resourceTencentCloudVpcDnsZoneUpdate(d *schema.ResourceData, meta interface
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
 	id := d.Id()
 
-	if d.HasChange("remark") || d.HasChange("dns_forward_status") {
+	if d.HasChange("remark") || d.HasChange("dns_forward_status") || d.HasChange("cname_speedup_status") {
 		request := vpcdns.NewModifyPrivateZoneRequest()
 		request.ZoneId = helper.String(id)
 		if v, ok := d.GetOk("remark"); ok {
@@ -333,6 +347,9 @@ func resourceTencentCloudVpcDnsZoneUpdate(d *schema.ResourceData, meta interface
 		}
 		if v, ok := d.GetOk("dns_forward_status"); ok {
 			request.DnsForwardStatus = helper.String(v.(string))
+		}
+		if v, ok := d.GetOk("cname_speedup_status"); ok {
+			request.CnameSpeedupStatus = helper.String(v.(string))
 		}
 		err := resource.Retry(readRetryTimeout, func() *resource.RetryError {
 			_, e := meta.(*TencentCloudClient).apiV3Conn.UseVpcDnsClient().ModifyPrivateZone(request)

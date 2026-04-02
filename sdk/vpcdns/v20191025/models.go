@@ -926,6 +926,9 @@ type PrivateZone struct {
 	// 转发的地址
 
 	ForwardAddress *string `json:"ForwardAddress,omitempty" name:"ForwardAddress"`
+	// 域名数字ID
+
+	DomainId *int64 `json:"DomainId,omitempty" name:"DomainId"`
 }
 
 type PrivateZoneRecord struct {
@@ -1083,6 +1086,49 @@ func (r *DescribePrivateZoneResponse) ToJsonString() string {
 }
 
 func (r *DescribePrivateZoneResponse) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
+// ---- DescribePrivateZoneList ----
+
+type DescribePrivateZoneListRequest struct {
+	*tchttp.BaseRequest
+
+	// Offset
+	Offset *int64 `json:"Offset,omitempty" name:"Offset"`
+	// Limit
+	Limit *int64 `json:"Limit,omitempty" name:"Limit"`
+	// Filters
+	Filters []*Filter `json:"Filters,omitempty" name:"Filters"`
+}
+
+type DescribePrivateZoneListResponse struct {
+	*tchttp.BaseResponse
+
+	Response *struct {
+		TotalCount *int64 `json:"TotalCount,omitempty" name:"TotalCount"`
+
+		PrivateZoneSet []*PrivateZone `json:"PrivateZoneSet,omitempty" name:"PrivateZoneSet"`
+
+		RequestId *string `json:"RequestId,omitempty" name:"RequestId"`
+	} `json:"Response"`
+}
+
+func (r *DescribePrivateZoneListRequest) ToJsonString() string {
+	b, _ := json.Marshal(r)
+	return string(b)
+}
+
+func (r *DescribePrivateZoneListResponse) ToJsonString() string {
+	b, _ := json.Marshal(r)
+	return string(b)
+}
+
+func (r *DescribePrivateZoneListRequest) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
+func (r *DescribePrivateZoneListResponse) FromJsonString(s string) error {
 	return json.Unmarshal([]byte(s), &r)
 }
 

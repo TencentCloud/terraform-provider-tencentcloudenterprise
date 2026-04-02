@@ -15,213 +15,6 @@ type VpcDnsService struct {
 	client *connectivity.TencentCloudClient
 }
 
-func (me *VpcDnsService) DescribeVpcDnsDomainById(ctx context.Context,
-	domainId string) (clbInstance *vpcdns.DomainDetail,
-	errRet error) {
-	logId := getLogId(ctx)
-	request := vpcdns.NewDescribeVpcDnsDomainListRequest()
-	request.Filters = []*vpcdns.DomainListFilters{
-		{
-			Name: helper.String("domain-id"),
-			Values: []*string{
-				helper.String(domainId),
-			},
-		},
-	}
-	ratelimit.Check(request.GetAction())
-	response, err := me.client.UseVpcDnsClient().DescribeVpcDnsDomainList(request)
-	if err != nil {
-		errRet = errors.WithStack(err)
-		return
-	}
-	log.Printf("[DEBUG]%s api[%s] success, request body [%s], response body [%s]\n",
-		logId, request.GetAction(), request.ToJsonString(), response.ToJsonString())
-
-	if len(response.Response.Domains) < 1 {
-		return
-	}
-	clbInstance = response.Response.Domains[0]
-	return
-}
-
-// ModifyVpcDnsDomain modify vpc dns dnsForWardStatus
-func (me *VpcDnsService) ModifyVpcDnsDomain(ctx context.Context,
-	domainId string, dnsForWardStatus string) (errRet error) {
-	logId := getLogId(ctx)
-	request := vpcdns.NewModifyVpcDnsDomainRequest()
-	request.DomainIds = helper.String(domainId)
-	request.DnsForwardStatus = helper.String(dnsForWardStatus)
-	response, err := me.client.UseVpcDnsClient().ModifyVpcDnsDomain(request)
-	if err != nil {
-		errRet = errors.WithStack(err)
-		return
-	}
-	log.Printf("[DEBUG]%s api[%s] success, request body [%s], response body [%s]\n",
-		logId, request.GetAction(), request.ToJsonString(), response.ToJsonString())
-	return
-}
-
-func (me *VpcDnsService) DescribeVpcDnsDomainByFilters(ctx context.Context,
-	filters []*vpcdns.DomainListFilters) (clbInstance *vpcdns.DomainDetail, errRet error) {
-	logId := getLogId(ctx)
-	request := vpcdns.NewDescribeVpcDnsDomainListRequest()
-	request.Filters = filters
-	ratelimit.Check(request.GetAction())
-	response, err := me.client.UseVpcDnsClient().DescribeVpcDnsDomainList(request)
-	if err != nil {
-		errRet = errors.WithStack(err)
-		return
-	}
-	log.Printf("[DEBUG]%s api[%s] success, request body [%s], response body [%s]\n",
-		logId, request.GetAction(), request.ToJsonString(), response.ToJsonString())
-
-	if len(response.Response.Domains) < 1 {
-		return
-	}
-	clbInstance = response.Response.Domains[0]
-	return
-}
-
-func (me *VpcDnsService) DeleteVpcDnsDomain(ctx context.Context, domainId string) error {
-	logId := getLogId(ctx)
-	request := vpcdns.NewDeleteVpcDnsDomainRequest()
-	request.DomainIds = helper.String(domainId)
-	ratelimit.Check(request.GetAction())
-	response, err := me.client.UseVpcDnsClient().DeleteVpcDnsDomain(request)
-	if err != nil {
-		//if e, ok := err.(*sdkErrors.CloudSDKError); ok {
-		//	if e.GetCode() == "InvalidParameter.LBIdNotFound" {
-		//		return nil
-		//	}
-		//}
-		return errors.WithStack(err)
-	}
-	log.Printf("[DEBUG]%s api[%s] success, request body [%s], response body [%s]\n",
-		logId, request.GetAction(), request.ToJsonString(), response.ToJsonString())
-	return nil
-}
-
-func (me *VpcDnsService) CreateVpcDnsDomain(ctx context.Context, domain string, tags map[string]string,
-	dnsForwardStatus string) error {
-	logId := getLogId(ctx)
-	request := vpcdns.NewCreateVpcDnsDomainRequest()
-	request.Domain = helper.String(domain)
-
-	if len(tags) > 0 {
-		for tagKey, tagValue := range tags {
-			tag := vpcdns.Tag{
-				Key:   helper.String(tagKey),
-				Value: helper.String(tagValue),
-			}
-			request.Tags = append(request.Tags, &tag)
-		}
-	}
-	request.DnsForwardStatus = helper.String(dnsForwardStatus)
-
-	ratelimit.Check(request.GetAction())
-	response, err := me.client.UseVpcDnsClient().CreateVpcDnsDomain(request)
-	if err != nil {
-		//if e, ok := err.(*sdkErrors.CloudSDKError); ok {
-		//	if e.GetCode() == "InvalidParameter.LBIdNotFound" {
-		//		return nil
-		//	}
-		//}
-		return errors.WithStack(err)
-	}
-	log.Printf("[DEBUG]%s api[%s] success, request body [%s], response body [%s]\n",
-		logId, request.GetAction(), request.ToJsonString(), response.ToJsonString())
-	return nil
-
-}
-
-func (me *VpcDnsService) BindVpcDnsDomain(ctx context.Context, domainId uint64, vpcInfos []*vpcdns.VpcInfos) error {
-	logId := getLogId(ctx)
-	request := vpcdns.NewBindVpcDnsDomainRequest()
-	request.DomainId = helper.Uint64(domainId)
-	request.VpcInfos = vpcInfos
-	ratelimit.Check(request.GetAction())
-	response, err := me.client.UseVpcDnsClient().BindVpcDnsDomain(request)
-	if err != nil {
-		return errors.WithStack(err)
-	}
-	log.Printf("[DEBUG]%s api[%s] success, request body [%s], response body [%s]\n",
-		logId, request.GetAction(), request.ToJsonString(), response.ToJsonString())
-	return nil
-}
-
-// CreateVpcDnsRecord create vpc dns domain record
-func (me *VpcDnsService) CreateVpcDnsRecord(ctx context.Context, request *vpcdns.CreateVpcDnsRecordRequest) (
-	recordId int64, errRet error) {
-	logId := getLogId(ctx)
-	ratelimit.Check(request.GetAction())
-	response, err := me.client.UseVpcDnsClient().CreateVpcDnsRecord(request)
-	if err != nil {
-		errRet = errors.WithStack(err)
-		return
-	}
-	recordId = *response.Response.Data.RecordId
-	log.Printf("[DEBUG]%s api[%s] success, request body [%s], response body [%s]\n",
-		logId, request.GetAction(), request.ToJsonString(), response.ToJsonString())
-
-	return
-}
-
-// DescribeVpcDnsRecordByFilters describe vpc dns record by id
-func (me *VpcDnsService) DescribeVpcDnsRecordByFilters(ctx context.Context, domainId int,
-	filters []*vpcdns.RecordListFilters) (
-	record *vpcdns.RecordDetail, errRet error) {
-	logId := getLogId(ctx)
-	request := vpcdns.NewDescribeVpcDnsRecordListRequest()
-	request.Filters = filters
-	request.DomainId = helper.Uint64(uint64(domainId))
-	ratelimit.Check(request.GetAction())
-	response, err := me.client.UseVpcDnsClient().DescribeVpcDnsRecordList(request)
-	if err != nil {
-		errRet = errors.WithStack(err)
-		return
-	}
-	if len(response.Response.Records) < 1 {
-		return
-	}
-	record = response.Response.Records[0]
-	log.Printf("[DEBUG]%s api[%s] success, request body [%s], response body [%s]\n",
-		logId, request.GetAction(), request.ToJsonString(), response.ToJsonString())
-	return
-}
-
-// ModifyVpcDnsRecord modify vpc dns record
-func (me *VpcDnsService) ModifyVpcDnsRecord(ctx context.Context, request *vpcdns.ModifyVpcDnsRecordRequest) (
-	errRet error) {
-	logId := getLogId(ctx)
-	ratelimit.Check(request.GetAction())
-	response, err := me.client.UseVpcDnsClient().ModifyVpcDnsRecord(request)
-	if err != nil {
-		errRet = errors.WithStack(err)
-		return
-	}
-	log.Printf("[DEBUG]%s api[%s] success, request body [%s], response body [%s]\n",
-		logId, request.GetAction(), request.ToJsonString(), response.ToJsonString())
-	return
-}
-
-// DeleteVpcDnsRecord delete vpc dns record
-func (me *VpcDnsService) DeleteVpcDnsRecord(ctx context.Context, domainId uint64, recordId string) (
-	errRet error) {
-	logId := getLogId(ctx)
-	request := vpcdns.NewDeleteVpcDnsRecordRequest()
-	request.DomainId = helper.Uint64(domainId)
-	request.RecordIds = helper.String(recordId)
-	ratelimit.Check(request.GetAction())
-	response, err := me.client.UseVpcDnsClient().DeleteVpcDnsRecord(request)
-	if err != nil {
-		errRet = errors.WithStack(err)
-		return
-	}
-	log.Printf("[DEBUG]%s api[%s] success, request body [%s], response body [%s]\n",
-		logId, request.GetAction(), request.ToJsonString(), response.ToJsonString())
-	return
-}
-
 // CreateVpcDnsForwardRule create vpc dns forward rule
 func (me *VpcDnsService) CreateVpcDnsForwardRule(ctx context.Context, remark, domainId string, forwardAddress []string) (
 	ruleId string, errRet error) {
@@ -243,8 +36,8 @@ func (me *VpcDnsService) CreateVpcDnsForwardRule(ctx context.Context, remark, do
 	return
 }
 
-// DescribeVpcDnsForwardRuleList 分页获取所有转发规则
-func (me *VpcDnsService) DescribeVpcDnsForwardRuleList(ctx context.Context, filterMap map[string][]string) (
+// DescribeVpcDnsForwardRuleById fetch all forward rules and match by ruleId
+func (me *VpcDnsService) DescribeVpcDnsForwardRuleById(ctx context.Context, ruleId string) (
 	forwardRule *vpcdns.VpcDnsForwardRuleDetail, errRet error) {
 	logId := getLogId(ctx)
 	var (
@@ -254,13 +47,6 @@ func (me *VpcDnsService) DescribeVpcDnsForwardRuleList(ctx context.Context, filt
 	)
 	for {
 		request := vpcdns.NewDescribeVpcDnsForwardRuleRequest()
-		request.Filters = []*vpcdns.ForwardRuleFilter{}
-		for name, val := range filterMap {
-			request.Filters = append(request.Filters, &vpcdns.ForwardRuleFilter{
-				Name:   helper.String(name),
-				Values: helper.Strings(val),
-			})
-		}
 		request.Limit = helper.IntUint64(limit)
 		request.Offset = helper.IntUint64(offset)
 		ratelimit.Check(request.GetAction())
@@ -275,11 +61,43 @@ func (me *VpcDnsService) DescribeVpcDnsForwardRuleList(ctx context.Context, filt
 		}
 		offset += limit
 	}
-	if len(ruleList) > 0 {
-		forwardRule = ruleList[0]
+	for _, rule := range ruleList {
+		if rule.RuleId != nil && *rule.RuleId == ruleId {
+			forwardRule = rule
+			break
+		}
+	}
+	log.Printf("[DEBUG]%s api[%s] success, total rules [%d], target ruleId [%s], found [%v]\n",
+		logId, "DescribeForwardRuleList", len(ruleList), ruleId, forwardRule != nil)
+	return
+}
+
+// DescribeVpcDnsForwardRuleAll fetch all forward rules (for data source)
+func (me *VpcDnsService) DescribeVpcDnsForwardRuleAll(ctx context.Context) (
+	ruleList []*vpcdns.VpcDnsForwardRuleDetail, errRet error) {
+	logId := getLogId(ctx)
+	var (
+		offset = 0
+		limit  = 20
+	)
+	for {
+		request := vpcdns.NewDescribeVpcDnsForwardRuleRequest()
+		request.Limit = helper.IntUint64(limit)
+		request.Offset = helper.IntUint64(offset)
+		ratelimit.Check(request.GetAction())
+		response, err := me.client.UseVpcDnsClient().DescribeVpcDnsForwardRule(request)
+		if err != nil {
+			errRet = errors.WithStack(err)
+			return
+		}
+		ruleList = append(ruleList, response.Response.ForwardRuleList...)
+		if len(response.Response.ForwardRuleList) < limit {
+			break
+		}
+		offset += limit
 	}
 	log.Printf("[DEBUG]%s api[%s] success, total rules [%d]\n",
-		logId, "DescribeVpcDnsForwardRule", len(ruleList))
+		logId, "DescribeForwardRuleList", len(ruleList))
 	return
 }
 
@@ -316,7 +134,39 @@ func (me *VpcDnsService) DeleteVpcDnsForwardRule(ctx context.Context, ruleId str
 	return
 }
 
-// DescribeVpcDnsZoneRecordByFilter describe zone records with pagination
+// DescribeVpcDnsZoneList describe zone list with pagination
+func (me *VpcDnsService) DescribeVpcDnsZoneList(ctx context.Context,
+	filters []*vpcdns.Filter) (zones []*vpcdns.PrivateZone, errRet error) {
+	logId := getLogId(ctx)
+	var (
+		limit  int64 = 20
+		offset int64 = 0
+	)
+	for {
+		request := vpcdns.NewDescribePrivateZoneListRequest()
+		request.Limit = &limit
+		request.Offset = &offset
+		request.Filters = filters
+		ratelimit.Check(request.GetAction())
+		response, err := me.client.UseVpcDnsClient().DescribePrivateZoneList(request)
+		if err != nil {
+			errRet = errors.WithStack(err)
+			return
+		}
+		log.Printf("[DEBUG]%s api[%s] success, request body [%s], response body [%s]\n",
+			logId, request.GetAction(), request.ToJsonString(), response.ToJsonString())
+
+		if response.Response == nil || response.Response.PrivateZoneSet == nil {
+			break
+		}
+		zones = append(zones, response.Response.PrivateZoneSet...)
+		if int64(len(response.Response.PrivateZoneSet)) < limit {
+			break
+		}
+		offset += limit
+	}
+	return
+}
 func (me *VpcDnsService) DescribeVpcDnsZoneRecordByFilter(ctx context.Context, zoneId string,
 	recordId string) (recordInfos []*vpcdns.PrivateZoneRecord, errRet error) {
 	logId := getLogId(ctx)

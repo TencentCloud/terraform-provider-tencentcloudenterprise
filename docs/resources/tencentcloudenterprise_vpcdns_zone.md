@@ -40,6 +40,7 @@ The following arguments are supported:
 
 * `domain` - (Required, String) Domain name, which must be in the format of standard TLD.
 * `account_vpc_set` - (Optional, List) List of authorized accounts' VPCs to associate with the private domain.
+* `cname_speedup_status` - (Optional, String) Whether to enable CNAME speedup. Valid values: ENABLED, DISABLED. Default value: ENABLED.
 * `dns_forward_status` - (Optional, String) Whether to enable subdomain recursive DNS. Valid values: ENABLED, DISABLED. Default value: DISABLED.
 * `remark` - (Optional, String) Remarks.
 * `tag_set` - (Optional, List, **Deprecated**) It has been deprecated from version 1.72.4. Use `tags` instead. Tags the private domain when it is created.

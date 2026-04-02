@@ -31,6 +31,7 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"strconv"
 	"strings"
 
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
@@ -54,6 +55,7 @@ func resourceTencentCloudVpcDnsZoneRecord() *schema.Resource {
 			"zone_id": {
 				Type:        schema.TypeString,
 				Required:    true,
+				ForceNew:    true,
 				Description: "Private domain ID.",
 			},
 			"record_type": {
@@ -73,9 +75,10 @@ func resourceTencentCloudVpcDnsZoneRecord() *schema.Resource {
 					" CNAME: cname.qcloud.com, and MX: mail.qcloud.com..",
 			},
 			"weight": {
-				Type:        schema.TypeInt,
-				Optional:    true,
-				Description: "Record weight. Value range: 1~100.",
+				Type:         schema.TypeInt,
+				Optional:     true,
+				ValidateFunc: validateIntegerInRange(1, 100),
+				Description:  "Record weight. Value range: 1~100.",
 			},
 			"mx": {
 				Type:     schema.TypeInt,
@@ -86,8 +89,16 @@ func resourceTencentCloudVpcDnsZoneRecord() *schema.Resource {
 			"ttl": {
 				Type:     schema.TypeInt,
 				Optional: true,
+				Computed: true,
 				Description: "Record cache time. The smaller the value, the faster the record will take effect." +
 					" Value range: 1~86400s.",
+			},
+			"status": {
+				Type:         schema.TypeString,
+				Optional:     true,
+				Computed:     true,
+				ValidateFunc: validateAllowedStringValue([]string{"enabled", "disabled"}),
+				Description:  "Record status. Valid values: enabled, disabled.",
 			},
 		},
 	}
@@ -135,6 +146,20 @@ func resourceTencentCloudVpcDnsZoneRecordCreate(d *schema.ResourceData, meta int
 	recordId := *response.Response.RecordId
 	d.SetId(strings.Join([]string{zoneId, recordId}, FILED_SP))
 
+	// If status is set to disabled, call ModifyRecordsStatus after creation
+	if v, ok := d.GetOk("status"); ok && v.(string) == "disabled" {
+		statusRequest := vpcdns.NewModifyRecordsStatusRequest()
+		statusRequest.ZoneId = helper.String(zoneId)
+		recordIdInt, _ := strconv.ParseInt(recordId, 10, 64)
+		statusRequest.RecordIds = []*int64{&recordIdInt}
+		statusRequest.Status = helper.String("disabled")
+		_, err := meta.(*TencentCloudClient).apiV3Conn.UseVpcDnsClient().ModifyRecordsStatus(statusRequest)
+		if err != nil {
+			log.Printf("[CRITAL]%s modify PrivateDns record status failed, reason:%s\n", logId, err.Error())
+			return err
+		}
+	}
+
 	return resourceTencentCloudVpcDnsZoneRecordRead(d, meta)
 }
 
@@ -178,6 +203,14 @@ func resourceTencentCloudVpcDnsZoneRecordRead(d *schema.ResourceData, meta inter
 	_ = d.Set("weight", record.Weight)
 	_ = d.Set("mx", record.MX)
 	_ = d.Set("ttl", record.TTL)
+
+	if record.Enabled != nil {
+		if *record.Enabled == 0 {
+			_ = d.Set("status", "disabled")
+		} else {
+			_ = d.Set("status", "enabled")
+		}
+	}
 
 	return nil
 }
@@ -250,6 +283,27 @@ func resourceTencentCloudVpcDnsZoneRecordUpdate(d *schema.ResourceData, meta int
 		})
 		if err != nil {
 			log.Printf("[CRITAL]%s modify privateDns record info failed, reason:%s\n", logId, err.Error())
+			return err
+		}
+	}
+
+	if d.HasChange("status") {
+		statusRequest := vpcdns.NewModifyRecordsStatusRequest()
+		statusRequest.ZoneId = helper.String(zoneId)
+		recordIdInt, _ := strconv.ParseInt(recordId, 10, 64)
+		statusRequest.RecordIds = []*int64{&recordIdInt}
+		if v, ok := d.GetOk("status"); ok {
+			statusRequest.Status = helper.String(v.(string))
+		}
+		err := resource.Retry(readRetryTimeout, func() *resource.RetryError {
+			_, e := meta.(*TencentCloudClient).apiV3Conn.UseVpcDnsClient().ModifyRecordsStatus(statusRequest)
+			if e != nil {
+				return retryError(e)
+			}
+			return nil
+		})
+		if err != nil {
+			log.Printf("[CRITAL]%s modify privateDns record status failed, reason:%s\n", logId, err.Error())
 			return err
 		}
 	}

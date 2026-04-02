@@ -1,35 +1,39 @@
 /*
-Provide a resource to create a VPCDNS domain forward rule.
+Provide a resource to create a VPCDNS forward rule.
 
-Example Usage
+# Example Usage
 
 ```hcl
 
 	resource "tencentcloudenterprise_vpcdns_forward_rule" "foo" {
-	  remark     = "forward_rule_foo"
-	  domain_id = "my_domain_id1"
+	  remark          = "forward_rule_foo"
+	  zone_id         = tencentcloudenterprise_vpcdns_zone.zone.id
 	  forward_address = ["8.8.8.8:88", "1.1.1.1:88"]
 	}
 
 ```
 
-Import
+# Import
 
-Vpc subnet instance can be imported, e.g.
+Vpcdns forward rule can be imported, e.g.
 
 ```
-$ terraform import tencentcloudenterprise_vpcdns_forward_rule.test remark
+$ terraform import tencentcloudenterprise_vpcdns_forward_rule.foo rule_id
 ```
 */
 package tencentcloud
 
 import (
 	"context"
-	"errors"
+	"fmt"
+	"log"
+	"strconv"
+	"time"
+
 	sdkError "terraform-provider-tencentcloudenterprise/sdk/common/errors"
+	vpcdns "terraform-provider-tencentcloudenterprise/sdk/vpcdns/v20191025"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	"time"
 )
 
 func init() {
@@ -38,7 +42,7 @@ func init() {
 		DescriptionCN:   "提供VPCDNS转发规则资源，用于创建和管理DNS转发规则。",
 		AttributesCN: map[string]string{
 			"remark":          "转发规则名称",
-			"domain_id":  	   "转发域名id",
+			"zone_id":         "私有域ID",
 			"forward_address": "dns地址",
 			"create_time":     "创建时间",
 			"rule_id":         "转发规则id",
@@ -61,20 +65,19 @@ func resourceTencentCloudVpcDnsForwardRule() *schema.Resource {
 			"remark": {
 				Type:        schema.TypeString,
 				Required:    true,
-				Elem:        &schema.Schema{Type: schema.TypeString},
 				Description: "The remark of the forward rule.",
 			},
-			"domain_id": {
+			"zone_id": {
 				Type:        schema.TypeString,
 				Required:    true,
-				Elem:        &schema.Schema{Type: schema.TypeString},
-				Description: "The domain IDs of the forward rule.",
+				ForceNew:    true,
+				Description: "Private zone ID, e.g. zone-xxxxxxxx.",
 			},
 			"forward_address": {
 				Type:        schema.TypeList,
 				Required:    true,
 				Elem:        &schema.Schema{Type: schema.TypeString},
-				Description: "The forward address of the rule.",
+				Description: "The forward address of the rule, e.g. 8.8.8.8:53.",
 			},
 
 			// Computed values
@@ -102,18 +105,17 @@ func resourceTencentCloudVpcDnsForwardRuleCreate(d *schema.ResourceData, meta in
 
 	var (
 		remark         string
-		domainId       string
+		zoneId         string
 		forwardAddress []string
 	)
 	if temp, ok := d.GetOk("remark"); ok {
 		remark = temp.(string)
 	}
-	if temp, ok := d.GetOk("domain_id"); ok {
-		domainId = temp.(string)
+	if temp, ok := d.GetOk("zone_id"); ok {
+		zoneId = temp.(string)
 	}
 
 	if temp, ok := d.GetOk("forward_address"); ok {
-		// 将[]interface{}转换为[]string
 		if list, ok := temp.([]interface{}); ok {
 			forwardAddress = make([]string, len(list))
 			for i, v := range list {
@@ -121,6 +123,20 @@ func resourceTencentCloudVpcDnsForwardRuleCreate(d *schema.ResourceData, meta in
 			}
 		}
 	}
+
+	// Resolve zone_id to domain_id via DescribePrivateZone
+	request := vpcdns.NewDescribePrivateZoneRequest()
+	request.ZoneId = &zoneId
+	response, err := meta.(*TencentCloudClient).apiV3Conn.UseVpcDnsClient().DescribePrivateZone(request)
+	if err != nil {
+		return fmt.Errorf("failed to describe private zone %s: %v", zoneId, err)
+	}
+	if response.Response == nil || response.Response.PrivateZone == nil || response.Response.PrivateZone.DomainId == nil {
+		return fmt.Errorf("private zone %s has no DomainId", zoneId)
+	}
+	domainId := strconv.FormatInt(*response.Response.PrivateZone.DomainId, 10)
+	log.Printf("[DEBUG]%s resolved zone_id %s to domain_id %s", logId, zoneId, domainId)
+
 	ruleId, err := vpcDnsService.CreateVpcDnsForwardRule(ctx, remark, domainId, forwardAddress)
 	if err != nil {
 		return err
@@ -141,24 +157,20 @@ func resourceTencentCloudVpcDnsForwardRuleRead(d *schema.ResourceData, meta inte
 
 	service := VpcDnsService{client: meta.(*TencentCloudClient).apiV3Conn}
 
-	// only filter by DomainId and DomainName
-	domainId := d.Get("domain_id").(string)
-	filterMap := map[string][]string{
-		"DomainId" : {domainId},
-	}
+	ruleId := d.Id()
 
 	err := resource.Retry(readRetryTimeout, func() *resource.RetryError {
-		forwardRule, e := service.DescribeVpcDnsForwardRuleList(ctx, filterMap)
+		forwardRule, e := service.DescribeVpcDnsForwardRuleById(ctx, ruleId)
 		if e != nil {
 			return retryError(e)
 		}
 
 		if forwardRule == nil {
-			return retryError(errors.New("vpc dns forward rule not found"))
+			d.SetId("")
+			return nil
 		}
 		_ = d.Set("rule_id", forwardRule.RuleId)
 		_ = d.Set("remark", forwardRule.Remark)
-		_ = d.Set("domain_id", forwardRule.DomainId)
 		_ = d.Set("forward_address", forwardRule.ForwardAddress)
 		return nil
 	})

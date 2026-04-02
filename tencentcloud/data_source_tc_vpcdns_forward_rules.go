@@ -1,7 +1,7 @@
 /*
 Provide a resource to query VPCDNS domain.
 
-Example Usage
+# Example Usage
 
 ```hcl
 
@@ -11,7 +11,7 @@ Example Usage
 
 ```
 
-Import
+# Import
 
 Vpc subnet instance can be imported, e.g.
 
@@ -22,12 +22,10 @@ $ terraform import tencentcloudenterprise_vpcdns_domain.test domain_id
 package tencentcloud
 
 import (
-	"errors"
+	"context"
 	"fmt"
 
-	vpcdns "terraform-provider-tencentcloudenterprise/sdk/vpcdns/v20191025"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
@@ -36,14 +34,14 @@ func init() {
 		TerraformTypeCN: "VPCDNS转发规则",
 		DescriptionCN:   "提供VPCDNS转发规则数据源，用于查询VPCDNS转发规则的详细信息。",
 		AttributesCN: map[string]string{
-			"rule_id":         "转发规则id",
-			"remark":          "转发规则名称",
-			"domain_id":       "转发域名id",
-			"domain_name":     "转发域名",
-			"forward_address": "dns地址",
-			"vpc_infos":       "vpc关联信息",
-			"created_on":      "创建时间",
-			"updated_on":      "更新时间",
+			"rule_id":            "转发规则id",
+			"remark":             "转发规则名称",
+			"domain_id":          "转发域名id",
+			"domain_name":        "转发域名",
+			"forward_address":    "dns地址",
+			"vpc_infos":          "vpc关联信息",
+			"created_on":         "创建时间",
+			"updated_on":         "更新时间",
 			"result_output_file": "数据源查询结果文件，白屏化界面不可用",
 		},
 	})
@@ -147,41 +145,17 @@ func dataSourceTencentCloudVpcDnsForwardRules() *schema.Resource {
 }
 
 func dataTencentCloudVpcDnsForwardRuleRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.tencentclout_vpcdns_domain.read")()
+	defer logElapsed("data_source.tencentcloudenterprise_vpcdns_forward_rules.read")()
 	defer inconsistentCheck(d, meta)()
 
-	var (
-		request  = vpcdns.NewDescribeVpcDnsForwardRuleRequest()
-		ruleList []*vpcdns.VpcDnsForwardRuleDetail
-		offset   = 0
-		limit    = 20
-	)
+	logId := getLogId(contextNil)
+	ctx := context.WithValue(context.TODO(), logIdKey, logId)
 
-	for {
-		request.Offset = helper.IntUint64(offset)
-		request.Limit = helper.IntUint64(limit)
+	service := VpcDnsService{client: meta.(*TencentCloudClient).apiV3Conn}
 
-		var pageRules []*vpcdns.VpcDnsForwardRuleDetail
-		err := resource.Retry(readRetryTimeout, func() *resource.RetryError {
-			response, e := meta.(*TencentCloudClient).apiV3Conn.UseVpcDnsClient().
-				DescribeVpcDnsForwardRule(request)
-			if e != nil {
-				return retryError(e)
-			}
-			if response.Response == nil || len(response.Response.ForwardRuleList) < 1 {
-				return retryError(errors.New("vpc dns domain not found"))
-			}
-			pageRules = response.Response.ForwardRuleList
-			return nil
-		})
-		if err != nil {
-			return err
-		}
-		ruleList = append(ruleList, pageRules...)
-		if (len(pageRules)) < limit {
-			break
-		}
-		offset += limit
+	ruleList, err := service.DescribeVpcDnsForwardRuleAll(ctx)
+	if err != nil {
+		return err
 	}
 
 	ids := make([]string, 0, len(ruleList))

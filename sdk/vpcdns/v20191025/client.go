@@ -590,6 +590,30 @@ func (c *Client) DescribePrivateZoneRecordList(request *DescribePrivateZoneRecor
 	return
 }
 
+func NewDescribePrivateZoneListRequest() (request *DescribePrivateZoneListRequest) {
+	request = &DescribePrivateZoneListRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("vpcdns", APIVersion, "DescribePrivateZoneList")
+	return
+}
+
+func NewDescribePrivateZoneListResponse() (response *DescribePrivateZoneListResponse) {
+	response = &DescribePrivateZoneListResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+func (c *Client) DescribePrivateZoneList(request *DescribePrivateZoneListRequest) (response *DescribePrivateZoneListResponse, err error) {
+	if request == nil {
+		request = NewDescribePrivateZoneListRequest()
+	}
+	response = NewDescribePrivateZoneListResponse()
+	err = c.Send(request, response)
+	return
+}
+
 func NewModifyPrivateZoneVpcRequest() (request *ModifyPrivateZoneVpcRequest) {
 	request = &ModifyPrivateZoneVpcRequest{
 		BaseRequest: &tchttp.BaseRequest{},

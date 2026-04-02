@@ -32,8 +32,9 @@ The following arguments are supported:
 * `record_type` - (Required, String) Record type. Valid values: "A", "AAAA", "CNAME", "MX", "TXT", "PTR".
 * `record_value` - (Required, String) Record value, such as IP: 192.168.10.2, CNAME: cname.qcloud.com, and MX: mail.qcloud.com..
 * `sub_domain` - (Required, String) Subdomain, such as "www", "m", and "@".
-* `zone_id` - (Required, String) Private domain ID.
+* `zone_id` - (Required, String, ForceNew) Private domain ID.
 * `mx` - (Optional, Int) MX priority, which is required when the record type is MX. Valid values: 5, 10, 15, 20, 30, 40, 50.
+* `status` - (Optional, String) Record status. Valid values: enabled, disabled.
 * `ttl` - (Optional, Int) Record cache time. The smaller the value, the faster the record will take effect. Value range: 1~86400s.
 * `weight` - (Optional, Int) Record weight. Value range: 1~100.
 
