@@ -1458,7 +1458,9 @@ func providerConfigure(ctx context.Context, d *schema.ResourceData) (interface{}
 			assumeRoleSessionDuration = 7200
 		}
 
-		_ = genClientWithSTS(&tcClient, envRoleArn, envSessionName, assumeRoleSessionDuration, "")
+		if err := genClientWithSTS(&tcClient, envRoleArn, envSessionName, assumeRoleSessionDuration, ""); err != nil {
+			return nil, diag.Errorf("assume role from environment variables failed: %s", err)
+		}
 	}
 
 	// get assume role from tf config
@@ -1470,7 +1472,9 @@ func providerConfigure(ctx context.Context, d *schema.ResourceData) (interface{}
 		assumeRoleSessionDuration := assumeRole["session_duration"].(int)
 		assumeRolePolicy := assumeRole["policy"].(string)
 
-		_ = genClientWithSTS(&tcClient, assumeRoleArn, assumeRoleSessionName, assumeRoleSessionDuration, assumeRolePolicy)
+		if err := genClientWithSTS(&tcClient, assumeRoleArn, assumeRoleSessionName, assumeRoleSessionDuration, assumeRolePolicy); err != nil {
+			return nil, diag.Errorf("assume role from provider configuration failed: %s", err)
+		}
 	}
 	return &tcClient, nil
 }
@@ -1492,6 +1496,12 @@ func genClientWithSTS(tcClient *TencentCloudClient, assumeRoleArn, assumeRoleSes
 	}
 	// using STS credentials
 	tcClient.apiV3Conn.Credential = common.NewTokenCredential(
+		*response.Response.Credentials.TmpSecretId,
+		*response.Response.Credentials.TmpSecretKey,
+		*response.Response.Credentials.Token,
+	)
+	// sync STS credentials to CredentialTce so that services using internal SDK also use assumed role
+	tcClient.apiV3Conn.CredentialTce = common2.NewTokenCredential(
 		*response.Response.Credentials.TmpSecretId,
 		*response.Response.Credentials.TmpSecretKey,
 		*response.Response.Credentials.Token,
