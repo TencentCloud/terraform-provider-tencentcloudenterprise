@@ -27,6 +27,18 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
+func init() {
+	registerResourceDescriptionProvider("tencentcloudenterprise_tag_attachment", CNDescription{
+		TerraformTypeCN: "标签绑定",
+		DescriptionCN:   "提供标签绑定资源，用于将标签绑定到指定云资源上。",
+		AttributesCN: map[string]string{
+			"tag_key":   "标签键。",
+			"tag_value": "标签值。",
+			"resource":  "资源的六段式描述。",
+		},
+	})
+}
+
 func resourceTencentCloudTagAttachment() *schema.Resource {
 	return &schema.Resource{
 		Create: resourceTencentCloudTagAttachmentCreate,

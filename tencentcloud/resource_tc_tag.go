@@ -26,6 +26,17 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
+func init() {
+	registerResourceDescriptionProvider("tencentcloudenterprise_tag", CNDescription{
+		TerraformTypeCN: "标签",
+		DescriptionCN:   "提供标签资源，用于创建和管理标签键值对。",
+		AttributesCN: map[string]string{
+			"tag_key":   "标签键。",
+			"tag_value": "标签值。",
+		},
+	})
+}
+
 func resourceTencentCloudTag() *schema.Resource {
 	return &schema.Resource{
 		Create: resourceTencentCloudTagCreate,

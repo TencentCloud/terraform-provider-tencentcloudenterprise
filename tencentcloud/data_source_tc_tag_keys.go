@@ -21,6 +21,17 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
+func init() {
+	registerDataDescriptionProvider("tencentcloudenterprise_tag_keys", CNDescription{
+		TerraformTypeCN: "标签键列表",
+		DescriptionCN:   "查询标签键列表。",
+		AttributesCN: map[string]string{
+			"tags":               "标签键列表。",
+			"result_output_file": "用于保存结果。",
+		},
+	})
+}
+
 func dataSourceTencentCloudTagKeys() *schema.Resource {
 	return &schema.Resource{
 		Read: dataSourceTencentCloudTagKeysRead,
