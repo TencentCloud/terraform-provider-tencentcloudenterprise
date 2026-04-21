@@ -20,6 +20,34 @@ type CicService struct {
 	client *connectivity.TencentCloudClient
 }
 
+func (me *CicService) DescribeCicIdentityCenter(ctx context.Context) (ret *cic.DescribeIdentityCenterResponse, errRet error) {
+	logId := getLogId(ctx)
+
+	request := cic.NewDescribeIdentityCenterRequest()
+
+	defer func() {
+		if errRet != nil {
+			log.Printf("[CRITAL]%s api[%s] fail, request body [%s], reason[%s]\n", logId, request.GetAction(), request.ToJsonString(), errRet.Error())
+		}
+	}()
+
+	ratelimit.Check(request.GetAction())
+
+	response, err := me.client.UseCicClient().DescribeIdentityCenter(request)
+	if err != nil {
+		errRet = err
+		return
+	}
+	log.Printf("[DEBUG]%s api[%s] success, request body [%s], response body [%s]\n", logId, request.GetAction(), request.ToJsonString(), response.ToJsonString())
+
+	if response.Response == nil {
+		return
+	}
+
+	ret = response
+	return
+}
+
 // DescribeCicExternalSamlIdentityProviderById retrieves the SAML service provider information for a given zone ID.
 func (me *CicService) DescribeCicExternalSamlIdentityProviderById(ctx context.Context, zoneId string) (
 	samlServiceProvider *cic.SAMLServiceProvider, errRet error) {

@@ -756,6 +756,7 @@ func Provider() *schema.Provider {
 			"tencentcloudenterprise_cls_topics":                dataSourceTencentCloudClsTopics(),
 			//"tencentcloudenterprise_cls_shipper_tasks":                dataSourceTencentCloudClsShipperTasks(),
 			"tencentcloudenterprise_cic_groups":                   dataSourceTencentCloudCicGroups(),
+			"tencentcloudenterprise_cic_identity_center":          dataSourceTencentCloudCicIdentityCenter(),
 			"tencentcloudenterprise_cic_role_configurations":      dataSourceTencentCloudCicRoleConfigurations(),
 			"tencentcloudenterprise_cos_bucket_object":            dataSourceTencentCloudCosBucketObject(),
 			"tencentcloudenterprise_cos_buckets":                  dataSourceTencentCloudCosBuckets(),

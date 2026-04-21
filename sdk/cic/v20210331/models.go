@@ -3102,6 +3102,9 @@ type ListGroupsRequest struct {
 
 	// 排序类型：Desc 倒序，Asc 正序。需与 SortField 一起设置。
 	SortType *string `json:"SortType,omitnil,omitempty" name:"SortType"`
+	// 翻页offset. 不要与NextToken同时使用，优先使用NextToken
+
+	Offset *int64 `json:"Offset,omitempty" name:"Offset"`
 }
 
 func (r *ListGroupsRequest) ToJsonString() string {
@@ -3211,5 +3214,1141 @@ func (r *ListRoleConfigurationsResponse) ToJsonString() string {
 }
 
 func (r *ListRoleConfigurationsResponse) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
+type Account struct {
+
+	// 用户名
+
+	Name *string `json:"Name,omitempty" name:"Name"`
+	// 用户uin
+
+	Uin *int64 `json:"Uin,omitempty" name:"Uin"`
+}
+
+type AccountUserProvisioning struct {
+
+	// 同步的目标成员账号名
+
+	Name *string `json:"Name,omitempty" name:"Name"`
+	// 同步创建的子账号名
+
+	SyncSubName *string `json:"SyncSubName,omitempty" name:"SyncSubName"`
+	// 通过创建的子账号uin
+
+	SyncSubUin *string `json:"SyncSubUin,omitempty" name:"SyncSubUin"`
+	// 同步的目标成员账号uin
+
+	Uin *int64 `json:"Uin,omitempty" name:"Uin"`
+	// 用户ID
+
+	UserId *string `json:"UserId,omitempty" name:"UserId"`
+}
+
+type CreateUserInfo struct {
+
+	// 用户的描述。 长度：最大 1024 个字符。
+
+	Description *string `json:"Description,omitempty" name:"Description"`
+	// 用户的显示名称。 长度：最大 256 个字符。
+
+	DisplayName *string `json:"DisplayName,omitempty" name:"DisplayName"`
+	// 用户的电子邮箱。目录内必须唯一。 长度：最大 128 个字符。
+
+	Email *string `json:"Email,omitempty" name:"Email"`
+	// 用户的姓。 长度：最大 64 个字符。
+
+	FirstName *string `json:"FirstName,omitempty" name:"FirstName"`
+	// 用户的名。 长度：最大 64 个字符。
+
+	LastName *string `json:"LastName,omitempty" name:"LastName"`
+	// 用户名称。空间内必须唯一。不支持修改。 格式：包含数字、英文字母和特殊符号+ = , . @ - _ 。 长度：最大 64 个字符
+
+	UserName *string `json:"UserName,omitempty" name:"UserName"`
+	// 用户的状态。取值： Enabled（默认值）：启用。 Disabled：禁用。
+
+	UserStatus *string `json:"UserStatus,omitempty" name:"UserStatus"`
+}
+
+type GroupIdAndUserId struct {
+
+	// 用户组ID
+
+	GroupId *string `json:"GroupId,omitempty" name:"GroupId"`
+	// 用户ID
+
+	UserId *string `json:"UserId,omitempty" name:"UserId"`
+}
+
+type GroupMembers struct {
+
+	// 用户的描述。
+
+	Description *string `json:"Description,omitempty" name:"Description"`
+	// 用户的显示名称。
+
+	DisplayName *string `json:"DisplayName,omitempty" name:"DisplayName"`
+	// 用户的电子邮箱。目录内必须唯一。
+
+	Email *string `json:"Email,omitempty" name:"Email"`
+	// 用户加入用户组的时间
+
+	JoinTime *string `json:"JoinTime,omitempty" name:"JoinTime"`
+	// 用户 ID
+
+	UserId *string `json:"UserId,omitempty" name:"UserId"`
+	// 查询username。
+
+	UserName *string `json:"UserName,omitempty" name:"UserName"`
+	// 用户状态 Enabled：启用， Disabled：禁用。
+
+	UserStatus *string `json:"UserStatus,omitempty" name:"UserStatus"`
+	// 用户类型 Manual：手动创建，Synchronized：外部导入。
+
+	UserType *string `json:"UserType,omitempty" name:"UserType"`
+}
+
+type SAMLIdPCertificate struct {
+
+	// 证书ID。
+
+	CertificateId *string `json:"CertificateId,omitempty" name:"CertificateId"`
+	// 证书颁发者。
+
+	Issuer *string `json:"Issuer,omitempty" name:"Issuer"`
+	// 证书的过期时间。
+
+	NotAfter *string `json:"NotAfter,omitempty" name:"NotAfter"`
+	// 证书的创建时间。
+
+	NotBefore *string `json:"NotBefore,omitempty" name:"NotBefore"`
+	// PEM 格式的公钥证书（Base64 编码）。
+
+	PublicKey *string `json:"PublicKey,omitempty" name:"PublicKey"`
+	// 证书序列号。
+
+	SerialNumber *string `json:"SerialNumber,omitempty" name:"SerialNumber"`
+	// 证书的签名算法。
+
+	SignatureAlgorithm *string `json:"SignatureAlgorithm,omitempty" name:"SignatureAlgorithm"`
+	// 证书的主体。
+
+	Subject *string `json:"Subject,omitempty" name:"Subject"`
+	// 证书版本。
+
+	Version *int64 `json:"Version,omitempty" name:"Version"`
+	// PEM 格式的 X509 证书。
+
+	X509Certificate *string `json:"X509Certificate,omitempty" name:"X509Certificate"`
+}
+
+type UserProvisioningEvent struct {
+
+	// 创建时间。
+
+	CreateTime *string `json:"CreateTime,omitempty" name:"CreateTime"`
+	// 删除策略。删除 CAM 用户同步时，对已同步的 CAM 用户的处理策略。取值： Delete：删除。删除 CAM 用户同步时，会删除从CIC 已经同步到 CAM 中的 CAM 用户。 Keep：保留。删除 RAM 用户同步时，会保留从CIC 已经同步到 CAM 中的 CAM 用户。
+
+	DeletionStrategy *string `json:"DeletionStrategy,omitempty" name:"DeletionStrategy"`
+	// 冲突策略。当CIC 用户同步到 CAM 时，如果 CAM 中存在同名用户时的处理策略。取值： KeepBoth：两者都保留。当CIC 用户被同步到 CAM 时，如果 CAM 已经存在同名用户，则对CIC 用户的用户名添加后缀_cic后尝试创建该用户名的 CAM 用户。 TakeOver：替换。当CIC 用户被同步到 CAM 时，如果 CAM 已经存在同名用户，则直接将已经存在的 CAM 用户替换为CIC 同步用户。
+
+	DuplicationStrategy *string `json:"DuplicationStrategy,omitempty" name:"DuplicationStrategy"`
+	// 执行失败次数。
+
+	ErrorCount *int64 `json:"ErrorCount,omitempty" name:"ErrorCount"`
+	// CAM 用户同步事件上次执行失败的错误信息。
+
+	ErrorInfo *string `json:"ErrorInfo,omitempty" name:"ErrorInfo"`
+	// 同步事件ID。
+
+	EventId *string `json:"EventId,omitempty" name:"EventId"`
+	// CAM 用户同步的身份 ID。取值： 当PrincipalType取值为Group时，该值为CIC用户组 ID（g-********）。 当PrincipalType取值为User时，该值为CIC用户 ID（u-********）。
+
+	PrincipalId *string `json:"PrincipalId,omitempty" name:"PrincipalId"`
+	// CAM 用户同步的身份名称。取值：当PrincipalType取值为Group时，该值为CIC用户组名称。当PrincipalType取值为User时，该值为CIC用户名称。
+
+	PrincipalName *string `json:"PrincipalName,omitempty" name:"PrincipalName"`
+	// CAM 用户同步的身份类型。取值：User：表示该 CAM 用户同步的身份是CIC用户。Group：表示该 CAM 用户同步的身份是CIC用户组。
+
+	PrincipalType *string `json:"PrincipalType,omitempty" name:"PrincipalType"`
+	// 源操作类型。取值： StartProvisioning：启用 CAM 用户同步。 DeleteProvisioning：删除 CAM 用户同步。 AddUserToGroup：用户加入用户组。 RemoveUserFromGroup：用户从用户组移出。
+
+	SourceType *string `json:"SourceType,omitempty" name:"SourceType"`
+	// 集团账号目标账号名称。
+
+	TargetName *string `json:"TargetName,omitempty" name:"TargetName"`
+	// 同步的集团账号目标账号类型，ManagerUin管理账号;MemberUin成员账号
+
+	TargetType *string `json:"TargetType,omitempty" name:"TargetType"`
+	// 集团账号目标账号的UIN。
+
+	TargetUin *int64 `json:"TargetUin,omitempty" name:"TargetUin"`
+	// 更新时间。
+
+	UpdateTime *string `json:"UpdateTime,omitempty" name:"UpdateTime"`
+	// CAM 用户同步的状态。取值： Enabled：CAM 用户同步已启用。 Disabled：CAM 用户同步未启用。
+
+	UserProvisioningId *string `json:"UserProvisioningId,omitempty" name:"UserProvisioningId"`
+}
+
+type ZoneStatistics struct {
+
+	// 用户组数。
+
+	GroupCount *int64 `json:"GroupCount,omitempty" name:"GroupCount"`
+	// 用户组配额。
+
+	GroupQuota *int64 `json:"GroupQuota,omitempty" name:"GroupQuota"`
+	// 权限配置数
+
+	RoleConfigurationCount *int64 `json:"RoleConfigurationCount,omitempty" name:"RoleConfigurationCount"`
+	// 权限配置配额。
+
+	RoleConfigurationQuota *int64 `json:"RoleConfigurationQuota,omitempty" name:"RoleConfigurationQuota"`
+	// 同步角色数。
+
+	RoleConfigurationSyncCount *int64 `json:"RoleConfigurationSyncCount,omitempty" name:"RoleConfigurationSyncCount"`
+	// 权限配置绑定的系统策略配额。
+
+	SystemPolicyPerRoleConfigurationQuota *int64 `json:"SystemPolicyPerRoleConfigurationQuota,omitempty" name:"SystemPolicyPerRoleConfigurationQuota"`
+	// 用户数。
+
+	UserCount *int64 `json:"UserCount,omitempty" name:"UserCount"`
+	// 同步用户数。
+
+	UserProvisioningCount *int64 `json:"UserProvisioningCount,omitempty" name:"UserProvisioningCount"`
+	// 用户配额。
+
+	UserQuota *int64 `json:"UserQuota,omitempty" name:"UserQuota"`
+}
+
+type AddExternalSAMLIdPCertificateRequest struct {
+	*tchttp.BaseRequest
+
+	// PEM 格式的 X509 证书。 由 SAML 身份提供商提供。
+
+	X509Certificate *string `json:"X509Certificate,omitempty" name:"X509Certificate"`
+	// 空间ID。
+
+	ZoneId *string `json:"ZoneId,omitempty" name:"ZoneId"`
+}
+
+func (r *AddExternalSAMLIdPCertificateRequest) ToJsonString() string {
+	b, _ := json.Marshal(r)
+	return string(b)
+}
+
+func (r *AddExternalSAMLIdPCertificateRequest) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
+type AddExternalSAMLIdPCertificateResponse struct {
+	*tchttp.BaseResponse
+
+	Response *struct {
+		// SAML 签名证书 ID。
+
+		CertificateId *string `json:"CertificateId,omitempty" name:"CertificateId"`
+		// Unique request ID, returned on each request.
+		RequestId *string `json:"RequestId,omitempty" name:"RequestId"`
+	} `json:"Response"`
+}
+
+func (r *AddExternalSAMLIdPCertificateResponse) ToJsonString() string {
+	b, _ := json.Marshal(r)
+	return string(b)
+}
+
+func (r *AddExternalSAMLIdPCertificateResponse) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
+type BatchAddUserToGroupRequest struct {
+	*tchttp.BaseRequest
+
+	// 添加的用户组ID和用户ID
+
+	GroupInfo []*GroupIdAndUserId `json:"GroupInfo,omitempty" name:"GroupInfo"`
+	// 空间 ID。
+
+	ZoneId *string `json:"ZoneId,omitempty" name:"ZoneId"`
+}
+
+func (r *BatchAddUserToGroupRequest) ToJsonString() string {
+	b, _ := json.Marshal(r)
+	return string(b)
+}
+
+func (r *BatchAddUserToGroupRequest) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
+type BatchAddUserToGroupResponse struct {
+	*tchttp.BaseResponse
+
+	Response *struct {
+		// Unique request ID, returned on each request.
+		RequestId *string `json:"RequestId,omitempty" name:"RequestId"`
+	} `json:"Response"`
+}
+
+func (r *BatchAddUserToGroupResponse) ToJsonString() string {
+	b, _ := json.Marshal(r)
+	return string(b)
+}
+
+func (r *BatchAddUserToGroupResponse) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
+type BatchCreateUserRequest struct {
+	*tchttp.BaseRequest
+
+	// 批量创建的用户信息
+
+	Users []*CreateUserInfo `json:"Users,omitempty" name:"Users"`
+	// 空间 ID。
+
+	ZoneId *string `json:"ZoneId,omitempty" name:"ZoneId"`
+}
+
+func (r *BatchCreateUserRequest) ToJsonString() string {
+	b, _ := json.Marshal(r)
+	return string(b)
+}
+
+func (r *BatchCreateUserRequest) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
+type BatchCreateUserResponse struct {
+	*tchttp.BaseResponse
+
+	Response *struct {
+		// Unique request ID, returned on each request.
+		RequestId *string `json:"RequestId,omitempty" name:"RequestId"`
+	} `json:"Response"`
+}
+
+func (r *BatchCreateUserResponse) ToJsonString() string {
+	b, _ := json.Marshal(r)
+	return string(b)
+}
+
+func (r *BatchCreateUserResponse) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
+type BatchRemoveUserFromGroupRequest struct {
+	*tchttp.BaseRequest
+
+	// 用户组ID和用户ID
+
+	GroupInfo []*GroupIdAndUserId `json:"GroupInfo,omitempty" name:"GroupInfo"`
+	// 空间ID。
+
+	ZoneId *string `json:"ZoneId,omitempty" name:"ZoneId"`
+}
+
+func (r *BatchRemoveUserFromGroupRequest) ToJsonString() string {
+	b, _ := json.Marshal(r)
+	return string(b)
+}
+
+func (r *BatchRemoveUserFromGroupRequest) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
+type BatchRemoveUserFromGroupResponse struct {
+	*tchttp.BaseResponse
+
+	Response *struct {
+		// Unique request ID, returned on each request.
+		RequestId *string `json:"RequestId,omitempty" name:"RequestId"`
+	} `json:"Response"`
+}
+
+func (r *BatchRemoveUserFromGroupResponse) ToJsonString() string {
+	b, _ := json.Marshal(r)
+	return string(b)
+}
+
+func (r *BatchRemoveUserFromGroupResponse) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
+type DescribeIdentityCenterRequest struct {
+	*tchttp.BaseRequest
+}
+
+func (r *DescribeIdentityCenterRequest) ToJsonString() string {
+	b, _ := json.Marshal(r)
+	return string(b)
+}
+
+func (r *DescribeIdentityCenterRequest) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
+type DescribeIdentityCenterResponse struct {
+	*tchttp.BaseResponse
+
+	Response *struct {
+		// 创建时间
+
+		CreateTime *string `json:"CreateTime,omitempty" name:"CreateTime"`
+		// SCIM 同步状态。Enabled：启用。 Disabled：禁用。
+
+		ScimSyncStatus *string `json:"ScimSyncStatus,omitempty" name:"ScimSyncStatus"`
+		// 服务开启状态，Disabled代表未开通，Enabled代表已开通
+
+		ServiceStatus *string `json:"ServiceStatus,omitempty" name:"ServiceStatus"`
+		// 更新时间
+
+		UpdateTime *string `json:"UpdateTime,omitempty" name:"UpdateTime"`
+		// 空间ID。z-前缀开头，后面是12位随机数字/小写字母
+
+		ZoneId *string `json:"ZoneId,omitempty" name:"ZoneId"`
+		// 空间名，必须全局唯一。包含小写字母、数字和短划线（-）。不能以短划线（-）开头或结尾，且不能有两个连续的短划线（-）。长度：2~64 个字符。
+
+		ZoneName *string `json:"ZoneName,omitempty" name:"ZoneName"`
+		// Unique request ID, returned on each request.
+		RequestId *string `json:"RequestId,omitempty" name:"RequestId"`
+	} `json:"Response"`
+}
+
+func (r *DescribeIdentityCenterResponse) ToJsonString() string {
+	b, _ := json.Marshal(r)
+	return string(b)
+}
+
+func (r *DescribeIdentityCenterResponse) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
+type GenSamlResponseRequest struct {
+	*tchttp.BaseRequest
+
+	// 登陆态
+
+	LoginToken *string `json:"LoginToken,omitempty" name:"LoginToken"`
+	// 登陆类型，UserSAML代表用户SSO，RoleSAML代表角色
+
+	LoginType *string `json:"LoginType,omitempty" name:"LoginType"`
+	// 权限配置ID
+
+	RoleConfigurationId *string `json:"RoleConfigurationId,omitempty" name:"RoleConfigurationId"`
+	// 目标成员账号uin
+
+	TargetUin *int64 `json:"TargetUin,omitempty" name:"TargetUin"`
+	// 用户ID
+
+	UserId *string `json:"UserId,omitempty" name:"UserId"`
+}
+
+func (r *GenSamlResponseRequest) ToJsonString() string {
+	b, _ := json.Marshal(r)
+	return string(b)
+}
+
+func (r *GenSamlResponseRequest) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
+type GenSamlResponseResponse struct {
+	*tchttp.BaseResponse
+
+	Response *struct {
+		// SAML响应
+
+		SAMLResponse *string `json:"SAMLResponse,omitempty" name:"SAMLResponse"`
+		// Unique request ID, returned on each request.
+		RequestId *string `json:"RequestId,omitempty" name:"RequestId"`
+	} `json:"Response"`
+}
+
+func (r *GenSamlResponseResponse) ToJsonString() string {
+	b, _ := json.Marshal(r)
+	return string(b)
+}
+
+func (r *GenSamlResponseResponse) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
+type GetZoneDetailRequest struct {
+	*tchttp.BaseRequest
+
+	// 空间名，必须全局唯一。包含小写字母、数字和短划线（-）。不能以短划线（-）开头或结尾，且不能有两个连续的短划线（-）。长度：2~64 个字符。
+
+	ZoneName *string `json:"ZoneName,omitempty" name:"ZoneName"`
+}
+
+func (r *GetZoneDetailRequest) ToJsonString() string {
+	b, _ := json.Marshal(r)
+	return string(b)
+}
+
+func (r *GetZoneDetailRequest) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
+type GetZoneDetailResponse struct {
+	*tchttp.BaseResponse
+
+	Response *struct {
+		// idp entity ID。
+
+		IdpEntityID *string `json:"IdpEntityID,omitempty" name:"IdpEntityID"`
+		// SSO登陆开启时的IDP登陆URL
+
+		IdpLoginUrl *string `json:"IdpLoginUrl,omitempty" name:"IdpLoginUrl"`
+		// sp向idp发送的认证请求。
+
+		SAMLRequest *string `json:"SAMLRequest,omitempty" name:"SAMLRequest"`
+		// 服务开启状态，Disabled代表未开通，Enabled代表已开通
+
+		ServiceStatus *string `json:"ServiceStatus,omitempty" name:"ServiceStatus"`
+		// SSO登陆开启状态。Disabled代表未开启，Enabled代表已开启
+
+		SSOStatus *string `json:"SSOStatus,omitempty" name:"SSOStatus"`
+		// 空间ID。z-前缀开头，后面是12位随机数字/小写字母
+
+		ZoneId *string `json:"ZoneId,omitempty" name:"ZoneId"`
+		// Unique request ID, returned on each request.
+		RequestId *string `json:"RequestId,omitempty" name:"RequestId"`
+	} `json:"Response"`
+}
+
+func (r *GetZoneDetailResponse) ToJsonString() string {
+	b, _ := json.Marshal(r)
+	return string(b)
+}
+
+func (r *GetZoneDetailResponse) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
+type GetZoneStatisticsRequest struct {
+	*tchttp.BaseRequest
+
+	// 空间ID
+
+	ZoneId *string `json:"ZoneId,omitempty" name:"ZoneId"`
+}
+
+func (r *GetZoneStatisticsRequest) ToJsonString() string {
+	b, _ := json.Marshal(r)
+	return string(b)
+}
+
+func (r *GetZoneStatisticsRequest) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
+type GetZoneStatisticsResponse struct {
+	*tchttp.BaseResponse
+
+	Response *struct {
+		// 空间的统计信息。
+
+		ZoneStatistics *ZoneStatistics `json:"ZoneStatistics,omitempty" name:"ZoneStatistics"`
+		// Unique request ID, returned on each request.
+		RequestId *string `json:"RequestId,omitempty" name:"RequestId"`
+	} `json:"Response"`
+}
+
+func (r *GetZoneStatisticsResponse) ToJsonString() string {
+	b, _ := json.Marshal(r)
+	return string(b)
+}
+
+func (r *GetZoneStatisticsResponse) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
+type ListAccountsForUserProvisioningRequest struct {
+	*tchttp.BaseRequest
+
+	// 登陆token
+
+	LoginToken *string `json:"LoginToken,omitempty" name:"LoginToken"`
+	// 每页的最大数据条数。 取值范围：1~20。 默认值：10。
+
+	MaxResults *int64 `json:"MaxResults,omitempty" name:"MaxResults"`
+	// 查询返回结果下一页的令牌。首次调用 API 不需要NextToken。 当您首次调用 API 时，如果返回数据总条数超过MaxResults限制，数据会被截断，只返回MaxResults条数据，同时，返回参数IsTruncated为true，返回一个NextToken。您可以使用上一次返回的NextToken继续调用 API，其他请求参数保持不变，查询被截断的数据。您可以按此方法多次查询，直到IsTruncated为false，表示全部数据查询完毕。
+
+	NextToken *string `json:"NextToken,omitempty" name:"NextToken"`
+}
+
+func (r *ListAccountsForUserProvisioningRequest) ToJsonString() string {
+	b, _ := json.Marshal(r)
+	return string(b)
+}
+
+func (r *ListAccountsForUserProvisioningRequest) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
+type ListAccountsForUserProvisioningResponse struct {
+	*tchttp.BaseResponse
+
+	Response *struct {
+		// 同步的成员账号和创建的子账号信息列表
+
+		AccountUserProvisionings []*AccountUserProvisioning `json:"AccountUserProvisionings,omitempty" name:"AccountUserProvisionings"`
+		// 返回结果是否被截断。取值： true：已截断。 false：未截断。
+
+		IsTruncated *bool `json:"IsTruncated,omitempty" name:"IsTruncated"`
+		// 每页的最大数据条数。
+
+		MaxResults *int64 `json:"MaxResults,omitempty" name:"MaxResults"`
+		// 查询返回结果下一页的令牌。 说明 只有IsTruncated为true时，才显示该参数。
+
+		NextToken *string `json:"NextToken,omitempty" name:"NextToken"`
+		// 符合请求参数条件的数据总条数。
+
+		TotalCounts *int64 `json:"TotalCounts,omitempty" name:"TotalCounts"`
+		// Unique request ID, returned on each request.
+		RequestId *string `json:"RequestId,omitempty" name:"RequestId"`
+	} `json:"Response"`
+}
+
+func (r *ListAccountsForUserProvisioningResponse) ToJsonString() string {
+	b, _ := json.Marshal(r)
+	return string(b)
+}
+
+func (r *ListAccountsForUserProvisioningResponse) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
+type ListExternalSAMLIdPCertificatesRequest struct {
+	*tchttp.BaseRequest
+
+	// 空间ID。
+
+	ZoneId *string `json:"ZoneId,omitempty" name:"ZoneId"`
+}
+
+func (r *ListExternalSAMLIdPCertificatesRequest) ToJsonString() string {
+	b, _ := json.Marshal(r)
+	return string(b)
+}
+
+func (r *ListExternalSAMLIdPCertificatesRequest) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
+type ListExternalSAMLIdPCertificatesResponse struct {
+	*tchttp.BaseResponse
+
+	Response *struct {
+		// SAML 签名证书列表
+
+		SAMLIdPCertificates []*SAMLIdPCertificate `json:"SAMLIdPCertificates,omitempty" name:"SAMLIdPCertificates"`
+		// 符合请求参数条件的数据总条数。
+
+		TotalCounts *int64 `json:"TotalCounts,omitempty" name:"TotalCounts"`
+		// Unique request ID, returned on each request.
+		RequestId *string `json:"RequestId,omitempty" name:"RequestId"`
+	} `json:"Response"`
+}
+
+func (r *ListExternalSAMLIdPCertificatesResponse) ToJsonString() string {
+	b, _ := json.Marshal(r)
+	return string(b)
+}
+
+func (r *ListExternalSAMLIdPCertificatesResponse) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
+type ListGroupMembersRequest struct {
+	*tchttp.BaseRequest
+
+	// 用户组ID。
+
+	GroupId *string `json:"GroupId,omitempty" name:"GroupId"`
+	// 每页的最大数据条数。 取值范围：1~100。 默认值：10。
+
+	MaxResults *int64 `json:"MaxResults,omitempty" name:"MaxResults"`
+	// 查询返回结果下一页的令牌。首次调用 API 不需要NextToken。 当您首次调用 API 时，如果返回数据总条数超过MaxResults限制，数据会被截断，只返回MaxResults条数据，同时，返回参数IsTruncated为true，返回一个NextToken。您可以使用上一次返回的NextToken继续调用 API，其他请求参数保持不变，查询被截断的数据。您可以按此方法多次查询，直到IsTruncated为false，表示全部数据查询完毕。
+
+	NextToken *string `json:"NextToken,omitempty" name:"NextToken"`
+	// 用户类型 Manual：手动创建，Synchronized：外部导入。
+
+	UserType *string `json:"UserType,omitempty" name:"UserType"`
+	// 空间 ID。
+
+	ZoneId *string `json:"ZoneId,omitempty" name:"ZoneId"`
+}
+
+func (r *ListGroupMembersRequest) ToJsonString() string {
+	b, _ := json.Marshal(r)
+	return string(b)
+}
+
+func (r *ListGroupMembersRequest) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
+type ListGroupMembersResponse struct {
+	*tchttp.BaseResponse
+
+	Response *struct {
+		// 用户组的用户列表
+
+		GroupMembers []*GroupMembers `json:"GroupMembers,omitempty" name:"GroupMembers"`
+		// 返回结果是否被截断。取值： true：已截断。 false：未截断。
+
+		IsTruncated *bool `json:"IsTruncated,omitempty" name:"IsTruncated"`
+		// 每页的最大数据条数。
+
+		MaxResults *int64 `json:"MaxResults,omitempty" name:"MaxResults"`
+		// 查询返回结果下一页的令牌。 说明 只有IsTruncated为true时，才显示该参数。
+
+		NextToken *string `json:"NextToken,omitempty" name:"NextToken"`
+		// 符合请求参数条件的数据总条数。
+
+		TotalCounts *int64 `json:"TotalCounts,omitempty" name:"TotalCounts"`
+		// Unique request ID, returned on each request.
+		RequestId *string `json:"RequestId,omitempty" name:"RequestId"`
+	} `json:"Response"`
+}
+
+func (r *ListGroupMembersResponse) ToJsonString() string {
+	b, _ := json.Marshal(r)
+	return string(b)
+}
+
+func (r *ListGroupMembersResponse) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
+type ListUserSyncProvisioningsRequest struct {
+	*tchttp.BaseRequest
+
+	// 检测条件。
+
+	Filter *string `json:"Filter,omitempty" name:"Filter"`
+	// 每页的最大数据条数。 取值范围：1~100。 默认值：10。
+
+	MaxResults *int64 `json:"MaxResults,omitempty" name:"MaxResults"`
+	// 查询返回结果下一页的令牌。首次调用 API 不需要NextToken。 当您首次调用 API 时，如果返回数据总条数超过MaxResults限制，数据会被截断，只返回MaxResults条数据，同时，返回参数IsTruncated为true，返回一个NextToken。您可以使用上一次返回的NextToken继续调用 API，其他请求参数保持不变，查询被截断的数据。您可以按此方法多次查询，直到IsTruncated为false，表示全部数据查询完毕。
+
+	NextToken *string `json:"NextToken,omitempty" name:"NextToken"`
+	// 用户同步 ID。取值： 当PrincipalType取值为Group时，该值为用户组 ID（g-********）。 当PrincipalType取值为User时，该值为用户 ID（u-********）。
+
+	PrincipalId *string `json:"PrincipalId,omitempty" name:"PrincipalId"`
+	// CAM 用户同步的身份类型。取值： User：表示同步的身份是用户。 Group：表示同步的身份是用户组。
+
+	PrincipalType *string `json:"PrincipalType,omitempty" name:"PrincipalType"`
+	// 同步的集团账号目标账号的类型，ManagerUin管理账号;MemberUin成员账号
+
+	TargetType *string `json:"TargetType,omitempty" name:"TargetType"`
+	// 集团账号目标账号的UIN。
+
+	TargetUin *int64 `json:"TargetUin,omitempty" name:"TargetUin"`
+	// 空间 ID。
+
+	ZoneId *string `json:"ZoneId,omitempty" name:"ZoneId"`
+}
+
+func (r *ListUserSyncProvisioningsRequest) ToJsonString() string {
+	b, _ := json.Marshal(r)
+	return string(b)
+}
+
+func (r *ListUserSyncProvisioningsRequest) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
+type ListUserSyncProvisioningsResponse struct {
+	*tchttp.BaseResponse
+
+	Response *struct {
+		// 返回结果是否被截断。取值： true：已截断。 false：未截断。
+
+		IsTruncated *bool `json:"IsTruncated,omitempty" name:"IsTruncated"`
+		// 每页的最大数据条数。
+
+		MaxResults *int64 `json:"MaxResults,omitempty" name:"MaxResults"`
+		// 查询返回结果下一页的令牌。 说明 只有IsTruncated为true时，才显示该参数。
+
+		NextToken *string `json:"NextToken,omitempty" name:"NextToken"`
+		// 符合请求参数条件的数据总条数。
+
+		TotalCounts *int64 `json:"TotalCounts,omitempty" name:"TotalCounts"`
+		// CAM同步的用户列表。
+
+		UserProvisionings []*UserProvisioning `json:"UserProvisionings,omitempty" name:"UserProvisionings"`
+		// Unique request ID, returned on each request.
+		RequestId *string `json:"RequestId,omitempty" name:"RequestId"`
+	} `json:"Response"`
+}
+
+func (r *ListUserSyncProvisioningsResponse) ToJsonString() string {
+	b, _ := json.Marshal(r)
+	return string(b)
+}
+
+func (r *ListUserSyncProvisioningsResponse) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
+type ListUsersRequest struct {
+	*tchttp.BaseRequest
+
+	// 过滤条件。 目前仅支持用户名，邮箱，用户userId，描述
+
+	Filter *string `json:"Filter,omitempty" name:"Filter"`
+	// 筛选的用户组，该用户组关联的子用户会返回IsSelected=1
+
+	FilterGroups []*string `json:"FilterGroups,omitempty" name:"FilterGroups"`
+	// 每页的最大数据条数。 取值范围：1~100。 默认值：10。
+
+	MaxResults *int64 `json:"MaxResults,omitempty" name:"MaxResults"`
+	// 查询返回结果下一页的令牌。首次调用 API 不需要NextToken。 当您首次调用 API 时，如果返回数据总条数超过MaxResults限制，数据会被截断，只返回MaxResults条数据，同时，返回参数IsTruncated为true，返回一个NextToken。您可以使用上一次返回的NextToken继续调用 API，其他请求参数保持不变，查询被截断的数据。您可以按此方法经过多次查询，直到IsTruncated为false时，表示全部数据查询完毕。
+
+	NextToken *string `json:"NextToken,omitempty" name:"NextToken"`
+	// 翻页offset. 不要与NextToken同时使用，优先使用NextToken
+
+	Offset *int64 `json:"Offset,omitempty" name:"Offset"`
+	// 排序的字段，目前只支持CreateTime，默认是CreateTime字段
+
+	SortField *string `json:"SortField,omitempty" name:"SortField"`
+	// 排序类型：Desc 倒序 Asc 正序，需要您和SortField一起设置
+
+	SortType *string `json:"SortType,omitempty" name:"SortType"`
+	// 用户状态 Enabled：启用， Disabled：禁用。
+
+	UserStatus *string `json:"UserStatus,omitempty" name:"UserStatus"`
+	// 用户类型 Manual：手动创建，Synchronized：外部导入。
+
+	UserType *string `json:"UserType,omitempty" name:"UserType"`
+	// 空间 ID。
+
+	ZoneId *string `json:"ZoneId,omitempty" name:"ZoneId"`
+}
+
+func (r *ListUsersRequest) ToJsonString() string {
+	b, _ := json.Marshal(r)
+	return string(b)
+}
+
+func (r *ListUsersRequest) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
+type ListUsersResponse struct {
+	*tchttp.BaseResponse
+
+	Response *struct {
+		// 返回结果是否被截断。取值： true：已截断。 false：未截断。
+
+		IsTruncated *bool `json:"IsTruncated,omitempty" name:"IsTruncated"`
+		// 每页的最大数据条数。
+
+		MaxResults *int64 `json:"MaxResults,omitempty" name:"MaxResults"`
+		// 查询返回结果下一页的令牌。只有IsTruncated为true时，才显示该参数。
+
+		NextToken *string `json:"NextToken,omitempty" name:"NextToken"`
+		// 符合请求参数条件的数据总条数。
+
+		TotalCounts *int64 `json:"TotalCounts,omitempty" name:"TotalCounts"`
+		// 用户列表。
+
+		Users []*UserInfo `json:"Users,omitempty" name:"Users"`
+		// Unique request ID, returned on each request.
+		RequestId *string `json:"RequestId,omitempty" name:"RequestId"`
+	} `json:"Response"`
+}
+
+func (r *ListUsersResponse) ToJsonString() string {
+	b, _ := json.Marshal(r)
+	return string(b)
+}
+
+func (r *ListUsersResponse) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
+type LoginCICRequest struct {
+	*tchttp.BaseRequest
+
+	// 用户名密码。
+
+	Password *string `json:"Password,omitempty" name:"Password"`
+	// samlResponse，base64加密
+
+	SAMLResponse *string `json:"SAMLResponse,omitempty" name:"SAMLResponse"`
+	// 用户名。
+
+	UserName *string `json:"UserName,omitempty" name:"UserName"`
+}
+
+func (r *LoginCICRequest) ToJsonString() string {
+	b, _ := json.Marshal(r)
+	return string(b)
+}
+
+func (r *LoginCICRequest) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
+type LoginCICResponse struct {
+	*tchttp.BaseResponse
+
+	Response *struct {
+		// 登陆态
+
+		LoginSkey *string `json:"LoginSkey,omitempty" name:"LoginSkey"`
+		// Unique request ID, returned on each request.
+		RequestId *string `json:"RequestId,omitempty" name:"RequestId"`
+	} `json:"Response"`
+}
+
+func (r *LoginCICResponse) ToJsonString() string {
+	b, _ := json.Marshal(r)
+	return string(b)
+}
+
+func (r *LoginCICResponse) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
+type LogoutCICRequest struct {
+	*tchttp.BaseRequest
+
+	// 登陆态
+
+	LoginSkey *string `json:"LoginSkey,omitempty" name:"LoginSkey"`
+}
+
+func (r *LogoutCICRequest) ToJsonString() string {
+	b, _ := json.Marshal(r)
+	return string(b)
+}
+
+func (r *LogoutCICRequest) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
+type LogoutCICResponse struct {
+	*tchttp.BaseResponse
+
+	Response *struct {
+		// Unique request ID, returned on each request.
+		RequestId *string `json:"RequestId,omitempty" name:"RequestId"`
+	} `json:"Response"`
+}
+
+func (r *LogoutCICResponse) ToJsonString() string {
+	b, _ := json.Marshal(r)
+	return string(b)
+}
+
+func (r *LogoutCICResponse) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
+type OpenIdentityCenterRequest struct {
+	*tchttp.BaseRequest
+
+	// 空间名，必须全局唯一。包含小写字母、数字和短划线（-）。不能以短划线（-）开头或结尾，且不能有两个连续的短划线（-）。长度：2~64 个字符。
+
+	ZoneName *string `json:"ZoneName,omitempty" name:"ZoneName"`
+}
+
+func (r *OpenIdentityCenterRequest) ToJsonString() string {
+	b, _ := json.Marshal(r)
+	return string(b)
+}
+
+func (r *OpenIdentityCenterRequest) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
+type OpenIdentityCenterResponse struct {
+	*tchttp.BaseResponse
+
+	Response *struct {
+		// 空间ID。z-前缀开头，后面是12位随机数字/小写字母
+
+		ZoneId *string `json:"ZoneId,omitempty" name:"ZoneId"`
+		// Unique request ID, returned on each request.
+		RequestId *string `json:"RequestId,omitempty" name:"RequestId"`
+	} `json:"Response"`
+}
+
+func (r *OpenIdentityCenterResponse) ToJsonString() string {
+	b, _ := json.Marshal(r)
+	return string(b)
+}
+
+func (r *OpenIdentityCenterResponse) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
+type RemoveExternalSAMLIdPCertificateRequest struct {
+	*tchttp.BaseRequest
+
+	// PEM 格式的 X509 证书。 由 SAML 身份提供商提供。
+
+	CertificateId *string `json:"CertificateId,omitempty" name:"CertificateId"`
+	// 空间ID。
+
+	ZoneId *string `json:"ZoneId,omitempty" name:"ZoneId"`
+}
+
+func (r *RemoveExternalSAMLIdPCertificateRequest) ToJsonString() string {
+	b, _ := json.Marshal(r)
+	return string(b)
+}
+
+func (r *RemoveExternalSAMLIdPCertificateRequest) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
+type RemoveExternalSAMLIdPCertificateResponse struct {
+	*tchttp.BaseResponse
+
+	Response *struct {
+		// Unique request ID, returned on each request.
+		RequestId *string `json:"RequestId,omitempty" name:"RequestId"`
+	} `json:"Response"`
+}
+
+func (r *RemoveExternalSAMLIdPCertificateResponse) ToJsonString() string {
+	b, _ := json.Marshal(r)
+	return string(b)
+}
+
+func (r *RemoveExternalSAMLIdPCertificateResponse) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
+type UpdateSCIMCredentialStatusRequest struct {
+	*tchttp.BaseRequest
+
+	// SCIM密钥ID。scimcred-前缀开头，后面是12位随机数字/小写字母。
+
+	CredentialId *string `json:"CredentialId,omitempty" name:"CredentialId"`
+	// SCIM密钥状态。Enabled：启用。 Disabled：禁用。
+
+	NewStatus *string `json:"NewStatus,omitempty" name:"NewStatus"`
+	// 空间ID。z-前缀开头，后面是12位随机数字/小写字母
+
+	ZoneId *string `json:"ZoneId,omitempty" name:"ZoneId"`
+}
+
+func (r *UpdateSCIMCredentialStatusRequest) ToJsonString() string {
+	b, _ := json.Marshal(r)
+	return string(b)
+}
+
+func (r *UpdateSCIMCredentialStatusRequest) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
+type UpdateSCIMCredentialStatusResponse struct {
+	*tchttp.BaseResponse
+
+	Response *struct {
+		// Unique request ID, returned on each request.
+		RequestId *string `json:"RequestId,omitempty" name:"RequestId"`
+	} `json:"Response"`
+}
+
+func (r *UpdateSCIMCredentialStatusResponse) ToJsonString() string {
+	b, _ := json.Marshal(r)
+	return string(b)
+}
+
+func (r *UpdateSCIMCredentialStatusResponse) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
+type UpdateZoneRequest struct {
+	*tchttp.BaseRequest
+
+	// 空间名，必须全局唯一。包含小写字母、数字和短划线（-）。不能以短划线（-）开头或结尾，且不能有两个连续的短划线（-）。长度：2~64 个字符。
+
+	NewZoneName *string `json:"NewZoneName,omitempty" name:"NewZoneName"`
+	// 空间ID。z-前缀开头，后面是12位随机数字/小写字母
+
+	ZoneId *string `json:"ZoneId,omitempty" name:"ZoneId"`
+}
+
+func (r *UpdateZoneRequest) ToJsonString() string {
+	b, _ := json.Marshal(r)
+	return string(b)
+}
+
+func (r *UpdateZoneRequest) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
+type UpdateZoneResponse struct {
+	*tchttp.BaseResponse
+
+	Response *struct {
+		// Unique request ID, returned on each request.
+		RequestId *string `json:"RequestId,omitempty" name:"RequestId"`
+	} `json:"Response"`
+}
+
+func (r *UpdateZoneResponse) ToJsonString() string {
+	b, _ := json.Marshal(r)
+	return string(b)
+}
+
+func (r *UpdateZoneResponse) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
+type VerifyLoginSkeyRequest struct {
+	*tchttp.BaseRequest
+
+	// 登陆态
+
+	LoginSkey *string `json:"LoginSkey,omitempty" name:"LoginSkey"`
+}
+
+func (r *VerifyLoginSkeyRequest) ToJsonString() string {
+	b, _ := json.Marshal(r)
+	return string(b)
+}
+
+func (r *VerifyLoginSkeyRequest) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
+type VerifyLoginSkeyResponse struct {
+	*tchttp.BaseResponse
+
+	Response *struct {
+		// 用户名称。空间内必须唯一。不支持修改。 格式：包含数字、英文字母和特殊符号@_-.。 长度：最大 64 个字符
+
+		UserName *string `json:"UserName,omitempty" name:"UserName"`
+		// 空间ID。z-前缀开头，后面是12位随机数字/小写字母
+
+		ZoneId *string `json:"ZoneId,omitempty" name:"ZoneId"`
+		// 空间名，必须全局唯一。
+
+		ZoneName *string `json:"ZoneName,omitempty" name:"ZoneName"`
+		// Unique request ID, returned on each request.
+		RequestId *string `json:"RequestId,omitempty" name:"RequestId"`
+	} `json:"Response"`
+}
+
+func (r *VerifyLoginSkeyResponse) ToJsonString() string {
+	b, _ := json.Marshal(r)
+	return string(b)
+}
+
+func (r *VerifyLoginSkeyResponse) FromJsonString(s string) error {
 	return json.Unmarshal([]byte(s), &r)
 }

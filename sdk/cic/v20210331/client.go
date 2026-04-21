@@ -1524,3 +1524,503 @@ func (c *Client) ListRoleConfigurations(request *ListRoleConfigurationsRequest) 
 	err = c.Send(request, response)
 	return
 }
+
+func NewAddExternalSAMLIdPCertificateRequest() (request *AddExternalSAMLIdPCertificateRequest) {
+	request = &AddExternalSAMLIdPCertificateRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("cic", APIVersion, "AddExternalSAMLIdPCertificate")
+	return
+}
+
+func NewAddExternalSAMLIdPCertificateResponse() (response *AddExternalSAMLIdPCertificateResponse) {
+	response = &AddExternalSAMLIdPCertificateResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 添加SAML签名证书
+func (c *Client) AddExternalSAMLIdPCertificate(request *AddExternalSAMLIdPCertificateRequest) (response *AddExternalSAMLIdPCertificateResponse, err error) {
+	if request == nil {
+		request = NewAddExternalSAMLIdPCertificateRequest()
+	}
+	response = NewAddExternalSAMLIdPCertificateResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewBatchAddUserToGroupRequest() (request *BatchAddUserToGroupRequest) {
+	request = &BatchAddUserToGroupRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("cic", APIVersion, "BatchAddUserToGroup")
+	return
+}
+
+func NewBatchAddUserToGroupResponse() (response *BatchAddUserToGroupResponse) {
+	response = &BatchAddUserToGroupResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 批量为用户组添加用户
+func (c *Client) BatchAddUserToGroup(request *BatchAddUserToGroupRequest) (response *BatchAddUserToGroupResponse, err error) {
+	if request == nil {
+		request = NewBatchAddUserToGroupRequest()
+	}
+	response = NewBatchAddUserToGroupResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewBatchCreateUserRequest() (request *BatchCreateUserRequest) {
+	request = &BatchCreateUserRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("cic", APIVersion, "BatchCreateUser")
+	return
+}
+
+func NewBatchCreateUserResponse() (response *BatchCreateUserResponse) {
+	response = &BatchCreateUserResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 批量创建用户
+func (c *Client) BatchCreateUser(request *BatchCreateUserRequest) (response *BatchCreateUserResponse, err error) {
+	if request == nil {
+		request = NewBatchCreateUserRequest()
+	}
+	response = NewBatchCreateUserResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewBatchRemoveUserFromGroupRequest() (request *BatchRemoveUserFromGroupRequest) {
+	request = &BatchRemoveUserFromGroupRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("cic", APIVersion, "BatchRemoveUserFromGroup")
+	return
+}
+
+func NewBatchRemoveUserFromGroupResponse() (response *BatchRemoveUserFromGroupResponse) {
+	response = &BatchRemoveUserFromGroupResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 批量从用户组中移除用户
+func (c *Client) BatchRemoveUserFromGroup(request *BatchRemoveUserFromGroupRequest) (response *BatchRemoveUserFromGroupResponse, err error) {
+	if request == nil {
+		request = NewBatchRemoveUserFromGroupRequest()
+	}
+	response = NewBatchRemoveUserFromGroupResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewDescribeIdentityCenterRequest() (request *DescribeIdentityCenterRequest) {
+	request = &DescribeIdentityCenterRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("cic", APIVersion, "DescribeIdentityCenter")
+	return
+}
+
+func NewDescribeIdentityCenterResponse() (response *DescribeIdentityCenterResponse) {
+	response = &DescribeIdentityCenterResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 获取集团账号身份中心服务信息
+func (c *Client) DescribeIdentityCenter(request *DescribeIdentityCenterRequest) (response *DescribeIdentityCenterResponse, err error) {
+	if request == nil {
+		request = NewDescribeIdentityCenterRequest()
+	}
+	response = NewDescribeIdentityCenterResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewGenSamlResponseRequest() (request *GenSamlResponseRequest) {
+	request = &GenSamlResponseRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("cic", APIVersion, "GenSamlResponse")
+	return
+}
+
+func NewGenSamlResponseResponse() (response *GenSamlResponseResponse) {
+	response = &GenSamlResponseResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 生成登陆云控制台的samlResponse
+func (c *Client) GenSamlResponse(request *GenSamlResponseRequest) (response *GenSamlResponseResponse, err error) {
+	if request == nil {
+		request = NewGenSamlResponseRequest()
+	}
+	response = NewGenSamlResponseResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewGetZoneDetailRequest() (request *GetZoneDetailRequest) {
+	request = &GetZoneDetailRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("cic", APIVersion, "GetZoneDetail")
+	return
+}
+
+func NewGetZoneDetailResponse() (response *GetZoneDetailResponse) {
+	response = &GetZoneDetailResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 根据空间名获取空间信息
+func (c *Client) GetZoneDetail(request *GetZoneDetailRequest) (response *GetZoneDetailResponse, err error) {
+	if request == nil {
+		request = NewGetZoneDetailRequest()
+	}
+	response = NewGetZoneDetailResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewGetZoneStatisticsRequest() (request *GetZoneStatisticsRequest) {
+	request = &GetZoneStatisticsRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("cic", APIVersion, "GetZoneStatistics")
+	return
+}
+
+func NewGetZoneStatisticsResponse() (response *GetZoneStatisticsResponse) {
+	response = &GetZoneStatisticsResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 查询空间的统计信息
+func (c *Client) GetZoneStatistics(request *GetZoneStatisticsRequest) (response *GetZoneStatisticsResponse, err error) {
+	if request == nil {
+		request = NewGetZoneStatisticsRequest()
+	}
+	response = NewGetZoneStatisticsResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewListAccountsForUserProvisioningRequest() (request *ListAccountsForUserProvisioningRequest) {
+	request = &ListAccountsForUserProvisioningRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("cic", APIVersion, "ListAccountsForUserProvisioning")
+	return
+}
+
+func NewListAccountsForUserProvisioningResponse() (response *ListAccountsForUserProvisioningResponse) {
+	response = &ListAccountsForUserProvisioningResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 查询某个CIC成员同步的成员账号和子账号信息
+func (c *Client) ListAccountsForUserProvisioning(request *ListAccountsForUserProvisioningRequest) (response *ListAccountsForUserProvisioningResponse, err error) {
+	if request == nil {
+		request = NewListAccountsForUserProvisioningRequest()
+	}
+	response = NewListAccountsForUserProvisioningResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewListExternalSAMLIdPCertificatesRequest() (request *ListExternalSAMLIdPCertificatesRequest) {
+	request = &ListExternalSAMLIdPCertificatesRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("cic", APIVersion, "ListExternalSAMLIdPCertificates")
+	return
+}
+
+func NewListExternalSAMLIdPCertificatesResponse() (response *ListExternalSAMLIdPCertificatesResponse) {
+	response = &ListExternalSAMLIdPCertificatesResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 查询SAML签名证书列表
+func (c *Client) ListExternalSAMLIdPCertificates(request *ListExternalSAMLIdPCertificatesRequest) (response *ListExternalSAMLIdPCertificatesResponse, err error) {
+	if request == nil {
+		request = NewListExternalSAMLIdPCertificatesRequest()
+	}
+	response = NewListExternalSAMLIdPCertificatesResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewListGroupMembersRequest() (request *ListGroupMembersRequest) {
+	request = &ListGroupMembersRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("cic", APIVersion, "ListGroupMembers")
+	return
+}
+
+func NewListGroupMembersResponse() (response *ListGroupMembersResponse) {
+	response = &ListGroupMembersResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 查询用户组中的用户列表
+func (c *Client) ListGroupMembers(request *ListGroupMembersRequest) (response *ListGroupMembersResponse, err error) {
+	if request == nil {
+		request = NewListGroupMembersRequest()
+	}
+	response = NewListGroupMembersResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewListUserSyncProvisioningsRequest() (request *ListUserSyncProvisioningsRequest) {
+	request = &ListUserSyncProvisioningsRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("cic", APIVersion, "ListUserSyncProvisionings")
+	return
+}
+
+func NewListUserSyncProvisioningsResponse() (response *ListUserSyncProvisioningsResponse) {
+	response = &ListUserSyncProvisioningsResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 查询CAM用户同步列表
+func (c *Client) ListUserSyncProvisionings(request *ListUserSyncProvisioningsRequest) (response *ListUserSyncProvisioningsResponse, err error) {
+	if request == nil {
+		request = NewListUserSyncProvisioningsRequest()
+	}
+	response = NewListUserSyncProvisioningsResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewListUsersRequest() (request *ListUsersRequest) {
+	request = &ListUsersRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("cic", APIVersion, "ListUsers")
+	return
+}
+
+func NewListUsersResponse() (response *ListUsersResponse) {
+	response = &ListUsersResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 查询用户列表
+func (c *Client) ListUsers(request *ListUsersRequest) (response *ListUsersResponse, err error) {
+	if request == nil {
+		request = NewListUsersRequest()
+	}
+	response = NewListUsersResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewLoginCICRequest() (request *LoginCICRequest) {
+	request = &LoginCICRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("cic", APIVersion, "LoginCIC")
+	return
+}
+
+func NewLoginCICResponse() (response *LoginCICResponse) {
+	response = &LoginCICResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 登陆CIC控制台
+func (c *Client) LoginCIC(request *LoginCICRequest) (response *LoginCICResponse, err error) {
+	if request == nil {
+		request = NewLoginCICRequest()
+	}
+	response = NewLoginCICResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewLogoutCICRequest() (request *LogoutCICRequest) {
+	request = &LogoutCICRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("cic", APIVersion, "LogoutCIC")
+	return
+}
+
+func NewLogoutCICResponse() (response *LogoutCICResponse) {
+	response = &LogoutCICResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 登出CIC控制台
+func (c *Client) LogoutCIC(request *LogoutCICRequest) (response *LogoutCICResponse, err error) {
+	if request == nil {
+		request = NewLogoutCICRequest()
+	}
+	response = NewLogoutCICResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewOpenIdentityCenterRequest() (request *OpenIdentityCenterRequest) {
+	request = &OpenIdentityCenterRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("cic", APIVersion, "OpenIdentityCenter")
+	return
+}
+
+func NewOpenIdentityCenterResponse() (response *OpenIdentityCenterResponse) {
+	response = &OpenIdentityCenterResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 开通身份中心服务（CIC）
+func (c *Client) OpenIdentityCenter(request *OpenIdentityCenterRequest) (response *OpenIdentityCenterResponse, err error) {
+	if request == nil {
+		request = NewOpenIdentityCenterRequest()
+	}
+	response = NewOpenIdentityCenterResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewRemoveExternalSAMLIdPCertificateRequest() (request *RemoveExternalSAMLIdPCertificateRequest) {
+	request = &RemoveExternalSAMLIdPCertificateRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("cic", APIVersion, "RemoveExternalSAMLIdPCertificate")
+	return
+}
+
+func NewRemoveExternalSAMLIdPCertificateResponse() (response *RemoveExternalSAMLIdPCertificateResponse) {
+	response = &RemoveExternalSAMLIdPCertificateResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 移除SAML签名证书
+func (c *Client) RemoveExternalSAMLIdPCertificate(request *RemoveExternalSAMLIdPCertificateRequest) (response *RemoveExternalSAMLIdPCertificateResponse, err error) {
+	if request == nil {
+		request = NewRemoveExternalSAMLIdPCertificateRequest()
+	}
+	response = NewRemoveExternalSAMLIdPCertificateResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewUpdateSCIMCredentialStatusRequest() (request *UpdateSCIMCredentialStatusRequest) {
+	request = &UpdateSCIMCredentialStatusRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("cic", APIVersion, "UpdateSCIMCredentialStatus")
+	return
+}
+
+func NewUpdateSCIMCredentialStatusResponse() (response *UpdateSCIMCredentialStatusResponse) {
+	response = &UpdateSCIMCredentialStatusResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 启用/禁用SCIM密钥
+func (c *Client) UpdateSCIMCredentialStatus(request *UpdateSCIMCredentialStatusRequest) (response *UpdateSCIMCredentialStatusResponse, err error) {
+	if request == nil {
+		request = NewUpdateSCIMCredentialStatusRequest()
+	}
+	response = NewUpdateSCIMCredentialStatusResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewUpdateZoneRequest() (request *UpdateZoneRequest) {
+	request = &UpdateZoneRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("cic", APIVersion, "UpdateZone")
+	return
+}
+
+func NewUpdateZoneResponse() (response *UpdateZoneResponse) {
+	response = &UpdateZoneResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 更新用户空间名
+func (c *Client) UpdateZone(request *UpdateZoneRequest) (response *UpdateZoneResponse, err error) {
+	if request == nil {
+		request = NewUpdateZoneRequest()
+	}
+	response = NewUpdateZoneResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewVerifyLoginSkeyRequest() (request *VerifyLoginSkeyRequest) {
+	request = &VerifyLoginSkeyRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("cic", APIVersion, "VerifyLoginSkey")
+	return
+}
+
+func NewVerifyLoginSkeyResponse() (response *VerifyLoginSkeyResponse) {
+	response = &VerifyLoginSkeyResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 校验CIC登陆态
+func (c *Client) VerifyLoginSkey(request *VerifyLoginSkeyRequest) (response *VerifyLoginSkeyResponse, err error) {
+	if request == nil {
+		request = NewVerifyLoginSkeyRequest()
+	}
+	response = NewVerifyLoginSkeyResponse()
+	err = c.Send(request, response)
+	return
+}
