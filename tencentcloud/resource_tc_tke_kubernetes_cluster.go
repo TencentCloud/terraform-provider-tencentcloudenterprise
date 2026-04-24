@@ -3146,7 +3146,10 @@ func resourceTencentCloudTkeClusterCreate(d *schema.ResourceData, meta interface
 		rootDir := v["kubelet_root_dir"].(string)
 
 		if enabled {
-			err := service.SwitchLogAgent(ctx, id, rootDir, enabled)
+			err := resource.Retry(writeRetryTimeout, func() *resource.RetryError {
+				err := service.SwitchLogAgent(ctx, id, rootDir, enabled)
+				return retryError(err, "FailedOperation.ClusterNotFound")
+			})
 			if err != nil {
 				return err
 			}
@@ -3158,7 +3161,10 @@ func resourceTencentCloudTkeClusterCreate(d *schema.ResourceData, meta interface
 		logSetId := v["log_set_id"].(string)
 		topicId := v["topic_id"].(string)
 		if enabled {
-			err := service.SwitchEventPersistence(ctx, id, logSetId, topicId, enabled, false)
+			err := resource.Retry(writeRetryTimeout, func() *resource.RetryError {
+				err := service.SwitchEventPersistence(ctx, id, logSetId, topicId, enabled, false)
+				return retryError(err, "FailedOperation.ClusterNotFound")
+			})
 			if err != nil {
 				return err
 			}
@@ -3170,7 +3176,10 @@ func resourceTencentCloudTkeClusterCreate(d *schema.ResourceData, meta interface
 		logSetId := v["log_set_id"].(string)
 		topicId := v["topic_id"].(string)
 		if enabled {
-			err := service.SwitchClusterAudit(ctx, id, logSetId, topicId, enabled, false)
+			err := resource.Retry(writeRetryTimeout, func() *resource.RetryError {
+				err := service.SwitchClusterAudit(ctx, id, logSetId, topicId, enabled, false)
+				return retryError(err, "FailedOperation.ClusterNotFound")
+			})
 			if err != nil {
 				return err
 			}
@@ -3630,7 +3639,10 @@ func resourceTencentCloudTkeClusterUpdate(d *schema.ResourceData, meta interface
 			rootDir = v["kubelet_root_dir"].(string)
 			enabled = v["enabled"].(bool)
 		}
-		err := tkeService.SwitchLogAgent(ctx, id, rootDir, enabled)
+		err := resource.Retry(writeRetryTimeout, func() *resource.RetryError {
+			err := tkeService.SwitchLogAgent(ctx, id, rootDir, enabled)
+			return retryError(err, "FailedOperation.ClusterNotFound")
+		})
 		if err != nil {
 			return err
 		}
@@ -3649,7 +3661,10 @@ func resourceTencentCloudTkeClusterUpdate(d *schema.ResourceData, meta interface
 			deleteEventLog = v["delete_event_log_and_topic"].(bool)
 		}
 
-		err := tkeService.SwitchEventPersistence(ctx, id, logSetId, topicId, enabled, deleteEventLog)
+		err := resource.Retry(writeRetryTimeout, func() *resource.RetryError {
+			err := tkeService.SwitchEventPersistence(ctx, id, logSetId, topicId, enabled, deleteEventLog)
+			return retryError(err, "FailedOperation.ClusterNotFound")
+		})
 		if err != nil {
 			return err
 		}
@@ -3668,7 +3683,10 @@ func resourceTencentCloudTkeClusterUpdate(d *schema.ResourceData, meta interface
 			deleteAuditLog = v["delete_audit_log_and_topic"].(bool)
 		}
 
-		err := tkeService.SwitchClusterAudit(ctx, id, logSetId, topicId, enabled, deleteAuditLog)
+		err := resource.Retry(writeRetryTimeout, func() *resource.RetryError {
+			err := tkeService.SwitchClusterAudit(ctx, id, logSetId, topicId, enabled, deleteAuditLog)
+			return retryError(err, "FailedOperation.ClusterNotFound")
+		})
 		if err != nil {
 			return err
 		}
