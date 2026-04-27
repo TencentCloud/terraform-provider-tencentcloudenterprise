@@ -1388,7 +1388,7 @@ func resourceKubernetesNodePoolCreate(d *schema.ResourceData, meta interface{}) 
 		enableAutoScale = d.Get("enable_auto_scale").(bool)
 		configParas     = d.Get("auto_scaling_config").([]interface{})
 		name            = d.Get("name").(string)
-		iAdvanced       tke.InstanceAdvancedSettings
+		iAdvanced       *tke.InstanceAdvancedSettings
 	)
 	if len(configParas) != 1 {
 		return fmt.Errorf("need only one auto_scaling_config")
@@ -1409,16 +1409,26 @@ func resourceKubernetesNodePoolCreate(d *schema.ResourceData, meta interface{}) 
 
 	//compose InstanceAdvancedSettings
 	if workConfig, ok := helper.InterfacesHeadMap(d, "node_config"); ok {
-		iAdvanced = tkeGetInstanceAdvancedPara(workConfig, meta)
+		advanced := tkeGetInstanceAdvancedPara(workConfig, meta)
+		iAdvanced = &advanced
 	}
 
 	if temp, ok := d.GetOk("extra_args"); ok {
+		if iAdvanced == nil {
+			iAdvanced = &tke.InstanceAdvancedSettings{}
+		}
+		if iAdvanced.ExtraArgs == nil {
+			iAdvanced.ExtraArgs = &tke.InstanceExtraArgs{Kubelet: make([]*string, 0)}
+		}
 		extraArgs := helper.InterfacesStrings(temp.([]interface{}))
 		for _, extraArg := range extraArgs {
 			iAdvanced.ExtraArgs.Kubelet = append(iAdvanced.ExtraArgs.Kubelet, &extraArg)
 		}
 	}
 	if temp, ok := d.GetOk("unschedulable"); ok {
+		if iAdvanced == nil {
+			iAdvanced = &tke.InstanceAdvancedSettings{}
+		}
 		iAdvanced.Unschedulable = helper.Int64(int64(temp.(int)))
 	}
 

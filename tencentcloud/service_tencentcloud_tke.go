@@ -1373,7 +1373,7 @@ func (me *TkeService) ModifyClusterAsGroupAttribute(ctx context.Context, id, asG
 
 func (me *TkeService) CreateClusterNodePool(ctx context.Context, clusterId, name, groupPara, configPara string,
 	enableAutoScale bool, nodeOs string, nodeOsType string, labels []*tke.Label, taints []*tke.Taint,
-	iAdvanced tke.InstanceAdvancedSettings, deletionProtection bool, annotations []*tke.AnnotationValue,
+	iAdvanced *tke.InstanceAdvancedSettings, deletionProtection bool, annotations []*tke.AnnotationValue,
 	containerRuntime string, runtimeVersion string, tags []*tke.Tag) (nodePoolId string, errRet error) {
 	logId := getLogId(ctx)
 	request := tke.NewCreateClusterNodePoolRequest()
@@ -1387,7 +1387,9 @@ func (me *TkeService) CreateClusterNodePool(ctx context.Context, clusterId, name
 	request.Name = &name
 	request.AutoScalingGroupPara = &groupPara
 	request.LaunchConfigurePara = &configPara
-	request.InstanceAdvancedSettings = &iAdvanced
+	if iAdvanced != nil {
+		request.InstanceAdvancedSettings = iAdvanced
+	}
 	request.EnableAutoscale = &enableAutoScale
 	request.DeletionProtection = &deletionProtection
 	request.NodePoolOs = &nodeOs
