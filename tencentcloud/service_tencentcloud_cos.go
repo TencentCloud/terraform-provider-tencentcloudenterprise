@@ -5,15 +5,18 @@ import (
 	"encoding/json"
 	"encoding/xml"
 	"fmt"
-	"github.com/pkg/errors"
+	"io/ioutil"
 	"log"
 	"net/http"
 	"strings"
+	"time"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/pkg/errors"
 
 	"github.com/tencentyun/cos-go-sdk-v5"
 
+	ckafka "terraform-provider-tencentcloudenterprise/sdk/ckafka/v20190819"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/connectivity"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/ratelimit"
@@ -1636,4 +1639,253 @@ func (c *CosService) GetBucketObject(ctx context.Context, bucket string,
 		return nil, errors.Wrap(err, "cos get bucket object error")
 	}
 	return getBucketResult, nil
+}
+
+// CspNotificationConfiguration represents the full notification config XML with CSP extensions.
+type CspNotificationConfiguration struct {
+	XMLName             xml.Name                `xml:"NotificationConfiguration"`
+	Xmlns               string                  `xml:"xmlns,attr,omitempty"`
+	TopicConfigurations []CspTopicConfiguration `xml:"TopicConfiguration,omitempty"`
+}
+
+// CspTopicConfiguration represents a single notification rule with CSP-specific Kafka fields.
+type CspTopicConfiguration struct {
+	Id       string   `xml:"Id"`
+	Events   []string `xml:"Event"`
+	Topic    string   `xml:"Topic"`              // fixed "csp"
+	KafkaID  string   `xml:"KafkaID"`            // CSP extension: ckafka instance id
+	Endpoint string   `xml:"Endpoint"`           // CSP extension: kafka://host:port
+	User     string   `xml:"User,omitempty"`     // SASL username: format "instanceId#appId"
+	Password string   `xml:"Password,omitempty"` // SASL password
+}
+
+// PutBucketNotification writes a notification configuration to a CSP bucket.
+// Uses virtual-hosted style URL (bucket.cos.region.domain) with cos.AuthorizationTransport signing.
+func (me *CosService) PutBucketNotification(ctx context.Context, bucket string, config *CspNotificationConfiguration) error {
+	logId := getLogId(ctx)
+
+	xmlBytes, err := xml.Marshal(config)
+	if err != nil {
+		return fmt.Errorf("marshal notification xml error: %s", err.Error())
+	}
+	xmlBody := xml.Header + string(xmlBytes)
+
+	log.Printf("[DEBUG]%s PutBucketNotification bucket[%s] body[%s]", logId, bucket, xmlBody)
+
+	notifURL := fmt.Sprintf("%s://%s.cos.%s.%s/?notification",
+		me.client.Protocol, bucket, me.client.Region, me.client.CspDomain)
+
+	httpReq, err := http.NewRequestWithContext(ctx, http.MethodPut, notifURL, strings.NewReader(xmlBody))
+	if err != nil {
+		return fmt.Errorf("create put notification request error: %s", err.Error())
+	}
+	httpReq.Header.Set("Content-Type", "application/xml")
+
+	httpClient := &http.Client{
+		Timeout: 100 * time.Second,
+		Transport: &cos.AuthorizationTransport{
+			SecretID:     me.client.Credential.SecretId,
+			SecretKey:    me.client.Credential.SecretKey,
+			SessionToken: me.client.Credential.Token,
+		},
+	}
+
+	ratelimit.Check("PutBucketNotificationConfiguration")
+	resp, err := httpClient.Do(httpReq)
+	if err != nil {
+		return fmt.Errorf("put bucket notification error: %s, bucket: %s", err.Error(), bucket)
+	}
+	defer resp.Body.Close()
+
+	if resp.StatusCode/100 != 2 {
+		body, _ := ioutil.ReadAll(resp.Body)
+		return fmt.Errorf("put bucket notification failed, status: %d, body: %s", resp.StatusCode, string(body))
+	}
+
+	log.Printf("[DEBUG]%s PutBucketNotification success, bucket[%s]", logId, bucket)
+	return nil
+}
+
+// GetBucketNotification reads the notification configuration from a CSP bucket.
+// Uses virtual-hosted style URL with cos.AuthorizationTransport signing.
+func (me *CosService) GetBucketNotification(ctx context.Context, bucket string) (*CspNotificationConfiguration, error) {
+	logId := getLogId(ctx)
+
+	notifURL := fmt.Sprintf("%s://%s.cos.%s.%s/?notification",
+		me.client.Protocol, bucket, me.client.Region, me.client.CspDomain)
+
+	httpReq, err := http.NewRequestWithContext(ctx, http.MethodGet, notifURL, nil)
+	if err != nil {
+		return nil, fmt.Errorf("create get notification request error: %s", err.Error())
+	}
+
+	httpClient := &http.Client{
+		Timeout: 100 * time.Second,
+		Transport: &cos.AuthorizationTransport{
+			SecretID:     me.client.Credential.SecretId,
+			SecretKey:    me.client.Credential.SecretKey,
+			SessionToken: me.client.Credential.Token,
+		},
+	}
+
+	ratelimit.Check("GetBucketNotificationConfiguration")
+	resp, err := httpClient.Do(httpReq)
+	if err != nil {
+		return nil, fmt.Errorf("get bucket notification error: %s, bucket: %s", err.Error(), bucket)
+	}
+	defer resp.Body.Close()
+
+	rawBody, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		return nil, fmt.Errorf("read bucket notification response error: %s", err.Error())
+	}
+
+	log.Printf("[DEBUG]%s GetBucketNotification bucket[%s] response[%s]", logId, bucket, string(rawBody))
+
+	if resp.StatusCode/100 != 2 {
+		return nil, fmt.Errorf("get bucket notification failed, status: %d, body: %s", resp.StatusCode, string(rawBody))
+	}
+
+	var config CspNotificationConfiguration
+	if err := xml.Unmarshal(rawBody, &config); err != nil {
+		return nil, fmt.Errorf("unmarshal notification xml error: %s, body: %s", err.Error(), string(rawBody))
+	}
+
+	return &config, nil
+}
+
+// DeleteBucketNotification removes all notification rules by putting an empty configuration.
+func (me *CosService) DeleteBucketNotification(ctx context.Context, bucket string) error {
+	emptyConfig := &CspNotificationConfiguration{}
+	return me.PutBucketNotification(ctx, bucket, emptyConfig)
+}
+
+// ResolveCkafkaEndpoint finds or creates a PLAINTEXT route for the given CKafka instance
+// and returns the kafka endpoint in the format "kafka://host:port".
+func (me *CosService) ResolveCkafkaEndpoint(ctx context.Context, instanceId string) (string, error) {
+	logId := getLogId(ctx)
+
+	ckafkaService := CkafkaService{client: me.client}
+
+	route, err := ckafkaService.DescribeCkafkaRouteByKey(ctx, instanceId, 4, "", "", 0)
+	if err != nil {
+		return "", fmt.Errorf("describe ckafka route error: %s", err.Error())
+	}
+
+	if route != nil && route.Processing != nil && *route.Processing == 0 &&
+		route.VipList != nil && len(route.VipList) > 0 &&
+		route.VipList[0].Vip != nil && *route.VipList[0].Vip != "" {
+		endpoint := fmt.Sprintf("kafka://%s:%s", *route.VipList[0].Vip, *route.VipList[0].Vport)
+		log.Printf("[DEBUG]%s found existing ckafka route, endpoint: %s", logId, endpoint)
+		return endpoint, nil
+	}
+
+	log.Printf("[DEBUG]%s no ready PLAINTEXT route for ckafka %s, creating...", logId, instanceId)
+
+	createReq := ckafka.NewCreateRouteRequest()
+	createReq.InstanceId = &instanceId
+	vipType := int64(4)
+	createReq.VipType = &vipType
+	accessType := int64(0)
+	createReq.AccessType = &accessType
+
+	ratelimit.Check("CreateRoute")
+	_, err = me.client.UseCkafkaClient().CreateRoute(createReq)
+	if err != nil {
+		return "", fmt.Errorf("create ckafka route error: %s", err.Error())
+	}
+
+	var endpoint string
+	err = resource.Retry(3*time.Minute, func() *resource.RetryError {
+		r, e := ckafkaService.DescribeCkafkaRouteByKey(ctx, instanceId, 4, "", "", 0)
+		if e != nil {
+			return retryError(e)
+		}
+		if r == nil {
+			return resource.RetryableError(fmt.Errorf("ckafka route not found yet"))
+		}
+		if r.Processing != nil && *r.Processing != 0 {
+			return resource.RetryableError(fmt.Errorf("ckafka route still processing"))
+		}
+		if r.VipList == nil || len(r.VipList) == 0 || r.VipList[0].Vip == nil || *r.VipList[0].Vip == "" {
+			return resource.RetryableError(fmt.Errorf("ckafka route vip not ready"))
+		}
+		endpoint = fmt.Sprintf("kafka://%s:%s", *r.VipList[0].Vip, *r.VipList[0].Vport)
+		return nil
+	})
+	if err != nil {
+		return "", fmt.Errorf("waiting for ckafka route ready error: %s", err.Error())
+	}
+
+	log.Printf("[DEBUG]%s created ckafka route, endpoint: %s", logId, endpoint)
+	return endpoint, nil
+}
+
+// BuildNotificationConfig constructs a CspNotificationConfiguration from terraform resource data.
+func BuildNotificationConfig(rules []interface{}, endpoints map[string]string) *CspNotificationConfiguration {
+	config := &CspNotificationConfiguration{}
+	for _, raw := range rules {
+		rule := raw.(map[string]interface{})
+		tc := CspTopicConfiguration{
+			Id:      rule["id"].(string),
+			Topic:   "csp",
+			KafkaID: rule["ckafka_instance_id"].(string),
+		}
+		for _, e := range rule["events"].([]interface{}) {
+			tc.Events = append(tc.Events, e.(string))
+		}
+		if ep, ok := endpoints[tc.KafkaID]; ok {
+			tc.Endpoint = ep
+		}
+		if v, ok := rule["sasl_user"].(string); ok && v != "" {
+			// Format: {instanceId}#{appId} as required by CSP
+			tc.User = tc.KafkaID + "#" + v
+		}
+		if v, ok := rule["sasl_password"].(string); ok && v != "" {
+			tc.Password = v
+		}
+		config.TopicConfigurations = append(config.TopicConfigurations, tc)
+	}
+	return config
+}
+
+// FlattenNotificationRules converts CspNotificationConfiguration back to terraform state format.
+// sasl_user and sasl_password are write-only fields not returned by GET, so they are preserved
+// from existing state via the existingRules parameter.
+func FlattenNotificationRules(config *CspNotificationConfiguration, existingRules []interface{}) []map[string]interface{} {
+	if config == nil {
+		return nil
+	}
+
+	// Build a lookup of existing SASL credentials by rule ID so they survive Read.
+	existingSasl := make(map[string][2]string) // id -> [user, password]
+	for _, raw := range existingRules {
+		rule := raw.(map[string]interface{})
+		id, _ := rule["id"].(string)
+		user, _ := rule["sasl_user"].(string)
+		pass, _ := rule["sasl_password"].(string)
+		if id != "" {
+			existingSasl[id] = [2]string{user, pass}
+		}
+	}
+
+	var rules []map[string]interface{}
+	for _, tc := range config.TopicConfigurations {
+		saslUser := ""
+		saslPassword := ""
+		if creds, ok := existingSasl[tc.Id]; ok {
+			saslUser = creds[0]
+			saslPassword = creds[1]
+		}
+		rule := map[string]interface{}{
+			"id":                 tc.Id,
+			"events":             tc.Events,
+			"ckafka_instance_id": tc.KafkaID,
+			"endpoint":           tc.Endpoint,
+			"sasl_user":          saslUser,
+			"sasl_password":      saslPassword,
+		}
+		rules = append(rules, rule)
+	}
+	return rules
 }

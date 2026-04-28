@@ -178,6 +178,7 @@ Cloud Object Storage(CSP)
 	  tencentcloudenterprise_csp_bucket
 	  tencentcloudenterprise_csp_bucket_object
 	  tencentcloudenterprise_csp_bucket_policy
+	  tencentcloudenterprise_csp_bucket_notification
 	  tencentcloudenterprise_csp_bucket_backup_setting
 
 Cloud Virtual Machine(CVM)
@@ -1102,6 +1103,7 @@ func Provider() *schema.Provider {
 			//"tencentcloudenterprise_csp_bucket_domain_certificate_attachment": resourceTencentCloudCspBucketDomainCertificateAttachment(),
 			"tencentcloudenterprise_csp_bucket_object":                       resourceTencentCloudCspBucketObject(),
 			"tencentcloudenterprise_csp_bucket_policy":                       resourceTencentCloudCspBucketPolicy(),
+			"tencentcloudenterprise_csp_bucket_notification":                 resourceTencentCloudCspBucketNotification(),
 			"tencentcloudenterprise_csp_bucket_backup_setting":               resourceTencentCloudCspBucketBackupSetting(),
 			//"tencentcloudenterprise_cvm_chc_config":                                 resourceTencentCloudCvmChcConfig(),
 			//"tencentcloudenterprise_cvm_container_cluster":                          resourceTencentCloudContainerCluster(),
