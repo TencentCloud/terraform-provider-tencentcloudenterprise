@@ -92,7 +92,9 @@ var retryableErrorCode = []string{
 var nonRetryableErrorCode = []string{
 	"FailedOperation.DisableQuitSelfCreatedOrganization",
 	"FailedOperation.OrganizationExistAlready",
+	"FailedOperation.OrganizationMemberNameUsed",
 	"FailedOperation.InvalidRequest",
+	"FailedOperation.CreateAccount",
 }
 
 // ignoreParseJsonError filters out ClientError.ParseJsonError from SDK response parsing.

@@ -13,6 +13,8 @@
 // limitations under the License.
 package profile
 
+import "time"
+
 type ClientProfile struct {
 	HttpProfile *HttpProfile
 	// Valid choices: HmacSHA1, HmacSHA256, TC3-HMAC-SHA256.
@@ -24,15 +26,24 @@ type ClientProfile struct {
 	Language              string
 	CertificateValidation bool
 	Debug                 bool
+
+	// RateLimitRetryMaxAttempts controls how many times the SDK will retry
+	// when receiving a RequestLimitExceeded error. 0 means no retry (default).
+	RateLimitRetryMaxAttempts int
+	// RateLimitRetryBaseDelay is the initial backoff duration before the first retry.
+	// Actual delay = BaseDelay * 2^attempt (exponential backoff).
+	RateLimitRetryBaseDelay time.Duration
 }
 
 func NewClientProfile() *ClientProfile {
 	return &ClientProfile{
-		HttpProfile:           NewHttpProfile(),
-		SignMethod:            "TC3-HMAC-SHA256",
-		UnsignedPayload:       false,
-		Language:              "zh-CN",
-		CertificateValidation: false,
-		Debug:                 false,
+		HttpProfile:               NewHttpProfile(),
+		SignMethod:                "TC3-HMAC-SHA256",
+		UnsignedPayload:           false,
+		Language:                  "zh-CN",
+		CertificateValidation:     false,
+		Debug:                     false,
+		RateLimitRetryMaxAttempts: 0,
+		RateLimitRetryBaseDelay:   time.Second,
 	}
 }

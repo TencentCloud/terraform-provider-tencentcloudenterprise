@@ -232,6 +232,11 @@ func (me *TencentCloudClient) NewClientProfileTce(timeout int) *profile2.ClientP
 	// default language
 	cpf.Language = "en-US"
 
+	// Enable SDK-level auto retry on RequestLimitExceeded with exponential backoff.
+	// Backoff sequence: ~1s, ~2s, ~4s (total max wait ~10s with jitter).
+	cpf.RateLimitRetryMaxAttempts = 3
+	cpf.RateLimitRetryBaseDelay = time.Second
+
 	return cpf
 }
 

@@ -19,6 +19,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
+	"math/rand"
 	"net/http"
 	"net/http/httputil"
 	"os"
@@ -32,6 +33,11 @@ import (
 )
 
 const PROVIDER_LANGUAGE = "TENCENTCLOUD_LANGUAGE"
+
+const (
+	// maxRateLimitBackoff caps the per-retry backoff to prevent excessively long waits.
+	maxRateLimitBackoff = 4 * time.Second
+)
 
 type Client struct {
 	region          string
@@ -65,17 +71,65 @@ func (c *Client) Send(request tchttp.Request, response tchttp.Response) (err err
 		request.SetHttpMethod(c.httpProfile.ReqMethod)
 	}
 
-	tchttp.CompleteCommonParams(request, c.GetRegion())
-	
-	if v := os.Getenv(PROVIDER_LANGUAGE); v != "" {
-		request.SetLanguage(v)
+	maxAttempts := c.profile.RateLimitRetryMaxAttempts
+
+	for attempt := 0; attempt <= maxAttempts; attempt++ {
+		// Refresh Timestamp on every attempt so the signature stays valid
+		tchttp.CompleteCommonParams(request, c.GetRegion())
+
+		if v := os.Getenv(PROVIDER_LANGUAGE); v != "" {
+			request.SetLanguage(v)
+		}
+
+		if c.signMethod == "HmacSHA1" || c.signMethod == "HmacSHA256" {
+			err = c.sendWithSignatureV1(request, response)
+		} else {
+			err = c.sendWithSignatureV3(request, response)
+		}
+
+		if err == nil {
+			return nil
+		}
+
+		// Only retry on rate limit errors
+		if !isRateLimitError(err) {
+			return err
+		}
+
+		// Exhausted all retries
+		if attempt >= maxAttempts {
+			return err
+		}
+
+		// Exponential backoff with cap and jitter to avoid thundering herd
+		backoff := c.profile.RateLimitRetryBaseDelay * (1 << uint(attempt))
+		if backoff > maxRateLimitBackoff {
+			backoff = maxRateLimitBackoff
+		}
+		// Add jitter: random 0~50% of backoff
+		if backoff > 0 {
+			jitter := time.Duration(rand.Int63n(int64(backoff / 2)))
+			backoff += jitter
+		}
+
+		log.Printf("[WARN] rate limited on action %s, retry %d/%d after %v",
+			request.GetAction(), attempt+1, maxAttempts, backoff)
+		time.Sleep(backoff)
 	}
-	
-	if c.signMethod == "HmacSHA1" || c.signMethod == "HmacSHA256" {
-		return c.sendWithSignatureV1(request, response)
-	} else {
-		return c.sendWithSignatureV3(request, response)
+	return err
+}
+
+// isRateLimitError checks if the error is a rate limit error from the API.
+// Matches both "RequestLimitExceeded" and "LimitExceeded.*" error codes.
+func isRateLimitError(err error) bool {
+	if err == nil {
+		return false
 	}
+	if sdkErr, ok := err.(*errors.CloudSDKError); ok {
+		return sdkErr.Code == "RequestLimitExceeded" ||
+			strings.HasPrefix(sdkErr.Code, "LimitExceeded.")
+	}
+	return false
 }
 
 func (c *Client) sendWithSignatureV1(request tchttp.Request, response tchttp.Response) (err error) {
