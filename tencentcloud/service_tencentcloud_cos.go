@@ -17,6 +17,7 @@ import (
 	"github.com/tencentyun/cos-go-sdk-v5"
 
 	ckafka "terraform-provider-tencentcloudenterprise/sdk/ckafka/v20190819"
+	csp "terraform-provider-tencentcloudenterprise/sdk/csp/v20200107"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/connectivity"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/ratelimit"
@@ -1650,13 +1651,30 @@ type CspNotificationConfiguration struct {
 
 // CspTopicConfiguration represents a single notification rule with CSP-specific Kafka fields.
 type CspTopicConfiguration struct {
-	Id       string   `xml:"Id"`
-	Events   []string `xml:"Event"`
-	Topic    string   `xml:"Topic"`              // fixed "csp"
-	KafkaID  string   `xml:"KafkaID"`            // CSP extension: ckafka instance id
-	Endpoint string   `xml:"Endpoint"`           // CSP extension: kafka://host:port
-	User     string   `xml:"User,omitempty"`     // SASL username: format "instanceId#appId"
-	Password string   `xml:"Password,omitempty"` // SASL password
+	Id       string              `xml:"Id"`
+	Events   []string            `xml:"Event"`
+	Topic    string              `xml:"Topic"`              // Kafka topic name for notification delivery
+	KafkaID  string              `xml:"KafkaID"`            // CSP extension: ckafka instance id
+	Endpoint string              `xml:"Endpoint"`           // CSP extension: kafka://host:port
+	User     string              `xml:"User,omitempty"`     // SASL username: format "instanceId#appId"
+	Password string              `xml:"Password,omitempty"` // SASL password
+	Filter   *CspNotificationFilter `xml:"Filter,omitempty"`   // Optional filter for prefix/suffix matching
+}
+
+// CspNotificationFilter represents the filter rules for notification configuration.
+type CspNotificationFilter struct {
+	Key *CspFilterKey `xml:"S3Key,omitempty"`
+}
+
+// CspFilterKey holds a list of filter rules (prefix/suffix).
+type CspFilterKey struct {
+	FilterRules []CspFilterRule `xml:"FilterRule,omitempty"`
+}
+
+// CspFilterRule represents a single filter rule with Name (prefix/suffix) and Value.
+type CspFilterRule struct {
+	Name  string `xml:"Name"`
+	Value string `xml:"Value"`
 }
 
 // PutBucketNotification writes a notification configuration to a CSP bucket.
@@ -1796,7 +1814,7 @@ func (me *CosService) ResolveCkafkaEndpoint(ctx context.Context, instanceId stri
 	}
 
 	var endpoint string
-	err = resource.Retry(3*time.Minute, func() *resource.RetryError {
+	err = resource.Retry(2*writeRetryTimeout, func() *resource.RetryError {
 		r, e := ckafkaService.DescribeCkafkaRouteByKey(ctx, instanceId, 4, "", "", 0)
 		if e != nil {
 			return retryError(e)
@@ -1821,6 +1839,155 @@ func (me *CosService) ResolveCkafkaEndpoint(ctx context.Context, instanceId stri
 	return endpoint, nil
 }
 
+// ResolveCkafkaEndpointByAccessType finds or creates a route with the specified accessType
+// (0 for non-SASL/PLAINTEXT, 1 for SASL) and returns the kafka endpoint in "kafka://host:port" format.
+func (me *CosService) ResolveCkafkaEndpointByAccessType(ctx context.Context, instanceId string, accessType int64) (string, error) {
+	logId := getLogId(ctx)
+
+	ckafkaService := CkafkaService{client: me.client}
+
+	route, err := ckafkaService.DescribeCkafkaRouteByKey(ctx, instanceId, 4, "", "", accessType)
+	if err != nil {
+		return "", fmt.Errorf("describe ckafka route (accessType=%d) error: %s", accessType, err.Error())
+	}
+
+	if route != nil {
+		// Route exists — if ready, return immediately; if processing, wait for it.
+		if route.Processing != nil && *route.Processing == 0 &&
+			route.VipList != nil && len(route.VipList) > 0 &&
+			route.VipList[0].Vip != nil && *route.VipList[0].Vip != "" {
+			endpoint := fmt.Sprintf("kafka://%s:%s", *route.VipList[0].Vip, *route.VipList[0].Vport)
+			log.Printf("[DEBUG]%s found ready ckafka route (accessType=%d), endpoint: %s", logId, accessType, endpoint)
+			return endpoint, nil
+		}
+
+		// Route exists but still processing, wait for it to become ready
+		log.Printf("[DEBUG]%s ckafka route (accessType=%d) exists but processing, waiting...", logId, accessType)
+		var endpoint string
+		err = resource.Retry(2 * writeRetryTimeout, func() *resource.RetryError {
+			r, e := ckafkaService.DescribeCkafkaRouteByKey(ctx, instanceId, 4, "", "", accessType)
+			if e != nil {
+				return retryError(e)
+			}
+			if r == nil {
+				return resource.RetryableError(fmt.Errorf("ckafka route not found"))
+			}
+			if r.Processing != nil && *r.Processing != 0 {
+				return resource.RetryableError(fmt.Errorf("ckafka route still processing"))
+			}
+			if r.VipList == nil || len(r.VipList) == 0 || r.VipList[0].Vip == nil || *r.VipList[0].Vip == "" {
+				return resource.RetryableError(fmt.Errorf("ckafka route vip not ready"))
+			}
+			endpoint = fmt.Sprintf("kafka://%s:%s", *r.VipList[0].Vip, *r.VipList[0].Vport)
+			return nil
+		})
+		if err != nil {
+			return "", fmt.Errorf("waiting for ckafka route (accessType=%d) ready error: %s", accessType, err.Error())
+		}
+		log.Printf("[DEBUG]%s ckafka route (accessType=%d) ready, endpoint: %s", logId, accessType, endpoint)
+		return endpoint, nil
+	}
+
+	// Route does not exist — create it
+	log.Printf("[DEBUG]%s no route (accessType=%d) for ckafka %s, creating...", logId, accessType, instanceId)
+
+	createReq := ckafka.NewCreateRouteRequest()
+	createReq.InstanceId = &instanceId
+	vipType := int64(4)
+	createReq.VipType = &vipType
+	createReq.AccessType = &accessType
+
+	// Retry create in case of lock contention (ckafka has a global lock per instance for route operations)
+	err = resource.Retry(2*writeRetryTimeout, func() *resource.RetryError {
+		ratelimit.Check("CreateRoute")
+		_, e := me.client.UseCkafkaClient().CreateRoute(createReq)
+		if e != nil {
+			if strings.Contains(e.Error(), "已经存在的锁") || strings.Contains(e.Error(), "createRoute") {
+				return resource.RetryableError(fmt.Errorf("ckafka route creation locked, retrying: %s", e.Error()))
+			}
+			return resource.NonRetryableError(fmt.Errorf("create ckafka route (accessType=%d) error: %s", accessType, e.Error()))
+		}
+		return nil
+	})
+	if err != nil {
+		return "", err
+	}
+
+	var endpoint string
+	err = resource.Retry(2*writeRetryTimeout, func() *resource.RetryError {
+		r, e := ckafkaService.DescribeCkafkaRouteByKey(ctx, instanceId, 4, "", "", accessType)
+		if e != nil {
+			return retryError(e)
+		}
+		if r == nil {
+			return resource.RetryableError(fmt.Errorf("ckafka route not found yet"))
+		}
+		if r.Processing != nil && *r.Processing != 0 {
+			return resource.RetryableError(fmt.Errorf("ckafka route still processing"))
+		}
+		if r.VipList == nil || len(r.VipList) == 0 || r.VipList[0].Vip == nil || *r.VipList[0].Vip == "" {
+			return resource.RetryableError(fmt.Errorf("ckafka route vip not ready"))
+		}
+		endpoint = fmt.Sprintf("kafka://%s:%s", *r.VipList[0].Vip, *r.VipList[0].Vport)
+		return nil
+	})
+	if err != nil {
+		return "", fmt.Errorf("waiting for ckafka route (accessType=%d) ready error: %s", accessType, err.Error())
+	}
+
+	log.Printf("[DEBUG]%s created ckafka route (accessType=%d), endpoint: %s", logId, accessType, endpoint)
+	return endpoint, nil
+}
+// For SASL, user should be in format "instanceId#appId" and password is the SASL password.
+// For non-SASL, user and password should be empty strings.
+func (me *CosService) CheckKafkaConnectivity(ctx context.Context, host, user, password string) error {
+	logId := getLogId(ctx)
+
+	cspClient := me.client.UseCspClient()
+
+	region := me.client.Region
+
+	// Retry CheckKafka because newly created routes may need time for brokers to become reachable
+	var lastErr error
+	err := resource.Retry(readRetryTimeout, func() *resource.RetryError {
+		request := csp.NewCheckKafkaRequest()
+		request.CosRegion = &region
+		request.Host = &host
+		request.User = &user
+		request.Password = &password
+
+		ratelimit.Check("CheckKafka")
+		response, e := cspClient.CheckKafka(request)
+		if e != nil {
+			return resource.NonRetryableError(fmt.Errorf("check kafka connectivity error: %s", e.Error()))
+		}
+
+		if response.Response == nil {
+			return resource.NonRetryableError(fmt.Errorf("check kafka connectivity: empty response"))
+		}
+
+		if response.Response.ReturnCode != nil && *response.Response.ReturnCode != 0 {
+			msg := "unknown error"
+			if response.Response.ReturnMessage != nil {
+				msg = *response.Response.ReturnMessage
+			}
+			lastErr = fmt.Errorf("kafka connectivity check failed: %s", msg)
+			// "client has run out of available brokers" is typically a transient issue for new routes
+			if strings.Contains(msg, "available brokers") {
+				return resource.RetryableError(lastErr)
+			}
+			return resource.NonRetryableError(lastErr)
+		}
+
+		log.Printf("[DEBUG]%s CheckKafka success, host: %s", logId, host)
+		return nil
+	})
+	if err != nil {
+		return lastErr
+	}
+	return nil
+}
+
 // BuildNotificationConfig constructs a CspNotificationConfiguration from terraform resource data.
 func BuildNotificationConfig(rules []interface{}, endpoints map[string]string) *CspNotificationConfiguration {
 	config := &CspNotificationConfiguration{}
@@ -1828,7 +1995,7 @@ func BuildNotificationConfig(rules []interface{}, endpoints map[string]string) *
 		rule := raw.(map[string]interface{})
 		tc := CspTopicConfiguration{
 			Id:      rule["id"].(string),
-			Topic:   "csp",
+			Topic:   rule["topic"].(string),
 			KafkaID: rule["ckafka_instance_id"].(string),
 		}
 		for _, e := range rule["events"].([]interface{}) {
@@ -1843,6 +2010,21 @@ func BuildNotificationConfig(rules []interface{}, endpoints map[string]string) *
 		}
 		if v, ok := rule["sasl_password"].(string); ok && v != "" {
 			tc.Password = v
+		}
+		// Build filter from prefix/suffix
+		prefix, _ := rule["filter_prefix"].(string)
+		suffix, _ := rule["filter_suffix"].(string)
+		if prefix != "" || suffix != "" {
+			var filterRules []CspFilterRule
+			if prefix != "" {
+				filterRules = append(filterRules, CspFilterRule{Name: "prefix", Value: prefix})
+			}
+			if suffix != "" {
+				filterRules = append(filterRules, CspFilterRule{Name: "suffix", Value: suffix})
+			}
+			tc.Filter = &CspNotificationFilter{
+				Key: &CspFilterKey{FilterRules: filterRules},
+			}
 		}
 		config.TopicConfigurations = append(config.TopicConfigurations, tc)
 	}
@@ -1880,10 +2062,24 @@ func FlattenNotificationRules(config *CspNotificationConfiguration, existingRule
 		rule := map[string]interface{}{
 			"id":                 tc.Id,
 			"events":             tc.Events,
+			"topic":              tc.Topic,
 			"ckafka_instance_id": tc.KafkaID,
 			"endpoint":           tc.Endpoint,
 			"sasl_user":          saslUser,
 			"sasl_password":      saslPassword,
+			"filter_prefix":      "",
+			"filter_suffix":      "",
+		}
+		// Extract filter prefix/suffix from response
+		if tc.Filter != nil && tc.Filter.Key != nil {
+			for _, fr := range tc.Filter.Key.FilterRules {
+				switch fr.Name {
+				case "prefix":
+					rule["filter_prefix"] = fr.Value
+				case "suffix":
+					rule["filter_suffix"] = fr.Value
+				}
+			}
 		}
 		rules = append(rules, rule)
 	}

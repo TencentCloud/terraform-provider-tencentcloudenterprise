@@ -17,6 +17,7 @@ Without SASL authentication:
 	    id                 = "rule-1"
 	    events             = ["cos:ObjectCreated:*", "cos:ObjectRemove:*"]
 	    ckafka_instance_id = "ckafka-7k3pve8e"
+	    topic              = "my-notification-topic"
 	  }
 	}
 
@@ -33,6 +34,7 @@ With SASL authentication:
 	    id                 = "rule-sasl"
 	    events             = ["cos:ObjectCreated:*", "cos:ObjectRemove:*"]
 	    ckafka_instance_id = "ckafka-7k3pve8e"
+	    topic              = "my-notification-topic"
 	    sasl_user          = "123123"
 	    sasl_password      = "Tencent@321"
 	  }
@@ -54,6 +56,7 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"strings"
 	"time"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
@@ -70,7 +73,10 @@ func init() {
 			"id":                 "规则唯一标识",
 			"events":             "触发事件类型列表",
 			"ckafka_instance_id": "CKafka实例ID",
+			"topic":              "Kafka Topic名称，消息投递的目标Topic",
 			"endpoint":           "Kafka接入点地址",
+			"filter_prefix":      "对象键前缀过滤，仅匹配该前缀的对象才触发通知",
+			"filter_suffix":      "对象键后缀过滤，仅匹配该后缀的对象才触发通知",
 			"sasl_user":          "SASL认证用户AppID，provider会自动拼接为 instanceId#appId 格式",
 			"sasl_password":      "SASL认证密码",
 		},
@@ -120,6 +126,11 @@ func resourceTencentCloudCspBucketNotification() *schema.Resource {
 					Required:    true,
 					Description: "The CKafka instance ID to deliver notifications to. The provider will automatically resolve the Kafka endpoint from this instance.",
 				},
+				"topic": {
+					Type:        schema.TypeString,
+					Required:    true,
+					Description: "The Kafka topic name to deliver notification messages to.",
+				},
 				"endpoint": {
 					Type:        schema.TypeString,
 					Computed:    true,
@@ -135,6 +146,16 @@ func resourceTencentCloudCspBucketNotification() *schema.Resource {
 					Optional:    true,
 					Sensitive:   true,
 					Description: "SASL password for Kafka authentication.",
+				},
+				"filter_prefix": {
+					Type:        schema.TypeString,
+					Optional:    true,
+					Description: "Object key prefix for filtering notifications. Only objects matching this prefix will trigger notifications. For example `adc` means only objects under the `adc/` path.",
+				},
+				"filter_suffix": {
+					Type:        schema.TypeString,
+					Optional:    true,
+					Description: "Object key suffix for filtering notifications. Only objects matching this suffix will trigger notifications. For example `.jpg`.",
 				},
 					},
 				},
@@ -153,20 +174,69 @@ func resourceTencentCloudCspBucketNotificationCreate(d *schema.ResourceData, met
 	rules := d.Get("notification_rule").([]interface{})
 
 	cosService := CosService{client: meta.(*TencentCloudClient).apiV3Conn, useCspClient: true}
+	ckafkaService := CkafkaService{client: meta.(*TencentCloudClient).apiV3Conn}
 
-	// Resolve CKafka endpoints for all rules
+	// Validate CKafka instances and topics, resolve endpoints, and check Kafka connectivity
 	endpoints := make(map[string]string)
 	for _, raw := range rules {
 		rule := raw.(map[string]interface{})
 		instanceId := rule["ckafka_instance_id"].(string)
-		if _, ok := endpoints[instanceId]; ok {
-			continue
+		topic := rule["topic"].(string)
+		saslUser, _ := rule["sasl_user"].(string)
+		saslPassword, _ := rule["sasl_password"].(string)
+		hasSasl := saslUser != ""
+
+		// Validate ckafka instance exists
+		if _, ok := endpoints[instanceId]; !ok {
+			_, has, err := ckafkaService.DescribeInstanceById(ctx, instanceId)
+			if err != nil {
+				return fmt.Errorf("failed to check ckafka instance %s: %s", instanceId, err.Error())
+			}
+			if !has {
+				return fmt.Errorf("ckafka instance %s does not exist", instanceId)
+			}
+
+			// Resolve endpoint: AccessType=1 for SASL, AccessType=0 for non-SASL
+			var accessType int64
+			if hasSasl {
+				accessType = 1
+			}
+			ep, err := cosService.ResolveCkafkaEndpointByAccessType(ctx, instanceId, accessType)
+			if err != nil {
+				return err
+			}
+			endpoints[instanceId] = ep
 		}
-		ep, err := cosService.ResolveCkafkaEndpoint(ctx, instanceId)
+
+		// Validate topic exists in the ckafka instance
+		topicList, err := ckafkaService.DescribeCkafkaTopics(ctx, instanceId, topic)
 		if err != nil {
+			return fmt.Errorf("failed to check ckafka topic %s in instance %s: %s", topic, instanceId, err.Error())
+		}
+		topicFound := false
+		for _, t := range topicList {
+			if t.TopicName != nil && *t.TopicName == topic {
+				topicFound = true
+				break
+			}
+		}
+		if !topicFound {
+			return fmt.Errorf("topic %s does not exist in ckafka instance %s", topic, instanceId)
+		}
+
+		// Check Kafka connectivity via CSP
+		ep := endpoints[instanceId]
+		// endpoint is "kafka://host:port", extract "host:port"
+		host := strings.TrimPrefix(ep, "kafka://")
+		checkUser := ""
+		checkPassword := ""
+		if hasSasl {
+			checkUser = instanceId + "#" + saslUser
+			checkPassword = saslPassword
+		}
+		if err := cosService.CheckKafkaConnectivity(ctx, host, checkUser, checkPassword); err != nil {
 			return err
 		}
-		endpoints[instanceId] = ep
 	}
 
 	config := BuildNotificationConfig(rules, endpoints)
@@ -238,6 +308,7 @@ func resourceTencentCloudCspBucketNotificationUpdate(d *schema.ResourceData, met
 
 	bucket := d.Id()
 	cosService := CosService{client: meta.(*TencentCloudClient).apiV3Conn, useCspClient: true}
+	ckafkaService := CkafkaService{client: meta.(*TencentCloudClient).apiV3Conn}
 
 	if d.HasChange("notification_rule") {
 		rules := d.Get("notification_rule").([]interface{})
@@ -246,14 +317,60 @@ func resourceTencentCloudCspBucketNotificationUpdate(d *schema.ResourceData, met
 		for _, raw := range rules {
 			rule := raw.(map[string]interface{})
 			instanceId := rule["ckafka_instance_id"].(string)
-			if _, ok := endpoints[instanceId]; ok {
-				continue
+			topic := rule["topic"].(string)
+			saslUser, _ := rule["sasl_user"].(string)
+			saslPassword, _ := rule["sasl_password"].(string)
+			hasSasl := saslUser != ""
+
+			// Validate ckafka instance exists
+			if _, ok := endpoints[instanceId]; !ok {
+				_, has, err := ckafkaService.DescribeInstanceById(ctx, instanceId)
+				if err != nil {
+					return fmt.Errorf("failed to check ckafka instance %s: %s", instanceId, err.Error())
+				}
+				if !has {
+					return fmt.Errorf("ckafka instance %s does not exist", instanceId)
+				}
+
+				var accessType int64
+				if hasSasl {
+					accessType = 1
+				}
+				ep, err := cosService.ResolveCkafkaEndpointByAccessType(ctx, instanceId, accessType)
+				if err != nil {
+					return err
+				}
+				endpoints[instanceId] = ep
 			}
-			ep, err := cosService.ResolveCkafkaEndpoint(ctx, instanceId)
+
+			// Validate topic exists in the ckafka instance
+			topicList, err := ckafkaService.DescribeCkafkaTopics(ctx, instanceId, topic)
 			if err != nil {
+				return fmt.Errorf("failed to check ckafka topic %s in instance %s: %s", topic, instanceId, err.Error())
+			}
+			topicFound := false
+			for _, t := range topicList {
+				if t.TopicName != nil && *t.TopicName == topic {
+					topicFound = true
+					break
+				}
+			}
+			if !topicFound {
+				return fmt.Errorf("topic %s does not exist in ckafka instance %s", topic, instanceId)
+			}
+
+			// Check Kafka connectivity via CSP
+			ep := endpoints[instanceId]
+			host := strings.TrimPrefix(ep, "kafka://")
+			checkUser := ""
+			checkPassword := ""
+			if hasSasl {
+				checkUser = instanceId + "#" + saslUser
+				checkPassword = saslPassword
+			}
+			if err := cosService.CheckKafkaConnectivity(ctx, host, checkUser, checkPassword); err != nil {
 				return err
 			}
-			endpoints[instanceId] = ep
 		}
 
 		config := BuildNotificationConfig(rules, endpoints)

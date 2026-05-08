@@ -9,10 +9,9 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 )
 
-// TestAccTencentCloudCspBucketNotification_basic tests the full lifecycle (create/update/import/destroy)
-// without SASL authentication.
+// TestAccTencentCloudCspBucketNotification_basic tests without SASL:
+// create → update events → update with filter_prefix → import → destroy
 func TestAccTencentCloudCspBucketNotification_basic(t *testing.T) {
-
 	rName := "tencentcloudenterprise_csp_bucket_notification.test"
 
 	resource.Test(t, resource.TestCase{
@@ -21,29 +20,41 @@ func TestAccTencentCloudCspBucketNotification_basic(t *testing.T) {
 		CheckDestroy: testAccCheckCspBucketNotificationDestroy,
 		Steps: []resource.TestStep{
 			{
-				Config: testAccCspBucketNotificationBasic(),
+				// Step 1: Create with basic config (no SASL, no filter)
+				Config: testAccCspBucketNotification_noSasl_noFilter(),
 				Check: resource.ComposeTestCheckFunc(
 					testAccCheckCspBucketNotificationExists(rName),
 					resource.TestCheckResourceAttr(rName, "bucket", "est123-1255000115"),
 					resource.TestCheckResourceAttr(rName, "notification_rule.#", "1"),
-					resource.TestCheckResourceAttr(rName, "notification_rule.0.id", "test-rule-1"),
+					resource.TestCheckResourceAttr(rName, "notification_rule.0.id", "test-basic"),
+					resource.TestCheckResourceAttr(rName, "notification_rule.0.topic", "csp"),
 					resource.TestCheckResourceAttr(rName, "notification_rule.0.ckafka_instance_id", "ckafka-7k3pve8e"),
 					resource.TestCheckResourceAttr(rName, "notification_rule.0.events.#", "2"),
 					resource.TestCheckResourceAttrSet(rName, "notification_rule.0.endpoint"),
-					resource.TestCheckResourceAttr(rName, "notification_rule.0.sasl_user", ""),
-					resource.TestCheckResourceAttr(rName, "notification_rule.0.sasl_password", ""),
+					resource.TestCheckResourceAttr(rName, "notification_rule.0.filter_prefix", ""),
+					resource.TestCheckResourceAttr(rName, "notification_rule.0.filter_suffix", ""),
 				),
 			},
 			{
-				Config: testAccCspBucketNotificationUpdate(),
+				// Step 2: Update - change events to single event
+				Config: testAccCspBucketNotification_noSasl_updateEvents(),
 				Check: resource.ComposeTestCheckFunc(
 					testAccCheckCspBucketNotificationExists(rName),
-					resource.TestCheckResourceAttr(rName, "notification_rule.#", "1"),
-					resource.TestCheckResourceAttr(rName, "notification_rule.0.id", "test-rule-1"),
 					resource.TestCheckResourceAttr(rName, "notification_rule.0.events.#", "1"),
+					resource.TestCheckResourceAttr(rName, "notification_rule.0.events.0", "cos:ObjectCreated:*"),
 				),
 			},
 			{
+				// Step 3: Update - add filter_prefix
+				Config: testAccCspBucketNotification_noSasl_withFilter(),
+				Check: resource.ComposeTestCheckFunc(
+					testAccCheckCspBucketNotificationExists(rName),
+					resource.TestCheckResourceAttr(rName, "notification_rule.0.filter_prefix", "logs/"),
+					resource.TestCheckResourceAttr(rName, "notification_rule.0.filter_suffix", ".json"),
+				),
+			},
+			{
+				// Step 4: Import
 				ResourceName:      rName,
 				ImportState:       true,
 				ImportStateVerify: true,
@@ -52,9 +63,10 @@ func TestAccTencentCloudCspBucketNotification_basic(t *testing.T) {
 	})
 }
 
-// TestAccTencentCloudCspBucketNotification_sasl tests the full lifecycle with SASL authentication.
+// TestAccTencentCloudCspBucketNotification_sasl tests with SASL authentication:
+// create with SASL → update remove SASL → import → destroy
+// Note: SASL route (AccessType=1) may need to be created, so this test may take longer.
 func TestAccTencentCloudCspBucketNotification_sasl(t *testing.T) {
-
 	rName := "tencentcloudenterprise_csp_bucket_notification.test_sasl"
 
 	resource.Test(t, resource.TestCase{
@@ -63,32 +75,58 @@ func TestAccTencentCloudCspBucketNotification_sasl(t *testing.T) {
 		CheckDestroy: testAccCheckCspBucketNotificationDestroy,
 		Steps: []resource.TestStep{
 			{
-				Config: testAccCspBucketNotificationSasl(),
+				// Step 1: Create with SASL
+				Config: testAccCspBucketNotification_withSasl(),
 				Check: resource.ComposeTestCheckFunc(
 					testAccCheckCspBucketNotificationExists(rName),
 					resource.TestCheckResourceAttr(rName, "bucket", "est123-1255000115"),
 					resource.TestCheckResourceAttr(rName, "notification_rule.#", "1"),
-					resource.TestCheckResourceAttr(rName, "notification_rule.0.id", "test-rule-sasl"),
+					resource.TestCheckResourceAttr(rName, "notification_rule.0.id", "test-sasl"),
+					resource.TestCheckResourceAttr(rName, "notification_rule.0.topic", "csp"),
 					resource.TestCheckResourceAttr(rName, "notification_rule.0.ckafka_instance_id", "ckafka-7k3pve8e"),
 					resource.TestCheckResourceAttr(rName, "notification_rule.0.events.#", "2"),
 					resource.TestCheckResourceAttrSet(rName, "notification_rule.0.endpoint"),
-					resource.TestCheckResourceAttr(rName, "notification_rule.0.sasl_user", "123123"),
+					resource.TestCheckResourceAttr(rName, "notification_rule.0.sasl_user", "test-tf"),
 				),
 			},
 			{
-				// Update: remove SASL
-				Config: testAccCspBucketNotificationSaslRemoved(),
+				// Step 2: Update - remove SASL (switch to non-SASL route)
+				Config: testAccCspBucketNotification_saslRemoved(),
 				Check: resource.ComposeTestCheckFunc(
 					testAccCheckCspBucketNotificationExists(rName),
 					resource.TestCheckResourceAttr(rName, "notification_rule.0.sasl_user", ""),
 					resource.TestCheckResourceAttr(rName, "notification_rule.0.sasl_password", ""),
+					resource.TestCheckResourceAttrSet(rName, "notification_rule.0.endpoint"),
 				),
 			},
 			{
+				// Step 3: Import
 				ResourceName:            rName,
 				ImportState:             true,
 				ImportStateVerify:       true,
 				ImportStateVerifyIgnore: []string{"notification_rule.0.sasl_password"},
+			},
+		},
+	})
+}
+
+// TestAccTencentCloudCspBucketNotification_saslWithFilter tests SASL + filter combined.
+func TestAccTencentCloudCspBucketNotification_saslWithFilter(t *testing.T) {
+	rName := "tencentcloudenterprise_csp_bucket_notification.test_sasl_filter"
+
+	resource.Test(t, resource.TestCase{
+		PreCheck:     func() { testAccPreCheck(t) },
+		Providers:    testAccProviders,
+		CheckDestroy: testAccCheckCspBucketNotificationDestroy,
+		Steps: []resource.TestStep{
+			{
+				Config: testAccCspBucketNotification_saslWithFilter(),
+				Check: resource.ComposeTestCheckFunc(
+					testAccCheckCspBucketNotificationExists(rName),
+					resource.TestCheckResourceAttr(rName, "notification_rule.0.sasl_user", "test-tf"),
+					resource.TestCheckResourceAttr(rName, "notification_rule.0.filter_prefix", "data/"),
+					resource.TestCheckResourceAttrSet(rName, "notification_rule.0.endpoint"),
+				),
 			},
 		},
 	})
@@ -139,59 +177,104 @@ func testAccCheckCspBucketNotificationDestroy(s *terraform.State) error {
 	return nil
 }
 
-func testAccCspBucketNotificationBasic() string {
+// --- Without SASL configs ---
+
+func testAccCspBucketNotification_noSasl_noFilter() string {
 	return `
 resource "tencentcloudenterprise_csp_bucket_notification" "test" {
   bucket = "est123-1255000115"
 
   notification_rule {
-    id                 = "test-rule-1"
+    id                 = "test-basic"
     events             = ["cos:ObjectCreated:*", "cos:ObjectRemove:*"]
+    topic              = "csp"
     ckafka_instance_id = "ckafka-7k3pve8e"
   }
 }
 `
 }
 
-func testAccCspBucketNotificationUpdate() string {
+func testAccCspBucketNotification_noSasl_updateEvents() string {
 	return `
 resource "tencentcloudenterprise_csp_bucket_notification" "test" {
   bucket = "est123-1255000115"
 
   notification_rule {
-    id                 = "test-rule-1"
+    id                 = "test-basic"
     events             = ["cos:ObjectCreated:*"]
+    topic              = "csp"
     ckafka_instance_id = "ckafka-7k3pve8e"
   }
 }
 `
 }
 
-func testAccCspBucketNotificationSasl() string {
+func testAccCspBucketNotification_noSasl_withFilter() string {
+	return `
+resource "tencentcloudenterprise_csp_bucket_notification" "test" {
+  bucket = "est123-1255000115"
+
+  notification_rule {
+    id                 = "test-basic"
+    events             = ["cos:ObjectCreated:*"]
+    topic              = "csp"
+    ckafka_instance_id = "ckafka-7k3pve8e"
+    filter_prefix      = "logs/"
+    filter_suffix      = ".json"
+  }
+}
+`
+}
+
+// --- With SASL configs ---
+
+func testAccCspBucketNotification_withSasl() string {
 	return `
 resource "tencentcloudenterprise_csp_bucket_notification" "test_sasl" {
   bucket = "est123-1255000115"
 
   notification_rule {
-    id                 = "test-rule-sasl"
+    id                 = "test-sasl"
     events             = ["cos:ObjectCreated:*", "cos:ObjectRemove:*"]
+    topic              = "csp"
     ckafka_instance_id = "ckafka-7k3pve8e"
-    sasl_user          = "123123"
+    sasl_user          = "test-tf"
     sasl_password      = "Tencent@321"
   }
 }
 `
 }
 
-func testAccCspBucketNotificationSaslRemoved() string {
+func testAccCspBucketNotification_saslRemoved() string {
 	return `
 resource "tencentcloudenterprise_csp_bucket_notification" "test_sasl" {
   bucket = "est123-1255000115"
 
   notification_rule {
-    id                 = "test-rule-sasl"
+    id                 = "test-sasl"
     events             = ["cos:ObjectCreated:*", "cos:ObjectRemove:*"]
+    topic              = "csp"
     ckafka_instance_id = "ckafka-7k3pve8e"
+  }
+}
+`
+}
+
+// --- SASL + Filter ---
+
+func testAccCspBucketNotification_saslWithFilter() string {
+	return `
+resource "tencentcloudenterprise_csp_bucket_notification" "test_sasl_filter" {
+  bucket = "est123-1255000115"
+
+  notification_rule {
+    id                 = "test-sasl-filter"
+    events             = ["cos:ObjectCreated:*"]
+    topic              = "csp"
+    ckafka_instance_id = "ckafka-7k3pve8e"
+    sasl_user          = "test-tf"
+    sasl_password      = "Tencent@321"
+    filter_prefix      = "data/"
   }
 }
 `
