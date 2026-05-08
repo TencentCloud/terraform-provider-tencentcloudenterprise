@@ -29,7 +29,7 @@ jobs:
         uses: goreleaser/goreleaser-action@v5
         with:
           version: "1.26.2"
-          args: release --rm-dist --timeout 500m --parallelism 1
+          args: release --rm-dist --timeout 500m
         env:
           GPG_FINGERPRINT: ${{ steps.import_gpg.outputs.fingerprint }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
