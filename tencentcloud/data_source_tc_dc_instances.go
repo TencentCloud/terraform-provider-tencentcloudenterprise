@@ -5,11 +5,11 @@ Example Usage
 
 ```hcl
 
-	data "tencentcloudenterprise_dc_instances" "name_select" {
+	data "cloud_dc_instances" "name_select" {
 	  name = "t"
 	}
 
-	data "tencentcloudenterprise_dc_instances" "id" {
+	data "cloud_dc_instances" "id" {
 	  dcx_id = "dc-kax48sg7"
 	}
 
@@ -28,7 +28,7 @@ import (
 )
 
 func init() {
-	registerDataDescriptionProvider("tencentcloudenterprise_dc_instances", CNDescription{
+	registerDataDescriptionProvider("cloud_dc_instances", CNDescription{
 		TerraformTypeCN: " DC 实例",
 		AttributesCN: map[string]string{
 			"dc_id":                       "要查询的DC的ID",
@@ -40,7 +40,8 @@ func init() {
 			"line_operator":               "DC的运营商，可用值包括“中国电信”、“中国移动”、“中华联通”、“内部布线”、“ChinaOther”和“国际运营商”",
 			"location":                    "连接所在的DC位置",
 			"bandwidth":                   "DC的带宽",
-			"port_type":                   "客户端中DC的端口类型，可用值包括“100Base-T”、“1000Base-T”，“1000Base-LX”、“10GBase-T”和“10GBase-LR”默认值为“1000Base LX”",
+			"port_type":                   "IDC侧（客户端）DC的端口类型，可用值包括100Base-T、1000Base-T、1000Base-LX、10GBase-T和10GBase-LR，默认值为1000Base-LX",
+			"cloud_port_type":             "云侧DC的端口类型",
 			"circuit_code":                "操作员为DC提供的电路代码",
 			"redundant_dc_id":             "冗余DC的ID",
 			"tencent_address":             "腾讯内部DC的互联IP注意：此字段可能返回null，表示没有采用有效值",
@@ -124,7 +125,12 @@ func dataSourceTencentCloudDcInstances() *schema.Resource {
 						"port_type": {
 							Type:        schema.TypeString,
 							Computed:    true,
-							Description: "Port type of the DC in client, and available values include `100Base-T`, `1000Base-T`, `1000Base-LX`, `10GBase-T` and `10GBase-LR`. The default value is `1000Base-LX`.",
+							Description: "IDC-side port type of the DC, and available values include `100Base-T`, `1000Base-T`, `1000Base-LX`, `10GBase-T` and `10GBase-LR`. The default value is `1000Base-LX`.",
+						},
+						"cloud_port_type": {
+							Type:        schema.TypeString,
+							Computed:    true,
+							Description: "Cloud-side port type of the DC.",
 						},
 						"circuit_code": {
 							Type:        schema.TypeString,
@@ -194,7 +200,7 @@ func dataSourceTencentCloudDcInstances() *schema.Resource {
 }
 
 func dataSourceTencentCloudDcInstancesRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("data_source.tencentcloudenterprise_dc_instances.read")()
+	defer logElapsed("data_source.cloud_dc_instances.read")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
@@ -237,7 +243,8 @@ func dataSourceTencentCloudDcInstancesRead(d *schema.ResourceData, meta interfac
 
 		infoMap["location"] = service.strPt2str(item.Location)
 		infoMap["bandwidth"] = service.int64Pt2int64(item.Bandwidth)
-		infoMap["tencentcloudenterprise_port_type"] = service.strPt2str(item.CloudPortType)
+		infoMap["port_type"] = service.strPt2str(item.IdcPortType)
+		infoMap["cloud_port_type"] = service.strPt2str(item.CloudPortType)
 
 		//infoMap["circuit_code"] = service.strPt2str(item.CircuitCode)
 		infoMap["redundant_dc_id"] = service.strPt2str(item.RedundantDirectConnectId)

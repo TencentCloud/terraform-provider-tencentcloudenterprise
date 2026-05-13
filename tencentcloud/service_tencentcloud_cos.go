@@ -2005,8 +2005,7 @@ func BuildNotificationConfig(rules []interface{}, endpoints map[string]string) *
 			tc.Endpoint = ep
 		}
 		if v, ok := rule["sasl_user"].(string); ok && v != "" {
-			// Format: {instanceId}#{appId} as required by CSP
-			tc.User = tc.KafkaID + "#" + v
+			tc.User = v
 		}
 		if v, ok := rule["sasl_password"].(string); ok && v != "" {
 			tc.Password = v

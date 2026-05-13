@@ -71,11 +71,12 @@ func (me *DcService) DescribeDirectConnects(ctx context.Context, dcId,
 	var has = map[string]bool{}
 
 	var filters []*dc.Filter
+	// TCE uses "NameOrId" filter for both name and id filtering
 	if dcId != "" {
-		filters = me.fillFilter(filters, "direct-connect-id", dcId)
+		filters = me.fillFilter(filters, "NameOrId", dcId)
 	}
 	if name != "" {
-		filters = me.fillFilter(filters, "direct-connect-name", name)
+		filters = me.fillFilter(filters, "NameOrId", name)
 	}
 	if len(filters) > 0 {
 		request.Filters = filters
@@ -151,11 +152,12 @@ func (me *DcService) DescribeDirectConnectTunnels(ctx context.Context, dcxId,
 	var has = map[string]bool{}
 
 	var filters []*dc.Filter
+	// TCE uses "NameOrId" filter for both name and id filtering
 	if dcxId != "" {
-		filters = me.fillFilter(filters, "direct-connect-tunnel-id", dcxId)
+		filters = me.fillFilter(filters, "NameOrId", dcxId)
 	}
 	if name != "" {
-		filters = me.fillFilter(filters, "direct-connect-tunnel-name", name)
+		filters = me.fillFilter(filters, "NameOrId", name)
 	}
 	if len(filters) > 0 {
 		request.Filters = filters

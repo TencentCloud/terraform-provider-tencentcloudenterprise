@@ -1275,6 +1275,7 @@ func Provider() *schema.Provider {
 			"tencentcloudenterprise_tke_kubernetes_cluster_affinity":   resourceTencentCloudTkeClusterAffinity(),
 			"tencentcloudenterprise_tke_kubernetes_cluster_ing":        resourceTencentCloudTkeClusterIng(),
 			"tencentcloudenterprise_tke_kubernetes_addon":              resourceTencentCloudTkeKubernetesAddon(),
+			"tencentcloudenterprise_tke_kubernetes_addon_config":       resourceTencentCloudTkeKubernetesAddonConfig(),
 			"tencentcloudenterprise_tke_kubernetes_log_config":         resourceTencentCloudTkeKubernetesLogConfig(),
 			"tencentcloudenterprise_tke_kubernetes_cluster_attachment": resourceTencentCloudTkeClusterAttachment(),
 			"tencentcloudenterprise_tke_kubernetes_cluster_endpoint":   resourceTencentCloudTkeClusterEndpoint(),

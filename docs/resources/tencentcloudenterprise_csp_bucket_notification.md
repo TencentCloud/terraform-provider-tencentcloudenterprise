@@ -26,6 +26,7 @@ resource "tencentcloudenterprise_csp_bucket_notification" "example" {
     id                 = "rule-1"
     events             = ["cos:ObjectCreated:*", "cos:ObjectRemove:*"]
     ckafka_instance_id = "ckafka-7k3pve8e"
+    topic              = "my-notification-topic"
   }
 }
 ```
@@ -40,8 +41,26 @@ resource "tencentcloudenterprise_csp_bucket_notification" "example_sasl" {
     id                 = "rule-sasl"
     events             = ["cos:ObjectCreated:*", "cos:ObjectRemove:*"]
     ckafka_instance_id = "ckafka-7k3pve8e"
+    topic              = "my-notification-topic"
     sasl_user          = "123123"
     sasl_password      = "Tencent@321"
+  }
+}
+```
+
+### With resource prefix/suffix filter:
+
+```hcl
+resource "tencentcloudenterprise_csp_bucket_notification" "example_filter" {
+  bucket = "est123-1255000115"
+
+  notification_rule {
+    id                 = "rule-filter"
+    events             = ["cos:ObjectCreated:*"]
+    ckafka_instance_id = "ckafka-7k3pve8e"
+    topic              = "my-notification-topic"
+    filter_prefix      = "logs/"
+    filter_suffix      = ".json"
   }
 }
 ```
@@ -58,8 +77,11 @@ The `notification_rule` object supports the following:
 * `ckafka_instance_id` - (Required, String) The CKafka instance ID to deliver notifications to. The provider will automatically resolve the Kafka endpoint from this instance.
 * `events` - (Required, List) List of event types that trigger the notification. Valid values include: `cos:ObjectCreated:*`, `cos:ObjectCreated:Put`, `cos:ObjectCreated:Copy`, `cos:ObjectCreated:Post`, `cos:ObjectCreated:CompleteMultipartUpload`, `cos:ObjectRemove:*`, `cos:ObjectRemove:Delete`, `cos:ObjectRemove:DeleteMarkerCreated`.
 * `id` - (Required, String) Unique identifier for the notification rule.
+* `topic` - (Required, String) The Kafka topic name to deliver notification messages to.
+* `filter_prefix` - (Optional, String) Object key prefix for filtering notifications. Only objects matching this prefix will trigger notifications. For example `adc` means only objects under the `adc/` path.
+* `filter_suffix` - (Optional, String) Object key suffix for filtering notifications. Only objects matching this suffix will trigger notifications. For example `.jpg`.
 * `sasl_password` - (Optional, String) SASL password for Kafka authentication.
-* `sasl_user` - (Optional, String) SASL username (AppID). When specified, the provider automatically constructs the full user string as `{ckafka_instance_id}#{sasl_user}` for authentication.
+* `sasl_user` - (Optional, String) SASL username for Kafka authentication.
 
 ## Attributes Reference
 

@@ -13,20 +13,43 @@ func TestAccDataSourceTencentCloudDcV3InstancesBasic(t *testing.T) {
 		Providers: testAccProviders,
 		Steps: []resource.TestStep{
 			{
-				Config: TestAccDataSourceTencentCloudDcInstances,
+				Config: TestAccDataSourceTencentCloudDcInstancesNoFilter,
 				Check: resource.ComposeTestCheckFunc(
-					//name filter
-					testAccCheckTencentCloudDataSourceID("data.tencentcloudenterprise_dc_instances.name_select"),
-					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_dc_instances.name_select", "instance_list.#"),
-					resource.TestCheckResourceAttrSet("data.tencentcloudenterprise_dc_instances.name_select", "name"),
+					testAccCheckTencentCloudDataSourceID("data.cloud_dc_instances.list_all"),
+					resource.TestCheckResourceAttrSet("data.cloud_dc_instances.list_all", "instance_list.#"),
+				),
+			},
+			{
+				Config: TestAccDataSourceTencentCloudDcInstancesByName,
+				Check: resource.ComposeTestCheckFunc(
+					testAccCheckTencentCloudDataSourceID("data.cloud_dc_instances.name_select"),
+					resource.TestCheckResourceAttrSet("data.cloud_dc_instances.name_select", "name"),
+				),
+			},
+			{
+				Config: TestAccDataSourceTencentCloudDcInstancesById,
+				Check: resource.ComposeTestCheckFunc(
+					testAccCheckTencentCloudDataSourceID("data.cloud_dc_instances.id_select"),
+					resource.TestCheckResourceAttrSet("data.cloud_dc_instances.id_select", "dc_id"),
 				),
 			},
 		},
 	})
 }
 
-const TestAccDataSourceTencentCloudDcInstances = `
-data tencentcloudenterprise_dc_instances  name_select {
-    name ="x"
+const TestAccDataSourceTencentCloudDcInstancesNoFilter = `
+data cloud_dc_instances list_all {
+}
+`
+
+const TestAccDataSourceTencentCloudDcInstancesByName = `
+data cloud_dc_instances name_select {
+    name = "zww-test"
+}
+`
+
+const TestAccDataSourceTencentCloudDcInstancesById = `
+data cloud_dc_instances id_select {
+    dc_id = "dc-Lmb262v7"
 }
 `

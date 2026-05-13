@@ -39,6 +39,7 @@ In addition to all arguments above, the following attributes are exported:
   * `access_point_id` - Access point ID of tne DC.
   * `bandwidth` - Bandwidth of the DC.
   * `circuit_code` - The circuit code provided by the operator for the DC.
+  * `cloud_port_type` - Cloud-side port type of the DC.
   * `create_time` - Creation time of resource.
   * `customer_address` - Interconnect IP of the DC within client. Note: This field may return null, indicating that no valid values are taken.
   * `customer_email` - Applicant email of the DC, the default is obtained from the account. Note: This field may return null, indicating that no valid values are taken.
@@ -52,7 +53,7 @@ In addition to all arguments above, the following attributes are exported:
   * `line_operator` - Operator of the DC, and available values include `ChinaTelecom`, `ChinaMobile`, `ChinaUnicom`, `In-houseWiring`, `ChinaOther` and `InternationalOperator`.
   * `location` - The DC location where the connection is located.
   * `name` - Name of the DC.
-  * `port_type` - Port type of the DC in client, and available values include `100Base-T`, `1000Base-T`, `1000Base-LX`, `10GBase-T` and `10GBase-LR`. The default value is `1000Base-LX`.
+  * `port_type` - IDC-side port type of the DC, and available values include `100Base-T`, `1000Base-T`, `1000Base-LX`, `10GBase-T` and `10GBase-LR`. The default value is `1000Base-LX`.
   * `redundant_dc_id` - ID of the redundant DC.
   * `state` - State of the DC, and available values include `REJECTED`, `TOPAY`, `PAID`, `ALLOCATED`, `AVAILABLE`, `DELETING` and `DELETED`.
   * `tencent_address` - Interconnect IP of the DC within Tencent. Note: This field may return null, indicating that no valid values are taken.

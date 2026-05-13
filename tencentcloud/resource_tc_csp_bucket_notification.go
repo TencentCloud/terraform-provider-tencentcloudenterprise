@@ -10,7 +10,7 @@ Without SASL authentication:
 
 ```hcl
 
-	resource "tencentcloudenterprise_csp_bucket_notification" "example" {
+	resource "cloud_csp_bucket_notification" "example" {
 	  bucket = "est123-1255000115"
 
 	  notification_rule {
@@ -27,7 +27,7 @@ With SASL authentication:
 
 ```hcl
 
-	resource "tencentcloudenterprise_csp_bucket_notification" "example_sasl" {
+	resource "cloud_csp_bucket_notification" "example_sasl" {
 	  bucket = "est123-1255000115"
 
 	  notification_rule {
@@ -42,12 +42,31 @@ With SASL authentication:
 
 ```
 
+With resource prefix/suffix filter:
+
+```hcl
+
+	resource "cloud_csp_bucket_notification" "example_filter" {
+	  bucket = "est123-1255000115"
+
+	  notification_rule {
+	    id                 = "rule-filter"
+	    events             = ["cos:ObjectCreated:*"]
+	    ckafka_instance_id = "ckafka-7k3pve8e"
+	    topic              = "my-notification-topic"
+	    filter_prefix      = "logs/"
+	    filter_suffix      = ".json"
+	  }
+	}
+
+```
+
 # Import
 
 CSP bucket notification can be imported using the bucket name, e.g.
 
 ```
-$ terraform import tencentcloudenterprise_csp_bucket_notification.example mybucket-1258798060
+$ terraform import cloud_csp_bucket_notification.example mybucket-1258798060
 ```
 */
 package tencentcloud
@@ -64,7 +83,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("tencentcloudenterprise_csp_bucket_notification", CNDescription{
+	registerResourceDescriptionProvider("cloud_csp_bucket_notification", CNDescription{
 		TerraformTypeCN: "CSP存储桶事件通知",
 		DescriptionCN:   "提供CSP存储桶事件通知资源，用于配置存储桶的事件触发通知到CKafka。",
 		AttributesCN: map[string]string{
@@ -77,7 +96,7 @@ func init() {
 			"endpoint":           "Kafka接入点地址",
 			"filter_prefix":      "对象键前缀过滤，仅匹配该前缀的对象才触发通知",
 			"filter_suffix":      "对象键后缀过滤，仅匹配该后缀的对象才触发通知",
-			"sasl_user":          "SASL认证用户AppID，provider会自动拼接为 instanceId#appId 格式",
+			"sasl_user":          "SASL认证用户名",
 			"sasl_password":      "SASL认证密码",
 		},
 	})
@@ -139,7 +158,7 @@ func resourceTencentCloudCspBucketNotification() *schema.Resource {
 				"sasl_user": {
 					Type:        schema.TypeString,
 					Optional:    true,
-					Description: "SASL username (AppID). When specified, the provider automatically constructs the full user string as `{ckafka_instance_id}#{sasl_user}` for authentication.",
+					Description: "SASL username for Kafka authentication.",
 				},
 				"sasl_password": {
 					Type:        schema.TypeString,
@@ -165,7 +184,7 @@ func resourceTencentCloudCspBucketNotification() *schema.Resource {
 }
 
 func resourceTencentCloudCspBucketNotificationCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.tencentcloudenterprise_csp_bucket_notification.create")()
+	defer logElapsed("resource.cloud_csp_bucket_notification.create")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
@@ -231,7 +250,7 @@ func resourceTencentCloudCspBucketNotificationCreate(d *schema.ResourceData, met
 		checkUser := ""
 		checkPassword := ""
 		if hasSasl {
-			checkUser = instanceId + "#" + saslUser
+			checkUser = saslUser
 			checkPassword = saslPassword
 		}
 		if err := cosService.CheckKafkaConnectivity(ctx, host, checkUser, checkPassword); err != nil {
@@ -265,7 +284,7 @@ func resourceTencentCloudCspBucketNotificationCreate(d *schema.ResourceData, met
 }
 
 func resourceTencentCloudCspBucketNotificationRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.tencentcloudenterprise_csp_bucket_notification.read")()
+	defer logElapsed("resource.cloud_csp_bucket_notification.read")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
@@ -301,7 +320,7 @@ func resourceTencentCloudCspBucketNotificationRead(d *schema.ResourceData, meta 
 }
 
 func resourceTencentCloudCspBucketNotificationUpdate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.tencentcloudenterprise_csp_bucket_notification.update")()
+	defer logElapsed("resource.cloud_csp_bucket_notification.update")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
@@ -365,7 +384,7 @@ func resourceTencentCloudCspBucketNotificationUpdate(d *schema.ResourceData, met
 			checkUser := ""
 			checkPassword := ""
 			if hasSasl {
-				checkUser = instanceId + "#" + saslUser
+				checkUser = saslUser
 				checkPassword = saslPassword
 			}
 			if err := cosService.CheckKafkaConnectivity(ctx, host, checkUser, checkPassword); err != nil {
@@ -384,7 +403,7 @@ func resourceTencentCloudCspBucketNotificationUpdate(d *schema.ResourceData, met
 }
 
 func resourceTencentCloudCspBucketNotificationDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.tencentcloudenterprise_csp_bucket_notification.delete")()
+	defer logElapsed("resource.cloud_csp_bucket_notification.delete")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
