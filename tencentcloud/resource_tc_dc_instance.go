@@ -281,6 +281,41 @@ func resourceTencentCloudDcInstanceCreate(d *schema.ResourceData, meta interface
 
 	d.SetId(*dcSet[0])
 
+	// CreateDirectConnect API does not support IsShare, so we need to call
+	// ModifyDirectConnectAttribute to set it after creation.
+	if v, ok := d.GetOkExists("is_share"); ok {
+		modifyRequest := dc.NewModifyDirectConnectAttributeRequest()
+		modifyRequest.DirectConnectId = helper.String(d.Id())
+		modifyRequest.IsShare = helper.Bool(v.(bool))
+		// ModifyDirectConnectAttribute requires these fields even for partial updates
+		if name, ok := d.GetOk("direct_connect_name"); ok {
+			modifyRequest.DirectConnectName = helper.String(name.(string))
+		}
+		if name, ok := d.GetOk("customer_name"); ok {
+			modifyRequest.CustomerName = helper.String(name.(string))
+		}
+		if mail, ok := d.GetOk("customer_contact_mail"); ok {
+			modifyRequest.CustomerContactMail = helper.String(mail.(string))
+		}
+		if phone, ok := d.GetOk("customer_contact_number"); ok {
+			modifyRequest.CustomerContactNumber = helper.String(phone.(string))
+		}
+		err := resource.Retry(writeRetryTimeout, func() *resource.RetryError {
+			result, e := meta.(*TencentCloudClient).apiV3Conn.UseDcClient().ModifyDirectConnectAttribute(modifyRequest)
+			if e != nil {
+				return retryError(e)
+			} else {
+				log.Printf("[DEBUG]%s api[%s] success, request body [%s], response body [%s]\n",
+					logId, modifyRequest.GetAction(), modifyRequest.ToJsonString(), result.ToJsonString())
+			}
+			return nil
+		})
+		if err != nil {
+			log.Printf("[CRITAL]%s modify dc instance is_share after create failed, reason:%+v", logId, err)
+			return err
+		}
+	}
+
 	return resourceTencentCloudDcInstanceRead(d, meta)
 }
 
@@ -334,11 +369,11 @@ func resourceTencentCloudDcInstanceRead(d *schema.ResourceData, meta interface{}
 	}
 
 	if instance.RedundantDirectConnectId != nil {
-		_ = d.Set("redundant_direct_connect_id", *instance.RedundantDirectConnectId)
-	} else {
-		// 如果配置中明确设置了该字段（即使是空字符串），保持配置的值
+		// Only set redundant_direct_connect_id in state if the user configured it.
+		// The API may auto-populate this field on the primary DC when a redundant DC references it,
+		// which would cause an unexpected diff and ForceNew recreation.
 		if _, exists := d.GetOk("redundant_direct_connect_id"); exists {
-			_ = d.Set("redundant_direct_connect_id", d.Get("redundant_direct_connect_id").(string))
+			_ = d.Set("redundant_direct_connect_id", *instance.RedundantDirectConnectId)
 		}
 	}
 
@@ -451,7 +486,7 @@ func resourceTencentCloudDcInstanceUpdate(d *schema.ResourceData, meta interface
 			request.CustomerContactNumber = helper.String(v.(string))
 		}
 
-		if v, ok := d.GetOk("is_share"); ok {
+		if v, ok := d.GetOkExists("is_share"); ok {
 			request.IsShare = helper.Bool(v.(bool))
 		}
 
