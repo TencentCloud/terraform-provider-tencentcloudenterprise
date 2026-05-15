@@ -74,6 +74,38 @@ func (me *ClsService) DescribeClsLogset(ctx context.Context, logsetId string) (l
 
 }
 
+func (me *ClsService) CreateClsLogset(ctx context.Context, name string, period int) (logsetId string, errRet error) {
+	var (
+		logId   = getLogId(ctx)
+		request = cls.NewCreateLogsetRequest()
+	)
+	defer func() {
+		if errRet != nil {
+			log.Printf("[CRITAL]%s api[%s] fail, request body [%s], reason[%s]\n",
+				logId, request.GetAction(), request.ToJsonString(), errRet.Error())
+		}
+	}()
+
+	request.LogsetName = &name
+	if period > 0 {
+		request.Period = helper.IntInt64(period)
+	}
+
+	ratelimit.Check(request.GetAction())
+	response, err := me.client.UseClsClient().CreateLogset(request)
+	if err != nil {
+		errRet = err
+		return
+	}
+	log.Printf("[DEBUG]%s api[%s] success, request body [%s], response body [%s]\n",
+		logId, request.GetAction(), request.ToJsonString(), response.ToJsonString())
+
+	if response != nil && response.Response != nil && response.Response.LogsetId != nil {
+		logsetId = *response.Response.LogsetId
+	}
+	return
+}
+
 func (me *ClsService) DeleteClsLogsetById(ctx context.Context, logsetId string) (errRet error) {
 	logId := getLogId(ctx)
 
@@ -281,6 +313,67 @@ func (me *ClsService) DeleteClsTopic(ctx context.Context, id string) (errRet err
 	log.Printf("[DEBUG]%s api[%s] success, request body [%s], response body [%s]\n",
 		logId, request.GetAction(), request.ToJsonString(), response.ToJsonString())
 
+	return
+}
+
+func (me *ClsService) CreateClsTopic(ctx context.Context, logsetId, topicName string, partitionCount int) (topicId string, errRet error) {
+	var (
+		logId   = getLogId(ctx)
+		request = cls.NewCreateTopicRequest()
+	)
+	defer func() {
+		if errRet != nil {
+			log.Printf("[CRITAL]%s api[%s] fail, request body [%s], reason[%s]\n",
+				logId, request.GetAction(), request.ToJsonString(), errRet.Error())
+		}
+	}()
+
+	request.LogsetId = &logsetId
+	request.TopicName = &topicName
+	if partitionCount > 0 {
+		request.PartitionCount = helper.IntInt64(partitionCount)
+	}
+
+	ratelimit.Check(request.GetAction())
+	response, err := me.client.UseClsClient().CreateTopic(request)
+	if err != nil {
+		errRet = err
+		return
+	}
+	log.Printf("[DEBUG]%s api[%s] success, request body [%s], response body [%s]\n",
+		logId, request.GetAction(), request.ToJsonString(), response.ToJsonString())
+
+	if response != nil && response.Response != nil && response.Response.TopicId != nil {
+		topicId = *response.Response.TopicId
+	}
+	return
+}
+
+func (me *ClsService) ModifyClsTopic(ctx context.Context, topicId string, status *bool) (errRet error) {
+	var (
+		logId   = getLogId(ctx)
+		request = cls.NewModifyTopicRequest()
+	)
+	defer func() {
+		if errRet != nil {
+			log.Printf("[CRITAL]%s api[%s] fail, request body [%s], reason[%s]\n",
+				logId, request.GetAction(), request.ToJsonString(), errRet.Error())
+		}
+	}()
+
+	request.TopicId = &topicId
+	if status != nil {
+		request.Status = status
+	}
+
+	ratelimit.Check(request.GetAction())
+	response, err := me.client.UseClsClient().ModifyTopic(request)
+	if err != nil {
+		errRet = err
+		return
+	}
+	log.Printf("[DEBUG]%s api[%s] success, request body [%s], response body [%s]\n",
+		logId, request.GetAction(), request.ToJsonString(), response.ToJsonString())
 	return
 }
 

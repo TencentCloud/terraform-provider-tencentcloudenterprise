@@ -1,5 +1,5 @@
 /*
-Provides a resource to create a CLB instance topic.
+Provides a resource to create a CLB log topic.
 
 Example Usage
 
@@ -15,7 +15,7 @@ Import
 CLB log topic can be imported using the id, e.g.
 
 ```
-$ terraform import tencentcloudenterprise_clb_log_topic.topic lb-7a0t6zqb
+$ terraform import tencentcloudenterprise_clb_log_topic.topic 439b0e84-c5dc-4382-b4c2-937a5a4d8245
 ```
 */
 package tencentcloud
@@ -24,10 +24,8 @@ import (
 	"context"
 	"fmt"
 	"log"
-	"sync"
 
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
-	cls "terraform-provider-tencentcloudenterprise/sdk/cls/v20201016"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
@@ -46,14 +44,12 @@ func init() {
 	})
 }
 
-var clsActionMu = &sync.Mutex{}
-
 func resourceTencentCloudClbLogTopic() *schema.Resource {
 	return &schema.Resource{
-		Create: resourceTencentCloudClbInstanceTopicCreate,
-		Read:   resourceTencentCloudClbInstanceTopicRead,
-		Update: resourceTencentCloudClbInstanceTopicUpdate,
-		Delete: resourceTencentCloudClbInstanceTopicDelete,
+		Create: resourceTencentCloudClbLogTopicCreate,
+		Read:   resourceTencentCloudClbLogTopicRead,
+		Update: resourceTencentCloudClbLogTopicUpdate,
+		Delete: resourceTencentCloudClbLogTopicDelete,
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
@@ -86,76 +82,58 @@ func resourceTencentCloudClbLogTopic() *schema.Resource {
 	}
 }
 
-func resourceTencentCloudClbInstanceTopicCreate(d *schema.ResourceData, meta interface{}) error {
+func resourceTencentCloudClbLogTopicCreate(d *schema.ResourceData, meta interface{}) error {
 	defer logElapsed("resource.tencentcloudenterprise_clb_log_topic.create")()
 	defer inconsistentCheck(d, meta)()
+
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
 
-	clsService := ClsService{
-		client: meta.(*TencentCloudClient).apiV3Conn,
+	clsService := ClsService{client: meta.(*TencentCloudClient).apiV3Conn}
+
+	logSetId := d.Get("log_set_id").(string)
+	// verify logset exists
+	info, err := clsService.DescribeClsLogset(ctx, logSetId)
+	if err != nil {
+		return err
+	}
+	if info == nil {
+		return fmt.Errorf("log_set %s does not exist", logSetId)
 	}
 
-	if v, ok := d.GetOk("log_set_id"); ok {
-		info, err := clsService.DescribeClsLogset(ctx, v.(string))
-		if err != nil {
-			return err
-		}
-		if info == nil {
-			return fmt.Errorf("resource `log_set` %s does not exist", v.(string))
-		}
-	}
-
-	clbService := ClbService{
-		client: meta.(*TencentCloudClient).apiV3Conn,
-	}
-	params := make(map[string]interface{})
-	if topicName, ok := d.GetOk("topic_name"); ok {
-		params["topic_name"] = topicName
-	}
-	resp, err := clbService.CreateTopic(ctx, params)
+	topicName := d.Get("topic_name").(string)
+	topicId, err := clsService.CreateClsTopic(ctx, logSetId, topicName, 0)
 	if err != nil {
 		log.Printf("[CRITAL]%s create clb topic failed, reason:%+v", logId, err)
 		return err
 	}
+	if topicId == "" {
+		return fmt.Errorf("[CRITAL]%s create clb topic failed, topicId is empty", logId)
+	}
 
-	topicId := *resp.Response.TopicId
 	d.SetId(topicId)
 
 	if v, ok := d.GetOkExists("status"); ok {
 		if !v.(bool) {
-			request := cls.NewModifyTopicRequest()
-			request.TopicId = &topicId
-			request.Status = helper.Bool(false)
-			err := resource.Retry(writeRetryTimeout, func() *resource.RetryError {
-				result, e := meta.(*TencentCloudClient).apiV3Conn.UseClsClient().ModifyTopic(request)
-				if e != nil {
-					return retryError(e)
-				}
-				log.Printf("[DEBUG]%s api[%s] success, request body [%s], response body [%s]\n", logId, request.GetAction(), request.ToJsonString(), result.ToJsonString())
-				return nil
-			})
-
+			err := clsService.ModifyClsTopic(ctx, topicId, helper.Bool(false))
 			if err != nil {
 				return err
 			}
 		}
 	}
 
-	return resourceTencentCloudClbInstanceTopicRead(d, meta)
+	return resourceTencentCloudClbLogTopicRead(d, meta)
 }
 
-func resourceTencentCloudClbInstanceTopicRead(d *schema.ResourceData, meta interface{}) error {
-	clsActionMu.Lock()
-	defer clsActionMu.Unlock()
+func resourceTencentCloudClbLogTopicRead(d *schema.ResourceData, meta interface{}) error {
+	defer logElapsed("resource.tencentcloudenterprise_clb_log_topic.read")()
 	defer inconsistentCheck(d, meta)()
+
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
 
 	id := d.Id()
-	clsService := ClsService{
-		client: meta.(*TencentCloudClient).apiV3Conn,
-	}
+	clsService := ClsService{client: meta.(*TencentCloudClient).apiV3Conn}
 	res, err := clsService.DescribeClsTopicById(ctx, id)
 	if err != nil {
 		return err
@@ -168,52 +146,52 @@ func resourceTencentCloudClbInstanceTopicRead(d *schema.ResourceData, meta inter
 	_ = d.Set("topic_name", res.TopicName)
 	_ = d.Set("create_time", res.CreateTime)
 	_ = d.Set("status", res.Status)
+	log.Printf("[DEBUG]%s read clb log topic success, id: %s", logId, id)
 	return nil
 }
 
-func resourceTencentCloudClbInstanceTopicUpdate(d *schema.ResourceData, meta interface{}) error {
+func resourceTencentCloudClbLogTopicUpdate(d *schema.ResourceData, meta interface{}) error {
 	defer logElapsed("resource.tencentcloudenterprise_clb_log_topic.update")()
+	defer inconsistentCheck(d, meta)()
 
 	var (
 		logId   = getLogId(contextNil)
 		topicId = d.Id()
 	)
 
+	clsService := ClsService{client: meta.(*TencentCloudClient).apiV3Conn}
+
 	if d.HasChange("status") {
 		if v, ok := d.GetOkExists("status"); ok {
-			request := cls.NewModifyTopicRequest()
-			request.TopicId = &topicId
-			request.Status = helper.Bool(v.(bool))
+			ctx := context.WithValue(context.TODO(), logIdKey, logId)
 			err := resource.Retry(writeRetryTimeout, func() *resource.RetryError {
-				result, e := meta.(*TencentCloudClient).apiV3Conn.UseClsClient().ModifyTopic(request)
+				e := clsService.ModifyClsTopic(ctx, topicId, helper.Bool(v.(bool)))
 				if e != nil {
 					return retryError(e)
 				}
-				log.Printf("[DEBUG]%s api[%s] success, request body [%s], response body [%s]\n", logId, request.GetAction(), request.ToJsonString(), result.ToJsonString())
 				return nil
 			})
-
 			if err != nil {
 				return err
 			}
 		}
 	}
 
-	return resourceTencentCloudClbInstanceTopicRead(d, meta)
+	return resourceTencentCloudClbLogTopicRead(d, meta)
 }
 
-func resourceTencentCloudClbInstanceTopicDelete(d *schema.ResourceData, meta interface{}) error {
-	clsActionMu.Lock()
-	defer clsActionMu.Unlock()
+func resourceTencentCloudClbLogTopicDelete(d *schema.ResourceData, meta interface{}) error {
+	defer logElapsed("resource.tencentcloudenterprise_clb_log_topic.delete")()
+	defer inconsistentCheck(d, meta)()
+
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
 
 	id := d.Id()
-	clsService := ClsService{
-		client: meta.(*TencentCloudClient).apiV3Conn,
-	}
+	clsService := ClsService{client: meta.(*TencentCloudClient).apiV3Conn}
 	err := clsService.DeleteClsTopic(ctx, id)
 	if err != nil {
+		log.Printf("[CRITAL]%s delete clb log topic failed, reason:%+v", logId, err)
 		return err
 	}
 	return nil

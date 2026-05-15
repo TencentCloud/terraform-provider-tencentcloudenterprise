@@ -21,6 +21,8 @@ package tencentcloud
 
 import (
 	"context"
+	"fmt"
+	"log"
 	"time"
 
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
@@ -107,29 +109,24 @@ func resourceTencentCloudClbLogSetRead(d *schema.ResourceData, meta interface{})
 
 func resourceTencentCloudClbLogSetCreate(d *schema.ResourceData, meta interface{}) error {
 	defer logElapsed("resource.tencentcloudenterprise_clb_logset.create")()
-	clbActionMu.Lock()
-	defer clbActionMu.Unlock()
+	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
-	service := ClbService{client: meta.(*TencentCloudClient).apiV3Conn}
-
-	_, _, err := service.DescribeClbLogSet(ctx)
-	if err != nil {
-		return err
-	}
+	service := ClsService{client: meta.(*TencentCloudClient).apiV3Conn}
 
 	var (
 		period = d.Get("period").(int)
 	)
 
-	// We're not support specify name and health logs for now
-	id, err := service.CreateClbLogSet(ctx, "clb_logset", "", period)
-
+	id, err := service.CreateClsLogset(ctx, "clb_logset", period)
 	if err != nil {
 		return err
 	}
-	//加一个创建保护
+	if id == "" {
+		return fmt.Errorf("[CRITAL]%s create CLB log set failed, logsetId is empty", logId)
+	}
+	// 创建保护
 	time.Sleep(3 * time.Second)
 	d.SetId(id)
 
@@ -138,9 +135,7 @@ func resourceTencentCloudClbLogSetCreate(d *schema.ResourceData, meta interface{
 
 func resourceTencentCloudClbLogSetDelete(d *schema.ResourceData, meta interface{}) error {
 	defer logElapsed("resource.tencentcloudenterprise_clb_logset.delete")()
-
-	clbActionMu.Lock()
-	defer clbActionMu.Unlock()
+	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
@@ -148,6 +143,7 @@ func resourceTencentCloudClbLogSetDelete(d *schema.ResourceData, meta interface{
 	id := d.Id()
 
 	if err := service.DeleteClsLogsetById(ctx, id); err != nil {
+		log.Printf("[CRITAL]%s delete CLB log set failed, reason:%+v", logId, err)
 		return err
 	}
 
