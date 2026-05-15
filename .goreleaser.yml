@@ -59,4 +59,7 @@ release:
   prerelease: auto
 
 changelog:
-  disable: true
+  use: git
+  filters:
+    exclude:
+      - '^Merge'
