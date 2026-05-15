@@ -35,6 +35,9 @@ import (
 	clb "terraform-provider-tencentcloudenterprise/sdk/clb/v20180317"
 	cls "terraform-provider-tencentcloudenterprise/sdk/cls/v20201016"
 	csp "terraform-provider-tencentcloudenterprise/sdk/csp/v20200107"
+	cossdk "terraform-provider-tencentcloudenterprise/sdk/cos/v20200107"
+	bill "terraform-provider-tencentcloudenterprise/sdk/bill/v20181025"
+	yjn "terraform-provider-tencentcloudenterprise/sdk/yjn/v20240320"
 	cvm "terraform-provider-tencentcloudenterprise/sdk/cvm/v20170312"
 	cwp "terraform-provider-tencentcloudenterprise/sdk/cwp/v20180228"
 	dc "terraform-provider-tencentcloudenterprise/sdk/dc/v20180410"
@@ -76,7 +79,7 @@ import (
 	emr "github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/emr/v20190103"
 	es "github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/es/v20180416"
 	gaap "github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/gaap/v20180529"
-	kms "github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/kms/v20190118"
+	kms "terraform-provider-tencentcloudenterprise/sdk/kms/v20190118"
 	lighthouse "github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/lighthouse/v20200324"
 	css "github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/live/v20180801"
 	mariadb "github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/mariadb/v20170312"
@@ -91,7 +94,7 @@ import (
 	sms "github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/sms/v20210111"
 	sqlserver "github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/sqlserver/v20180328"
 	sslCertificate "github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/ssl/v20191205"
-	ssm "github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/ssm/v20190923"
+	ssm "terraform-provider-tencentcloudenterprise/sdk/ssm/v20190923"
 	sts "github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/sts/v20180813"
 	tat "github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/tat/v20201028"
 	tcaplusdb "github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/tcaplusdb/v20190823"
@@ -128,6 +131,9 @@ type TencentCloudClient struct {
 	cvmConn             *cvm.Client
 	clbConn             *clb.Client
 	cspConn             *csp.Client
+	cosSdkConn          *cossdk.Client
+	billConn            *bill.Client
+	yjnConn             *yjn.Client
 	drcConn             *drc.Client
 	dayuConn            *dayu.Client
 	dcConn              *dc.Client
@@ -854,8 +860,8 @@ func (me *TencentCloudClient) UseKmsClient() *kms.Client {
 		return me.kmsConn
 	}
 
-	cpf := me.NewClientProfile(300)
-	me.kmsConn, _ = kms.NewClient(me.Credential, me.Region, cpf)
+	cpf := me.NewClientProfileTce(300)
+	me.kmsConn, _ = kms.NewClient(me.CredentialTce, me.Region, cpf)
 	me.kmsConn.WithHttpTransport(&LogRoundTripper{})
 
 	return me.kmsConn
@@ -867,8 +873,8 @@ func (me *TencentCloudClient) UseSsmClient() *ssm.Client {
 		return me.ssmConn
 	}
 
-	cpf := me.NewClientProfile(300)
-	me.ssmConn, _ = ssm.NewClient(me.Credential, me.Region, cpf)
+	cpf := me.NewClientProfileTce(300)
+	me.ssmConn, _ = ssm.NewClient(me.CredentialTce, me.Region, cpf)
 	me.ssmConn.WithHttpTransport(&LogRoundTripper{})
 
 	return me.ssmConn
@@ -1262,6 +1268,48 @@ func (me *TencentCloudClient) UseCspClient() *csp.Client {
 	me.cspConn.WithHttpTransport(&LogRoundTripper{})
 
 	return me.cspConn
+}
+
+// UseCosSdkClient returns cos SDK client for service
+func (me *TencentCloudClient) UseCosSdkClient() *cossdk.Client {
+	if me.cosSdkConn != nil {
+		return me.cosSdkConn
+	}
+
+	cpf := me.NewClientProfileTce(300)
+	cpf.Language = "zh-CN"
+	me.cosSdkConn, _ = cossdk.NewClient(me.CredentialTce, me.Region, cpf)
+	me.cosSdkConn.WithHttpTransport(&LogRoundTripper{})
+
+	return me.cosSdkConn
+}
+
+// UseYjnClient returns yjn client for service
+func (me *TencentCloudClient) UseYjnClient() *yjn.Client {
+	if me.yjnConn != nil {
+		return me.yjnConn
+	}
+
+	cpf := me.NewClientProfileTce(300)
+	cpf.Language = "zh-CN"
+	me.yjnConn, _ = yjn.NewClient(me.CredentialTce, me.Region, cpf)
+	me.yjnConn.WithHttpTransport(&LogRoundTripper{})
+
+	return me.yjnConn
+}
+
+// UseBillClient returns bill client for service
+func (me *TencentCloudClient) UseBillClient() *bill.Client {
+	if me.billConn != nil {
+		return me.billConn
+	}
+
+	cpf := me.NewClientProfileTce(300)
+	cpf.Language = "zh-CN"
+	me.billConn, _ = bill.NewClient(me.CredentialTce, me.Region, cpf)
+	me.billConn.WithHttpTransport(&LogRoundTripper{})
+
+	return me.billConn
 }
 
 // UseCicClient returns cic client for service

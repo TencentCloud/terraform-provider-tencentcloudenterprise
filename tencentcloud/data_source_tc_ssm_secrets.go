@@ -19,7 +19,7 @@ import (
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	ssm "github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/ssm/v20190923"
+	ssm "terraform-provider-tencentcloudenterprise/sdk/ssm/v20190923"
 )
 
 func init() {

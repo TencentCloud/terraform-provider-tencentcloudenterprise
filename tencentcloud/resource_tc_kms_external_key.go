@@ -32,7 +32,7 @@ import (
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	kms "github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/kms/v20190118"
+	kms "terraform-provider-tencentcloudenterprise/sdk/kms/v20190118"
 )
 
 func init() {

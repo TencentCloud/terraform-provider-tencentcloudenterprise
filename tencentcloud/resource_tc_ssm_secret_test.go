@@ -6,8 +6,6 @@ import (
 	"testing"
 	"time"
 
-	ssm "github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/ssm/v20190923"
-
 	"terraform-provider-tencentcloudenterprise/sdk/common/errors"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
@@ -48,7 +46,7 @@ func init() {
 				err = resource.Retry(readRetryTimeout, func() *resource.RetryError {
 					err := service.DeleteSecret(ctx, name, 0)
 					if err != nil {
-						return retryError(err, ssm.FAILEDOPERATION)
+						return retryError(err, "FailedOperation")
 					}
 					return nil
 				})

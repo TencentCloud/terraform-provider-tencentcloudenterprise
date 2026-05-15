@@ -8,7 +8,7 @@ import (
 	"terraform-provider-tencentcloudenterprise/tencentcloud/connectivity"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/ratelimit"
-	ssm "github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/ssm/v20190923"
+	ssm "terraform-provider-tencentcloudenterprise/sdk/ssm/v20190923"
 )
 
 type SsmService struct {
@@ -46,16 +46,6 @@ func (me *SsmService) DescribeSecretsByFilter(ctx context.Context, param map[str
 		}
 		if k == "secret_name" {
 			request.SearchSecretName = helper.String(v.(string))
-		}
-		if k == "tag_filter" {
-			tagFilter := v.(map[string]string)
-			for tagKey, tagValue := range tagFilter {
-				tag := ssm.TagFilter{
-					TagKey:   helper.String(tagKey),
-					TagValue: []*string{helper.String(tagValue)},
-				}
-				request.TagFilters = append(request.TagFilters, &tag)
-			}
 		}
 	}
 	var offset uint64 = 0
