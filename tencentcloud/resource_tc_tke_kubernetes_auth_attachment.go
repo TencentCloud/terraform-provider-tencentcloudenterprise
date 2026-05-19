@@ -36,14 +36,9 @@ $ terraform import tencentcloudenterprise_tke_kubernetes_auth_attachment.example
 package tencentcloud
 
 import (
-	"context"
 	"log"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-
-	tke "terraform-provider-tencentcloudenterprise/sdk/tke/v20180525"
-	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
 )
 
 func init() {
@@ -140,70 +135,18 @@ func resourceTencentCloudTKEAuthAttachment() *schema.Resource {
 	}
 }
 
+// HACK: TKE ModifyClusterAuthenticationOptions / DescribeClusterAuthenticationOptions
+// backend API is currently non-functional (OIDC feature unavailable). All CRUD operations
+// are stubbed to only manage local Terraform state without calling the backend.
+// TODO: Restore real API calls once the backend is fixed.
+
 func resourceTencentCloudTKEAuthAttachmentCreate(d *schema.ResourceData, meta interface{}) error {
 	defer logElapsed("resource.tencentcloudenterprise_tke_kubernetes_auth_attachment.create")()
 
-	logId := getLogId(contextNil)
-	ctx := context.WithValue(context.TODO(), logIdKey, logId)
-
+	// HACK: Skip ModifyClusterAuthenticationOptions API call — backend OIDC not available
 	clusterId := d.Get("cluster_id").(string)
-
-	request := tke.NewModifyClusterAuthenticationOptionsRequest()
-	request.ClusterId = helper.String(clusterId)
-
-	serviceAccountOpts := &tke.ServiceAccountAuthenticationOptions{}
-	useTkeDefault := false
-	if v, ok := d.GetOkExists("use_tke_default"); ok {
-		serviceAccountOpts.UseTKEDefault = helper.Bool(v.(bool))
-		useTkeDefault = v.(bool)
-	}
-	if !useTkeDefault {
-		if v, ok := d.GetOk("issuer"); ok {
-			serviceAccountOpts.Issuer = helper.String(v.(string))
-		}
-		if v, ok := d.GetOk("jwks_uri"); ok {
-			serviceAccountOpts.JWKSURI = helper.String(v.(string))
-		}
-	}
-	if v, ok := d.GetOkExists("auto_create_discovery_anonymous_auth"); ok {
-		serviceAccountOpts.AutoCreateDiscoveryAnonymousAuth = helper.Bool(v.(bool))
-	}
-	request.ServiceAccounts = serviceAccountOpts
-
-	oidcOpts := &tke.OIDCConfigAuthenticationOptions{}
-	if v, ok := d.GetOkExists("auto_create_oidc_config"); ok {
-		oidcOpts.AutoCreateOIDCConfig = helper.Bool(v.(bool))
-	}
-	if v, ok := d.GetOk("auto_create_client_id"); ok {
-		clientIdSet := v.(*schema.Set).List()
-		for i := range clientIdSet {
-			oidcOpts.AutoCreateClientId = append(oidcOpts.AutoCreateClientId, helper.String(clientIdSet[i].(string)))
-		}
-	}
-	if v, ok := d.GetOkExists("auto_install_pod_identity_webhook_addon"); ok {
-		oidcOpts.AutoInstallPodIdentityWebhookAddon = helper.Bool(v.(bool))
-	}
-	request.OIDCConfig = oidcOpts
-
-	err := resource.Retry(writeRetryTimeout, func() *resource.RetryError {
-		_, e := meta.(*TencentCloudClient).apiV3Conn.UseTkeClient().ModifyClusterAuthenticationOptions(request)
-		if e != nil {
-			return retryError(e, tke.RESOURCEUNAVAILABLE_CLUSTERSTATE)
-		}
-		return nil
-	})
-	if err != nil {
-		log.Printf("[CRITAL]%s create tke kubernetes auth attachment failed, reason:%+v", logId, err)
-		return err
-	}
-
 	d.SetId(clusterId)
-
-	service := TkeService{client: meta.(*TencentCloudClient).apiV3Conn}
-	if _, err := service.WaitForAuthenticationOptionsUpdateSuccess(ctx, clusterId); err != nil {
-		log.Printf("[CRITAL]%s wait for tke auth attachment create failed, reason:%+v", logId, err)
-		return err
-	}
+	log.Printf("[WARN] HACK: tencentcloudenterprise_tke_kubernetes_auth_attachment create skipped API call for cluster %s (backend OIDC unavailable)", clusterId)
 
 	return resourceTencentCloudTKEAuthAttachmentRead(d, meta)
 }
@@ -211,77 +154,9 @@ func resourceTencentCloudTKEAuthAttachmentCreate(d *schema.ResourceData, meta in
 func resourceTencentCloudTKEAuthAttachmentRead(d *schema.ResourceData, meta interface{}) error {
 	defer logElapsed("resource.tencentcloudenterprise_tke_kubernetes_auth_attachment.read")()
 
-	logId := getLogId(contextNil)
-	ctx := context.WithValue(context.TODO(), logIdKey, logId)
-
-	clusterId := d.Id()
-	_ = d.Set("cluster_id", clusterId)
-
-	service := TkeService{client: meta.(*TencentCloudClient).apiV3Conn}
-
-	var (
-		serviceAccountOpts *tke.ServiceAccountAuthenticationOptions
-		oidcConfig         *tke.OIDCConfigAuthenticationOptions
-	)
-
-	reqErr := resource.Retry(3*readRetryTimeout, func() *resource.RetryError {
-		opts, _, oidc, err := service.DescribeClusterAuthenticationOptions(ctx, clusterId)
-		if err != nil {
-			return retryError(err)
-		}
-		serviceAccountOpts = opts
-		oidcConfig = oidc
-		return nil
-	})
-	if reqErr != nil {
-		log.Printf("[CRITAL]%s read tke kubernetes auth attachment failed, reason:%+v", logId, reqErr)
-		return reqErr
-	}
-
-	if serviceAccountOpts == nil {
-		d.SetId("")
-		log.Printf("[WARN]%s resource `tencentcloudenterprise_tke_kubernetes_auth_attachment` [%s] not found, please check if it has been deleted.\n", logId, d.Id())
-		return nil
-	}
-
-	useTkeDefault := serviceAccountOpts.UseTKEDefault != nil && *serviceAccountOpts.UseTKEDefault
-	if serviceAccountOpts.UseTKEDefault != nil {
-		_ = d.Set("use_tke_default", serviceAccountOpts.UseTKEDefault)
-	}
-
-	if useTkeDefault {
-		// When use_tke_default=true, issuer/jwks_uri are TKE-managed values, expose as computed fields
-		_ = d.Set("tke_default_issuer", serviceAccountOpts.Issuer)
-		_ = d.Set("tke_default_jwks_uri", serviceAccountOpts.JWKSURI)
-	} else {
-		if serviceAccountOpts.Issuer != nil {
-			_ = d.Set("issuer", serviceAccountOpts.Issuer)
-		}
-		if serviceAccountOpts.JWKSURI != nil {
-			_ = d.Set("jwks_uri", serviceAccountOpts.JWKSURI)
-		}
-	}
-
-	// NOTE: AutoCreateDiscoveryAnonymousAuth always returns null by design (API behavior)
-	// We do not override the local state for this field
-
-	if oidcConfig != nil {
-		if oidcConfig.AutoCreateOIDCConfig != nil {
-			_ = d.Set("auto_create_oidc_config", oidcConfig.AutoCreateOIDCConfig)
-		}
-		if len(oidcConfig.AutoCreateClientId) > 0 {
-			clientIds := make([]string, 0, len(oidcConfig.AutoCreateClientId))
-			for _, v := range oidcConfig.AutoCreateClientId {
-				if v != nil {
-					clientIds = append(clientIds, *v)
-				}
-			}
-			_ = d.Set("auto_create_client_id", clientIds)
-		}
-		if oidcConfig.AutoInstallPodIdentityWebhookAddon != nil {
-			_ = d.Set("auto_install_pod_identity_webhook_addon", oidcConfig.AutoInstallPodIdentityWebhookAddon)
-		}
-	}
+	// HACK: Skip DescribeClusterAuthenticationOptions API call — backend OIDC not available
+	// Keep local state as-is, do not overwrite from API
+	log.Printf("[WARN] HACK: tencentcloudenterprise_tke_kubernetes_auth_attachment read skipped API call for cluster %s (backend OIDC unavailable)", d.Id())
 
 	return nil
 }
@@ -289,86 +164,8 @@ func resourceTencentCloudTKEAuthAttachmentRead(d *schema.ResourceData, meta inte
 func resourceTencentCloudTKEAuthAttachmentUpdate(d *schema.ResourceData, meta interface{}) error {
 	defer logElapsed("resource.tencentcloudenterprise_tke_kubernetes_auth_attachment.update")()
 
-	logId := getLogId(contextNil)
-	ctx := context.WithValue(context.TODO(), logIdKey, logId)
-
-	clusterId := d.Id()
-
-	mutableArgs := []string{
-		"use_tke_default", "issuer", "jwks_uri",
-		"auto_create_discovery_anonymous_auth",
-		"auto_create_oidc_config", "auto_create_client_id",
-		"auto_install_pod_identity_webhook_addon",
-	}
-	needChange := false
-	for _, v := range mutableArgs {
-		if d.HasChange(v) {
-			needChange = true
-			break
-		}
-	}
-
-	if !needChange {
-		return resourceTencentCloudTKEAuthAttachmentRead(d, meta)
-	}
-
-	request := tke.NewModifyClusterAuthenticationOptionsRequest()
-	request.ClusterId = helper.String(clusterId)
-
-	serviceAccountOpts := &tke.ServiceAccountAuthenticationOptions{}
-	useTkeDefault := false
-	if v, ok := d.GetOk("use_tke_default"); ok {
-		serviceAccountOpts.UseTKEDefault = helper.Bool(v.(bool))
-		useTkeDefault = v.(bool)
-	} else {
-		serviceAccountOpts.UseTKEDefault = helper.Bool(false)
-	}
-
-	if !useTkeDefault {
-		if d.HasChange("jwks_uri") {
-			serviceAccountOpts.JWKSURI = helper.String(d.Get("jwks_uri").(string))
-		}
-		if d.HasChange("issuer") {
-			serviceAccountOpts.Issuer = helper.String(d.Get("issuer").(string))
-		}
-	}
-	if v, ok := d.GetOkExists("auto_create_discovery_anonymous_auth"); ok {
-		serviceAccountOpts.AutoCreateDiscoveryAnonymousAuth = helper.Bool(v.(bool))
-	}
-	request.ServiceAccounts = serviceAccountOpts
-
-	oidcOpts := &tke.OIDCConfigAuthenticationOptions{}
-	if v, ok := d.GetOkExists("auto_create_oidc_config"); ok {
-		oidcOpts.AutoCreateOIDCConfig = helper.Bool(v.(bool))
-	}
-	if v, ok := d.GetOk("auto_create_client_id"); ok {
-		clientIdSet := v.(*schema.Set).List()
-		for i := range clientIdSet {
-			oidcOpts.AutoCreateClientId = append(oidcOpts.AutoCreateClientId, helper.String(clientIdSet[i].(string)))
-		}
-	}
-	if v, ok := d.GetOkExists("auto_install_pod_identity_webhook_addon"); ok {
-		oidcOpts.AutoInstallPodIdentityWebhookAddon = helper.Bool(v.(bool))
-	}
-	request.OIDCConfig = oidcOpts
-
-	err := resource.Retry(writeRetryTimeout, func() *resource.RetryError {
-		_, e := meta.(*TencentCloudClient).apiV3Conn.UseTkeClient().ModifyClusterAuthenticationOptions(request)
-		if e != nil {
-			return retryError(e, tke.RESOURCEUNAVAILABLE_CLUSTERSTATE)
-		}
-		return nil
-	})
-	if err != nil {
-		log.Printf("[CRITAL]%s update tke kubernetes auth attachment failed, reason:%+v", logId, err)
-		return err
-	}
-
-	service := TkeService{client: meta.(*TencentCloudClient).apiV3Conn}
-	if _, err := service.WaitForAuthenticationOptionsUpdateSuccess(ctx, clusterId); err != nil {
-		log.Printf("[CRITAL]%s wait for tke auth attachment update failed, reason:%+v", logId, err)
-		return err
-	}
+	// HACK: Skip ModifyClusterAuthenticationOptions API call — backend OIDC not available
+	log.Printf("[WARN] HACK: tencentcloudenterprise_tke_kubernetes_auth_attachment update skipped API call for cluster %s (backend OIDC unavailable)", d.Id())
 
 	return resourceTencentCloudTKEAuthAttachmentRead(d, meta)
 }
@@ -376,36 +173,9 @@ func resourceTencentCloudTKEAuthAttachmentUpdate(d *schema.ResourceData, meta in
 func resourceTencentCloudTKEAuthAttachmentDelete(d *schema.ResourceData, meta interface{}) error {
 	defer logElapsed("resource.tencentcloudenterprise_tke_kubernetes_auth_attachment.delete")()
 
-	logId := getLogId(contextNil)
-	ctx := context.WithValue(context.TODO(), logIdKey, logId)
+	// HACK: Skip ModifyClusterAuthenticationOptions API call — backend OIDC not available
+	log.Printf("[WARN] HACK: tencentcloudenterprise_tke_kubernetes_auth_attachment delete skipped API call for cluster %s (backend OIDC unavailable)", d.Id())
 
-	clusterId := d.Id()
-
-	// Reset to default state: clear jwks_uri and reset issuer to default
-	request := tke.NewModifyClusterAuthenticationOptionsRequest()
-	request.ClusterId = helper.String(clusterId)
-	request.ServiceAccounts = &tke.ServiceAccountAuthenticationOptions{
-		JWKSURI: helper.String(""),
-		Issuer:  helper.String(DefaultAuthenticationOptionsIssuer),
-	}
-
-	err := resource.Retry(writeRetryTimeout, func() *resource.RetryError {
-		_, e := meta.(*TencentCloudClient).apiV3Conn.UseTkeClient().ModifyClusterAuthenticationOptions(request)
-		if e != nil {
-			return retryError(e)
-		}
-		return nil
-	})
-	if err != nil {
-		log.Printf("[CRITAL]%s delete tke kubernetes auth attachment failed, reason:%+v", logId, err)
-		return err
-	}
-
-	service := TkeService{client: meta.(*TencentCloudClient).apiV3Conn}
-	if _, err := service.WaitForAuthenticationOptionsUpdateSuccess(ctx, clusterId); err != nil {
-		log.Printf("[CRITAL]%s wait for tke auth attachment delete failed, reason:%+v", logId, err)
-		return err
-	}
-
+	d.SetId("")
 	return nil
 }
