@@ -28,7 +28,6 @@ import (
 	"fmt"
 	"log"
 	"strconv"
-	"time"
 
 	sdkError "terraform-provider-tencentcloudenterprise/sdk/common/errors"
 	vpcdns "terraform-provider-tencentcloudenterprise/sdk/vpcdns/v20191025"
@@ -142,7 +141,6 @@ func resourceTencentCloudVpcDnsForwardRuleCreate(d *schema.ResourceData, meta in
 		return err
 	}
 
-	time.Sleep(waitReadTimeout)
 	d.SetId(ruleId)
 
 	return resourceTencentCloudVpcDnsForwardRuleRead(d, meta)
