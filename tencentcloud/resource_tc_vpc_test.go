@@ -128,6 +128,52 @@ func TestAccTencentCloudVpcV3Update(t *testing.T) {
 	})
 }
 
+func TestAccTencentCloudVpcV3AssistantCidrsUpdate(t *testing.T) {
+	t.Parallel()
+	resource.Test(t, resource.TestCase{
+		PreCheck:     func() { testAccPreCheck(t) },
+		Providers:    testAccProviders,
+		CheckDestroy: testAccCheckVpcDestroy,
+		Steps: []resource.TestStep{
+			{
+				Config: testAccVpcConfigWithAssistantCidrs,
+				Check: resource.ComposeTestCheckFunc(
+					testAccCheckVpcExists("tencentcloudenterprise_vpc.foo"),
+					testAccCheckVpcAssistantCidrs("tencentcloudenterprise_vpc.foo", "10.10.0.0/16", "10.11.0.0/16"),
+				),
+			},
+			{
+				Config: testAccVpcConfigWithAssistantCidrsUpdate,
+				Check: resource.ComposeTestCheckFunc(
+					testAccCheckVpcExists("tencentcloudenterprise_vpc.foo"),
+					testAccCheckVpcAssistantCidrs("tencentcloudenterprise_vpc.foo", "10.10.0.0/16", "10.12.0.0/16"),
+				),
+			},
+			{
+				Config: testAccVpcConfigWithAssistantCidrsAdd,
+				Check: resource.ComposeTestCheckFunc(
+					testAccCheckVpcExists("tencentcloudenterprise_vpc.foo"),
+					testAccCheckVpcAssistantCidrs("tencentcloudenterprise_vpc.foo", "10.10.0.0/16", "10.12.0.0/16", "10.13.0.0/17"),
+				),
+			},
+			{
+				Config: testAccVpcConfigWithAssistantCidrsReplace17,
+				Check: resource.ComposeTestCheckFunc(
+					testAccCheckVpcExists("tencentcloudenterprise_vpc.foo"),
+					testAccCheckVpcAssistantCidrs("tencentcloudenterprise_vpc.foo", "10.10.0.0/16", "10.12.0.0/16", "10.13.128.0/17"),
+				),
+			},
+			{
+				Config: testAccVpcConfigWithAssistantCidrsUpdate,
+				Check: resource.ComposeTestCheckFunc(
+					testAccCheckVpcExists("tencentcloudenterprise_vpc.foo"),
+					testAccCheckVpcAssistantCidrs("tencentcloudenterprise_vpc.foo", "10.10.0.0/16", "10.12.0.0/16"),
+				),
+			},
+		},
+	})
+}
+
 func TestAccTencentCloudVpcV3WithTags(t *testing.T) {
 	t.Parallel()
 	resource.Test(t, resource.TestCase{
@@ -164,6 +210,31 @@ func TestAccTencentCloudVpcV3WithTags(t *testing.T) {
 			},
 		},
 	})
+}
+
+func testAccCheckVpcAssistantCidrs(r string, expected ...string) resource.TestCheckFunc {
+	return func(s *terraform.State) error {
+		rs, ok := s.RootModule().Resources[r]
+		if !ok {
+			return fmt.Errorf("resource %s is not found", r)
+		}
+
+		if got := rs.Primary.Attributes["assistant_cidrs.#"]; got != fmt.Sprintf("%d", len(expected)) {
+			return fmt.Errorf("assistant_cidrs count is %s, expected %d", got, len(expected))
+		}
+
+		actual := make(map[string]struct{}, len(expected))
+		for i := range expected {
+			actual[rs.Primary.Attributes[fmt.Sprintf("assistant_cidrs.%d", i)]] = struct{}{}
+		}
+		for _, cidr := range expected {
+			if _, ok := actual[cidr]; !ok {
+				return fmt.Errorf("assistant_cidrs missing %s", cidr)
+			}
+		}
+
+		return nil
+	}
 }
 
 func testAccCheckVpcExists(r string) resource.TestCheckFunc {
@@ -225,6 +296,38 @@ resource "tencentcloudenterprise_vpc" "foo" {
   cidr_block = var.vpc_cidr_less
   dns_servers  = ["119.29.29.29", "182.254.116.116"]
   is_multicast = false
+}
+`
+
+const testAccVpcConfigWithAssistantCidrs = defaultVpcVariable + `
+resource "tencentcloudenterprise_vpc" "foo" {
+  name            = var.instance_name
+  cidr_block      = var.vpc_cidr
+  assistant_cidrs = ["10.10.0.0/16", "10.11.0.0/16"]
+}
+`
+
+const testAccVpcConfigWithAssistantCidrsUpdate = defaultVpcVariable + `
+resource "tencentcloudenterprise_vpc" "foo" {
+  name            = var.instance_name
+  cidr_block      = var.vpc_cidr
+  assistant_cidrs = ["10.10.0.0/16", "10.12.0.0/16"]
+}
+`
+
+const testAccVpcConfigWithAssistantCidrsAdd = defaultVpcVariable + `
+resource "tencentcloudenterprise_vpc" "foo" {
+  name            = var.instance_name
+  cidr_block      = var.vpc_cidr
+  assistant_cidrs = ["10.10.0.0/16", "10.12.0.0/16", "10.13.0.0/17"]
+}
+`
+
+const testAccVpcConfigWithAssistantCidrsReplace17 = defaultVpcVariable + `
+resource "tencentcloudenterprise_vpc" "foo" {
+  name            = var.instance_name
+  cidr_block      = var.vpc_cidr
+  assistant_cidrs = ["10.10.0.0/16", "10.12.0.0/16", "10.13.128.0/17"]
 }
 `
 

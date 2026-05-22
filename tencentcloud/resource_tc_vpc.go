@@ -1,36 +1,40 @@
 /*
 Provide a resource to create a VPC.
 
-Example Usage
+# Example Usage
 
 ```hcl
-resource "tencentcloudenterprise_vpc" "foo" {
-  name         = "ci-temp-test-updated"
-  cidr_block   = "10.0.0.0/16"
-  dns_servers  = ["119.29.29.29", "8.8.8.8"]
-  is_multicast = false
 
-  tags = {
-    "test" = "test"
-  }
-}
+	resource "tencentcloudenterprise_vpc" "foo" {
+	  name         = "ci-temp-test-updated"
+	  cidr_block   = "10.0.0.0/16"
+	  dns_servers  = ["119.29.29.29", "8.8.8.8"]
+	  is_multicast = false
+
+	  tags = {
+	    "test" = "test"
+	  }
+	}
+
 ```
 
 Using Assistant CIDR
 ```hcl
-resource "tencentcloudenterprise_vpc" "foo" {
-  name            = "ci-temp-test-updated"
-  cidr_block      = "10.0.0.0/16"
-  is_multicast    = false
-  assistant_cidrs = ["172.16.0.0/24"]
 
-  tags = {
-    "test" = "test"
-  }
-}
+	resource "tencentcloudenterprise_vpc" "foo" {
+	  name            = "ci-temp-test-updated"
+	  cidr_block      = "10.0.0.0/16"
+	  is_multicast    = false
+	  assistant_cidrs = ["172.16.0.0/24"]
+
+	  tags = {
+	    "test" = "test"
+	  }
+	}
+
 ```
 
-Import
+# Import
 
 Vpc instance can be imported, e.g.
 
@@ -352,17 +356,16 @@ func resourceTencentCloudVpcInstanceUpdate(d *schema.ResourceData, meta interfac
 		isMulticast = old.(bool)
 	}
 
-	if err := vpcService.ModifyVpcAttribute(ctx, id, name, isMulticast, dnsServers); err != nil {
-		return err
+	if d.HasChange("name") || d.HasChange("dns_servers") || d.HasChange("is_multicast") {
+		if err := vpcService.ModifyVpcAttribute(ctx, id, name, isMulticast, dnsServers); err != nil {
+			return err
+		}
 	}
 
 	if d.HasChange("assistant_cidrs") {
 		old, now := d.GetChange("assistant_cidrs")
-		request := vpc.NewModifyAssistantCidrRequest()
-		request.VpcId = &id
-		request.NewCidrBlocks = helper.InterfacesStringsPoint(now.([]interface{}))
-		request.OldCidrBlocks = helper.InterfacesStringsPoint(old.([]interface{}))
-		if err := vpcService.ModifyAssistantCidr(ctx, request); err != nil {
+		addCidrs, deleteCidrs := diffAssistantCidrs(old.([]interface{}), now.([]interface{}))
+		if err := modifyAssistantCidrs(ctx, &vpcService, id, addCidrs, deleteCidrs); err != nil {
 			return err
 		}
 	}
@@ -385,6 +388,62 @@ func resourceTencentCloudVpcInstanceUpdate(d *schema.ResourceData, meta interfac
 	d.Partial(false)
 
 	return resourceTencentCloudVpcInstanceRead(d, meta)
+}
+
+func modifyAssistantCidrs(ctx context.Context, vpcService *VpcService, vpcId string, addCidrs, deleteCidrs []interface{}) error {
+	if len(addCidrs) == 0 && len(deleteCidrs) == 0 {
+		return nil
+	}
+
+	checkRequest := vpc.NewCheckAssistantCidrRequest()
+	checkRequest.VpcId = &vpcId
+	checkRequest.NewCidrBlocks = helper.InterfacesStringsPoint(addCidrs)
+	checkRequest.OldCidrBlocks = helper.InterfacesStringsPoint(deleteCidrs)
+	conflicts, err := vpcService.CheckAssistantCidr(ctx, checkRequest)
+	if err != nil {
+		return err
+	}
+	if len(conflicts) > 0 {
+		return fmt.Errorf("assistant cidr conflicts: %#v", conflicts)
+	}
+
+	modifyRequest := vpc.NewModifyAssistantCidrRequest()
+	modifyRequest.VpcId = &vpcId
+	modifyRequest.NewCidrBlocks = helper.InterfacesStringsPoint(addCidrs)
+	modifyRequest.OldCidrBlocks = helper.InterfacesStringsPoint(deleteCidrs)
+	return vpcService.ModifyAssistantCidr(ctx, modifyRequest)
+}
+
+func diffAssistantCidrs(oldCidrs, newCidrs []interface{}) (addCidrs, deleteCidrs []interface{}) {
+	oldSet := make(map[string]struct{}, len(oldCidrs))
+	newSet := make(map[string]struct{}, len(newCidrs))
+
+	for _, cidr := range oldCidrs {
+		if cidr != nil {
+			oldSet[cidr.(string)] = struct{}{}
+		}
+	}
+	for _, cidr := range newCidrs {
+		if cidr == nil {
+			continue
+		}
+		cidrBlock := cidr.(string)
+		newSet[cidrBlock] = struct{}{}
+		if _, ok := oldSet[cidrBlock]; !ok {
+			addCidrs = append(addCidrs, cidrBlock)
+		}
+	}
+	for _, cidr := range oldCidrs {
+		if cidr == nil {
+			continue
+		}
+		cidrBlock := cidr.(string)
+		if _, ok := newSet[cidrBlock]; !ok {
+			deleteCidrs = append(deleteCidrs, cidrBlock)
+		}
+	}
+
+	return
 }
 
 func resourceTencentCloudVpcInstanceDelete(d *schema.ResourceData, meta interface{}) error {
