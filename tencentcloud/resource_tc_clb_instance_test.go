@@ -199,6 +199,31 @@ func TestAccTencentCloudClbInstance_internal(t *testing.T) {
 	})
 }
 
+func TestAccTencentCloudClbInstance_internalVip(t *testing.T) {
+	t.Parallel()
+
+	name := fmt.Sprintf("tf-clb-internal-vip-%d", time.Now().Unix())
+	vip := "10.12.23.12"
+
+	resource.Test(t, resource.TestCase{
+		PreCheck:     func() { testAccPreCheck(t) },
+		Providers:    testAccProviders,
+		CheckDestroy: testAccCheckClbInstanceDestroy,
+		Steps: []resource.TestStep{
+			{
+				Config: fmt.Sprintf(testAccClbInstance_internalVip, name, vip),
+				Check: resource.ComposeTestCheckFunc(
+					testAccCheckClbInstanceExists("tencentcloudenterprise_clb_instance.clb_internal_vip"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_clb_instance.clb_internal_vip", "clb_name", name),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_clb_instance.clb_internal_vip", "network_type", "INTERNAL"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_clb_instance.clb_internal_vip", "vip", vip),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_clb_instance.clb_internal_vip", "clb_vips.0", vip),
+				),
+			},
+		},
+	})
+}
+
 func TestAccTencentCloudClbInstance_default_enable(t *testing.T) {
 	t.Parallel()
 
@@ -413,6 +438,21 @@ resource "tencentcloudenterprise_clb_instance" "clb_open" {
 
   tags = {
     test = "tf"
+  }
+}
+`
+
+const testAccClbInstance_internalVip = `
+resource "tencentcloudenterprise_clb_instance" "clb_internal_vip" {
+  network_type = "INTERNAL"
+  clb_name     = "%s"
+  project_id   = 0
+  vpc_id       = "vpc-4tapjns3"
+  subnet_id    = "subnet-92tohwk0"
+  vip          = "%s"
+
+  tags = {
+    test = "tf-vip"
   }
 }
 `

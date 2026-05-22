@@ -351,10 +351,19 @@ func resourceTencentCloudClbInstance() *schema.Resource {
 				Computed:    true,
 				Description: "Region of the target region for cross-region CLB.",
 			},
+			"vip": {
+				Type:          schema.TypeString,
+				Optional:      true,
+				ForceNew:      true,
+				ValidateFunc:  validateIp,
+				ConflictsWith: []string{"eip_address_id"},
+				Description:   "Specified VIP for INTERNAL CLB instance. The IP must be available in the selected subnet.",
+			},
 			"eip_address_id": {
-				Type:        schema.TypeString,
-				Optional:    true,
-				Description: "The unique ID of EIP, e.g. `eip-11112222`. Only available for INTERNAL CLB instance to bind EIP.",
+				Type:          schema.TypeString,
+				Optional:      true,
+				ConflictsWith: []string{"vip"},
+				Description:   "The unique ID of EIP, e.g. `eip-11112222`. Only available for INTERNAL CLB instance to bind EIP.",
 			},
 		},
 	}
@@ -443,6 +452,13 @@ func resourceTencentCloudClbInstanceCreate(d *schema.ResourceData, meta interfac
 		// 		"INTERNAL network_type do not support master zone id setting")
 		// }
 		request.MasterZoneId = helper.String(v.(string))
+	}
+
+	if v, ok := d.GetOk("vip"); ok {
+		if networkType != CLB_NETWORK_TYPE_INTERNAL {
+			return fmt.Errorf("[CHECK][CLB instance][Create] check: vip only supports INTERNAL network_type")
+		}
+		request.Vip = helper.String(v.(string))
 	}
 
 	if v, ok := d.GetOk("eip_address_id"); ok {
@@ -615,6 +631,9 @@ func resourceTencentCloudClbInstanceRead(d *schema.ResourceData, meta interface{
 	}
 	if instance.LoadBalancerVips != nil {
 		_ = d.Set("clb_vips", helper.StringsInterfaces(instance.LoadBalancerVips))
+		if _, ok := d.GetOk("vip"); ok && len(instance.LoadBalancerVips) > 0 {
+			_ = d.Set("vip", instance.LoadBalancerVips[0])
+		}
 	}
 	if instance.SubnetId != nil {
 		_ = d.Set("subnet_id", instance.SubnetId)
