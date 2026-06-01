@@ -203,13 +203,33 @@ func resourceTencentCloudVpcACLRead(d *schema.ResourceData, meta interface{}) er
 	_ = d.Set("name", info.NetworkAclName)
 	egressList := make([]string, 0, len(info.EgressEntries))
 	for i := range info.EgressEntries {
-		if info.EgressEntries[i].Port == nil || *info.EgressEntries[i].Port == "" {
+		if info.EgressEntries[i].Protocol == nil || info.EgressEntries[i].Action == nil {
 			continue
+		}
+		cidrBlock := ""
+		if info.EgressEntries[i].CidrBlock != nil {
+			cidrBlock = *info.EgressEntries[i].CidrBlock
+		}
+		// Skip IPv6-only entries and implicit drop-all rules
+		if cidrBlock == "" {
+			continue
+		}
+		port := ""
+		if info.EgressEntries[i].Port != nil {
+			port = *info.EgressEntries[i].Port
+		}
+		if port == "" {
+			// For protocol ALL/ICMP, API returns empty port; map to "ALL" for user-defined Accept rules.
+			// Skip implicit default drop-all rules (added by API for TRIPLE ACLs).
+			if strings.EqualFold(*info.EgressEntries[i].Action, "Drop") {
+				continue
+			}
+			port = "ALL"
 		}
 		result := strings.Join([]string{
 			*info.EgressEntries[i].Action,
-			*info.EgressEntries[i].CidrBlock,
-			*info.EgressEntries[i].Port,
+			cidrBlock,
+			port,
 			*info.EgressEntries[i].Protocol,
 		}, FILED_SP)
 		egressList = append(egressList, strings.ToUpper(result))
@@ -217,13 +237,33 @@ func resourceTencentCloudVpcACLRead(d *schema.ResourceData, meta interface{}) er
 
 	ingressList := make([]string, 0, len(info.IngressEntries))
 	for i := range info.IngressEntries {
-		if info.IngressEntries[i].Port == nil || *info.IngressEntries[i].Port == "" {
+		if info.IngressEntries[i].Protocol == nil || info.IngressEntries[i].Action == nil {
 			continue
+		}
+		cidrBlock := ""
+		if info.IngressEntries[i].CidrBlock != nil {
+			cidrBlock = *info.IngressEntries[i].CidrBlock
+		}
+		// Skip IPv6-only entries and implicit drop-all rules
+		if cidrBlock == "" {
+			continue
+		}
+		port := ""
+		if info.IngressEntries[i].Port != nil {
+			port = *info.IngressEntries[i].Port
+		}
+		if port == "" {
+			// For protocol ALL/ICMP, API returns empty port; map to "ALL" for user-defined Accept rules.
+			// Skip implicit default drop-all rules (added by API for TRIPLE ACLs).
+			if strings.EqualFold(*info.IngressEntries[i].Action, "Drop") {
+				continue
+			}
+			port = "ALL"
 		}
 		result := strings.Join([]string{
 			*info.IngressEntries[i].Action,
-			*info.IngressEntries[i].CidrBlock,
-			*info.IngressEntries[i].Port,
+			cidrBlock,
+			port,
 			*info.IngressEntries[i].Protocol,
 		}, FILED_SP)
 		ingressList = append(ingressList, strings.ToUpper(result))
