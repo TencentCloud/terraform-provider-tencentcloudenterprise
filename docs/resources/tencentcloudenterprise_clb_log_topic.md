@@ -4,12 +4,12 @@ layout: "tencentcloudenterprise"
 page_title: "TencentCloudEnterprise: tencentcloudenterprise_clb_log_topic"
 sidebar_current: "docs-tencentcloudenterprise-resource-clb_log_topic"
 description: |-
-  Provides a resource to create a CLB instance topic.
+  Provides a resource to create a CLB log topic.
 ---
 
 # tencentcloudenterprise_clb_log_topic
 
-Provides a resource to create a CLB instance topic.
+Provides a resource to create a CLB log topic.
 
 ## Example Usage
 
@@ -43,7 +43,7 @@ tencentcloudenterprise_clb_log_topic can be imported using the id, e.g.
 CLB log topic can be imported using the id, e.g.
 
 ```
-$ terraform import tencentcloudenterprise_clb_log_topic.topic lb-7a0t6zqb
+$ terraform import tencentcloudenterprise_clb_log_topic.topic 439b0e84-c5dc-4382-b4c2-937a5a4d8245
 ```
 ```
 

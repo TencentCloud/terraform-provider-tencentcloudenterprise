@@ -3,7 +3,10 @@ subcategory: "Tencent Kubernetes Engine(TKE)"
 layout: "tencentcloudenterprise"
 page_title: "TencentCloudEnterprise: tencentcloudenterprise_tke_kubernetes_addon_config"
 sidebar_current: "docs-tencentcloudenterprise-resource-tke_kubernetes_addon_config"
-description: "Provide a resource to configure addon that kubernetes comes with. Unlike tencentcloudenterprise_tke_kubernetes_addon which manages the full lifecycle (install/update/delete), this resource only manages addon configuration (update). It will not install or delete the addon."
+description: |-
+  Provide a resource to configure addon that kubernetes comes with.
+Unlike tencentcloudenterprise_tke_kubernetes_addon which manages the full lifecycle (install/update/delete),
+this resource only manages addon configuration (update). It will not install or delete the addon.
 ---
 
 # tencentcloudenterprise_tke_kubernetes_addon_config

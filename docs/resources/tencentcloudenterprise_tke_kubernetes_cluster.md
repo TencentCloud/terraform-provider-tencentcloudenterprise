@@ -293,6 +293,7 @@ The following arguments are supported:
 * `container_runtime` - (Optional, String, ForceNew) Runtime type of the cluster, the available values include: 'docker' and 'containerd'.The Kubernetes v1.24 has removed dockershim, so please use containerd in v1.24 or higher.Default is 'docker'.
 * `data_plane_v2` - (Optional, Bool, ForceNew) Whether to use data plane V2 (cilium v2). Default is false.
 * `deletion_protection` - (Optional, Bool) Indicates whether cluster deletion protection is enabled. Default is false.
+* `disable_addons` - (Optional, List: [`String`], ForceNew) List of add-on names to disable during cluster creation. For example: ["ip-masq-agent"].
 * `docker_graph_path` - (Optional, String, ForceNew) Docker graph path. Default is `/var/lib/docker`.
 * `enable_customized_pod_cidr` - (Optional, Bool, ForceNew) Whether to enable the custom mode of node podCIDR size. Default is false.
 * `eni_subnet_ids` - (Optional, List: [`String`]) Subnet Ids for cluster with VPC-CNI network mode. This field can only set when field `network_type` is 'VPC-CNI'. `eni_subnet_ids` can not empty once be set.

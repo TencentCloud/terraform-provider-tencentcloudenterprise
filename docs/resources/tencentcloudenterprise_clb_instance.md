@@ -114,6 +114,7 @@ The following arguments are supported:
 * `tags` - (Optional, Map) The available tags within this CLB.
 * `target_region_info_region` - (Optional, String) Region of the target region for cross-region CLB.
 * `target_region_info_vpc_id` - (Optional, String) VPC ID of the target region for cross-region CLB.
+* `vip` - (Optional, String, ForceNew) Specified VIP for INTERNAL CLB instance. The IP must be available in the selected subnet.
 * `vpc_id` - (Optional, String, ForceNew) VPC ID of the CLB.
 * `zone_id` - (Optional, String) Available zone id, only applicable to open CLB.
 
