@@ -1,13 +1,13 @@
 /*
 Provide a resource to configure addon that kubernetes comes with.
-Unlike cloud_tke_kubernetes_addon which manages the full lifecycle (install/update/delete),
+Unlike tencentcloudenterprise_tke_kubernetes_addon which manages the full lifecycle (install/update/delete),
 this resource only manages addon configuration (update). It will not install or delete the addon.
 
 # Example Usage
 
 ```hcl
 
-resource "cloud_tke_kubernetes_addon_config" "example" {
+resource "tencentcloudenterprise_tke_kubernetes_addon_config" "example" {
   cluster_id = "cls-rkeuubqw"
   addon_name = "cluster-autoscaler"
   raw_values = jsonencode({
@@ -45,7 +45,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_tke_kubernetes_addon_config", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_tke_kubernetes_addon_config", CNDescription{
 		TerraformTypeCN: "集群Addon配置",
 		DescriptionCN:   "提供TKE集群Addon配置资源，用于管理已有Addon的配置参数，不会安装或卸载Addon。",
 		AttributesCN: map[string]string{
@@ -114,7 +114,7 @@ func resourceTencentCloudTkeKubernetesAddonConfig() *schema.Resource {
 }
 
 func resourceTencentCloudTkeKubernetesAddonConfigCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_tke_kubernetes_addon_config.create")()
+	defer logElapsed("resource.tencentcloudenterprise_tke_kubernetes_addon_config.create")()
 	defer inconsistentCheck(d, meta)()
 
 	clusterId := d.Get("cluster_id").(string)
@@ -125,7 +125,7 @@ func resourceTencentCloudTkeKubernetesAddonConfigCreate(d *schema.ResourceData, 
 }
 
 func resourceTencentCloudTkeKubernetesAddonConfigRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_tke_kubernetes_addon_config.read")()
+	defer logElapsed("resource.tencentcloudenterprise_tke_kubernetes_addon_config.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -171,7 +171,7 @@ func resourceTencentCloudTkeKubernetesAddonConfigRead(d *schema.ResourceData, me
 }
 
 func resourceTencentCloudTkeKubernetesAddonConfigUpdate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_tke_kubernetes_addon_config.update")()
+	defer logElapsed("resource.tencentcloudenterprise_tke_kubernetes_addon_config.update")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -228,7 +228,7 @@ func resourceTencentCloudTkeKubernetesAddonConfigUpdate(d *schema.ResourceData, 
 }
 
 func resourceTencentCloudTkeKubernetesAddonConfigDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_tke_kubernetes_addon_config.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_tke_kubernetes_addon_config.delete")()
 	defer inconsistentCheck(d, meta)()
 
 	return nil

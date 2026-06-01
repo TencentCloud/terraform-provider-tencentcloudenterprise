@@ -317,6 +317,7 @@ func init() {
 			"qgpu_share_enable":               "是否开启QGPU共享",
 			"is_dual_stack":                   "是否双栈集群",
 			"extension_addon":                 "扩展组件",
+			"disable_addons":                  "禁用的组件列表",
 			//"cluster_intranet_domain":                    "集群内网域名",
 			"node_pool_id": "节点池ID",
 			//"acquire_cluster_admin_role": "是否获取集群管理员角色",
@@ -1959,6 +1960,16 @@ func resourceTencentCloudTkeCluster() *schema.Resource {
 			Description: "List of extension add-ons to be installed.",
 		},
 
+		"disable_addons": {
+			Type:     schema.TypeList,
+			Optional: true,
+			ForceNew: true,
+			Elem: &schema.Schema{
+				Type: schema.TypeString,
+			},
+			Description: "List of add-on names to disable during cluster creation. For example: [\"ip-masq-agent\"].",
+		},
+
 		// Computed values
 		"cluster_node_num": {
 			Type:        schema.TypeInt,
@@ -2784,6 +2795,14 @@ func resourceTencentCloudTkeClusterCreate(d *schema.ResourceData, meta interface
 		}
 	}
 
+	// Parse disable_addons
+	var disableAddons []*string
+	if v, ok := d.GetOk("disable_addons"); ok {
+		for _, item := range v.([]interface{}) {
+			disableAddons = append(disableAddons, helper.String(item.(string)))
+		}
+	}
+
 	clusterCIDR := d.Get("cluster_cidr").(string)
 	if clusterCIDR != "" {
 		cidrSet.ClusterCIDR = helper.String(clusterCIDR)
@@ -3017,7 +3036,7 @@ func resourceTencentCloudTkeClusterCreate(d *schema.ResourceData, meta interface
 
 	service := TkeService{client: meta.(*TencentCloudClient).apiV3Conn}
 	id, err := service.CreateCluster(ctx, basic, advanced, cvms, runInstancesForNode, clusterDeployType, iAdvanced, cidrSet, tags, existInstances,
-		&overrideSettings, iDiskMountSettings, clusterArch, extensionAddons, "")
+		&overrideSettings, iDiskMountSettings, clusterArch, extensionAddons, "", disableAddons)
 	if err != nil {
 		return err
 	}

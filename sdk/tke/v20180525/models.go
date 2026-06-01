@@ -23134,6 +23134,9 @@ type CreateClusterRequest struct {
 	// 集群cpu架构
 
 	ClusterCpuType *string `json:"ClusterCpuType,omitempty" name:"ClusterCpuType"`
+	// 屏蔽安装指定Addon组件，填写相应的AddonName
+
+	DisableAddons []*string `json:"DisableAddons,omitempty" name:"DisableAddons"`
 }
 
 func (r *CreateClusterRequest) ToJsonString() string {

@@ -520,6 +520,7 @@ func (me *TkeService) CreateCluster(ctx context.Context,
 	clusterArch string,
 	extensionAddons []*tke.ExtensionAddon,
 	cdcId string,
+	disableAddons []*string,
 ) (id string, errRet error) {
 
 	logId := getLogId(ctx)
@@ -666,6 +667,10 @@ func (me *TkeService) CreateCluster(ctx context.Context,
 
 	if len(extensionAddons) > 0 {
 		request.ExtensionAddons = extensionAddons
+	}
+
+	if len(disableAddons) > 0 {
+		request.DisableAddons = disableAddons
 	}
 
 	if cdcId != "" {

@@ -17,13 +17,13 @@ func TestAccTencentCloudTkeKubernetesAddonConfigResource_basic(t *testing.T) {
 			{
 				Config: testAccTkeKubernetesAddonConfigCbs,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttrSet("cloud_tke_kubernetes_addon_config.kubernetes_addon_config", "id"),
-					resource.TestCheckResourceAttr("cloud_tke_kubernetes_addon_config.kubernetes_addon_config", "addon_name", "cbs"),
-					resource.TestCheckResourceAttr("cloud_tke_kubernetes_addon_config.kubernetes_addon_config", "phase", "Succeeded"),
+					resource.TestCheckResourceAttrSet("tencentcloudenterprise_tke_kubernetes_addon_config.kubernetes_addon_config", "id"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_tke_kubernetes_addon_config.kubernetes_addon_config", "addon_name", "cbs"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_tke_kubernetes_addon_config.kubernetes_addon_config", "phase", "Succeeded"),
 				),
 			},
 			{
-				ResourceName:      "cloud_tke_kubernetes_addon_config.kubernetes_addon_config",
+				ResourceName:      "tencentcloudenterprise_tke_kubernetes_addon_config.kubernetes_addon_config",
 				ImportState:       true,
 				ImportStateVerify: true,
 			},
@@ -36,7 +36,7 @@ locals {
   cluster_id = "cls-3uj3avg6"
 }
 
-resource "cloud_tke_kubernetes_addon_config" "kubernetes_addon_config" {
+resource "tencentcloudenterprise_tke_kubernetes_addon_config" "kubernetes_addon_config" {
 	cluster_id = local.cluster_id
 	addon_name = "cbs"
 	raw_values = "{}"
