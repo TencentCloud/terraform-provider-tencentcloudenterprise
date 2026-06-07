@@ -788,3 +788,45 @@ func (me *OrganizationService) DescribeOrganizationMembersByFilter(ctx context.C
 
 	return
 }
+
+// DescribeOrgServiceAssignMember 通过 ListOrgServiceAssignMember 分页查找指定 (serviceId, memberUin) 的委派管理员
+func (me *OrganizationService) DescribeOrgServiceAssignMember(ctx context.Context, serviceId uint64, memberUin int64) (member *organization.OrganizationServiceAssignMember, errRet error) {
+	logId := getLogId(ctx)
+	var (
+		offset uint64 = 0
+		limit  uint64 = 10
+	)
+	for {
+		request := organization.NewListOrgServiceAssignMemberRequest()
+		request.ServiceId = helper.Uint64(serviceId)
+		request.Offset = helper.Uint64(offset)
+		request.Limit = helper.Uint64(limit)
+
+		response, err := me.client.UseOrganizationClient().ListOrgServiceAssignMember(request)
+		if err != nil {
+			log.Printf("[CRITAL]%s api[%s] fail, request body [%s], reason[%s]\n",
+				logId, request.GetAction(), request.ToJsonString(), err.Error())
+			errRet = err
+			return
+		}
+		log.Printf("[DEBUG]%s api[%s] success, request body [%s], response body [%s]\n",
+			logId, request.GetAction(), request.ToJsonString(), response.ToJsonString())
+		if response == nil || response.Response == nil {
+			return
+		}
+		for _, m := range response.Response.Items {
+			if m != nil && m.MemberUin != nil && *m.MemberUin == memberUin {
+				member = m
+				return
+			}
+		}
+		got := uint64(len(response.Response.Items))
+		if got < limit {
+			return
+		}
+		if response.Response.Total != nil && offset+got >= uint64(*response.Response.Total) {
+			return
+		}
+		offset += limit
+	}
+}

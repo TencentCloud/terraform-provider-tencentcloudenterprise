@@ -1873,3 +1873,1753 @@ func (c *Client) UpdateOrganizationMember(request *UpdateOrganizationMemberReque
 	err = c.Send(request, response)
 	return
 }
+
+func NewAcceptMemberChangePermissionRequest() (request *AcceptMemberChangePermissionRequest) {
+	request = &AcceptMemberChangePermissionRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("organization", APIVersion, "AcceptMemberChangePermission")
+	return
+}
+
+func NewAcceptMemberChangePermissionResponse() (response *AcceptMemberChangePermissionResponse) {
+	response = &AcceptMemberChangePermissionResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 确认成员权限变更
+func (c *Client) AcceptMemberChangePermission(request *AcceptMemberChangePermissionRequest) (response *AcceptMemberChangePermissionResponse, err error) {
+	if request == nil {
+		request = NewAcceptMemberChangePermissionRequest()
+	}
+	response = NewAcceptMemberChangePermissionResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewAcceptOrganizationInvitationRequest() (request *AcceptOrganizationInvitationRequest) {
+	request = &AcceptOrganizationInvitationRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("organization", APIVersion, "AcceptOrganizationInvitation")
+	return
+}
+
+func NewAcceptOrganizationInvitationResponse() (response *AcceptOrganizationInvitationResponse) {
+	response = &AcceptOrganizationInvitationResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 接受加入企业组织邀请
+func (c *Client) AcceptOrganizationInvitation(request *AcceptOrganizationInvitationRequest) (response *AcceptOrganizationInvitationResponse, err error) {
+	if request == nil {
+		request = NewAcceptOrganizationInvitationRequest()
+	}
+	response = NewAcceptOrganizationInvitationResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewAddOrganizationNodeTagsRequest() (request *AddOrganizationNodeTagsRequest) {
+	request = &AddOrganizationNodeTagsRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("organization", APIVersion, "AddOrganizationNodeTags")
+	return
+}
+
+func NewAddOrganizationNodeTagsResponse() (response *AddOrganizationNodeTagsResponse) {
+	response = &AddOrganizationNodeTagsResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 给组织节点打标签
+func (c *Client) AddOrganizationNodeTags(request *AddOrganizationNodeTagsRequest) (response *AddOrganizationNodeTagsResponse, err error) {
+	if request == nil {
+		request = NewAddOrganizationNodeTagsRequest()
+	}
+	response = NewAddOrganizationNodeTagsResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewBindOrganizationMemberEmailRequest() (request *BindOrganizationMemberEmailRequest) {
+	request = &BindOrganizationMemberEmailRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("organization", APIVersion, "BindOrganizationMemberEmail")
+	return
+}
+
+func NewBindOrganizationMemberEmailResponse() (response *BindOrganizationMemberEmailResponse) {
+	response = &BindOrganizationMemberEmailResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 成员绑定邮箱和安全手机
+func (c *Client) BindOrganizationMemberEmail(request *BindOrganizationMemberEmailRequest) (response *BindOrganizationMemberEmailResponse, err error) {
+	if request == nil {
+		request = NewBindOrganizationMemberEmailRequest()
+	}
+	response = NewBindOrganizationMemberEmailResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewBindOrganizationPolicyGroupRequest() (request *BindOrganizationPolicyGroupRequest) {
+	request = &BindOrganizationPolicyGroupRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("organization", APIVersion, "BindOrganizationPolicyGroup")
+	return
+}
+
+func NewBindOrganizationPolicyGroupResponse() (response *BindOrganizationPolicyGroupResponse) {
+	response = &BindOrganizationPolicyGroupResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 绑定成员访问授权策略和用户组
+func (c *Client) BindOrganizationPolicyGroup(request *BindOrganizationPolicyGroupRequest) (response *BindOrganizationPolicyGroupResponse, err error) {
+	if request == nil {
+		request = NewBindOrganizationPolicyGroupRequest()
+	}
+	response = NewBindOrganizationPolicyGroupResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewBindOrganizationPolicySubAccountRequest() (request *BindOrganizationPolicySubAccountRequest) {
+	request = &BindOrganizationPolicySubAccountRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("organization", APIVersion, "BindOrganizationPolicySubAccount")
+	return
+}
+
+func NewBindOrganizationPolicySubAccountResponse() (response *BindOrganizationPolicySubAccountResponse) {
+	response = &BindOrganizationPolicySubAccountResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 绑定成员访问授权策略和组织管理员子账号
+func (c *Client) BindOrganizationPolicySubAccount(request *BindOrganizationPolicySubAccountRequest) (response *BindOrganizationPolicySubAccountResponse, err error) {
+	if request == nil {
+		request = NewBindOrganizationPolicySubAccountRequest()
+	}
+	response = NewBindOrganizationPolicySubAccountResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewCancelMemberChangePermissionRequest() (request *CancelMemberChangePermissionRequest) {
+	request = &CancelMemberChangePermissionRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("organization", APIVersion, "CancelMemberChangePermission")
+	return
+}
+
+func NewCancelMemberChangePermissionResponse() (response *CancelMemberChangePermissionResponse) {
+	response = &CancelMemberChangePermissionResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 取消成员权限变更
+func (c *Client) CancelMemberChangePermission(request *CancelMemberChangePermissionRequest) (response *CancelMemberChangePermissionResponse, err error) {
+	if request == nil {
+		request = NewCancelMemberChangePermissionRequest()
+	}
+	response = NewCancelMemberChangePermissionResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewCancelOrganizationInvitationRequest() (request *CancelOrganizationInvitationRequest) {
+	request = &CancelOrganizationInvitationRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("organization", APIVersion, "CancelOrganizationInvitation")
+	return
+}
+
+func NewCancelOrganizationInvitationResponse() (response *CancelOrganizationInvitationResponse) {
+	response = &CancelOrganizationInvitationResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 取消企业组织邀请
+func (c *Client) CancelOrganizationInvitation(request *CancelOrganizationInvitationRequest) (response *CancelOrganizationInvitationResponse, err error) {
+	if request == nil {
+		request = NewCancelOrganizationInvitationRequest()
+	}
+	response = NewCancelOrganizationInvitationResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewCancelOrganizationPolicyGroupRequest() (request *CancelOrganizationPolicyGroupRequest) {
+	request = &CancelOrganizationPolicyGroupRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("organization", APIVersion, "CancelOrganizationPolicyGroup")
+	return
+}
+
+func NewCancelOrganizationPolicyGroupResponse() (response *CancelOrganizationPolicyGroupResponse) {
+	response = &CancelOrganizationPolicyGroupResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 解绑成员访问授权策略和用户组
+func (c *Client) CancelOrganizationPolicyGroup(request *CancelOrganizationPolicyGroupRequest) (response *CancelOrganizationPolicyGroupResponse, err error) {
+	if request == nil {
+		request = NewCancelOrganizationPolicyGroupRequest()
+	}
+	response = NewCancelOrganizationPolicyGroupResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewCancelOrganizationPolicySubAccountRequest() (request *CancelOrganizationPolicySubAccountRequest) {
+	request = &CancelOrganizationPolicySubAccountRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("organization", APIVersion, "CancelOrganizationPolicySubAccount")
+	return
+}
+
+func NewCancelOrganizationPolicySubAccountResponse() (response *CancelOrganizationPolicySubAccountResponse) {
+	response = &CancelOrganizationPolicySubAccountResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 解绑成员访问授权策略和组织管理员子账号
+func (c *Client) CancelOrganizationPolicySubAccount(request *CancelOrganizationPolicySubAccountRequest) (response *CancelOrganizationPolicySubAccountResponse, err error) {
+	if request == nil {
+		request = NewCancelOrganizationPolicySubAccountRequest()
+	}
+	response = NewCancelOrganizationPolicySubAccountResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewCheckAccountIsSubClientRequest() (request *CheckAccountIsSubClientRequest) {
+	request = &CheckAccountIsSubClientRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("organization", APIVersion, "CheckAccountIsSubClient")
+	return
+}
+
+func NewCheckAccountIsSubClientResponse() (response *CheckAccountIsSubClientResponse) {
+	response = &CheckAccountIsSubClientResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 检查账号是否经销子客
+func (c *Client) CheckAccountIsSubClient(request *CheckAccountIsSubClientRequest) (response *CheckAccountIsSubClientResponse, err error) {
+	if request == nil {
+		request = NewCheckAccountIsSubClientRequest()
+	}
+	response = NewCheckAccountIsSubClientResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewCheckAccountStatusRequest() (request *CheckAccountStatusRequest) {
+	request = &CheckAccountStatusRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("organization", APIVersion, "CheckAccountStatus")
+	return
+}
+
+func NewCheckAccountStatusResponse() (response *CheckAccountStatusResponse) {
+	response = &CheckAccountStatusResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 检查账号状态
+func (c *Client) CheckAccountStatus(request *CheckAccountStatusRequest) (response *CheckAccountStatusResponse, err error) {
+	if request == nil {
+		request = NewCheckAccountStatusRequest()
+	}
+	response = NewCheckAccountStatusResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewCheckAddOrganizationMemberRequest() (request *CheckAddOrganizationMemberRequest) {
+	request = &CheckAddOrganizationMemberRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("organization", APIVersion, "CheckAddOrganizationMember")
+	return
+}
+
+func NewCheckAddOrganizationMemberResponse() (response *CheckAddOrganizationMemberResponse) {
+	response = &CheckAddOrganizationMemberResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 检查添加组织成员
+func (c *Client) CheckAddOrganizationMember(request *CheckAddOrganizationMemberRequest) (response *CheckAddOrganizationMemberResponse, err error) {
+	if request == nil {
+		request = NewCheckAddOrganizationMemberRequest()
+	}
+	response = NewCheckAddOrganizationMemberResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewCheckBindOrganizationMemberEmailRequest() (request *CheckBindOrganizationMemberEmailRequest) {
+	request = &CheckBindOrganizationMemberEmailRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("organization", APIVersion, "CheckBindOrganizationMemberEmail")
+	return
+}
+
+func NewCheckBindOrganizationMemberEmailResponse() (response *CheckBindOrganizationMemberEmailResponse) {
+	response = &CheckBindOrganizationMemberEmailResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 验证成员绑定邮箱
+func (c *Client) CheckBindOrganizationMemberEmail(request *CheckBindOrganizationMemberEmailRequest) (response *CheckBindOrganizationMemberEmailResponse, err error) {
+	if request == nil {
+		request = NewCheckBindOrganizationMemberEmailRequest()
+	}
+	response = NewCheckBindOrganizationMemberEmailResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewCheckOrganizationAuthManageUinRequest() (request *CheckOrganizationAuthManageUinRequest) {
+	request = &CheckOrganizationAuthManageUinRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("organization", APIVersion, "CheckOrganizationAuthManageUin")
+	return
+}
+
+func NewCheckOrganizationAuthManageUinResponse() (response *CheckOrganizationAuthManageUinResponse) {
+	response = &CheckOrganizationAuthManageUinResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 检查是否企业组织主体管理账号
+func (c *Client) CheckOrganizationAuthManageUin(request *CheckOrganizationAuthManageUinRequest) (response *CheckOrganizationAuthManageUinResponse, err error) {
+	if request == nil {
+		request = NewCheckOrganizationAuthManageUinRequest()
+	}
+	response = NewCheckOrganizationAuthManageUinResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewCheckOrganizationMemberAuthRequest() (request *CheckOrganizationMemberAuthRequest) {
+	request = &CheckOrganizationMemberAuthRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("organization", APIVersion, "CheckOrganizationMemberAuth")
+	return
+}
+
+func NewCheckOrganizationMemberAuthResponse() (response *CheckOrganizationMemberAuthResponse) {
+	response = &CheckOrganizationMemberAuthResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 检查成员企业实名是否和管理员一样
+func (c *Client) CheckOrganizationMemberAuth(request *CheckOrganizationMemberAuthRequest) (response *CheckOrganizationMemberAuthResponse, err error) {
+	if request == nil {
+		request = NewCheckOrganizationMemberAuthRequest()
+	}
+	response = NewCheckOrganizationMemberAuthResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewCheckOrganizationMemberAuthRelationRequest() (request *CheckOrganizationMemberAuthRelationRequest) {
+	request = &CheckOrganizationMemberAuthRelationRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("organization", APIVersion, "CheckOrganizationMemberAuthRelation")
+	return
+}
+
+func NewCheckOrganizationMemberAuthRelationResponse() (response *CheckOrganizationMemberAuthRelationResponse) {
+	response = &CheckOrganizationMemberAuthRelationResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 检查管理员和成员主体是否互信
+func (c *Client) CheckOrganizationMemberAuthRelation(request *CheckOrganizationMemberAuthRelationRequest) (response *CheckOrganizationMemberAuthRelationResponse, err error) {
+	if request == nil {
+		request = NewCheckOrganizationMemberAuthRelationRequest()
+	}
+	response = NewCheckOrganizationMemberAuthRelationResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewCheckOrganizationMemberPermissionRequest() (request *CheckOrganizationMemberPermissionRequest) {
+	request = &CheckOrganizationMemberPermissionRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("organization", APIVersion, "CheckOrganizationMemberPermission")
+	return
+}
+
+func NewCheckOrganizationMemberPermissionResponse() (response *CheckOrganizationMemberPermissionResponse) {
+	response = &CheckOrganizationMemberPermissionResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 校验成员权限设置
+func (c *Client) CheckOrganizationMemberPermission(request *CheckOrganizationMemberPermissionRequest) (response *CheckOrganizationMemberPermissionResponse, err error) {
+	if request == nil {
+		request = NewCheckOrganizationMemberPermissionRequest()
+	}
+	response = NewCheckOrganizationMemberPermissionResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewCreateOrgMemberProductServiceRoleRequest() (request *CreateOrgMemberProductServiceRoleRequest) {
+	request = &CreateOrgMemberProductServiceRoleRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("organization", APIVersion, "CreateOrgMemberProductServiceRole")
+	return
+}
+
+func NewCreateOrgMemberProductServiceRoleResponse() (response *CreateOrgMemberProductServiceRoleResponse) {
+	response = &CreateOrgMemberProductServiceRoleResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 创建成员产品服务角色
+func (c *Client) CreateOrgMemberProductServiceRole(request *CreateOrgMemberProductServiceRoleRequest) (response *CreateOrgMemberProductServiceRoleResponse, err error) {
+	if request == nil {
+		request = NewCreateOrgMemberProductServiceRoleRequest()
+	}
+	response = NewCreateOrgMemberProductServiceRoleResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewCreateOrgServiceAssignRequest() (request *CreateOrgServiceAssignRequest) {
+	request = &CreateOrgServiceAssignRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("organization", APIVersion, "CreateOrgServiceAssign")
+	return
+}
+
+func NewCreateOrgServiceAssignResponse() (response *CreateOrgServiceAssignResponse) {
+	response = &CreateOrgServiceAssignResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 添加集团服务委派管理员
+func (c *Client) CreateOrgServiceAssign(request *CreateOrgServiceAssignRequest) (response *CreateOrgServiceAssignResponse, err error) {
+	if request == nil {
+		request = NewCreateOrgServiceAssignRequest()
+	}
+	response = NewCreateOrgServiceAssignResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewCreateOrganizationMembersRequest() (request *CreateOrganizationMembersRequest) {
+	request = &CreateOrganizationMembersRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("organization", APIVersion, "CreateOrganizationMembers")
+	return
+}
+
+func NewCreateOrganizationMembersResponse() (response *CreateOrganizationMembersResponse) {
+	response = &CreateOrganizationMembersResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 批量添加组织成员
+func (c *Client) CreateOrganizationMembers(request *CreateOrganizationMembersRequest) (response *CreateOrganizationMembersResponse, err error) {
+	if request == nil {
+		request = NewCreateOrganizationMembersRequest()
+	}
+	response = NewCreateOrganizationMembersResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewDeleteOrgServiceAssignRequest() (request *DeleteOrgServiceAssignRequest) {
+	request = &DeleteOrgServiceAssignRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("organization", APIVersion, "DeleteOrgServiceAssign")
+	return
+}
+
+func NewDeleteOrgServiceAssignResponse() (response *DeleteOrgServiceAssignResponse) {
+	response = &DeleteOrgServiceAssignResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 删除集团服务委派管理员
+func (c *Client) DeleteOrgServiceAssign(request *DeleteOrgServiceAssignRequest) (response *DeleteOrgServiceAssignResponse, err error) {
+	if request == nil {
+		request = NewDeleteOrgServiceAssignRequest()
+	}
+	response = NewDeleteOrgServiceAssignResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewDeleteOrganizationNodeTagsRequest() (request *DeleteOrganizationNodeTagsRequest) {
+	request = &DeleteOrganizationNodeTagsRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("organization", APIVersion, "DeleteOrganizationNodeTags")
+	return
+}
+
+func NewDeleteOrganizationNodeTagsResponse() (response *DeleteOrganizationNodeTagsResponse) {
+	response = &DeleteOrganizationNodeTagsResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 批量删除组织节点标签
+func (c *Client) DeleteOrganizationNodeTags(request *DeleteOrganizationNodeTagsRequest) (response *DeleteOrganizationNodeTagsResponse, err error) {
+	if request == nil {
+		request = NewDeleteOrganizationNodeTagsRequest()
+	}
+	response = NewDeleteOrganizationNodeTagsResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewDenyMemberChangePermissionRequest() (request *DenyMemberChangePermissionRequest) {
+	request = &DenyMemberChangePermissionRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("organization", APIVersion, "DenyMemberChangePermission")
+	return
+}
+
+func NewDenyMemberChangePermissionResponse() (response *DenyMemberChangePermissionResponse) {
+	response = &DenyMemberChangePermissionResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 拒绝成员权限变更
+func (c *Client) DenyMemberChangePermission(request *DenyMemberChangePermissionRequest) (response *DenyMemberChangePermissionResponse, err error) {
+	if request == nil {
+		request = NewDenyMemberChangePermissionRequest()
+	}
+	response = NewDenyMemberChangePermissionResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewDenyOrganizationCreateRecordRequest() (request *DenyOrganizationCreateRecordRequest) {
+	request = &DenyOrganizationCreateRecordRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("organization", APIVersion, "DenyOrganizationCreateRecord")
+	return
+}
+
+func NewDenyOrganizationCreateRecordResponse() (response *DenyOrganizationCreateRecordResponse) {
+	response = &DenyOrganizationCreateRecordResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 拒绝企业组织创建成员
+func (c *Client) DenyOrganizationCreateRecord(request *DenyOrganizationCreateRecordRequest) (response *DenyOrganizationCreateRecordResponse, err error) {
+	if request == nil {
+		request = NewDenyOrganizationCreateRecordRequest()
+	}
+	response = NewDenyOrganizationCreateRecordResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewDenyOrganizationInvitationRequest() (request *DenyOrganizationInvitationRequest) {
+	request = &DenyOrganizationInvitationRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("organization", APIVersion, "DenyOrganizationInvitation")
+	return
+}
+
+func NewDenyOrganizationInvitationResponse() (response *DenyOrganizationInvitationResponse) {
+	response = &DenyOrganizationInvitationResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 拒绝企业组织邀请
+func (c *Client) DenyOrganizationInvitation(request *DenyOrganizationInvitationRequest) (response *DenyOrganizationInvitationResponse, err error) {
+	if request == nil {
+		request = NewDenyOrganizationInvitationRequest()
+	}
+	response = NewDenyOrganizationInvitationResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewDescribeAllParentNodesRequest() (request *DescribeAllParentNodesRequest) {
+	request = &DescribeAllParentNodesRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("organization", APIVersion, "DescribeAllParentNodes")
+	return
+}
+
+func NewDescribeAllParentNodesResponse() (response *DescribeAllParentNodesResponse) {
+	response = &DescribeAllParentNodesResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 根据节点获取所有父节点,直到根节点为止。
+func (c *Client) DescribeAllParentNodes(request *DescribeAllParentNodesRequest) (response *DescribeAllParentNodesResponse, err error) {
+	if request == nil {
+		request = NewDescribeAllParentNodesRequest()
+	}
+	response = NewDescribeAllParentNodesResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewDescribeEffectivePolicyRequest() (request *DescribeEffectivePolicyRequest) {
+	request = &DescribeEffectivePolicyRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("organization", APIVersion, "DescribeEffectivePolicy")
+	return
+}
+
+func NewDescribeEffectivePolicyResponse() (response *DescribeEffectivePolicyResponse) {
+	response = &DescribeEffectivePolicyResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 查询目标关联的有效策略
+func (c *Client) DescribeEffectivePolicy(request *DescribeEffectivePolicyRequest) (response *DescribeEffectivePolicyResponse, err error) {
+	if request == nil {
+		request = NewDescribeEffectivePolicyRequest()
+	}
+	response = NewDescribeEffectivePolicyResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewDescribeMemberChangePermissionRecordsRequest() (request *DescribeMemberChangePermissionRecordsRequest) {
+	request = &DescribeMemberChangePermissionRecordsRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("organization", APIVersion, "DescribeMemberChangePermissionRecords")
+	return
+}
+
+func NewDescribeMemberChangePermissionRecordsResponse() (response *DescribeMemberChangePermissionRecordsResponse) {
+	response = &DescribeMemberChangePermissionRecordsResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 获取组织成员权限变更记录列表
+func (c *Client) DescribeMemberChangePermissionRecords(request *DescribeMemberChangePermissionRecordsRequest) (response *DescribeMemberChangePermissionRecordsResponse, err error) {
+	if request == nil {
+		request = NewDescribeMemberChangePermissionRecordsRequest()
+	}
+	response = NewDescribeMemberChangePermissionRecordsResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewDescribeMemberDeletionPermissionRequest() (request *DescribeMemberDeletionPermissionRequest) {
+	request = &DescribeMemberDeletionPermissionRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("organization", APIVersion, "DescribeMemberDeletionPermission")
+	return
+}
+
+func NewDescribeMemberDeletionPermissionResponse() (response *DescribeMemberDeletionPermissionResponse) {
+	response = &DescribeMemberDeletionPermissionResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 查询成员删除许可
+func (c *Client) DescribeMemberDeletionPermission(request *DescribeMemberDeletionPermissionRequest) (response *DescribeMemberDeletionPermissionResponse, err error) {
+	if request == nil {
+		request = NewDescribeMemberDeletionPermissionRequest()
+	}
+	response = NewDescribeMemberDeletionPermissionResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewDescribeOrganizationAuthPoliciesRequest() (request *DescribeOrganizationAuthPoliciesRequest) {
+	request = &DescribeOrganizationAuthPoliciesRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("organization", APIVersion, "DescribeOrganizationAuthPolicies")
+	return
+}
+
+func NewDescribeOrganizationAuthPoliciesResponse() (response *DescribeOrganizationAuthPoliciesResponse) {
+	response = &DescribeOrganizationAuthPoliciesResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 查询组织访问授权策略列表
+func (c *Client) DescribeOrganizationAuthPolicies(request *DescribeOrganizationAuthPoliciesRequest) (response *DescribeOrganizationAuthPoliciesResponse, err error) {
+	if request == nil {
+		request = NewDescribeOrganizationAuthPoliciesRequest()
+	}
+	response = NewDescribeOrganizationAuthPoliciesResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewDescribeOrganizationBeInviteRecordRequest() (request *DescribeOrganizationBeInviteRecordRequest) {
+	request = &DescribeOrganizationBeInviteRecordRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("organization", APIVersion, "DescribeOrganizationBeInviteRecord")
+	return
+}
+
+func NewDescribeOrganizationBeInviteRecordResponse() (response *DescribeOrganizationBeInviteRecordResponse) {
+	response = &DescribeOrganizationBeInviteRecordResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 获取我被组织邀请信息列表
+func (c *Client) DescribeOrganizationBeInviteRecord(request *DescribeOrganizationBeInviteRecordRequest) (response *DescribeOrganizationBeInviteRecordResponse, err error) {
+	if request == nil {
+		request = NewDescribeOrganizationBeInviteRecordRequest()
+	}
+	response = NewDescribeOrganizationBeInviteRecordResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewDescribeOrganizationCollPoliciesRequest() (request *DescribeOrganizationCollPoliciesRequest) {
+	request = &DescribeOrganizationCollPoliciesRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("organization", APIVersion, "DescribeOrganizationCollPolicies")
+	return
+}
+
+func NewDescribeOrganizationCollPoliciesResponse() (response *DescribeOrganizationCollPoliciesResponse) {
+	response = &DescribeOrganizationCollPoliciesResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 子账号登录控制台，获取被绑定授权策略列表
+func (c *Client) DescribeOrganizationCollPolicies(request *DescribeOrganizationCollPoliciesRequest) (response *DescribeOrganizationCollPoliciesResponse, err error) {
+	if request == nil {
+		request = NewDescribeOrganizationCollPoliciesRequest()
+	}
+	response = NewDescribeOrganizationCollPoliciesResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewDescribeOrganizationCreateRecordRequest() (request *DescribeOrganizationCreateRecordRequest) {
+	request = &DescribeOrganizationCreateRecordRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("organization", APIVersion, "DescribeOrganizationCreateRecord")
+	return
+}
+
+func NewDescribeOrganizationCreateRecordResponse() (response *DescribeOrganizationCreateRecordResponse) {
+	response = &DescribeOrganizationCreateRecordResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 获取组织成员创建列表
+func (c *Client) DescribeOrganizationCreateRecord(request *DescribeOrganizationCreateRecordRequest) (response *DescribeOrganizationCreateRecordResponse, err error) {
+	if request == nil {
+		request = NewDescribeOrganizationCreateRecordRequest()
+	}
+	response = NewDescribeOrganizationCreateRecordResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewDescribeOrganizationFinancialByMemberRequest() (request *DescribeOrganizationFinancialByMemberRequest) {
+	request = &DescribeOrganizationFinancialByMemberRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("organization", APIVersion, "DescribeOrganizationFinancialByMember")
+	return
+}
+
+func NewDescribeOrganizationFinancialByMemberResponse() (response *DescribeOrganizationFinancialByMemberResponse) {
+	response = &DescribeOrganizationFinancialByMemberResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 以成员维度获取组织财务信息
+func (c *Client) DescribeOrganizationFinancialByMember(request *DescribeOrganizationFinancialByMemberRequest) (response *DescribeOrganizationFinancialByMemberResponse, err error) {
+	if request == nil {
+		request = NewDescribeOrganizationFinancialByMemberRequest()
+	}
+	response = NewDescribeOrganizationFinancialByMemberResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewDescribeOrganizationFinancialByMonthRequest() (request *DescribeOrganizationFinancialByMonthRequest) {
+	request = &DescribeOrganizationFinancialByMonthRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("organization", APIVersion, "DescribeOrganizationFinancialByMonth")
+	return
+}
+
+func NewDescribeOrganizationFinancialByMonthResponse() (response *DescribeOrganizationFinancialByMonthResponse) {
+	response = &DescribeOrganizationFinancialByMonthResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 以月维度获取组织财务信息趋势
+func (c *Client) DescribeOrganizationFinancialByMonth(request *DescribeOrganizationFinancialByMonthRequest) (response *DescribeOrganizationFinancialByMonthResponse, err error) {
+	if request == nil {
+		request = NewDescribeOrganizationFinancialByMonthRequest()
+	}
+	response = NewDescribeOrganizationFinancialByMonthResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewDescribeOrganizationFinancialByProductRequest() (request *DescribeOrganizationFinancialByProductRequest) {
+	request = &DescribeOrganizationFinancialByProductRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("organization", APIVersion, "DescribeOrganizationFinancialByProduct")
+	return
+}
+
+func NewDescribeOrganizationFinancialByProductResponse() (response *DescribeOrganizationFinancialByProductResponse) {
+	response = &DescribeOrganizationFinancialByProductResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 以产品维度获取组织财务信息
+func (c *Client) DescribeOrganizationFinancialByProduct(request *DescribeOrganizationFinancialByProductRequest) (response *DescribeOrganizationFinancialByProductResponse, err error) {
+	if request == nil {
+		request = NewDescribeOrganizationFinancialByProductRequest()
+	}
+	response = NewDescribeOrganizationFinancialByProductResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewDescribeOrganizationFinancialMemberNumRequest() (request *DescribeOrganizationFinancialMemberNumRequest) {
+	request = &DescribeOrganizationFinancialMemberNumRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("organization", APIVersion, "DescribeOrganizationFinancialMemberNum")
+	return
+}
+
+func NewDescribeOrganizationFinancialMemberNumResponse() (response *DescribeOrganizationFinancialMemberNumResponse) {
+	response = &DescribeOrganizationFinancialMemberNumResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 获取组织财务架构统计数据
+func (c *Client) DescribeOrganizationFinancialMemberNum(request *DescribeOrganizationFinancialMemberNumRequest) (response *DescribeOrganizationFinancialMemberNumResponse, err error) {
+	if request == nil {
+		request = NewDescribeOrganizationFinancialMemberNumRequest()
+	}
+	response = NewDescribeOrganizationFinancialMemberNumResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewDescribeOrganizationIdentityRequest() (request *DescribeOrganizationIdentityRequest) {
+	request = &DescribeOrganizationIdentityRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("organization", APIVersion, "DescribeOrganizationIdentity")
+	return
+}
+
+func NewDescribeOrganizationIdentityResponse() (response *DescribeOrganizationIdentityResponse) {
+	response = &DescribeOrganizationIdentityResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 获取组织身份详情
+func (c *Client) DescribeOrganizationIdentity(request *DescribeOrganizationIdentityRequest) (response *DescribeOrganizationIdentityResponse, err error) {
+	if request == nil {
+		request = NewDescribeOrganizationIdentityRequest()
+	}
+	response = NewDescribeOrganizationIdentityResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewDescribeOrganizationInviteRecordRequest() (request *DescribeOrganizationInviteRecordRequest) {
+	request = &DescribeOrganizationInviteRecordRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("organization", APIVersion, "DescribeOrganizationInviteRecord")
+	return
+}
+
+func NewDescribeOrganizationInviteRecordResponse() (response *DescribeOrganizationInviteRecordResponse) {
+	response = &DescribeOrganizationInviteRecordResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 获取组织成员邀请信息列表
+func (c *Client) DescribeOrganizationInviteRecord(request *DescribeOrganizationInviteRecordRequest) (response *DescribeOrganizationInviteRecordResponse, err error) {
+	if request == nil {
+		request = NewDescribeOrganizationInviteRecordRequest()
+	}
+	response = NewDescribeOrganizationInviteRecordResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewDescribeOrganizationMemberNodesRequest() (request *DescribeOrganizationMemberNodesRequest) {
+	request = &DescribeOrganizationMemberNodesRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("organization", APIVersion, "DescribeOrganizationMemberNodes")
+	return
+}
+
+func NewDescribeOrganizationMemberNodesResponse() (response *DescribeOrganizationMemberNodesResponse) {
+	response = &DescribeOrganizationMemberNodesResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 查询成员节点列表。
+func (c *Client) DescribeOrganizationMemberNodes(request *DescribeOrganizationMemberNodesRequest) (response *DescribeOrganizationMemberNodesResponse, err error) {
+	if request == nil {
+		request = NewDescribeOrganizationMemberNodesRequest()
+	}
+	response = NewDescribeOrganizationMemberNodesResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewDescribeOrganizationMemberPoliciesRequest() (request *DescribeOrganizationMemberPoliciesRequest) {
+	request = &DescribeOrganizationMemberPoliciesRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("organization", APIVersion, "DescribeOrganizationMemberPolicies")
+	return
+}
+
+func NewDescribeOrganizationMemberPoliciesResponse() (response *DescribeOrganizationMemberPoliciesResponse) {
+	response = &DescribeOrganizationMemberPoliciesResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 获取组织成员的授权策略列表
+func (c *Client) DescribeOrganizationMemberPolicies(request *DescribeOrganizationMemberPoliciesRequest) (response *DescribeOrganizationMemberPoliciesResponse, err error) {
+	if request == nil {
+		request = NewDescribeOrganizationMemberPoliciesRequest()
+	}
+	response = NewDescribeOrganizationMemberPoliciesResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewDescribeOrganizationMembersAuthAccountRequest() (request *DescribeOrganizationMembersAuthAccountRequest) {
+	request = &DescribeOrganizationMembersAuthAccountRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("organization", APIVersion, "DescribeOrganizationMembersAuthAccount")
+	return
+}
+
+func NewDescribeOrganizationMembersAuthAccountResponse() (response *DescribeOrganizationMembersAuthAccountResponse) {
+	response = &DescribeOrganizationMembersAuthAccountResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 获取组织成员访问授权子账号关系列表
+func (c *Client) DescribeOrganizationMembersAuthAccount(request *DescribeOrganizationMembersAuthAccountRequest) (response *DescribeOrganizationMembersAuthAccountResponse, err error) {
+	if request == nil {
+		request = NewDescribeOrganizationMembersAuthAccountRequest()
+	}
+	response = NewDescribeOrganizationMembersAuthAccountResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewDescribeOrganizationMembersAuthPolicyRequest() (request *DescribeOrganizationMembersAuthPolicyRequest) {
+	request = &DescribeOrganizationMembersAuthPolicyRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("organization", APIVersion, "DescribeOrganizationMembersAuthPolicy")
+	return
+}
+
+func NewDescribeOrganizationMembersAuthPolicyResponse() (response *DescribeOrganizationMembersAuthPolicyResponse) {
+	response = &DescribeOrganizationMembersAuthPolicyResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 查询组织成员访问策略列表
+func (c *Client) DescribeOrganizationMembersAuthPolicy(request *DescribeOrganizationMembersAuthPolicyRequest) (response *DescribeOrganizationMembersAuthPolicyResponse, err error) {
+	if request == nil {
+		request = NewDescribeOrganizationMembersAuthPolicyRequest()
+	}
+	response = NewDescribeOrganizationMembersAuthPolicyResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewDescribeOrganizationMembersCanAuthIdentitiesRequest() (request *DescribeOrganizationMembersCanAuthIdentitiesRequest) {
+	request = &DescribeOrganizationMembersCanAuthIdentitiesRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("organization", APIVersion, "DescribeOrganizationMembersCanAuthIdentities")
+	return
+}
+
+func NewDescribeOrganizationMembersCanAuthIdentitiesResponse() (response *DescribeOrganizationMembersCanAuthIdentitiesResponse) {
+	response = &DescribeOrganizationMembersCanAuthIdentitiesResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 获取组织成员都被授权的访问权限列表
+func (c *Client) DescribeOrganizationMembersCanAuthIdentities(request *DescribeOrganizationMembersCanAuthIdentitiesRequest) (response *DescribeOrganizationMembersCanAuthIdentitiesResponse, err error) {
+	if request == nil {
+		request = NewDescribeOrganizationMembersCanAuthIdentitiesRequest()
+	}
+	response = NewDescribeOrganizationMembersCanAuthIdentitiesResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewDescribeOrganizationNodeByNameRequest() (request *DescribeOrganizationNodeByNameRequest) {
+	request = &DescribeOrganizationNodeByNameRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("organization", APIVersion, "DescribeOrganizationNodeByName")
+	return
+}
+
+func NewDescribeOrganizationNodeByNameResponse() (response *DescribeOrganizationNodeByNameResponse) {
+	response = &DescribeOrganizationNodeByNameResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 根据节点名获取节点
+func (c *Client) DescribeOrganizationNodeByName(request *DescribeOrganizationNodeByNameRequest) (response *DescribeOrganizationNodeByNameResponse, err error) {
+	if request == nil {
+		request = NewDescribeOrganizationNodeByNameRequest()
+	}
+	response = NewDescribeOrganizationNodeByNameResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewDescribeOrganizationNodeMemberRecordsRequest() (request *DescribeOrganizationNodeMemberRecordsRequest) {
+	request = &DescribeOrganizationNodeMemberRecordsRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("organization", APIVersion, "DescribeOrganizationNodeMemberRecords")
+	return
+}
+
+func NewDescribeOrganizationNodeMemberRecordsResponse() (response *DescribeOrganizationNodeMemberRecordsResponse) {
+	response = &DescribeOrganizationNodeMemberRecordsResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 获取组织节点成员变更记录列表
+func (c *Client) DescribeOrganizationNodeMemberRecords(request *DescribeOrganizationNodeMemberRecordsRequest) (response *DescribeOrganizationNodeMemberRecordsResponse, err error) {
+	if request == nil {
+		request = NewDescribeOrganizationNodeMemberRecordsRequest()
+	}
+	response = NewDescribeOrganizationNodeMemberRecordsResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewDescribeOrganizationNodeRecordsRequest() (request *DescribeOrganizationNodeRecordsRequest) {
+	request = &DescribeOrganizationNodeRecordsRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("organization", APIVersion, "DescribeOrganizationNodeRecords")
+	return
+}
+
+func NewDescribeOrganizationNodeRecordsResponse() (response *DescribeOrganizationNodeRecordsResponse) {
+	response = &DescribeOrganizationNodeRecordsResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 获取组织节点变更记录列表
+func (c *Client) DescribeOrganizationNodeRecords(request *DescribeOrganizationNodeRecordsRequest) (response *DescribeOrganizationNodeRecordsResponse, err error) {
+	if request == nil {
+		request = NewDescribeOrganizationNodeRecordsRequest()
+	}
+	response = NewDescribeOrganizationNodeRecordsResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewDescribeOrganizationNodeTagsRequest() (request *DescribeOrganizationNodeTagsRequest) {
+	request = &DescribeOrganizationNodeTagsRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("organization", APIVersion, "DescribeOrganizationNodeTags")
+	return
+}
+
+func NewDescribeOrganizationNodeTagsResponse() (response *DescribeOrganizationNodeTagsResponse) {
+	response = &DescribeOrganizationNodeTagsResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 获取组织节点标签
+func (c *Client) DescribeOrganizationNodeTags(request *DescribeOrganizationNodeTagsRequest) (response *DescribeOrganizationNodeTagsResponse, err error) {
+	if request == nil {
+		request = NewDescribeOrganizationNodeTagsRequest()
+	}
+	response = NewDescribeOrganizationNodeTagsResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewDescribeOrganizationOverViewRequest() (request *DescribeOrganizationOverViewRequest) {
+	request = &DescribeOrganizationOverViewRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("organization", APIVersion, "DescribeOrganizationOverView")
+	return
+}
+
+func NewDescribeOrganizationOverViewResponse() (response *DescribeOrganizationOverViewResponse) {
+	response = &DescribeOrganizationOverViewResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 按天获取组织概览信息，包含成员，节点，子账号，角色数信息。
+func (c *Client) DescribeOrganizationOverView(request *DescribeOrganizationOverViewRequest) (response *DescribeOrganizationOverViewResponse, err error) {
+	if request == nil {
+		request = NewDescribeOrganizationOverViewRequest()
+	}
+	response = NewDescribeOrganizationOverViewResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewDescribeOrganizationPendingCreateRecordRequest() (request *DescribeOrganizationPendingCreateRecordRequest) {
+	request = &DescribeOrganizationPendingCreateRecordRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("organization", APIVersion, "DescribeOrganizationPendingCreateRecord")
+	return
+}
+
+func NewDescribeOrganizationPendingCreateRecordResponse() (response *DescribeOrganizationPendingCreateRecordResponse) {
+	response = &DescribeOrganizationPendingCreateRecordResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 获取组织成员创建待审核列表
+func (c *Client) DescribeOrganizationPendingCreateRecord(request *DescribeOrganizationPendingCreateRecordRequest) (response *DescribeOrganizationPendingCreateRecordResponse, err error) {
+	if request == nil {
+		request = NewDescribeOrganizationPendingCreateRecordRequest()
+	}
+	response = NewDescribeOrganizationPendingCreateRecordResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewDescribeOrganizationRecordsRequest() (request *DescribeOrganizationRecordsRequest) {
+	request = &DescribeOrganizationRecordsRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("organization", APIVersion, "DescribeOrganizationRecords")
+	return
+}
+
+func NewDescribeOrganizationRecordsResponse() (response *DescribeOrganizationRecordsResponse) {
+	response = &DescribeOrganizationRecordsResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 获取组织成员动态列表
+func (c *Client) DescribeOrganizationRecords(request *DescribeOrganizationRecordsRequest) (response *DescribeOrganizationRecordsResponse, err error) {
+	if request == nil {
+		request = NewDescribeOrganizationRecordsRequest()
+	}
+	response = NewDescribeOrganizationRecordsResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewDescribeOrganizationServiceRoleRequest() (request *DescribeOrganizationServiceRoleRequest) {
+	request = &DescribeOrganizationServiceRoleRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("organization", APIVersion, "DescribeOrganizationServiceRole")
+	return
+}
+
+func NewDescribeOrganizationServiceRoleResponse() (response *DescribeOrganizationServiceRoleResponse) {
+	response = &DescribeOrganizationServiceRoleResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 获取企业组织服务角色
+func (c *Client) DescribeOrganizationServiceRole(request *DescribeOrganizationServiceRoleRequest) (response *DescribeOrganizationServiceRoleResponse, err error) {
+	if request == nil {
+		request = NewDescribeOrganizationServiceRoleRequest()
+	}
+	response = NewDescribeOrganizationServiceRoleResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewDescribeOrganizationSubAccountByDayRequest() (request *DescribeOrganizationSubAccountByDayRequest) {
+	request = &DescribeOrganizationSubAccountByDayRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("organization", APIVersion, "DescribeOrganizationSubAccountByDay")
+	return
+}
+
+func NewDescribeOrganizationSubAccountByDayResponse() (response *DescribeOrganizationSubAccountByDayResponse) {
+	response = &DescribeOrganizationSubAccountByDayResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 以天维度获取组织成员和子账号数量趋势
+func (c *Client) DescribeOrganizationSubAccountByDay(request *DescribeOrganizationSubAccountByDayRequest) (response *DescribeOrganizationSubAccountByDayResponse, err error) {
+	if request == nil {
+		request = NewDescribeOrganizationSubAccountByDayRequest()
+	}
+	response = NewDescribeOrganizationSubAccountByDayResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewDescribeOrganizationSubAccountByMonthRequest() (request *DescribeOrganizationSubAccountByMonthRequest) {
+	request = &DescribeOrganizationSubAccountByMonthRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("organization", APIVersion, "DescribeOrganizationSubAccountByMonth")
+	return
+}
+
+func NewDescribeOrganizationSubAccountByMonthResponse() (response *DescribeOrganizationSubAccountByMonthResponse) {
+	response = &DescribeOrganizationSubAccountByMonthResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 以月维度获取组织成员和子账号数量趋势
+func (c *Client) DescribeOrganizationSubAccountByMonth(request *DescribeOrganizationSubAccountByMonthRequest) (response *DescribeOrganizationSubAccountByMonthResponse, err error) {
+	if request == nil {
+		request = NewDescribeOrganizationSubAccountByMonthRequest()
+	}
+	response = NewDescribeOrganizationSubAccountByMonthResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewDescribeReportCreationRequest() (request *DescribeReportCreationRequest) {
+	request = &DescribeReportCreationRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("organization", APIVersion, "DescribeReportCreation")
+	return
+}
+
+func NewDescribeReportCreationResponse() (response *DescribeReportCreationResponse) {
+	response = &DescribeReportCreationResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 查询成员标签检测合规报告
+func (c *Client) DescribeReportCreation(request *DescribeReportCreationRequest) (response *DescribeReportCreationResponse, err error) {
+	if request == nil {
+		request = NewDescribeReportCreationRequest()
+	}
+	response = NewDescribeReportCreationResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewInviteOrganizationMemberRequest() (request *InviteOrganizationMemberRequest) {
+	request = &InviteOrganizationMemberRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("organization", APIVersion, "InviteOrganizationMember")
+	return
+}
+
+func NewInviteOrganizationMemberResponse() (response *InviteOrganizationMemberResponse) {
+	response = &InviteOrganizationMemberResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 邀请组织成员
+func (c *Client) InviteOrganizationMember(request *InviteOrganizationMemberRequest) (response *InviteOrganizationMemberResponse, err error) {
+	if request == nil {
+		request = NewInviteOrganizationMemberRequest()
+	}
+	response = NewInviteOrganizationMemberResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewListComplianceSummaryRequest() (request *ListComplianceSummaryRequest) {
+	request = &ListComplianceSummaryRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("organization", APIVersion, "ListComplianceSummary")
+	return
+}
+
+func NewListComplianceSummaryResponse() (response *ListComplianceSummaryResponse) {
+	response = &ListComplianceSummaryResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 获取成员标签检测结果列表
+func (c *Client) ListComplianceSummary(request *ListComplianceSummaryRequest) (response *ListComplianceSummaryResponse, err error) {
+	if request == nil {
+		request = NewListComplianceSummaryRequest()
+	}
+	response = NewListComplianceSummaryResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewListFinancialProductRequest() (request *ListFinancialProductRequest) {
+	request = &ListFinancialProductRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("organization", APIVersion, "ListFinancialProduct")
+	return
+}
+
+func NewListFinancialProductResponse() (response *ListFinancialProductResponse) {
+	response = &ListFinancialProductResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 查询组织成员账单的产品列表
+func (c *Client) ListFinancialProduct(request *ListFinancialProductRequest) (response *ListFinancialProductResponse, err error) {
+	if request == nil {
+		request = NewListFinancialProductRequest()
+	}
+	response = NewListFinancialProductResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewListNonCompliantResourceRequest() (request *ListNonCompliantResourceRequest) {
+	request = &ListNonCompliantResourceRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("organization", APIVersion, "ListNonCompliantResource")
+	return
+}
+
+func NewListNonCompliantResourceResponse() (response *ListNonCompliantResourceResponse) {
+	response = &ListNonCompliantResourceResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 获取成员标签检测不合规资源列表
+func (c *Client) ListNonCompliantResource(request *ListNonCompliantResourceRequest) (response *ListNonCompliantResourceResponse, err error) {
+	if request == nil {
+		request = NewListNonCompliantResourceRequest()
+	}
+	response = NewListNonCompliantResourceResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewListOrgMemberSubAccountRequest() (request *ListOrgMemberSubAccountRequest) {
+	request = &ListOrgMemberSubAccountRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("organization", APIVersion, "ListOrgMemberSubAccount")
+	return
+}
+
+func NewListOrgMemberSubAccountResponse() (response *ListOrgMemberSubAccountResponse) {
+	response = &ListOrgMemberSubAccountResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 查询同一负责人子账号的列表
+func (c *Client) ListOrgMemberSubAccount(request *ListOrgMemberSubAccountRequest) (response *ListOrgMemberSubAccountResponse, err error) {
+	if request == nil {
+		request = NewListOrgMemberSubAccountRequest()
+	}
+	response = NewListOrgMemberSubAccountResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewListOrgServiceAssignMemberRequest() (request *ListOrgServiceAssignMemberRequest) {
+	request = &ListOrgServiceAssignMemberRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("organization", APIVersion, "ListOrgServiceAssignMember")
+	return
+}
+
+func NewListOrgServiceAssignMemberResponse() (response *ListOrgServiceAssignMemberResponse) {
+	response = &ListOrgServiceAssignMemberResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 获取集团服务委派管理员列表
+func (c *Client) ListOrgServiceAssignMember(request *ListOrgServiceAssignMemberRequest) (response *ListOrgServiceAssignMemberResponse, err error) {
+	if request == nil {
+		request = NewListOrgServiceAssignMemberRequest()
+	}
+	response = NewListOrgServiceAssignMemberResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewListOrganizationServiceRequest() (request *ListOrganizationServiceRequest) {
+	request = &ListOrganizationServiceRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("organization", APIVersion, "ListOrganizationService")
+	return
+}
+
+func NewListOrganizationServiceResponse() (response *ListOrganizationServiceResponse) {
+	response = &ListOrganizationServiceResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 获取集团服务设置列表
+func (c *Client) ListOrganizationService(request *ListOrganizationServiceRequest) (response *ListOrganizationServiceResponse, err error) {
+	if request == nil {
+		request = NewListOrganizationServiceRequest()
+	}
+	response = NewListOrganizationServiceResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewListPoliciesForTargetRequest() (request *ListPoliciesForTargetRequest) {
+	request = &ListPoliciesForTargetRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("organization", APIVersion, "ListPoliciesForTarget")
+	return
+}
+
+func NewListPoliciesForTargetResponse() (response *ListPoliciesForTargetResponse) {
+	response = &ListPoliciesForTargetResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 本接口（ListPoliciesForTarget）查询目标关联的策略列表
+func (c *Client) ListPoliciesForTarget(request *ListPoliciesForTargetRequest) (response *ListPoliciesForTargetResponse, err error) {
+	if request == nil {
+		request = NewListPoliciesForTargetRequest()
+	}
+	response = NewListPoliciesForTargetResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewSendOrgMemberAccountBindEmailRequest() (request *SendOrgMemberAccountBindEmailRequest) {
+	request = &SendOrgMemberAccountBindEmailRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("organization", APIVersion, "SendOrgMemberAccountBindEmail")
+	return
+}
+
+func NewSendOrgMemberAccountBindEmailResponse() (response *SendOrgMemberAccountBindEmailResponse) {
+	response = &SendOrgMemberAccountBindEmailResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 重新发送成员绑定邮箱激活邮件
+func (c *Client) SendOrgMemberAccountBindEmail(request *SendOrgMemberAccountBindEmailRequest) (response *SendOrgMemberAccountBindEmailResponse, err error) {
+	if request == nil {
+		request = NewSendOrgMemberAccountBindEmailRequest()
+	}
+	response = NewSendOrgMemberAccountBindEmailResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewSendSmsVerifyCodeForBindPhoneRequest() (request *SendSmsVerifyCodeForBindPhoneRequest) {
+	request = &SendSmsVerifyCodeForBindPhoneRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("organization", APIVersion, "SendSmsVerifyCodeForBindPhone")
+	return
+}
+
+func NewSendSmsVerifyCodeForBindPhoneResponse() (response *SendSmsVerifyCodeForBindPhoneResponse) {
+	response = &SendSmsVerifyCodeForBindPhoneResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 绑定安全手机发送验证码
+func (c *Client) SendSmsVerifyCodeForBindPhone(request *SendSmsVerifyCodeForBindPhoneRequest) (response *SendSmsVerifyCodeForBindPhoneResponse, err error) {
+	if request == nil {
+		request = NewSendSmsVerifyCodeForBindPhoneRequest()
+	}
+	response = NewSendSmsVerifyCodeForBindPhoneResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewSetMemberDeletionPermissionRequest() (request *SetMemberDeletionPermissionRequest) {
+	request = &SetMemberDeletionPermissionRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("organization", APIVersion, "SetMemberDeletionPermission")
+	return
+}
+
+func NewSetMemberDeletionPermissionResponse() (response *SetMemberDeletionPermissionResponse) {
+	response = &SetMemberDeletionPermissionResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 开启或关闭成员删除许可
+func (c *Client) SetMemberDeletionPermission(request *SetMemberDeletionPermissionRequest) (response *SetMemberDeletionPermissionResponse, err error) {
+	if request == nil {
+		request = NewSetMemberDeletionPermissionRequest()
+	}
+	response = NewSetMemberDeletionPermissionResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewStartReportCreationRequest() (request *StartReportCreationRequest) {
+	request = &StartReportCreationRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("organization", APIVersion, "StartReportCreation")
+	return
+}
+
+func NewStartReportCreationResponse() (response *StartReportCreationResponse) {
+	response = &StartReportCreationResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 生成成员标签检测合规报告
+func (c *Client) StartReportCreation(request *StartReportCreationRequest) (response *StartReportCreationResponse, err error) {
+	if request == nil {
+		request = NewStartReportCreationRequest()
+	}
+	response = NewStartReportCreationResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewUpdateOrganizationMembersPolicyRequest() (request *UpdateOrganizationMembersPolicyRequest) {
+	request = &UpdateOrganizationMembersPolicyRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("organization", APIVersion, "UpdateOrganizationMembersPolicy")
+	return
+}
+
+func NewUpdateOrganizationMembersPolicyResponse() (response *UpdateOrganizationMembersPolicyResponse) {
+	response = &UpdateOrganizationMembersPolicyResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 修改组织成员访问策略
+func (c *Client) UpdateOrganizationMembersPolicy(request *UpdateOrganizationMembersPolicyRequest) (response *UpdateOrganizationMembersPolicyResponse, err error) {
+	if request == nil {
+		request = NewUpdateOrganizationMembersPolicyRequest()
+	}
+	response = NewUpdateOrganizationMembersPolicyResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewUpdateOrganizationNodeTagRequest() (request *UpdateOrganizationNodeTagRequest) {
+	request = &UpdateOrganizationNodeTagRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("organization", APIVersion, "UpdateOrganizationNodeTag")
+	return
+}
+
+func NewUpdateOrganizationNodeTagResponse() (response *UpdateOrganizationNodeTagResponse) {
+	response = &UpdateOrganizationNodeTagResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 更新组织节点标签
+func (c *Client) UpdateOrganizationNodeTag(request *UpdateOrganizationNodeTagRequest) (response *UpdateOrganizationNodeTagResponse, err error) {
+	if request == nil {
+		request = NewUpdateOrganizationNodeTagRequest()
+	}
+	response = NewUpdateOrganizationNodeTagResponse()
+	err = c.Send(request, response)
+	return
+}
