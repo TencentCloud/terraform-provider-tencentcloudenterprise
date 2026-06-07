@@ -19,7 +19,7 @@ such as object creation or deletion. Notifications are delivered to CKafka.
 ### Without SASL authentication:
 
 ```hcl
-resource "cloud_csp_bucket_notification" "example" {
+resource "tencentcloudenterprise_csp_bucket_notification" "example" {
   bucket = "est123-1255000115"
 
   notification_rule {
@@ -34,7 +34,7 @@ resource "cloud_csp_bucket_notification" "example" {
 ### With SASL authentication:
 
 ```hcl
-resource "cloud_csp_bucket_notification" "example_sasl" {
+resource "tencentcloudenterprise_csp_bucket_notification" "example_sasl" {
   bucket = "est123-1255000115"
 
   notification_rule {
@@ -51,7 +51,7 @@ resource "cloud_csp_bucket_notification" "example_sasl" {
 ### With resource prefix/suffix filter:
 
 ```hcl
-resource "cloud_csp_bucket_notification" "example_filter" {
+resource "tencentcloudenterprise_csp_bucket_notification" "example_filter" {
   bucket = "est123-1255000115"
 
   notification_rule {
@@ -98,7 +98,7 @@ tencentcloudenterprise_csp_bucket_notification can be imported using the id, e.g
 CSP bucket notification can be imported using the bucket name, e.g.
 
 ```
-$ terraform import cloud_csp_bucket_notification.example mybucket-1258798060
+$ terraform import tencentcloudenterprise_csp_bucket_notification.example mybucket-1258798060
 ```
 ```
 
