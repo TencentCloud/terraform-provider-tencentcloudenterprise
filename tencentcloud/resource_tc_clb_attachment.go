@@ -552,9 +552,9 @@ func resourceTencentCloudClbServerAttachmentRead(d *schema.ResourceData, meta in
 						if stateTargets.Contains(target) {
 							// log.Printf("[WARN] type=cvm stateTargets.Contains(target) use eni_ip")
 							exactTargets = append(exactTargets, map[string]interface{}{
-								"weight":      int(*v.Weight),
-								"port":        int(*v.Port),
-								"instance_id": *v.InstanceId,
+								"weight": int(*v.Weight),
+								"port":   int(*v.Port),
+								"eni_ip": *v.PrivateIpAddresses[0],
 							})
 						}
 					}
