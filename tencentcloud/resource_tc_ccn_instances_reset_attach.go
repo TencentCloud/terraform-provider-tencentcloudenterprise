@@ -24,7 +24,7 @@ import (
 	"fmt"
 	"log"
 
-	vpc "terraform-provider-tencentcloudenterprise/sdk/vpc/v20170312"
+	ccn "terraform-provider-tencentcloudenterprise/sdk/ccn/v20170312"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
@@ -100,7 +100,7 @@ func resourceTencentCloudCcnInstancesResetAttachCreate(d *schema.ResourceData, m
 	logId := getLogId(contextNil)
 
 	var (
-		request = vpc.NewResetAttachCcnInstancesRequest()
+		request = ccn.NewResetAttachCcnInstancesRequest()
 		ccnID   string
 	)
 	if v, ok := d.GetOk("ccn_id"); ok {
@@ -115,7 +115,7 @@ func resourceTencentCloudCcnInstancesResetAttachCreate(d *schema.ResourceData, m
 	if v, ok := d.GetOk("instances"); ok {
 		for _, item := range v.([]interface{}) {
 			dMap := item.(map[string]interface{})
-			ccnInstance := vpc.CcnInstance{}
+			ccnInstance := ccn.CcnInstance{}
 			if v, ok := dMap["instance_id"]; ok {
 				ccnInstance.InstanceId = helper.String(v.(string))
 			}
@@ -130,7 +130,7 @@ func resourceTencentCloudCcnInstancesResetAttachCreate(d *schema.ResourceData, m
 	}
 
 	err := resource.Retry(writeRetryTimeout, func() *resource.RetryError {
-		result, e := meta.(*TencentCloudClient).apiV3Conn.UseVpcClient().ResetAttachCcnInstances(request)
+		result, e := meta.(*TencentCloudClient).apiV3Conn.UseCcnClient().ResetAttachCcnInstances(request)
 		if e != nil {
 			return retryError(e)
 		}
@@ -140,7 +140,7 @@ func resourceTencentCloudCcnInstancesResetAttachCreate(d *schema.ResourceData, m
 		return nil
 	})
 	if err != nil {
-		return fmt.Errorf("[CRITAL]%s operate vpc ccnInstancesResetAttach failed, reason:%+v", logId, err)
+		return fmt.Errorf("[CRITAL]%s operate ccn ccnInstancesResetAttach failed, reason:%+v", logId, err)
 	}
 
 	d.SetId(ccnID)

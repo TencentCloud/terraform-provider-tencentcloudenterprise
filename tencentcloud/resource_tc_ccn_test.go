@@ -79,7 +79,7 @@ func TestAccTencentCloudCcnV3Basic(t *testing.T) {
 					resource.TestCheckResourceAttr(keyName, "name", "ci-temp-test-ccn"),
 					resource.TestCheckResourceAttr(keyName, "description", "ci-temp-test-ccn-des"),
 					resource.TestCheckResourceAttr(keyName, "instance_count", "0"),
-					resource.TestCheckResourceAttr(keyName, "qos", "AG"),
+					resource.TestCheckResourceAttr(keyName, "qos", "AU"),
 					resource.TestCheckResourceAttrSet(keyName, "state"),
 					resource.TestCheckResourceAttrSet(keyName, "create_time"),
 				),
@@ -133,7 +133,7 @@ func TestAccTencentCloudCcnV3Update(t *testing.T) {
 					resource.TestCheckResourceAttr(keyName, "name", "ci-temp-test-ccn"),
 					resource.TestCheckResourceAttr(keyName, "description", "ci-temp-test-ccn-des"),
 					resource.TestCheckResourceAttr(keyName, "instance_count", "0"),
-					resource.TestCheckResourceAttr(keyName, "qos", "AG"),
+					resource.TestCheckResourceAttr(keyName, "qos", "AU"),
 					resource.TestCheckResourceAttrSet(keyName, "state"),
 					resource.TestCheckResourceAttrSet(keyName, "create_time"),
 				),
@@ -145,7 +145,7 @@ func TestAccTencentCloudCcnV3Update(t *testing.T) {
 					resource.TestCheckResourceAttr(keyName, "name", "ci-temp-test-ccn-update"),
 					resource.TestCheckResourceAttr(keyName, "description", "ci-temp-test-ccn-des-update"),
 					resource.TestCheckResourceAttr(keyName, "instance_count", "0"),
-					resource.TestCheckResourceAttr(keyName, "qos", "AG"),
+					resource.TestCheckResourceAttr(keyName, "qos", "AU"),
 					resource.TestCheckResourceAttrSet(keyName, "state"),
 					resource.TestCheckResourceAttrSet(keyName, "create_time"),
 				),
@@ -203,9 +203,10 @@ func testAccCcn_multiTags(value string) string {
 	return fmt.Sprintf(
 		`
 resource tencentcloudenterprise_ccn main {
-	name        = "ci-temp-test-ccn"
-	description = "ci-temp-test-ccn-des"
-	qos         = "AG"
+	name                 = "ci-temp-test-ccn"
+	description          = "ci-temp-test-ccn-des"
+	qos                  = "AU"
+	bandwidth_limit_type = "INTER_REGION_LIMIT"
 	tags = {
 		role = "%s"
 	}
@@ -217,7 +218,8 @@ const testAccCcnConfig = `
 resource tencentcloudenterprise_ccn main {
   name                 = "ci-temp-test-ccn"
   description          = "ci-temp-test-ccn-des"
-  qos                  = "AG"
+  qos                  = "AU"
+  bandwidth_limit_type = "INTER_REGION_LIMIT"
 }
 `
 
@@ -225,6 +227,7 @@ const testAccCcnConfigUpdate = `
 resource tencentcloudenterprise_ccn main {
   name                 = "ci-temp-test-ccn-update"
   description          = "ci-temp-test-ccn-des-update"
-  qos                  = "AG"
+  qos                  = "AU"
+  bandwidth_limit_type = "INTER_REGION_LIMIT"
 }
 `

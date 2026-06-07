@@ -53,7 +53,8 @@ const TestAccDataSourceTencentCloudCcnInstances = `
 resource tencentcloudenterprise_ccn main {
   name        = "ci-temp-test-ccn"
   description = "ci-temp-test-ccn-des"
-  qos         = "AG"
+  qos         = "AU"
+  bandwidth_limit_type = "INTER_REGION_LIMIT"
 }
 
 data tencentcloudenterprise_ccn_instances id_instances {
