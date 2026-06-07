@@ -12,7 +12,7 @@ import (
 // TestAccTencentCloudCspBucketNotification_basic tests without SASL:
 // create → update events → update with filter_prefix → import → destroy
 func TestAccTencentCloudCspBucketNotification_basic(t *testing.T) {
-	rName := "cloud_csp_bucket_notification.test"
+	rName := "tencentcloudenterprise_csp_bucket_notification.test"
 
 	resource.Test(t, resource.TestCase{
 		PreCheck:     func() { testAccPreCheck(t) },
@@ -67,7 +67,7 @@ func TestAccTencentCloudCspBucketNotification_basic(t *testing.T) {
 // create with SASL → update remove SASL → import → destroy
 // Note: SASL route (AccessType=1) may need to be created, so this test may take longer.
 func TestAccTencentCloudCspBucketNotification_sasl(t *testing.T) {
-	rName := "cloud_csp_bucket_notification.test_sasl"
+	rName := "tencentcloudenterprise_csp_bucket_notification.test_sasl"
 
 	resource.Test(t, resource.TestCase{
 		PreCheck:     func() { testAccPreCheck(t) },
@@ -112,7 +112,7 @@ func TestAccTencentCloudCspBucketNotification_sasl(t *testing.T) {
 
 // TestAccTencentCloudCspBucketNotification_saslWithFilter tests SASL + filter combined.
 func TestAccTencentCloudCspBucketNotification_saslWithFilter(t *testing.T) {
-	rName := "cloud_csp_bucket_notification.test_sasl_filter"
+	rName := "tencentcloudenterprise_csp_bucket_notification.test_sasl_filter"
 
 	resource.Test(t, resource.TestCase{
 		PreCheck:     func() { testAccPreCheck(t) },
@@ -163,7 +163,7 @@ func testAccCheckCspBucketNotificationDestroy(s *terraform.State) error {
 	svc := CosService{client: testAccProvider.Meta().(*TencentCloudClient).apiV3Conn, useCspClient: true}
 
 	for _, rs := range s.RootModule().Resources {
-		if rs.Type != "cloud_csp_bucket_notification" {
+		if rs.Type != "tencentcloudenterprise_csp_bucket_notification" {
 			continue
 		}
 		config, err := svc.GetBucketNotification(ctx, rs.Primary.ID)
@@ -181,7 +181,7 @@ func testAccCheckCspBucketNotificationDestroy(s *terraform.State) error {
 
 func testAccCspBucketNotification_noSasl_noFilter() string {
 	return `
-resource "cloud_csp_bucket_notification" "test" {
+resource "tencentcloudenterprise_csp_bucket_notification" "test" {
   bucket = "est123-1255000115"
 
   notification_rule {
@@ -196,7 +196,7 @@ resource "cloud_csp_bucket_notification" "test" {
 
 func testAccCspBucketNotification_noSasl_updateEvents() string {
 	return `
-resource "cloud_csp_bucket_notification" "test" {
+resource "tencentcloudenterprise_csp_bucket_notification" "test" {
   bucket = "est123-1255000115"
 
   notification_rule {
@@ -211,7 +211,7 @@ resource "cloud_csp_bucket_notification" "test" {
 
 func testAccCspBucketNotification_noSasl_withFilter() string {
 	return `
-resource "cloud_csp_bucket_notification" "test" {
+resource "tencentcloudenterprise_csp_bucket_notification" "test" {
   bucket = "est123-1255000115"
 
   notification_rule {
@@ -230,7 +230,7 @@ resource "cloud_csp_bucket_notification" "test" {
 
 func testAccCspBucketNotification_withSasl() string {
 	return `
-resource "cloud_csp_bucket_notification" "test_sasl" {
+resource "tencentcloudenterprise_csp_bucket_notification" "test_sasl" {
   bucket = "est123-1255000115"
 
   notification_rule {
@@ -247,7 +247,7 @@ resource "cloud_csp_bucket_notification" "test_sasl" {
 
 func testAccCspBucketNotification_saslRemoved() string {
 	return `
-resource "cloud_csp_bucket_notification" "test_sasl" {
+resource "tencentcloudenterprise_csp_bucket_notification" "test_sasl" {
   bucket = "est123-1255000115"
 
   notification_rule {
@@ -264,7 +264,7 @@ resource "cloud_csp_bucket_notification" "test_sasl" {
 
 func testAccCspBucketNotification_saslWithFilter() string {
 	return `
-resource "cloud_csp_bucket_notification" "test_sasl_filter" {
+resource "tencentcloudenterprise_csp_bucket_notification" "test_sasl_filter" {
   bucket = "est123-1255000115"
 
   notification_rule {
