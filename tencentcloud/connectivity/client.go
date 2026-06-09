@@ -46,6 +46,7 @@ import (
 	location "terraform-provider-tencentcloudenterprise/sdk/location/v20191128"
 	ngwaf "terraform-provider-tencentcloudenterprise/sdk/ngwaf/v20180125"
 	open "terraform-provider-tencentcloudenterprise/sdk/open/v20201202"
+	audit "terraform-provider-tencentcloudenterprise/sdk/cloudaudit/v20190304"
 	organization "terraform-provider-tencentcloudenterprise/sdk/organization/v20220508"
 	redis "terraform-provider-tencentcloudenterprise/sdk/redis/v20180412"
 	tag "terraform-provider-tencentcloudenterprise/sdk/tag/v20180813"
@@ -67,7 +68,6 @@ import (
 	cdb "github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/cdb/v20170320"
 	cdn "github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/cdn/v20180606"
 	chdfs "github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/chdfs/v20201112"
-	audit "github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/cloudaudit/v20190319"
 	"github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/common"
 	"github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/common/profile"
 	cynosdb "github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/cynosdb/v20190107"
@@ -147,6 +147,7 @@ type TencentCloudClient struct {
 	accountConn         *account.Client
 	account20181225Conn *account20181225.Client
 	openConn            *open.Client
+	auditConn           *audit.Client
 	stsConn             *sts.Client
 	gaapConn            *gaap.Client
 	sslConn             *ssl.Client
@@ -159,7 +160,6 @@ type TencentCloudClient struct {
 	sqlserverConn       *sqlserver.Client
 	postgreConn         *postgre.Client
 	ckafkaConn          *ckafka.Client
-	auditConn           *audit.Client
 	cynosConn           *cynosdb.Client
 	apiGatewayConn      *apigateway.Client
 	sslCertificateConn  *sslCertificate.Client
@@ -787,19 +787,6 @@ func (me *TencentCloudClient) UseCkafkaClient() *ckafka.Client {
 	me.ckafkaConn.WithHttpTransport(&LogRoundTripper{})
 
 	return me.ckafkaConn
-}
-
-// UseAuditClient returns audit client for service
-func (me *TencentCloudClient) UseAuditClient() *audit.Client {
-	if me.auditConn != nil {
-		return me.auditConn
-	}
-
-	cpf := me.NewClientProfile(300)
-	me.auditConn, _ = audit.NewClient(me.Credential, me.Region, cpf)
-	me.auditConn.WithHttpTransport(&LogRoundTripper{})
-
-	return me.auditConn
 }
 
 // UseCynosdbClient returns cynosdb client for service
@@ -1445,6 +1432,19 @@ func (me *TencentCloudClient) UseOpenClient() *open.Client {
 	me.openConn.WithHttpTransport(&LogRoundTripper{})
 
 	return me.openConn
+}
+
+// UseAuditClient returns the cloudaudit client for service
+func (me *TencentCloudClient) UseAuditClient() *audit.Client {
+	if me.auditConn != nil {
+		return me.auditConn
+	}
+
+	cpf := me.NewClientProfileTce(300)
+	me.auditConn, _ = audit.NewClient(me.CredentialTce, me.Region, cpf)
+	me.auditConn.WithHttpTransport(&LogRoundTripper{})
+
+	return me.auditConn
 }
 
 func getEnvDefault(key string, defVal int) int {

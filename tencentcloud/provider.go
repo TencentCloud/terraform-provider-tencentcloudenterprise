@@ -972,6 +972,7 @@ func Provider() *schema.Provider {
 			"tencentcloudenterprise_as_scaling_group":     resourceTencentCloudAsScalingGroup(),
 			"tencentcloudenterprise_as_scaling_policy":    resourceTencentCloudAsScalingPolicy(),
 			"tencentcloudenterprise_as_schedule":          resourceTencentCloudAsSchedule(),
+			"tencentcloudenterprise_audit_track":          resourceTencentCloudAuditTrack(),
 			//"tencentcloudenterprise_as_start_instances":                             resourceTencentCloudAsStartInstances(),
 			//"tencentcloudenterprise_as_stop_instances":                              resourceTencentCloudAsStopInstances(),
 			"tencentcloudenterprise_bms_instance":                         resourceTencentCloudBmsInstance(),
