@@ -30,7 +30,6 @@ resource "tencentcloudenterprise_cls_index" "complete_index" {
     # 键值索引配置
     key_value {
       case_sensitive = true
-      template_type  = ""
 
       key_values {
         key = "level"
