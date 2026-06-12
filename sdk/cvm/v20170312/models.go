@@ -516,6 +516,9 @@ type Instance struct {
 	// 是否启用Grid许可证
 
 	EnableGridLicence *string `json:"EnableGridLicence,omitempty" name:"EnableGridLicence"`
+	// 实例的应用角色标识。用于标识实例被哪个云产品创建或管理，例如EMR、TKE等。
+
+	ApplicationRole *string `json:"ApplicationRole,omitempty" name:"ApplicationRole"`
 }
 
 type HibernationOptions struct {
@@ -622,6 +625,9 @@ type ExitLiveMigrateInstanceRequest struct {
 	// 服务迁移是否成功。
 
 	MigrateResult *string `json:"MigrateResult,omitempty" name:"MigrateResult"`
+	// 源机器操作系统信息
+
+	SourceSystemInfo *SourceSystemInfo `json:"SourceSystemInfo,omitempty" name:"SourceSystemInfo"`
 }
 
 func (r *ExitLiveMigrateInstanceRequest) ToJsonString() string {
@@ -808,6 +814,9 @@ type LaunchTemplateInfo struct {
 	// 创建该模板的时间。 注意：此字段可能返回 null，表示取不到有效值。
 
 	CreationTime *string `json:"CreationTime,omitempty" name:"CreationTime"`
+	// 标签列表。 注意：此字段可能返回 null，表示取不到有效值。
+
+	Tags []*Tag `json:"Tags,omitempty" name:"Tags"`
 }
 
 type DescribeAddressesRequest struct {
@@ -864,6 +873,9 @@ type UserZoneStatusItem struct {
 	// 售卖状态
 
 	Status *string `json:"Status,omitempty" name:"Status"`
+	// 是否主可用区
+
+	IsPrimaryZone *bool `json:"IsPrimaryZone,omitempty" name:"IsPrimaryZone"`
 }
 
 type Placement struct {
@@ -1218,6 +1230,12 @@ type ItemPrice struct {
 	// 使用时间区间在(360, ∞)小时的后续合计费用的折扣价，后付费模式使用，单位：元<br>注意：此字段可能返回 null，表示取不到有效值。
 
 	DiscountThirdStep *float64 `json:"DiscountThirdStep,omitempty" name:"DiscountThirdStep"`
+	// 折扣，如20.0代表2折
+
+	DiscountSecondStep *float64 `json:"DiscountSecondStep,omitempty" name:"DiscountSecondStep"`
+	// 磁盘类型
+
+	DiskType *string `json:"DiskType,omitempty" name:"DiskType"`
 }
 
 type DisassociateInstancesKeyPairsResponse struct {
@@ -1532,6 +1550,9 @@ type StopInstancesRequest struct {
 	// 实例的关闭模式。取值范围：SOFT_FIRST：表示在正常关闭失败后进行强制关闭HARD：直接强制关闭SOFT：仅软关机默认取值：SOFT。
 
 	StopType *string `json:"StopType,omitempty" name:"StopType"`
+	// 内部参数试运行
+
+	DryRun *bool `json:"DryRun,omitempty" name:"DryRun"`
 }
 
 func (r *StopInstancesRequest) ToJsonString() string {
@@ -1874,6 +1895,12 @@ type ResizeInstanceDisksRequest struct {
 	// 是否对运行中的实例选择强制关机，默认为False。
 
 	ForceStop *bool `json:"ForceStop,omitempty" name:"ForceStop"`
+	// 描述待扩容的数据盘信息
+
+	DataDisks []*DataDisk `json:"DataDisks,omitempty" name:"DataDisks"`
+	// 扩容云盘的方式是否为在线扩容
+
+	ResizeOnline *bool `json:"ResizeOnline,omitempty" name:"ResizeOnline"`
 }
 
 func (r *ResizeInstanceDisksRequest) ToJsonString() string {
@@ -1900,6 +1927,9 @@ type ResetInstancesTypeRequest struct {
 	// 是否在线升级配置
 
 	Online *bool `json:"Online,omitempty" name:"Online"`
+	// 是否允许跨母机调整
+
+	IsAllowedAcrossHost *bool `json:"IsAllowedAcrossHost,omitempty" name:"IsAllowedAcrossHost"`
 }
 
 func (r *ResetInstancesTypeRequest) ToJsonString() string {
@@ -2256,6 +2286,9 @@ type Snapshot struct {
 	// 创建此快照的云硬盘大小，单位GB。
 
 	DiskSize *uint64 `json:"DiskSize,omitempty" name:"DiskSize"`
+	// 是否加密。
+
+	Encrypt *bool `json:"Encrypt,omitempty" name:"Encrypt"`
 }
 
 type SwitchParameterRenewHostsResponse struct {
@@ -2296,6 +2329,21 @@ type InstanceCreateImageAttributeSet struct {
 	// 是否需要关机
 
 	NeedPowerOff *bool `json:"NeedPowerOff,omitempty" name:"NeedPowerOff"`
+	// 预热不可用的原因代码
+
+	PreheatUnavailableReason *string `json:"PreheatUnavailableReason,omitempty" name:"PreheatUnavailableReason"`
+	// 标识实例是否支持预热功能
+
+	SupportPreheat *bool `json:"SupportPreheat,omitempty" name:"SupportPreheat"`
+	// 支持预热的可用区列表
+
+	SupportPreheatZones []*string `json:"SupportPreheatZones,omitempty" name:"SupportPreheatZones"`
+	// 不可用原因
+
+	UnavailableReason *string `json:"UnavailableReason,omitempty" name:"UnavailableReason"`
+	// 不支持预热的可用区及其原因代码
+
+	UnsupportedPreheatZones *UnsupportedPreheatZones `json:"UnsupportedPreheatZones,omitempty" name:"UnsupportedPreheatZones"`
 }
 
 type InstanceTypeQuota struct {
@@ -2336,6 +2384,18 @@ type InstanceConfigInfoItem struct {
 
 	// 实例族信息列表。
 
+	// 实例族信息列表。
+
+	InstanceFamilies []*InstanceFamilyItem `json:"instanceFamilies,omitempty" name:"instanceFamilies"`
+	// 优先级。
+
+	Order *int64 `json:"order,omitempty" name:"order"`
+	// 实例规格。
+
+	Type *string `json:"type,omitempty" name:"type"`
+	// 实例规格名称。
+
+	TypeName *string `json:"typeName,omitempty" name:"typeName"`
 }
 
 type ResourceForInstanceType struct {
@@ -2409,6 +2469,18 @@ type ActionTimer struct {
 	// 扩展数据
 
 	Externals *Externals `json:"Externals,omitempty" name:"Externals"`
+	// 执行时间（ISO格式，带时区）
+
+	ActionTimeIso *string `json:"ActionTimeIso,omitempty" name:"ActionTimeIso"`
+	// 定时任务ID
+
+	ActionTimerId *string `json:"ActionTimerId,omitempty" name:"ActionTimerId"`
+	// 实例ID
+
+	InstanceId *string `json:"InstanceId,omitempty" name:"InstanceId"`
+	// 定时任务状态
+
+	Status *string `json:"Status,omitempty" name:"Status"`
 }
 
 type DisassociateSecurityGroupsResponse struct {
@@ -2458,6 +2530,9 @@ type DiagnosticReportDataSet struct {
 	// uuid
 
 	Uuid *string `json:"Uuid,omitempty" name:"Uuid"`
+	// 开始时间（ISO格式，带时区）
+
+	CreateTimeIso *string `json:"CreateTimeIso,omitempty" name:"CreateTimeIso"`
 }
 
 type AssociateAddressRequest struct {
@@ -2616,6 +2691,9 @@ type OfflineMigrateUserTaskData struct {
 	// 数据盘大小
 
 	DiskSize *uint64 `json:"DiskSize,omitempty" name:"DiskSize"`
+	// 迁移动作名称。
+
+	Action *string `json:"Action,omitempty" name:"Action"`
 }
 
 type DescribeInstancesStatusResponse struct {
@@ -2709,6 +2787,12 @@ type DisasterRecoverGroup struct {
 	// 置放群组策略
 
 	Strategy *string `json:"Strategy,omitempty" name:"Strategy"`
+	// 置放群组亲和度
+
+	Affinity *int64 `json:"Affinity,omitempty" name:"Affinity"`
+	// 置放群组标签
+
+	Tags []*Tag `json:"Tags,omitempty" name:"Tags"`
 }
 
 type HostOrder struct {
@@ -2721,6 +2805,18 @@ type HostOrder struct {
 
 	// 订单发货的资源信息列表
 
+	// 订单所属帐号的应用id
+
+	AppId *uint64 `json:"appId,omitempty" name:"appId"`
+	// 订单发货的资源信息列表
+
+	Goods []*HostGoodsItem `json:"goods,omitempty" name:"goods"`
+	// 订单所属帐号的所有者uin
+
+	OwnerUin *string `json:"ownerUin,omitempty" name:"ownerUin"`
+	// 创建订单的帐号uin
+
+	Uin *string `json:"uin,omitempty" name:"uin"`
 }
 
 type DescribeImageQuotaResponse struct {
@@ -2803,6 +2899,9 @@ type InstanceTypeItem struct {
 	// 备注信息。
 
 	Remark *string `json:"Remark,omitempty" name:"Remark"`
+	// 机型设备类型。
+
+	DeviceClass *string `json:"DeviceClass,omitempty" name:"DeviceClass"`
 }
 
 type ImportInstancesActionTimerRequest struct {
@@ -3050,6 +3149,9 @@ type ZoneCpuQuota struct {
 	InstanceChargeType *string `json:"InstanceChargeType,omitempty" name:"InstanceChargeType"`
 	// 可用CPU配额。
 
+	// 可用CPU配额。
+
+	CpuQuota *uint64 `json:"cpuQuota,omitempty" name:"cpuQuota"`
 }
 
 type HostForSellZoneStatus struct {
@@ -3084,6 +3186,36 @@ type HostGoodsDetailItem struct {
 
 	// 产品信息项列表
 
+	// 操作名称
+
+	Action *string `json:"action,omitempty" name:"action"`
+	// 自动续费标记
+
+	AutoRenewFlag *uint64 `json:"autoRenewFlag,omitempty" name:"autoRenewFlag"`
+	// 当前到期时间
+
+	CurDeadline *string `json:"curDeadline,omitempty" name:"curDeadline"`
+	// pid
+
+	Pid *uint64 `json:"pid,omitempty" name:"pid"`
+	// 产品信息项列表
+
+	ProductInfo []*ProductInfoItem `json:"productInfo,omitempty" name:"productInfo"`
+	// 资源id
+
+	ResourceId *string `json:"resourceId,omitempty" name:"resourceId"`
+	// 数字签名
+
+	Signature *string `json:"signature,omitempty" name:"signature"`
+	// 购买或续费时长
+
+	TimeSpan *uint64 `json:"timeSpan,omitempty" name:"timeSpan"`
+	// 时间单位
+
+	TimeUnit *string `json:"timeUnit,omitempty" name:"timeUnit"`
+	// 请求事务id
+
+	TransactionId *string `json:"transactionId,omitempty" name:"transactionId"`
 }
 
 type AssociateInstancesKeyPairsResponse struct {
@@ -3442,6 +3574,9 @@ func (r *CopyInstanceDiskRequest) FromJsonString(s string) error {
 
 type DescribeDisasterRecoverGroupQuotaRequest struct {
 	*tchttp.BaseRequest
+	// 置放群组策略
+
+	Strategy *string `json:"Strategy,omitempty" name:"Strategy"`
 }
 
 func (r *DescribeDisasterRecoverGroupQuotaRequest) ToJsonString() string {
@@ -3618,6 +3753,18 @@ type InstanceConfigInfoItemArchitecture struct {
 
 	// 实例族信息列表。
 
+	// 实例族信息列表。
+
+	InstanceFamilies []*InstanceFamilyItemArchitecture `json:"instanceFamilies,omitempty" name:"instanceFamilies"`
+	// 优先级。
+
+	Order *int64 `json:"order,omitempty" name:"order"`
+	// 实例规格。
+
+	Type *string `json:"type,omitempty" name:"type"`
+	// 实例规格名称。
+
+	TypeName *string `json:"typeName,omitempty" name:"typeName"`
 }
 
 type RenewInstancesRequest struct {
@@ -4123,6 +4270,9 @@ type SyncImagesRequest struct {
 	// 目的同步地域列表；必须满足限制：<br><li>不能为源地域，<br><li>必须是一个合法的Region。<br><li>暂不支持部分地域同步。<br>具体地域参数请参考[Region](/tcloud/Compute/CVM/292128/zone)。
 
 	DestinationRegions []*string `json:"DestinationRegions,omitempty" name:"DestinationRegions"`
+	// 目标镜像名称。指定后将使用新名称保存同步的镜像，不指定时使用源镜像的名称。
+
+	ImageName *string `json:"ImageName,omitempty" name:"ImageName"`
 }
 
 func (r *SyncImagesRequest) ToJsonString() string {
@@ -4142,6 +4292,9 @@ type AccountAttribute struct {
 	// 单次最大购买数量
 
 	AttributeValues *string `json:"AttributeValues,omitempty" name:"AttributeValues"`
+	// 单次最大购买数量
+
+	AttributeValue *string `json:"AttributeValue,omitempty" name:"AttributeValue"`
 }
 
 type DiagnosticReportSet struct {
@@ -4152,6 +4305,9 @@ type DiagnosticReportSet struct {
 	// 检测报告id
 
 	DiagnosticReportId *string `json:"DiagnosticReportId,omitempty" name:"DiagnosticReportId"`
+	// 检测报告是否来自缓存。true 表示来自 5 分钟内的缓存报告，false 或不返回该字段表示本次实时检测。注意：此字段可能返回 null，表示取不到有效值。
+
+	IsCached *bool `json:"IsCached,omitempty" name:"IsCached"`
 }
 
 type DescribeZoneInstanceConfigInfosRequest struct {
@@ -4160,6 +4316,9 @@ type DescribeZoneInstanceConfigInfosRequest struct {
 	// zone按照【可用区】进行过滤。可用区形如：ap-guangzhou-1。类型：String必选：是可选项：可用区列表instance-family按照【实例机型系列】进行过滤。实例机型系列形如：S1、I1、M1等。类型：Integer必选：否instance-type按照【实例机型】进行过滤。不同实例机型指定了不同的资源规格，具体取值可通过调用接口 DescribeInstanceTypeConfigs 来获得最新的规格表或参见实例类型描述。若不指定该参数，则默认机型为S1.SMALL1。类型：String必选：否instance-charge-type按照【实例计费模式】进行过滤。(PREPAID：表示预付费，即包年包月 | POSTPAID_BY_HOUR：表示后付费，即按量计费 | CDHPAID：表示CDH付费，即只对CDH计费，不对CDH上的实例计费。)类型：String必选：否
 
 	Filters []*Filter `json:"Filters,omitempty" name:"Filters"`
+	// Language
+
+	Language *string `json:"Language,omitempty" name:"Language"`
 }
 
 func (r *DescribeZoneInstanceConfigInfosRequest) ToJsonString() string {
@@ -4309,6 +4468,33 @@ type InstanceTypeQuotaItem struct {
 	// 实例备注信息。
 
 	Remark *string `json:"Remark,omitempty" name:"Remark"`
+	// CPU架构。
+
+	Architecture *string `json:"Architecture,omitempty" name:"Architecture"`
+	// 设备类型。
+
+	DeviceClass *string `json:"DeviceClass,omitempty" name:"DeviceClass"`
+	// 是否禁用。
+
+	Disable *bool `json:"Disable,omitempty" name:"Disable"`
+	// 额外规格信息。
+
+	Extra_specs *string `json:"extra_specs,omitempty" name:"extra_specs"`
+	// 额外属性。
+
+	ExtraProperty *string `json:"ExtraProperty,omitempty" name:"ExtraProperty"`
+	// CPU频率。
+
+	Frequency *string `json:"Frequency,omitempty" name:"Frequency"`
+	// GPU数量。
+
+	GpuCount *int64 `json:"GpuCount,omitempty" name:"GpuCount"`
+	// 状态分类。
+
+	StatusCategory *string `json:"StatusCategory,omitempty" name:"StatusCategory"`
+	// 存储块信息。
+
+	StorageBlock *string `json:"StorageBlock,omitempty" name:"StorageBlock"`
 }
 
 type DescribeInstanceUsbInfoResponse struct {
@@ -4643,6 +4829,12 @@ type Tag struct {
 	// 标签值
 
 	Value *string `json:"Value,omitempty" name:"Value"`
+	// 标签键
+
+	TagKey *string `json:"tagKey,omitempty" name:"tagKey"`
+	// 标签值
+
+	TagValue *string `json:"tagValue,omitempty" name:"tagValue"`
 }
 
 type DeleteInstancesActionTimerRequest struct {
@@ -4918,6 +5110,36 @@ type HostGoodsItem struct {
 
 	// cdh实例详细信息
 
+	// 发起发货帐号对应的appId
+
+	AppId *uint64 `json:"appId,omitempty" name:"appId"`
+	// goodsCategoryId
+
+	GoodsCategoryId *uint64 `json:"goodsCategoryId,omitempty" name:"goodsCategoryId"`
+	// cdh实例详细信息
+
+	GoodsDetail *HostGoodsDetailItem `json:"goodsDetail,omitempty" name:"goodsDetail"`
+	// 发货的实例个数
+
+	GoodsNum *uint64 `json:"goodsNum,omitempty" name:"goodsNum"`
+	// 发起发货帐号的所有者uin
+
+	OwnerUin *string `json:"ownerUin,omitempty" name:"ownerUin"`
+	// 实例付费模式
+
+	PayMode *uint64 `json:"payMode,omitempty" name:"payMode"`
+	// 项目id
+
+	ProjectId *uint64 `json:"projectId,omitempty" name:"projectId"`
+	// 地域id
+
+	RegionId *uint64 `json:"regionId,omitempty" name:"regionId"`
+	// 发起发货的用户uin
+
+	Uin *string `json:"uin,omitempty" name:"uin"`
+	// 可用区id
+
+	ZoneId *uint64 `json:"zoneId,omitempty" name:"zoneId"`
 }
 
 type InstanceTypeQuotaItemArchitecture struct {
@@ -4997,6 +5219,18 @@ type InstanceTypeQuotaItemArchitecture struct {
 	// 本地存储块
 
 	StorageBlock *int64 `json:"StorageBlock,omitempty" name:"StorageBlock"`
+	// 额外属性信息
+
+	ExtraProperty *ExtraProperty `json:"ExtraProperty,omitempty" name:"ExtraProperty"`
+	// 频率
+
+	Frequency *string `json:"Frequency,omitempty" name:"Frequency"`
+	// GPU数量，计算方式为gpu * GpuAttr.Ratio
+
+	GpuCount *float64 `json:"GpuCount,omitempty" name:"GpuCount"`
+	// 状态类别
+
+	StatusCategory *string `json:"StatusCategory,omitempty" name:"StatusCategory"`
 }
 
 type DeleteDisasterRecoverGroupResponse struct {
@@ -5034,6 +5268,12 @@ type CreateKeyPair struct {
 	// 密钥对的纯文本私钥。
 
 	PrivateKey *string `json:"PrivateKey,omitempty" name:"PrivateKey"`
+	// 密钥关联的镜像数量
+
+	AssociatedImageCount *uint64 `json:"AssociatedImageCount,omitempty" name:"AssociatedImageCount"`
+	// 密钥关联的实例数量
+
+	AssociatedInstanceCount *uint64 `json:"AssociatedInstanceCount,omitempty" name:"AssociatedInstanceCount"`
 }
 
 type ModifyDisasterRecoverGroupRequest struct {
@@ -5160,6 +5400,99 @@ type Image struct {
 	// TAT支持镜像情况
 
 	IsSupportTat *bool `json:"IsSupportTat,omitempty" name:"IsSupportTat"`
+	// 创建来源（内部字段）
+
+	_CreateSource *string `json:"_CreateSource,omitempty" name:"_CreateSource"`
+	// 镜像分类（内部字段）
+
+	_ImageClass *string `json:"_ImageClass,omitempty" name:"_ImageClass"`
+	// 镜像内部状态，用于标识镜像的当前状态（如创建中、正常、删除中等）
+
+	_ImageStatusInner *uint64 `json:"_ImageStatusInner,omitempty" name:"_ImageStatusInner"`
+	// 许可证类型（内部字段）
+
+	_LicenseType *string `json:"_LicenseType,omitempty" name:"_LicenseType"`
+	// 同步百分比（内部字段）
+
+	_SyncPercent *int64 `json:"_SyncPercent,omitempty" name:"_SyncPercent"`
+	// Sysprep配置信息
+
+	_Sysprep *bool `json:"_Sysprep,omitempty" name:"_Sysprep"`
+	// 启动模式
+
+	BootMode *string `json:"BootMode,omitempty" name:"BootMode"`
+	// 创建百分比
+
+	CreatePercent *int64 `json:"CreatePercent,omitempty" name:"CreatePercent"`
+	// 专用集群ID
+
+	DedicatedClusterId *string `json:"DedicatedClusterId,omitempty" name:"DedicatedClusterId"`
+	// 镜像检测项列表，仅当镜像为导入镜像且存在检测报告时返回。注意：此字段可能返回 null，表示取不到有效值。
+
+	DetectionOptions []*DetectionOption `json:"DetectionOptions,omitempty" name:"DetectionOptions"`
+	// 加密
+
+	Encrypt *bool `json:"Encrypt,omitempty" name:"Encrypt"`
+	// 图片已弃用
+
+	ImageDeprecated *bool `json:"ImageDeprecated,omitempty" name:"ImageDeprecated"`
+	// 镜像族
+
+	ImageFamily *string `json:"ImageFamily,omitempty" name:"ImageFamily"`
+	// 镜像导入错误信息
+
+	ImageImportError *string `json:"ImageImportError,omitempty" name:"ImageImportError"`
+	// 图像已共享
+
+	ImageIsShared *bool `json:"ImageIsShared,omitempty" name:"ImageIsShared"`
+	// 图像预热
+
+	ImagePreheat *bool `json:"ImagePreheat,omitempty" name:"ImagePreheat"`
+	// 镜像预热的位置标识符，通常是一个可用区或位置的名称。
+
+	ImagePreheatPlacement *string `json:"ImagePreheatPlacement,omitempty" name:"ImagePreheatPlacement"`
+	// 图像预热区域
+
+	ImagePreheatZones *string `json:"ImagePreheatZones,omitempty" name:"ImagePreheatZones"`
+	// 导入百分比
+
+	ImportPercent *int64 `json:"ImportPercent,omitempty" name:"ImportPercent"`
+	// 是否是内部镜像
+
+	InternalUse *bool `json:"InternalUse,omitempty" name:"InternalUse"`
+	// 是否商用
+
+	IsCommercial *bool `json:"IsCommercial,omitempty" name:"IsCommercial"`
+	// 是否是边缘可用区镜像
+
+	IsEdgeZoneImage *bool `json:"IsEdgeZoneImage,omitempty" name:"IsEdgeZoneImage"`
+	// 是否支持充电电网许可证
+
+	IsSupportChargeGridLicense *bool `json:"IsSupportChargeGridLicense,omitempty" name:"IsSupportChargeGridLicense"`
+	// 镜像是否支持cloud-init
+
+	IsSupportCloudinit2 *bool `json:"isSupportCloudinit,omitempty" name:"isSupportCloudinit"`
+	// 许可证类型
+
+	LicenseType *string `json:"LicenseType,omitempty" name:"LicenseType"`
+	// 镜像位置信息
+
+	Locations []*ImageLocation `json:"Locations,omitempty" name:"Locations"`
+	// 镜像结束维护时间
+
+	MaintainEol *string `json:"MaintainEol,omitempty" name:"MaintainEol"`
+	// 操作系统类型
+
+	OsType *string `json:"OsType,omitempty" name:"OsType"`
+	// 操作系统版本
+
+	OsVersion *string `json:"OsVersion,omitempty" name:"OsVersion"`
+	// 镜像排序权重
+
+	SortWeight *float64 `json:"SortWeight,omitempty" name:"SortWeight"`
+	// 镜像关联的标签列表
+
+	Tags []*Tag `json:"Tags,omitempty" name:"Tags"`
 }
 
 type DescribeInstanceFamilyConfigsResponse struct {
@@ -5248,6 +5581,9 @@ type InstanceTypeConfig struct {
 	// FPGA核数，单位：核。
 
 	FPGA *uint64 `json:"FPGA,omitempty" name:"FPGA"`
+	// 实例机型映射的物理GPU卡数，单位：卡。vGPU卡型小于1，直通卡型大于等于1。vGPU是通过分片虚拟化技术，将物理GPU卡重新划分，同一块GPU卡经虚拟化分割后可分配至不同的实例使用。直通卡型会将GPU设备直接挂载给实例使用。
+
+	GpuCount *float64 `json:"GpuCount,omitempty" name:"GpuCount"`
 }
 
 type DescribeAddressQuotaRequest struct {
@@ -5600,6 +5936,21 @@ type HostTypeConfigSet struct {
 	// 实例是否售卖。取值范围：SELL：表示实例可购买SOLD_OUT：表示实例已售罄。
 
 	Status *string `json:"Status,omitempty" name:"Status"`
+	// CPU型号名称
+
+	CpuModelName *string `json:"CpuModelName,omitempty" name:"CpuModelName"`
+	// 宿主机块存储磁盘列表。
+
+	HostBlockDiskSet []*string `json:"HostBlockDiskSet,omitempty" name:"HostBlockDiskSet"`
+	// 标识是否支持自定义机型
+
+	SupportCustomizedInstanceType *bool `json:"SupportCustomizedInstanceType,omitempty" name:"SupportCustomizedInstanceType"`
+	// 标识是否支持标准机型
+
+	SupportStandardInstanceType *bool `json:"SupportStandardInstanceType,omitempty" name:"SupportStandardInstanceType"`
+	// 支持的标准机型列表
+
+	SupportStandardInstanceTypeSet []*string `json:"SupportStandardInstanceTypeSet,omitempty" name:"SupportStandardInstanceTypeSet"`
 }
 
 type DescribeImageQuotaRequest struct {
@@ -5719,6 +6070,12 @@ type EnhancedService struct {
 	// 开启云安全服务。若不指定该参数，则默认开启云监控服务。
 
 	MonitorService *RunMonitorServiceEnabled `json:"MonitorService,omitempty" name:"MonitorService"`
+	// 安装tat-agent。若不指定该参数，则默认安装
+
+	AutomationService *AutomationServiceEnabled `json:"AutomationService,omitempty" name:"AutomationService"`
+	// 开启基础服务
+
+	BasicService *BasicService `json:"BasicService,omitempty" name:"BasicService"`
 }
 
 type InstanceReturnable struct {
@@ -6148,6 +6505,9 @@ type RunInstancesRequest struct {
 	// 实例销毁保护标志，表示是否允许通过api接口删除实例。取值范围：<br><li>&nbsp;TRUE：表示开启实例保护，不允许通过api接口删除实例<br><li>&nbsp;FALSE：表示关闭实例保护，允许通过api接口删除实例&nbsp;<br>&nbsp;默认取值：FALSE。
 
 	DisableApiTermination *bool `json:"DisableApiTermination,omitempty" name:"DisableApiTermination"`
+	// 指定售卖池列表。用户可以指定在特定的售卖池中创建实例。若不指定该参数，则使用用户绑定的所有售卖池。若指定该参数，则只能传入用户已绑定的售卖池名称，多个售卖池之间会自动去重。
+
+	SoldPoolList []*string `json:"SoldPoolList,omitempty" name:"SoldPoolList"`
 }
 
 func (r *RunInstancesRequest) ToJsonString() string {
@@ -6202,6 +6562,9 @@ type CreateImageRequest struct {
 	// 是否执行软关机以制作镜像。
 
 	SoftPoweroff []*string `json:"SoftPoweroff,omitempty" name:"SoftPoweroff"`
+	// 本地专用集群ID
+
+	DedicatedClusterId *string `json:"DedicatedClusterId,omitempty" name:"DedicatedClusterId"`
 }
 
 func (r *CreateImageRequest) ToJsonString() string {
@@ -6330,6 +6693,9 @@ type ImportImageRequest struct {
 	// 是否导入公共镜像，导入公共镜像为`true`，走imagestage流程，默认为`false`；
 
 	PublicImage *bool `json:"PublicImage,omitempty" name:"PublicImage"`
+	// 启动模式。 取值范围：`Legacy BIOS`、`UEFI` 默认值：Legacy BIOS
+
+	BootMode *string `json:"BootMode,omitempty" name:"BootMode"`
 }
 
 func (r *ImportImageRequest) ToJsonString() string {
@@ -6382,6 +6748,24 @@ type UserMigrateTaskData struct {
 	// 结束时间
 
 	EndTime *string `json:"EndTime,omitempty" name:"EndTime"`
+	// 任务类型动作
+
+	Action *string `json:"Action,omitempty" name:"Action"`
+	// 创建时间（ISO格式，带时区）
+
+	CreateTimeIso *string `json:"CreateTimeIso,omitempty" name:"CreateTimeIso"`
+	// 云硬盘ID（导入CBS任务特有）
+
+	DiskId *string `json:"DiskId,omitempty" name:"DiskId"`
+	// 云硬盘大小（导入CBS任务特有）
+
+	DiskSize *uint64 `json:"DiskSize,omitempty" name:"DiskSize"`
+	// 结束时间（ISO格式，带时区）
+
+	EndTimeIso *string `json:"EndTimeIso,omitempty" name:"EndTimeIso"`
+	// 快照cos url（导入CBS任务特有）
+
+	SnapshotUrl *string `json:"SnapshotUrl,omitempty" name:"SnapshotUrl"`
 }
 
 type DescribeInstanceInternetBandwidthConfigsResponse struct {
@@ -6529,6 +6913,21 @@ type LaunchTemplateVersionData struct {
 	// 标签描述列表。通过指定该参数可以同时绑定标签到相应的云服务器、云硬盘实例。<br/> 注意：此字段可能返回 null，表示取不到有效值。
 
 	TagSpecification []*TagSpecification `json:"TagSpecification,omitempty" name:"TagSpecification"`
+	// CPU
+
+	CPU *int64 `json:"CPU,omitempty" name:"CPU"`
+	// 禁用Api终止
+
+	DisableApiTermination *bool `json:"DisableApiTermination,omitempty" name:"DisableApiTermination"`
+	// Memory
+
+	Memory *int64 `json:"Memory,omitempty" name:"Memory"`
+	// 操作符Uin
+
+	OperatorUin *string `json:"OperatorUin,omitempty" name:"OperatorUin"`
+	// 平台项目信息。Cloud Platform 场景下用于指定实例所属的平台项目。注意：此字段可能返回 null，表示取不到有效值。
+
+	ProjectSpecification *ProjectSpecification `json:"ProjectSpecification,omitempty" name:"ProjectSpecification"`
 }
 
 type SwitchParameterRunInstancesRequest struct {
@@ -6835,6 +7234,30 @@ type Externals struct {
 	// GPU参数<br>注意：此字段可能返回 null，表示取不到有效值。
 
 	GpuAttr *GpuAttr `json:"GpuAttr,omitempty" name:"GpuAttr"`
+	// 标识单线程绑核的核数配置（如'1'）
+
+	CoresOfOneThreadPerCore []*int64 `json:"CoresOfOneThreadPerCore,omitempty" name:"CoresOfOneThreadPerCore"`
+	// 标识双线程绑核的核数配置（如'2'）
+
+	CoresOfTwoThreadPerCore []*int64 `json:"CoresOfTwoThreadPerCore,omitempty" name:"CoresOfTwoThreadPerCore"`
+	// GPU描述信息。 注意：此字段可能返回 null，表示取不到有效值。
+
+	GPUDesc *string `json:"GPUDesc,omitempty" name:"GPUDesc"`
+	// GPU显存信息。 注意：此字段可能返回 null，表示取不到有效值。
+
+	GPUVram *string `json:"GPUVram,omitempty" name:"GPUVram"`
+	// 实例类别
+
+	Hypervisor *string `json:"Hypervisor,omitempty" name:"Hypervisor"`
+	// 实例属性
+
+	HypervisorSpec []*string `json:"HypervisorSpec,omitempty" name:"HypervisorSpec"`
+	// RDMA网卡数量。 注意：此字段可能返回 null，表示取不到有效值。
+
+	RdmaNicCount *uint64 `json:"RdmaNicCount,omitempty" name:"RdmaNicCount"`
+	// 不支持网络功能
+
+	UnsupportNetworkFeature []*string `json:"UnsupportNetworkFeature,omitempty" name:"UnsupportNetworkFeature"`
 }
 
 type DescribeImportSnapshotTaskResponse struct {
@@ -6917,6 +7340,33 @@ type InstanceStatus struct {
 	// [实例状态](#instancestatus)。
 
 	InstanceState *string `json:"InstanceState,omitempty" name:"InstanceState"`
+	// 虚拟化类型
+
+	Hypervisor *int64 `json:"Hypervisor,omitempty" name:"Hypervisor"`
+	// 私有网络Id
+
+	InnerVpcId *int64 `json:"InnerVpcId,omitempty" name:"InnerVpcId"`
+	// 实例是否可以主动退还
+
+	IsReturnable *bool `json:"IsReturnable,omitempty" name:"IsReturnable"`
+	// 操作掩码
+
+	OperationMask *int64 `json:"OperationMask,omitempty" name:"OperationMask"`
+	// 不支持主动退还的原因
+
+	ReturnFailCode *int64 `json:"ReturnFailCode,omitempty" name:"ReturnFailCode"`
+	// 不支持主动退还的错误信息
+
+	ReturnFailMessage *string `json:"ReturnFailMessage,omitempty" name:"ReturnFailMessage"`
+	// 实例状态
+
+	RunFlag *int64 `json:"RunFlag,omitempty" name:"RunFlag"`
+	// TotalDuration
+
+	TotalDuration *int64 `json:"TotalDuration,omitempty" name:"TotalDuration"`
+	// UsedDuration
+
+	UsedDuration *int64 `json:"UsedDuration,omitempty" name:"UsedDuration"`
 }
 
 type AllocateAddressesRequest struct {
@@ -7243,6 +7693,42 @@ type Address struct {
 	// 创建时间。按照`ISO8601`标准表示，并且使用`UTC`时间。格式为：`YYYY-MM-DDThh:mm:ssZ`。
 
 	CreatedTime *string `json:"CreatedTime,omitempty" name:"CreatedTime"`
+	// EIP状态，包含'CREATING'(创建中),'BINDING'(绑定中),'BIND'(已绑定),'UNBINDING'(解绑中),'UNBIND'(已解绑),'OFFLINING'(释放中),'BIND_ENI'(绑定悬空弹性网卡)
+
+	AddressStatus *string `json:"AddressStatus,omitempty" name:"AddressStatus"`
+	// eip资源类型，包括"CalcIP","WanIP","EIP","AnycastEIP"。其中"CalcIP"表示设备ip，“WanIP”表示普通公网ip，“EIP”表示弹性公网ip，“AnycastEip”表示加速EIP
+
+	AddressType *string `json:"AddressType,omitempty" name:"AddressType"`
+	// 带宽上限 。注意：此字段可能返回 null，表示取不到有效值。
+
+	Bandwidth *int64 `json:"Bandwidth,omitempty" name:"Bandwidth"`
+	// eip是否在解绑后自动释放。true表示eip将会在解绑后自动释放，false表示eip在解绑后不会自动释放
+
+	CascadeRelease *bool `json:"CascadeRelease,omitempty" name:"CascadeRelease"`
+	// 绑定的资源实例ID。注意：此字段可能返回 null，表示取不到有效值。
+
+	InstanceId *string `json:"InstanceId,omitempty" name:"InstanceId"`
+	// 运营商，CTCC电信，CUCC联通，CMCC移动 注意：此字段可能返回 null，表示取不到有效值。
+
+	InternetServiceProvider *string `json:"InternetServiceProvider,omitempty" name:"InternetServiceProvider"`
+	// 资源隔离状态。true表示eip处于隔离状态，false表示资源处于未隔离状态
+
+	IsArrears *bool `json:"IsArrears,omitempty" name:"IsArrears"`
+	// 资源封堵状态。true表示eip处于封堵状态，false表示eip处于未封堵状态
+
+	IsBlocked *bool `json:"IsBlocked,omitempty" name:"IsBlocked"`
+	// eip是否支持直通模式。true表示eip支持直通模式，false表示资源不支持直通模式
+
+	IsEipDirectConnection *bool `json:"IsEipDirectConnection,omitempty" name:"IsEipDirectConnection"`
+	// 绑定的弹性网卡ID
+
+	NetworkInterfaceId *string `json:"NetworkInterfaceId,omitempty" name:"NetworkInterfaceId"`
+	// 计费模式 。注意：此字段可能返回 null，表示取不到有效值。
+
+	PayMode *string `json:"PayMode,omitempty" name:"PayMode"`
+	// 绑定的资源内网ip 注意：此字段可能返回 null，表示取不到有效值。
+
+	PrivateAddressIp *string `json:"PrivateAddressIp,omitempty" name:"PrivateAddressIp"`
 }
 
 type InstanceTypeConfigStatusSet struct {
@@ -7381,6 +7867,18 @@ type HostResource struct {
 	// cdh实例磁盘类型
 
 	DiskType *string `json:"DiskType,omitempty" name:"DiskType"`
+	// cdh实例块存储盘信息列表
+
+	BlockDiskSet []*HostBlockDiskInfo `json:"BlockDiskSet,omitempty" name:"BlockDiskSet"`
+	// CDH实例原始CPU核数（未经超卖换算的物理CPU核数）。
+
+	CpuOrigin *uint64 `json:"CpuOrigin,omitempty" name:"CpuOrigin"`
+	// cdh实例可用GPU卡数
+
+	GpuAvailable *uint64 `json:"GpuAvailable,omitempty" name:"GpuAvailable"`
+	// cdh实例GPU卡总数
+
+	GpuTotal *uint64 `json:"GpuTotal,omitempty" name:"GpuTotal"`
 }
 
 type RegionInfo struct {
@@ -7600,6 +8098,12 @@ type ProductInfoItem struct {
 
 	// 信息项对应的值
 
+	// 信息项名称
+
+	Name *string `json:"name,omitempty" name:"name"`
+	// 信息项对应的值
+
+	Value *string `json:"value,omitempty" name:"value"`
 }
 
 type DescribeInstancesReturnableRequest struct {
@@ -7851,6 +8355,9 @@ type GpuAttr struct {
 	// 类型 <br>注意：此字段可能返回 null，表示取不到有效值。
 
 	Type *string `json:"Type,omitempty" name:"Type"`
+	// GPU比率，0.5代表1/2 vGPU，0.25代表1/4 vGPU，0.125代表1/8 vGPU。 注意：此字段可能返回 null，表示取不到有效值。
+
+	Ratio *float64 `json:"Ratio,omitempty" name:"Ratio"`
 }
 
 type InstanceFamilyItem struct {
@@ -7864,6 +8371,15 @@ type InstanceFamilyItem struct {
 	// 实例类型名称
 
 	TypeName *string `json:"TypeName,omitempty" name:"TypeName"`
+	// 实例族。
+
+	InstanceFamily *string `json:"instanceFamily,omitempty" name:"instanceFamily"`
+	// 实例类型信息列表。
+
+	InstanceTypes []*InstanceTypeItem `json:"instanceTypes,omitempty" name:"instanceTypes"`
+	// 优先级。
+
+	Order *int64 `json:"order,omitempty" name:"order"`
 }
 
 type ProjectSpecification struct {
@@ -8066,6 +8582,42 @@ type DisasterRecoverGroups struct {
 
 	// 亲和度，匹配度
 
+	// 亲和度，匹配度
+
+	Affinity *int64 `json:"affinity,omitempty" name:"affinity"`
+	// 创建时间
+
+	CreateTime *string `json:"createTime,omitempty" name:"createTime"`
+	// 当前用户已经创建的置放群组数量。
+
+	CurrentNum *uint64 `json:"currentNum,omitempty" name:"currentNum"`
+	// 置放群组内最大容纳云服务器数量。
+
+	CvmQuotaTotal *uint64 `json:"cvmQuotaTotal,omitempty" name:"cvmQuotaTotal"`
+	// 标签
+
+	DisasterRecoverTag *string `json:"disasterRecoverTag,omitempty" name:"disasterRecoverTag"`
+	// 置放群组名称
+
+	Name *string `json:"name,omitempty" name:"name"`
+	// 帐号的所有者uin
+
+	Owner *string `json:"owner,omitempty" name:"owner"`
+	// 分区数
+
+	PartitionCount *uint64 `json:"partitionCount,omitempty" name:"partitionCount"`
+	// 策略
+
+	Strategy *string `json:"strategy,omitempty" name:"strategy"`
+	// 类型
+
+	Type *string `json:"type,omitempty" name:"type"`
+	// 置放群组id。
+
+	UDisasterRecoverGroupId *string `json:"uDisasterRecoverGroupId,omitempty" name:"uDisasterRecoverGroupId"`
+	// uuid
+
+	Uuids []*string `json:"uuids,omitempty" name:"uuids"`
 }
 
 type CancelAuditMarketImageResponse struct {
@@ -8180,6 +8732,9 @@ type LaunchTemplatesInfo struct {
 	// 创建该模板的时间。 注意：此字段可能返回 null，表示取不到有效值。
 
 	CreationTime *string `json:"CreationTime,omitempty" name:"CreationTime"`
+	// 创建该模板的时间（ISO格式，带时区）。 注意：此字段可能返回 null，表示取不到有效值。
+
+	CreationTimeIso *string `json:"CreationTimeIso,omitempty" name:"CreationTimeIso"`
 }
 
 type DescribeTaskResponse struct {
@@ -8589,6 +9144,15 @@ type InstanceFamilyItemArchitecture struct {
 	// CPU架构信息
 
 	Architecture *string `json:"Architecture,omitempty" name:"Architecture"`
+	// 实例族。
+
+	InstanceFamily *string `json:"instanceFamily,omitempty" name:"instanceFamily"`
+	// 实例类型信息列表。
+
+	InstanceTypes []*InstanceTypeItem `json:"instanceTypes,omitempty" name:"instanceTypes"`
+	// 优先级。
+
+	Order *int64 `json:"order,omitempty" name:"order"`
 }
 
 type DescribeAccountAttributesResponse struct {
@@ -8908,6 +9472,9 @@ type InquiryPriceRunInstancesRequest struct {
 	// 内部参数，购买来源。前端调用的来源是MC
 
 	PurchaseSource *string `json:"PurchaseSource,omitempty" name:"PurchaseSource"`
+	// 指定的项目id，仅能指定一个
+
+	ProjectSpecification *ProjectSpecification `json:"ProjectSpecification,omitempty" name:"ProjectSpecification"`
 }
 
 func (r *InquiryPriceRunInstancesRequest) ToJsonString() string {
@@ -9041,6 +9608,24 @@ type DataDisk struct {
 	// 云盘的快照id
 
 	SnapshotId *string `json:"SnapshotId,omitempty" name:"SnapshotId"`
+	// 是否开启云硬盘性能突发。true 表示开启，false 或不返回表示未开启。注意：此字段可能返回 null，表示取不到有效值。
+
+	BurstPerformance *bool `json:"BurstPerformance,omitempty" name:"BurstPerformance"`
+	// 独享集群ID
+
+	CdcId *string `json:"CdcId,omitempty" name:"CdcId"`
+	// 数据盘备份点配额。表示为数据盘开启备份点时预留的备份点数量。注意：此字段可能返回 null，表示取不到有效值。
+
+	DiskBackupQuota *uint64 `json:"DiskBackupQuota,omitempty" name:"DiskBackupQuota"`
+	// 数据盘是否加密
+
+	Encrypt *bool `json:"Encrypt,omitempty" name:"Encrypt"`
+	// KMS密钥ID
+
+	KmsKeyId *string `json:"KmsKeyId,omitempty" name:"KmsKeyId"`
+	// 云硬盘额外性能值，单位MB/s
+
+	ThroughputPerformance *uint64 `json:"ThroughputPerformance,omitempty" name:"ThroughputPerformance"`
 }
 
 type HostPrice struct {
@@ -9748,6 +10333,9 @@ type CreateLaunchTemplateRequest struct {
 	// 实例销毁保护标志，表示是否允许通过api接口删除实例。取值范围：<br><li>TRUE：表示开启实例保护，不允许通过api接口删除实例<br><li>FALSE：表示关闭实例保护，允许通过api接口删除实例<br>默认取值：FALSE。
 
 	DisableApiTermination *bool `json:"DisableApiTermination,omitempty" name:"DisableApiTermination"`
+	// 项目规格
+
+	ProjectSpecification []*ProjectSpecification `json:"ProjectSpecification,omitempty" name:"ProjectSpecification"`
 }
 
 func (r *CreateLaunchTemplateRequest) ToJsonString() string {
@@ -9933,6 +10521,15 @@ type DetailPrices struct {
 	// 系统盘价格
 
 	SystemDiskPrice *ItemPrice `json:"SystemDiskPrice,omitempty" name:"SystemDiskPrice"`
+	// 数据盘费用详情
+
+	DataDisksBackupPrice []*ItemPrice `json:"DataDisksBackupPrice,omitempty" name:"DataDisksBackupPrice"`
+	// 本地数据盘价格
+
+	LocalDataDisksPrice *ItemPrice `json:"LocalDataDisksPrice,omitempty" name:"LocalDataDisksPrice"`
+	// 系统盘费用详情
+
+	SystemDiskBackupPrice *ItemPrice `json:"SystemDiskBackupPrice,omitempty" name:"SystemDiskBackupPrice"`
 }
 
 type KeyPair struct {
@@ -9961,6 +10558,12 @@ type KeyPair struct {
 	// 密钥对创建日期
 
 	CreatedTime *string `json:"CreatedTime,omitempty" name:"CreatedTime"`
+	// 密钥对所属的项目 ID，ProjectId 为 0 时表示默认项目。
+
+	ProjectId *int64 `json:"ProjectId,omitempty" name:"ProjectId"`
+	// 密钥关联的标签列表。
+
+	Tags []*Tag `json:"Tags,omitempty" name:"Tags"`
 }
 
 type InstanceRefundsSet struct {
@@ -10189,5 +10792,2205 @@ func (r *UpdateDisasterRecoverGroupResponse) ToJsonString() string {
 }
 
 func (r *UpdateDisasterRecoverGroupResponse) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
+type AccountQuota struct {
+
+	// 置放群组配额列表
+
+	DisasterRecoverGroupQuotaSet []*DisasterRecoverGroupQuota `json:"DisasterRecoverGroupQuotaSet,omitempty" name:"DisasterRecoverGroupQuotaSet"`
+	// 镜像配额列表
+
+	ImageQuotaSet []*ImageQuota `json:"ImageQuotaSet,omitempty" name:"ImageQuotaSet"`
+	// 后付费配额列表
+
+	PostPaidQuotaSet []*PostPaidQuota `json:"PostPaidQuotaSet,omitempty" name:"PostPaidQuotaSet"`
+	// 预付费配额列表
+
+	PrePaidQuotaSet []*PrePaidQuota `json:"PrePaidQuotaSet,omitempty" name:"PrePaidQuotaSet"`
+	// spot配额列表
+
+	SpotPaidQuotaSet []*SpotPaidQuota `json:"SpotPaidQuotaSet,omitempty" name:"SpotPaidQuotaSet"`
+}
+
+type AccountQuotaOverview struct {
+
+	// 配额数据
+
+	AccountQuota *AccountQuota `json:"AccountQuota,omitempty" name:"AccountQuota"`
+	// 地域
+
+	Region *string `json:"Region,omitempty" name:"Region"`
+}
+
+type AllMigrateTaskData struct {
+
+	// 任务类型动作
+
+	Action *string `json:"Action,omitempty" name:"Action"`
+	// 云平台应用ID
+
+	AppId *uint64 `json:"AppId,omitempty" name:"AppId"`
+	// 创建时间
+
+	CreateTime *string `json:"CreateTime,omitempty" name:"CreateTime"`
+	// 创建时间（ISO格式，带时区）
+
+	CreateTimeIso *string `json:"CreateTimeIso,omitempty" name:"CreateTimeIso"`
+	// 数据大小
+
+	DataSize *uint64 `json:"DataSize,omitempty" name:"DataSize"`
+	// 云硬盘ID（导入CBS任务特有）
+
+	DiskId *string `json:"DiskId,omitempty" name:"DiskId"`
+	// 云硬盘大小（导入CBS任务特有）
+
+	DiskSize *uint64 `json:"DiskSize,omitempty" name:"DiskSize"`
+	// 结束时间
+
+	EndTime *string `json:"EndTime,omitempty" name:"EndTime"`
+	// 结束时间（ISO格式，带时区）
+
+	EndTimeIso *string `json:"EndTimeIso,omitempty" name:"EndTimeIso"`
+	// 数据盘镜像cos url
+
+	ImageUrl *string `json:"ImageUrl,omitempty" name:"ImageUrl"`
+	// 实例id
+
+	InstanceId *string `json:"InstanceId,omitempty" name:"InstanceId"`
+	// 任务id
+
+	JobId *string `json:"JobId,omitempty" name:"JobId"`
+	// 任务名称
+
+	JobName *string `json:"JobName,omitempty" name:"JobName"`
+	// 迁移任务的进度
+
+	Progress *uint64 `json:"Progress,omitempty" name:"Progress"`
+	// 地域。
+
+	Region *string `json:"Region,omitempty" name:"Region"`
+	// 快照cos url（导入CBS任务特有）
+
+	SnapshotUrl *string `json:"SnapshotUrl,omitempty" name:"SnapshotUrl"`
+	// 任务状态
+
+	Status *string `json:"Status,omitempty" name:"Status"`
+	// 用户uin
+
+	Uin *string `json:"Uin,omitempty" name:"Uin"`
+	// 实例uuid
+
+	Uuid *string `json:"Uuid,omitempty" name:"Uuid"`
+}
+
+type AutomationServiceEnabled struct {
+
+	// 是否安装[tat-agent]。取值范围： TRUE：表示安装 FALSE：表示不安装 默认取值：TRUE。
+
+	Enabled *bool `json:"Enabled,omitempty" name:"Enabled"`
+}
+
+type AvailableRegionAndZone struct {
+
+	// mc 显示地域位置
+
+	LocationMC *string `json:"LocationMC,omitempty" name:"LocationMC"`
+	// 地域
+
+	Region *string `json:"Region,omitempty" name:"Region"`
+	// regionId
+
+	RegionId *int64 `json:"RegionId,omitempty" name:"RegionId"`
+	// mc 显示region 名
+
+	RegionNameMC *string `json:"RegionNameMC,omitempty" name:"RegionNameMC"`
+	// mc 显示region 名缩写
+
+	RegionShortName *string `json:"RegionShortName,omitempty" name:"RegionShortName"`
+	// mc 显示地域类型。枚举，0: 国内，1: 海外
+
+	RegionTypeMC *int64 `json:"RegionTypeMC,omitempty" name:"RegionTypeMC"`
+	// 可用地域
+
+	ZoneSet []*AvailableZone `json:"ZoneSet,omitempty" name:"ZoneSet"`
+}
+
+type AvailableZone struct {
+
+	// 收费类型
+
+	InstanceChargeType *string `json:"InstanceChargeType,omitempty" name:"InstanceChargeType"`
+	// 是否是主力可用区
+
+	ProductFeature *string `json:"ProductFeature,omitempty" name:"ProductFeature"`
+	// 售卖状态
+
+	Status *string `json:"Status,omitempty" name:"Status"`
+	// 地域
+
+	Zone *string `json:"Zone,omitempty" name:"Zone"`
+	// 地域Id
+
+	ZoneId *int64 `json:"ZoneId,omitempty" name:"ZoneId"`
+	// 地域名
+
+	ZoneName *string `json:"ZoneName,omitempty" name:"ZoneName"`
+	// 地域类型
+
+	ZoneType *string `json:"ZoneType,omitempty" name:"ZoneType"`
+}
+
+type BasicService struct {
+
+	// 是否开启[基础](服务。取值范围： TRUE：表示开启基础服务 FALSE：表示不开启基础服务 默认取值：TRUE。
+
+	Enabled *bool `json:"Enabled,omitempty" name:"Enabled"`
+}
+
+type ConvertTargetOS struct {
+
+	// 目标操作系统类型
+
+	ConvertTargetOSType *string `json:"ConvertTargetOSType,omitempty" name:"ConvertTargetOSType"`
+	// 目标操作系统版本
+
+	ConvertTargetOSVersion *string `json:"ConvertTargetOSVersion,omitempty" name:"ConvertTargetOSVersion"`
+	// 操作系统平台
+
+	Platform *string `json:"Platform,omitempty" name:"Platform"`
+}
+
+type CpuTopology struct {
+
+	// CPU的架构。取值范围: UMA: 表示使用统一内存访问（Uniform Memory Access）的CPU架构。
+
+	Architecture *string `json:"Architecture,omitempty" name:"Architecture"`
+	// 决定启用的CPU物理核心数。
+
+	CoreCount *int64 `json:"CoreCount,omitempty" name:"CoreCount"`
+	// 每核心线程数。该参数决定是否开启或关闭超线程。 1 表示关闭超线程 2 表示开启超线程 不设置时，实例使用默认的超线程策略。开关超线程请参考文档：[开启与关闭超线程](https://api3.{{conf.main_domain}}/document/product/213/103798)。
+
+	ThreadPerCore *int64 `json:"ThreadPerCore,omitempty" name:"ThreadPerCore"`
+}
+
+type DetectionOption struct {
+
+	// 检测项名称。
+
+	Name *string `json:"Name,omitempty" name:"Name"`
+	// 检测项风险等级。
+
+	RiskLevel *string `json:"RiskLevel,omitempty" name:"RiskLevel"`
+	// 检测项值。
+
+	Value *string `json:"Value,omitempty" name:"Value"`
+}
+
+type DisasterRecoverGroupQuota struct {
+
+	// 当前用户已经创建的置放群组数量。
+
+	CurrentNum *int64 `json:"CurrentNum,omitempty" name:"CurrentNum"`
+	// 物理机类型容灾组内实例的配额数。
+
+	CvmInHostGroupQuota *int64 `json:"CvmInHostGroupQuota,omitempty" name:"CvmInHostGroupQuota"`
+	// 机架类型容灾组内实例的配额数。
+
+	CvmInRackGroupQuota *int64 `json:"CvmInRackGroupQuota,omitempty" name:"CvmInRackGroupQuota"`
+	// 交换机类型容灾组内实例的配额数。
+
+	CvmInSwitchGroupQuota *int64 `json:"CvmInSwitchGroupQuota,omitempty" name:"CvmInSwitchGroupQuota"`
+	// 可创建置放群组数量的上限。
+
+	GroupQuota *int64 `json:"GroupQuota,omitempty" name:"GroupQuota"`
+}
+
+type DiscountDetailItem struct {
+
+	// 折扣数。
+
+	Discount *float64 `json:"Discount,omitempty" name:"Discount"`
+	// 折扣详情。
+
+	PolicyDetail *DiscountPolicyDetail `json:"PolicyDetail,omitempty" name:"PolicyDetail"`
+	// 折扣价。
+
+	RealTotalCost *float64 `json:"RealTotalCost,omitempty" name:"RealTotalCost"`
+	// 高精度折扣价。
+
+	RealTotalCostHigh *float64 `json:"RealTotalCostHigh,omitempty" name:"RealTotalCostHigh"`
+	// 高精度月均折扣价。
+
+	RealTotalCostHighByMonth *float64 `json:"RealTotalCostHighByMonth,omitempty" name:"RealTotalCostHighByMonth"`
+	// 时长。
+
+	TimeSpan *string `json:"TimeSpan,omitempty" name:"TimeSpan"`
+	// 时间单位。
+
+	TimeUnit *string `json:"TimeUnit,omitempty" name:"TimeUnit"`
+	// 总价。
+
+	TotalCost *float64 `json:"TotalCost,omitempty" name:"TotalCost"`
+	// 高精度总价。
+
+	TotalCostHigh *float64 `json:"TotalCostHigh,omitempty" name:"TotalCostHigh"`
+}
+
+type DiscountInfo struct {
+
+	// 可享受折扣操作
+
+	Action *string `json:"Action,omitempty" name:"Action"`
+	// 折扣结束时间
+
+	DiscountEndTime *string `json:"DiscountEndTime,omitempty" name:"DiscountEndTime"`
+	// 折扣开始时间
+
+	DiscountStartTime *string `json:"DiscountStartTime,omitempty" name:"DiscountStartTime"`
+	// 具体折扣
+
+	SpecialDiscount *float64 `json:"SpecialDiscount,omitempty" name:"SpecialDiscount"`
+}
+
+type DiscountPolicyDetail struct {
+
+	// 官网折扣。
+
+	CommonDiscount *float64 `json:"CommonDiscount,omitempty" name:"CommonDiscount"`
+	// 最终折扣。
+
+	FinalDiscount *float64 `json:"FinalDiscount,omitempty" name:"FinalDiscount"`
+	// 用户折扣。
+
+	UserDiscount *float64 `json:"UserDiscount,omitempty" name:"UserDiscount"`
+}
+
+type ExtraAttribute struct {
+
+	// 加速器选项参数
+
+	Accelerator *string `json:"Accelerator,omitempty" name:"Accelerator"`
+	// 实例的 CPU 绑核模式。取值范围： PIN_CORE：实例透传绑核信息并做1对1绑核。如果不设置此参数，默认采用实例机型定义的CPUAffinity属性。
+
+	CPUAffinity *string `json:"CPUAffinity,omitempty" name:"CPUAffinity"`
+	// 实例是否开启透传mwait。取值范围： ON：实例开启透传mwait，只有默认开启透传mwait的实例机型支持设置为ON。 OFF：实例关闭透传mwait，所有实例机型都支持设置为OFF。 。如果不设置此参数，默认采用实例机型定义的mwait属性。
+
+	MWait *string `json:"MWait,omitempty" name:"MWait"`
+}
+
+type ExtraProperty struct {
+
+	// 边缘可用区进程
+
+	EdgeZonePid *uint64 `json:"edgeZonePid,omitempty" name:"edgeZonePid"`
+}
+
+type FeatureConfig struct {
+
+	// 是否可用
+
+	Available *bool `json:"Available,omitempty" name:"Available"`
+	// 描述信息
+
+	ErrorMessage *string `json:"ErrorMessage,omitempty" name:"ErrorMessage"`
+	// 特性名称
+
+	Feature *string `json:"Feature,omitempty" name:"Feature"`
+}
+
+type HostBlockDiskInfo struct {
+
+	// 块存储盘可用数量
+
+	BlockDiskAvailableCount *uint64 `json:"BlockDiskAvailableCount,omitempty" name:"BlockDiskAvailableCount"`
+	// 块存储盘总数量
+
+	BlockDiskCount *uint64 `json:"BlockDiskCount,omitempty" name:"BlockDiskCount"`
+	// 块存储盘单盘大小（单位为:GiB）
+
+	BlockDiskSize *uint64 `json:"BlockDiskSize,omitempty" name:"BlockDiskSize"`
+	// 块存储盘类型
+
+	BlockDiskType *string `json:"BlockDiskType,omitempty" name:"BlockDiskType"`
+}
+
+type HpcClusterInfo struct {
+
+	// 集群创建时间
+
+	CreateTime *string `json:"CreateTime,omitempty" name:"CreateTime"`
+	// 集群当前已有设备量
+
+	CurrentNum *uint64 `json:"CurrentNum,omitempty" name:"CurrentNum"`
+	// 集群下设备容量
+
+	CvmQuotaTotal *uint64 `json:"CvmQuotaTotal,omitempty" name:"CvmQuotaTotal"`
+	// HPC集群的业务ID
+
+	HpcClusterBusinessId *string `json:"HpcClusterBusinessId,omitempty" name:"HpcClusterBusinessId"`
+	// 高性能计算集群ID
+
+	HpcClusterId *string `json:"HpcClusterId,omitempty" name:"HpcClusterId"`
+	// HPC集群类型
+
+	HpcClusterType *string `json:"HpcClusterType,omitempty" name:"HpcClusterType"`
+	// HPC实例族类型
+
+	HpcInstanceFamily *string `json:"HpcInstanceFamily,omitempty" name:"HpcInstanceFamily"`
+	// 集群内实例ID列表
+
+	InstanceIds []*string `json:"InstanceIds,omitempty" name:"InstanceIds"`
+	// 高性能计算集群名
+
+	Name *string `json:"Name,omitempty" name:"Name"`
+	// 高性能计算集群备注
+
+	Remark *string `json:"Remark,omitempty" name:"Remark"`
+	// 集群所在可用区
+
+	Zone *string `json:"Zone,omitempty" name:"Zone"`
+}
+
+type ImageLocation struct {
+
+	// 位置值
+
+	Position *string `json:"Position,omitempty" name:"Position"`
+	// 位置类型
+
+	Type *string `json:"Type,omitempty" name:"Type"`
+}
+
+type ImageQuota struct {
+
+	// 总配额
+
+	TotalQuota *uint64 `json:"TotalQuota,omitempty" name:"TotalQuota"`
+	// 已使用配额
+
+	UsedQuota *uint64 `json:"UsedQuota,omitempty" name:"UsedQuota"`
+}
+
+type ImageSet struct {
+
+	// 镜像id
+
+	ImageId *string `json:"ImageId,omitempty" name:"ImageId"`
+	// 地域信息
+
+	Region *string `json:"Region,omitempty" name:"Region"`
+}
+
+type ImageStatistics struct {
+
+	// 地域
+
+	Region *string `json:"Region,omitempty" name:"Region"`
+	// 镜像数量
+
+	TotalCount *uint64 `json:"TotalCount,omitempty" name:"TotalCount"`
+}
+
+type InstanceConvertOSAttribute struct {
+
+	// 支持转换的目标操作系统信息
+
+	ConvertTargetOSSet []*ConvertTargetOS `json:"ConvertTargetOSSet,omitempty" name:"ConvertTargetOSSet"`
+	// 实例ID
+
+	InstanceId *string `json:"InstanceId,omitempty" name:"InstanceId"`
+	// 是否支持操作系统转换前自动制作快照
+
+	SupportAutoSnapshot *bool `json:"SupportAutoSnapshot,omitempty" name:"SupportAutoSnapshot"`
+	// 是否支持操作系统转换
+
+	SupportConvertOS *bool `json:"SupportConvertOS,omitempty" name:"SupportConvertOS"`
+}
+
+type InstanceDisasterMap struct {
+
+	// 置放群组id
+
+	DisasterIds []*string `json:"DisasterIds,omitempty" name:"DisasterIds"`
+	// 实例id
+
+	InstanceId *string `json:"InstanceId,omitempty" name:"InstanceId"`
+}
+
+type InstanceDiscount struct {
+
+	// 折扣列表
+
+	DiscountList []*DiscountInfo `json:"DiscountList,omitempty" name:"DiscountList"`
+	// 实例ID
+
+	InstanceId *string `json:"InstanceId,omitempty" name:"InstanceId"`
+}
+
+type InstanceMarketOptionsRequest struct {
+
+	// 市场选项类型，当前只支持取值：spot
+
+	MarketType *string `json:"MarketType,omitempty" name:"MarketType"`
+	// 竞价相关选项
+
+	SpotOptions *SpotMarketOptions `json:"SpotOptions,omitempty" name:"SpotOptions"`
+}
+
+type InstanceStopModeAttr struct {
+
+	// 实例ID
+
+	InstanceId *string `json:"InstanceId,omitempty" name:"InstanceId"`
+	// 支持的休眠关机模式，取值：STOP_CHARGING 表示支持休眠关机不收费，为空表示不支持休眠关机不收费
+
+	SupportHibernationStopMode *string `json:"SupportHibernationStopMode,omitempty" name:"SupportHibernationStopMode"`
+	// 支持的关机模式，取值：STOP_CHARGING 表示支持关机不收费，为空表示不支持关机不收费
+
+	SupportStopMode *string `json:"SupportStopMode,omitempty" name:"SupportStopMode"`
+}
+
+type InstanceTypeZoneStatus struct {
+
+	// 机型
+
+	InstanceType *string `json:"InstanceType,omitempty" name:"InstanceType"`
+	// 机型对应的各可用区售卖状态
+
+	ZoneStatusSet []*ZoneStatus `json:"ZoneStatusSet,omitempty" name:"ZoneStatusSet"`
+}
+
+type Metadata struct {
+
+	// 自定义metadata键值对列表。
+
+	Items []*MetadataItem `json:"Items,omitempty" name:"Items"`
+}
+
+type MetadataItem struct {
+
+	// 自定义metadata键，需符合正则 ^[a-zA-Z0-9_-]+$，长度 ≤128 字节（大小写敏感）；
+
+	Key *string `json:"Key,omitempty" name:"Key"`
+	// 自定义metadata值，支持任意数据（含二进制），大小 ≤256 KB（大小写敏感）；
+
+	Value *string `json:"Value,omitempty" name:"Value"`
+}
+
+type PostPaidQuota struct {
+
+	// 剩余配额
+
+	RemainingQuota *uint64 `json:"RemainingQuota,omitempty" name:"RemainingQuota"`
+	// 总配额
+
+	TotalQuota *uint64 `json:"TotalQuota,omitempty" name:"TotalQuota"`
+	// 配额的理论上限
+
+	UpperLimit *int64 `json:"UpperLimit,omitempty" name:"UpperLimit"`
+	// 累计已使用配额
+
+	UsedQuota *uint64 `json:"UsedQuota,omitempty" name:"UsedQuota"`
+	// 可用区
+
+	Zone *string `json:"Zone,omitempty" name:"Zone"`
+}
+
+type PrePaidQuota struct {
+
+	// 单次购买最大数量
+
+	OnceQuota *uint64 `json:"OnceQuota,omitempty" name:"OnceQuota"`
+	// 剩余配额
+
+	RemainingQuota *uint64 `json:"RemainingQuota,omitempty" name:"RemainingQuota"`
+	// 总配额
+
+	TotalQuota *uint64 `json:"TotalQuota,omitempty" name:"TotalQuota"`
+	// 配额的理论上限
+
+	UpperLimit *int64 `json:"UpperLimit,omitempty" name:"UpperLimit"`
+	// 当月已使用配额
+
+	UsedQuota *uint64 `json:"UsedQuota,omitempty" name:"UsedQuota"`
+	// 可用区
+
+	Zone *string `json:"Zone,omitempty" name:"Zone"`
+}
+
+type SourceSystemInfo struct {
+
+	// 源端机器系统架构
+
+	Architecture *string `json:"Architecture,omitempty" name:"Architecture"`
+	// 源端机器系统内核版本
+
+	KernelVersion *string `json:"KernelVersion,omitempty" name:"KernelVersion"`
+	// 源端机器系统名称
+
+	OsName *string `json:"OsName,omitempty" name:"OsName"`
+}
+
+type SpotMarketOptions struct {
+
+	// 竞价出价
+
+	MaxPrice *string `json:"MaxPrice,omitempty" name:"MaxPrice"`
+	// 竞价请求类型，当前仅支持类型：one-time
+
+	SpotInstanceType *string `json:"SpotInstanceType,omitempty" name:"SpotInstanceType"`
+}
+
+type SpotPaidQuota struct {
+
+	// 剩余配额，单位：vCPU核心数
+
+	RemainingQuota *uint64 `json:"RemainingQuota,omitempty" name:"RemainingQuota"`
+	// 总配额，单位：vCPU核心数
+
+	TotalQuota *uint64 `json:"TotalQuota,omitempty" name:"TotalQuota"`
+	// 配额的理论上限
+
+	UpperLimit *int64 `json:"UpperLimit,omitempty" name:"UpperLimit"`
+	// 已使用配额，单位：vCPU核心数
+
+	UsedQuota *uint64 `json:"UsedQuota,omitempty" name:"UsedQuota"`
+	// 可用区
+
+	Zone *string `json:"Zone,omitempty" name:"Zone"`
+}
+
+type TargetOS struct {
+
+	// 目标操作系统类型
+
+	TargetOSType *string `json:"TargetOSType,omitempty" name:"TargetOSType"`
+	// 目标操作系统版本
+
+	TargetOSVersion *string `json:"TargetOSVersion,omitempty" name:"TargetOSVersion"`
+}
+
+type UnsupportedPreheatZones struct {
+
+	// 可用区名称
+
+	Zone *string `json:"zone,omitempty" name:"zone"`
+}
+
+type UsbInfo struct {
+
+	// bus编号
+
+	BusNumber *string `json:"BusNumber,omitempty" name:"BusNumber"`
+	// 创建时间
+
+	CreateTime *string `json:"CreateTime,omitempty" name:"CreateTime"`
+	// device编号
+
+	DeviceNumber *string `json:"DeviceNumber,omitempty" name:"DeviceNumber"`
+	// Dev类型
+
+	DevType *string `json:"DevType,omitempty" name:"DevType"`
+	// 名称
+
+	Name *string `json:"Name,omitempty" name:"Name"`
+	// product编号
+
+	ProductId *string `json:"ProductId,omitempty" name:"ProductId"`
+	// 更新时间
+
+	UpdateTime *string `json:"UpdateTime,omitempty" name:"UpdateTime"`
+	// vendor编号
+
+	VendorId *string `json:"VendorId,omitempty" name:"VendorId"`
+	// 版本
+
+	Version *string `json:"Version,omitempty" name:"Version"`
+}
+
+type ZoneStatus struct {
+
+	// 可用区所属地域是否属于大陆区域
+
+	InMainlandChina *bool `json:"InMainlandChina,omitempty" name:"InMainlandChina"`
+	// 可用区所属地域名称
+
+	Region *string `json:"Region,omitempty" name:"Region"`
+	// 可用区售卖状态，SELL：表示可售卖，SOLD_OUT：表示售罄
+
+	Status *string `json:"Status,omitempty" name:"Status"`
+	// 标准可用区名称
+
+	Zone *string `json:"Zone,omitempty" name:"Zone"`
+}
+
+type CloneInstanceRequest struct {
+	*tchttp.BaseRequest
+
+	// 用于保证请求幂等性的字符串。该字符串由客户生成，需保证不同请求之间唯一，最大值不超过64个ASCII字符。若不指定该参数，则无法保证请求的幂等性。
+
+	ClientToken *string `json:"ClientToken,omitempty" name:"ClientToken"`
+	// 实例需要克隆的数据盘Id
+
+	DataDiskIds []*string `json:"DataDiskIds,omitempty" name:"DataDiskIds"`
+	// 实例数据盘配置信息。若不指定该参数，则默认不购买数据盘，支持购买时指定多个数据盘。
+
+	DataDisks []*DataDisk `json:"DataDisks,omitempty" name:"DataDisks"`
+	// 禁用Api终止
+
+	DisableApiTermination *bool `json:"DisableApiTermination,omitempty" name:"DisableApiTermination"`
+	// 置放群组id，仅支持指定一个。
+
+	DisasterRecoverGroupIds []*string `json:"DisasterRecoverGroupIds,omitempty" name:"DisasterRecoverGroupIds"`
+	// 增强服务。通过该参数可以指定是否开启云安全、云监控等服务。若不指定该参数，默认关闭云监控和云安全服务。
+
+	EnhancedService *EnhancedService `json:"EnhancedService,omitempty" name:"EnhancedService"`
+	// 云服务器的主机名点号（.）和短横线（-）不能作为 HostName 的首尾字符，不能连续使用。Windows 实例：名字符长度为[2, 15]，允许字母（不限制大小写）、数字和短横线（-）组成，不支持点号（.），不能全是数字。其他类型（Linux 等）实例：字符长度为[2, 60]，允许支持多个点号，点之间为一段，每段允许字母（不限制大小写）、数字和短横线（-）组成。
+
+	HostName *string `json:"HostName,omitempty" name:"HostName"`
+	// 指定有效的镜像ID，格式形如img-xxx。镜像类型分为四种：：1.公共镜像2.自定义镜像3.共享镜像4.服务市场镜像；公共镜像、自定义镜像、共享镜像的镜像ID可通过登录控制台查询；服务镜像市场的镜像ID可通过云市场查询。通过调用接口 DescribeImages ，传入InstanceType获取当前机型支持的镜像列表，取返回信息中的ImageId字段。
+
+	ImageId *string `json:"ImageId,omitempty" name:"ImageId"`
+	// 预付费模式，即包年包月相关参数设置。通过该参数可以指定包年包月实例的购买时长、是否设置自动续费等属性。若指定实例的付费模式为预付费则该参数必传。
+
+	InstanceChargePrepaid *InstanceChargePrepaid `json:"InstanceChargePrepaid,omitempty" name:"InstanceChargePrepaid"`
+	// 实例计费类型。PREPAID：预付费，即包年包月 POSTPAID_BY_HOUR：按小时后付费CDHPAID：独享母机付费（基于专用宿主机创建，宿主机部分的资源不收费），该付费模式下必须填写placement.hostid参数默认值：POSTPAID_BY_HOUR。
+
+	InstanceChargeType *string `json:"InstanceChargeType,omitempty" name:"InstanceChargeType"`
+	// 购买实例数量。取值范围：[1，100]。默认取值：1。指定购买实例的数量不能超过用户所能购买的剩余配额数量。
+
+	InstanceCount *int64 `json:"InstanceCount,omitempty" name:"InstanceCount"`
+	// 需要克隆实例的ID
+
+	InstanceId *string `json:"InstanceId,omitempty" name:"InstanceId"`
+	// 实例显示名称。如果不指定则默认显示. 最多只支持60个字符，点后面的名字都会过滤掉。
+
+	InstanceName *string `json:"InstanceName,omitempty" name:"InstanceName"`
+	// 实例机型。不同实例机型指定了不同的资源规格。 对于付费模式为PREPAID或POSTPAID_BY_HOUR的子机创建，具体取值可通过调用接口[DescribeInstanceTypeConfigs](DescribeInstanceTypeConfigs)来获得最新的规格表或参见[实例类型](/tcloud/Compute/CVM/292128/484318/specification)描述。若不指定该参数，则默认机型为S1.SMALL1。 对于付费模式为CDHPAID的子机创建，该参数以"CDH_"为前缀，根据cpu和内存配置生成，具体形式为：CDH_XCXG，例如对于创建cpu为1核，内存为1G大小的专用宿主机的子机，该参数应该为CDH_1C1G。
+
+	InstanceType *string `json:"InstanceType,omitempty" name:"InstanceType"`
+	// 公网带宽相关信息设置。若不指定该参数，则默认公网带宽为0Mbps。
+
+	InternetAccessible *InternetAccessible `json:"InternetAccessible,omitempty" name:"InternetAccessible"`
+	// 实例登录设置。通过该参数可以设置实例的登录方式密码、密钥或保持镜像的原始登录设置。默认情况下会随机生成密码，并以站内信方式知会到用户。
+
+	LoginSettings *LoginSettings `json:"LoginSettings,omitempty" name:"LoginSettings"`
+	// 实例所在的位置。通过该参数可以指定实例所属可用区，所属项目，专用宿主机（对于独享母机付费模式的子机创建）等属性。
+
+	Placement *Placement `json:"Placement,omitempty" name:"Placement"`
+	// 指定的项目id，仅能指定一个
+
+	ProjectSpecification *ProjectSpecification `json:"ProjectSpecification,omitempty" name:"ProjectSpecification"`
+	// 购买源
+
+	PurchaseSource *string `json:"PurchaseSource,omitempty" name:"PurchaseSource"`
+	// 实例所属安全组。若不指定该参数，则绑定默认安全组。
+
+	SecurityGroupIds []*string `json:"SecurityGroupIds,omitempty" name:"SecurityGroupIds"`
+	// 用于指定价格生产，当前主要用于竞价实例
+
+	SpotPrice *string `json:"SpotPrice,omitempty" name:"SpotPrice"`
+	// 实例系统盘配置信息。若不指定该参数，则按照系统默认值进行分配。
+
+	SystemDisk *SystemDisk `json:"SystemDisk,omitempty" name:"SystemDisk"`
+	// 标签描述列表。通过指定该参数可以同时绑定标签到相应的资源实例，当前仅支持绑定标签到云服务器实例。
+
+	TagSpecification []*TagSpecification `json:"TagSpecification,omitempty" name:"TagSpecification"`
+	// 提供给实例使用的用户数据，需要以 base64 方式编码，支持的最大数据大小为 16KB。
+
+	UserData *string `json:"UserData,omitempty" name:"UserData"`
+	// 私有网络相关信息配置。通过该参数可以指定私有网络的ID，子网ID等信息。若不指定该参数，默认使用vpc网络。若在此参数中指定了私有网络ip，那么InstanceCount参数可以填1或2。
+
+	VirtualPrivateCloud *VirtualPrivateCloud `json:"VirtualPrivateCloud,omitempty" name:"VirtualPrivateCloud"`
+}
+
+func (r *CloneInstanceRequest) ToJsonString() string {
+	b, _ := json.Marshal(r)
+	return string(b)
+}
+
+func (r *CloneInstanceRequest) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
+type CloneInstanceResponse struct {
+	*tchttp.BaseResponse
+
+	Response *struct {
+		// 当通过本接口来创建实例时会返回该参数，表示一个或多个实例`ID`。返回实例`ID`列表并不代表实例创建成功，可根据 [DescribeInstancesStatus](DescribeInstancesStatus) 接口查询返回的InstancesSet中对应实例的`ID`的状态来判断创建是否完成；如果实例状态由“准备中”变为“正在运行”，则为创建成功。
+
+		InstanceIdSet []*string `json:"InstanceIdSet,omitempty" name:"InstanceIdSet"`
+		// Unique request ID, returned on each request.
+		RequestId *string `json:"RequestId,omitempty" name:"RequestId"`
+	} `json:"Response"`
+}
+
+func (r *CloneInstanceResponse) ToJsonString() string {
+	b, _ := json.Marshal(r)
+	return string(b)
+}
+
+func (r *CloneInstanceResponse) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
+type ConvertOperatingSystemsRequest struct {
+	*tchttp.BaseRequest
+
+	// 是否只预检。默认值：false
+
+	DryRun *bool `json:"DryRun,omitempty" name:"DryRun"`
+	// 执行操作系统转换的实例 ID。可通过 DescribeInstances 接口返回值中的InstanceId获取。仅支持操作系统为 CentOS 7、CentOS 8 的实例执行转换。
+
+	InstanceIds []*string `json:"InstanceIds,omitempty" name:"InstanceIds"`
+	// 是否最小规模转换。默认值：false
+
+	MinimalConversion *bool `json:"MinimalConversion,omitempty" name:"MinimalConversion"`
+	// 转换的目标操作系统类型。仅支持 tlinux。默认值：tlinux
+
+	TargetOSType *string `json:"TargetOSType,omitempty" name:"TargetOSType"`
+}
+
+func (r *ConvertOperatingSystemsRequest) ToJsonString() string {
+	b, _ := json.Marshal(r)
+	return string(b)
+}
+
+func (r *ConvertOperatingSystemsRequest) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
+type ConvertOperatingSystemsResponse struct {
+	*tchttp.BaseResponse
+
+	Response *struct {
+		// 转换的目标操作系统信息，仅在入参 DryRun 为 true 时返回。
+
+		SupportTargetOSList []*TargetOS `json:"SupportTargetOSList,omitempty" name:"SupportTargetOSList"`
+		// 操作系统转换的任务 ID
+
+		TaskId *string `json:"TaskId,omitempty" name:"TaskId"`
+		// Unique request ID, returned on each request.
+		RequestId *string `json:"RequestId,omitempty" name:"RequestId"`
+	} `json:"Response"`
+}
+
+func (r *ConvertOperatingSystemsResponse) ToJsonString() string {
+	b, _ := json.Marshal(r)
+	return string(b)
+}
+
+func (r *ConvertOperatingSystemsResponse) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
+type CreateHpcClusterRequest struct {
+	*tchttp.BaseRequest
+
+	// 高性能计算集群名称。
+
+	Name *string `json:"Name,omitempty" name:"Name"`
+	// 高性能计算集群备注。
+
+	Remark *string `json:"Remark,omitempty" name:"Remark"`
+	// 可用区。
+
+	Zone *string `json:"Zone,omitempty" name:"Zone"`
+}
+
+func (r *CreateHpcClusterRequest) ToJsonString() string {
+	b, _ := json.Marshal(r)
+	return string(b)
+}
+
+func (r *CreateHpcClusterRequest) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
+type CreateHpcClusterResponse struct {
+	*tchttp.BaseResponse
+
+	Response *struct {
+		// 高性能计算集群信息。
+
+		HpcClusterSet []*HpcClusterInfo `json:"HpcClusterSet,omitempty" name:"HpcClusterSet"`
+		// Unique request ID, returned on each request.
+		RequestId *string `json:"RequestId,omitempty" name:"RequestId"`
+	} `json:"Response"`
+}
+
+func (r *CreateHpcClusterResponse) ToJsonString() string {
+	b, _ := json.Marshal(r)
+	return string(b)
+}
+
+func (r *CreateHpcClusterResponse) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
+type CreateLaunchTemplateVersionRequest struct {
+	*tchttp.BaseRequest
+
+	// 定时任务。通过该参数可以为实例指定定时任务，目前仅支持定时销毁。
+
+	ActionTimer *ActionTimer `json:"ActionTimer,omitempty" name:"ActionTimer"`
+	// CAM角色名称。可通过[ DescribeRoleList ](https://api3.{{conf.main_domain}}/document/product/598/13887)接口返回值中的`roleName`获取。
+
+	CamRoleName *string `json:"CamRoleName,omitempty" name:"CamRoleName"`
+	// 用于保证请求幂等性的字符串。该字符串由客户生成，需保证不同请求之间唯一，最大值不超过64个ASCII字符。若不指定该参数，则无法保证请求的幂等性。
+
+	ClientToken *string `json:"ClientToken,omitempty" name:"ClientToken"`
+	// 描述了实例CPU拓扑结构的相关信息。若不指定该参数，则按系统资源情况决定。
+
+	CpuTopology *CpuTopology `json:"CpuTopology,omitempty" name:"CpuTopology"`
+	// 实例数据盘配置信息。若不指定该参数，则默认不购买数据盘。支持购买的时候指定21块数据盘，其中最多包含1块LOCAL_BASIC数据盘或者LOCAL_SSD数据盘，最多包含20块CLOUD_BASIC数据盘、CLOUD_PREMIUM数据盘或者CLOUD_SSD数据盘。
+
+	DataDisks []*DataDisk `json:"DataDisks,omitempty" name:"DataDisks"`
+	// 实例销毁保护标志，表示是否允许通过api接口删除实例。取值范围： TRUE：表示开启实例保护，不允许通过api接口删除实例 FALSE：表示关闭实例保护，允许通过api接口删除实例 默认取值：FALSE。
+
+	DisableApiTermination *bool `json:"DisableApiTermination,omitempty" name:"DisableApiTermination"`
+	// 置放群组id，仅支持指定一个。可使用[DescribeDisasterRecoverGroups](https://api3.{{conf.main_domain}}/document/api/213/17810)接口获取。
+
+	DisasterRecoverGroupIds []*string `json:"DisasterRecoverGroupIds,omitempty" name:"DisasterRecoverGroupIds"`
+	// 是否只预检此次请求。 true：发送检查请求，不会创建实例。检查项包括是否填写了必需参数，请求格式，业务限制和云服务器库存。 如果检查不通过，则返回对应错误码； 如果检查通过，则返回RequestId. false（默认）：发送正常请求，通过检查后直接创建实例。
+
+	DryRun *bool `json:"DryRun,omitempty" name:"DryRun"`
+	// 实例是否开启巨帧
+
+	EnableJumboFrame *bool `json:"EnableJumboFrame,omitempty" name:"EnableJumboFrame"`
+	// 增强服务。通过该参数可以指定是否开启云安全、云监控等服务。若不指定该参数，则默认公共镜像开启云监控、云安全服务；自定义镜像与云镜像市场镜像默认不开启云监控，云安全服务，而使用镜像里保留的服务。
+
+	EnhancedService *EnhancedService `json:"EnhancedService,omitempty" name:"EnhancedService"`
+	// 描述了实例扩展属性相关信息。
+
+	ExtraAttribute *ExtraAttribute `json:"ExtraAttribute,omitempty" name:"ExtraAttribute"`
+	// 创建边缘可用区时额外指定的其他运营商外网信息。
+
+	ExtraInternetAccessibles []*InternetAccessible `json:"ExtraInternetAccessibles,omitempty" name:"ExtraInternetAccessibles"`
+	// 云服务器的主机名。 点号（.）和短横线（-）不能作为 HostName 的首尾字符，不能连续使用。 Windows 实例：名字符长度为[2, 15]，允许字母（不限制大小写）、数字和短横线（-）组成，不支持点号（.），不能全是数字。 其他类型（Linux 等）实例：字符长度为[2, 60]，允许支持多个点号，点之间为一段，每段允许字母（不限制大小写）、数字和短横线（-）组成。
+
+	HostName *string `json:"HostName,omitempty" name:"HostName"`
+	// 高性能计算集群ID。若创建的实例为高性能计算实例，需指定实例放置的集群，否则不可指定。该参数可以通过调用 [DescribeHpcClusters](https://api3.{{conf.main_domain}}/document/api/213/83220) 的返回值中的 `HpcClusterId` 字段来获取。
+
+	HpcClusterId *string `json:"HpcClusterId,omitempty" name:"HpcClusterId"`
+	// 指定有效的[镜像](https://api3.{{conf.main_domain}}/document/product/213/4940)ID，格式形如`img-xxx`。镜像类型分为四种： 公共镜像 自定义镜像 共享镜像 云镜像市场 可通过以下方式获取可用的镜像ID： `公共镜像`、`自定义镜像`、`共享镜像`的镜像ID可通过登录[控制台](https://console.api3.{{conf.main_domain}}/cvm/image?rid=1&imageType=PUBLIC_IMAGE)查询；`云镜像市场`的镜像ID可通过[云市场](https://market.api3.{{conf.main_domain}}/list)查询。 通过调用接口 [DescribeImages](https://api3.{{conf.main_domain}}/document/api/213/15715) ，传入InstanceType获取当前机型支持的镜像列表，取返回信息中的`ImageId`字段。
+
+	ImageId *string `json:"ImageId,omitempty" name:"ImageId"`
+	// 预付费模式，即包年包月相关参数设置。通过该参数可以指定包年包月实例的购买时长、是否设置自动续费等属性。若指定实例的付费模式为预付费则该参数必传。
+
+	InstanceChargePrepaid *InstanceChargePrepaid `json:"InstanceChargePrepaid,omitempty" name:"InstanceChargePrepaid"`
+	// 实例[计费类型](https://api3.{{conf.main_domain}}/document/product/213/2180)。 PREPAID：预付费，即包年包月 POSTPAID_BY_HOUR：按小时后付费 CDHPAID：独享子机（基于专用宿主机创建，宿主机部分的资源不收费） SPOTPAID：竞价付费 默认值：POSTPAID_BY_HOUR。
+
+	InstanceChargeType *string `json:"InstanceChargeType,omitempty" name:"InstanceChargeType"`
+	// 购买实例数量。具体配额相关限制详见[CVM实例购买限制](https://api3.{{conf.main_domain}}/document/product/213/2664)。
+
+	InstanceCount *int64 `json:"InstanceCount,omitempty" name:"InstanceCount"`
+	// 实例的市场相关选项，如竞价实例相关参数，若指定实例的付费模式为竞价付费则该参数必传。
+
+	InstanceMarketOptions *InstanceMarketOptionsRequest `json:"InstanceMarketOptions,omitempty" name:"InstanceMarketOptions"`
+	// 实例显示名称。 不指定实例显示名称则默认显示‘未命名’。 购买多台实例，如果指定模式串`{R:x}`，表示生成数字`[x, x+n-1]`，其中`n`表示购买实例的数量，例如`server_{R:3}`，购买1台时，实例显示名称为`server_3`；购买2台时，实例显示名称分别为`server_3`，`server_4`。支持指定多个模式串`{R:x}`。 购买多台实例，如果不指定模式串，则在实例显示名称添加后缀`1、2...n`，其中`n`表示购买实例的数量，例如`server_`，购买2台时，实例显示名称分别为`server_1`，`server_2`。 最多支持128个字符（包含模式串）。
+
+	InstanceName *string `json:"InstanceName,omitempty" name:"InstanceName"`
+	// 实例机型。不同实例机型指定了不同的资源规格。 对于付费模式为PREPAID或POSTPAID\_BY\_HOUR的实例创建，具体取值可通过调用接口[DescribeInstanceTypeConfigs](https://api3.{{conf.main_domain}}/document/api/213/15749)来获得最新的规格表或参见[实例规格](https://api3.{{conf.main_domain}}/document/product/213/11518)描述。若不指定该参数，则系统将根据当前地域的资源售卖情况动态指定默认机型。 对于付费模式为CDHPAID的实例创建，该参数以"CDH_"为前缀，根据CPU和内存配置生成，具体形式为：CDH_XCXG，例如对于创建CPU为1核，内存为1G大小的专用宿主机的实例，该参数应该为CDH_1C1G。
+
+	InstanceType *string `json:"InstanceType,omitempty" name:"InstanceType"`
+	// 公网带宽相关信息设置。若不指定该参数，则默认公网带宽为0Mbps。
+
+	InternetAccessible *InternetAccessible `json:"InternetAccessible,omitempty" name:"InternetAccessible"`
+	// 启动模板ID，新版本将基于该实例启动模板ID创建。可通过 [DescribeLaunchTemplates](https://api3.{{conf.main_domain}}/document/api/213/66322) 接口返回值中的`LaunchTemplateId`获取。
+
+	LaunchTemplateId *string `json:"LaunchTemplateId,omitempty" name:"LaunchTemplateId"`
+	// 若给定，新实例启动模板将基于给定的版本号创建。若未指定则使用默认版本,可以通过 [DescribeLaunchTemplateVersions](https://api3.{{conf.main_domain}}/document/api/213/66323)查询默认版本。
+
+	LaunchTemplateVersion *int64 `json:"LaunchTemplateVersion,omitempty" name:"LaunchTemplateVersion"`
+	// 实例启动模板版本描述。长度为2~256个英文或中文字符，不指定该参数时默认为空字符。
+
+	LaunchTemplateVersionDescription *string `json:"LaunchTemplateVersionDescription,omitempty" name:"LaunchTemplateVersionDescription"`
+	// 实例登录设置。通过该参数可以设置实例的登录方式为密钥或保持镜像的原始登录设置。
+
+	LoginSettings *LoginSettings `json:"LoginSettings,omitempty" name:"LoginSettings"`
+	// 自定义metadata，支持创建 CVM 时添加自定义元数据键值对。 **注：内测中**。
+
+	Metadata *Metadata `json:"Metadata,omitempty" name:"Metadata"`
+	// 实例所在的位置。通过该参数可以指定实例所属可用区，所属项目，所属宿主机（在专用宿主机上创建子机时指定）等属性。
+
+	Placement *Placement `json:"Placement,omitempty" name:"Placement"`
+	// 创建实例使用的母机池。
+
+	Pool *string `json:"Pool,omitempty" name:"Pool"`
+	// 内部参数，购买来源。
+
+	PurchaseSource *string `json:"PurchaseSource,omitempty" name:"PurchaseSource"`
+	// 实例所属安全组。该参数可以通过调用 [DescribeSecurityGroups](https://api3.{{conf.main_domain}}/document/api/215/15808) 的返回值中的sgId字段来获取。若不指定该参数，则绑定默认安全组。
+
+	SecurityGroupIds []*string `json:"SecurityGroupIds,omitempty" name:"SecurityGroupIds"`
+	// 用于指定价格创建。当前主要用于竞价实例。
+
+	SpotPrice *string `json:"SpotPrice,omitempty" name:"SpotPrice"`
+	// 实例系统盘配置信息。若不指定该参数，则按照系统默认值进行分配。
+
+	SystemDisk *SystemDisk `json:"SystemDisk,omitempty" name:"SystemDisk"`
+	// 标签描述列表。通过指定该参数可以同时绑定标签到相应的资源实例，当前仅支持绑定标签到云服务器实例。
+
+	TagSpecification []*TagSpecification `json:"TagSpecification,omitempty" name:"TagSpecification"`
+	// 只允许传递 Update 和 Replace 参数，在模板使用自定义 Metadata 且在 RunInstances 也传递 Metadata 时生效。默认采用 Replace。 - Update：设模板 t含本参数值为Update、 metadata=[k1:v1, k2:v2] ，则RunInstances（给metadata=[k2:v3]）+ t 创建的 cvm 使用metadata=[k1:v1, k2:v3] - Replace：模板 t含本参数值为Replace、 metadata=[k1:v1, k2:v2] ，则RunInstances（给metadata=[k2:v3]）+ t 创建的 cvm 使用metadata=[k2:v3] **注：内测中**。
+
+	TemplateDataModifyAction *string `json:"TemplateDataModifyAction,omitempty" name:"TemplateDataModifyAction"`
+	// 提供给实例使用的用户数据，需要以 base64 方式编码，支持的最大数据大小为 16KB。关于获取此参数的详细介绍，请参阅[Windows](https://api3.{{conf.main_domain}}/document/product/213/17526)和[Linux](https://api3.{{conf.main_domain}}/document/product/213/17525)启动时运行命令。
+
+	UserData *string `json:"UserData,omitempty" name:"UserData"`
+	// 私有网络相关信息配置。通过该参数可以指定私有网络的ID，子网ID等信息。若不指定该参数，则默认使用基础网络。若在此参数中指定了私有网络IP，即表示每个实例的主网卡IP；同时，InstanceCount参数必须与私有网络IP的个数一致且不能大于20。
+
+	VirtualPrivateCloud *VirtualPrivateCloud `json:"VirtualPrivateCloud,omitempty" name:"VirtualPrivateCloud"`
+}
+
+func (r *CreateLaunchTemplateVersionRequest) ToJsonString() string {
+	b, _ := json.Marshal(r)
+	return string(b)
+}
+
+func (r *CreateLaunchTemplateVersionRequest) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
+type CreateLaunchTemplateVersionResponse struct {
+	*tchttp.BaseResponse
+
+	Response *struct {
+		// 新创建的实例启动模板版本号。
+
+		LaunchTemplateVersionNumber *int64 `json:"LaunchTemplateVersionNumber,omitempty" name:"LaunchTemplateVersionNumber"`
+		// Unique request ID, returned on each request.
+		RequestId *string `json:"RequestId,omitempty" name:"RequestId"`
+	} `json:"Response"`
+}
+
+func (r *CreateLaunchTemplateVersionResponse) ToJsonString() string {
+	b, _ := json.Marshal(r)
+	return string(b)
+}
+
+func (r *CreateLaunchTemplateVersionResponse) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
+type DeleteHpcClustersRequest struct {
+	*tchttp.BaseRequest
+
+	// 高性能计算集群ID列表。
+
+	HpcClusterIds []*string `json:"HpcClusterIds,omitempty" name:"HpcClusterIds"`
+}
+
+func (r *DeleteHpcClustersRequest) ToJsonString() string {
+	b, _ := json.Marshal(r)
+	return string(b)
+}
+
+func (r *DeleteHpcClustersRequest) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
+type DeleteHpcClustersResponse struct {
+	*tchttp.BaseResponse
+
+	Response *struct {
+		// Unique request ID, returned on each request.
+		RequestId *string `json:"RequestId,omitempty" name:"RequestId"`
+	} `json:"Response"`
+}
+
+func (r *DeleteHpcClustersResponse) ToJsonString() string {
+	b, _ := json.Marshal(r)
+	return string(b)
+}
+
+func (r *DeleteHpcClustersResponse) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
+type DeleteLaunchTemplateVersionsRequest struct {
+	*tchttp.BaseRequest
+
+	// 启动模板ID。可通过 [DescribeLaunchTemplates](https://api3.{{conf.main_domain}}/document/api/213/66322) 接口返回值中的`LaunchTemplateId`获取。
+
+	LaunchTemplateId *string `json:"LaunchTemplateId,omitempty" name:"LaunchTemplateId"`
+	// 实例启动模板版本列表。可通过 [DescribeLaunchTemplateVersions](https://api3.{{conf.main_domain}}/document/api/213/66323) 接口返回值中的`LaunchTemplateVersion`获取。
+
+	LaunchTemplateVersions []*int64 `json:"LaunchTemplateVersions,omitempty" name:"LaunchTemplateVersions"`
+}
+
+func (r *DeleteLaunchTemplateVersionsRequest) ToJsonString() string {
+	b, _ := json.Marshal(r)
+	return string(b)
+}
+
+func (r *DeleteLaunchTemplateVersionsRequest) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
+type DeleteLaunchTemplateVersionsResponse struct {
+	*tchttp.BaseResponse
+
+	Response *struct {
+		// Unique request ID, returned on each request.
+		RequestId *string `json:"RequestId,omitempty" name:"RequestId"`
+	} `json:"Response"`
+}
+
+func (r *DeleteLaunchTemplateVersionsResponse) ToJsonString() string {
+	b, _ := json.Marshal(r)
+	return string(b)
+}
+
+func (r *DeleteLaunchTemplateVersionsResponse) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
+type DescribeAccountQuotaRequest struct {
+	*tchttp.BaseRequest
+
+	// 过滤条件。按照【可用区】或【配额类型】进行过滤。可用区形如：ap-region1-1。配额类型形如：PostPaidQuotaSet。
+
+	Filters []*Filter `json:"Filters,omitempty" name:"Filters"`
+}
+
+func (r *DescribeAccountQuotaRequest) ToJsonString() string {
+	b, _ := json.Marshal(r)
+	return string(b)
+}
+
+func (r *DescribeAccountQuotaRequest) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
+type DescribeAccountQuotaResponse struct {
+	*tchttp.BaseResponse
+
+	Response *struct {
+		// 配额数据
+
+		AccountQuotaOverview *AccountQuotaOverview `json:"AccountQuotaOverview,omitempty" name:"AccountQuotaOverview"`
+		// 用户appid
+
+		AppId *uint64 `json:"AppId,omitempty" name:"AppId"`
+		// Unique request ID, returned on each request.
+		RequestId *string `json:"RequestId,omitempty" name:"RequestId"`
+	} `json:"Response"`
+}
+
+func (r *DescribeAccountQuotaResponse) ToJsonString() string {
+	b, _ := json.Marshal(r)
+	return string(b)
+}
+
+func (r *DescribeAccountQuotaResponse) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
+type DescribeAvailableFeaturesRequest struct {
+	*tchttp.BaseRequest
+
+	// 指定有效的[镜像](https://api3.{{conf.main_domain}}/document/product/213/4940)ID，格式形如`img-xxx`。镜像类型分为四种： 公共镜像 自定义镜像 共享镜像 服务市场镜像 可通过以下方式获取可用的镜像ID： `公共镜像`、`自定义镜像`、`共享镜像`的镜像ID可通过登录[控制台](https://console.api3.{{conf.main_domain}}/cvm/image?rid=1&imageType=PUBLIC_IMAGE)查询；`服务镜像市场`的镜像ID可通过[云市场](https://market.api3.{{conf.main_domain}}/list)查询。 通过调用接口 [DescribeImages](https://api3.{{conf.main_domain}}/document/api/213/15715) ，传入InstanceType获取当前机型支持的镜像列表，取返回信息中的`ImageId`字段。 注：如果您不指定LaunchTemplate参数，则ImageId为必选参数。若同时传递ImageId和LaunchTemplate，则默认覆盖LaunchTemplate中对应的ImageId的值。
+
+	ImageId *string `json:"ImageId,omitempty" name:"ImageId"`
+	// 预付费模式，即包年包月相关参数设置。通过该参数可以指定包年包月实例的购买时长、是否设置自动续费等属性。若指定实例的付费模式为预付费则该参数必传。
+
+	InstanceChargePrepaid *InstanceChargePrepaid `json:"InstanceChargePrepaid,omitempty" name:"InstanceChargePrepaid"`
+	// 实例[计费类型](https://api3.{{conf.main_domain}}/document/product/213/2180)。 PREPAID：预付费，即包年包月 POSTPAID_BY_HOUR：按小时后付费 CDHPAID：独享子机（基于专用宿主机创建，宿主机部分的资源不收费） SPOTPAID：竞价付费 CDCPAID：专用集群付费 默认值：POSTPAID_BY_HOUR。
+
+	InstanceChargeType *string `json:"InstanceChargeType,omitempty" name:"InstanceChargeType"`
+	// 实例机型。不同实例机型指定了不同的资源规格。 对于付费模式为PREPAID或POSTPAID\_BY\_HOUR的实例创建，具体取值可通过调用接口[DescribeInstanceTypeConfigs](https://api3.{{conf.main_domain}}/document/api/213/15749)来获得最新的规格表或参见[实例规格](https://api3.{{conf.main_domain}}/document/product/213/11518)描述。若不指定该参数，则系统将根据当前地域的资源售卖情况动态指定默认机型。 对于付费模式为CDHPAID的实例创建，该参数以"CDH_"为前缀，根据CPU和内存配置生成，具体形式为：CDH_XCXG，例如对于创建CPU为1核，内存为1G大小的专用宿主机的实例，该参数应该为CDH_1C1G。
+
+	InstanceType *string `json:"InstanceType,omitempty" name:"InstanceType"`
+	// 实例所在的位置。通过该参数可以指定实例所属可用区，所属项目，所属宿主机（在专用宿主机上创建子机时指定）等属性。 注：如果您不指定LaunchTemplate参数，则Placement为必选参数。若同时传递Placement和LaunchTemplate，则默认覆盖LaunchTemplate中对应的Placement的值。
+
+	Placement *Placement `json:"Placement,omitempty" name:"Placement"`
+	// 实例系统盘配置信息。若不指定该参数，则按照系统默认值进行分配。
+
+	SystemDisk *SystemDisk `json:"SystemDisk,omitempty" name:"SystemDisk"`
+}
+
+func (r *DescribeAvailableFeaturesRequest) ToJsonString() string {
+	b, _ := json.Marshal(r)
+	return string(b)
+}
+
+func (r *DescribeAvailableFeaturesRequest) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
+type DescribeAvailableFeaturesResponse struct {
+	*tchttp.BaseResponse
+
+	Response *struct {
+		// 特性列表
+
+		FeatureSet []*FeatureConfig `json:"FeatureSet,omitempty" name:"FeatureSet"`
+		// Unique request ID, returned on each request.
+		RequestId *string `json:"RequestId,omitempty" name:"RequestId"`
+	} `json:"Response"`
+}
+
+func (r *DescribeAvailableFeaturesResponse) ToJsonString() string {
+	b, _ := json.Marshal(r)
+	return string(b)
+}
+
+func (r *DescribeAvailableFeaturesResponse) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
+type DescribeHostCapacityRequest struct {
+	*tchttp.BaseRequest
+
+	// 数据盘信息
+
+	DataDisks []*DataDisk `json:"DataDisks,omitempty" name:"DataDisks"`
+	// 宿主机的id列表
+
+	HostIds []*string `json:"HostIds,omitempty" name:"HostIds"`
+	// 镜像信息
+
+	ImageId *string `json:"ImageId,omitempty" name:"ImageId"`
+	// 该参数以"CDH_"为前缀，根据CPU和内存配置生成，具体形式为：CDH_XCXG，例如对于创建CPU为1核，内存为1G大小的专用宿主机的实例，该参数应该为CDH_1C1G。如果是GPU类型，则CDH_xCxGyG, y代表gpu数量
+
+	InstanceType *string `json:"InstanceType,omitempty" name:"InstanceType"`
+	// 系统盘信息
+
+	SystemDisk *SystemDisk `json:"SystemDisk,omitempty" name:"SystemDisk"`
+	// 宿主机对应的vpc标识
+
+	VpcId *string `json:"VpcId,omitempty" name:"VpcId"`
+}
+
+func (r *DescribeHostCapacityRequest) ToJsonString() string {
+	b, _ := json.Marshal(r)
+	return string(b)
+}
+
+func (r *DescribeHostCapacityRequest) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
+type DescribeHostCapacityResponse struct {
+	*tchttp.BaseResponse
+
+	Response *struct {
+		// 最大可创建子机台数
+
+		TotalCount *uint64 `json:"TotalCount,omitempty" name:"TotalCount"`
+		// Unique request ID, returned on each request.
+		RequestId *string `json:"RequestId,omitempty" name:"RequestId"`
+	} `json:"Response"`
+}
+
+func (r *DescribeHostCapacityResponse) ToJsonString() string {
+	b, _ := json.Marshal(r)
+	return string(b)
+}
+
+func (r *DescribeHostCapacityResponse) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
+type DescribeHpcClustersRequest struct {
+	*tchttp.BaseRequest
+
+	// 高性能计算集群ID数组。
+
+	HpcClusterIds []*string `json:"HpcClusterIds,omitempty" name:"HpcClusterIds"`
+	// 本次请求量, 默认值20。
+
+	Limit *uint64 `json:"Limit,omitempty" name:"Limit"`
+	// 高性能计算集群名称。
+
+	Name *string `json:"Name,omitempty" name:"Name"`
+	// 偏移量, 默认值0。
+
+	Offset *uint64 `json:"Offset,omitempty" name:"Offset"`
+	// 可用区。
+
+	Zone *string `json:"Zone,omitempty" name:"Zone"`
+}
+
+func (r *DescribeHpcClustersRequest) ToJsonString() string {
+	b, _ := json.Marshal(r)
+	return string(b)
+}
+
+func (r *DescribeHpcClustersRequest) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
+type DescribeHpcClustersResponse struct {
+	*tchttp.BaseResponse
+
+	Response *struct {
+		// 高性能计算集群信息。
+
+		HpcClusterSet []*HpcClusterInfo `json:"HpcClusterSet,omitempty" name:"HpcClusterSet"`
+		// 高性能计算集群总数。
+
+		TotalCount *uint64 `json:"TotalCount,omitempty" name:"TotalCount"`
+		// Unique request ID, returned on each request.
+		RequestId *string `json:"RequestId,omitempty" name:"RequestId"`
+	} `json:"Response"`
+}
+
+func (r *DescribeHpcClustersResponse) ToJsonString() string {
+	b, _ := json.Marshal(r)
+	return string(b)
+}
+
+func (r *DescribeHpcClustersResponse) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
+type DescribeImageStatisticsRequest struct {
+	*tchttp.BaseRequest
+
+	// 可扩展的过滤条件
+
+	Filters []*Filter `json:"Filters,omitempty" name:"Filters"`
+	// 镜像类型 - 自定义镜像：PRIVATE_IMAGE - 共享镜像：SHARED_IMAGE
+
+	ImageType *string `json:"ImageType,omitempty" name:"ImageType"`
+}
+
+func (r *DescribeImageStatisticsRequest) ToJsonString() string {
+	b, _ := json.Marshal(r)
+	return string(b)
+}
+
+func (r *DescribeImageStatisticsRequest) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
+type DescribeImageStatisticsResponse struct {
+	*tchttp.BaseResponse
+
+	Response *struct {
+		// 地域镜像数量统计概览
+
+		ImageStatisticsSet []*ImageStatistics `json:"ImageStatisticsSet,omitempty" name:"ImageStatisticsSet"`
+		// Unique request ID, returned on each request.
+		RequestId *string `json:"RequestId,omitempty" name:"RequestId"`
+	} `json:"Response"`
+}
+
+func (r *DescribeImageStatisticsResponse) ToJsonString() string {
+	b, _ := json.Marshal(r)
+	return string(b)
+}
+
+func (r *DescribeImageStatisticsResponse) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
+type DescribeInstanceAttributesRequest struct {
+	*tchttp.BaseRequest
+
+	// 需要获取的实例属性。可选值： UserData: 实例自定义数据
+
+	Attributes []*string `json:"Attributes,omitempty" name:"Attributes"`
+	// 检查本次请求能否成功。
+
+	DryRun *bool `json:"DryRun,omitempty" name:"DryRun"`
+	// 实例ID
+
+	InstanceId *string `json:"InstanceId,omitempty" name:"InstanceId"`
+	// 实例ID列表
+
+	InstanceIds []*string `json:"InstanceIds,omitempty" name:"InstanceIds"`
+}
+
+func (r *DescribeInstanceAttributesRequest) ToJsonString() string {
+	b, _ := json.Marshal(r)
+	return string(b)
+}
+
+func (r *DescribeInstanceAttributesRequest) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
+type DescribeInstanceAttributesResponse struct {
+	*tchttp.BaseResponse
+
+	Response *struct {
+		// 实例 ID。仅在 Attributes 包含 UserData 时返回。
+
+		InstanceId *string `json:"InstanceId,omitempty" name:"InstanceId"`
+		// 实例自定义数据（base64 编码）。仅在 Attributes 包含 UserData 时返回。
+
+		UserData *string `json:"UserData,omitempty" name:"UserData"`
+		// Unique request ID, returned on each request.
+		RequestId *string `json:"RequestId,omitempty" name:"RequestId"`
+	} `json:"Response"`
+}
+
+func (r *DescribeInstanceAttributesResponse) ToJsonString() string {
+	b, _ := json.Marshal(r)
+	return string(b)
+}
+
+func (r *DescribeInstanceAttributesResponse) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
+type DescribeInstanceTypeDisasterGroupBlackListRequest struct {
+	*tchttp.BaseRequest
+
+	// 查询条件，Name：为条件名，Values为条件对应的值。 当前仅支持按zone-list、instance-family-list来查询。 若不传zone-list，则查询整个region下不允许使用置放群组的机型。instance-family-list参数指定要查询的机型，不传该参数，则查询所有不允许使用置放群组的机型。
+
+	Filters *Filter `json:"Filters,omitempty" name:"Filters"`
+}
+
+func (r *DescribeInstanceTypeDisasterGroupBlackListRequest) ToJsonString() string {
+	b, _ := json.Marshal(r)
+	return string(b)
+}
+
+func (r *DescribeInstanceTypeDisasterGroupBlackListRequest) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
+type DescribeInstanceTypeDisasterGroupBlackListResponse struct {
+	*tchttp.BaseResponse
+
+	Response *struct {
+		// 关闭了置放群组的机型
+
+		InstanceFamilyBlackList []*string `json:"InstanceFamilyBlackList,omitempty" name:"InstanceFamilyBlackList"`
+		// 配置了置放群组黑名单的机型的数量
+
+		TotalCount *int64 `json:"TotalCount,omitempty" name:"TotalCount"`
+		// Unique request ID, returned on each request.
+		RequestId *string `json:"RequestId,omitempty" name:"RequestId"`
+	} `json:"Response"`
+}
+
+func (r *DescribeInstanceTypeDisasterGroupBlackListResponse) ToJsonString() string {
+	b, _ := json.Marshal(r)
+	return string(b)
+}
+
+func (r *DescribeInstanceTypeDisasterGroupBlackListResponse) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
+type DescribeInstanceTypeZoneStatusRequest struct {
+	*tchttp.BaseRequest
+
+	// 过滤条件。 instance-type - String - 是否必填：否 -（过滤条件）按照机型过滤。 zone-type - String - 是否必填：否 -（过滤条件）按照可用区类型过滤。可取值: availability-zone 中心可用区; edge-zone 边缘可用区
+
+	Filters []*Filter `json:"Filters,omitempty" name:"Filters"`
+	// 实例计费类型。 PREPAID：预付费，即包年包月 POSTPAID_BY_HOUR：按小时后付费 默认值：POSTPAID_BY_HOUR。
+
+	InstanceChargeType *string `json:"InstanceChargeType,omitempty" name:"InstanceChargeType"`
+}
+
+func (r *DescribeInstanceTypeZoneStatusRequest) ToJsonString() string {
+	b, _ := json.Marshal(r)
+	return string(b)
+}
+
+func (r *DescribeInstanceTypeZoneStatusRequest) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
+type DescribeInstanceTypeZoneStatusResponse struct {
+	*tchttp.BaseResponse
+
+	Response *struct {
+		// 机型及相关可用区售卖状态列表
+
+		InstanceTypeZoneStatusSet []*InstanceTypeZoneStatus `json:"InstanceTypeZoneStatusSet,omitempty" name:"InstanceTypeZoneStatusSet"`
+		// Unique request ID, returned on each request.
+		RequestId *string `json:"RequestId,omitempty" name:"RequestId"`
+	} `json:"Response"`
+}
+
+func (r *DescribeInstanceTypeZoneStatusResponse) ToJsonString() string {
+	b, _ := json.Marshal(r)
+	return string(b)
+}
+
+func (r *DescribeInstanceTypeZoneStatusResponse) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
+type DescribeInstancesConvertOSAttributesRequest struct {
+	*tchttp.BaseRequest
+
+	// 实例ID
+
+	InstanceIds []*string `json:"InstanceIds,omitempty" name:"InstanceIds"`
+}
+
+func (r *DescribeInstancesConvertOSAttributesRequest) ToJsonString() string {
+	b, _ := json.Marshal(r)
+	return string(b)
+}
+
+func (r *DescribeInstancesConvertOSAttributesRequest) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
+type DescribeInstancesConvertOSAttributesResponse struct {
+	*tchttp.BaseResponse
+
+	Response *struct {
+		// 操作系统转换的属性信息
+
+		InstanceConvertOSAttributeSet []*InstanceConvertOSAttribute `json:"InstanceConvertOSAttributeSet,omitempty" name:"InstanceConvertOSAttributeSet"`
+		// Unique request ID, returned on each request.
+		RequestId *string `json:"RequestId,omitempty" name:"RequestId"`
+	} `json:"Response"`
+}
+
+func (r *DescribeInstancesConvertOSAttributesResponse) ToJsonString() string {
+	b, _ := json.Marshal(r)
+	return string(b)
+}
+
+func (r *DescribeInstancesConvertOSAttributesResponse) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
+type DescribeLaunchTemplateVersionsRequest struct {
+	*tchttp.BaseRequest
+
+	// 是否查询默认版本。该参数不可与LaunchTemplateVersions同时指定。
+
+	DefaultVersion *bool `json:"DefaultVersion,omitempty" name:"DefaultVersion"`
+	// 启动模板ID。
+
+	LaunchTemplateId *string `json:"LaunchTemplateId,omitempty" name:"LaunchTemplateId"`
+	// 实例启动模板列表。
+
+	LaunchTemplateVersions []*uint64 `json:"LaunchTemplateVersions,omitempty" name:"LaunchTemplateVersions"`
+	// 返回数量，默认为20，最大值为100。关于`Limit`的更进一步介绍请参考 API [简介](https://api3.{{conf.main_domain}}/document/api/213/15688)中的相关小节。
+
+	Limit *uint64 `json:"Limit,omitempty" name:"Limit"`
+	// 过范围指定版本时的最大版本号，默认为30。
+
+	MaxVersion *uint64 `json:"MaxVersion,omitempty" name:"MaxVersion"`
+	// 通过范围指定版本时的最小版本号，默认为0。
+
+	MinVersion *uint64 `json:"MinVersion,omitempty" name:"MinVersion"`
+	// 偏移量，默认为0。关于`Offset`的更进一步介绍请参考 API [简介](https://api3.{{conf.main_domain}}/document/api/213/15688)中的相关小节。
+
+	Offset *uint64 `json:"Offset,omitempty" name:"Offset"`
+}
+
+func (r *DescribeLaunchTemplateVersionsRequest) ToJsonString() string {
+	b, _ := json.Marshal(r)
+	return string(b)
+}
+
+func (r *DescribeLaunchTemplateVersionsRequest) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
+type DescribeLaunchTemplateVersionsResponse struct {
+	*tchttp.BaseResponse
+
+	Response *struct {
+		// 实例启动模板版本集合。
+
+		LaunchTemplateVersionSet []*LaunchTemplateVersionInfo `json:"LaunchTemplateVersionSet,omitempty" name:"LaunchTemplateVersionSet"`
+		// 实例启动模板总数。
+
+		TotalCount *uint64 `json:"TotalCount,omitempty" name:"TotalCount"`
+		// Unique request ID, returned on each request.
+		RequestId *string `json:"RequestId,omitempty" name:"RequestId"`
+	} `json:"Response"`
+}
+
+func (r *DescribeLaunchTemplateVersionsResponse) ToJsonString() string {
+	b, _ := json.Marshal(r)
+	return string(b)
+}
+
+func (r *DescribeLaunchTemplateVersionsResponse) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
+type DescribeLaunchTemplatesRequest struct {
+	*tchttp.BaseRequest
+
+	// LaunchTemplateName 按照【 实例启动模板名称 】进行过滤。 类型：String 必选：否 tag-key 按照【 标签键 】进行过滤。 类型：String 必选：否 tag-value 按照【 标签值 】进行过滤。 类型：String 必选：否 tag:tag-key 按照【 标签键值对 】进行过滤。tag-key使用具体的标签键进行替换。 类型：String 必选：否 每次请求的`Filters`的上限为10，`Filter.Values`的上限为5。参数不支持同时指定`LaunchTemplateIds`和`Filters`。
+
+	Filters []*Filter `json:"Filters,omitempty" name:"Filters"`
+	// 启动模板ID，一个或者多个启动模板ID。若未指定，则显示用户所有模板。
+
+	LaunchTemplateIds []*string `json:"LaunchTemplateIds,omitempty" name:"LaunchTemplateIds"`
+	// 返回数量，默认为20，最大值为100。关于`Limit`的更进一步介绍请参考 API [简介](https://api3.{{conf.main_domain}}/document/api/213/15688)中的相关小节。
+
+	Limit *int64 `json:"Limit,omitempty" name:"Limit"`
+	// 偏移量，默认为0。关于`Offset`的更进一步介绍请参考 API [简介](https://api3.{{conf.main_domain}}/document/api/213/15688)中的相关小节。
+
+	Offset *int64 `json:"Offset,omitempty" name:"Offset"`
+	// 启动模板模糊名称。
+
+	VagueName *string `json:"VagueName,omitempty" name:"VagueName"`
+}
+
+func (r *DescribeLaunchTemplatesRequest) ToJsonString() string {
+	b, _ := json.Marshal(r)
+	return string(b)
+}
+
+func (r *DescribeLaunchTemplatesRequest) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
+type DescribeLaunchTemplatesResponse struct {
+	*tchttp.BaseResponse
+
+	Response *struct {
+		// 实例详细信息列表。
+
+		LaunchTemplateSet []*LaunchTemplateInfo `json:"LaunchTemplateSet,omitempty" name:"LaunchTemplateSet"`
+		// 符合条件的实例模板数量。
+
+		TotalCount *int64 `json:"TotalCount,omitempty" name:"TotalCount"`
+		// Unique request ID, returned on each request.
+		RequestId *string `json:"RequestId,omitempty" name:"RequestId"`
+	} `json:"Response"`
+}
+
+func (r *DescribeLaunchTemplatesResponse) ToJsonString() string {
+	b, _ := json.Marshal(r)
+	return string(b)
+}
+
+func (r *DescribeLaunchTemplatesResponse) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
+type DescribeUserAvailableInstanceTypesRequest struct {
+	*tchttp.BaseRequest
+
+	// zone 按照【可用区】进行过滤。可用区形如：ap-region1-1。 类型：String 必选：否 可选项：可用区列表 instance-family 按照【实例机型系列】进行过滤。实例机型系列形如：S1、I1、M1等。 类型：String 必选：否 instance-type 按照【实例机型】进行过滤。不同实例机型指定了不同的资源规格，具体取值可通过调用接口 [DescribeInstanceTypeConfigs](https://api3.{{conf.main_domain}}/document/product/213/15749) 来获得最新的规格表或参见[实例类型](https://api3.{{conf.main_domain}}/document/product/213/11518)描述。若不指定该参数，则默认机型为S1.SMALL1。 类型：String 必选：否 instance-charge-type 按照【实例计费模式】进行过滤。(PREPAID：表示预付费，即包年包月 | POSTPAID_BY_HOUR：表示后付费，即按量计费 ) 类型：String 必选：否 sort-keys 按关键字进行排序,格式为排序字段加排序方式，中间用冒号分隔。 例如： 按cpu数逆序排序 "cpu:desc", 按mem大小顺序排序 "mem:asc" 类型：String 必选：否 instance-type-preference 按照支持的申领模式过滤。取值范围： SPECIFIC 精准申领机型 RANDOM 模糊申领机型 类型：String 必选：否 每次请求的`Filters`的上限为10，`Filter.Values`的上限为100。
+
+	Filters []*Filter `json:"Filters,omitempty" name:"Filters"`
+	// 支持随机可用区。取值为true/false，默认值为false
+
+	SupportRandomZone *bool `json:"SupportRandomZone,omitempty" name:"SupportRandomZone"`
+	// 云梯参数，类型为 json string
+
+	YuntiParameters *string `json:"YuntiParameters,omitempty" name:"YuntiParameters"`
+}
+
+func (r *DescribeUserAvailableInstanceTypesRequest) ToJsonString() string {
+	b, _ := json.Marshal(r)
+	return string(b)
+}
+
+func (r *DescribeUserAvailableInstanceTypesRequest) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
+type DescribeUserAvailableInstanceTypesResponse struct {
+	*tchttp.BaseResponse
+
+	Response *struct {
+		// 可用区机型配置列表
+
+		InstanceTypeQuotaSet []*InstanceTypeQuotaItem `json:"InstanceTypeQuotaSet,omitempty" name:"InstanceTypeQuotaSet"`
+		// Unique request ID, returned on each request.
+		RequestId *string `json:"RequestId,omitempty" name:"RequestId"`
+	} `json:"Response"`
+}
+
+func (r *DescribeUserAvailableInstanceTypesResponse) ToJsonString() string {
+	b, _ := json.Marshal(r)
+	return string(b)
+}
+
+func (r *DescribeUserAvailableInstanceTypesResponse) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
+type DescribeUserAvailableRegionAndZonesRequest struct {
+	*tchttp.BaseRequest
+
+	// 查询地域。
+
+	AreaList []*string `json:"AreaList,omitempty" name:"AreaList"`
+	// 付费模式，枚举值列表，默认为所有付费类型。
+
+	PayModeList []*string `json:"PayModeList,omitempty" name:"PayModeList"`
+	// 云梯内部参数，json 字符串
+
+	YuntiParameters *string `json:"YuntiParameters,omitempty" name:"YuntiParameters"`
+}
+
+func (r *DescribeUserAvailableRegionAndZonesRequest) ToJsonString() string {
+	b, _ := json.Marshal(r)
+	return string(b)
+}
+
+func (r *DescribeUserAvailableRegionAndZonesRequest) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
+type DescribeUserAvailableRegionAndZonesResponse struct {
+	*tchttp.BaseResponse
+
+	Response *struct {
+		// 地域信息
+
+		AvailableRegionAndZoneSet []*AvailableRegionAndZone `json:"AvailableRegionAndZoneSet,omitempty" name:"AvailableRegionAndZoneSet"`
+		// Unique request ID, returned on each request.
+		RequestId *string `json:"RequestId,omitempty" name:"RequestId"`
+	} `json:"Response"`
+}
+
+func (r *DescribeUserAvailableRegionAndZonesResponse) ToJsonString() string {
+	b, _ := json.Marshal(r)
+	return string(b)
+}
+
+func (r *DescribeUserAvailableRegionAndZonesResponse) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
+type DescribeUserInstancesDiscountInfoRequest struct {
+	*tchttp.BaseRequest
+
+	// 按照一个或者多个实例ID查询。实例ID形如：ins-xxxxxxxx。（此参数的具体格式可参考API简介的ids.N一节）。每次请求的实例的上限为100。
+
+	InstanceIds []*string `json:"InstanceIds,omitempty" name:"InstanceIds"`
+}
+
+func (r *DescribeUserInstancesDiscountInfoRequest) ToJsonString() string {
+	b, _ := json.Marshal(r)
+	return string(b)
+}
+
+func (r *DescribeUserInstancesDiscountInfoRequest) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
+type DescribeUserInstancesDiscountInfoResponse struct {
+	*tchttp.BaseResponse
+
+	Response *struct {
+		// 折扣详情
+
+		InstanceSet []*InstanceDiscount `json:"InstanceSet,omitempty" name:"InstanceSet"`
+		// Unique request ID, returned on each request.
+		RequestId *string `json:"RequestId,omitempty" name:"RequestId"`
+	} `json:"Response"`
+}
+
+func (r *DescribeUserInstancesDiscountInfoResponse) ToJsonString() string {
+	b, _ := json.Marshal(r)
+	return string(b)
+}
+
+func (r *DescribeUserInstancesDiscountInfoResponse) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
+type DescribeUserLoginAttributeRequest struct {
+	*tchttp.BaseRequest
+
+	// IsResourceViewId 类型为bool型，如果为true代表用户想获取视图类型数据。如果为false，代表用户想获取场景类型和新手指引数据
+
+	IsResourceViewId *bool `json:"IsResourceViewId,omitempty" name:"IsResourceViewId"`
+}
+
+func (r *DescribeUserLoginAttributeRequest) ToJsonString() string {
+	b, _ := json.Marshal(r)
+	return string(b)
+}
+
+func (r *DescribeUserLoginAttributeRequest) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
+type DescribeUserLoginAttributeResponse struct {
+	*tchttp.BaseResponse
+
+	Response *struct {
+		// 是否展示新手指引。该数据是在IsResourceViewId为false情况返回
+
+		Guide *bool `json:"Guide,omitempty" name:"Guide"`
+		// 是否为大用户。
+
+		IsBigCustomer *bool `json:"IsBigCustomer,omitempty" name:"IsBigCustomer"`
+		// 列表模式值。0代表默认值，也代表没有弹过列表模式指引。1代表已经弹过列表模式指引。该数据是在IsResourceViewId为false情况返回
+
+		ListId *int64 `json:"ListId,omitempty" name:"ListId"`
+		// 用户的视图id。 0 代表 默认值，即用户没有设定过视图。1代表0资源用户视图，2代表中长尾用户视图，3代表大客户用户视图。该数据在任何条件都会返回
+
+		ResourceViewId *int64 `json:"ResourceViewId,omitempty" name:"ResourceViewId"`
+		// 用户的场景id，-99 代表子机小于5的用户未设置场景的值，-1 代表子机数大于5未设置场景的值，0表示用户对场景不感兴趣，1代表搭建网站，2代表搭建环境，3代表数据备份，99代表其它场景。该数据是在IsResourceViewId为false情况返回
+
+		ScenesId *int64 `json:"ScenesId,omitempty" name:"ScenesId"`
+		// 上一次展示新手指引的时间。该数据是在IsResourceViewId为false情况返回
+
+		ShowTime *string `json:"ShowTime,omitempty" name:"ShowTime"`
+		// 上一次展示新手指引的时间（ISO格式，带时区）。该数据是在IsResourceViewId为false情况返回
+
+		ShowTimeIso *string `json:"ShowTimeIso,omitempty" name:"ShowTimeIso"`
+		// 页签模式值。0代表默认值，也代表没有弹过页签模式指引。1代表已经弹过页签模式指引。该数据是在IsResourceViewId为false情况返回
+
+		TabId *int64 `json:"TabId,omitempty" name:"TabId"`
+		// Unique request ID, returned on each request.
+		RequestId *string `json:"RequestId,omitempty" name:"RequestId"`
+	} `json:"Response"`
+}
+
+func (r *DescribeUserLoginAttributeResponse) ToJsonString() string {
+	b, _ := json.Marshal(r)
+	return string(b)
+}
+
+func (r *DescribeUserLoginAttributeResponse) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
+type DescribeZoneInstanceSoldDiscountRequest struct {
+	*tchttp.BaseRequest
+
+	// 预付费时长
+
+	InstanceChargePrepaid *InstanceChargePrepaid `json:"InstanceChargePrepaid,omitempty" name:"InstanceChargePrepaid"`
+	// 付费类型
+
+	InstanceChargeType *string `json:"InstanceChargeType,omitempty" name:"InstanceChargeType"`
+	// 实例ID
+
+	InstanceId *string `json:"InstanceId,omitempty" name:"InstanceId"`
+	// 实例类型
+
+	InstanceType *string `json:"InstanceType,omitempty" name:"InstanceType"`
+	// 公网带宽相关信息设置。
+
+	InternetAccessible *InternetAccessible `json:"InternetAccessible,omitempty" name:"InternetAccessible"`
+	// 可用区
+
+	Placement *Placement `json:"Placement,omitempty" name:"Placement"`
+	// 购买方式。默认 NORMAL 正常购买，ACTIVITY活动优惠。 示例值：NORMAL
+
+	PurchaseType *string `json:"PurchaseType,omitempty" name:"PurchaseType"`
+	// 实例系统盘配置信息。
+
+	SystemDisk *SystemDisk `json:"SystemDisk,omitempty" name:"SystemDisk"`
+}
+
+func (r *DescribeZoneInstanceSoldDiscountRequest) ToJsonString() string {
+	b, _ := json.Marshal(r)
+	return string(b)
+}
+
+func (r *DescribeZoneInstanceSoldDiscountRequest) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
+type DescribeZoneInstanceSoldDiscountResponse struct {
+	*tchttp.BaseResponse
+
+	Response *struct {
+		// 币种：USD美元
+
+		Currency *string `json:"Currency,omitempty" name:"Currency"`
+		// 折扣梯度详情，每个梯度包含的信息有：时长，折扣数，总价，折扣价，折扣详情（用户折扣、官网折扣、最终折扣）
+
+		DiscountDetail []*DiscountDetailItem `json:"DiscountDetail,omitempty" name:"DiscountDetail"`
+		// Unique request ID, returned on each request.
+		RequestId *string `json:"RequestId,omitempty" name:"RequestId"`
+	} `json:"Response"`
+}
+
+func (r *DescribeZoneInstanceSoldDiscountResponse) ToJsonString() string {
+	b, _ := json.Marshal(r)
+	return string(b)
+}
+
+func (r *DescribeZoneInstanceSoldDiscountResponse) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
+type ExportImagesRequest struct {
+	*tchttp.BaseRequest
+
+	// COS存储桶名称。 可通过 [List Buckets](https://api3.{{conf.main_domain}}/document/product/436/8291) 接口查询请求者名下的所有存储桶列表或特定地域下的存储桶列表。
+
+	BucketName *string `json:"BucketName,omitempty" name:"BucketName"`
+	// CDC id。当镜像存放在CDC本地快照时，需要指定CDC id。
+
+	DedicatedClusterId *string `json:"DedicatedClusterId,omitempty" name:"DedicatedClusterId"`
+	// 检测镜像是否支持导出。 默认值：false
+
+	DryRun *bool `json:"DryRun,omitempty" name:"DryRun"`
+	// 镜像zip加密密码
+
+	EncryptKey *string `json:"EncryptKey,omitempty" name:"EncryptKey"`
+	// 镜像文件导出格式。取值范围：RAW，QCOW2，VHD，VMDK。默认为RAW
+
+	ExportFormat *string `json:"ExportFormat,omitempty" name:"ExportFormat"`
+	// 导出文件的名称前缀列表。 默认导出文件无名称前缀。
+
+	FileNamePrefixList []*string `json:"FileNamePrefixList,omitempty" name:"FileNamePrefixList"`
+	// 镜像ID列表。调用 ExportImages 接口时，参数 ImageIds 和 SnapshotIds 为二选一必填参数，目前参数 SnapshotIds 暂未对外开放。 可通过 [DescribeImages](https://api3.{{conf.main_domain}}/document/api/213/15715) 接口返回值中的`ImageId`获取。
+
+	ImageIds []*string `json:"ImageIds,omitempty" name:"ImageIds"`
+	// 导出镜像是否进行zip加密操作
+
+	NeedEncrypt *bool `json:"NeedEncrypt,omitempty" name:"NeedEncrypt"`
+	// 是否只导出系统盘。 默认值：false
+
+	OnlyExportRootDisk *bool `json:"OnlyExportRootDisk,omitempty" name:"OnlyExportRootDisk"`
+	// 角色名称。默认为CVM_QcsRole，发起请求前请确认是否存在该角色，以及是否已正确配置COS写入权限。
+
+	RoleName *string `json:"RoleName,omitempty" name:"RoleName"`
+	// 快照ID列表
+
+	SnapshotIds []*string `json:"SnapshotIds,omitempty" name:"SnapshotIds"`
+}
+
+func (r *ExportImagesRequest) ToJsonString() string {
+	b, _ := json.Marshal(r)
+	return string(b)
+}
+
+func (r *ExportImagesRequest) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
+type ExportImagesResponse struct {
+	*tchttp.BaseResponse
+
+	Response *struct {
+		// 导出镜像的COS文件名列表。其中，文件名格式如下。 * 系统盘：前缀名_镜像ID_system_快照ID.镜像格式 * 数据盘：前缀名_镜像ID_data_快照ID.镜像格式
+
+		CosPaths []*string `json:"CosPaths,omitempty" name:"CosPaths"`
+		// 镜像zip加密密码
+
+		EncryptKey *string `json:"EncryptKey,omitempty" name:"EncryptKey"`
+		// 导出镜像任务ID
+
+		TaskId *uint64 `json:"TaskId,omitempty" name:"TaskId"`
+		// Unique request ID, returned on each request.
+		RequestId *string `json:"RequestId,omitempty" name:"RequestId"`
+	} `json:"Response"`
+}
+
+func (r *ExportImagesResponse) ToJsonString() string {
+	b, _ := json.Marshal(r)
+	return string(b)
+}
+
+func (r *ExportImagesResponse) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
+type InstanceAttachISORequest struct {
+	*tchttp.BaseRequest
+
+	// ISO镜像的操作系统架构，x86_64 或 arm_64
+
+	Architecture *string `json:"Architecture,omitempty" name:"Architecture"`
+	// 只检查参数，不执行任务
+
+	DryRun *bool `json:"DryRun,omitempty" name:"DryRun"`
+	// ISO镜像存放的cos地址
+
+	ImageUrl *string `json:"ImageUrl,omitempty" name:"ImageUrl"`
+	// 需要挂载ISO镜像的实例ID
+
+	InstanceId *string `json:"InstanceId,omitempty" name:"InstanceId"`
+	// ISO镜像的操作系统类型
+
+	OsType *string `json:"OsType,omitempty" name:"OsType"`
+	// ISO镜像的操作系统版本
+
+	OsVersion *string `json:"OsVersion,omitempty" name:"OsVersion"`
+}
+
+func (r *InstanceAttachISORequest) ToJsonString() string {
+	b, _ := json.Marshal(r)
+	return string(b)
+}
+
+func (r *InstanceAttachISORequest) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
+type InstanceAttachISOResponse struct {
+	*tchttp.BaseResponse
+
+	Response *struct {
+		// Unique request ID, returned on each request.
+		RequestId *string `json:"RequestId,omitempty" name:"RequestId"`
+	} `json:"Response"`
+}
+
+func (r *InstanceAttachISOResponse) ToJsonString() string {
+	b, _ := json.Marshal(r)
+	return string(b)
+}
+
+func (r *InstanceAttachISOResponse) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
+type InstanceDetachISORequest struct {
+	*tchttp.BaseRequest
+
+	// 解挂ISO镜像的实例id
+
+	InstanceId *string `json:"InstanceId,omitempty" name:"InstanceId"`
+}
+
+func (r *InstanceDetachISORequest) ToJsonString() string {
+	b, _ := json.Marshal(r)
+	return string(b)
+}
+
+func (r *InstanceDetachISORequest) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
+type InstanceDetachISOResponse struct {
+	*tchttp.BaseResponse
+
+	Response *struct {
+		// Unique request ID, returned on each request.
+		RequestId *string `json:"RequestId,omitempty" name:"RequestId"`
+	} `json:"Response"`
+}
+
+func (r *InstanceDetachISOResponse) ToJsonString() string {
+	b, _ := json.Marshal(r)
+	return string(b)
+}
+
+func (r *InstanceDetachISOResponse) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
+type ModifyHpcClusterAttributeRequest struct {
+	*tchttp.BaseRequest
+
+	// 高性能计算集群ID。
+
+	HpcClusterId *string `json:"HpcClusterId,omitempty" name:"HpcClusterId"`
+	// 高性能计算集群新名称。
+
+	Name *string `json:"Name,omitempty" name:"Name"`
+	// 高性能计算集群新备注。
+
+	Remark *string `json:"Remark,omitempty" name:"Remark"`
+}
+
+func (r *ModifyHpcClusterAttributeRequest) ToJsonString() string {
+	b, _ := json.Marshal(r)
+	return string(b)
+}
+
+func (r *ModifyHpcClusterAttributeRequest) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
+type ModifyHpcClusterAttributeResponse struct {
+	*tchttp.BaseResponse
+
+	Response *struct {
+		// Unique request ID, returned on each request.
+		RequestId *string `json:"RequestId,omitempty" name:"RequestId"`
+	} `json:"Response"`
+}
+
+func (r *ModifyHpcClusterAttributeResponse) ToJsonString() string {
+	b, _ := json.Marshal(r)
+	return string(b)
+}
+
+func (r *ModifyHpcClusterAttributeResponse) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
+type ModifyLaunchTemplateDefaultVersionRequest struct {
+	*tchttp.BaseRequest
+
+	// 待设置的默认版本号。可通过 [DescribeLaunchTemplateVersions](https://api3.{{conf.main_domain}}/document/api/213/66323) 接口返回值中的`LaunchTemplateVersion`获取。
+
+	DefaultVersion *int64 `json:"DefaultVersion,omitempty" name:"DefaultVersion"`
+	// 启动模板ID。可通过 [DescribeLaunchTemplates](https://api3.{{conf.main_domain}}/document/api/213/66322) 接口返回值中的`LaunchTemplateId `获取。
+
+	LaunchTemplateId *string `json:"LaunchTemplateId,omitempty" name:"LaunchTemplateId"`
+}
+
+func (r *ModifyLaunchTemplateDefaultVersionRequest) ToJsonString() string {
+	b, _ := json.Marshal(r)
+	return string(b)
+}
+
+func (r *ModifyLaunchTemplateDefaultVersionRequest) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
+type ModifyLaunchTemplateDefaultVersionResponse struct {
+	*tchttp.BaseResponse
+
+	Response *struct {
+		// Unique request ID, returned on each request.
+		RequestId *string `json:"RequestId,omitempty" name:"RequestId"`
+	} `json:"Response"`
+}
+
+func (r *ModifyLaunchTemplateDefaultVersionResponse) ToJsonString() string {
+	b, _ := json.Marshal(r)
+	return string(b)
+}
+
+func (r *ModifyLaunchTemplateDefaultVersionResponse) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
+type ModifyUserLoginAttributeRequest struct {
+	*tchttp.BaseRequest
+
+	// 需要更新的列表模式值
+
+	ListId *int64 `json:"ListId,omitempty" name:"ListId"`
+	// 需要更新的用户视图值
+
+	ResourceViewId *int64 `json:"ResourceViewId,omitempty" name:"ResourceViewId"`
+	// 需要更新的场景值
+
+	ScenesId *int64 `json:"ScenesId,omitempty" name:"ScenesId"`
+	// 需要更新的新手展示时间值
+
+	ShowTime *string `json:"ShowTime,omitempty" name:"ShowTime"`
+	// 需要更新的页签模式值
+
+	TabId *int64 `json:"TabId,omitempty" name:"TabId"`
+}
+
+func (r *ModifyUserLoginAttributeRequest) ToJsonString() string {
+	b, _ := json.Marshal(r)
+	return string(b)
+}
+
+func (r *ModifyUserLoginAttributeRequest) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
+type ModifyUserLoginAttributeResponse struct {
+	*tchttp.BaseResponse
+
+	Response *struct {
+		// Unique request ID, returned on each request.
+		RequestId *string `json:"RequestId,omitempty" name:"RequestId"`
+	} `json:"Response"`
+}
+
+func (r *ModifyUserLoginAttributeResponse) ToJsonString() string {
+	b, _ := json.Marshal(r)
+	return string(b)
+}
+
+func (r *ModifyUserLoginAttributeResponse) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
+type RemoveInstancesDisasterRecoverGroupRequest struct {
+	*tchttp.BaseRequest
+
+	// 要解绑的实例和置放群组id
+
+	InstanceDisasterMapList []*InstanceDisasterMap `json:"InstanceDisasterMapList,omitempty" name:"InstanceDisasterMapList"`
+}
+
+func (r *RemoveInstancesDisasterRecoverGroupRequest) ToJsonString() string {
+	b, _ := json.Marshal(r)
+	return string(b)
+}
+
+func (r *RemoveInstancesDisasterRecoverGroupRequest) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
+type RemoveInstancesDisasterRecoverGroupResponse struct {
+	*tchttp.BaseResponse
+
+	Response *struct {
+		// 任务流转ID
+
+		FlowId *int64 `json:"flowId,omitempty" name:"flowId"`
+		// 任务ID
+
+		TaskId *string `json:"TaskId,omitempty" name:"TaskId"`
+		// Unique request ID, returned on each request.
+		RequestId *string `json:"RequestId,omitempty" name:"RequestId"`
+	} `json:"Response"`
+}
+
+func (r *RemoveInstancesDisasterRecoverGroupResponse) ToJsonString() string {
+	b, _ := json.Marshal(r)
+	return string(b)
+}
+
+func (r *RemoveInstancesDisasterRecoverGroupResponse) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
+type ViewModifyInstancesAttributeRequest struct {
+	*tchttp.BaseRequest
+
+	// 实例销毁保护标志，表示是否允许通过api接口删除实例。取值范围： TRUE：表示开启实例保护，不允许通过api接口删除实例 FALSE：表示关闭实例保护，允许通过api接口删除实例 默认取值：FALSE。
+
+	DisableApiTermination *bool `json:"DisableApiTermination,omitempty" name:"DisableApiTermination"`
+	// 一个或多个待操作的实例ID。可通过[DescribeInstances](DescribeInstances) API返回值中的`InstanceId`获取。每次请求允许操作的实例数量上限是100。
+
+	InstanceIds []*string `json:"InstanceIds,omitempty" name:"InstanceIds"`
+	// 实例显示名称。可任意命名，但不得超过60个字符。
+
+	InstanceName *string `json:"InstanceName,omitempty" name:"InstanceName"`
+	// 内部参数，未知。
+
+	ResetNewCreationIdentify *bool `json:"ResetNewCreationIdentify,omitempty" name:"ResetNewCreationIdentify"`
+	// 内部参数，安全组Id列表。
+
+	SecurityGroups []*string `json:"SecurityGroups,omitempty" name:"SecurityGroups"`
+	// 内部参数，用户数据。
+
+	UserData *string `json:"UserData,omitempty" name:"UserData"`
+}
+
+func (r *ViewModifyInstancesAttributeRequest) ToJsonString() string {
+	b, _ := json.Marshal(r)
+	return string(b)
+}
+
+func (r *ViewModifyInstancesAttributeRequest) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
+type ViewModifyInstancesAttributeResponse struct {
+	*tchttp.BaseResponse
+
+	Response *struct {
+		// Unique request ID, returned on each request.
+		RequestId *string `json:"RequestId,omitempty" name:"RequestId"`
+	} `json:"Response"`
+}
+
+func (r *ViewModifyInstancesAttributeResponse) ToJsonString() string {
+	b, _ := json.Marshal(r)
+	return string(b)
+}
+
+func (r *ViewModifyInstancesAttributeResponse) FromJsonString(s string) error {
 	return json.Unmarshal([]byte(s), &r)
 }

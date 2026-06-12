@@ -970,6 +970,13 @@ func TkeCvmCreateInfo() map[string]*schema.Schema {
 			Default:     true,
 			Description: "To specify whether to enable cloud monitor service. Default is TRUE.",
 		},
+		"enhanced_automation_service": {
+			Type:        schema.TypeBool,
+			ForceNew:    true,
+			Optional:    true,
+			Default:     true,
+			Description: "To specify whether to enable automation service. Default is TRUE.",
+		},
 		"user_data": {
 			Type:        schema.TypeString,
 			ForceNew:    true,
@@ -2368,6 +2375,15 @@ func tkeGetCvmRunInstancesPara(dMap map[string]interface{}, meta interface{},
 			Enabled: &monitorService,
 		}
 	}
+	if v, ok := dMap["enhanced_automation_service"]; ok {
+		if request.EnhancedService == nil {
+			request.EnhancedService = &cvm.EnhancedService{}
+		}
+		automationService := v.(bool)
+		request.EnhancedService.AutomationService = &cvm.AutomationServiceEnabled{
+			Enabled: &automationService,
+		}
+	}
 	if v, ok := dMap["user_data"]; ok {
 		request.UserData = helper.String(v.(string))
 	}
@@ -3390,6 +3406,7 @@ func resourceTencentCloudTkeClusterRead(d *schema.ResourceData, meta interface{}
 						"img_id":                              helper.PString(instance.ImageId),
 						"enhanced_security_service":           true,
 						"enhanced_monitor_service":            true,
+						"enhanced_automation_service":         true,
 					}
 					if instance.RenewFlag != nil && helper.PString(instance.InstanceChargeType) == "PREPAID" {
 						mapping["instance_charge_type_prepaid_renew_flag"] = helper.PString(instance.RenewFlag)

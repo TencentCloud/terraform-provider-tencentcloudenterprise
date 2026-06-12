@@ -985,7 +985,6 @@ func NewModifyImageSharePermissionResponse() (response *ModifyImageSharePermissi
 // * 每个自定义镜像最多可共享给50个账户。
 // * 分享镜像无法更改名称，描述，仅可用于创建实例。
 // * 只支持分享到对方账户相同地域。
-//
 func (c *Client) ModifyImageSharePermission(request *ModifyImageSharePermissionRequest) (response *ModifyImageSharePermissionResponse, err error) {
 	if request == nil {
 		request = NewModifyImageSharePermissionRequest()
@@ -1974,7 +1973,6 @@ func NewCopyInstanceDiskResponse() (response *CopyInstanceDiskResponse) {
 // * 实例需要处于`关机`状态。
 // * 需要指定未挂载、非加密弹性云硬盘，并且容量大于等于系统盘容量。
 // * 实例与待挂载的磁盘需要在同一个可用区。
-//
 func (c *Client) CopyInstanceDisk(request *CopyInstanceDiskRequest) (response *CopyInstanceDiskResponse, err error) {
 	if request == nil {
 		request = NewCopyInstanceDiskRequest()
@@ -3846,7 +3844,6 @@ func NewInquiryPriceResetInstanceResponse() (response *InquiryPriceResetInstance
 
 // 本接口 (InquiryPriceResetInstance) 用于重装实例询价。* 如果指定了`ImageId`参数，则使用指定的镜像进行重装询价；否则按照当前实例使用的镜像进行重装询价。* 目前只支持[系统盘类型](../数据结构#systemdisk)是`CLOUD_BASIC`、`CLOUD_PREMIUM`、`CLOUD_SSD`类型的实例使用该接口实现`Linux`和`Windows`操作系统切换的重装询价。* 目前不支持海外地域的实例使用该接口实现`Linux`和`Windows`操作系统切换的重装询价。
 //
-//
 // 指定有效的[镜像](/tcloud/Compute/CVM/292128/835305/mirr_overview)ID，格式形如`img-xxx`。镜像类型分为四种：<br/><li>公共镜像</li><li>自定义镜像</li><li>共享镜像</li><li></li><br/>可通过以下方式获取可用的镜像ID：<br/><li>`公共镜像`、`自定义镜像`、`共享镜像`的镜像ID可通过登录[控制台](//console.{{conf.main_domain}}/cvm/image/list?imageType=PUBLIC_IMAGE&pageIndex=1&pageSize=20)查询；</li><li>通过调用接口 [DescribeImages](../镜像相关接口/DescribeImages) ，取返回信息中的`ImageId`字段。</li>
 func (c *Client) InquiryPriceResetInstance(request *InquiryPriceResetInstanceRequest) (response *InquiryPriceResetInstanceResponse, err error) {
 	if request == nil {
@@ -4540,6 +4537,756 @@ func (c *Client) ReturnAddresses(request *ReturnAddressesRequest) (response *Ret
 		request = NewReturnAddressesRequest()
 	}
 	response = NewReturnAddressesResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewCloneInstanceRequest() (request *CloneInstanceRequest) {
+	request = &CloneInstanceRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("cvm", APIVersion, "CloneInstance")
+	return
+}
+
+func NewCloneInstanceResponse() (response *CloneInstanceResponse) {
+	response = &CloneInstanceResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 本接口 (CloneInstance) 用于克隆指定配置的实例。 * 实例创建成功后将自动开机启动，[实例状态](../数据结构#instancestatus)变为“运行中”。 * 预付费实例的购买会预先扣除本次实例购买所需金额，按小时后付费实例购买会预先冻结本次实例购买一小时内所需金额，在调用本接口前请确保账户余额充足。 * 本接口为异步接口，当创建请求下发成功后会返回一个实例`ID`列表，此时实例的创建并立即未完成。在此期间实例的状态将会处于”准备中“，可以通过调用 [DescribeInstancesStatus](DescribeInstancesStatus) 接口查询对应实例的状态，来判断生产有没有最终成功。如果实例的状态由'准备中'变为'运行中'，则为创建成功。
+func (c *Client) CloneInstance(request *CloneInstanceRequest) (response *CloneInstanceResponse, err error) {
+	if request == nil {
+		request = NewCloneInstanceRequest()
+	}
+	response = NewCloneInstanceResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewConvertOperatingSystemsRequest() (request *ConvertOperatingSystemsRequest) {
+	request = &ConvertOperatingSystemsRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("cvm", APIVersion, "ConvertOperatingSystems")
+	return
+}
+
+func NewConvertOperatingSystemsResponse() (response *ConvertOperatingSystemsResponse) {
+	response = &ConvertOperatingSystemsResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 本接口(ConvertOperatingSystems)用于转换实例的操作系统，仅支持源操作系统为 CentOS 7、CentOS 8 的实例。
+func (c *Client) ConvertOperatingSystems(request *ConvertOperatingSystemsRequest) (response *ConvertOperatingSystemsResponse, err error) {
+	if request == nil {
+		request = NewConvertOperatingSystemsRequest()
+	}
+	response = NewConvertOperatingSystemsResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewCreateHpcClusterRequest() (request *CreateHpcClusterRequest) {
+	request = &CreateHpcClusterRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("cvm", APIVersion, "CreateHpcCluster")
+	return
+}
+
+func NewCreateHpcClusterResponse() (response *CreateHpcClusterResponse) {
+	response = &CreateHpcClusterResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 创建高性能计算集群
+func (c *Client) CreateHpcCluster(request *CreateHpcClusterRequest) (response *CreateHpcClusterResponse, err error) {
+	if request == nil {
+		request = NewCreateHpcClusterRequest()
+	}
+	response = NewCreateHpcClusterResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewCreateLaunchTemplateVersionRequest() (request *CreateLaunchTemplateVersionRequest) {
+	request = &CreateLaunchTemplateVersionRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("cvm", APIVersion, "CreateLaunchTemplateVersion")
+	return
+}
+
+func NewCreateLaunchTemplateVersionResponse() (response *CreateLaunchTemplateVersionResponse) {
+	response = &CreateLaunchTemplateVersionResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 本接口（CreateLaunchTemplateVersion）根据指定的实例模板ID以及对应的模板版本号创建新的实例启动模板，若未指定模板版本号则使用默认版本号。每个实例启动模板最多创建30个版本。 * 新实例模板中未显式指定的参数值，使用指定版本号对应参数值覆盖。
+func (c *Client) CreateLaunchTemplateVersion(request *CreateLaunchTemplateVersionRequest) (response *CreateLaunchTemplateVersionResponse, err error) {
+	if request == nil {
+		request = NewCreateLaunchTemplateVersionRequest()
+	}
+	response = NewCreateLaunchTemplateVersionResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewDeleteHpcClustersRequest() (request *DeleteHpcClustersRequest) {
+	request = &DeleteHpcClustersRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("cvm", APIVersion, "DeleteHpcClusters")
+	return
+}
+
+func NewDeleteHpcClustersResponse() (response *DeleteHpcClustersResponse) {
+	response = &DeleteHpcClustersResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 删除高性能计算集群
+func (c *Client) DeleteHpcClusters(request *DeleteHpcClustersRequest) (response *DeleteHpcClustersResponse, err error) {
+	if request == nil {
+		request = NewDeleteHpcClustersRequest()
+	}
+	response = NewDeleteHpcClustersResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewDeleteLaunchTemplateVersionsRequest() (request *DeleteLaunchTemplateVersionsRequest) {
+	request = &DeleteLaunchTemplateVersionsRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("cvm", APIVersion, "DeleteLaunchTemplateVersions")
+	return
+}
+
+func NewDeleteLaunchTemplateVersionsResponse() (response *DeleteLaunchTemplateVersionsResponse) {
+	response = &DeleteLaunchTemplateVersionsResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 本接口（DeleteLaunchTemplateVersions）用于删除一个或者多个实例启动模板版本。
+func (c *Client) DeleteLaunchTemplateVersions(request *DeleteLaunchTemplateVersionsRequest) (response *DeleteLaunchTemplateVersionsResponse, err error) {
+	if request == nil {
+		request = NewDeleteLaunchTemplateVersionsRequest()
+	}
+	response = NewDeleteLaunchTemplateVersionsResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewDescribeAccountQuotaRequest() (request *DescribeAccountQuotaRequest) {
+	request = &DescribeAccountQuotaRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("cvm", APIVersion, "DescribeAccountQuota")
+	return
+}
+
+func NewDescribeAccountQuotaResponse() (response *DescribeAccountQuotaResponse) {
+	response = &DescribeAccountQuotaResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 本接口(DescribeAccountQuota)用于查询用户配额详情。可以查询后付费、预付费、竞价实例、镜像、置放群组等各种类型的配额信息。
+func (c *Client) DescribeAccountQuota(request *DescribeAccountQuotaRequest) (response *DescribeAccountQuotaResponse, err error) {
+	if request == nil {
+		request = NewDescribeAccountQuotaRequest()
+	}
+	response = NewDescribeAccountQuotaResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewDescribeAvailableFeaturesRequest() (request *DescribeAvailableFeaturesRequest) {
+	request = &DescribeAvailableFeaturesRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("cvm", APIVersion, "DescribeAvailableFeatures")
+	return
+}
+
+func NewDescribeAvailableFeaturesResponse() (response *DescribeAvailableFeaturesResponse) {
+	response = &DescribeAvailableFeaturesResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 查询配置的功能特性是否可用
+func (c *Client) DescribeAvailableFeatures(request *DescribeAvailableFeaturesRequest) (response *DescribeAvailableFeaturesResponse, err error) {
+	if request == nil {
+		request = NewDescribeAvailableFeaturesRequest()
+	}
+	response = NewDescribeAvailableFeaturesResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewDescribeHostCapacityRequest() (request *DescribeHostCapacityRequest) {
+	request = &DescribeHostCapacityRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("cvm", APIVersion, "DescribeHostCapacity")
+	return
+}
+
+func NewDescribeHostCapacityResponse() (response *DescribeHostCapacityResponse) {
+	response = &DescribeHostCapacityResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 该接口是用于查询最大一台或者多台cdh宿主机的创建指定规格的子机数量。如果是系统盘的话，必须传image id
+func (c *Client) DescribeHostCapacity(request *DescribeHostCapacityRequest) (response *DescribeHostCapacityResponse, err error) {
+	if request == nil {
+		request = NewDescribeHostCapacityRequest()
+	}
+	response = NewDescribeHostCapacityResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewDescribeHpcClustersRequest() (request *DescribeHpcClustersRequest) {
+	request = &DescribeHpcClustersRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("cvm", APIVersion, "DescribeHpcClusters")
+	return
+}
+
+func NewDescribeHpcClustersResponse() (response *DescribeHpcClustersResponse) {
+	response = &DescribeHpcClustersResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 查询高性能集群信息
+func (c *Client) DescribeHpcClusters(request *DescribeHpcClustersRequest) (response *DescribeHpcClustersResponse, err error) {
+	if request == nil {
+		request = NewDescribeHpcClustersRequest()
+	}
+	response = NewDescribeHpcClustersResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewDescribeImageStatisticsRequest() (request *DescribeImageStatisticsRequest) {
+	request = &DescribeImageStatisticsRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("cvm", APIVersion, "DescribeImageStatistics")
+	return
+}
+
+func NewDescribeImageStatisticsResponse() (response *DescribeImageStatisticsResponse) {
+	response = &DescribeImageStatisticsResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 本接口 (DescribeImageStatistics) 用于查询各个地域镜像数量概览。 本接口仅支持查询自定义镜像和共享镜像。
+func (c *Client) DescribeImageStatistics(request *DescribeImageStatisticsRequest) (response *DescribeImageStatisticsResponse, err error) {
+	if request == nil {
+		request = NewDescribeImageStatisticsRequest()
+	}
+	response = NewDescribeImageStatisticsResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewDescribeInstanceAttributesRequest() (request *DescribeInstanceAttributesRequest) {
+	request = &DescribeInstanceAttributesRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("cvm", APIVersion, "DescribeInstanceAttributes")
+	return
+}
+
+func NewDescribeInstanceAttributesResponse() (response *DescribeInstanceAttributesResponse) {
+	response = &DescribeInstanceAttributesResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 获取指定实例的属性，目前支持查询实例自定义数据User-Data。
+func (c *Client) DescribeInstanceAttributes(request *DescribeInstanceAttributesRequest) (response *DescribeInstanceAttributesResponse, err error) {
+	if request == nil {
+		request = NewDescribeInstanceAttributesRequest()
+	}
+	response = NewDescribeInstanceAttributesResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewDescribeInstanceTypeDisasterGroupBlackListRequest() (request *DescribeInstanceTypeDisasterGroupBlackListRequest) {
+	request = &DescribeInstanceTypeDisasterGroupBlackListRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("cvm", APIVersion, "DescribeInstanceTypeDisasterGroupBlackList")
+	return
+}
+
+func NewDescribeInstanceTypeDisasterGroupBlackListResponse() (response *DescribeInstanceTypeDisasterGroupBlackListResponse) {
+	response = &DescribeInstanceTypeDisasterGroupBlackListResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 查询不支持置放群组的机型列表
+func (c *Client) DescribeInstanceTypeDisasterGroupBlackList(request *DescribeInstanceTypeDisasterGroupBlackListRequest) (response *DescribeInstanceTypeDisasterGroupBlackListResponse, err error) {
+	if request == nil {
+		request = NewDescribeInstanceTypeDisasterGroupBlackListRequest()
+	}
+	response = NewDescribeInstanceTypeDisasterGroupBlackListResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewDescribeInstanceTypeZoneStatusRequest() (request *DescribeInstanceTypeZoneStatusRequest) {
+	request = &DescribeInstanceTypeZoneStatusRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("cvm", APIVersion, "DescribeInstanceTypeZoneStatus")
+	return
+}
+
+func NewDescribeInstanceTypeZoneStatusResponse() (response *DescribeInstanceTypeZoneStatusResponse) {
+	response = &DescribeInstanceTypeZoneStatusResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 查询机型相关可用区售卖状态
+func (c *Client) DescribeInstanceTypeZoneStatus(request *DescribeInstanceTypeZoneStatusRequest) (response *DescribeInstanceTypeZoneStatusResponse, err error) {
+	if request == nil {
+		request = NewDescribeInstanceTypeZoneStatusRequest()
+	}
+	response = NewDescribeInstanceTypeZoneStatusResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewDescribeInstancesConvertOSAttributesRequest() (request *DescribeInstancesConvertOSAttributesRequest) {
+	request = &DescribeInstancesConvertOSAttributesRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("cvm", APIVersion, "DescribeInstancesConvertOSAttributes")
+	return
+}
+
+func NewDescribeInstancesConvertOSAttributesResponse() (response *DescribeInstancesConvertOSAttributesResponse) {
+	response = &DescribeInstancesConvertOSAttributesResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 查询操作系统转换的属性接口。
+func (c *Client) DescribeInstancesConvertOSAttributes(request *DescribeInstancesConvertOSAttributesRequest) (response *DescribeInstancesConvertOSAttributesResponse, err error) {
+	if request == nil {
+		request = NewDescribeInstancesConvertOSAttributesRequest()
+	}
+	response = NewDescribeInstancesConvertOSAttributesResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewDescribeLaunchTemplateVersionsRequest() (request *DescribeLaunchTemplateVersionsRequest) {
+	request = &DescribeLaunchTemplateVersionsRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("cvm", APIVersion, "DescribeLaunchTemplateVersions")
+	return
+}
+
+func NewDescribeLaunchTemplateVersionsResponse() (response *DescribeLaunchTemplateVersionsResponse) {
+	response = &DescribeLaunchTemplateVersionsResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 本接口（DescribeLaunchTemplateVersions）用于查询实例模板版本信息。
+func (c *Client) DescribeLaunchTemplateVersions(request *DescribeLaunchTemplateVersionsRequest) (response *DescribeLaunchTemplateVersionsResponse, err error) {
+	if request == nil {
+		request = NewDescribeLaunchTemplateVersionsRequest()
+	}
+	response = NewDescribeLaunchTemplateVersionsResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewDescribeLaunchTemplatesRequest() (request *DescribeLaunchTemplatesRequest) {
+	request = &DescribeLaunchTemplatesRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("cvm", APIVersion, "DescribeLaunchTemplates")
+	return
+}
+
+func NewDescribeLaunchTemplatesResponse() (response *DescribeLaunchTemplatesResponse) {
+	response = &DescribeLaunchTemplatesResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 本接口（DescribeLaunchTemplates）用于查询一个或者多个实例启动模板。
+func (c *Client) DescribeLaunchTemplates(request *DescribeLaunchTemplatesRequest) (response *DescribeLaunchTemplatesResponse, err error) {
+	if request == nil {
+		request = NewDescribeLaunchTemplatesRequest()
+	}
+	response = NewDescribeLaunchTemplatesResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewDescribeUserAvailableInstanceTypesRequest() (request *DescribeUserAvailableInstanceTypesRequest) {
+	request = &DescribeUserAvailableInstanceTypesRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("cvm", APIVersion, "DescribeUserAvailableInstanceTypes")
+	return
+}
+
+func NewDescribeUserAvailableInstanceTypesResponse() (response *DescribeUserAvailableInstanceTypesResponse) {
+	response = &DescribeUserAvailableInstanceTypesResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 该接口仅针对购买页使用，可以展示入参用户的可用机型
+func (c *Client) DescribeUserAvailableInstanceTypes(request *DescribeUserAvailableInstanceTypesRequest) (response *DescribeUserAvailableInstanceTypesResponse, err error) {
+	if request == nil {
+		request = NewDescribeUserAvailableInstanceTypesRequest()
+	}
+	response = NewDescribeUserAvailableInstanceTypesResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewDescribeUserAvailableRegionAndZonesRequest() (request *DescribeUserAvailableRegionAndZonesRequest) {
+	request = &DescribeUserAvailableRegionAndZonesRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("cvm", APIVersion, "DescribeUserAvailableRegionAndZones")
+	return
+}
+
+func NewDescribeUserAvailableRegionAndZonesResponse() (response *DescribeUserAvailableRegionAndZonesResponse) {
+	response = &DescribeUserAvailableRegionAndZonesResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// MC 控制台查询用户可用的地域售罄状况等信息展示
+func (c *Client) DescribeUserAvailableRegionAndZones(request *DescribeUserAvailableRegionAndZonesRequest) (response *DescribeUserAvailableRegionAndZonesResponse, err error) {
+	if request == nil {
+		request = NewDescribeUserAvailableRegionAndZonesRequest()
+	}
+	response = NewDescribeUserAvailableRegionAndZonesResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewDescribeUserInstancesDiscountInfoRequest() (request *DescribeUserInstancesDiscountInfoRequest) {
+	request = &DescribeUserInstancesDiscountInfoRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("cvm", APIVersion, "DescribeUserInstancesDiscountInfo")
+	return
+}
+
+func NewDescribeUserInstancesDiscountInfoResponse() (response *DescribeUserInstancesDiscountInfoResponse) {
+	response = &DescribeUserInstancesDiscountInfoResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 查询用户当前实例折扣，可以查询到如续费等折扣详情和活动时间范围等。
+func (c *Client) DescribeUserInstancesDiscountInfo(request *DescribeUserInstancesDiscountInfoRequest) (response *DescribeUserInstancesDiscountInfoResponse, err error) {
+	if request == nil {
+		request = NewDescribeUserInstancesDiscountInfoRequest()
+	}
+	response = NewDescribeUserInstancesDiscountInfoResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewDescribeUserLoginAttributeRequest() (request *DescribeUserLoginAttributeRequest) {
+	request = &DescribeUserLoginAttributeRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("cvm", APIVersion, "DescribeUserLoginAttribute")
+	return
+}
+
+func NewDescribeUserLoginAttributeResponse() (response *DescribeUserLoginAttributeResponse) {
+	response = &DescribeUserLoginAttributeResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 该接口用于查询用户登录属性
+func (c *Client) DescribeUserLoginAttribute(request *DescribeUserLoginAttributeRequest) (response *DescribeUserLoginAttributeResponse, err error) {
+	if request == nil {
+		request = NewDescribeUserLoginAttributeRequest()
+	}
+	response = NewDescribeUserLoginAttributeResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewDescribeZoneInstanceSoldDiscountRequest() (request *DescribeZoneInstanceSoldDiscountRequest) {
+	request = &DescribeZoneInstanceSoldDiscountRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("cvm", APIVersion, "DescribeZoneInstanceSoldDiscount")
+	return
+}
+
+func NewDescribeZoneInstanceSoldDiscountResponse() (response *DescribeZoneInstanceSoldDiscountResponse) {
+	response = &DescribeZoneInstanceSoldDiscountResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 根据计费模式、机型、用户uin、可用区查询机型折扣。同一实例族的实例类型的折扣相同，比如S2机型族的所有机型的折扣都是相同的。
+func (c *Client) DescribeZoneInstanceSoldDiscount(request *DescribeZoneInstanceSoldDiscountRequest) (response *DescribeZoneInstanceSoldDiscountResponse, err error) {
+	if request == nil {
+		request = NewDescribeZoneInstanceSoldDiscountRequest()
+	}
+	response = NewDescribeZoneInstanceSoldDiscountResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewExportImagesRequest() (request *ExportImagesRequest) {
+	request = &ExportImagesRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("cvm", APIVersion, "ExportImages")
+	return
+}
+
+func NewExportImagesResponse() (response *ExportImagesResponse) {
+	response = &ExportImagesResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 提供导出自定义镜像到指定COS存储桶的能力
+func (c *Client) ExportImages(request *ExportImagesRequest) (response *ExportImagesResponse, err error) {
+	if request == nil {
+		request = NewExportImagesRequest()
+	}
+	response = NewExportImagesResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewInstanceAttachISORequest() (request *InstanceAttachISORequest) {
+	request = &InstanceAttachISORequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("cvm", APIVersion, "InstanceAttachISO")
+	return
+}
+
+func NewInstanceAttachISOResponse() (response *InstanceAttachISOResponse) {
+	response = &InstanceAttachISOResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 实例挂载ISO镜像
+func (c *Client) InstanceAttachISO(request *InstanceAttachISORequest) (response *InstanceAttachISOResponse, err error) {
+	if request == nil {
+		request = NewInstanceAttachISORequest()
+	}
+	response = NewInstanceAttachISOResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewInstanceDetachISORequest() (request *InstanceDetachISORequest) {
+	request = &InstanceDetachISORequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("cvm", APIVersion, "InstanceDetachISO")
+	return
+}
+
+func NewInstanceDetachISOResponse() (response *InstanceDetachISOResponse) {
+	response = &InstanceDetachISOResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 实例解挂ISO镜像盘
+func (c *Client) InstanceDetachISO(request *InstanceDetachISORequest) (response *InstanceDetachISOResponse, err error) {
+	if request == nil {
+		request = NewInstanceDetachISORequest()
+	}
+	response = NewInstanceDetachISOResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewModifyHpcClusterAttributeRequest() (request *ModifyHpcClusterAttributeRequest) {
+	request = &ModifyHpcClusterAttributeRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("cvm", APIVersion, "ModifyHpcClusterAttribute")
+	return
+}
+
+func NewModifyHpcClusterAttributeResponse() (response *ModifyHpcClusterAttributeResponse) {
+	response = &ModifyHpcClusterAttributeResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 修改高性能计算集群属性
+func (c *Client) ModifyHpcClusterAttribute(request *ModifyHpcClusterAttributeRequest) (response *ModifyHpcClusterAttributeResponse, err error) {
+	if request == nil {
+		request = NewModifyHpcClusterAttributeRequest()
+	}
+	response = NewModifyHpcClusterAttributeResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewModifyLaunchTemplateDefaultVersionRequest() (request *ModifyLaunchTemplateDefaultVersionRequest) {
+	request = &ModifyLaunchTemplateDefaultVersionRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("cvm", APIVersion, "ModifyLaunchTemplateDefaultVersion")
+	return
+}
+
+func NewModifyLaunchTemplateDefaultVersionResponse() (response *ModifyLaunchTemplateDefaultVersionResponse) {
+	response = &ModifyLaunchTemplateDefaultVersionResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 本接口（ModifyLaunchTemplateDefaultVersion）用于修改实例启动模板默认版本。
+func (c *Client) ModifyLaunchTemplateDefaultVersion(request *ModifyLaunchTemplateDefaultVersionRequest) (response *ModifyLaunchTemplateDefaultVersionResponse, err error) {
+	if request == nil {
+		request = NewModifyLaunchTemplateDefaultVersionRequest()
+	}
+	response = NewModifyLaunchTemplateDefaultVersionResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewModifyUserLoginAttributeRequest() (request *ModifyUserLoginAttributeRequest) {
+	request = &ModifyUserLoginAttributeRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("cvm", APIVersion, "ModifyUserLoginAttribute")
+	return
+}
+
+func NewModifyUserLoginAttributeResponse() (response *ModifyUserLoginAttributeResponse) {
+	response = &ModifyUserLoginAttributeResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 该接口用于用户登录属性
+func (c *Client) ModifyUserLoginAttribute(request *ModifyUserLoginAttributeRequest) (response *ModifyUserLoginAttributeResponse, err error) {
+	if request == nil {
+		request = NewModifyUserLoginAttributeRequest()
+	}
+	response = NewModifyUserLoginAttributeResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewRemoveInstancesDisasterRecoverGroupRequest() (request *RemoveInstancesDisasterRecoverGroupRequest) {
+	request = &RemoveInstancesDisasterRecoverGroupRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("cvm", APIVersion, "RemoveInstancesDisasterRecoverGroup")
+	return
+}
+
+func NewRemoveInstancesDisasterRecoverGroupResponse() (response *RemoveInstancesDisasterRecoverGroupResponse) {
+	response = &RemoveInstancesDisasterRecoverGroupResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 实例解绑置放群组
+func (c *Client) RemoveInstancesDisasterRecoverGroup(request *RemoveInstancesDisasterRecoverGroupRequest) (response *RemoveInstancesDisasterRecoverGroupResponse, err error) {
+	if request == nil {
+		request = NewRemoveInstancesDisasterRecoverGroupRequest()
+	}
+	response = NewRemoveInstancesDisasterRecoverGroupResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewViewModifyInstancesAttributeRequest() (request *ViewModifyInstancesAttributeRequest) {
+	request = &ViewModifyInstancesAttributeRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("cvm", APIVersion, "ViewModifyInstancesAttribute")
+	return
+}
+
+func NewViewModifyInstancesAttributeResponse() (response *ViewModifyInstancesAttributeResponse) {
+	response = &ViewModifyInstancesAttributeResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 本接口 (ModifyInstancesAttribute) 用于修改实例的属性（目前只支持修改实例的名称）。 * “实例名称”仅为方便用户自己管理之用，云平台并不以此名称作为提交工单或是进行实例管理操作的依据。 * 支持批量操作。每次请求批量实例的上限为100。
+func (c *Client) ViewModifyInstancesAttribute(request *ViewModifyInstancesAttributeRequest) (response *ViewModifyInstancesAttributeResponse, err error) {
+	if request == nil {
+		request = NewViewModifyInstancesAttributeRequest()
+	}
+	response = NewViewModifyInstancesAttributeResponse()
 	err = c.Send(request, response)
 	return
 }
