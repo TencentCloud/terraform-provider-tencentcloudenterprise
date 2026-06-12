@@ -809,8 +809,17 @@ func checkHealthCheckPara(ctx context.Context, d *schema.ResourceData, protocol 
 	}
 	var checkType string
 	if v, ok := d.GetOk("health_check_type"); ok {
-		healthSetFlag = true
 		checkType = v.(string)
+		// For HTTP/HTTPS listener rules, health_check_type can only be HTTP;
+		// the API enforces this and returns HTTP regardless, causing drift
+		// if the user sets TCP or CUSTOM.
+		if (protocol == CLB_LISTENER_PROTOCOL_HTTP || protocol == CLB_LISTENER_PROTOCOL_HTTPS) &&
+			applyType == HEALTH_APPLY_TYPE_RULE && checkType != HEALTH_CHECK_TYPE_HTTP {
+			errRet = fmt.Errorf("health_check_type can only be HTTP for HTTP/HTTPS listener rules, got: %s", checkType)
+			errRet = errors.WithStack(errRet)
+			return
+		}
+		healthSetFlag = true
 		healthCheck.CheckType = &checkType
 	}
 	if v, ok := d.GetOk("health_check_http_code"); ok {

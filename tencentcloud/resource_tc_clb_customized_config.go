@@ -1,17 +1,19 @@
 /*
 Provides a resource to create a CLB customized config.
 
-Example Usage
+# Example Usage
 
 ```hcl
-resource "tencentcloudenterprise_clb_customized_config" "foo" {
-  config_content = "client_max_body_size 224M;\r\nclient_body_timeout 60s;"
-  config_name    = "helloWorld"
-  load_balancer_ids = [
-    "${tencentcloudenterprise_clb_instance.internal_clb.id}",
-    "${tencentcloudenterprise_clb_instance.internal_clb2.id}",
-  ]
-}
+
+	resource "tencentcloudenterprise_clb_customized_config" "foo" {
+	  config_content = "client_max_body_size 224M;\r\nclient_body_timeout 60s;"
+	  config_name    = "helloWorld"
+	  load_balancer_ids = [
+	    "${tencentcloudenterprise_clb_instance.internal_clb.id}",
+	    "${tencentcloudenterprise_clb_instance.internal_clb2.id}",
+	  ]
+	}
+
 ```
 Import
 
@@ -26,6 +28,7 @@ package tencentcloud
 import (
 	"context"
 	"log"
+	"strings"
 
 	clb "terraform-provider-tencentcloudenterprise/sdk/clb/v20180317"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
@@ -171,7 +174,7 @@ func resourceTencentCloudClbCustomizedConfigRead(d *schema.ResourceData, meta in
 	}
 
 	_ = d.Set("config_name", config.ConfigName)
-	_ = d.Set("config_content", config.ConfigContent)
+	_ = d.Set("config_content", strings.TrimSpace(*config.ConfigContent))
 	_ = d.Set("create_time", config.CreateTimestamp)
 	_ = d.Set("update_time", config.UpdateTimestamp)
 
