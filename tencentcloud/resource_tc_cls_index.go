@@ -1,95 +1,95 @@
 /*
 Provides a resource to create a cls index.
 
-Example Usage
+# Example Usage
 
 ```hcl
 resource "tencentcloudenterprise_cls_index" "complete_index" {
 
-  topic_id       = "a22f98e2-7331-44af-adc3-e21abcac1ae3"
-  coverage_field = "parse_error_field"
+	  topic_id       = "a22f98e2-7331-44af-adc3-e21abcac1ae3"
+	  coverage_field = "parse_error_field"
 
-  rule {
-    # 全文索引配置
-    full_text {
-      case_sensitive = true
-      tokenizer      = "@&?|#()='\",;:<>[]{}/ \n\t\r\\"
-      contain_z_h    = true
-    }
+	  rule {
+	    # 全文索引配置
+	    full_text {
+	      case_sensitive = true
+	      tokenizer      = "@&?|#()='\",;:<>[]{}/ \n\t\r\\"
+	      contain_z_h    = true
+	    }
 
-    # 键值索引配置
-    key_value {
-      case_sensitive = true
-      template_type  = ""
+	    # 键值索引配置
+	    key_value {
+	      case_sensitive = true
 
-      key_values {
-        key = "level"
-        value {
-          type        = "text"
-          tokenizer   = "@&?|#()='\",;:<>[]{}/ \n\t\r\\"
-          sql_flag    = true
-          contain_z_h = false
-          alias       = "log_level"
-        }
-      }
+	      key_values {
+	        key = "level"
+	        value {
+	          type        = "text"
+	          tokenizer   = "@&?|#()='\",;:<>[]{}/ \n\t\r\\"
+	          sql_flag    = true
+	          contain_z_h = false
+	          alias       = "log_level"
+	        }
+	      }
 
-      key_values {
-        key = "timestamp"
-        value {
-          type     = "long"
-          sql_flag = true
-          alias    = "log_time"
-        }
-      }
+	      key_values {
+	        key = "timestamp"
+	        value {
+	          type     = "long"
+	          sql_flag = true
+	          alias    = "log_time"
+	        }
+	      }
 
-      key_values {
-        key = "message"
-        value {
-          type        = "text"
-          tokenizer   = "@&?|#()='\",;:<>[]{}/ \n\t\r\\"
-          sql_flag    = true
-          contain_z_h = true
-          alias       = "log_message"
-        }
-      }
-    }
+	      key_values {
+	        key = "message"
+	        value {
+	          type        = "text"
+	          tokenizer   = "@&?|#()='\",;:<>[]{}/ \n\t\r\\"
+	          sql_flag    = true
+	          contain_z_h = true
+	          alias       = "log_message"
+	        }
+	      }
+	    }
 
-    dynamic_index {
-      status = true
-    }
+	    dynamic_index {
+	      status = true
+	    }
 
-    # 元字段索引配置
-    tag {
-      case_sensitive = false
+	    # 元字段索引配置
+	    tag {
+	      case_sensitive = false
 
-      key_values {
-        key = "source"
-        value {
-          type        = "text"
-          tokenizer   = "@&?|#()='\",;:<>[]{}/ \n\t\r\\"
-          sql_flag    = true
-          contain_z_h = false
-          alias       = "log_source"
-        }
-      }
+	      key_values {
+	        key = "source"
+	        value {
+	          type        = "text"
+	          tokenizer   = "@&?|#()='\",;:<>[]{}/ \n\t\r\\"
+	          sql_flag    = true
+	          contain_z_h = false
+	          alias       = "log_source"
+	        }
+	      }
 
-      key_values {
-        key = "environment"
-        value {
-          type     = "text"
-          sql_flag = true
-          alias    = "env"
-        }
-      }
-    }
-  }
-  status = false
-  include_internal_fields = true
-  metadata_flag          = 1
-}
+	      key_values {
+	        key = "environment"
+	        value {
+	          type     = "text"
+	          sql_flag = true
+	          alias    = "env"
+	        }
+	      }
+	    }
+	  }
+	  status = false
+	  include_internal_fields = true
+	  metadata_flag          = 1
+	}
+
 ```
 
-Import
+# Import
 
 cls cos index can be imported using the id, e.g.
 
@@ -131,9 +131,9 @@ func init() {
 			"tag":                     "元字段索引配置，为空时代表未开启元字段索引",
 			"contain_z_h":             "是否包含中文。true代表包含中文，false代表不包含中文。",
 			"alias":                   "索引键值别名",
-			"tokenizer":			   "分词符，其中的每个字符代表一个分词符； 仅支持英文符号、\\n\\t\\r及转义符\\； 注意：\\n\\t\\r本身已被转义，直接使用双引号包裹即可作为入参，无需再次转义。使用API Explorer进行调试时请使用JSON参数输入方式，以避免\\n\\t\\r被重复转义",
-			"type":					   "字段是否开启分析功能。true表示开启分析功能，false表示关闭分析功能。",
-			"sql_flag":				   "字段是否开启分析功能。true表示开启分析功能，false表示关闭分析功能。",
+			"tokenizer":               "分词符，其中的每个字符代表一个分词符； 仅支持英文符号、\\n\\t\\r及转义符\\； 注意：\\n\\t\\r本身已被转义，直接使用双引号包裹即可作为入参，无需再次转义。使用API Explorer进行调试时请使用JSON参数输入方式，以避免\\n\\t\\r被重复转义",
+			"type":                    "字段是否开启分析功能。true表示开启分析功能，false表示关闭分析功能。",
+			"sql_flag":                "字段是否开启分析功能。true表示开启分析功能，false表示关闭分析功能。",
 		},
 	})
 }
@@ -152,7 +152,7 @@ func resourceTencentCloudClsIndex() *schema.Resource {
 			"topic_id": {
 				Type:        schema.TypeString,
 				Required:    true,
-				ForceNew: 	 true,
+				ForceNew:    true,
 				Description: "Log topic ID.",
 			},
 			"coverage_field": {
@@ -222,6 +222,7 @@ func resourceTencentCloudClsIndex() *schema.Resource {
 									"template_type": {
 										Type:        schema.TypeString,
 										Optional:    true,
+										Computed:    true,
 										Description: "Whether index enables dynamic template. If enabled, index will be configured based on reported key-value pairs, but all field types are text, case sensitive, analysis not supported, using default delimiters. Deprecated.",
 									},
 									"key_values": {
@@ -412,7 +413,9 @@ func resourceTencentCloudClsIndexCreate(d *schema.ResourceData, meta interface{}
 				ruleKeyValueInfo.CaseSensitive = helper.Bool(v.(bool))
 			}
 			if v, ok := ruleKeyValueMap["template_type"]; ok {
-				ruleKeyValueInfo.TemplateType = helper.String(v.(string))
+				if s := v.(string); s != "" {
+					ruleKeyValueInfo.TemplateType = helper.String(s)
+				}
 			}
 			if v, ok := ruleKeyValueMap["key_values"]; ok {
 				for _, keyValue := range v.([]interface{}) {
@@ -719,7 +722,9 @@ func resourceTencentCloudClsIndexUpdate(d *schema.ResourceData, meta interface{}
 					ruleKeyValueInfo.CaseSensitive = helper.Bool(v.(bool))
 				}
 				if v, ok := ruleKeyValueMap["template_type"]; ok {
-					ruleKeyValueInfo.TemplateType = helper.String(v.(string))
+					if s := v.(string); s != "" {
+						ruleKeyValueInfo.TemplateType = helper.String(s)
+					}
 				}
 				if v, ok := ruleKeyValueMap["key_values"]; ok {
 					for _, keyValue := range v.([]interface{}) {
