@@ -760,6 +760,7 @@ func Provider() *schema.Provider {
 			"tencentcloudenterprise_cic_groups":                   dataSourceTencentCloudCicGroups(),
 			"tencentcloudenterprise_cic_identity_center":          dataSourceTencentCloudCicIdentityCenter(),
 			"tencentcloudenterprise_cic_role_configurations":      dataSourceTencentCloudCicRoleConfigurations(),
+			"tencentcloudenterprise_cic_users":                    dataSourceTencentCloudCicUsers(),
 			"tencentcloudenterprise_cos_bucket_object":            dataSourceTencentCloudCosBucketObject(),
 			"tencentcloudenterprise_cos_buckets":                  dataSourceTencentCloudCosBuckets(),
 			"tencentcloudenterprise_csp_bucket_object":            dataSourceTencentCloudCspBucketObject(),

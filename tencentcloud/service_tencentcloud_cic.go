@@ -545,6 +545,73 @@ func (me *CicService) DescribeCicGroupsByFilter(ctx context.Context, param map[s
 	return
 }
 
+func (me *CicService) DescribeCicUsersByFilter(ctx context.Context, param map[string]interface{}) (users []*cic.UserInfo, errRet error) {
+	var (
+		logId   = getLogId(ctx)
+		request = cic.NewListUsersRequest()
+	)
+
+	defer func() {
+		if errRet != nil {
+			log.Printf("[CRITAL]%s api[%s] fail, request body [%s], reason[%s]\n", logId, request.GetAction(), request.ToJsonString(), errRet.Error())
+		}
+	}()
+
+	for k, v := range param {
+		if k == "ZoneId" {
+			request.ZoneId = v.(*string)
+		}
+		if k == "Filter" {
+			request.Filter = v.(*string)
+		}
+		if k == "FilterGroups" {
+			request.FilterGroups = v.([]*string)
+		}
+		if k == "UserStatus" {
+			request.UserStatus = v.(*string)
+		}
+		if k == "UserType" {
+			request.UserType = v.(*string)
+		}
+		if k == "SortField" {
+			request.SortField = v.(*string)
+		}
+		if k == "SortType" {
+			request.SortType = v.(*string)
+		}
+	}
+
+	users = make([]*cic.UserInfo, 0)
+	for {
+		ratelimit.Check(request.GetAction())
+		response, err := me.client.UseCicClient().ListUsers(request)
+		if err != nil {
+			errRet = err
+			return
+		}
+		log.Printf("[DEBUG]%s api[%s] success, request body [%s], response body [%s]\n", logId, request.GetAction(), request.ToJsonString(), response.ToJsonString())
+
+		if response == nil || response.Response == nil {
+			return
+		}
+
+		users = append(users, response.Response.Users...)
+
+		if response.Response.IsTruncated != nil {
+			if *response.Response.IsTruncated {
+				request.NextToken = response.Response.NextToken
+			} else {
+				break
+			}
+		} else {
+			errRet = fmt.Errorf("ListUsers IsTruncated is nil")
+			return
+		}
+	}
+
+	return
+}
+
 func (me *CicService) DescribeCicRoleConfigurationsByFilter(ctx context.Context, param map[string]interface{}) (roleConfigurations []*cic.RoleConfiguration, errRet error) {
 	var (
 		logId   = getLogId(ctx)
