@@ -564,20 +564,11 @@ func (me *CicService) DescribeCicUsersByFilter(ctx context.Context, param map[st
 		if k == "Filter" {
 			request.Filter = v.(*string)
 		}
-		if k == "FilterGroups" {
-			request.FilterGroups = v.([]*string)
-		}
 		if k == "UserStatus" {
 			request.UserStatus = v.(*string)
 		}
 		if k == "UserType" {
 			request.UserType = v.(*string)
-		}
-		if k == "SortField" {
-			request.SortField = v.(*string)
-		}
-		if k == "SortType" {
-			request.SortType = v.(*string)
 		}
 	}
 

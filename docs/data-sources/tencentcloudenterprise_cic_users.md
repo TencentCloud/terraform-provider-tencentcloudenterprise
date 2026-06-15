@@ -22,16 +22,27 @@ output "users_list" {
   value = data.tencentcloudenterprise_cic_users.users.users
 }
 ```
+
+### Query with filters
+
+```hcl
+data "tencentcloudenterprise_cic_users" "users" {
+  zone_id     = "z-xxxxxxxxxx"
+  user_name   = "test_user"
+  user_status = "Enabled"
+}
+```
+
 ## Argument Reference
 
 The following arguments are supported:
 
 * `zone_id` - (Required, String) Space ID.
-* `filter_groups` - (Optional, Set: [`String`]) Filtered user group list. IsSelected=true will be returned for the user associated with this user group.
-* `filter` - (Optional, String) Filter criterion. Currently supports username, email, userId, and description.
+* `description` - (Optional, String) User description for exact match filtering.
+* `email` - (Optional, String) Email address for exact match filtering.
 * `result_output_file` - (Optional, String) Used to save results.
-* `sort_field` - (Optional, String) Sorting field, which currently only supports CreateTime.
-* `sort_type` - (Optional, String) Sorting type. Desc: descending order; Asc: ascending order. It should be set along with SortField.
+* `user_id` - (Optional, String) User ID for exact match filtering.
+* `user_name` - (Optional, String) User name for exact match filtering.
 * `user_status` - (Optional, String) User status. Enabled: enabled; Disabled: disabled.
 * `user_type` - (Optional, String) User type. Manual: manually created; Synchronized: externally imported.
 
@@ -52,4 +63,3 @@ In addition to all arguments above, the following attributes are exported:
   * `user_name` - User name.
   * `user_status` - User status. Enabled: enabled; Disabled: disabled.
   * `user_type` - User type. Manual: manually created; Synchronized: externally imported.
-

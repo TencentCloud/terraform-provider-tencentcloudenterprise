@@ -26,11 +26,40 @@ func TestAccTencentCloudCicUsersDataSource_basic(t *testing.T) {
 	})
 }
 
+// go test -i; go test -test.run TestAccTencentCloudCicUsersDataSource_withFilter -v
+func TestAccTencentCloudCicUsersDataSource_withFilter(t *testing.T) {
+	t.Parallel()
+	resource.Test(t, resource.TestCase{
+		PreCheck:  func() { testAccPreCheck(t) },
+		Providers: testAccProviders,
+		Steps: []resource.TestStep{
+			{
+				Config: testAccCicUsersDataSourceWithFilter,
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttrSet(testCicUsersDataSourceName, "zone_id"),
+					resource.TestCheckResourceAttrSet(testCicUsersDataSourceName, "users.#"),
+				),
+			},
+		},
+	})
+}
+
 const testAccCicUsersDataSource = `
 data "tencentcloudenterprise_cic_identity_center" "test" {
 }
 
 data "tencentcloudenterprise_cic_users" "test" {
   zone_id = data.tencentcloudenterprise_cic_identity_center.test.zone_id
+}
+`
+
+const testAccCicUsersDataSourceWithFilter = `
+data "tencentcloudenterprise_cic_identity_center" "test" {
+}
+
+data "tencentcloudenterprise_cic_users" "test" {
+  zone_id     = data.tencentcloudenterprise_cic_identity_center.test.zone_id
+  user_name   = "12"
+  user_status = "Enabled"
 }
 `

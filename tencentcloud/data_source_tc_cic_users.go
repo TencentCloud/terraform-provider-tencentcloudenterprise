@@ -7,6 +7,8 @@ Use this data source to query detailed information of cic users
 
 	data "tencentcloudenterprise_cic_users" "users" {
 	  zone_id = "z-xxxxxxxxxx"
+	  user_name = "admin"
+	  user_status = "Enabled"
 	}
 
 	output "users_list" {
@@ -18,6 +20,7 @@ package tencentcloud
 
 import (
 	"context"
+	"strings"
 
 	cic "terraform-provider-tencentcloudenterprise/sdk/cic/v20210331"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
@@ -30,27 +33,21 @@ func init() {
 		TerraformTypeCN: "CIC 用户列表",
 		DescriptionCN:   "提供 CIC 用户列表数据源，用于查询满足条件的用户信息。",
 		AttributesCN: map[string]string{
-			"zone_id":             "空间 ID",
-			"filter":              "过滤条件，支持用户名、邮箱、用户ID、描述",
-			"filter_groups":       "筛选的用户组，关联该用户组的用户会返回 is_selected=true",
-			"user_status":         "用户状态：Enabled 启用，Disabled 禁用",
-			"user_type":           "用户类型：Manual 手动创建，Synchronized 外部导入",
-			"sort_field":          "排序字段，目前仅支持 CreateTime",
-			"sort_type":           "排序类型：Desc 倒序，Asc 正序",
-			"users":               "用户列表",
-			"user_id":             "用户 ID",
-			"user_name":           "用户名",
-			"display_name":        "显示名称",
-			"first_name":          "名",
-			"last_name":           "姓",
-			"email":               "邮箱地址",
-			"description":         "用户描述",
-			"user_status_out":     "用户状态",
-			"user_type_out":       "用户类型",
-			"create_time":         "创建时间",
-			"update_time":         "更新时间",
-			"is_selected":         "若 filter_groups 有值，用户在该用户组中则返回 true，否则 false",
-			"result_output_file":  "用于保存结果，可视化界面不可用",
+			"zone_id":            "空间 ID",
+			"user_name":          "用户名，精确匹配",
+			"user_id":            "用户 ID，精确匹配",
+			"email":              "邮箱地址，精确匹配",
+			"description":        "用户描述，精确匹配",
+			"user_status":        "用户状态：Enabled 启用，Disabled 禁用",
+			"user_type":          "用户类型：Manual 手动创建，Synchronized 外部导入",
+			"users":              "用户列表",
+			"display_name":       "显示名称",
+			"first_name":         "名",
+			"last_name":          "姓",
+			"create_time":        "创建时间",
+			"update_time":        "更新时间",
+			"is_selected":        "若 filter_groups 有值，用户在该用户组中则返回 true，否则 false",
+			"result_output_file": "用于保存结果，可视化界面不可用",
 		},
 	})
 }
@@ -66,19 +63,28 @@ func dataSourceTencentCloudCicUsers() *schema.Resource {
 				Description: "Space ID.",
 			},
 
-			"filter": {
+			"user_name": {
 				Type:        schema.TypeString,
 				Optional:    true,
-				Description: "Filter criterion. Currently supports username, email, userId, and description.",
+				Description: "User name for exact match filtering.",
 			},
 
-			"filter_groups": {
-				Type:        schema.TypeSet,
+			"user_id": {
+				Type:        schema.TypeString,
 				Optional:    true,
-				Description: "Filtered user group list. IsSelected=true will be returned for the user associated with this user group.",
-				Elem: &schema.Schema{
-					Type: schema.TypeString,
-				},
+				Description: "User ID for exact match filtering.",
+			},
+
+			"email": {
+				Type:        schema.TypeString,
+				Optional:    true,
+				Description: "Email address for exact match filtering.",
+			},
+
+			"description": {
+				Type:        schema.TypeString,
+				Optional:    true,
+				Description: "User description for exact match filtering.",
 			},
 
 			"user_status": {
@@ -91,18 +97,6 @@ func dataSourceTencentCloudCicUsers() *schema.Resource {
 				Type:        schema.TypeString,
 				Optional:    true,
 				Description: "User type. Manual: manually created; Synchronized: externally imported.",
-			},
-
-			"sort_field": {
-				Type:        schema.TypeString,
-				Optional:    true,
-				Description: "Sorting field, which currently only supports CreateTime.",
-			},
-
-			"sort_type": {
-				Type:        schema.TypeString,
-				Optional:    true,
-				Description: "Sorting type. Desc: descending order; Asc: ascending order. It should be set along with SortField.",
 			},
 
 			"users": {
@@ -197,29 +191,30 @@ func dataSourceTencentCloudCicUsersRead(d *schema.ResourceData, meta interface{}
 	if v, ok := d.GetOk("zone_id"); ok {
 		paramMap["ZoneId"] = helper.String(v.(string))
 	}
-	if v, ok := d.GetOk("filter"); ok {
-		paramMap["Filter"] = helper.String(v.(string))
+
+	// Build Filter string from individual search fields for API-side fuzzy matching
+	filterParts := []string{}
+	if v, ok := d.GetOk("user_name"); ok {
+		filterParts = append(filterParts, v.(string))
 	}
-	if v, ok := d.GetOk("filter_groups"); ok {
-		filterGroupsList := []*string{}
-		filterGroupsSet := v.(*schema.Set).List()
-		for i := range filterGroupsSet {
-			filterGroups := filterGroupsSet[i].(string)
-			filterGroupsList = append(filterGroupsList, helper.String(filterGroups))
-		}
-		paramMap["FilterGroups"] = filterGroupsList
+	if v, ok := d.GetOk("user_id"); ok {
+		filterParts = append(filterParts, v.(string))
 	}
+	if v, ok := d.GetOk("email"); ok {
+		filterParts = append(filterParts, v.(string))
+	}
+	if v, ok := d.GetOk("description"); ok {
+		filterParts = append(filterParts, v.(string))
+	}
+	if len(filterParts) > 0 {
+		paramMap["Filter"] = helper.String(strings.Join(filterParts, " "))
+	}
+
 	if v, ok := d.GetOk("user_status"); ok {
 		paramMap["UserStatus"] = helper.String(v.(string))
 	}
 	if v, ok := d.GetOk("user_type"); ok {
 		paramMap["UserType"] = helper.String(v.(string))
-	}
-	if v, ok := d.GetOk("sort_field"); ok {
-		paramMap["SortField"] = helper.String(v.(string))
-	}
-	if v, ok := d.GetOk("sort_type"); ok {
-		paramMap["SortType"] = helper.String(v.(string))
 	}
 
 	var users []*cic.UserInfo
@@ -234,6 +229,30 @@ func dataSourceTencentCloudCicUsersRead(d *schema.ResourceData, meta interface{}
 	if err != nil {
 		return err
 	}
+
+	// Client-side exact match filtering on individual fields
+	filterUserName, hasUserName := d.GetOk("user_name")
+	filterUserId, hasUserId := d.GetOk("user_id")
+	filterEmail, hasEmail := d.GetOk("email")
+	filterDesc, hasDesc := d.GetOk("description")
+
+	filtered := make([]*cic.UserInfo, 0, len(users))
+	for _, user := range users {
+		if hasUserName && (user.UserName == nil || *user.UserName != filterUserName.(string)) {
+			continue
+		}
+		if hasUserId && (user.UserId == nil || *user.UserId != filterUserId.(string)) {
+			continue
+		}
+		if hasEmail && (user.Email == nil || *user.Email != filterEmail.(string)) {
+			continue
+		}
+		if hasDesc && (user.Description == nil || *user.Description != filterDesc.(string)) {
+			continue
+		}
+		filtered = append(filtered, user)
+	}
+	users = filtered
 
 	usersList := make([]map[string]interface{}, 0, len(users))
 	ids := make([]string, 0, len(users))
