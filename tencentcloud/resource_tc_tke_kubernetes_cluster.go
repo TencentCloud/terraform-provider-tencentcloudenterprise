@@ -258,6 +258,148 @@ Using VPC-CNI network type
 	}
 
 ```
+
+# Independent Cluster with master_config
+
+```hcl
+
+	variable "availability_zone" {
+	  default = "ap-guangzhou-3"
+	}
+
+	variable "vpc_id" {
+	  default = "vpc-xxxxxxxx"
+	}
+
+	variable "subnet_id" {
+	  default = "subnet-xxxxxxxx"
+	}
+
+	resource "cloud_tke_kubernetes_cluster" "independent_cluster" {
+	  vpc_id              = var.vpc_id
+	  cluster_cidr        = "172.16.0.0/16"
+	  cluster_name        = "my-independent-cluster"
+	  cluster_desc        = "Independent cluster with master_config"
+	  cluster_deploy_type = "INDEPENDENT_CLUSTER"
+	  cluster_version     = "1.28.3"
+
+	  master_config {
+	    instance_type     = "S5.LARGE8"
+	    availability_zone = var.availability_zone
+	    subnet_id         = var.subnet_id
+	    system_disk_type  = "CLOUD_SSD"
+	    system_disk_size  = 100
+	    security_group_ids = ["sg-xxxxxxxx"]
+	    password          = "YourPassword123!"
+
+	    data_disk {
+	      disk_type = "CLOUD_SSD"
+	      disk_size = 100
+	    }
+	  }
+
+	  master_config {
+	    instance_type     = "S5.LARGE8"
+	    availability_zone = var.availability_zone
+	    subnet_id         = var.subnet_id
+	    system_disk_type  = "CLOUD_SSD"
+	    system_disk_size  = 100
+	    security_group_ids = ["sg-xxxxxxxx"]
+	    password          = "YourPassword123!"
+
+	    data_disk {
+	      disk_type = "CLOUD_SSD"
+	      disk_size = 100
+	    }
+	  }
+
+	  master_config {
+	    instance_type     = "S5.LARGE8"
+	    availability_zone = var.availability_zone
+	    subnet_id         = var.subnet_id
+	    system_disk_type  = "CLOUD_SSD"
+	    system_disk_size  = 100
+	    security_group_ids = ["sg-xxxxxxxx"]
+	    password          = "YourPassword123!"
+
+	    data_disk {
+	      disk_type = "CLOUD_SSD"
+	      disk_size = 100
+	    }
+	  }
+	}
+
+```
+
+# Scale out master nodes (add 2 more masters to existing 3-master cluster)
+
+To scale out master nodes, simply add more `master_config` blocks. To scale in, remove the blocks.
+The `node_role` field defaults to `MASTER_ETCD`. Use `MASTER` or `ETCD` for split-role deployments.
+
+```hcl
+
+	resource "cloud_tke_kubernetes_cluster" "independent_cluster" {
+	  vpc_id              = var.vpc_id
+	  cluster_cidr        = "172.16.0.0/16"
+	  cluster_name        = "my-independent-cluster"
+	  cluster_deploy_type = "INDEPENDENT_CLUSTER"
+
+	  # Existing 3 masters
+	  master_config {
+	    instance_type     = "S5.LARGE8"
+	    availability_zone = "ap-guangzhou-3"
+	    subnet_id         = "subnet-xxxxxxxx"
+	    system_disk_type  = "CLOUD_SSD"
+	    system_disk_size  = 100
+	    security_group_ids = ["sg-xxxxxxxx"]
+	    password          = "YourPassword123!"
+	  }
+
+	  master_config {
+	    instance_type     = "S5.LARGE8"
+	    availability_zone = "ap-guangzhou-3"
+	    subnet_id         = "subnet-xxxxxxxx"
+	    system_disk_type  = "CLOUD_SSD"
+	    system_disk_size  = 100
+	    security_group_ids = ["sg-xxxxxxxx"]
+	    password          = "YourPassword123!"
+	  }
+
+	  master_config {
+	    instance_type     = "S5.LARGE8"
+	    availability_zone = "ap-guangzhou-3"
+	    subnet_id         = "subnet-xxxxxxxx"
+	    system_disk_type  = "CLOUD_SSD"
+	    system_disk_size  = 100
+	    security_group_ids = ["sg-xxxxxxxx"]
+	    password          = "YourPassword123!"
+	  }
+
+	  # Scale out: add 2 more master nodes
+	  master_config {
+	    instance_type     = "S5.LARGE8"
+	    availability_zone = "ap-guangzhou-4"
+	    subnet_id         = "subnet-yyyyyyyy"
+	    system_disk_type  = "CLOUD_SSD"
+	    system_disk_size  = 100
+	    security_group_ids = ["sg-xxxxxxxx"]
+	    password          = "YourPassword123!"
+	    node_role         = "MASTER_ETCD"
+	  }
+
+	  master_config {
+	    instance_type     = "S5.LARGE8"
+	    availability_zone = "ap-guangzhou-4"
+	    subnet_id         = "subnet-yyyyyyyy"
+	    system_disk_type  = "CLOUD_SSD"
+	    system_disk_size  = 100
+	    security_group_ids = ["sg-xxxxxxxx"]
+	    password          = "YourPassword123!"
+	    node_role         = "MASTER_ETCD"
+	  }
+	}
+
+```
 */
 package tencentcloud
 
