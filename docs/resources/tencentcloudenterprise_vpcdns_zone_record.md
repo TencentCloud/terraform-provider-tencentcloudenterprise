@@ -14,7 +14,7 @@ Provide a resource to create a Private Dns Record.
 ## Example Usage
 
 ```hcl
-resource "tencentcloudenterprise_vpcdns_zone_record" "foo" {
+resource "cloud_vpcdns_zone_record" "foo" {
   zone_id      = "zone-rqndjnki"
   record_type  = "A"
   record_value = "192.168.1.2"
@@ -53,7 +53,7 @@ tencentcloudenterprise_vpcdns_zone_record can be imported using the id, e.g.
 Private Dns Record can be imported, e.g.
 
 ```
-$ terraform import tencentcloudenterprise_vpcdns_zone_record.foo zone_id#record_id
+$ terraform import cloud_vpcdns_zone_record.foo zone_id#record_id
 ```
 ```
 

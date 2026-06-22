@@ -1,7 +1,7 @@
 /*
 Provide a resource to create an auto scaling group for kubernetes cluster.
 
-~> **NOTE:**  We recommend the usage of one cluster with essential worker config + node pool to manage cluster and nodes. Its a more flexible way than manage worker config with tencentcloudenterprise_tke_kubernetes_cluster, tencentcloudenterprise_tke_kubernetes_scale_worker or exist node management of `tencentcloudenterprise_kubernetes_attachment`. Cause some unchangeable parameters of `worker_config` may cause the whole cluster resource `force new`.
+~> **NOTE:**  We recommend the usage of one cluster with essential worker config + node pool to manage cluster and nodes. Its a more flexible way than manage worker config with cloud_tke_kubernetes_cluster, cloud_tke_kubernetes_scale_worker or exist node management of `cloud_kubernetes_attachment`. Cause some unchangeable parameters of `worker_config` may cause the whole cluster resource `force new`.
 
 ~> **NOTE:**  In order to ensure the integrity of customer data, if you destroy nodepool instance, it will keep the cvm instance associate with nodepool by default. If you want to destroy together, please set `delete_keep_instance` to `false`.
 
@@ -19,7 +19,7 @@ Provide a resource to create an auto scaling group for kubernetes cluster.
 	  default = "172.31.0.0/16"
 	}
 
-	data "tencentcloudenterprise_vpc_subnets" "vpc" {
+	data "cloud_vpc_subnets" "vpc" {
 	    is_default        = true
 	    availability_zone = var.availability_zone
 	}
@@ -30,8 +30,8 @@ Provide a resource to create an auto scaling group for kubernetes cluster.
 
 //this is the cluster with empty worker config
 
-	resource "tencentcloudenterprise_tke_kubernetes_cluster" "managed_cluster" {
-	  vpc_id                  = data.tencentcloudenterprise_vpc_subnets.vpc.instance_list.0.vpc_id
+	resource "cloud_tke_kubernetes_cluster" "managed_cluster" {
+	  vpc_id                  = data.cloud_vpc_subnets.vpc.instance_list.0.vpc_id
 	  cluster_cidr            = var.cluster_cidr
 	  cluster_max_pod_num     = 32
 	  cluster_name            = "tf-tke-unit-test"
@@ -43,13 +43,13 @@ Provide a resource to create an auto scaling group for kubernetes cluster.
 
 //this is one example of managing node using node pool
 
-	resource "tencentcloudenterprise_kubernetes_node_pool" "mynodepool" {
+	resource "cloud_kubernetes_node_pool" "mynodepool" {
 	  name = "mynodepool"
-	  cluster_id = tencentcloudenterprise_tke_kubernetes_cluster.managed_cluster.id
+	  cluster_id = cloud_tke_kubernetes_cluster.managed_cluster.id
 	  max_size = 6
 	  min_size = 1
-	  vpc_id               = data.tencentcloudenterprise_vpc_subnets.vpc.instance_list.0.vpc_id
-	  subnet_ids           = [data.tencentcloudenterprise_vpc_subnets.vpc.instance_list.0.subnet_id]
+	  vpc_id               = data.cloud_vpc_subnets.vpc.instance_list.0.vpc_id
+	  subnet_ids           = [data.cloud_vpc_subnets.vpc.instance_list.0.subnet_id]
 	  retry_policy         = "INCREMENTAL_INTERVALS"
 	  desired_capacity     = 4
 	  enable_auto_scale    = true
@@ -105,13 +105,13 @@ Provide a resource to create an auto scaling group for kubernetes cluster.
 Using Spot CVM Instance
 ```hcl
 
-	resource "tencentcloudenterprise_kubernetes_node_pool" "mynodepool" {
+	resource "cloud_kubernetes_node_pool" "mynodepool" {
 	  name = "mynodepool"
-	  cluster_id = tencentcloudenterprise_tke_kubernetes_cluster.managed_cluster.id
+	  cluster_id = cloud_tke_kubernetes_cluster.managed_cluster.id
 	  max_size = 6
 	  min_size = 1
-	  vpc_id               = data.tencentcloudenterprise_vpc_subnets.vpc.instance_list.0.vpc_id
-	  subnet_ids           = [data.tencentcloudenterprise_vpc_subnets.vpc.instance_list.0.subnet_id]
+	  vpc_id               = data.cloud_vpc_subnets.vpc.instance_list.0.vpc_id
+	  subnet_ids           = [data.cloud_vpc_subnets.vpc.instance_list.0.subnet_id]
 	  retry_policy         = "INCREMENTAL_INTERVALS"
 	  desired_capacity     = 4
 	  enable_auto_scale    = true
@@ -164,7 +164,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("tencentcloudenterprise_tke_kubernetes_node_pool", CNDescription{
+	registerResourceDescriptionProvider("cloud_tke_kubernetes_node_pool", CNDescription{
 		TerraformTypeCN: "虚拟节点池",
 		DescriptionCN:   "提供Kubernetes集群自动伸缩组资源，用于创建和管理集群的节点池。",
 		AttributesCN: map[string]string{
@@ -266,27 +266,30 @@ func composedKubernetesAsScalingConfigPara() map[string]*schema.Schema {
 						Default:     0,
 						Description: "Volume of disk in GB. Default is `0`.",
 					},
-					"snapshot_id": {
-						Type:        schema.TypeString,
-						Optional:    true,
-						ForceNew:    true,
-						Description: "Data disk snapshot ID.",
-					},
-					"delete_with_instance": {
-						Type:        schema.TypeBool,
-						Optional:    true,
-						Description: "Indicates whether the disk remove after instance terminated. Default is `false`.",
-					},
-					"encrypt": {
-						Type:        schema.TypeBool,
-						Optional:    true,
-						Description: "Specify whether to encrypt data disk, default: false. NOTE: Make sure the instance type is offering and the cam role `QcloudKMSAccessForCVMRole` was provided.",
-					},
-					"throughput_performance": {
-						Type:        schema.TypeInt,
-						Optional:    true,
-						Description: "Add extra performance to the data disk. Only works when disk type is `CLOUD_TSSD` or `CLOUD_HSSD` and `data_size` > 460GB.",
-					},
+				"snapshot_id": {
+					Type:        schema.TypeString,
+					Optional:    true,
+					Computed:    true,
+					ForceNew:    true,
+					Description: "Data disk snapshot ID.",
+				},
+				"delete_with_instance": {
+					Type:        schema.TypeBool,
+					Optional:    true,
+					Computed:    true,
+					Description: "Indicates whether the disk remove after instance terminated. Default is `false`.",
+				},
+				"encrypt": {
+					Type:        schema.TypeBool,
+					Optional:    true,
+					Description: "Specify whether to encrypt data disk, default: false. NOTE: Make sure the instance type is offering and the cam role `QcloudKMSAccessForCVMRole` was provided.",
+				},
+				"throughput_performance": {
+					Type:        schema.TypeInt,
+					Optional:    true,
+					Computed:    true,
+					Description: "Add extra performance to the data disk. Only works when disk type is `CLOUD_TSSD` or `CLOUD_HSSD` and `data_size` > 460GB.",
+				},
 				},
 			},
 		},
@@ -300,6 +303,7 @@ func composedKubernetesAsScalingConfigPara() map[string]*schema.Schema {
 		"instance_charge_type_prepaid_period": {
 			Type:         schema.TypeInt,
 			Optional:     true,
+			Computed:     true,
 			ValidateFunc: validateAllowedIntValue(CVM_PREPAID_PERIOD),
 			Description:  "The tenancy (in month) of the prepaid instance, NOTE: it only works when instance_charge_type is set to `PREPAID`. Valid values are `1`, `2`, `3`, `4`, `5`, `6`, `7`, `8`, `9`, `10`, `11`, `12`, `24`, `36`.",
 		},
@@ -313,12 +317,14 @@ func composedKubernetesAsScalingConfigPara() map[string]*schema.Schema {
 		"spot_instance_type": {
 			Type:         schema.TypeString,
 			Optional:     true,
+			Computed:     true,
 			ValidateFunc: validateAllowedStringValue([]string{"one-time"}),
 			Description:  "Type of spot instance, only support `one-time` now. Note: it only works when instance_charge_type is set to `SPOTPAID`.",
 		},
 		"spot_max_price": {
 			Type:         schema.TypeString,
 			Optional:     true,
+			Computed:     true,
 			ValidateFunc: validateStringNumber,
 			Description:  "Max price of a spot instance, is the format of decimal string, for example \"0.50\". Note: it only works when instance_charge_type is set to `SPOTPAID`.",
 		},
@@ -338,11 +344,13 @@ func composedKubernetesAsScalingConfigPara() map[string]*schema.Schema {
 		"bandwidth_package_id": {
 			Type:        schema.TypeString,
 			Optional:    true,
+			Computed:    true,
 			Description: "bandwidth package id. if user is standard user, then the bandwidth_package_id is needed, or default has bandwidth_package_id.",
 		},
 		"public_ip_assigned": {
 			Type:        schema.TypeBool,
 			Optional:    true,
+			Computed:    true,
 			Description: "Specify whether to assign an Internet IP address.",
 		},
 		"password": {
@@ -385,6 +393,7 @@ func composedKubernetesAsScalingConfigPara() map[string]*schema.Schema {
 		"cam_role_name": {
 			Type:        schema.TypeString,
 			Optional:    true,
+			Computed:    true,
 			ForceNew:    true,
 			Description: "Name of cam role.",
 		},
@@ -1093,7 +1102,7 @@ func desiredCapacityOutRange(d *schema.ResourceData) bool {
 }
 
 func resourceKubernetesNodePoolRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.tencentcloudenterprise_kubernetes_node_pool.read")()
+	defer logElapsed("resource.cloud_kubernetes_node_pool.read")()
 
 	var (
 		logId   = getLogId(contextNil)
@@ -1380,7 +1389,7 @@ func resourceKubernetesNodePoolRead(d *schema.ResourceData, meta interface{}) er
 }
 
 func resourceKubernetesNodePoolCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.tencentcloudenterprise_kubernetes_node_pool.create")()
+	defer logElapsed("resource.cloud_kubernetes_node_pool.create")()
 	var (
 		logId           = getLogId(contextNil)
 		ctx             = context.WithValue(context.TODO(), logIdKey, logId)
@@ -1510,7 +1519,7 @@ func resourceKubernetesNodePoolCreate(d *schema.ResourceData, meta interface{}) 
 }
 
 func resourceKubernetesNodePoolUpdate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.tencentcloudenterprise_kubernetes_node_pool.update")()
+	defer logElapsed("resource.cloud_kubernetes_node_pool.update")()
 
 	var (
 		logId     = getLogId(contextNil)
@@ -1726,7 +1735,7 @@ func resourceKubernetesNodePoolUpdate(d *schema.ResourceData, meta interface{}) 
 }
 
 func resourceKubernetesNodePoolDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.tencentcloudenterprise_kubernetes_node_pool.delete")()
+	defer logElapsed("resource.cloud_kubernetes_node_pool.delete")()
 
 	var (
 		logId              = getLogId(contextNil)

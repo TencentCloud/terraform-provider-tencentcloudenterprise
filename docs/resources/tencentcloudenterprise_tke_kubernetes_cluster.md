@@ -13,8 +13,8 @@ Provide a resource to create a kubernetes cluster.
 
 ~> **NOTE:** To use the custom Kubernetes component startup parameter function (parameter `extra_args`), you need to submit a ticket for application.
 
-~> **NOTE:** We recommend this usage that uses the `tencentcloudenterprise_tke_kubernetes_cluster` resource to create a cluster without any `worker_config`, then adds nodes by the `tencentcloudenterprise_kubernetes_node_pool` resource.
-It's more flexible than managing worker config directly with `tencentcloudenterprise_tke_kubernetes_cluster`, `tencentcloudenterprise_tke_kubernetes_scale_worker`, or existing node management of `tencentcloudenterprise_kubernetes_attachment`. The reason is that `worker_config` is unchangeable and may cause the whole cluster resource to `ForceNew`.
+~> **NOTE:** We recommend this usage that uses the `cloud_tke_kubernetes_cluster` resource to create a cluster without any `worker_config`, then adds nodes by the `cloud_kubernetes_node_pool` resource.
+It's more flexible than managing worker config directly with `cloud_tke_kubernetes_cluster`, `cloud_tke_kubernetes_scale_worker`, or existing node management of `cloud_kubernetes_attachment`. The reason is that `worker_config` is unchangeable and may cause the whole cluster resource to `ForceNew`.
 
 ## Example Usage
 
@@ -35,18 +35,18 @@ variable "default_instance_type" {
   default = "SA2.2XLARGE16"
 }
 
-data "tencentcloudenterprise_vpc_subnets" "vpc_first" {
+data "cloud_vpc_subnets" "vpc_first" {
   is_default        = true
   availability_zone = var.availability_zone_first
 }
 
-data "tencentcloudenterprise_vpc_subnets" "vpc_second" {
+data "cloud_vpc_subnets" "vpc_second" {
   is_default        = true
   availability_zone = var.availability_zone_second
 }
 
-resource "tencentcloudenterprise_tke_kubernetes_cluster" "managed_cluster" {
-  vpc_id                  = data.tencentcloudenterprise_vpc_subnets.vpc_first.instance_list.0.vpc_id
+resource "cloud_tke_kubernetes_cluster" "managed_cluster" {
+  vpc_id                  = data.cloud_vpc_subnets.vpc_first.instance_list.0.vpc_id
   cluster_cidr            = var.cluster_cidr
   cluster_max_pod_num     = 32
   cluster_name            = "test"
@@ -63,7 +63,7 @@ resource "tencentcloudenterprise_tke_kubernetes_cluster" "managed_cluster" {
     internet_charge_type       = "TRAFFIC_POSTPAID_BY_HOUR"
     internet_max_bandwidth_out = 100
     public_ip_assigned         = true
-    subnet_id                  = data.tencentcloudenterprise_vpc_subnets.vpc_first.instance_list.0.subnet_id
+    subnet_id                  = data.cloud_vpc_subnets.vpc_first.instance_list.0.subnet_id
     img_id                     = "img-rkiynh11"
 
     data_disk {
@@ -88,7 +88,7 @@ resource "tencentcloudenterprise_tke_kubernetes_cluster" "managed_cluster" {
     internet_charge_type       = "TRAFFIC_POSTPAID_BY_HOUR"
     internet_max_bandwidth_out = 100
     public_ip_assigned         = true
-    subnet_id                  = data.tencentcloudenterprise_vpc_subnets.vpc_second.instance_list.0.subnet_id
+    subnet_id                  = data.cloud_vpc_subnets.vpc_second.instance_list.0.subnet_id
 
     data_disk {
       disk_type = "CLOUD_PREMIUM"
@@ -129,18 +129,18 @@ variable "default_instance_type" {
   default = "SA2.2XLARGE16"
 }
 
-data "tencentcloudenterprise_vpc_subnets" "vpc_first" {
+data "cloud_vpc_subnets" "vpc_first" {
   is_default        = true
   availability_zone = var.availability_zone_first
 }
 
-data "tencentcloudenterprise_vpc_subnets" "vpc_second" {
+data "cloud_vpc_subnets" "vpc_second" {
   is_default        = true
   availability_zone = var.availability_zone_second
 }
 
-resource "tencentcloudenterprise_tke_kubernetes_cluster" "managed_cluster" {
-  vpc_id                  = data.tencentcloudenterprise_vpc_subnets.vpc_first.instance_list.0.vpc_id
+resource "cloud_tke_kubernetes_cluster" "managed_cluster" {
+  vpc_id                  = data.cloud_vpc_subnets.vpc_first.instance_list.0.vpc_id
   cluster_cidr            = var.cluster_cidr
   cluster_max_pod_num     = 32
   cluster_name            = "test"
@@ -157,7 +157,7 @@ resource "tencentcloudenterprise_tke_kubernetes_cluster" "managed_cluster" {
     internet_charge_type       = "TRAFFIC_POSTPAID_BY_HOUR"
     internet_max_bandwidth_out = 100
     public_ip_assigned         = true
-    subnet_id                  = data.tencentcloudenterprise_vpc_subnets.vpc_first.instance_list.0.subnet_id
+    subnet_id                  = data.cloud_vpc_subnets.vpc_first.instance_list.0.subnet_id
 
     data_disk {
       disk_type = "CLOUD_PREMIUM"
@@ -181,7 +181,7 @@ resource "tencentcloudenterprise_tke_kubernetes_cluster" "managed_cluster" {
     internet_charge_type       = "TRAFFIC_POSTPAID_BY_HOUR"
     internet_max_bandwidth_out = 100
     public_ip_assigned         = true
-    subnet_id                  = data.tencentcloudenterprise_vpc_subnets.vpc_second.instance_list.0.subnet_id
+    subnet_id                  = data.cloud_vpc_subnets.vpc_second.instance_list.0.subnet_id
 
     data_disk {
       disk_type = "CLOUD_PREMIUM"
@@ -222,7 +222,7 @@ variable "default_instance_type" {
   default = "SA2.SMALL2"
 }
 
-resource "tencentcloudenterprise_tke_kubernetes_cluster" "managed_cluster" {
+resource "cloud_tke_kubernetes_cluster" "managed_cluster" {
   vpc_id                  = var.vpc
   cluster_max_pod_num     = 32
   cluster_name            = "test"
@@ -282,14 +282,14 @@ The following arguments are supported:
 * `cluster_desc` - (Optional, String) Description of the cluster.
 * `cluster_extra_args` - (Optional, List, ForceNew) Customized parameters for master component,such as kube-apiserver, kube-controller-manager, kube-scheduler.
 * `cluster_ipvs` - (Optional, Bool, ForceNew) Indicates whether `ipvs` is enabled. Default is true. False means `iptables` is enabled.
-* `cluster_level` - (Optional, String) Specify cluster level, valid for managed cluster, use data source `tencentcloudenterprise_kubernetes_cluster_levels` to query available levels. Available value examples `L5`, `L20`, `L50`, `L100`, etc.
+* `cluster_level` - (Optional, String) Specify cluster level, valid for managed cluster, use data source `cloud_kubernetes_cluster_levels` to query available levels. Available value examples `L5`, `L20`, `L50`, `L100`, etc.
 * `cluster_max_pod_num` - (Optional, Int, ForceNew) The maximum number of Pods per node in the cluster. Default is 256. The minimum value is 4. When its power unequal to 2, it will round upward to the closest power of 2.
 * `cluster_max_service_num` - (Optional, Int, ForceNew) The maximum number of services in the cluster. Default is 256. The range is from 32 to 32768. When its power unequal to 2, it will round upward to the closest power of 2.
 * `cluster_name` - (Optional, String) Name of the cluster.
 * `cluster_os_type` - (Optional, String, ForceNew) Image type of the cluster os, the available values include: 'GENERAL'. Default is 'GENERAL'.
 * `cluster_os` - (Optional, String, ForceNew) Cluster operating system, supports setting public images (image Name) and custom images (image ID).
 * `cluster_subnet_id` - (Optional, String, ForceNew) Control Plane Subnet Information. Required for some network plugins (for example, CiliumOverlay).
-* `cluster_version` - (Optional, String) Version of the cluster, Default is '1.10.5'. Use `tencentcloudenterprise_tke_kubernetes_available_cluster_versions` to get the available versions.
+* `cluster_version` - (Optional, String) Version of the cluster, Default is '1.10.5'. Use `cloud_tke_kubernetes_available_cluster_versions` to get the available versions.
 * `container_runtime` - (Optional, String, ForceNew) Runtime type of the cluster, the available values include: 'docker' and 'containerd'.The Kubernetes v1.24 has removed dockershim, so please use containerd in v1.24 or higher.Default is 'docker'.
 * `data_plane_v2` - (Optional, Bool, ForceNew) Whether to use data plane V2 (cilium v2). Default is false.
 * `deletion_protection` - (Optional, Bool) Indicates whether cluster deletion protection is enabled. Default is false.
@@ -310,7 +310,7 @@ The following arguments are supported:
 * `kube_proxy_mode` - (Optional, String, ForceNew) Cluster kube-proxy mode, the available values include: 'kube-proxy-bpf'. Default is not set.When set to kube-proxy-bpf, cluster version greater than 1.14 and with Linux 2.4 is required.
 * `labels` - (Optional, Map, ForceNew) Labels of tke cluster nodes.
 * `log_agent` - (Optional, List) Specify cluster log agent config.
-* `master_config` - (Optional, List, ForceNew) Deploy the machine configuration information of the 'MASTER_ETCD' service, and create <=7 units for common users.
+* `master_config` - (Optional, List) Deploy the machine configuration information of the 'MASTER_ETCD' service, and create <=7 units for common users.
 * `mount_target` - (Optional, String, ForceNew) Mount target. Default is not mounting.
 * `need_work_security_group` - (Optional, Bool, ForceNew) Indicates whether to enable the default node security group. Default is false.
 * `network_type` - (Optional, String, ForceNew) Cluster network type, GR or VPC-CNI. Default is GR.
@@ -326,7 +326,7 @@ The following arguments are supported:
 * `unschedulable` - (Optional, Int, ForceNew) Sets whether the joining node participates in the schedule. Default is '0'. Participate in scheduling.
 * `user_script` - (Optional, String, ForceNew) Base64-encoded user script executed after initializing the node.
 * `vpc_cni_type` - (Optional, String) Distinguish between shared network card multi-IP mode and independent network card mode. Fill in `tke-route-eni` for shared network card multi-IP mode and `tke-direct-eni` for independent network card mode. The default is shared network card mode.
-* `worker_config` - (Optional, List, ForceNew) Deploy the machine configuration information of the 'WORKER' service, and create <=20 units for common users. The other 'WORK' service are added by 'tencentcloudenterprise_kubernetes_worker'.
+* `worker_config` - (Optional, List, ForceNew) Deploy the machine configuration information of the 'WORKER' service, and create <=20 units for common users. The other 'WORK' service are added by 'cloud_kubernetes_worker'.
 
 The `cluster_audit` object supports the following:
 
@@ -438,32 +438,32 @@ The `log_agent` object supports the following:
 
 The `master_config` object supports the following:
 
-* `instance_type` - (Required, String, ForceNew) Specified types of CVM instance.
-* `subnet_id` - (Required, String, ForceNew) Private network ID.
-* `availability_zone` - (Optional, String, ForceNew) Indicates which availability zone will be used.
-* `cam_role_name` - (Optional, String, ForceNew) CAM role name authorized to access.
-* `count` - (Optional, Int, ForceNew) Number of cvm.
-* `data_disk` - (Optional, List, ForceNew) Configurations of data disk.
-* `desired_pod_num` - (Optional, Int, ForceNew) Indicate to set desired pod number in node. valid when enable_customized_pod_cidr=true, and it override `[globe_]desired_pod_num` for current node. Either all the fields `desired_pod_num` or none.
-* `enhanced_automation_service` - (Optional, Bool, ForceNew) To specify whether to enable automation service. Default is TRUE.
-* `enhanced_monitor_service` - (Optional, Bool, ForceNew) To specify whether to enable cloud monitor service. Default is TRUE.
-* `enhanced_security_service` - (Optional, Bool, ForceNew) To specify whether to enable cloud security service. Default is TRUE.
-* `hostname` - (Optional, String, ForceNew) The host name of the attached instance. Dot (.) and dash (-) cannot be used as the first and last characters of HostName and cannot be used consecutively. Windows example: The length of the name character is [2, 15], letters (capitalization is not restricted), numbers and dashes (-) are allowed, dots (.) are not supported, and not all numbers are allowed. Examples of other types (Linux, etc.): The character length is [2, 60], and multiple dots are allowed. There is a segment between the dots. Each segment allows letters (with no limitation on capitalization), numbers and dashes (-).
+* `instance_type` - (Required, String) Specified types of CVM instance.
+* `subnet_id` - (Required, String) Private network ID.
+* `availability_zone` - (Optional, String) Indicates which availability zone will be used.
+* `cam_role_name` - (Optional, String) CAM role name authorized to access.
+* `data_disk` - (Optional, List) Configurations of data disk.
+* `desired_pod_num` - (Optional, Int) Indicate to set desired pod number in node. valid when enable_customized_pod_cidr=true, and it override `[globe_]desired_pod_num` for current node. Either all the fields `desired_pod_num` or none.
+* `enhanced_automation_service` - (Optional, Bool) To specify whether to enable automation service. Default is TRUE.
+* `enhanced_monitor_service` - (Optional, Bool) To specify whether to enable cloud monitor service. Default is TRUE.
+* `enhanced_security_service` - (Optional, Bool) To specify whether to enable cloud security service. Default is TRUE.
+* `hostname` - (Optional, String) The host name of the attached instance. Dot (.) and dash (-) cannot be used as the first and last characters of HostName and cannot be used consecutively. Windows example: The length of the name character is [2, 15], letters (capitalization is not restricted), numbers and dashes (-) are allowed, dots (.) are not supported, and not all numbers are allowed. Examples of other types (Linux, etc.): The character length is [2, 60], and multiple dots are allowed. There is a segment between the dots. Each segment allows letters (with no limitation on capitalization), numbers and dashes (-).
 * `img_id` - (Optional, String) The valid image id, format of img-xxx.
-* `instance_charge_type_prepaid_period` - (Optional, Int, ForceNew) The tenancy (time unit is month) of the prepaid instance. NOTE: it only works when instance_charge_type is set to `PREPAID`. Valid values are `1`, `2`, `3`, `4`, `5`, `6`, `7`, `8`, `9`, `10`, `11`, `12`, `24`, `36`.
-* `instance_charge_type_prepaid_renew_flag` - (Optional, String, ForceNew) Auto renewal flag. Valid values: `NOTIFY_AND_AUTO_RENEW`: notify upon expiration and renew automatically, `NOTIFY_AND_MANUAL_RENEW`: notify upon expiration but do not renew automatically, `DISABLE_NOTIFY_AND_MANUAL_RENEW`: neither notify upon expiration nor renew automatically. Default value: `NOTIFY_AND_MANUAL_RENEW`. If this parameter is specified as `NOTIFY_AND_AUTO_RENEW`, the instance will be automatically renewed on a monthly basis if the account balance is sufficient. NOTE: it only works when instance_charge_type is set to `PREPAID`.
-* `instance_charge_type` - (Optional, String, ForceNew) The charge type of instance. Valid values are `PREPAID` and `POSTPAID_BY_HOUR`. The default is `POSTPAID_BY_HOUR`. Note: Cloud International only supports `POSTPAID_BY_HOUR`, `PREPAID` instance will not terminated after cluster deleted, and may not allow to delete before expired.
-* `instance_name` - (Optional, String, ForceNew) Name of the CVMs.
-* `internet_charge_type` - (Optional, String, ForceNew) Charge types for network traffic. Available values include `TRAFFIC_POSTPAID_BY_HOUR`.
+* `instance_charge_type_prepaid_period` - (Optional, Int) The tenancy (time unit is month) of the prepaid instance. NOTE: it only works when instance_charge_type is set to `PREPAID`. Valid values are `1`, `2`, `3`, `4`, `5`, `6`, `7`, `8`, `9`, `10`, `11`, `12`, `24`, `36`.
+* `instance_charge_type_prepaid_renew_flag` - (Optional, String) Auto renewal flag. Valid values: `NOTIFY_AND_AUTO_RENEW`: notify upon expiration and renew automatically, `NOTIFY_AND_MANUAL_RENEW`: notify upon expiration but do not renew automatically, `DISABLE_NOTIFY_AND_MANUAL_RENEW`: neither notify upon expiration nor renew automatically. Default value: `NOTIFY_AND_MANUAL_RENEW`. If this parameter is specified as `NOTIFY_AND_AUTO_RENEW`, the instance will be automatically renewed on a monthly basis if the account balance is sufficient. NOTE: it only works when instance_charge_type is set to `PREPAID`.
+* `instance_charge_type` - (Optional, String) The charge type of instance. Valid values are `PREPAID` and `POSTPAID_BY_HOUR`. The default is `POSTPAID_BY_HOUR`. Note: Cloud International only supports `POSTPAID_BY_HOUR`, `PREPAID` instance will not terminated after cluster deleted, and may not allow to delete before expired.
+* `instance_name` - (Optional, String) Name of the CVMs.
+* `internet_charge_type` - (Optional, String) Charge types for network traffic. Available values include `TRAFFIC_POSTPAID_BY_HOUR`.
 * `internet_max_bandwidth_out` - (Optional, Int) Max bandwidth of Internet access in Mbps. Default is 0.
-* `key_ids` - (Optional, List, ForceNew) ID list of keys, should be set if `password` not set.
-* `password` - (Optional, String, ForceNew) Password to access, should be set if `key_ids` not set.
-* `public_ip_assigned` - (Optional, Bool, ForceNew) Specify whether to assign an Internet IP address.
-* `security_group_ids` - (Optional, List, ForceNew) Security groups to which a CVM instance belongs.
-* `system_disk_pool_group` - (Optional, String, ForceNew) System disk pool group.
-* `system_disk_size` - (Optional, Int, ForceNew) Volume of system disk in GB. Default is `50`.
-* `system_disk_type` - (Optional, String, ForceNew) System disk type. For more information on limits of system disk types, see [Storage Overview](https://intl.cloud.com/document/product/213/4952). Valid values: `LOCAL_BASIC`: local disk, `LOCAL_SSD`: local SSD disk, `CLOUD_SSD`: SSD, `CLOUD_PREMIUM`: Premium Cloud Storage. NOTE: `CLOUD_BASIC`, `LOCAL_BASIC` and `LOCAL_SSD` are deprecated.
-* `user_data` - (Optional, String, ForceNew) Ase64-encoded User Data text, the length limit is 16KB.
+* `key_ids` - (Optional, List) ID list of keys, should be set if `password` not set.
+* `node_role` - (Optional, String) The role of the node. Valid values: `MASTER_ETCD` (default), `MASTER`, `ETCD`.
+* `password` - (Optional, String) Password to access, should be set if `key_ids` not set.
+* `public_ip_assigned` - (Optional, Bool) Specify whether to assign an Internet IP address.
+* `security_group_ids` - (Optional, List) Security groups to which a CVM instance belongs.
+* `system_disk_pool_group` - (Optional, String) System disk pool group.
+* `system_disk_size` - (Optional, Int) Volume of system disk in GB. Default is `50`.
+* `system_disk_type` - (Optional, String) System disk type. For more information on limits of system disk types, see [Storage Overview](https://intl.cloud.com/document/product/213/4952). Valid values: `LOCAL_BASIC`: local disk, `LOCAL_SSD`: local SSD disk, `CLOUD_SSD`: SSD, `CLOUD_PREMIUM`: Premium Cloud Storage. NOTE: `CLOUD_BASIC`, `LOCAL_BASIC` and `LOCAL_SSD` are deprecated.
+* `user_data` - (Optional, String) Ase64-encoded User Data text, the length limit is 16KB.
 
 The `run_instances_for_node` object supports the following:
 

@@ -1,18 +1,18 @@
 /*
-Provides a resource to create security group rule. This resource is similar with tencentcloudenterprise_vpc_security_group_lite_rule, rules can be ordered and configure descriptions.
+Provides a resource to create security group rule. This resource is similar with cloud_vpc_security_group_lite_rule, rules can be ordered and configure descriptions.
 
 ~> **NOTE:** This resource must exclusive in one security group, do not declare additional rule resources of this security group elsewhere.
 
 Example Usage
 
 ```hcl
-resource "tencentcloudenterprise_vpc_security_group" "sglab_1" {
+resource "cloud_vpc_security_group" "sglab_1" {
   name        = "mysg_1"
   description = "favourite sg_1"
 }
 
-resource "tencentcloudenterprise_vpc_security_group_rule_set" "sglab_1" {
-  security_group_id = tencentcloudenterprise_vpc_security_group.sglab_1.id
+resource "cloud_vpc_security_group_rule_set" "sglab_1" {
+  security_group_id = cloud_vpc_security_group.sglab_1.id
   ingress {
     cidr_block  = "10.0.0.0/16" # Accept IP or CIDR
     protocol    = "TCP" # Default is ALL
@@ -24,7 +24,7 @@ resource "tencentcloudenterprise_vpc_security_group_rule_set" "sglab_1" {
     protocol           = "TCP"
     port               = "80"
     action             = "ACCEPT"
-    source_security_id = tencentcloudenterprise_vpc_security_group.sglab_3.id
+    source_security_id = cloud_vpc_security_group.sglab_3.id
     description        = "favourite sg rule_2"
   }
 
@@ -50,10 +50,10 @@ resource "tencentcloudenterprise_vpc_security_group_rule_set" "sglab_1" {
 
 Import
 
-Resource tencentcloudenterprise_vpc_security_group_rule_set can be imported by passing security grou id:
+Resource cloud_vpc_security_group_rule_set can be imported by passing security grou id:
 
 ```
-terraform import tencentcloudenterprise_vpc_security_group_rule_set.sglab_1 sg-xxxxxxxx
+terraform import cloud_vpc_security_group_rule_set.sglab_1 sg-xxxxxxxx
 ```
 */
 package tencentcloud
@@ -72,7 +72,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("tencentcloudenterprise_vpc_security_group_rule_set", CNDescription{
+	registerResourceDescriptionProvider("cloud_vpc_security_group_rule_set", CNDescription{
 		TerraformTypeCN: "批量创建安全组规则",
 		DescriptionCN:   "提供批量创建安全组规则资源，用于创建和管理安全组规则。",
 		AttributesCN: map[string]string{
@@ -116,31 +116,37 @@ func resourceTencentCloudSecurityGroupRuleSet() *schema.Resource {
 		"ipv6_cidr_block": {
 			Type:        schema.TypeString,
 			Optional:    true,
+			Computed:    true,
 			Description: "An IPV6 address network or CIDR segment, and conflict with `source_security_id` and `address_template_*`.",
 		},
 		"source_security_id": {
 			Type:        schema.TypeString,
 			Optional:    true,
+			Computed:    true,
 			Description: "ID of the nested security group, and conflicts with `cidr_block` and `address_template_*`.",
 		},
 		"address_template_id": {
 			Type:        schema.TypeString,
 			Optional:    true,
+			Computed:    true,
 			Description: "Specify Address template ID like `ipm-xxxxxxxx`, conflict with `source_security_id` and `cidr_block`.",
 		},
 		"address_template_group": {
 			Type:        schema.TypeString,
 			Optional:    true,
+			Computed:    true,
 			Description: "Specify Group ID of Address template like `ipmg-xxxxxxxx`, conflict with `source_security_id` and `cidr_block`.",
 		},
 		"service_template_id": {
 			Type:        schema.TypeString,
 			Optional:    true,
+			Computed:    true,
 			Description: "Specify Protocol template ID like `ppm-xxxxxxxx`, conflict with `cidr_block` and `port`.",
 		},
 		"service_template_group": {
 			Type:        schema.TypeString,
 			Optional:    true,
+			Computed:    true,
 			Description: "Specify Group ID of Protocol template ID like `ppmg-xxxxxxxx`, conflict with `cidr_block` and `port`.",
 		},
 		"protocol": {
@@ -157,7 +163,7 @@ func resourceTencentCloudSecurityGroupRuleSet() *schema.Resource {
 		},
 	}
 	return &schema.Resource{
-		Description: "Provides a resource to create security group rule. This resource is similar with tencentcloudenterprise_vpc_security_group_lite_rule, rules can be ordered and configure descriptions.",
+		Description: "Provides a resource to create security group rule. This resource is similar with cloud_vpc_security_group_lite_rule, rules can be ordered and configure descriptions.",
 		Create:      resourceTencentCloudSecurityGroupRuleSetCreate,
 		Read:        resourceTencentCloudSecurityGroupRuleSetRead,
 		Update:      resourceTencentCloudSecurityGroupRuleSetUpdate,
@@ -198,7 +204,7 @@ func resourceTencentCloudSecurityGroupRuleSet() *schema.Resource {
 }
 
 func resourceTencentCloudSecurityGroupRuleSetCreate(d *schema.ResourceData, m interface{}) error {
-	defer logElapsed("resource.tencentcloudenterprise_vpc_security_group_rule_set.create")()
+	defer logElapsed("resource.cloud_vpc_security_group_rule_set.create")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
@@ -235,7 +241,7 @@ func resourceTencentCloudSecurityGroupRuleSetCreate(d *schema.ResourceData, m in
 }
 
 func resourceTencentCloudSecurityGroupRuleSetRead(d *schema.ResourceData, m interface{}) error {
-	defer logElapsed("resource.tencentcloudenterprise_vpc_security_group_rule_set.read")()
+	defer logElapsed("resource.cloud_vpc_security_group_rule_set.read")()
 	defer inconsistentCheck(d, m)()
 
 	logId := getLogId(contextNil)
@@ -264,7 +270,7 @@ func resourceTencentCloudSecurityGroupRuleSetRead(d *schema.ResourceData, m inte
 }
 
 func resourceTencentCloudSecurityGroupRuleSetUpdate(d *schema.ResourceData, m interface{}) error {
-	defer logElapsed("tencentcloudenterprise_vpc_security_group_rule_set.update")()
+	defer logElapsed("cloud_vpc_security_group_rule_set.update")()
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
 	client := m.(*TencentCloudClient).apiV3Conn
@@ -307,7 +313,7 @@ func resourceTencentCloudSecurityGroupRuleSetUpdate(d *schema.ResourceData, m in
 }
 
 func resourceTencentCloudSecurityGroupRuleSetDelete(d *schema.ResourceData, m interface{}) error {
-	defer logElapsed("resource.tencentcloudenterprise_vpc_security_group_rule_set.delete")()
+	defer logElapsed("resource.cloud_vpc_security_group_rule_set.delete")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)

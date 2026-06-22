@@ -5,7 +5,7 @@ Provide a resource to create a Private Dns Record.
 
 ```hcl
 
-	resource "tencentcloudenterprise_vpcdns_zone_record" "foo" {
+	resource "cloud_vpcdns_zone_record" "foo" {
 	  zone_id      = "zone-rqndjnki"
 	  record_type  = "A"
 	  record_value = "192.168.1.2"
@@ -22,7 +22,7 @@ Provide a resource to create a Private Dns Record.
 Private Dns Record can be imported, e.g.
 
 ```
-$ terraform import tencentcloudenterprise_vpcdns_zone_record.foo zone_id#record_id
+$ terraform import cloud_vpcdns_zone_record.foo zone_id#record_id
 ```
 */
 package tencentcloud
@@ -74,18 +74,20 @@ func resourceTencentCloudVpcDnsZoneRecord() *schema.Resource {
 				Description: "Record value, such as IP: 192.168.10.2," +
 					" CNAME: cname.qcloud.com, and MX: mail.qcloud.com..",
 			},
-			"weight": {
-				Type:         schema.TypeInt,
-				Optional:     true,
-				ValidateFunc: validateIntegerInRange(1, 100),
-				Description:  "Record weight. Value range: 1~100.",
-			},
-			"mx": {
-				Type:     schema.TypeInt,
-				Optional: true,
-				Description: "MX priority, which is required when the record type is MX." +
-					" Valid values: 5, 10, 15, 20, 30, 40, 50.",
-			},
+		"weight": {
+			Type:         schema.TypeInt,
+			Optional:     true,
+			Computed:     true,
+			ValidateFunc: validateIntegerInRange(1, 100),
+			Description:  "Record weight. Value range: 1~100.",
+		},
+		"mx": {
+			Type:     schema.TypeInt,
+			Optional: true,
+			Computed: true,
+			Description: "MX priority, which is required when the record type is MX." +
+				" Valid values: 5, 10, 15, 20, 30, 40, 50.",
+		},
 			"ttl": {
 				Type:     schema.TypeInt,
 				Optional: true,
@@ -105,7 +107,7 @@ func resourceTencentCloudVpcDnsZoneRecord() *schema.Resource {
 }
 
 func resourceTencentCloudVpcDnsZoneRecordCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.tencentcloudenterprise_vpcdns_zone_record.create")()
+	defer logElapsed("resource.cloud_vpcdns_zone_record.create")()
 
 	logId := getLogId(contextNil)
 
@@ -164,7 +166,7 @@ func resourceTencentCloudVpcDnsZoneRecordCreate(d *schema.ResourceData, meta int
 }
 
 func resourceTencentCloudVpcDnsZoneRecordRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.tencentcloudenterprise_vpcdns_zone_record.read")()
+	defer logElapsed("resource.cloud_vpcdns_zone_record.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -216,7 +218,7 @@ func resourceTencentCloudVpcDnsZoneRecordRead(d *schema.ResourceData, meta inter
 }
 
 func resourceTencentCloudVpcDnsZoneRecordUpdate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.tencentcloudenterprise_vpcdns_zone_record.update")()
+	defer logElapsed("resource.cloud_vpcdns_zone_record.update")()
 
 	idSplit := strings.Split(d.Id(), FILED_SP)
 	if len(idSplit) != 2 {
@@ -312,7 +314,7 @@ func resourceTencentCloudVpcDnsZoneRecordUpdate(d *schema.ResourceData, meta int
 }
 
 func resourceTencentCloudVpcDnsZoneRecordDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.tencentcloudenterprise_vpcdns_zone_record.delete")()
+	defer logElapsed("resource.cloud_vpcdns_zone_record.delete")()
 
 	logId := getLogId(contextNil)
 
