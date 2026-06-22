@@ -3,8 +3,8 @@ Provide a resource to create a kubernetes cluster.
 
 ~> **NOTE:** To use the custom Kubernetes component startup parameter function (parameter `extra_args`), you need to submit a ticket for application.
 
-~> **NOTE:** We recommend this usage that uses the `tencentcloudenterprise_tke_kubernetes_cluster` resource to create a cluster without any `worker_config`, then adds nodes by the `tencentcloudenterprise_kubernetes_node_pool` resource.
-It's more flexible than managing worker config directly with `tencentcloudenterprise_tke_kubernetes_cluster`, `tencentcloudenterprise_tke_kubernetes_scale_worker`, or existing node management of `tencentcloudenterprise_kubernetes_attachment`. The reason is that `worker_config` is unchangeable and may cause the whole cluster resource to `ForceNew`.
+~> **NOTE:** We recommend this usage that uses the `cloud_tke_kubernetes_cluster` resource to create a cluster without any `worker_config`, then adds nodes by the `cloud_kubernetes_node_pool` resource.
+It's more flexible than managing worker config directly with `cloud_tke_kubernetes_cluster`, `cloud_tke_kubernetes_scale_worker`, or existing node management of `cloud_kubernetes_attachment`. The reason is that `worker_config` is unchangeable and may cause the whole cluster resource to `ForceNew`.
 
 # Example Usage
 
@@ -26,18 +26,18 @@ It's more flexible than managing worker config directly with `tencentcloudenterp
 	  default = "SA2.2XLARGE16"
 	}
 
-	data "tencentcloudenterprise_vpc_subnets" "vpc_first" {
+	data "cloud_vpc_subnets" "vpc_first" {
 	  is_default        = true
 	  availability_zone = var.availability_zone_first
 	}
 
-	data "tencentcloudenterprise_vpc_subnets" "vpc_second" {
+	data "cloud_vpc_subnets" "vpc_second" {
 	  is_default        = true
 	  availability_zone = var.availability_zone_second
 	}
 
-	resource "tencentcloudenterprise_tke_kubernetes_cluster" "managed_cluster" {
-	  vpc_id                  = data.tencentcloudenterprise_vpc_subnets.vpc_first.instance_list.0.vpc_id
+	resource "cloud_tke_kubernetes_cluster" "managed_cluster" {
+	  vpc_id                  = data.cloud_vpc_subnets.vpc_first.instance_list.0.vpc_id
 	  cluster_cidr            = var.cluster_cidr
 	  cluster_max_pod_num     = 32
 	  cluster_name            = "test"
@@ -54,7 +54,7 @@ It's more flexible than managing worker config directly with `tencentcloudenterp
 	    internet_charge_type       = "TRAFFIC_POSTPAID_BY_HOUR"
 	    internet_max_bandwidth_out = 100
 	    public_ip_assigned         = true
-	    subnet_id                  = data.tencentcloudenterprise_vpc_subnets.vpc_first.instance_list.0.subnet_id
+	    subnet_id                  = data.cloud_vpc_subnets.vpc_first.instance_list.0.subnet_id
 	    img_id                     = "img-rkiynh11"
 
 	    data_disk {
@@ -79,7 +79,7 @@ It's more flexible than managing worker config directly with `tencentcloudenterp
 	    internet_charge_type       = "TRAFFIC_POSTPAID_BY_HOUR"
 	    internet_max_bandwidth_out = 100
 	    public_ip_assigned         = true
-	    subnet_id                  = data.tencentcloudenterprise_vpc_subnets.vpc_second.instance_list.0.subnet_id
+	    subnet_id                  = data.cloud_vpc_subnets.vpc_second.instance_list.0.subnet_id
 
 	    data_disk {
 	      disk_type = "CLOUD_PREMIUM"
@@ -122,18 +122,18 @@ It's more flexible than managing worker config directly with `tencentcloudenterp
 	  default = "SA2.2XLARGE16"
 	}
 
-	data "tencentcloudenterprise_vpc_subnets" "vpc_first" {
+	data "cloud_vpc_subnets" "vpc_first" {
 	  is_default        = true
 	  availability_zone = var.availability_zone_first
 	}
 
-	data "tencentcloudenterprise_vpc_subnets" "vpc_second" {
+	data "cloud_vpc_subnets" "vpc_second" {
 	  is_default        = true
 	  availability_zone = var.availability_zone_second
 	}
 
-	resource "tencentcloudenterprise_tke_kubernetes_cluster" "managed_cluster" {
-	  vpc_id                  = data.tencentcloudenterprise_vpc_subnets.vpc_first.instance_list.0.vpc_id
+	resource "cloud_tke_kubernetes_cluster" "managed_cluster" {
+	  vpc_id                  = data.cloud_vpc_subnets.vpc_first.instance_list.0.vpc_id
 	  cluster_cidr            = var.cluster_cidr
 	  cluster_max_pod_num     = 32
 	  cluster_name            = "test"
@@ -150,7 +150,7 @@ It's more flexible than managing worker config directly with `tencentcloudenterp
 	    internet_charge_type       = "TRAFFIC_POSTPAID_BY_HOUR"
 	    internet_max_bandwidth_out = 100
 	    public_ip_assigned         = true
-	    subnet_id                  = data.tencentcloudenterprise_vpc_subnets.vpc_first.instance_list.0.subnet_id
+	    subnet_id                  = data.cloud_vpc_subnets.vpc_first.instance_list.0.subnet_id
 
 	    data_disk {
 	      disk_type = "CLOUD_PREMIUM"
@@ -174,7 +174,7 @@ It's more flexible than managing worker config directly with `tencentcloudenterp
 	    internet_charge_type       = "TRAFFIC_POSTPAID_BY_HOUR"
 	    internet_max_bandwidth_out = 100
 	    public_ip_assigned         = true
-	    subnet_id                  = data.tencentcloudenterprise_vpc_subnets.vpc_second.instance_list.0.subnet_id
+	    subnet_id                  = data.cloud_vpc_subnets.vpc_second.instance_list.0.subnet_id
 
 	    data_disk {
 	      disk_type = "CLOUD_PREMIUM"
@@ -216,7 +216,7 @@ Using VPC-CNI network type
 	  default = "SA2.SMALL2"
 	}
 
-	resource "tencentcloudenterprise_tke_kubernetes_cluster" "managed_cluster" {
+	resource "cloud_tke_kubernetes_cluster" "managed_cluster" {
 	  vpc_id                  = var.vpc
 	  cluster_max_pod_num     = 32
 	  cluster_name            = "test"
@@ -268,6 +268,8 @@ import (
 	"log"
 	"math"
 	"net"
+	"reflect"
+	"sort"
 	"strconv"
 	"strings"
 	"time"
@@ -281,7 +283,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("tencentcloudenterprise_tke_kubernetes_cluster", CNDescription{
+	registerResourceDescriptionProvider("cloud_tke_kubernetes_cluster", CNDescription{
 		TerraformTypeCN: "Tke集群",
 		DescriptionCN:   "提供Kubernetes集群资源，用于创建和管理TKE集群。",
 		AttributesCN: map[string]string{
@@ -738,6 +740,93 @@ func tkeSecurityInfo() map[string]*schema.Schema {
 	}
 }
 
+func TkeMasterCvmCreateInfo() map[string]*schema.Schema {
+	res := TkeCvmCreateInfo()
+	masterRes := make(map[string]*schema.Schema)
+	for k, v := range res {
+		if k == "count" {
+			// master_config block always represents 1 master node; count is handled by block count
+			continue
+		}
+		newSchema := *v
+		newSchema.ForceNew = false
+		masterRes[k] = &newSchema
+	}
+	masterRes["instance_id"] = &schema.Schema{
+		Type:        schema.TypeString,
+		Computed:    true,
+		Description: "The ID of the master CVM instance.",
+	}
+	masterRes["node_role"] = &schema.Schema{
+		Type:         schema.TypeString,
+		Optional:     true,
+		Default:      "MASTER_ETCD",
+		ValidateFunc: validateAllowedStringValue([]string{"MASTER_ETCD", "MASTER", "ETCD"}),
+		Description:  "The role of the node. Valid values: `MASTER_ETCD` (default), `MASTER`, `ETCD`.",
+	}
+	return masterRes
+}
+
+// masterConfigValueEqual compares two master_config field values for equality.
+// For slice types (security_group_ids, data_disk, key_ids, disaster_recover_group_ids),
+// order is normalized before comparison to avoid false positives from reflect.DeepEqual.
+func masterConfigValueEqual(a, b interface{}) bool {
+	// Normalize slices: sort both sides then compare
+	switch va := a.(type) {
+	case []interface{}:
+		vb, ok := b.([]interface{})
+		if !ok {
+			return false
+		}
+		if len(va) != len(vb) {
+			return false
+		}
+		// For simple string slices, sort before compare
+		strA := make([]string, 0, len(va))
+		allStrings := true
+		for _, v := range va {
+			s, ok := v.(string)
+			if !ok {
+				allStrings = false
+				break
+			}
+			strA = append(strA, s)
+		}
+		if allStrings {
+			strB := make([]string, 0, len(vb))
+			for _, v := range vb {
+				s, ok := v.(string)
+				if !ok {
+					allStrings = false
+					break
+				}
+				strB = append(strB, s)
+			}
+			if allStrings {
+				sort.Strings(strA)
+				sort.Strings(strB)
+				return reflect.DeepEqual(strA, strB)
+			}
+		}
+		// For complex slices (e.g. data_disk blocks), fall back to DeepEqual
+		return reflect.DeepEqual(va, vb)
+	case string:
+		vb, ok := b.(string)
+		return ok && va == vb
+	case int:
+		vb, ok := b.(int)
+		return ok && va == vb
+	case bool:
+		vb, ok := b.(bool)
+		return ok && va == vb
+	case map[string]interface{}:
+		vb, ok := b.(map[string]interface{})
+		return ok && reflect.DeepEqual(va, vb)
+	default:
+		return reflect.DeepEqual(a, b)
+	}
+}
+
 func TkeCvmCreateInfo() map[string]*schema.Schema {
 	return map[string]*schema.Schema{
 		"count": {
@@ -810,6 +899,7 @@ func TkeCvmCreateInfo() map[string]*schema.Schema {
 			Type:        schema.TypeString,
 			ForceNew:    true,
 			Optional:    true,
+			Computed:    true,
 			Description: "System disk pool group",
 		},
 		"system_disk_size": {
@@ -946,6 +1036,7 @@ func TkeCvmCreateInfo() map[string]*schema.Schema {
 			Type:        schema.TypeList,
 			ForceNew:    true,
 			Optional:    true,
+			Computed:    true,
 			Elem:        &schema.Schema{Type: schema.TypeString},
 			Description: "ID list of keys, should be set if `password` not set.",
 		},
@@ -987,6 +1078,7 @@ func TkeCvmCreateInfo() map[string]*schema.Schema {
 			Type:        schema.TypeString,
 			ForceNew:    true,
 			Optional:    true,
+			Computed:    true,
 			Description: "CAM role name authorized to access.",
 		},
 		"hostname": {
@@ -1009,6 +1101,7 @@ func TkeCvmCreateInfo() map[string]*schema.Schema {
 		"img_id": {
 			Type:         schema.TypeString,
 			Optional:     true,
+			Computed:     true,
 			ValidateFunc: validateImageID,
 			Description:  "The valid image id, format of img-xxx.",
 		},
@@ -1240,7 +1333,7 @@ func resourceTencentCloudTkeCluster() *schema.Resource {
 			Type:        schema.TypeString,
 			Optional:    true,
 			Default:     "1.10.5",
-			Description: "Version of the cluster, Default is '1.10.5'. Use `tencentcloudenterprise_tke_kubernetes_available_cluster_versions` to get the available versions.",
+			Description: "Version of the cluster, Default is '1.10.5'. Use `cloud_tke_kubernetes_available_cluster_versions` to get the available versions.",
 		},
 		//"upgrade_instances_follow_cluster": {
 		//	Type:        schema.TypeBool,
@@ -1267,7 +1360,7 @@ func resourceTencentCloudTkeCluster() *schema.Resource {
 			Type:        schema.TypeString,
 			Optional:    true,
 			Computed:    true,
-			Description: "Specify cluster level, valid for managed cluster, use data source `tencentcloudenterprise_kubernetes_cluster_levels` to query available levels. Available value examples `L5`, `L20`, `L50`, `L100`, etc.",
+			Description: "Specify cluster level, valid for managed cluster, use data source `cloud_kubernetes_cluster_levels` to query available levels. Available value examples `L5`, `L20`, `L50`, `L100`, etc.",
 		},
 		"auto_upgrade_cluster_level": {
 			Type:        schema.TypeBool,
@@ -1332,7 +1425,7 @@ func resourceTencentCloudTkeCluster() *schema.Resource {
 			Type:         schema.TypeString,
 			ForceNew:     true,
 			Optional:     true,
-			Default:      "GR",
+			Computed:     true,
 			ValidateFunc: validateAllowedStringValue(TKE_CLUSTER_NETWORK_TYPE),
 			Description:  "Cluster network type, GR or VPC-CNI. Default is GR.",
 		},
@@ -1386,7 +1479,7 @@ func resourceTencentCloudTkeCluster() *schema.Resource {
 		"audit_enabled": {
 			Type:        schema.TypeBool,
 			Optional:    true,
-			Default:     false,
+			Computed:    true,
 			Description: "Indicates whether cluster audit is enabled. Default is false.",
 		},
 		"audit_logset_id": {
@@ -1491,6 +1584,7 @@ func resourceTencentCloudTkeCluster() *schema.Resource {
 			Type: schema.TypeString,
 			//ForceNew:    true,
 			Optional:    true,
+			Computed:    true,
 			Description: "A network address block of the cluster. Different from vpc cidr and cidr of other clusters within this vpc. Must be in  10./192.168/172.[16-31] segments.",
 			ValidateFunc: func(v interface{}, k string) (ws []string, errors []error) {
 				value := v.(string)
@@ -1611,7 +1705,7 @@ func resourceTencentCloudTkeCluster() *schema.Resource {
 		"claim_expired_seconds": {
 			Type:     schema.TypeInt,
 			Optional: true,
-			Default:  300,
+			Computed: true,
 			Description: "Claim expired seconds to recycle ENI." +
 				" This field can only set when field `network_type` is 'VPC-CNI'." +
 				" `claim_expired_seconds` must greater or equal than 300 and less than 15768000.",
@@ -1626,10 +1720,11 @@ func resourceTencentCloudTkeCluster() *schema.Resource {
 		},
 		"master_config": {
 			Type:     schema.TypeList,
-			ForceNew: true,
+			ForceNew: false,
 			Optional: true,
+			Computed: true,
 			Elem: &schema.Resource{
-				Schema: TkeCvmCreateInfo(),
+				Schema: TkeMasterCvmCreateInfo(),
 			},
 			Description: "Deploy the machine configuration information of the 'MASTER_ETCD' service, and create <=7 units for common users.",
 		},
@@ -1640,7 +1735,7 @@ func resourceTencentCloudTkeCluster() *schema.Resource {
 			Elem: &schema.Resource{
 				Schema: TkeCvmCreateInfo(),
 			},
-			Description: "Deploy the machine configuration information of the 'WORKER' service, and create <=20 units for common users. The other 'WORK' service are added by 'tencentcloudenterprise_kubernetes_worker'.",
+			Description: "Deploy the machine configuration information of the 'WORKER' service, and create <=20 units for common users. The other 'WORK' service are added by 'cloud_kubernetes_worker'.",
 		},
 		"exist_instance": {
 			Type:     schema.TypeList,
@@ -1861,6 +1956,7 @@ func resourceTencentCloudTkeCluster() *schema.Resource {
 		"log_agent": {
 			Type:        schema.TypeList,
 			Optional:    true,
+			Computed:    true,
 			MaxItems:    1,
 			Description: "Specify cluster log agent config.",
 			Elem: &schema.Resource{
@@ -1873,6 +1969,7 @@ func resourceTencentCloudTkeCluster() *schema.Resource {
 					"kubelet_root_dir": {
 						Type:        schema.TypeString,
 						Optional:    true,
+						Computed:    true,
 						Description: "Kubelet root directory as the literal.",
 					},
 				},
@@ -2634,7 +2731,7 @@ func upgradeClusterInstances(tkeService TkeService, ctx context.Context, id stri
 }
 
 func resourceTencentCloudTkeClusterCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.tencentcloudenterprise_tke_kubernetes_cluster.create")()
+	defer logElapsed("resource.cloud_tke_kubernetes_cluster.create")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
@@ -2737,6 +2834,9 @@ func resourceTencentCloudTkeClusterCreate(d *schema.ResourceData, meta interface
 	}
 	advanced.NodeNameType = d.Get("node_name_type").(string)
 	advanced.NetworkType = d.Get("network_type").(string)
+	if advanced.NetworkType == "" {
+		advanced.NetworkType = TKE_CLUSTER_NETWORK_TYPE_GR
+	}
 	advanced.IsNonStaticIpMode = d.Get("is_non_static_ip_mode").(bool)
 	if advanced.NetworkType == TKE_CLUSTER_NETWORK_TYPE_VPC_CNI {
 		if v, ok := d.GetOk("vpc_cni_type"); ok {
@@ -3241,7 +3341,7 @@ func resourceTencentCloudTkeClusterCreate(d *schema.ResourceData, meta interface
 }
 
 func resourceTencentCloudTkeClusterRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.tencentcloudenterprise_tke_kubernetes_cluster.read")()
+	defer logElapsed("resource.cloud_tke_kubernetes_cluster.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -3283,6 +3383,7 @@ func resourceTencentCloudTkeClusterRead(d *schema.ResourceData, meta interface{}
 	_ = d.Set("cluster_deploy_type", info.DeployType)
 	_ = d.Set("cluster_version", info.ClusterVersion)
 	_ = d.Set("cluster_ipvs", info.Ipvs)
+	_ = d.Set("network_type", info.NetworkType)
 	_ = d.Set("vpc_id", info.VpcId)
 	_ = d.Set("project_id", info.ProjectId)
 	_ = d.Set("cluster_cidr", info.ClusterCidr)
@@ -3388,10 +3489,92 @@ func resourceTencentCloudTkeClusterRead(d *schema.ResourceData, meta interface{}
 			if err != nil {
 				log.Printf("[WARN] master_config: DescribeInstanceByFilter failed: %s", err.Error())
 			} else {
+				masterConfigs := d.Get("master_config").([]interface{})
+				if len(masterConfigs) > 0 && len(masterConfigs) == len(cvmInstances) {
+					// Existing state matches CVM count: match each block to its CVM instance
+					masterList := masterConfigs
+					// Build lookup maps
+					cvmById := make(map[string]*cvm.Instance)
+					for _, instance := range cvmInstances {
+						if instance != nil && instance.InstanceId != nil {
+							cvmById[*instance.InstanceId] = instance
+						}
+					}
+					cvmByName := make(map[string]*cvm.Instance)
+					for _, instance := range cvmInstances {
+						if instance != nil && instance.InstanceName != nil {
+							cvmByName[*instance.InstanceName] = instance
+						}
+					}
+
+					// Track which CVM instances have been matched
+					matched := make(map[string]bool)
+
+					// Round 1: match by instance_id (most reliable)
+					for _, mRaw := range masterList {
+						if mRaw == nil {
+							continue
+						}
+						m := mRaw.(map[string]interface{})
+						if existingId, _ := m["instance_id"].(string); existingId != "" {
+							if _, found := cvmById[existingId]; found {
+								matched[existingId] = true
+							}
+						}
+					}
+
+					// Round 2: for unmatched blocks, try instance_name then spec matching
+					for _, mRaw := range masterList {
+						if mRaw == nil {
+							continue
+						}
+						m := mRaw.(map[string]interface{})
+						existingId, _ := m["instance_id"].(string)
+						if existingId != "" && matched[existingId] {
+							// Already matched by id, keep it
+							continue
+						}
+
+						var matchedInstance *cvm.Instance
+
+						// Try instance_name match
+						if name, _ := m["instance_name"].(string); name != "" {
+							if inst, found := cvmByName[name]; found && !matched[*inst.InstanceId] {
+								matchedInstance = inst
+							}
+						}
+
+						// Try spec match (instance_type + subnet_id + zone) from remaining unmatched CVMs
+						if matchedInstance == nil {
+							instType, _ := m["instance_type"].(string)
+							subnetId, _ := m["subnet_id"].(string)
+							zone, _ := m["availability_zone"].(string)
+							for _, inst := range cvmInstances {
+								if inst == nil || inst.InstanceId == nil || matched[*inst.InstanceId] {
+									continue
+								}
+								if helper.PString(inst.InstanceType) == instType &&
+									helper.PString(inst.VirtualPrivateCloud.SubnetId) == subnetId &&
+									helper.PString(inst.Placement.Zone) == zone {
+									matchedInstance = inst
+									break
+								}
+							}
+						}
+
+						if matchedInstance != nil {
+							m["instance_id"] = *matchedInstance.InstanceId
+							matched[*matchedInstance.InstanceId] = true
+						} else {
+							m["instance_id"] = ""
+						}
+					}
+					_ = d.Set("master_config", masterList)
+				} else {
+				// Import scenario: no master_config in state, build from CVM instances
 				masterList := make([]interface{}, 0, len(cvmInstances))
 				for _, instance := range cvmInstances {
 					mapping := map[string]interface{}{
-						"count":                               1,
 						"instance_charge_type_prepaid_period": 1,
 						"instance_type":                       helper.PString(instance.InstanceType),
 						"subnet_id":                           helper.PString(instance.VirtualPrivateCloud.SubnetId),
@@ -3400,18 +3583,23 @@ func resourceTencentCloudTkeClusterRead(d *schema.ResourceData, meta interface{}
 						"instance_charge_type":                helper.PString(instance.InstanceChargeType),
 						"system_disk_type":                    helper.PString(instance.SystemDisk.DiskType),
 						"system_disk_size":                    helper.PInt64(instance.SystemDisk.DiskSize),
+						"system_disk_pool_group":              "",
 						"internet_charge_type":                helper.PString(instance.InternetAccessible.InternetChargeType),
 						"internet_max_bandwidth_out":          helper.PInt64(instance.InternetAccessible.InternetMaxBandwidthOut),
 						"security_group_ids":                  helper.StringsInterfaces(instance.SecurityGroupIds),
 						"img_id":                              helper.PString(instance.ImageId),
+						"cam_role_name":                       "",
+						"desired_pod_num":                     DefaultDesiredPodNum,
+						"node_role":                           "MASTER_ETCD",
 						"enhanced_security_service":           true,
 						"enhanced_monitor_service":            true,
 						"enhanced_automation_service":         true,
+						"instance_id":                         helper.PString(instance.InstanceId),
 					}
 					if instance.RenewFlag != nil && helper.PString(instance.InstanceChargeType) == "PREPAID" {
 						mapping["instance_charge_type_prepaid_renew_flag"] = helper.PString(instance.RenewFlag)
 					} else {
-						mapping["instance_charge_type_prepaid_renew_flag"] = ""
+						mapping["instance_charge_type_prepaid_renew_flag"] = CVM_PREPAID_RENEW_FLAG_NOTIFY_AND_MANUAL_RENEW
 					}
 					if helper.PInt64(instance.InternetAccessible.InternetMaxBandwidthOut) > 0 {
 						mapping["public_ip_assigned"] = true
@@ -3421,26 +3609,25 @@ func resourceTencentCloudTkeClusterRead(d *schema.ResourceData, meta interface{}
 					if instance.CamRoleName != nil {
 						mapping["cam_role_name"] = helper.PString(instance.CamRoleName)
 					}
-					if instance.LoginSettings != nil {
-						if len(instance.LoginSettings.KeyIds) > 0 {
-							mapping["key_ids"] = helper.StringsInterfaces(instance.LoginSettings.KeyIds)
+					if instance.LoginSettings != nil && len(instance.LoginSettings.KeyIds) > 0 {
+						mapping["key_ids"] = helper.StringsInterfaces(instance.LoginSettings.KeyIds)
+					}
+						if instance.DisasterRecoverGroupId != nil && helper.PString(instance.DisasterRecoverGroupId) != "" {
+							mapping["disaster_recover_group_ids"] = []string{helper.PString(instance.DisasterRecoverGroupId)}
 						}
-					}
-					if instance.DisasterRecoverGroupId != nil && helper.PString(instance.DisasterRecoverGroupId) != "" {
-						mapping["disaster_recover_group_ids"] = []string{helper.PString(instance.DisasterRecoverGroupId)}
-					}
-					dataDisks := make([]interface{}, 0, len(instance.DataDisks))
-					for _, v := range instance.DataDisks {
-						dataDisk := map[string]interface{}{
-							"disk_type": helper.PString(v.DiskType),
-							"disk_size": helper.PInt64(v.DiskSize),
+						dataDisks := make([]interface{}, 0, len(instance.DataDisks))
+						for _, v := range instance.DataDisks {
+							dataDisk := map[string]interface{}{
+								"disk_type": helper.PString(v.DiskType),
+								"disk_size": helper.PInt64(v.DiskSize),
+							}
+							dataDisks = append(dataDisks, dataDisk)
 						}
-						dataDisks = append(dataDisks, dataDisk)
+						mapping["data_disk"] = dataDisks
+						masterList = append(masterList, mapping)
 					}
-					mapping["data_disk"] = dataDisks
-					masterList = append(masterList, mapping)
+					_ = d.Set("master_config", masterList)
 				}
-				_ = d.Set("master_config", masterList)
 			}
 		}
 	}
@@ -3534,7 +3721,7 @@ func resourceTencentCloudTkeClusterRead(d *schema.ResourceData, meta interface{}
 }
 
 func resourceTencentCloudTkeClusterUpdate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.tencentcloudenterprise_tke_kubernetes_cluster.update")()
+	defer logElapsed("resource.cloud_tke_kubernetes_cluster.update")()
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
 
@@ -3799,6 +3986,205 @@ func resourceTencentCloudTkeClusterUpdate(d *schema.ResourceData, meta interface
 	//
 	//}
 
+	if d.HasChange("master_config") {
+		oldM, newM := d.GetChange("master_config")
+		oldList := oldM.([]interface{})
+		newList := newM.([]interface{})
+
+		finalCount := len(newList)
+		if finalCount < 3 || finalCount > 7 {
+			return fmt.Errorf("TKE independent cluster master_config node count must be between 3 and 7, got %d", finalCount)
+		}
+
+		vpcId := d.Get("vpc_id").(string)
+		projectId := int64(d.Get("project_id").(int))
+
+		oldMap := make(map[string]map[string]interface{})
+		for _, item := range oldList {
+			if item == nil {
+				continue
+			}
+			m := item.(map[string]interface{})
+			name := m["instance_name"].(string)
+			if name == "" {
+				return fmt.Errorf("instance_name in master_config must be set and unique")
+			}
+			oldMap[name] = m
+		}
+
+		newMap := make(map[string]map[string]interface{})
+		for _, item := range newList {
+			if item == nil {
+				continue
+			}
+			m := item.(map[string]interface{})
+			name := m["instance_name"].(string)
+			if name == "" {
+				return fmt.Errorf("instance_name in master_config must be set and unique")
+			}
+			if _, exists := newMap[name]; exists {
+				return fmt.Errorf("duplicate instance_name %q found in master_config", name)
+			}
+			newMap[name] = m
+		}
+
+		var addedBlocks []map[string]interface{}
+		var removedBlocks []map[string]interface{}
+
+		for name, newM := range newMap {
+			oldM, exists := oldMap[name]
+			if !exists {
+				addedBlocks = append(addedBlocks, newM)
+			} else {
+				for k, v := range newM {
+					if k == "instance_id" {
+						continue
+					}
+					if !masterConfigValueEqual(v, oldM[k]) {
+						return fmt.Errorf("modifying existing master_config block %q is not supported. Please delete the block and add a new one instead", name)
+					}
+				}
+			}
+		}
+
+		for name, oldM := range oldMap {
+			if _, exists := newMap[name]; !exists {
+				removedBlocks = append(removedBlocks, oldM)
+			}
+		}
+
+		// 1. Scale Out (Addition)
+		if len(addedBlocks) > 0 {
+			// Group added blocks by node_role
+			roleGroups := make(map[string][]map[string]interface{})
+			for _, block := range addedBlocks {
+				role := "MASTER_ETCD"
+				if nr, ok := block["node_role"].(string); ok && nr != "" {
+					role = nr
+				}
+				roleGroups[role] = append(roleGroups[role], block)
+			}
+
+			var runInstancesForNodeList []*tke.RunInstancesForNode
+			for role, blocks := range roleGroups {
+				runInstancesParaList := make([]*string, 0)
+				var overrideSettings []*tke.InstanceAdvancedSettings
+				for _, block := range blocks {
+					paraJson, _, err := tkeGetCvmRunInstancesPara(block, meta, vpcId, projectId)
+					if err != nil {
+						return err
+					}
+					runInstancesParaList = append(runInstancesParaList, &paraJson)
+
+					if v, ok := block["desired_pod_num"]; ok {
+						dpNum := int64(v.(int))
+						if dpNum != DefaultDesiredPodNum {
+							overrideSettings = append(overrideSettings, &tke.InstanceAdvancedSettings{DesiredPodNumber: helper.Int64(dpNum)})
+						} else {
+							overrideSettings = append(overrideSettings, nil)
+						}
+					} else {
+						overrideSettings = append(overrideSettings, nil)
+					}
+				}
+				nodeRole := role
+				runInstancesForNodeList = append(runInstancesForNodeList, &tke.RunInstancesForNode{
+					NodeRole:                          &nodeRole,
+					RunInstancesPara:                  runInstancesParaList,
+					InstanceAdvancedSettingsOverrides: overrideSettings,
+				})
+			}
+
+			err := resource.Retry(writeRetryTimeout, func() *resource.RetryError {
+				inErr := tkeService.ScaleOutClusterMaster(ctx, id, runInstancesForNodeList)
+				if inErr != nil {
+					return retryError(inErr)
+				}
+				return nil
+			})
+			if err != nil {
+				return err
+			}
+
+			// Poll and wait for all master nodes to be running
+			err = resource.Retry(10*readRetryTimeout, func() *resource.RetryError {
+				masters, _, inErr := tkeService.DescribeClusterInstances(ctx, id)
+				if inErr != nil {
+					return retryError(inErr)
+				}
+				for _, m := range masters {
+					if m.InstanceState == "failed" {
+						return resource.NonRetryableError(fmt.Errorf("master node %s entered failed state: %s", m.InstanceId, m.FailedReason))
+					}
+					if m.InstanceState != "running" {
+						return resource.RetryableError(fmt.Errorf("master node %s is still %s", m.InstanceId, m.InstanceState))
+					}
+				}
+				return nil
+			})
+			if err != nil {
+				return err
+			}
+		}
+
+		// 2. Scale In (Deletion)
+		if len(removedBlocks) > 0 {
+			scaleInMasters := make([]*tke.ScaleInMaster, 0)
+			for _, block := range removedBlocks {
+				instId, _ := block["instance_id"].(string)
+				if instId == "" {
+					return fmt.Errorf("instance_id for master %q not found in state, cannot safely perform scale-in. Please refresh state or check configuration", block["instance_name"].(string))
+				}
+
+				role := "MASTER_ETCD"
+				if nr, ok := block["node_role"].(string); ok && nr != "" {
+					role = nr
+				}
+				deleteMode := "terminate"
+
+				scaleInMasters = append(scaleInMasters, &tke.ScaleInMaster{
+					InstanceId:         &instId,
+					NodeRole:           &role,
+					InstanceDeleteMode: &deleteMode,
+				})
+			}
+
+			err := resource.Retry(writeRetryTimeout, func() *resource.RetryError {
+				inErr := tkeService.ScaleInClusterMaster(ctx, id, scaleInMasters)
+				if inErr != nil {
+					return retryError(inErr)
+				}
+				return nil
+			})
+			if err != nil {
+				return err
+			}
+
+			// Poll and wait for scaling down to complete
+			err = resource.Retry(10*readRetryTimeout, func() *resource.RetryError {
+				masters, _, inErr := tkeService.DescribeClusterInstances(ctx, id)
+				if inErr != nil {
+					return retryError(inErr)
+				}
+				for _, block := range removedBlocks {
+					instId, _ := block["instance_id"].(string)
+					for _, m := range masters {
+						if m.InstanceId == instId {
+							if m.InstanceState == "failed" {
+								return resource.NonRetryableError(fmt.Errorf("master node %s scale-in failed: %s", instId, m.FailedReason))
+							}
+							return resource.RetryableError(fmt.Errorf("removed master node %s is still in cluster (state: %s)", instId, m.InstanceState))
+						}
+					}
+				}
+				return nil
+			})
+			if err != nil {
+				return err
+			}
+		}
+	}
+
 	d.Partial(false)
 	if err := resourceTencentCloudTkeClusterRead(d, meta); err != nil {
 		log.Printf("[WARN]%s resource.kubernetes_cluster.read after update fail , %s", logId, err.Error())
@@ -3808,7 +4194,7 @@ func resourceTencentCloudTkeClusterUpdate(d *schema.ResourceData, meta interface
 }
 
 func resourceTencentCloudTkeClusterDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.tencentcloudenterprise_tke_kubernetes_cluster.delete")()
+	defer logElapsed("resource.cloud_tke_kubernetes_cluster.delete")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)

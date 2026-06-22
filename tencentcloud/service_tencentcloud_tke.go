@@ -142,6 +142,8 @@ func (me *TkeService) DescribeClusterInstances(ctx context.Context, id string) (
 	}()
 
 	request.ClusterId = &id
+	allRole := "ALL"
+	request.InstanceRole = &allRole
 	masters = make([]InstanceInfo, 0, 100)
 	workers = make([]InstanceInfo, 0, 100)
 	var offset int64 = 0
@@ -202,6 +204,50 @@ getMoreData:
 	}
 	goto getMoreData
 
+}
+
+func (me *TkeService) ScaleOutClusterMaster(ctx context.Context, clusterId string, runInstancesForNode []*tke.RunInstancesForNode) (errRet error) {
+	logId := getLogId(ctx)
+	request := tke.NewScaleOutClusterMasterRequest()
+
+	defer func() {
+		if errRet != nil {
+			log.Printf("[CRITAL]%s api[%s] fail, request body [%s], reason[%s]\n",
+				logId, request.GetAction(), request.ToJsonString(), errRet.Error())
+		}
+	}()
+
+	request.ClusterId = &clusterId
+	request.RunInstancesForNode = runInstancesForNode
+
+	ratelimit.Check(request.GetAction())
+	_, err := me.client.UseTkeClient().ScaleOutClusterMaster(request)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func (me *TkeService) ScaleInClusterMaster(ctx context.Context, clusterId string, scaleInMasters []*tke.ScaleInMaster) (errRet error) {
+	logId := getLogId(ctx)
+	request := tke.NewScaleInClusterMasterRequest()
+
+	defer func() {
+		if errRet != nil {
+			log.Printf("[CRITAL]%s api[%s] fail, request body [%s], reason[%s]\n",
+				logId, request.GetAction(), request.ToJsonString(), errRet.Error())
+		}
+	}()
+
+	request.ClusterId = &clusterId
+	request.ScaleInMasters = scaleInMasters
+
+	ratelimit.Check(request.GetAction())
+	_, err := me.client.UseTkeClient().ScaleInClusterMaster(request)
+	if err != nil {
+		return err
+	}
+	return nil
 }
 
 func (me *TkeService) DescribeClusters(ctx context.Context, id string, name string) (clusterInfos []ClusterInfo, errRet error) {
@@ -351,6 +397,11 @@ func (me *TkeService) DescribeCluster(ctx context.Context, id string) (
 	clusterInfo.MaxNodePodNum = int64(*cluster.ClusterNetworkSettings.MaxNodePodNum)
 	clusterInfo.DeployType = strings.ToUpper(*cluster.ClusterType)
 	clusterInfo.Ipvs = *cluster.ClusterNetworkSettings.Ipvs
+	if cluster.ClusterNetworkSettings.Cni != nil && *cluster.ClusterNetworkSettings.Cni {
+		clusterInfo.NetworkType = TKE_CLUSTER_NETWORK_TYPE_VPC_CNI
+	} else {
+		clusterInfo.NetworkType = TKE_CLUSTER_NETWORK_TYPE_GR
+	}
 
 	if len(cluster.TagSpecification) > 0 {
 		clusterInfo.Tags = make(map[string]string)

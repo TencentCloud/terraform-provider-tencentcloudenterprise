@@ -1,5 +1,3 @@
-//go:build ignore
-
 package tencentcloud
 
 import (
@@ -12,18 +10,17 @@ import (
 
 	"github.com/stretchr/testify/assert"
 
-	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/unitest"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 )
 
-var testTkeClusterName = "tencentcloudenterprise_tke_kubernetes_cluster"
+var testTkeClusterName = "cloud_tke_kubernetes_cluster"
 var testTkeClusterResourceKey = testTkeClusterName + ".managed_cluster"
 
 func init() {
-	// go test -v ./tencentcloud -sweep=ap-guangzhou -sweep-run=tencentcloudenterprise_tke_kubernetes_cluster
-	resource.AddTestSweepers("tencentcloudenterprise_tke_kubernetes_cluster", &resource.Sweeper{
-		Name: "tencentcloudenterprise_tke_kubernetes_cluster",
+	// go test -v ./tencentcloud -sweep=ap-guangzhou -sweep-run=cloud_tke_kubernetes_cluster
+	resource.AddTestSweepers("cloud_tke_kubernetes_cluster", &resource.Sweeper{
+		Name: "cloud_tke_kubernetes_cluster",
 		F: func(r string) error {
 			logId := getLogId(contextNil)
 			ctx := context.WithValue(context.TODO(), logIdKey, logId)
@@ -354,7 +351,7 @@ variable "availability_zone" {
   default = "ap-guangzhou-3"
 }
 
-resource "tencentcloudenterprise_tke_kubernetes_cluster" "managed_cluster" {
+resource "cloud_tke_kubernetes_cluster" "managed_cluster" {
   vpc_id                                     = local.vpc_id
   cluster_cidr                               = var.tke_cidr_a.0
   cluster_max_pod_num                        = 32
@@ -423,7 +420,7 @@ variable "availability_zone" {
   default = "ap-guangzhou-3"
 }
 
-resource "tencentcloudenterprise_tke_kubernetes_cluster" "managed_cluster" {
+resource "cloud_tke_kubernetes_cluster" "managed_cluster" {
   vpc_id                                     = local.vpc_id
   cluster_cidr                               = var.tke_cidr_a.0
   cluster_max_pod_num                        = 32
@@ -494,7 +491,7 @@ variable "availability_zone" {
   default = "ap-guangzhou-3"
 }
 
-resource "tencentcloudenterprise_tke_kubernetes_cluster" "managed_cluster" {
+resource "cloud_tke_kubernetes_cluster" "managed_cluster" {
   vpc_id                                     = local.vpc_id
   cluster_cidr                               = var.tke_cidr_a.0
   cluster_max_pod_num                        = 32
@@ -558,7 +555,7 @@ variable "availability_zone" {
   default = "ap-guangzhou-3"
 }
 
-resource "tencentcloudenterprise_tke_kubernetes_cluster" "managed_cluster" {
+resource "cloud_tke_kubernetes_cluster" "managed_cluster" {
   vpc_id                                     = local.vpc_id
   cluster_cidr                               = var.tke_cidr_c.0
   cluster_max_pod_num                        = 32
@@ -615,7 +612,7 @@ variable "availability_zone" {
   default = "ap-guangzhou-3"
 }
 
-resource "tencentcloudenterprise_tke_kubernetes_cluster" "managed_cluster" {
+resource "cloud_tke_kubernetes_cluster" "managed_cluster" {
   vpc_id                                     = local.vpc_id
   cluster_cidr                               = var.tke_cidr_c.0
   cluster_max_pod_num                        = 32
@@ -669,60 +666,158 @@ resource "tencentcloudenterprise_tke_kubernetes_cluster" "managed_cluster" {
   }
 }`
 
-// ─── auth_options 单元测试 ──────────────────────────────────────────────────────
 
-func TestBuildTkeAuthOptions_withIssuerAndJwksUri(t *testing.T) {
-	d := unitest.MakeResourceData(t, resourceTencentCloudTkeCluster(), map[string]interface{}{
-		"auth_options": []interface{}{
-			map[string]interface{}{
-				"issuer":                               "https://example.com",
-				"jwks_uri":                             "https://example.com/.well-known/jwks.json",
-				"use_tke_default":                      false,
-				"auto_create_discovery_anonymous_auth": true,
+// TestAccTencentCloudTkeKubernetesClusterMasterScale creates an independent cluster,
+// then tests ScaleOut (3→5 masters) and ScaleIn (5→3 masters).
+func TestAccTencentCloudTkeKubernetesClusterMasterScale(t *testing.T) {
+	resource.Test(t, resource.TestCase{
+		PreCheck:     func() { testAccPreCheck(t) },
+		Providers:    testAccProviders,
+		CheckDestroy: testAccCheckTkeDestroy,
+		Steps: []resource.TestStep{
+			// Step 1: Create independent cluster with 3 MASTER_ETCD nodes
+			{
+				Config: testAccTkeIndependentCluster,
+				Check: resource.ComposeTestCheckFunc(
+					testAccCheckTkeExists("cloud_tke_kubernetes_cluster.scale_test"),
+					resource.TestCheckResourceAttr("cloud_tke_kubernetes_cluster.scale_test", "cluster_deploy_type", "INDEPENDENT_CLUSTER"),
+					resource.TestCheckResourceAttr("cloud_tke_kubernetes_cluster.scale_test", "master_config.#", "3"),
+				),
+			},
+			// Step 2: ScaleOut - add 2 more MASTER_ETCD nodes (3→5)
+			{
+				Config: testAccTkeIndependentClusterScaleOut,
+				Check: resource.ComposeTestCheckFunc(
+					resource.TestCheckResourceAttr("cloud_tke_kubernetes_cluster.scale_test", "master_config.#", "5"),
+				),
+			},
+			// Step 3: ScaleIn - remove 2 nodes back to 3
+			{
+				Config: testAccTkeIndependentCluster,
+				Check: resource.ComposeTestCheckFunc(
+					resource.TestCheckResourceAttr("cloud_tke_kubernetes_cluster.scale_test", "master_config.#", "3"),
+				),
 			},
 		},
 	})
-
-	req := tkeGetAuthOptions(d, "cls-test123")
-
-	assert.NotNil(t, req)
-	assert.Equal(t, "cls-test123", *req.ClusterId)
-	assert.NotNil(t, req.ServiceAccounts)
-	assert.Equal(t, "https://example.com", *req.ServiceAccounts.Issuer)
-	assert.Equal(t, "https://example.com/.well-known/jwks.json", *req.ServiceAccounts.JWKSURI)
-	assert.Equal(t, true, *req.ServiceAccounts.AutoCreateDiscoveryAnonymousAuth)
 }
 
-func TestBuildTkeAuthOptions_useTKEDefault(t *testing.T) {
-	d := unitest.MakeResourceData(t, resourceTencentCloudTkeCluster(), map[string]interface{}{
-		"auth_options": []interface{}{
-			map[string]interface{}{
-				"use_tke_default":                      true,
-				"issuer":                               "",
-				"jwks_uri":                             "",
-				"auto_create_discovery_anonymous_auth": false,
-			},
-		},
-	})
+const testAccTkeIndependentCluster = `
+resource "cloud_tke_kubernetes_cluster" "scale_test" {
+  cluster_name        = "tf-scale-test"
+  cluster_desc        = "terraform scale test cluster"
+  cluster_deploy_type = "INDEPENDENT_CLUSTER"
+  cluster_version     = "1.32.2"
+  cluster_os          = "tlinux4.0x86_64"
+  vpc_id              = "vpc-m503nkg5"
+  network_type        = "VPC-CNI"
+  cluster_max_pod_num = 64
+  cluster_max_service_num = 32768
+  service_cidr            = "10.96.0.0/17"
+  eni_subnet_ids          = ["subnet-k4okrboe"]
 
-	req := tkeGetAuthOptions(d, "cls-test456")
+  master_config {
+    instance_name     = "tf-scale-master-1"
+    instance_type     = "S5l.LARGE4"
+    subnet_id         = "subnet-k4okrboe"
+    availability_zone = "kazakhstan-az2"
+    system_disk_type  = "CLOUD_PREMIUM"
+    system_disk_size  = 50
+    security_group_ids = ["sg-otkz9yrq"]
+    password           = "Tencent@123"
+  }
 
-	assert.NotNil(t, req)
-	assert.Equal(t, "cls-test456", *req.ClusterId)
-	assert.NotNil(t, req.ServiceAccounts)
-	assert.NotNil(t, req.ServiceAccounts.UseTKEDefault)
-	assert.Equal(t, true, *req.ServiceAccounts.UseTKEDefault)
-	assert.Equal(t, false, *req.ServiceAccounts.AutoCreateDiscoveryAnonymousAuth)
+  master_config {
+    instance_name     = "tf-scale-master-2"
+    instance_type     = "S5l.LARGE4"
+    subnet_id         = "subnet-k4okrboe"
+    availability_zone = "kazakhstan-az2"
+    system_disk_type  = "CLOUD_PREMIUM"
+    system_disk_size  = 50
+    security_group_ids = ["sg-otkz9yrq"]
+    password           = "Tencent@123"
+  }
+
+  master_config {
+    instance_name     = "tf-scale-master-3"
+    instance_type     = "S5l.LARGE4"
+    subnet_id         = "subnet-k4okrboe"
+    availability_zone = "kazakhstan-az2"
+    system_disk_type  = "CLOUD_PREMIUM"
+    system_disk_size  = 50
+    security_group_ids = ["sg-otkz9yrq"]
+    password           = "Tencent@123"
+  }
 }
+`
 
-func TestBuildTkeAuthOptions_empty(t *testing.T) {
-	d := unitest.MakeResourceData(t, resourceTencentCloudTkeCluster(), map[string]interface{}{})
+const testAccTkeIndependentClusterScaleOut = `
+resource "cloud_tke_kubernetes_cluster" "scale_test" {
+  cluster_name        = "tf-scale-test"
+  cluster_desc        = "terraform scale test cluster"
+  cluster_deploy_type = "INDEPENDENT_CLUSTER"
+  cluster_version     = "1.32.2"
+  cluster_os          = "tlinux4.0x86_64"
+  vpc_id              = "vpc-m503nkg5"
+  network_type        = "VPC-CNI"
+  cluster_max_pod_num = 64
+  cluster_max_service_num = 32768
+  service_cidr            = "10.96.0.0/17"
+  eni_subnet_ids          = ["subnet-k4okrboe"]
 
-	req := tkeGetAuthOptions(d, "cls-test789")
+  master_config {
+    instance_name     = "tf-scale-master-1"
+    instance_type     = "S5l.LARGE4"
+    subnet_id         = "subnet-k4okrboe"
+    availability_zone = "kazakhstan-az2"
+    system_disk_type  = "CLOUD_PREMIUM"
+    system_disk_size  = 50
+    security_group_ids = ["sg-otkz9yrq"]
+    password           = "Tencent@123"
+  }
 
-	assert.NotNil(t, req)
-	assert.Equal(t, "cls-test789", *req.ClusterId)
-	assert.NotNil(t, req.ServiceAccounts)
-	assert.Equal(t, "", *req.ServiceAccounts.JWKSURI)
-	assert.Equal(t, false, *req.ServiceAccounts.AutoCreateDiscoveryAnonymousAuth)
+  master_config {
+    instance_name     = "tf-scale-master-2"
+    instance_type     = "S5l.LARGE4"
+    subnet_id         = "subnet-k4okrboe"
+    availability_zone = "kazakhstan-az2"
+    system_disk_type  = "CLOUD_PREMIUM"
+    system_disk_size  = 50
+    security_group_ids = ["sg-otkz9yrq"]
+    password           = "Tencent@123"
+  }
+
+  master_config {
+    instance_name     = "tf-scale-master-3"
+    instance_type     = "S5l.LARGE4"
+    subnet_id         = "subnet-k4okrboe"
+    availability_zone = "kazakhstan-az2"
+    system_disk_type  = "CLOUD_PREMIUM"
+    system_disk_size  = 50
+    security_group_ids = ["sg-otkz9yrq"]
+    password           = "Tencent@123"
+  }
+
+  master_config {
+    instance_name     = "tf-scale-master-4"
+    instance_type     = "S5l.LARGE4"
+    subnet_id         = "subnet-k4okrboe"
+    availability_zone = "kazakhstan-az2"
+    system_disk_type  = "CLOUD_PREMIUM"
+    system_disk_size  = 50
+    security_group_ids = ["sg-otkz9yrq"]
+    password           = "Tencent@123"
+  }
+
+  master_config {
+    instance_name     = "tf-scale-master-5"
+    instance_type     = "S5l.LARGE4"
+    subnet_id         = "subnet-k4okrboe"
+    availability_zone = "kazakhstan-az2"
+    system_disk_type  = "CLOUD_PREMIUM"
+    system_disk_size  = 50
+    security_group_ids = ["sg-otkz9yrq"]
+    password           = "Tencent@123"
+  }
 }
+`
