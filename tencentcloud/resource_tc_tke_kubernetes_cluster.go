@@ -4218,15 +4218,16 @@ func resourceTencentCloudTkeClusterUpdate(d *schema.ResourceData, meta interface
 					}
 					runInstancesParaList = append(runInstancesParaList, &paraJson)
 
+					// 仅当 desired_pod_num 与默认值不同时才生成 override，与 CreateCluster 路径
+					// (service_tencentcloud_tke.go:CreateCluster) 行为保持一致：dpNum == DefaultDesiredPodNum
+					// 时不 append，最终 InstanceAdvancedSettingsOverrides 为 nil，SDK omitempty 会省略字段，
+					// API 等价于"该 instance 使用集群默认 InstanceAdvancedSettings"。
+					// 切勿 append(nil)——会序列化成 [null]，触发 API 报 InvalidParameter。
 					if v, ok := block["desired_pod_num"]; ok {
 						dpNum := int64(v.(int))
 						if dpNum != DefaultDesiredPodNum {
 							overrideSettings = append(overrideSettings, &tke.InstanceAdvancedSettings{DesiredPodNumber: helper.Int64(dpNum)})
-						} else {
-							overrideSettings = append(overrideSettings, nil)
 						}
-					} else {
-						overrideSettings = append(overrideSettings, nil)
 					}
 				}
 				nodeRole := role
@@ -4255,6 +4256,9 @@ func resourceTencentCloudTkeClusterUpdate(d *schema.ResourceData, meta interface
 					return retryError(inErr)
 				}
 				for _, m := range masters {
+					if m.InstanceRole != "MASTER_ETCD" {
+						continue
+					}
 					if m.InstanceState == "failed" {
 						return resource.NonRetryableError(fmt.Errorf("master node %s entered failed state: %s", m.InstanceId, m.FailedReason))
 					}
