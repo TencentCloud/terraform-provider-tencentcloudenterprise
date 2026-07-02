@@ -909,6 +909,51 @@ func TkeMasterCvmCreateInfo() map[string]*schema.Schema {
 	return masterRes
 }
 
+// normalizeMasterConfigBlock fills in default zero values for fields that Read
+// cannot recover from the CVM API (password) or that may end up as nil in state
+// (user_data, security_group_ids). Without this, Terraform sees state as null
+// but the schema default as "" during plan, producing a plan drift on every
+// invocation and blocking scale-in/scale-out through masterConfigValueEqual.
+func normalizeMasterConfigBlock(m map[string]interface{}) {
+	if _, ok := m["password"]; !ok || m["password"] == nil {
+		m["password"] = ""
+	}
+	if _, ok := m["user_data"]; !ok || m["user_data"] == nil {
+		m["user_data"] = ""
+	}
+	if v, ok := m["security_group_ids"]; !ok || v == nil {
+		m["security_group_ids"] = []interface{}{}
+	}
+}
+
+// masterConfigFieldsEquivalent reports whether two field values should be
+// treated as equal for the purpose of detecting user-authored modifications.
+// It returns true only when both values are "empty" in one of the shapes that
+// Terraform routinely conflates (nil, "", 0, false, empty list/map). This lets
+// scale-in/scale-out proceed when Read has populated state with a zero value
+// but the user's HCL never set the field at all (or vice versa).
+func masterConfigFieldsEquivalent(a, b interface{}) bool {
+	return isMasterConfigZero(a) && isMasterConfigZero(b)
+}
+
+func isMasterConfigZero(v interface{}) bool {
+	switch t := v.(type) {
+	case nil:
+		return true
+	case string:
+		return t == ""
+	case int:
+		return t == 0
+	case bool:
+		return !t
+	case []interface{}:
+		return len(t) == 0
+	case map[string]interface{}:
+		return len(t) == 0
+	}
+	return false
+}
+
 // masterConfigValueEqual compares two master_config field values for equality.
 // For slice types (security_group_ids, data_disk, key_ids, disaster_recover_group_ids),
 // order is normalized before comparison to avoid false positives from reflect.DeepEqual.
@@ -3710,6 +3755,7 @@ func resourceTencentCloudTkeClusterRead(d *schema.ResourceData, meta interface{}
 						} else {
 							m["instance_id"] = ""
 						}
+						normalizeMasterConfigBlock(m)
 					}
 					_ = d.Set("master_config", masterList)
 				} else {
@@ -3766,6 +3812,7 @@ func resourceTencentCloudTkeClusterRead(d *schema.ResourceData, meta interface{}
 							dataDisks = append(dataDisks, dataDisk)
 						}
 						mapping["data_disk"] = dataDisks
+						normalizeMasterConfigBlock(mapping)
 						masterList = append(masterList, mapping)
 					}
 					_ = d.Set("master_config", masterList)
@@ -4173,13 +4220,26 @@ func resourceTencentCloudTkeClusterUpdate(d *schema.ResourceData, meta interface
 		var addedBlocks []map[string]interface{}
 		var removedBlocks []map[string]interface{}
 
+		// Sensitive fields (e.g. password) may report inconsistent values during
+		// plan even when the user has not changed anything, because the SDK
+		// masks their real value. Skip them to avoid false positives that would
+		// block legitimate scale-in/scale-out operations. Real user changes to
+		// these fields still require a delete-then-add flow.
+		skipFields := map[string]bool{
+			"instance_id": true,
+			"password":    true,
+		}
+
 		for name, newM := range newMap {
 			oldM, exists := oldMap[name]
 			if !exists {
 				addedBlocks = append(addedBlocks, newM)
 			} else {
 				for k, v := range newM {
-					if k == "instance_id" {
+					if skipFields[k] {
+						continue
+					}
+					if masterConfigFieldsEquivalent(v, oldM[k]) {
 						continue
 					}
 					if !masterConfigValueEqual(v, oldM[k]) {
@@ -4193,6 +4253,22 @@ func resourceTencentCloudTkeClusterUpdate(d *schema.ResourceData, meta interface
 			if _, exists := newMap[name]; !exists {
 				removedBlocks = append(removedBlocks, oldM)
 			}
+		}
+
+		// Only allow one direction per apply: pure scale-out (all adds) or pure
+		// scale-in (all removes). Mixing them in a single apply almost always
+		// destroys a running master implicitly (e.g. rename, spec swap). Force
+		// the user to split it into two applies so the intent is explicit.
+		if len(addedBlocks) > 0 && len(removedBlocks) > 0 {
+			addedNames := make([]string, 0, len(addedBlocks))
+			for _, b := range addedBlocks {
+				addedNames = append(addedNames, b["instance_name"].(string))
+			}
+			removedNames := make([]string, 0, len(removedBlocks))
+			for _, b := range removedBlocks {
+				removedNames = append(removedNames, b["instance_name"].(string))
+			}
+			return fmt.Errorf("master_config: cannot add and remove blocks in the same apply (adding %v, removing %v). Split into two applies: scale out first, then scale in (or vice versa)", addedNames, removedNames)
 		}
 
 		// 1. Scale Out (Addition)
