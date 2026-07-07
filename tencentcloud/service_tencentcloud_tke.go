@@ -472,9 +472,13 @@ func (me *TkeService) DescribeClusterConfig(ctx context.Context, id string, isPu
 
 	logId := getLogId(ctx)
 	request := tke.NewDescribeClusterKubeconfigRequest()
-	//if isPublic {
-	//	request.IsExtranet = &isPublic
-	//}
+	// SDK 字段为 Type（yunapi 元数据规范字段名），取值 INNERLB=内网 / INTERNETLB=外网。
+	// 旧代码误用不存在的 IsExtranet 字段被注释掉，导致 kube_config / kube_config_intranet 始终为空。
+	clusterType := "INNERLB"
+	if isPublic {
+		clusterType = "INTERNETLB"
+	}
+	request.Type = &clusterType
 
 	defer func() {
 		if errRet != nil {

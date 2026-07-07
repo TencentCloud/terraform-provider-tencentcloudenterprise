@@ -441,38 +441,38 @@ LOOP:
 		//infoMap["pgw_endpoint"] = emptyStrFunc(securityRet.Response.PgwEndpoint)
 		//infoMap["security_policy"] = policies
 
-		//config, err := service.DescribeClusterConfig(ctx, info.ClusterId, true)
-		//if err != nil {
-		//	err = resource.Retry(readRetryTimeout, func() *resource.RetryError {
-		//		config, err = service.DescribeClusterConfig(ctx, d.Id(), true)
-		//		if err != nil {
-		//			return retryError(err)
-		//		}
-		//		return nil
-		//	})
-		//}
-		//if err != nil {
-		//	log.Printf("[CRITAL]%s tencentcloudenterprise_tke_kubernetes_clusters DescribeClusterInstances fail, reason:%s\n ", logId, err.Error())
-		//	return err
-		//}
-		//
-		//intranetConfig, err := service.DescribeClusterConfig(ctx, info.ClusterId, false)
-		//if err != nil {
-		//	err = resource.Retry(readRetryTimeout, func() *resource.RetryError {
-		//		config, err = service.DescribeClusterConfig(ctx, d.Id(), false)
-		//		if err != nil {
-		//			return retryError(err)
-		//		}
-		//		return nil
-		//	})
-		//}
-		//if err != nil {
-		//	log.Printf("[CRITAL]%s tencentcloudenterprise_tke_kubernetes_clusters DescribeClusterInstances fail, reason:%s\n ", logId, err.Error())
-		//	return err
-		//}
+		config, err := service.DescribeClusterConfig(ctx, info.ClusterId, true)
+		if err != nil {
+			err = resource.Retry(readRetryTimeout, func() *resource.RetryError {
+				config, err = service.DescribeClusterConfig(ctx, info.ClusterId, true)
+				if err != nil {
+					return retryError(err)
+				}
+				return nil
+			})
+		}
+		if err != nil {
+			log.Printf("[CRITAL]%s tencentcloudenterprise_tke_kubernetes_clusters DescribeClusterConfig(public) fail, reason:%s\n ", logId, err.Error())
+			return err
+		}
 
-		//infoMap["kube_config"] = config
-		//infoMap["kube_config_intranet"] = intranetConfig
+		intranetConfig, err := service.DescribeClusterConfig(ctx, info.ClusterId, false)
+		if err != nil {
+			err = resource.Retry(readRetryTimeout, func() *resource.RetryError {
+				intranetConfig, err = service.DescribeClusterConfig(ctx, info.ClusterId, false)
+				if err != nil {
+					return retryError(err)
+				}
+				return nil
+			})
+		}
+		if err != nil {
+			log.Printf("[CRITAL]%s tencentcloudenterprise_tke_kubernetes_clusters DescribeClusterConfig(intranet) fail, reason:%s\n ", logId, err.Error())
+			return err
+		}
+
+		infoMap["kube_config"] = config
+		infoMap["kube_config_intranet"] = intranetConfig
 		list = append(list, infoMap)
 	}
 
