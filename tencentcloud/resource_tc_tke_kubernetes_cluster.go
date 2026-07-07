@@ -3,8 +3,8 @@ Provide a resource to create a kubernetes cluster.
 
 ~> **NOTE:** To use the custom Kubernetes component startup parameter function (parameter `extra_args`), you need to submit a ticket for application.
 
-~> **NOTE:** We recommend this usage that uses the `cloud_tke_kubernetes_cluster` resource to create a cluster without any `worker_config`, then adds nodes by the `cloud_kubernetes_node_pool` resource.
-It's more flexible than managing worker config directly with `cloud_tke_kubernetes_cluster`, `cloud_tke_kubernetes_scale_worker`, or existing node management of `cloud_kubernetes_attachment`. The reason is that `worker_config` is unchangeable and may cause the whole cluster resource to `ForceNew`.
+~> **NOTE:** We recommend this usage that uses the `tencentcloudenterprise_tke_kubernetes_cluster` resource to create a cluster without any `worker_config`, then adds nodes by the `tencentcloudenterprise_kubernetes_node_pool` resource.
+It's more flexible than managing worker config directly with `tencentcloudenterprise_tke_kubernetes_cluster`, `tencentcloudenterprise_tke_kubernetes_scale_worker`, or existing node management of `tencentcloudenterprise_kubernetes_attachment`. The reason is that `worker_config` is unchangeable and may cause the whole cluster resource to `ForceNew`.
 
 # Example Usage
 
@@ -26,18 +26,18 @@ It's more flexible than managing worker config directly with `cloud_tke_kubernet
 	  default = "SA2.2XLARGE16"
 	}
 
-	data "cloud_vpc_subnets" "vpc_first" {
+	data "tencentcloudenterprise_vpc_subnets" "vpc_first" {
 	  is_default        = true
 	  availability_zone = var.availability_zone_first
 	}
 
-	data "cloud_vpc_subnets" "vpc_second" {
+	data "tencentcloudenterprise_vpc_subnets" "vpc_second" {
 	  is_default        = true
 	  availability_zone = var.availability_zone_second
 	}
 
-	resource "cloud_tke_kubernetes_cluster" "managed_cluster" {
-	  vpc_id                  = data.cloud_vpc_subnets.vpc_first.instance_list.0.vpc_id
+	resource "tencentcloudenterprise_tke_kubernetes_cluster" "managed_cluster" {
+	  vpc_id                  = data.tencentcloudenterprise_vpc_subnets.vpc_first.instance_list.0.vpc_id
 	  cluster_cidr            = var.cluster_cidr
 	  cluster_max_pod_num     = 32
 	  cluster_name            = "test"
@@ -54,7 +54,7 @@ It's more flexible than managing worker config directly with `cloud_tke_kubernet
 	    internet_charge_type       = "TRAFFIC_POSTPAID_BY_HOUR"
 	    internet_max_bandwidth_out = 100
 	    public_ip_assigned         = true
-	    subnet_id                  = data.cloud_vpc_subnets.vpc_first.instance_list.0.subnet_id
+	    subnet_id                  = data.tencentcloudenterprise_vpc_subnets.vpc_first.instance_list.0.subnet_id
 	    img_id                     = "img-rkiynh11"
 
 	    data_disk {
@@ -79,7 +79,7 @@ It's more flexible than managing worker config directly with `cloud_tke_kubernet
 	    internet_charge_type       = "TRAFFIC_POSTPAID_BY_HOUR"
 	    internet_max_bandwidth_out = 100
 	    public_ip_assigned         = true
-	    subnet_id                  = data.cloud_vpc_subnets.vpc_second.instance_list.0.subnet_id
+	    subnet_id                  = data.tencentcloudenterprise_vpc_subnets.vpc_second.instance_list.0.subnet_id
 
 	    data_disk {
 	      disk_type = "CLOUD_PREMIUM"
@@ -122,18 +122,18 @@ It's more flexible than managing worker config directly with `cloud_tke_kubernet
 	  default = "SA2.2XLARGE16"
 	}
 
-	data "cloud_vpc_subnets" "vpc_first" {
+	data "tencentcloudenterprise_vpc_subnets" "vpc_first" {
 	  is_default        = true
 	  availability_zone = var.availability_zone_first
 	}
 
-	data "cloud_vpc_subnets" "vpc_second" {
+	data "tencentcloudenterprise_vpc_subnets" "vpc_second" {
 	  is_default        = true
 	  availability_zone = var.availability_zone_second
 	}
 
-	resource "cloud_tke_kubernetes_cluster" "managed_cluster" {
-	  vpc_id                  = data.cloud_vpc_subnets.vpc_first.instance_list.0.vpc_id
+	resource "tencentcloudenterprise_tke_kubernetes_cluster" "managed_cluster" {
+	  vpc_id                  = data.tencentcloudenterprise_vpc_subnets.vpc_first.instance_list.0.vpc_id
 	  cluster_cidr            = var.cluster_cidr
 	  cluster_max_pod_num     = 32
 	  cluster_name            = "test"
@@ -150,7 +150,7 @@ It's more flexible than managing worker config directly with `cloud_tke_kubernet
 	    internet_charge_type       = "TRAFFIC_POSTPAID_BY_HOUR"
 	    internet_max_bandwidth_out = 100
 	    public_ip_assigned         = true
-	    subnet_id                  = data.cloud_vpc_subnets.vpc_first.instance_list.0.subnet_id
+	    subnet_id                  = data.tencentcloudenterprise_vpc_subnets.vpc_first.instance_list.0.subnet_id
 
 	    data_disk {
 	      disk_type = "CLOUD_PREMIUM"
@@ -174,7 +174,7 @@ It's more flexible than managing worker config directly with `cloud_tke_kubernet
 	    internet_charge_type       = "TRAFFIC_POSTPAID_BY_HOUR"
 	    internet_max_bandwidth_out = 100
 	    public_ip_assigned         = true
-	    subnet_id                  = data.cloud_vpc_subnets.vpc_second.instance_list.0.subnet_id
+	    subnet_id                  = data.tencentcloudenterprise_vpc_subnets.vpc_second.instance_list.0.subnet_id
 
 	    data_disk {
 	      disk_type = "CLOUD_PREMIUM"
@@ -216,7 +216,7 @@ Using VPC-CNI network type
 	  default = "SA2.SMALL2"
 	}
 
-	resource "cloud_tke_kubernetes_cluster" "managed_cluster" {
+	resource "tencentcloudenterprise_tke_kubernetes_cluster" "managed_cluster" {
 	  vpc_id                  = var.vpc
 	  cluster_max_pod_num     = 32
 	  cluster_name            = "test"
@@ -275,7 +275,7 @@ Using VPC-CNI network type
 	  default = "subnet-xxxxxxxx"
 	}
 
-	resource "cloud_tke_kubernetes_cluster" "independent_cluster" {
+	resource "tencentcloudenterprise_tke_kubernetes_cluster" "independent_cluster" {
 	  vpc_id              = var.vpc_id
 	  cluster_cidr        = "172.16.0.0/16"
 	  cluster_name        = "my-independent-cluster"
@@ -338,7 +338,7 @@ The `node_role` field defaults to `MASTER_ETCD`. Use `MASTER` or `ETCD` for spli
 
 ```hcl
 
-	resource "cloud_tke_kubernetes_cluster" "independent_cluster" {
+	resource "tencentcloudenterprise_tke_kubernetes_cluster" "independent_cluster" {
 	  vpc_id              = var.vpc_id
 	  cluster_cidr        = "172.16.0.0/16"
 	  cluster_name        = "my-independent-cluster"
@@ -425,7 +425,7 @@ import (
 )
 
 func init() {
-	registerResourceDescriptionProvider("cloud_tke_kubernetes_cluster", CNDescription{
+	registerResourceDescriptionProvider("tencentcloudenterprise_tke_kubernetes_cluster", CNDescription{
 		TerraformTypeCN: "Tke集群",
 		DescriptionCN:   "提供Kubernetes集群资源，用于创建和管理TKE集群。",
 		AttributesCN: map[string]string{
@@ -1520,7 +1520,7 @@ func resourceTencentCloudTkeCluster() *schema.Resource {
 			Type:        schema.TypeString,
 			Optional:    true,
 			Default:     "1.10.5",
-			Description: "Version of the cluster, Default is '1.10.5'. Use `cloud_tke_kubernetes_available_cluster_versions` to get the available versions.",
+			Description: "Version of the cluster, Default is '1.10.5'. Use `tencentcloudenterprise_tke_kubernetes_available_cluster_versions` to get the available versions.",
 		},
 		//"upgrade_instances_follow_cluster": {
 		//	Type:        schema.TypeBool,
@@ -1547,7 +1547,7 @@ func resourceTencentCloudTkeCluster() *schema.Resource {
 			Type:        schema.TypeString,
 			Optional:    true,
 			Computed:    true,
-			Description: "Specify cluster level, valid for managed cluster, use data source `cloud_kubernetes_cluster_levels` to query available levels. Available value examples `L5`, `L20`, `L50`, `L100`, etc.",
+			Description: "Specify cluster level, valid for managed cluster, use data source `tencentcloudenterprise_kubernetes_cluster_levels` to query available levels. Available value examples `L5`, `L20`, `L50`, `L100`, etc.",
 		},
 		"auto_upgrade_cluster_level": {
 			Type:        schema.TypeBool,
@@ -1922,7 +1922,7 @@ func resourceTencentCloudTkeCluster() *schema.Resource {
 			Elem: &schema.Resource{
 				Schema: TkeCvmCreateInfo(),
 			},
-			Description: "Deploy the machine configuration information of the 'WORKER' service, and create <=20 units for common users. The other 'WORK' service are added by 'cloud_kubernetes_worker'.",
+			Description: "Deploy the machine configuration information of the 'WORKER' service, and create <=20 units for common users. The other 'WORK' service are added by 'tencentcloudenterprise_kubernetes_worker'.",
 		},
 		"exist_instance": {
 			Type:     schema.TypeList,
@@ -2918,7 +2918,7 @@ func upgradeClusterInstances(tkeService TkeService, ctx context.Context, id stri
 }
 
 func resourceTencentCloudTkeClusterCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_tke_kubernetes_cluster.create")()
+	defer logElapsed("resource.tencentcloudenterprise_tke_kubernetes_cluster.create")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
@@ -3528,7 +3528,7 @@ func resourceTencentCloudTkeClusterCreate(d *schema.ResourceData, meta interface
 }
 
 func resourceTencentCloudTkeClusterRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_tke_kubernetes_cluster.read")()
+	defer logElapsed("resource.tencentcloudenterprise_tke_kubernetes_cluster.read")()
 	defer inconsistentCheck(d, meta)()
 
 	logId := getLogId(contextNil)
@@ -3910,7 +3910,7 @@ func resourceTencentCloudTkeClusterRead(d *schema.ResourceData, meta interface{}
 }
 
 func resourceTencentCloudTkeClusterUpdate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_tke_kubernetes_cluster.update")()
+	defer logElapsed("resource.tencentcloudenterprise_tke_kubernetes_cluster.update")()
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
 
@@ -4295,7 +4295,7 @@ func resourceTencentCloudTkeClusterUpdate(d *schema.ResourceData, meta interface
 					runInstancesParaList = append(runInstancesParaList, &paraJson)
 
 					// 仅当 desired_pod_num 与默认值不同时才生成 override，与 CreateCluster 路径
-					// (service_tencentcloud_tke.go:CreateCluster) 行为保持一致：dpNum == DefaultDesiredPodNum
+					// (service_tencenttencentcloudenterprise_tke.go:CreateCluster) 行为保持一致：dpNum == DefaultDesiredPodNum
 					// 时不 append，最终 InstanceAdvancedSettingsOverrides 为 nil，SDK omitempty 会省略字段，
 					// API 等价于"该 instance 使用集群默认 InstanceAdvancedSettings"。
 					// 切勿 append(nil)——会序列化成 [null]，触发 API 报 InvalidParameter。
@@ -4416,7 +4416,7 @@ func resourceTencentCloudTkeClusterUpdate(d *schema.ResourceData, meta interface
 }
 
 func resourceTencentCloudTkeClusterDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.cloud_tke_kubernetes_cluster.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_tke_kubernetes_cluster.delete")()
 
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)

@@ -14,13 +14,13 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 )
 
-var testTkeClusterName = "cloud_tke_kubernetes_cluster"
+var testTkeClusterName = "tencentcloudenterprise_tke_kubernetes_cluster"
 var testTkeClusterResourceKey = testTkeClusterName + ".managed_cluster"
 
 func init() {
-	// go test -v ./tencentcloud -sweep=ap-guangzhou -sweep-run=cloud_tke_kubernetes_cluster
-	resource.AddTestSweepers("cloud_tke_kubernetes_cluster", &resource.Sweeper{
-		Name: "cloud_tke_kubernetes_cluster",
+	// go test -v ./tencentcloud -sweep=ap-guangzhou -sweep-run=tencentcloudenterprise_tke_kubernetes_cluster
+	resource.AddTestSweepers("tencentcloudenterprise_tke_kubernetes_cluster", &resource.Sweeper{
+		Name: "tencentcloudenterprise_tke_kubernetes_cluster",
 		F: func(r string) error {
 			logId := getLogId(contextNil)
 			ctx := context.WithValue(context.TODO(), logIdKey, logId)
@@ -351,7 +351,7 @@ variable "availability_zone" {
   default = "ap-guangzhou-3"
 }
 
-resource "cloud_tke_kubernetes_cluster" "managed_cluster" {
+resource "tencentcloudenterprise_tke_kubernetes_cluster" "managed_cluster" {
   vpc_id                                     = local.vpc_id
   cluster_cidr                               = var.tke_cidr_a.0
   cluster_max_pod_num                        = 32
@@ -420,7 +420,7 @@ variable "availability_zone" {
   default = "ap-guangzhou-3"
 }
 
-resource "cloud_tke_kubernetes_cluster" "managed_cluster" {
+resource "tencentcloudenterprise_tke_kubernetes_cluster" "managed_cluster" {
   vpc_id                                     = local.vpc_id
   cluster_cidr                               = var.tke_cidr_a.0
   cluster_max_pod_num                        = 32
@@ -491,7 +491,7 @@ variable "availability_zone" {
   default = "ap-guangzhou-3"
 }
 
-resource "cloud_tke_kubernetes_cluster" "managed_cluster" {
+resource "tencentcloudenterprise_tke_kubernetes_cluster" "managed_cluster" {
   vpc_id                                     = local.vpc_id
   cluster_cidr                               = var.tke_cidr_a.0
   cluster_max_pod_num                        = 32
@@ -555,7 +555,7 @@ variable "availability_zone" {
   default = "ap-guangzhou-3"
 }
 
-resource "cloud_tke_kubernetes_cluster" "managed_cluster" {
+resource "tencentcloudenterprise_tke_kubernetes_cluster" "managed_cluster" {
   vpc_id                                     = local.vpc_id
   cluster_cidr                               = var.tke_cidr_c.0
   cluster_max_pod_num                        = 32
@@ -612,7 +612,7 @@ variable "availability_zone" {
   default = "ap-guangzhou-3"
 }
 
-resource "cloud_tke_kubernetes_cluster" "managed_cluster" {
+resource "tencentcloudenterprise_tke_kubernetes_cluster" "managed_cluster" {
   vpc_id                                     = local.vpc_id
   cluster_cidr                               = var.tke_cidr_c.0
   cluster_max_pod_num                        = 32
@@ -679,23 +679,23 @@ func TestAccTencentCloudTkeKubernetesClusterMasterScale(t *testing.T) {
 			{
 				Config: testAccTkeIndependentCluster,
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckTkeExists("cloud_tke_kubernetes_cluster.scale_test"),
-					resource.TestCheckResourceAttr("cloud_tke_kubernetes_cluster.scale_test", "cluster_deploy_type", "INDEPENDENT_CLUSTER"),
-					resource.TestCheckResourceAttr("cloud_tke_kubernetes_cluster.scale_test", "master_config.#", "3"),
+					testAccCheckTkeExists("tencentcloudenterprise_tke_kubernetes_cluster.scale_test"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_tke_kubernetes_cluster.scale_test", "cluster_deploy_type", "INDEPENDENT_CLUSTER"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_tke_kubernetes_cluster.scale_test", "master_config.#", "3"),
 				),
 			},
 			// Step 2: ScaleOut - add 2 more MASTER_ETCD nodes (3→5)
 			{
 				Config: testAccTkeIndependentClusterScaleOut,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr("cloud_tke_kubernetes_cluster.scale_test", "master_config.#", "5"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_tke_kubernetes_cluster.scale_test", "master_config.#", "5"),
 				),
 			},
 			// Step 3: ScaleIn - remove 2 nodes back to 3
 			{
 				Config: testAccTkeIndependentCluster,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr("cloud_tke_kubernetes_cluster.scale_test", "master_config.#", "3"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_tke_kubernetes_cluster.scale_test", "master_config.#", "3"),
 				),
 			},
 		},
@@ -703,120 +703,120 @@ func TestAccTencentCloudTkeKubernetesClusterMasterScale(t *testing.T) {
 }
 
 const testAccTkeIndependentCluster = `
-resource "cloud_tke_kubernetes_cluster" "scale_test" {
+resource "tencentcloudenterprise_tke_kubernetes_cluster" "scale_test" {
   cluster_name        = "tf-scale-test"
   cluster_desc        = "terraform scale test cluster"
   cluster_deploy_type = "INDEPENDENT_CLUSTER"
   cluster_version     = "1.32.2"
   cluster_os          = "tlinux4.0x86_64"
-  vpc_id              = "vpc-m503nkg5"
+  vpc_id              = "vpc-rlu5umll"
   network_type        = "VPC-CNI"
   cluster_max_pod_num = 64
   cluster_max_service_num = 32768
-  service_cidr            = "10.96.0.0/17"
-  eni_subnet_ids          = ["subnet-k4okrboe"]
+  service_cidr            = "192.168.0.0/17"
+  eni_subnet_ids          = ["subnet-ll9bvz02"]
 
   master_config {
     instance_name     = "tf-scale-master-1"
     instance_type     = "S5l.LARGE4"
-    subnet_id         = "subnet-k4okrboe"
-    availability_zone = "kazakhstan-az2"
-    system_disk_type  = "CLOUD_PREMIUM"
+    subnet_id         = "subnet-ll9bvz02"
+    availability_zone = "kazakhstan-az1"
+    system_disk_type  = "CLOUD_SSD"
     system_disk_size  = 50
-    security_group_ids = ["sg-otkz9yrq"]
+    security_group_ids = ["sg-9v7lwts0"]
     password           = "Tencent@123"
   }
 
   master_config {
     instance_name     = "tf-scale-master-2"
     instance_type     = "S5l.LARGE4"
-    subnet_id         = "subnet-k4okrboe"
-    availability_zone = "kazakhstan-az2"
-    system_disk_type  = "CLOUD_PREMIUM"
+    subnet_id         = "subnet-ll9bvz02"
+    availability_zone = "kazakhstan-az1"
+    system_disk_type  = "CLOUD_SSD"
     system_disk_size  = 50
-    security_group_ids = ["sg-otkz9yrq"]
+    security_group_ids = ["sg-9v7lwts0"]
     password           = "Tencent@123"
   }
 
   master_config {
     instance_name     = "tf-scale-master-3"
     instance_type     = "S5l.LARGE4"
-    subnet_id         = "subnet-k4okrboe"
-    availability_zone = "kazakhstan-az2"
-    system_disk_type  = "CLOUD_PREMIUM"
+    subnet_id         = "subnet-ll9bvz02"
+    availability_zone = "kazakhstan-az1"
+    system_disk_type  = "CLOUD_SSD"
     system_disk_size  = 50
-    security_group_ids = ["sg-otkz9yrq"]
+    security_group_ids = ["sg-9v7lwts0"]
     password           = "Tencent@123"
   }
 }
 `
 
 const testAccTkeIndependentClusterScaleOut = `
-resource "cloud_tke_kubernetes_cluster" "scale_test" {
+resource "tencentcloudenterprise_tke_kubernetes_cluster" "scale_test" {
   cluster_name        = "tf-scale-test"
   cluster_desc        = "terraform scale test cluster"
   cluster_deploy_type = "INDEPENDENT_CLUSTER"
   cluster_version     = "1.32.2"
   cluster_os          = "tlinux4.0x86_64"
-  vpc_id              = "vpc-m503nkg5"
+  vpc_id              = "vpc-rlu5umll"
   network_type        = "VPC-CNI"
   cluster_max_pod_num = 64
   cluster_max_service_num = 32768
-  service_cidr            = "10.96.0.0/17"
-  eni_subnet_ids          = ["subnet-k4okrboe"]
+  service_cidr            = "192.168.0.0/17"
+  eni_subnet_ids          = ["subnet-ll9bvz02"]
 
   master_config {
     instance_name     = "tf-scale-master-1"
     instance_type     = "S5l.LARGE4"
-    subnet_id         = "subnet-k4okrboe"
-    availability_zone = "kazakhstan-az2"
-    system_disk_type  = "CLOUD_PREMIUM"
+    subnet_id         = "subnet-ll9bvz02"
+    availability_zone = "kazakhstan-az1"
+    system_disk_type  = "CLOUD_SSD"
     system_disk_size  = 50
-    security_group_ids = ["sg-otkz9yrq"]
+    security_group_ids = ["sg-9v7lwts0"]
     password           = "Tencent@123"
   }
 
   master_config {
     instance_name     = "tf-scale-master-2"
     instance_type     = "S5l.LARGE4"
-    subnet_id         = "subnet-k4okrboe"
-    availability_zone = "kazakhstan-az2"
-    system_disk_type  = "CLOUD_PREMIUM"
+    subnet_id         = "subnet-ll9bvz02"
+    availability_zone = "kazakhstan-az1"
+    system_disk_type  = "CLOUD_SSD"
     system_disk_size  = 50
-    security_group_ids = ["sg-otkz9yrq"]
+    security_group_ids = ["sg-9v7lwts0"]
     password           = "Tencent@123"
   }
 
   master_config {
     instance_name     = "tf-scale-master-3"
     instance_type     = "S5l.LARGE4"
-    subnet_id         = "subnet-k4okrboe"
-    availability_zone = "kazakhstan-az2"
-    system_disk_type  = "CLOUD_PREMIUM"
+    subnet_id         = "subnet-ll9bvz02"
+    availability_zone = "kazakhstan-az1"
+    system_disk_type  = "CLOUD_SSD"
     system_disk_size  = 50
-    security_group_ids = ["sg-otkz9yrq"]
+    security_group_ids = ["sg-9v7lwts0"]
     password           = "Tencent@123"
   }
 
   master_config {
     instance_name     = "tf-scale-master-4"
     instance_type     = "S5l.LARGE4"
-    subnet_id         = "subnet-k4okrboe"
-    availability_zone = "kazakhstan-az2"
-    system_disk_type  = "CLOUD_PREMIUM"
+    subnet_id         = "subnet-ll9bvz02"
+    availability_zone = "kazakhstan-az1"
+    system_disk_type  = "CLOUD_SSD"
     system_disk_size  = 50
-    security_group_ids = ["sg-otkz9yrq"]
+    security_group_ids = ["sg-9v7lwts0"]
     password           = "Tencent@123"
   }
 
   master_config {
     instance_name     = "tf-scale-master-5"
     instance_type     = "S5l.LARGE4"
-    subnet_id         = "subnet-k4okrboe"
-    availability_zone = "kazakhstan-az2"
-    system_disk_type  = "CLOUD_PREMIUM"
+    subnet_id         = "subnet-ll9bvz02"
+    availability_zone = "kazakhstan-az1"
+    system_disk_type  = "CLOUD_SSD"
     system_disk_size  = 50
-    security_group_ids = ["sg-otkz9yrq"]
+    security_group_ids = ["sg-9v7lwts0"]
     password           = "Tencent@123"
   }
 }
