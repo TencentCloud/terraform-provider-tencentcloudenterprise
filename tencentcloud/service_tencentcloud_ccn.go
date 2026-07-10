@@ -884,3 +884,58 @@ func (me *VpcService) DescribeVpcCcnRouteTablesById(ctx context.Context, routeTa
 	ccnRouteTable = response.Response.CcnRouteTableSet[0]
 	return
 }
+
+// DescribeCcnRouteTables 查询云联网路由表列表，支持按 ccn_id/route_table_id/route_table_name/route_table_description 过滤。
+// 注：TCE API 不带 Limit 时默认返回 0 条，必须显式指定 Offset/Limit。
+func (me *VpcService) DescribeCcnRouteTables(ctx context.Context, ccnId, routeTableId, routeTableName, routeTableDescription string) (infos []*ccn.CcnRouteTable, errRet error) {
+	logId := getLogId(ctx)
+	request := ccn.NewDescribeCcnRouteTablesRequest()
+
+	defer func() {
+		if errRet != nil {
+			log.Printf("[CRITAL]%s api[%s] fail, request body [%s], reason[%s]\n",
+				logId, request.GetAction(), request.ToJsonString(), errRet.Error())
+		}
+	}()
+
+	filters := make([]*ccn.Filter, 0, 4)
+	if ccnId != "" {
+		n := "ccn-id"
+		filters = append(filters, &ccn.Filter{Name: &n, Values: helper.Strings([]string{ccnId})})
+	}
+	if routeTableId != "" {
+		n := "route-table-id"
+		filters = append(filters, &ccn.Filter{Name: &n, Values: helper.Strings([]string{routeTableId})})
+	}
+	if routeTableName != "" {
+		n := "route-table-name"
+		filters = append(filters, &ccn.Filter{Name: &n, Values: helper.Strings([]string{routeTableName})})
+	}
+	if routeTableDescription != "" {
+		n := "route-table-description"
+		filters = append(filters, &ccn.Filter{Name: &n, Values: helper.Strings([]string{routeTableDescription})})
+	}
+	if len(filters) > 0 {
+		request.Filters = filters
+	}
+
+	offset := uint64(0)
+	limit := uint64(100)
+	request.Offset = &offset
+	request.Limit = &limit
+
+	ratelimit.Check(request.GetAction())
+	response, err := me.client.UseCcnClient().DescribeCcnRouteTables(request)
+	if err != nil {
+		errRet = err
+		return
+	}
+	log.Printf("[DEBUG]%s api[%s] success, request body [%s], response body [%s]\n",
+		logId, request.GetAction(), request.ToJsonString(), response.ToJsonString())
+
+	if response == nil || response.Response == nil {
+		return
+	}
+	infos = response.Response.CcnRouteTableSet
+	return
+}

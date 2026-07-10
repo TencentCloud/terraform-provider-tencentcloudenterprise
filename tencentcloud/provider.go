@@ -712,6 +712,7 @@ func Provider() *schema.Provider {
 			"tencentcloudenterprise_cbs_storages_set":                     dataSourceTencentCloudCbsStoragesSet(),
 			"tencentcloudenterprise_ccn_bandwidth_limits":                 dataSourceTencentCloudCcnBandwidthLimits(),
 			"tencentcloudenterprise_ccn_instances":                        dataSourceTencentCloudCcnInstances(),
+			"tencentcloudenterprise_ccn_route_tables":                     dataSourceTencentCloudCcnRouteTables(),
 			"tencentcloudenterprise_cfs_access_groups":                    dataSourceTencentCloudCfsAccessGroups(),
 			"tencentcloudenterprise_cfs_access_rules":                     dataSourceTencentCloudCfsAccessRules(),
 			"tencentcloudenterprise_cfs_available_zone":                   dataSourceTencentCloudCfsAvailableZone(),
