@@ -4347,6 +4347,24 @@ func resourceTencentCloudTkeClusterUpdate(d *schema.ResourceData, meta interface
 			if err != nil {
 				return err
 			}
+
+			// After nodes reach running, wait for the cluster to exit MasterScaling so
+			// the control plane and etcd finish the async member-join flow before we return.
+			// ScaleOutClusterMaster only acknowledges the request (no TaskId); a node being
+			// "running" does not guarantee the cluster has left the MasterScaling state.
+			err = resource.Retry(20*readRetryTimeout, func() *resource.RetryError {
+				status, inErr := tkeService.DescribeClusterStatus(ctx, id)
+				if inErr != nil {
+					return retryError(inErr)
+				}
+				if *status.ClusterState != "Running" {
+					return resource.RetryableError(fmt.Errorf("cluster %s still in %s after master scale-out, waiting for control plane to stabilize", id, *status.ClusterState))
+				}
+				return nil
+			})
+			if err != nil {
+				return err
+			}
 		}
 
 		// 2. Scale In (Deletion)
@@ -4398,6 +4416,26 @@ func resourceTencentCloudTkeClusterUpdate(d *schema.ResourceData, meta interface
 							return resource.RetryableError(fmt.Errorf("removed master node %s is still in cluster (state: %s)", instId, m.InstanceState))
 						}
 					}
+				}
+				return nil
+			})
+			if err != nil {
+				return err
+			}
+
+			// After nodes are removed from the instance list, the cluster stays in
+			// MasterScaling while the backend finishes etcd member removal and resource
+			// cleanup. ScaleInClusterMaster only acknowledges the request (no TaskId);
+			// a node disappearing from DescribeClusterInstances does not mean the
+			// async scale-in is done. Wait for the cluster to return to Running so
+			// subsequent operations (refresh, plan, further scaling) hit a stable cluster.
+			err = resource.Retry(20*readRetryTimeout, func() *resource.RetryError {
+				status, inErr := tkeService.DescribeClusterStatus(ctx, id)
+				if inErr != nil {
+					return retryError(inErr)
+				}
+				if *status.ClusterState != "Running" {
+					return resource.RetryableError(fmt.Errorf("cluster %s still in %s after master scale-in, waiting for etcd metadata convergence", id, *status.ClusterState))
 				}
 				return nil
 			})
