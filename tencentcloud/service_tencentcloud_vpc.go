@@ -8851,6 +8851,65 @@ func (me *VpcService) DescribeVpcPeerConnectManagerById(ctx context.Context, pee
 	return
 }
 
+// DescribeVpcPeerConnects 查询对等连接列表，支持按 ID 精确查或按 name/vpc_id/state 走 Filters 模糊查。
+// peerId 非空时走 PeeringConnectionIds（与 Filters 互斥）；否则把 name/vpcId/state 组装成 Filters。
+// 注：TCE API 在不带 Limit 时默认返回 0 条，与公有云行为不同，故此处强制带 Offset/Limit。
+func (me *VpcService) DescribeVpcPeerConnects(ctx context.Context, peerId, name, vpcId, state string) (infos []*vpc.PeerConnection, errRet error) {
+	logId := getLogId(ctx)
+
+	request := vpc.NewDescribeVpcPeeringConnectionsRequest()
+
+	defer func() {
+		if errRet != nil {
+			log.Printf("[CRITAL]%s api[%s] fail, request body [%s], reason[%s]\n",
+				logId, request.GetAction(), request.ToJsonString(), errRet.Error())
+		}
+	}()
+
+	if peerId != "" {
+		request.PeeringConnectionIds = []*string{&peerId}
+	} else {
+		filters := make([]*vpc.Filter, 0, 3)
+		if name != "" {
+			n := "peering-connection-name"
+			filters = append(filters, &vpc.Filter{Name: &n, Values: []*string{&name}})
+		}
+		if vpcId != "" {
+			n := "vpc-id"
+			filters = append(filters, &vpc.Filter{Name: &n, Values: []*string{&vpcId}})
+		}
+		if state != "" {
+			n := "state"
+			filters = append(filters, &vpc.Filter{Name: &n, Values: []*string{&state}})
+		}
+		if len(filters) > 0 {
+			request.Filters = filters
+		}
+	}
+
+	// TCE API 在不带 Limit 时默认返回 0 条，必须显式指定 Offset/Limit
+	offset := int64(0)
+	limit := int64(20)
+	request.Offset = &offset
+	request.Limit = &limit
+
+	ratelimit.Check(request.GetAction())
+
+	response, err := me.client.UseVpcClient().DescribeVpcPeeringConnections(request)
+	if err != nil {
+		errRet = err
+		return
+	}
+	log.Printf("[DEBUG]%s api[%s] success, request body [%s], response body [%s]\n",
+		logId, request.GetAction(), request.ToJsonString(), response.ToJsonString())
+
+	if response == nil || response.Response == nil {
+		return
+	}
+	infos = response.Response.PeerConnectionSet
+	return
+}
+
 func (me *VpcService) DeleteVpcPeerConnectManagerById(ctx context.Context, peeringConnectionId string) (errRet error) {
 	logId := getLogId(ctx)
 

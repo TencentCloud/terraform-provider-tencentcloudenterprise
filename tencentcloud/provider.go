@@ -910,6 +910,7 @@ func Provider() *schema.Provider {
 			"tencentcloudenterprise_vpc_nat_gateways":              dataSourceTencentCloudNatGateways(),
 			"tencentcloudenterprise_vpc_net_detect_state_check":    dataSourceTencentCloudVpcNetDetectStateCheck(),
 			"tencentcloudenterprise_vpc_net_detect_states":         dataSourceTencentCloudVpcNetDetectStates(),
+			"tencentcloudenterprise_vpc_peer_connects":              dataSourceTencentCloudVpcPeerConnects(),
 			"tencentcloudenterprise_vpc_private_ip_addresses":      dataSourceTencentCloudVpcPrivateIpAddresses(),
 			"tencentcloudenterprise_vpc_resource_dashboard":        dataSourceTencentCloudVpcResourceDashboard(),
 			"tencentcloudenterprise_vpc_route_tables":              dataSourceTencentCloudVpcRouteTables(),
