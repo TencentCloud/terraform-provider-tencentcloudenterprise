@@ -15,7 +15,7 @@ resource "tencentcloudenterprise_cic_role_configuration_permission_custom_policy
         {
             "effect": "allow",
             "action": [
-                "vpc:AcceptAttachCcnInstances"
+                "vpc:DescribeVpcs"
             ],
             "resource": [
                 "*"

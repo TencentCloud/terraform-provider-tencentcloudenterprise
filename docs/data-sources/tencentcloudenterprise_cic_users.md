@@ -63,3 +63,4 @@ In addition to all arguments above, the following attributes are exported:
   * `user_name` - User name.
   * `user_status` - User status. Enabled: enabled; Disabled: disabled.
   * `user_type` - User type. Manual: manually created; Synchronized: externally imported.
+
