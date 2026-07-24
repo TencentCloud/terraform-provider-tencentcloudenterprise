@@ -11,7 +11,7 @@ description: |-
 
 Provide a resource to create an auto scaling group for kubernetes cluster.
 
-~> **NOTE:**  We recommend the usage of one cluster with essential worker config + node pool to manage cluster and nodes. Its a more flexible way than manage worker config with cloud_tke_kubernetes_cluster, cloud_tke_kubernetes_scale_worker or exist node management of `cloud_kubernetes_attachment`. Cause some unchangeable parameters of `worker_config` may cause the whole cluster resource `force new`.
+~> **NOTE:**  We recommend the usage of one cluster with essential worker config + node pool to manage cluster and nodes. Its a more flexible way than manage worker config with tencentcloudenterprise_tke_kubernetes_cluster, tencentcloudenterprise_tke_kubernetes_scale_worker or exist node management of `tencentcloudenterprise_kubernetes_attachment`. Cause some unchangeable parameters of `worker_config` may cause the whole cluster resource `force new`.
 
 ~> **NOTE:**  In order to ensure the integrity of customer data, if you destroy nodepool instance, it will keep the cvm instance associate with nodepool by default. If you want to destroy together, please set `delete_keep_instance` to `false`.
 
@@ -28,7 +28,7 @@ variable "cluster_cidr" {
   default = "172.31.0.0/16"
 }
 
-data "cloud_vpc_subnets" "vpc" {
+data "tencentcloudenterprise_vpc_subnets" "vpc" {
   is_default        = true
   availability_zone = var.availability_zone
 }
@@ -39,8 +39,8 @@ variable "default_instance_type" {
 
 //this is the cluster with empty worker config
 
-resource "cloud_tke_kubernetes_cluster" "managed_cluster" {
-  vpc_id                  = data.cloud_vpc_subnets.vpc.instance_list.0.vpc_id
+resource "tencentcloudenterprise_tke_kubernetes_cluster" "managed_cluster" {
+  vpc_id                  = data.tencentcloudenterprise_vpc_subnets.vpc.instance_list.0.vpc_id
   cluster_cidr            = var.cluster_cidr
   cluster_max_pod_num     = 32
   cluster_name            = "tf-tke-unit-test"
@@ -52,13 +52,13 @@ resource "cloud_tke_kubernetes_cluster" "managed_cluster" {
 
 //this is one example of managing node using node pool
 
-resource "cloud_kubernetes_node_pool" "mynodepool" {
+resource "tencentcloudenterprise_kubernetes_node_pool" "mynodepool" {
   name                     = "mynodepool"
-  cluster_id               = cloud_tke_kubernetes_cluster.managed_cluster.id
+  cluster_id               = tencentcloudenterprise_tke_kubernetes_cluster.managed_cluster.id
   max_size                 = 6
   min_size                 = 1
-  vpc_id                   = data.cloud_vpc_subnets.vpc.instance_list.0.vpc_id
-  subnet_ids               = [data.cloud_vpc_subnets.vpc.instance_list.0.subnet_id]
+  vpc_id                   = data.tencentcloudenterprise_vpc_subnets.vpc.instance_list.0.vpc_id
+  subnet_ids               = [data.tencentcloudenterprise_vpc_subnets.vpc.instance_list.0.subnet_id]
   retry_policy             = "INCREMENTAL_INTERVALS"
   desired_capacity         = 4
   enable_auto_scale        = true
@@ -113,13 +113,13 @@ resource "cloud_kubernetes_node_pool" "mynodepool" {
 ### Using Spot CVM Instance
 
 ```hcl
-resource "cloud_kubernetes_node_pool" "mynodepool" {
+resource "tencentcloudenterprise_kubernetes_node_pool" "mynodepool" {
   name                     = "mynodepool"
-  cluster_id               = cloud_tke_kubernetes_cluster.managed_cluster.id
+  cluster_id               = tencentcloudenterprise_tke_kubernetes_cluster.managed_cluster.id
   max_size                 = 6
   min_size                 = 1
-  vpc_id                   = data.cloud_vpc_subnets.vpc.instance_list.0.vpc_id
-  subnet_ids               = [data.cloud_vpc_subnets.vpc.instance_list.0.subnet_id]
+  vpc_id                   = data.tencentcloudenterprise_vpc_subnets.vpc.instance_list.0.vpc_id
+  subnet_ids               = [data.tencentcloudenterprise_vpc_subnets.vpc.instance_list.0.subnet_id]
   retry_policy             = "INCREMENTAL_INTERVALS"
   desired_capacity         = 4
   enable_auto_scale        = true
