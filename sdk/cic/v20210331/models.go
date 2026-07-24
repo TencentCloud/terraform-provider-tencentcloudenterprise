@@ -4352,3 +4352,662 @@ func (r *VerifyLoginSkeyResponse) ToJsonString() string {
 func (r *VerifyLoginSkeyResponse) FromJsonString(s string) error {
 	return json.Unmarshal([]byte(s), &r)
 }
+
+type Credentials struct {
+
+	// 临时证书密钥ID
+
+	TmpSecretId *string `json:"TmpSecretId,omitempty" name:"TmpSecretId"`
+	// 临时证书密钥Key
+
+	TmpSecretKey *string `json:"TmpSecretKey,omitempty" name:"TmpSecretKey"`
+	// 访问token
+
+	Token *string `json:"Token,omitempty" name:"Token"`
+}
+
+type CheckRelayStateIsLegalRequest struct {
+	*tchttp.BaseRequest
+
+	// 登陆方式，目前只支持tccli，代表CLI登陆。
+
+	LoginType *string `json:"LoginType,omitempty" name:"LoginType"`
+	// 登陆方式所对应合法的回跳域名。
+
+	RelayState *string `json:"RelayState,omitempty" name:"RelayState"`
+}
+
+func (r *CheckRelayStateIsLegalRequest) ToJsonString() string {
+	b, _ := json.Marshal(r)
+	return string(b)
+}
+
+func (r *CheckRelayStateIsLegalRequest) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
+type CheckRelayStateIsLegalResponse struct {
+	*tchttp.BaseResponse
+
+	Response *struct {
+		// 0代表不合法，1代表合法
+
+		IsLegal *int64 `json:"IsLegal,omitempty" name:"IsLegal"`
+		// Unique request ID, returned on each request.
+		RequestId *string `json:"RequestId,omitempty" name:"RequestId"`
+	} `json:"Response"`
+}
+
+func (r *CheckRelayStateIsLegalResponse) ToJsonString() string {
+	b, _ := json.Marshal(r)
+	return string(b)
+}
+
+func (r *CheckRelayStateIsLegalResponse) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
+type DescribeIdentityCenterResourceByRoleRequest struct {
+	*tchttp.BaseRequest
+}
+
+func (r *DescribeIdentityCenterResourceByRoleRequest) ToJsonString() string {
+	b, _ := json.Marshal(r)
+	return string(b)
+}
+
+func (r *DescribeIdentityCenterResourceByRoleRequest) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
+type DescribeIdentityCenterResourceByRoleResponse struct {
+	*tchttp.BaseResponse
+
+	Response *struct {
+		// 用户CIC相关资源
+
+		List []*string `json:"List,omitempty" name:"List"`
+		// Unique request ID, returned on each request.
+		RequestId *string `json:"RequestId,omitempty" name:"RequestId"`
+	} `json:"Response"`
+}
+
+func (r *DescribeIdentityCenterResourceByRoleResponse) ToJsonString() string {
+	b, _ := json.Marshal(r)
+	return string(b)
+}
+
+func (r *DescribeIdentityCenterResourceByRoleResponse) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
+type GenRoleConfigurationCredentialRequest struct {
+	*tchttp.BaseRequest
+
+	// 登陆态
+
+	LoginToken *string `json:"LoginToken,omitempty" name:"LoginToken"`
+	// 权限配置ID
+
+	RoleConfigurationId *string `json:"RoleConfigurationId,omitempty" name:"RoleConfigurationId"`
+	// 目标成员账号uin
+
+	TargetUin *int64 `json:"TargetUin,omitempty" name:"TargetUin"`
+}
+
+func (r *GenRoleConfigurationCredentialRequest) ToJsonString() string {
+	b, _ := json.Marshal(r)
+	return string(b)
+}
+
+func (r *GenRoleConfigurationCredentialRequest) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
+type GenRoleConfigurationCredentialResponse struct {
+	*tchttp.BaseResponse
+
+	Response *struct {
+		// 临时访问凭证
+
+		Credentials *Credentials `json:"Credentials,omitempty" name:"Credentials"`
+		// 临时访问凭证的过期时间，返回 Unix 时间戳，精确到秒
+
+		ExpiredTime *uint64 `json:"ExpiredTime,omitempty" name:"ExpiredTime"`
+		// Unique request ID, returned on each request.
+		RequestId *string `json:"RequestId,omitempty" name:"RequestId"`
+	} `json:"Response"`
+}
+
+func (r *GenRoleConfigurationCredentialResponse) ToJsonString() string {
+	b, _ := json.Marshal(r)
+	return string(b)
+}
+
+func (r *GenRoleConfigurationCredentialResponse) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
+type GetUserSyncProvisioningEventRequest struct {
+	*tchttp.BaseRequest
+
+	// CAM 用户同步事件的 ID。
+
+	EventId *string `json:"EventId,omitempty" name:"EventId"`
+	// 空间ID。
+
+	ZoneId *string `json:"ZoneId,omitempty" name:"ZoneId"`
+}
+
+func (r *GetUserSyncProvisioningEventRequest) ToJsonString() string {
+	b, _ := json.Marshal(r)
+	return string(b)
+}
+
+func (r *GetUserSyncProvisioningEventRequest) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
+type GetUserSyncProvisioningEventResponse struct {
+	*tchttp.BaseResponse
+
+	Response *struct {
+		// CAM 用户同步事件信息。
+
+		UserProvisioningEvent *UserProvisioningEvent `json:"UserProvisioningEvent,omitempty" name:"UserProvisioningEvent"`
+		// Unique request ID, returned on each request.
+		RequestId *string `json:"RequestId,omitempty" name:"RequestId"`
+	} `json:"Response"`
+}
+
+func (r *GetUserSyncProvisioningEventResponse) ToJsonString() string {
+	b, _ := json.Marshal(r)
+	return string(b)
+}
+
+func (r *GetUserSyncProvisioningEventResponse) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
+type ListAccountsForAccessAssignmentRequest struct {
+	*tchttp.BaseRequest
+
+	// 登陆token
+
+	LoginToken *string `json:"LoginToken,omitempty" name:"LoginToken"`
+	// 页码数量，从1开始.
+
+	PageNum *int64 `json:"PageNum,omitempty" name:"PageNum"`
+	// 每页的最大数据条数。 取值范围：1~20。默认值为10.
+
+	PageSize *int64 `json:"PageSize,omitempty" name:"PageSize"`
+}
+
+func (r *ListAccountsForAccessAssignmentRequest) ToJsonString() string {
+	b, _ := json.Marshal(r)
+	return string(b)
+}
+
+func (r *ListAccountsForAccessAssignmentRequest) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
+type ListAccountsForAccessAssignmentResponse struct {
+	*tchttp.BaseResponse
+
+	Response *struct {
+		// 同步的成员账号列表
+
+		Accounts []*Account `json:"Accounts,omitempty" name:"Accounts"`
+		// 符合请求参数条件的数据总条数。
+
+		TotalCounts *int64 `json:"TotalCounts,omitempty" name:"TotalCounts"`
+		// Unique request ID, returned on each request.
+		RequestId *string `json:"RequestId,omitempty" name:"RequestId"`
+	} `json:"Response"`
+}
+
+func (r *ListAccountsForAccessAssignmentResponse) ToJsonString() string {
+	b, _ := json.Marshal(r)
+	return string(b)
+}
+
+func (r *ListAccountsForAccessAssignmentResponse) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
+type ListRoleConfigurationProvisioningsRequest struct {
+	*tchttp.BaseRequest
+
+	// Deployed: 部署成功 DeployedRequired：需要重新部署 DeployFailed：部署失败
+
+	DeploymentStatus *string `json:"DeploymentStatus,omitempty" name:"DeploymentStatus"`
+	// 支持配置名称搜索。
+
+	Filter *string `json:"Filter,omitempty" name:"Filter"`
+	// 每页的最大数据条数。 取值范围：1~100。 默认值：10。
+
+	MaxResults *int64 `json:"MaxResults,omitempty" name:"MaxResults"`
+	// 查询返回结果下一页的令牌。首次调用 API 不需要NextToken。 当您首次调用 API 时，如果返回数据总条数超过MaxResults限制，数据会被截断，只返回MaxResults条数据，同时，返回参数IsTruncated为true，返回一个NextToken。您可以使用上一次返回的NextToken继续调用 API，其他请求参数保持不变，查询被截断的数据。您可以按此方法多次查询，直到IsTruncated为false，表示全部数据查询完毕。
+
+	NextToken *string `json:"NextToken,omitempty" name:"NextToken"`
+	// 权限配置ID。
+
+	RoleConfigurationId *string `json:"RoleConfigurationId,omitempty" name:"RoleConfigurationId"`
+	// 同步的集团账号目标账号的类型，ManagerUin管理账号;MemberUin成员账号
+
+	TargetType *string `json:"TargetType,omitempty" name:"TargetType"`
+	// 同步的集团账号目标账号的UIN。
+
+	TargetUin *int64 `json:"TargetUin,omitempty" name:"TargetUin"`
+	// 空间 ID。
+
+	ZoneId *string `json:"ZoneId,omitempty" name:"ZoneId"`
+}
+
+func (r *ListRoleConfigurationProvisioningsRequest) ToJsonString() string {
+	b, _ := json.Marshal(r)
+	return string(b)
+}
+
+func (r *ListRoleConfigurationProvisioningsRequest) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
+type ListRoleConfigurationProvisioningsResponse struct {
+	*tchttp.BaseResponse
+
+	Response *struct {
+		// 返回结果是否被截断。取值： true：已截断。 false：未截断。
+
+		IsTruncated *bool `json:"IsTruncated,omitempty" name:"IsTruncated"`
+		// 每页的最大数据条数。
+
+		MaxResults *int64 `json:"MaxResults,omitempty" name:"MaxResults"`
+		// 查询返回结果下一页的令牌。 说明 只有IsTruncated为true时，才显示该参数。
+
+		NextToken *string `json:"NextToken,omitempty" name:"NextToken"`
+		// 部成员账号列表。
+
+		RoleConfigurationProvisionings []*RoleConfigurationProvisionings `json:"RoleConfigurationProvisionings,omitempty" name:"RoleConfigurationProvisionings"`
+		// 符合请求参数条件的数据总条数。
+
+		TotalCounts *int64 `json:"TotalCounts,omitempty" name:"TotalCounts"`
+		// Unique request ID, returned on each request.
+		RequestId *string `json:"RequestId,omitempty" name:"RequestId"`
+	} `json:"Response"`
+}
+
+func (r *ListRoleConfigurationProvisioningsResponse) ToJsonString() string {
+	b, _ := json.Marshal(r)
+	return string(b)
+}
+
+func (r *ListRoleConfigurationProvisioningsResponse) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
+type ListRoleConfigurationsForAccountRequest struct {
+	*tchttp.BaseRequest
+
+	// 登陆token
+
+	LoginToken *string `json:"LoginToken,omitempty" name:"LoginToken"`
+	// 每页的最大数据条数。 取值范围：1~20。 默认值：10。
+
+	MaxResults *int64 `json:"MaxResults,omitempty" name:"MaxResults"`
+	// 查询返回结果下一页的令牌。首次调用 API 不需要NextToken。 当您首次调用 API 时，如果返回数据总条数超过MaxResults限制，数据会被截断，只返回MaxResults条数据，同时，返回参数IsTruncated为true，返回一个NextToken。您可以使用上一次返回的NextToken继续调用 API，其他请求参数保持不变，查询被截断的数据。您可以按此方法多次查询，直到IsTruncated为false，表示全部数据查询完毕。
+
+	NextToken *string `json:"NextToken,omitempty" name:"NextToken"`
+	// 目标uin
+
+	TargetUin *int64 `json:"TargetUin,omitempty" name:"TargetUin"`
+}
+
+func (r *ListRoleConfigurationsForAccountRequest) ToJsonString() string {
+	b, _ := json.Marshal(r)
+	return string(b)
+}
+
+func (r *ListRoleConfigurationsForAccountRequest) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
+type ListRoleConfigurationsForAccountResponse struct {
+	*tchttp.BaseResponse
+
+	Response *struct {
+		// 返回结果是否被截断。取值： true：已截断。 false：未截断。
+
+		IsTruncated *bool `json:"IsTruncated,omitempty" name:"IsTruncated"`
+		// 每页的最大数据条数。
+
+		MaxResults *int64 `json:"MaxResults,omitempty" name:"MaxResults"`
+		// 查询返回结果下一页的令牌。 说明 只有IsTruncated为true时，才显示该参数。
+
+		NextToken *string `json:"NextToken,omitempty" name:"NextToken"`
+		// 同步的权限配置信息列表
+
+		RoleConfigurationsForAccount []*RoleConfiguration `json:"RoleConfigurationsForAccount,omitempty" name:"RoleConfigurationsForAccount"`
+		// 符合请求参数条件的数据总条数。
+
+		TotalCounts *int64 `json:"TotalCounts,omitempty" name:"TotalCounts"`
+		// Unique request ID, returned on each request.
+		RequestId *string `json:"RequestId,omitempty" name:"RequestId"`
+	} `json:"Response"`
+}
+
+func (r *ListRoleConfigurationsForAccountResponse) ToJsonString() string {
+	b, _ := json.Marshal(r)
+	return string(b)
+}
+
+func (r *ListRoleConfigurationsForAccountResponse) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
+type ListTasksRequest struct {
+	*tchttp.BaseRequest
+
+	// 每页的最大数据条数。 取值范围：1~100。 默认值：10。
+
+	MaxResults *int64 `json:"MaxResults,omitempty" name:"MaxResults"`
+	// 查询返回结果下一页的令牌。首次调用 API 不需要NextToken。 当您首次调用 API 时，如果返回数据总条数超过MaxResults限制，数据会被截断，只返回MaxResults条数据，同时，返回参数IsTruncated为true，返回一个NextToken。您可以使用上一次返回的NextToken继续调用 API，其他请求参数保持不变，查询被截断的数据。您可以按此方法多次查询，直到IsTruncated为false，表示全部数据查询完毕。
+
+	NextToken *string `json:"NextToken,omitempty" name:"NextToken"`
+	// 用户同步 ID。取值： 当PrincipalType取值为Group时，该值为用户组 ID（g-****）， 当PrincipalType取值为User时，该值为用户 ID（u-****）。
+
+	PrincipalId *string `json:"PrincipalId,omitempty" name:"PrincipalId"`
+	// CAM 用户同步的身份类型。取值： User：表示同步的身份是用户。 Group：表示同步的身份是用户组。
+
+	PrincipalType *string `json:"PrincipalType,omitempty" name:"PrincipalType"`
+	// 权限配置ID。
+
+	RoleConfigurationId *string `json:"RoleConfigurationId,omitempty" name:"RoleConfigurationId"`
+	// InProgress：任务执行中。 Success：任务执行成功。 Failed：任务执行失败。
+
+	Status *string `json:"Status,omitempty" name:"Status"`
+	// 同步的集团账号目标账号的类型，ManagerUin管理账号;MemberUin成员账号
+
+	TargetType *string `json:"TargetType,omitempty" name:"TargetType"`
+	// 同步的集团账号目标账号的UIN。
+
+	TargetUin *int64 `json:"TargetUin,omitempty" name:"TargetUin"`
+	// 任务类型。
+
+	TaskType *string `json:"TaskType,omitempty" name:"TaskType"`
+	// 空间 ID。
+
+	ZoneId *string `json:"ZoneId,omitempty" name:"ZoneId"`
+}
+
+func (r *ListTasksRequest) ToJsonString() string {
+	b, _ := json.Marshal(r)
+	return string(b)
+}
+
+func (r *ListTasksRequest) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
+type ListTasksResponse struct {
+	*tchttp.BaseResponse
+
+	Response *struct {
+		// 返回结果是否被截断。取值： true：已截断。 false：未截断。
+
+		IsTruncated *bool `json:"IsTruncated,omitempty" name:"IsTruncated"`
+		// 每页的最大数据条数。
+
+		MaxResults *int64 `json:"MaxResults,omitempty" name:"MaxResults"`
+		// 查询返回结果下一页的令牌。 说明 只有IsTruncated为true时，才显示该参数。
+
+		NextToken *string `json:"NextToken,omitempty" name:"NextToken"`
+		// 任务详情
+
+		Tasks []*TaskInfo `json:"Tasks,omitempty" name:"Tasks"`
+		// 符合请求参数条件的数据总条数。
+
+		TotalCounts *int64 `json:"TotalCounts,omitempty" name:"TotalCounts"`
+		// Unique request ID, returned on each request.
+		RequestId *string `json:"RequestId,omitempty" name:"RequestId"`
+	} `json:"Response"`
+}
+
+func (r *ListTasksResponse) ToJsonString() string {
+	b, _ := json.Marshal(r)
+	return string(b)
+}
+
+func (r *ListTasksResponse) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
+type ListUserSyncProvisioningEventsRequest struct {
+	*tchttp.BaseRequest
+
+	// 每页的最大数据条数。 取值范围：1~100。 默认值：10。
+
+	MaxResults *int64 `json:"MaxResults,omitempty" name:"MaxResults"`
+	// 查询返回结果下一页的令牌。首次调用 API 不需要NextToken。 当您首次调用 API 时，如果返回数据总条数超过MaxResults限制，数据会被截断，只返回MaxResults条数据，同时，返回参数IsTruncated为true，返回一个NextToken。您可以使用上一次返回的NextToken继续调用 API，其他请求参数保持不变，查询被截断的数据。您可以按此方法多次查询，直到IsTruncated为false，表示全部数据查询完毕。
+
+	NextToken *string `json:"NextToken,omitempty" name:"NextToken"`
+	// 用户同步ID。
+
+	UserProvisioningId *string `json:"UserProvisioningId,omitempty" name:"UserProvisioningId"`
+	// 空间 ID。
+
+	ZoneId *string `json:"ZoneId,omitempty" name:"ZoneId"`
+}
+
+func (r *ListUserSyncProvisioningEventsRequest) ToJsonString() string {
+	b, _ := json.Marshal(r)
+	return string(b)
+}
+
+func (r *ListUserSyncProvisioningEventsRequest) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
+type ListUserSyncProvisioningEventsResponse struct {
+	*tchttp.BaseResponse
+
+	Response *struct {
+		// 返回结果是否被截断。取值： true：已截断。 false：未截断。
+
+		IsTruncated *bool `json:"IsTruncated,omitempty" name:"IsTruncated"`
+		// 每页的最大数据条数。
+
+		MaxResults *int64 `json:"MaxResults,omitempty" name:"MaxResults"`
+		// 查询返回结果下一页的令牌。 说明 只有IsTruncated为true时，才显示该参数。
+
+		NextToken *string `json:"NextToken,omitempty" name:"NextToken"`
+		// 符合请求参数条件的数据总条数。
+
+		TotalCounts *int64 `json:"TotalCounts,omitempty" name:"TotalCounts"`
+		// CAM同步的用户事件列表
+
+		UserProvisioningEvents []*UserProvisioningEvent `json:"UserProvisioningEvents,omitempty" name:"UserProvisioningEvents"`
+		// Unique request ID, returned on each request.
+		RequestId *string `json:"RequestId,omitempty" name:"RequestId"`
+	} `json:"Response"`
+}
+
+func (r *ListUserSyncProvisioningEventsResponse) ToJsonString() string {
+	b, _ := json.Marshal(r)
+	return string(b)
+}
+
+func (r *ListUserSyncProvisioningEventsResponse) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
+type ProvisionRoleConfigurationRequest struct {
+	*tchttp.BaseRequest
+
+	// 权限配置ID。
+
+	RoleConfigurationId *string `json:"RoleConfigurationId,omitempty" name:"RoleConfigurationId"`
+	// 同步的集团账号目标账号的类型，ManagerUin管理账号;MemberUin成员账号。
+
+	TargetType *string `json:"TargetType,omitempty" name:"TargetType"`
+	// 集团账号目标账号的UIN。
+
+	TargetUin *int64 `json:"TargetUin,omitempty" name:"TargetUin"`
+	// 空间 ID。
+
+	ZoneId *string `json:"ZoneId,omitempty" name:"ZoneId"`
+}
+
+func (r *ProvisionRoleConfigurationRequest) ToJsonString() string {
+	b, _ := json.Marshal(r)
+	return string(b)
+}
+
+func (r *ProvisionRoleConfigurationRequest) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
+type ProvisionRoleConfigurationResponse struct {
+	*tchttp.BaseResponse
+
+	Response *struct {
+		// 任务详情。
+
+		Task *RoleProvisioningsTask `json:"Task,omitempty" name:"Task"`
+		// Unique request ID, returned on each request.
+		RequestId *string `json:"RequestId,omitempty" name:"RequestId"`
+	} `json:"Response"`
+}
+
+func (r *ProvisionRoleConfigurationResponse) ToJsonString() string {
+	b, _ := json.Marshal(r)
+	return string(b)
+}
+
+func (r *ProvisionRoleConfigurationResponse) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
+type RetryUserSyncProvisioningEventRequest struct {
+	*tchttp.BaseRequest
+
+	// 冲突策略。KeepBoth:两者都保留;TakeOver:替换
+
+	DuplicationStrategy *string `json:"DuplicationStrategy,omitempty" name:"DuplicationStrategy"`
+	// CAM 用户同步事件 ID。
+
+	EventId *string `json:"EventId,omitempty" name:"EventId"`
+	// 空间ID。
+
+	ZoneId *string `json:"ZoneId,omitempty" name:"ZoneId"`
+}
+
+func (r *RetryUserSyncProvisioningEventRequest) ToJsonString() string {
+	b, _ := json.Marshal(r)
+	return string(b)
+}
+
+func (r *RetryUserSyncProvisioningEventRequest) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
+type RetryUserSyncProvisioningEventResponse struct {
+	*tchttp.BaseResponse
+
+	Response *struct {
+		// Unique request ID, returned on each request.
+		RequestId *string `json:"RequestId,omitempty" name:"RequestId"`
+	} `json:"Response"`
+}
+
+func (r *RetryUserSyncProvisioningEventResponse) ToJsonString() string {
+	b, _ := json.Marshal(r)
+	return string(b)
+}
+
+func (r *RetryUserSyncProvisioningEventResponse) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
+type SetTemporarySecretShowStatusRequest struct {
+	*tchttp.BaseRequest
+
+	// Enabled： 展示， Disabled： 不展示。
+
+	TemporarySecretShowStatus *string `json:"TemporarySecretShowStatus,omitempty" name:"TemporarySecretShowStatus"`
+	// 空间ID。
+
+	ZoneId *string `json:"ZoneId,omitempty" name:"ZoneId"`
+}
+
+func (r *SetTemporarySecretShowStatusRequest) ToJsonString() string {
+	b, _ := json.Marshal(r)
+	return string(b)
+}
+
+func (r *SetTemporarySecretShowStatusRequest) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
+type SetTemporarySecretShowStatusResponse struct {
+	*tchttp.BaseResponse
+
+	Response *struct {
+		// Unique request ID, returned on each request.
+		RequestId *string `json:"RequestId,omitempty" name:"RequestId"`
+	} `json:"Response"`
+}
+
+func (r *SetTemporarySecretShowStatusResponse) ToJsonString() string {
+	b, _ := json.Marshal(r)
+	return string(b)
+}
+
+func (r *SetTemporarySecretShowStatusResponse) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
+type UpdateCustomPolicyForRoleConfigurationRequest struct {
+	*tchttp.BaseRequest
+
+	// 权限策略名称，长度最大为 32 个字符。
+
+	CustomPolicyName *string `json:"CustomPolicyName,omitempty" name:"CustomPolicyName"`
+	// 自定义策略内容。长度：最大 4096 个字符。当RolePolicyType为Inline时，该参数必须配置。关于权限策略的语法和结构，请参见权限策略语法和结构。
+
+	NewCustomPolicyDocument *string `json:"NewCustomPolicyDocument,omitempty" name:"NewCustomPolicyDocument"`
+	// 权限配置 ID
+
+	RoleConfigurationId *string `json:"RoleConfigurationId,omitempty" name:"RoleConfigurationId"`
+	// 空间 ID
+
+	ZoneId *string `json:"ZoneId,omitempty" name:"ZoneId"`
+}
+
+func (r *UpdateCustomPolicyForRoleConfigurationRequest) ToJsonString() string {
+	b, _ := json.Marshal(r)
+	return string(b)
+}
+
+func (r *UpdateCustomPolicyForRoleConfigurationRequest) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
+type UpdateCustomPolicyForRoleConfigurationResponse struct {
+	*tchttp.BaseResponse
+
+	Response *struct {
+		// Unique request ID, returned on each request.
+		RequestId *string `json:"RequestId,omitempty" name:"RequestId"`
+	} `json:"Response"`
+}
+
+func (r *UpdateCustomPolicyForRoleConfigurationResponse) ToJsonString() string {
+	b, _ := json.Marshal(r)
+	return string(b)
+}
+
+func (r *UpdateCustomPolicyForRoleConfigurationResponse) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}

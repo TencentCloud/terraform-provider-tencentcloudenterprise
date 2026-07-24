@@ -360,16 +360,22 @@ func resourceTencentCloudOrganizationOrgMemberUpdate(d *schema.ResourceData, met
 
 	orgMemberId := d.Id()
 
-	// 使用 UpdateOrganizationMember 更新 name 和 remark
+	// name / remark 分开传参（与公有云一致）：
+	// - 只改 name：只带 Name，不带 Remark
+	// - 只改 remark：只带 Remark，不带 Name（避免 OrganizationMemberNameUsed）
 	if d.HasChange("name") || d.HasChange("remark") {
 		updateRequest := organization.NewUpdateOrganizationMemberRequest()
 		updateRequest.MemberUin = helper.Uint64(helper.StrToUInt64(orgMemberId))
 
-		if v, ok := d.GetOk("name"); ok {
-			updateRequest.Name = helper.String(v.(string))
+		if d.HasChange("name") {
+			if v, ok := d.GetOk("name"); ok {
+				updateRequest.Name = helper.String(v.(string))
+			}
 		}
-		if v, ok := d.GetOk("remark"); ok {
-			updateRequest.Remark = helper.String(v.(string))
+		if d.HasChange("remark") {
+			if v, ok := d.GetOk("remark"); ok {
+				updateRequest.Remark = helper.String(v.(string))
+			}
 		}
 
 		err := resource.Retry(writeRetryTimeout, func() *resource.RetryError {

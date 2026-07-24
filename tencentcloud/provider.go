@@ -256,6 +256,7 @@ Corporate Identity Center(CIC)
 	        tencentcloudenterprise_cic_role_configuration
 	        tencentcloudenterprise_cic_role_configuration_permission_custom_policy_attachment
 	        tencentcloudenterprise_cic_role_configuration_permission_policy_attachment
+	        tencentcloudenterprise_cic_provision_role_configuration_operation
 	        tencentcloudenterprise_cic_scim_credential
 	        tencentcloudenterprise_cic_scim_synchronization_status
 	        tencentcloudenterprise_cic_user
@@ -1201,6 +1202,7 @@ func Provider() *schema.Provider {
 			"tencentcloudenterprise_cic_role_configuration":              resourceTencentCloudCicRoleConfiguration(),
 			"tencentcloudenterprise_cic_role_configuration_permission_custom_policy_attachment": resourceTencentCloudCicRoleConfigurationPermissionCustomPolicyAttachment(),
 			"tencentcloudenterprise_cic_role_configuration_permission_policy_attachment":        resourceTencentCloudCicRoleConfigurationPermissionPolicyAttachment(),
+			"tencentcloudenterprise_cic_provision_role_configuration_operation":                 resourceTencentCloudCicProvisionRoleConfigurationOperation(),
 			"tencentcloudenterprise_cic_scim_credential":                                        resourceTencentCloudCicScimCredential(),
 			"tencentcloudenterprise_cic_scim_synchronization_status":                            resourceTencentCloudCicScimSynchronizationStatus(),
 			"tencentcloudenterprise_cic_user":                                                   resourceTencentCloudCicUser(),

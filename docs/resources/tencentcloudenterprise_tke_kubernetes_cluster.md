@@ -13,8 +13,8 @@ Provide a resource to create a kubernetes cluster.
 
 ~> **NOTE:** To use the custom Kubernetes component startup parameter function (parameter `extra_args`), you need to submit a ticket for application.
 
-~> **NOTE:** We recommend this usage that uses the `cloud_tke_kubernetes_cluster` resource to create a cluster without any `worker_config`, then adds nodes by the `cloud_kubernetes_node_pool` resource.
-It's more flexible than managing worker config directly with `cloud_tke_kubernetes_cluster`, `cloud_tke_kubernetes_scale_worker`, or existing node management of `cloud_kubernetes_attachment`. The reason is that `worker_config` is unchangeable and may cause the whole cluster resource to `ForceNew`.
+~> **NOTE:** We recommend this usage that uses the `tencentcloudenterprise_tke_kubernetes_cluster` resource to create a cluster without any `worker_config`, then adds nodes by the `tencentcloudenterprise_kubernetes_node_pool` resource.
+It's more flexible than managing worker config directly with `tencentcloudenterprise_tke_kubernetes_cluster`, `tencentcloudenterprise_tke_kubernetes_scale_worker`, or existing node management of `tencentcloudenterprise_kubernetes_attachment`. The reason is that `worker_config` is unchangeable and may cause the whole cluster resource to `ForceNew`.
 
 ## Example Usage
 
@@ -35,18 +35,18 @@ variable "default_instance_type" {
   default = "SA2.2XLARGE16"
 }
 
-data "cloud_vpc_subnets" "vpc_first" {
+data "tencentcloudenterprise_vpc_subnets" "vpc_first" {
   is_default        = true
   availability_zone = var.availability_zone_first
 }
 
-data "cloud_vpc_subnets" "vpc_second" {
+data "tencentcloudenterprise_vpc_subnets" "vpc_second" {
   is_default        = true
   availability_zone = var.availability_zone_second
 }
 
-resource "cloud_tke_kubernetes_cluster" "managed_cluster" {
-  vpc_id                  = data.cloud_vpc_subnets.vpc_first.instance_list.0.vpc_id
+resource "tencentcloudenterprise_tke_kubernetes_cluster" "managed_cluster" {
+  vpc_id                  = data.tencentcloudenterprise_vpc_subnets.vpc_first.instance_list.0.vpc_id
   cluster_cidr            = var.cluster_cidr
   cluster_max_pod_num     = 32
   cluster_name            = "test"
@@ -63,7 +63,7 @@ resource "cloud_tke_kubernetes_cluster" "managed_cluster" {
     internet_charge_type       = "TRAFFIC_POSTPAID_BY_HOUR"
     internet_max_bandwidth_out = 100
     public_ip_assigned         = true
-    subnet_id                  = data.cloud_vpc_subnets.vpc_first.instance_list.0.subnet_id
+    subnet_id                  = data.tencentcloudenterprise_vpc_subnets.vpc_first.instance_list.0.subnet_id
     img_id                     = "img-rkiynh11"
 
     data_disk {
@@ -88,7 +88,7 @@ resource "cloud_tke_kubernetes_cluster" "managed_cluster" {
     internet_charge_type       = "TRAFFIC_POSTPAID_BY_HOUR"
     internet_max_bandwidth_out = 100
     public_ip_assigned         = true
-    subnet_id                  = data.cloud_vpc_subnets.vpc_second.instance_list.0.subnet_id
+    subnet_id                  = data.tencentcloudenterprise_vpc_subnets.vpc_second.instance_list.0.subnet_id
 
     data_disk {
       disk_type = "CLOUD_PREMIUM"
@@ -129,18 +129,18 @@ variable "default_instance_type" {
   default = "SA2.2XLARGE16"
 }
 
-data "cloud_vpc_subnets" "vpc_first" {
+data "tencentcloudenterprise_vpc_subnets" "vpc_first" {
   is_default        = true
   availability_zone = var.availability_zone_first
 }
 
-data "cloud_vpc_subnets" "vpc_second" {
+data "tencentcloudenterprise_vpc_subnets" "vpc_second" {
   is_default        = true
   availability_zone = var.availability_zone_second
 }
 
-resource "cloud_tke_kubernetes_cluster" "managed_cluster" {
-  vpc_id                  = data.cloud_vpc_subnets.vpc_first.instance_list.0.vpc_id
+resource "tencentcloudenterprise_tke_kubernetes_cluster" "managed_cluster" {
+  vpc_id                  = data.tencentcloudenterprise_vpc_subnets.vpc_first.instance_list.0.vpc_id
   cluster_cidr            = var.cluster_cidr
   cluster_max_pod_num     = 32
   cluster_name            = "test"
@@ -157,7 +157,7 @@ resource "cloud_tke_kubernetes_cluster" "managed_cluster" {
     internet_charge_type       = "TRAFFIC_POSTPAID_BY_HOUR"
     internet_max_bandwidth_out = 100
     public_ip_assigned         = true
-    subnet_id                  = data.cloud_vpc_subnets.vpc_first.instance_list.0.subnet_id
+    subnet_id                  = data.tencentcloudenterprise_vpc_subnets.vpc_first.instance_list.0.subnet_id
 
     data_disk {
       disk_type = "CLOUD_PREMIUM"
@@ -181,7 +181,7 @@ resource "cloud_tke_kubernetes_cluster" "managed_cluster" {
     internet_charge_type       = "TRAFFIC_POSTPAID_BY_HOUR"
     internet_max_bandwidth_out = 100
     public_ip_assigned         = true
-    subnet_id                  = data.cloud_vpc_subnets.vpc_second.instance_list.0.subnet_id
+    subnet_id                  = data.tencentcloudenterprise_vpc_subnets.vpc_second.instance_list.0.subnet_id
 
     data_disk {
       disk_type = "CLOUD_PREMIUM"
@@ -222,7 +222,7 @@ variable "default_instance_type" {
   default = "SA2.SMALL2"
 }
 
-resource "cloud_tke_kubernetes_cluster" "managed_cluster" {
+resource "tencentcloudenterprise_tke_kubernetes_cluster" "managed_cluster" {
   vpc_id                  = var.vpc
   cluster_max_pod_num     = 32
   cluster_name            = "test"
@@ -279,7 +279,7 @@ variable "subnet_id" {
   default = "subnet-xxxxxxxx"
 }
 
-resource "cloud_tke_kubernetes_cluster" "independent_cluster" {
+resource "tencentcloudenterprise_tke_kubernetes_cluster" "independent_cluster" {
   vpc_id              = var.vpc_id
   cluster_cidr        = "172.16.0.0/16"
   cluster_name        = "my-independent-cluster"
@@ -337,7 +337,7 @@ resource "cloud_tke_kubernetes_cluster" "independent_cluster" {
 ### for split-role deployments.
 
 ```hcl
-resource "cloud_tke_kubernetes_cluster" "independent_cluster" {
+resource "tencentcloudenterprise_tke_kubernetes_cluster" "independent_cluster" {
   vpc_id              = var.vpc_id
   cluster_cidr        = "172.16.0.0/16"
   cluster_name        = "my-independent-cluster"
@@ -417,14 +417,14 @@ The following arguments are supported:
 * `cluster_desc` - (Optional, String) Description of the cluster.
 * `cluster_extra_args` - (Optional, List, ForceNew) Customized parameters for master component,such as kube-apiserver, kube-controller-manager, kube-scheduler.
 * `cluster_ipvs` - (Optional, Bool, ForceNew) Indicates whether `ipvs` is enabled. Default is true. False means `iptables` is enabled.
-* `cluster_level` - (Optional, String) Specify cluster level, valid for managed cluster, use data source `cloud_kubernetes_cluster_levels` to query available levels. Available value examples `L5`, `L20`, `L50`, `L100`, etc.
+* `cluster_level` - (Optional, String) Specify cluster level, valid for managed cluster, use data source `tencentcloudenterprise_kubernetes_cluster_levels` to query available levels. Available value examples `L5`, `L20`, `L50`, `L100`, etc.
 * `cluster_max_pod_num` - (Optional, Int, ForceNew) The maximum number of Pods per node in the cluster. Default is 256. The minimum value is 4. When its power unequal to 2, it will round upward to the closest power of 2.
 * `cluster_max_service_num` - (Optional, Int, ForceNew) The maximum number of services in the cluster. Default is 256. The range is from 32 to 32768. When its power unequal to 2, it will round upward to the closest power of 2.
 * `cluster_name` - (Optional, String) Name of the cluster.
 * `cluster_os_type` - (Optional, String, ForceNew) Image type of the cluster os, the available values include: 'GENERAL'. Default is 'GENERAL'.
 * `cluster_os` - (Optional, String, ForceNew) Cluster operating system, supports setting public images (image Name) and custom images (image ID).
 * `cluster_subnet_id` - (Optional, String, ForceNew) Control Plane Subnet Information. Required for some network plugins (for example, CiliumOverlay).
-* `cluster_version` - (Optional, String) Version of the cluster, Default is '1.10.5'. Use `cloud_tke_kubernetes_available_cluster_versions` to get the available versions.
+* `cluster_version` - (Optional, String) Version of the cluster, Default is '1.10.5'. Use `tencentcloudenterprise_tke_kubernetes_available_cluster_versions` to get the available versions.
 * `container_runtime` - (Optional, String, ForceNew) Runtime type of the cluster, the available values include: 'docker' and 'containerd'.The Kubernetes v1.24 has removed dockershim, so please use containerd in v1.24 or higher.Default is 'docker'.
 * `data_plane_v2` - (Optional, Bool, ForceNew) Whether to use data plane V2 (cilium v2). Default is false.
 * `deletion_protection` - (Optional, Bool) Indicates whether cluster deletion protection is enabled. Default is false.
@@ -461,7 +461,7 @@ The following arguments are supported:
 * `unschedulable` - (Optional, Int, ForceNew) Sets whether the joining node participates in the schedule. Default is '0'. Participate in scheduling.
 * `user_script` - (Optional, String, ForceNew) Base64-encoded user script executed after initializing the node.
 * `vpc_cni_type` - (Optional, String) Distinguish between shared network card multi-IP mode and independent network card mode. Fill in `tke-route-eni` for shared network card multi-IP mode and `tke-direct-eni` for independent network card mode. The default is shared network card mode.
-* `worker_config` - (Optional, List, ForceNew) Deploy the machine configuration information of the 'WORKER' service, and create <=20 units for common users. The other 'WORK' service are added by 'cloud_kubernetes_worker'.
+* `worker_config` - (Optional, List, ForceNew) Deploy the machine configuration information of the 'WORKER' service, and create <=20 units for common users. The other 'WORK' service are added by 'tencentcloudenterprise_kubernetes_worker'.
 
 The `cluster_audit` object supports the following:
 

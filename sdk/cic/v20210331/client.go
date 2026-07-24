@@ -2024,3 +2024,328 @@ func (c *Client) VerifyLoginSkey(request *VerifyLoginSkeyRequest) (response *Ver
 	err = c.Send(request, response)
 	return
 }
+
+func NewCheckRelayStateIsLegalRequest() (request *CheckRelayStateIsLegalRequest) {
+	request = &CheckRelayStateIsLegalRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("cic", APIVersion, "CheckRelayStateIsLegal")
+	return
+}
+
+func NewCheckRelayStateIsLegalResponse() (response *CheckRelayStateIsLegalResponse) {
+	response = &CheckRelayStateIsLegalResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 判断relayState地址是否合法
+func (c *Client) CheckRelayStateIsLegal(request *CheckRelayStateIsLegalRequest) (response *CheckRelayStateIsLegalResponse, err error) {
+	if request == nil {
+		request = NewCheckRelayStateIsLegalRequest()
+	}
+	response = NewCheckRelayStateIsLegalResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewDescribeIdentityCenterResourceByRoleRequest() (request *DescribeIdentityCenterResourceByRoleRequest) {
+	request = &DescribeIdentityCenterResourceByRoleRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("cic", APIVersion, "DescribeIdentityCenterResourceByRole")
+	return
+}
+
+func NewDescribeIdentityCenterResourceByRoleResponse() (response *DescribeIdentityCenterResourceByRoleResponse) {
+	response = &DescribeIdentityCenterResourceByRoleResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 获取用户是否存在CIC资源
+func (c *Client) DescribeIdentityCenterResourceByRole(request *DescribeIdentityCenterResourceByRoleRequest) (response *DescribeIdentityCenterResourceByRoleResponse, err error) {
+	if request == nil {
+		request = NewDescribeIdentityCenterResourceByRoleRequest()
+	}
+	response = NewDescribeIdentityCenterResourceByRoleResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewGenRoleConfigurationCredentialRequest() (request *GenRoleConfigurationCredentialRequest) {
+	request = &GenRoleConfigurationCredentialRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("cic", APIVersion, "GenRoleConfigurationCredential")
+	return
+}
+
+func NewGenRoleConfigurationCredentialResponse() (response *GenRoleConfigurationCredentialResponse) {
+	response = &GenRoleConfigurationCredentialResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 生成权限配置的临时访问凭证
+func (c *Client) GenRoleConfigurationCredential(request *GenRoleConfigurationCredentialRequest) (response *GenRoleConfigurationCredentialResponse, err error) {
+	if request == nil {
+		request = NewGenRoleConfigurationCredentialRequest()
+	}
+	response = NewGenRoleConfigurationCredentialResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewGetUserSyncProvisioningEventRequest() (request *GetUserSyncProvisioningEventRequest) {
+	request = &GetUserSyncProvisioningEventRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("cic", APIVersion, "GetUserSyncProvisioningEvent")
+	return
+}
+
+func NewGetUserSyncProvisioningEventResponse() (response *GetUserSyncProvisioningEventResponse) {
+	response = &GetUserSyncProvisioningEventResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 查询CAM用户事件同步
+func (c *Client) GetUserSyncProvisioningEvent(request *GetUserSyncProvisioningEventRequest) (response *GetUserSyncProvisioningEventResponse, err error) {
+	if request == nil {
+		request = NewGetUserSyncProvisioningEventRequest()
+	}
+	response = NewGetUserSyncProvisioningEventResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewListAccountsForAccessAssignmentRequest() (request *ListAccountsForAccessAssignmentRequest) {
+	request = &ListAccountsForAccessAssignmentRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("cic", APIVersion, "ListAccountsForAccessAssignment")
+	return
+}
+
+func NewListAccountsForAccessAssignmentResponse() (response *ListAccountsForAccessAssignmentResponse) {
+	response = &ListAccountsForAccessAssignmentResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 获取CIC用户角色同步的成员账号列表
+func (c *Client) ListAccountsForAccessAssignment(request *ListAccountsForAccessAssignmentRequest) (response *ListAccountsForAccessAssignmentResponse, err error) {
+	if request == nil {
+		request = NewListAccountsForAccessAssignmentRequest()
+	}
+	response = NewListAccountsForAccessAssignmentResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewListRoleConfigurationProvisioningsRequest() (request *ListRoleConfigurationProvisioningsRequest) {
+	request = &ListRoleConfigurationProvisioningsRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("cic", APIVersion, "ListRoleConfigurationProvisionings")
+	return
+}
+
+func NewListRoleConfigurationProvisioningsResponse() (response *ListRoleConfigurationProvisioningsResponse) {
+	response = &ListRoleConfigurationProvisioningsResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 查询权限配置部署列表
+func (c *Client) ListRoleConfigurationProvisionings(request *ListRoleConfigurationProvisioningsRequest) (response *ListRoleConfigurationProvisioningsResponse, err error) {
+	if request == nil {
+		request = NewListRoleConfigurationProvisioningsRequest()
+	}
+	response = NewListRoleConfigurationProvisioningsResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewListRoleConfigurationsForAccountRequest() (request *ListRoleConfigurationsForAccountRequest) {
+	request = &ListRoleConfigurationsForAccountRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("cic", APIVersion, "ListRoleConfigurationsForAccount")
+	return
+}
+
+func NewListRoleConfigurationsForAccountResponse() (response *ListRoleConfigurationsForAccountResponse) {
+	response = &ListRoleConfigurationsForAccountResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 查询某个成员账号授权的角色列表
+func (c *Client) ListRoleConfigurationsForAccount(request *ListRoleConfigurationsForAccountRequest) (response *ListRoleConfigurationsForAccountResponse, err error) {
+	if request == nil {
+		request = NewListRoleConfigurationsForAccountRequest()
+	}
+	response = NewListRoleConfigurationsForAccountResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewListTasksRequest() (request *ListTasksRequest) {
+	request = &ListTasksRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("cic", APIVersion, "ListTasks")
+	return
+}
+
+func NewListTasksResponse() (response *ListTasksResponse) {
+	response = &ListTasksResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 查询异步任务列表
+func (c *Client) ListTasks(request *ListTasksRequest) (response *ListTasksResponse, err error) {
+	if request == nil {
+		request = NewListTasksRequest()
+	}
+	response = NewListTasksResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewListUserSyncProvisioningEventsRequest() (request *ListUserSyncProvisioningEventsRequest) {
+	request = &ListUserSyncProvisioningEventsRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("cic", APIVersion, "ListUserSyncProvisioningEvents")
+	return
+}
+
+func NewListUserSyncProvisioningEventsResponse() (response *ListUserSyncProvisioningEventsResponse) {
+	response = &ListUserSyncProvisioningEventsResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 查询CAM用户同步事件列表
+func (c *Client) ListUserSyncProvisioningEvents(request *ListUserSyncProvisioningEventsRequest) (response *ListUserSyncProvisioningEventsResponse, err error) {
+	if request == nil {
+		request = NewListUserSyncProvisioningEventsRequest()
+	}
+	response = NewListUserSyncProvisioningEventsResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewProvisionRoleConfigurationRequest() (request *ProvisionRoleConfigurationRequest) {
+	request = &ProvisionRoleConfigurationRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("cic", APIVersion, "ProvisionRoleConfiguration")
+	return
+}
+
+func NewProvisionRoleConfigurationResponse() (response *ProvisionRoleConfigurationResponse) {
+	response = &ProvisionRoleConfigurationResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 将权限配置部署到成员账号上
+func (c *Client) ProvisionRoleConfiguration(request *ProvisionRoleConfigurationRequest) (response *ProvisionRoleConfigurationResponse, err error) {
+	if request == nil {
+		request = NewProvisionRoleConfigurationRequest()
+	}
+	response = NewProvisionRoleConfigurationResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewRetryUserSyncProvisioningEventRequest() (request *RetryUserSyncProvisioningEventRequest) {
+	request = &RetryUserSyncProvisioningEventRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("cic", APIVersion, "RetryUserSyncProvisioningEvent")
+	return
+}
+
+func NewRetryUserSyncProvisioningEventResponse() (response *RetryUserSyncProvisioningEventResponse) {
+	response = &RetryUserSyncProvisioningEventResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 将访问配置部署到成员账号上
+func (c *Client) RetryUserSyncProvisioningEvent(request *RetryUserSyncProvisioningEventRequest) (response *RetryUserSyncProvisioningEventResponse, err error) {
+	if request == nil {
+		request = NewRetryUserSyncProvisioningEventRequest()
+	}
+	response = NewRetryUserSyncProvisioningEventResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewSetTemporarySecretShowStatusRequest() (request *SetTemporarySecretShowStatusRequest) {
+	request = &SetTemporarySecretShowStatusRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("cic", APIVersion, "SetTemporarySecretShowStatus")
+	return
+}
+
+func NewSetTemporarySecretShowStatusResponse() (response *SetTemporarySecretShowStatusResponse) {
+	response = &SetTemporarySecretShowStatusResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 设置临时凭证展示状态
+func (c *Client) SetTemporarySecretShowStatus(request *SetTemporarySecretShowStatusRequest) (response *SetTemporarySecretShowStatusResponse, err error) {
+	if request == nil {
+		request = NewSetTemporarySecretShowStatusRequest()
+	}
+	response = NewSetTemporarySecretShowStatusResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewUpdateCustomPolicyForRoleConfigurationRequest() (request *UpdateCustomPolicyForRoleConfigurationRequest) {
+	request = &UpdateCustomPolicyForRoleConfigurationRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("cic", APIVersion, "UpdateCustomPolicyForRoleConfiguration")
+	return
+}
+
+func NewUpdateCustomPolicyForRoleConfigurationResponse() (response *UpdateCustomPolicyForRoleConfigurationResponse) {
+	response = &UpdateCustomPolicyForRoleConfigurationResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 为权限配置修改自定义策略
+func (c *Client) UpdateCustomPolicyForRoleConfiguration(request *UpdateCustomPolicyForRoleConfigurationRequest) (response *UpdateCustomPolicyForRoleConfigurationResponse, err error) {
+	if request == nil {
+		request = NewUpdateCustomPolicyForRoleConfigurationRequest()
+	}
+	response = NewUpdateCustomPolicyForRoleConfigurationResponse()
+	err = c.Send(request, response)
+	return
+}

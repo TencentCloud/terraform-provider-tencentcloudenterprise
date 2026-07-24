@@ -1,20 +1,27 @@
 /*
 Use this data source to query detailed information of cic users
 
-# Example Usage
+Example Usage
 
 ```hcl
+data "tencentcloudenterprise_cic_users" "users" {
+  zone_id = "z-xxxxxxxxxx"
+}
 
-	data "tencentcloudenterprise_cic_users" "users" {
-	  zone_id = "z-xxxxxxxxxx"
-	  user_name = "admin"
-	  user_status = "Enabled"
-	}
+output "users_list" {
+  value = data.tencentcloudenterprise_cic_users.users.users
+}
+```
 
-	output "users_list" {
-	  value = data.tencentcloudenterprise_cic_users.users.users
-	}
+Query with filters
 
+```hcl
+data "tencentcloudenterprise_cic_users" "users" {
+  zone_id     = "z-xxxxxxxxxx"
+  user_name   = "test_user"
+  user_status = "Enabled"
+}
+```
 */
 package tencentcloud
 
