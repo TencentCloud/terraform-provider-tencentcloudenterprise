@@ -39,7 +39,7 @@ Group: indicates that the identity for the CAM user synchronization is a CIC use
 * `target_type` - (Required, String, ForceNew) Type of the synchronized target account of the Tencent Cloud Organization. ManagerUin: admin account; MemberUin: member account.
 * `target_uin` - (Required, Int, ForceNew) UIN of the synchronized target account of the Tencent Cloud Organization.
 * `zone_id` - (Required, String, ForceNew) Space ID.
-* `deprovision_strategy` - (Optional, String, ForceNew) When you remove the last authorization configured with a certain privilege on a group account target account, whether to cancel the privilege configuration deployment at the same time. Value: DeprovisionForLastRoleAssignmentOnAccount: Remove privileges to configure deployment. None (default): Configure deployment without delegating privileges.
+* `deprovision_strategy` - (Optional, String, ForceNew) Whether to dismantle the role configuration deployment on the target account after removing this authorization. Valid values: DeprovisionForLastRoleAssignmentOnAccount (dismantle only when no other user/group authorization remains on the same role configuration and target account), None (default, only remove this authorization and keep deployment).
 
 ## Attributes Reference
 
