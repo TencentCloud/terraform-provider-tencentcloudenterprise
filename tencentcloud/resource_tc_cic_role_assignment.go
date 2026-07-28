@@ -28,16 +28,38 @@ package tencentcloud
 import (
 	"context"
 	"fmt"
-	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
 	"log"
 	"strconv"
 	"strings"
+	"sync"
 	"time"
+
+	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
 
 	cic "terraform-provider-tencentcloudenterprise/sdk/cic/v20210331"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
+
+// Serialize Create/Delete that share the same (zone, role configuration, target)
+// so Terraform for_each parallelism cannot race List lag or last-deprovision.
+var cicRoleAssignmentTargetLocks sync.Map // map[string]*sync.Mutex
+
+func cicRoleAssignmentTargetUnlock(zoneId, roleConfigurationId, targetType string, targetUin int64) func() {
+	key := strings.Join([]string{zoneId, roleConfigurationId, targetType, strconv.FormatInt(targetUin, 10)}, FILED_SP)
+	v, _ := cicRoleAssignmentTargetLocks.LoadOrStore(key, &sync.Mutex{})
+	mu := v.(*sync.Mutex)
+	mu.Lock()
+	return mu.Unlock
+}
+
+// isCicDismantleAlreadyGone reports whether a dismantle API/task failure means the
+// deployment is already gone (typical under concurrent last-assignment destroy).
+func isCicDismantleAlreadyGone(errMsg string) bool {
+	return strings.Contains(errMsg, "RoleConfigurationProvisioningNotFound") ||
+		strings.Contains(errMsg, "RecordNotFound") ||
+		strings.Contains(errMsg, "DBOperationError")
+}
 
 func init() {
 	registerResourceDescriptionProvider("tencentcloudenterprise_cic_role_assignment", CNDescription{
@@ -106,7 +128,7 @@ func resourceTencentCloudCicRoleAssignment() *schema.Resource {
 				Optional:    true,
 				Default:     "None",
 				ForceNew:    true,
-				Description: "When you remove the last authorization configured with a certain privilege on a group account target account, whether to cancel the privilege configuration deployment at the same time. Value: DeprovisionForLastRoleAssignmentOnAccount: Remove privileges to configure deployment. None (default): Configure deployment without delegating privileges.",
+				Description: "Whether to dismantle the role configuration deployment on the target account after removing this authorization. Valid values: DeprovisionForLastRoleAssignmentOnAccount (dismantle only when no other user/group authorization remains on the same role configuration and target account), None (default, only remove this authorization and keep deployment).",
 			},
 			"create_time": {
 				Type:        schema.TypeString,
@@ -185,6 +207,11 @@ func resourceTencentCloudCicRoleAssignmentCreate(d *schema.ResourceData, meta in
 	}
 	request.RoleAssignmentInfo = []*cic.RoleAssignmentInfo{&roleAssignmentInfo}
 
+	// Hold until post-create Read finishes so concurrent creates on the same
+	// target do not race ListRoleAssignments / provision tasks.
+	unlock := cicRoleAssignmentTargetUnlock(zoneId, roleConfigurationId, targetType, targetUin)
+	defer unlock()
+
 	err := resource.Retry(writeRetryTimeout, func() *resource.RetryError {
 		result, e := meta.(*TencentCloudClient).apiV3Conn.UseCicClient().CreateRoleAssignment(request)
 		if e != nil {
@@ -232,6 +259,10 @@ func resourceTencentCloudCicRoleAssignmentCreate(d *schema.ResourceData, meta in
 		d.SetId(strings.Join([]string{zoneId, roleConfigurationId, targetType, targetUinString, principalType, principalId}, FILED_SP))
 	}
 
+	if d.Id() == "" {
+		return fmt.Errorf("create role assignment succeeded but no task/id returned; cannot persist resource state")
+	}
+
 	return resourceTencentCloudCicRoleAssignmentRead(d, meta)
 }
 
@@ -245,59 +276,69 @@ func resourceTencentCloudCicRoleAssignmentRead(d *schema.ResourceData, meta inte
 
 	service := CicService{client: meta.(*TencentCloudClient).apiV3Conn}
 
-	var roleAssignmentsResponseParams *cic.ListRoleAssignmentsResponseParams
+	idSplit := strings.Split(d.Id(), FILED_SP)
+	if len(idSplit) != 6 {
+		return fmt.Errorf("roleAssignmentId is broken,%s", d.Id())
+	}
+	zoneId := idSplit[0]
+
+	// ListRoleAssignments can lag briefly after CreateRoleAssignment task Success,
+	// especially under concurrent creates on the same target. Only retry empty
+	// results for newly created resources; otherwise treat empty as deleted.
+	var roleAssignment *cic.RoleAssignments
 	err := resource.Retry(readRetryTimeout, func() *resource.RetryError {
 		result, e := service.DescribeCicRoleAssignmentById(ctx, d.Id())
 		if e != nil {
 			return retryError(e)
 		}
-		roleAssignmentsResponseParams = result
+		if result == nil || len(result.RoleAssignments) == 0 {
+			if d.IsNewResource() {
+				return resource.RetryableError(fmt.Errorf("cic role assignment %s not found after create, retrying", d.Id()))
+			}
+			return nil
+		}
+		roleAssignment = result.RoleAssignments[0]
 		return nil
 	})
 	if err != nil {
 		return err
 	}
-
-	if roleAssignmentsResponseParams == nil {
+	if roleAssignment == nil {
 		d.SetId("")
 		log.Printf("[WARN]%s resource `cic_role_assignment` [%s] not found, please check if it has been deleted.\n", logId, d.Id())
 		return nil
 	}
-	if len(roleAssignmentsResponseParams.RoleAssignments) > 0 {
-		roleAssignment := roleAssignmentsResponseParams.RoleAssignments[0]
-		if roleAssignment.RoleConfigurationId != nil {
-			_ = d.Set("role_configuration_id", roleAssignment.RoleConfigurationId)
-		}
-		if roleAssignment.RoleConfigurationName != nil {
-			_ = d.Set("role_configuration_name", roleAssignment.RoleConfigurationName)
-		}
-		if roleAssignment.TargetUin != nil {
-			_ = d.Set("target_uin", roleAssignment.TargetUin)
-		}
-		if roleAssignment.TargetType != nil {
-			_ = d.Set("target_type", roleAssignment.TargetType)
-		}
-		if roleAssignment.PrincipalId != nil {
-			_ = d.Set("principal_id", roleAssignment.PrincipalId)
-		}
-		if roleAssignment.PrincipalType != nil {
-			_ = d.Set("principal_type", roleAssignment.PrincipalType)
-		}
-		if roleAssignment.PrincipalName != nil {
-			_ = d.Set("principal_name", roleAssignment.PrincipalName)
-		}
-		if roleAssignment.TargetName != nil {
-			_ = d.Set("target_name", roleAssignment.TargetName)
-		}
-		if roleAssignment.CreateTime != nil {
-			_ = d.Set("create_time", roleAssignment.CreateTime)
-		}
-		if roleAssignment.UpdateTime != nil {
-			_ = d.Set("update_time", roleAssignment.UpdateTime)
-		}
 
-	} else {
-		d.SetId("")
+	_ = d.Set("zone_id", zoneId)
+	if roleAssignment.RoleConfigurationId != nil {
+		_ = d.Set("role_configuration_id", roleAssignment.RoleConfigurationId)
+	}
+	if roleAssignment.RoleConfigurationName != nil {
+		_ = d.Set("role_configuration_name", roleAssignment.RoleConfigurationName)
+	}
+	if roleAssignment.TargetUin != nil {
+		_ = d.Set("target_uin", roleAssignment.TargetUin)
+	}
+	if roleAssignment.TargetType != nil {
+		_ = d.Set("target_type", roleAssignment.TargetType)
+	}
+	if roleAssignment.PrincipalId != nil {
+		_ = d.Set("principal_id", roleAssignment.PrincipalId)
+	}
+	if roleAssignment.PrincipalType != nil {
+		_ = d.Set("principal_type", roleAssignment.PrincipalType)
+	}
+	if roleAssignment.PrincipalName != nil {
+		_ = d.Set("principal_name", roleAssignment.PrincipalName)
+	}
+	if roleAssignment.TargetName != nil {
+		_ = d.Set("target_name", roleAssignment.TargetName)
+	}
+	if roleAssignment.CreateTime != nil {
+		_ = d.Set("create_time", roleAssignment.CreateTime)
+	}
+	if roleAssignment.UpdateTime != nil {
+		_ = d.Set("update_time", roleAssignment.UpdateTime)
 	}
 
 	return nil
@@ -323,10 +364,8 @@ func resourceTencentCloudCicRoleAssignmentDelete(d *schema.ResourceData, meta in
 	principalId := idSplit[5]
 
 	var (
-		deleteRoleAssignmentRequest        = cic.NewDeleteRoleAssignmentRequest()
-		deleteRoleAssignmentResponse       = cic.NewDeleteRoleAssignmentResponse()
-		dismantleRoleConfigurationRequest  = cic.NewDismantleRoleConfigurationRequest()
-		dismantleRoleConfigurationResponse = cic.NewDismantleRoleConfigurationResponse()
+		deleteRoleAssignmentRequest  = cic.NewDeleteRoleAssignmentRequest()
+		deleteRoleAssignmentResponse = cic.NewDeleteRoleAssignmentResponse()
 	)
 	deleteRoleAssignmentRequest.ZoneId = helper.String(zoneId)
 	deleteRoleAssignmentRequest.RoleConfigurationId = helper.String(roleConfigurationId)
@@ -338,9 +377,17 @@ func resourceTencentCloudCicRoleAssignmentDelete(d *schema.ResourceData, meta in
 	deleteRoleAssignmentRequest.TargetUin = helper.Int64(targetUin)
 	deleteRoleAssignmentRequest.PrincipalType = helper.String(principalType)
 	deleteRoleAssignmentRequest.PrincipalId = helper.String(principalId)
+
+	// Serialize Create/Delete on the same target so concurrent for_each destroy
+	// has a well-defined "last assignment" for deprovision / Dismantle.
+	unlock := cicRoleAssignmentTargetUnlock(zoneId, roleConfigurationId, targetType, targetUin)
+	defer unlock()
+
+	deprovisionStrategy := "None"
 	if v, ok := d.GetOk("deprovision_strategy"); ok {
-		deleteRoleAssignmentRequest.DeprovisionStrategy = helper.String(v.(string))
+		deprovisionStrategy = v.(string)
 	}
+	deleteRoleAssignmentRequest.DeprovisionStrategy = helper.String(deprovisionStrategy)
 
 	err = resource.Retry(writeRetryTimeout, func() *resource.RetryError {
 		result, e := meta.(*TencentCloudClient).apiV3Conn.UseCicClient().DeleteRoleAssignment(deleteRoleAssignmentRequest)
@@ -383,37 +430,77 @@ func resourceTencentCloudCicRoleAssignmentDelete(d *schema.ResourceData, meta in
 		}
 	}
 
+	// None: only remove authorization (keep deployment).
+	// DeprovisionForLast...: after delete, List remaining bindings on this target;
+	// dismantle only when none remain. Target lock + list avoids concurrent races.
+	if deprovisionStrategy != "DeprovisionForLastRoleAssignmentOnAccount" {
+		return nil
+	}
+
+	ctx := context.WithValue(context.Background(), logIdKey, logId)
+	var remaining int64
+	err = resource.Retry(readRetryTimeout, func() *resource.RetryError {
+		count, e := service.CountCicRoleAssignmentsOnTarget(ctx, zoneId, roleConfigurationId, targetType, targetUin)
+		if e != nil {
+			return retryError(e)
+		}
+		remaining = count
+		return nil
+	})
+	if err != nil {
+		return err
+	}
+	if remaining > 0 {
+		log.Printf("[INFO]%s skip dismantle role configuration %s on target %d: %d authorization(s) remain",
+			logId, roleConfigurationId, targetUin, remaining)
+		return nil
+	}
+
+	dismantleRoleConfigurationRequest := cic.NewDismantleRoleConfigurationRequest()
 	dismantleRoleConfigurationRequest.RoleConfigurationId = helper.String(roleConfigurationId)
 	dismantleRoleConfigurationRequest.ZoneId = helper.String(zoneId)
 	dismantleRoleConfigurationRequest.TargetType = helper.String(targetType)
 	dismantleRoleConfigurationRequest.TargetUin = helper.Int64(targetUin)
+
+	var dismantleRoleConfigurationResponse *cic.DismantleRoleConfigurationResponse
 	err = resource.Retry(writeRetryTimeout, func() *resource.RetryError {
 		result, e := meta.(*TencentCloudClient).apiV3Conn.UseCicClient().DismantleRoleConfiguration(dismantleRoleConfigurationRequest)
 		if e != nil {
+			msg := e.Error()
+			if strings.Contains(msg, "RoleConfigurationAuthorizationExist") {
+				count, listErr := service.CountCicRoleAssignmentsOnTarget(ctx, zoneId, roleConfigurationId, targetType, targetUin)
+				if listErr != nil {
+					return retryError(listErr)
+				}
+				if count > 0 {
+					log.Printf("[INFO]%s skip dismantle after AuthorizationExist: %d authorization(s) remain", logId, count)
+					return nil
+				}
+				return resource.RetryableError(fmt.Errorf("dismantle raced with concurrent authorization change: %v", e))
+			}
+			if isCicDismantleAlreadyGone(msg) {
+				log.Printf("[WARN]%s role configuration already dismantled: %v", logId, e)
+				return nil
+			}
 			return retryError(e)
-		} else {
-			log.Printf("[DEBUG]%s api[%s] success, request body [%s], response body [%s]\n", logId, dismantleRoleConfigurationRequest.GetAction(), dismantleRoleConfigurationRequest.ToJsonString(), result.ToJsonString())
 		}
+		log.Printf("[DEBUG]%s api[%s] success, request body [%s], response body [%s]\n", logId, dismantleRoleConfigurationRequest.GetAction(), dismantleRoleConfigurationRequest.ToJsonString(), result.ToJsonString())
 		dismantleRoleConfigurationResponse = result
 		return nil
 	})
 	if err != nil {
-		log.Printf("[CRITAL]%s delete identity center role assignment failed, reason:%+v", logId, err)
+		log.Printf("[CRITAL]%s dismantle role configuration failed, reason:%+v", logId, err)
 		return err
 	}
+	if dismantleRoleConfigurationResponse == nil || dismantleRoleConfigurationResponse.Response == nil ||
+		dismantleRoleConfigurationResponse.Response.Task == nil {
+		return nil
+	}
 
-	if dismantleRoleConfigurationResponse == nil || dismantleRoleConfigurationResponse.Response == nil {
-		return fmt.Errorf("dismantle role assignment response is nil")
-	}
-	if dismantleRoleConfigurationResponse.Response.Task == nil {
-		return fmt.Errorf("dismantle role assignment task is nil")
-	}
 	dismantleTask := dismantleRoleConfigurationResponse.Response.Task
-
 	if dismantleTask.TaskStatus != nil && *dismantleTask.TaskStatus == TASK_STATUS_FAILED {
 		return fmt.Errorf("dismantle role assignment task failed")
 	}
-
 	if dismantleTask.TaskId == nil {
 		return fmt.Errorf("dismantle role assignment task id is nil")
 	}
@@ -423,6 +510,15 @@ func resourceTencentCloudCicRoleAssignmentDelete(d *schema.ResourceData, meta in
 	} else {
 		taskStatus := object.(*cic.TaskStatus)
 		if taskStatus.Status != nil && *taskStatus.Status == TASK_STATUS_FAILED {
+			reason := ""
+			if taskStatus.FailureReason != nil {
+				reason = *taskStatus.FailureReason
+			}
+			// Concurrent destroy may accept multiple Deprovision tasks; losers fail with RecordNotFound.
+			if isCicDismantleAlreadyGone(reason) {
+				log.Printf("[WARN]%s dismantle task failed but deployment already gone: %s", logId, reason)
+				return nil
+			}
 			return fmt.Errorf("dismantle role assignment task failed")
 		}
 	}
