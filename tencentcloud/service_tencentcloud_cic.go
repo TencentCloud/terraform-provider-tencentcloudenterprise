@@ -156,6 +156,39 @@ func (me *CicService) DescribeCicUserById(ctx context.Context, zoneId string, us
 	return
 }
 
+// CountCicRoleAssignmentsOnTarget counts remaining authorizations of a role configuration on a target account.
+// Principal is intentionally not filtered: any remaining user/group binding must block dismantle.
+func (me *CicService) CountCicRoleAssignmentsOnTarget(ctx context.Context, zoneId, roleConfigurationId, targetType string, targetUin int64) (count int64, errRet error) {
+	logId := getLogId(ctx)
+
+	request := cic.NewListRoleAssignmentsRequest()
+	request.ZoneId = helper.String(zoneId)
+	request.RoleConfigurationId = helper.String(roleConfigurationId)
+	request.TargetType = helper.String(targetType)
+	request.TargetUin = helper.Int64(targetUin)
+	request.MaxResults = helper.Int64(1)
+
+	defer func() {
+		if errRet != nil {
+			log.Printf("[CRITAL]%s api[%s] fail, request body [%s], reason[%s]\n", logId, request.GetAction(), request.ToJsonString(), errRet.Error())
+		}
+	}()
+
+	ratelimit.Check(request.GetAction())
+
+	response, err := me.client.UseCicClient().ListRoleAssignments(request)
+	if err != nil {
+		errRet = err
+		return
+	}
+	log.Printf("[DEBUG]%s api[%s] success, request body [%s], response body [%s]\n", logId, request.GetAction(), request.ToJsonString(), response.ToJsonString())
+
+	if response.Response != nil && response.Response.TotalCounts != nil {
+		count = *response.Response.TotalCounts
+	}
+	return
+}
+
 // DescribeCicRoleAssignmentById retrieves a role assignment by its ID.
 func (me *CicService) DescribeCicRoleAssignmentById(ctx context.Context, roleAssignmentId string) (ret *cic.ListRoleAssignmentsResponseParams, errRet error) {
 	logId := getLogId(ctx)
