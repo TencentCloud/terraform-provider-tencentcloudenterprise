@@ -906,6 +906,12 @@ func TkeMasterCvmCreateInfo() map[string]*schema.Schema {
 		ValidateFunc: validateAllowedStringValue([]string{"MASTER_ETCD", "MASTER", "ETCD"}),
 		Description:  "The role of the node. Valid values: `MASTER_ETCD` (default), `MASTER`, `ETCD`.",
 	}
+	masterRes["pre_start_user_script"] = &schema.Schema{
+		Type:        schema.TypeString,
+		Optional:    true,
+		ForceNew:    false,
+		Description: "Base64-encoded user script, executed before initializing the master node. Only effective when creating a master node.",
+	}
 	return masterRes
 }
 
@@ -914,7 +920,12 @@ func TkeMasterCvmCreateInfo() map[string]*schema.Schema {
 // (user_data, security_group_ids). Without this, Terraform sees state as null
 // but the schema default as "" during plan, producing a plan drift on every
 // invocation and blocking scale-in/scale-out through masterConfigValueEqual.
+// pre_start_user_script is also not returned by the CVM API, so imported
+// clusters must get the same empty-string state value.
 func normalizeMasterConfigBlock(m map[string]interface{}) {
+	if m == nil {
+		return
+	}
 	if _, ok := m["password"]; !ok || m["password"] == nil {
 		m["password"] = ""
 	}
@@ -924,6 +935,62 @@ func normalizeMasterConfigBlock(m map[string]interface{}) {
 	if v, ok := m["security_group_ids"]; !ok || v == nil {
 		m["security_group_ids"] = []interface{}{}
 	}
+	if _, ok := m["pre_start_user_script"]; !ok || m["pre_start_user_script"] == nil {
+		m["pre_start_user_script"] = ""
+	}
+}
+
+// expandMasterConfigInstanceAdvancedSettings expands the TKE per-node settings
+// supported by master_config. The returned bool is true only when a non-empty
+// override must be sent to TKE. A zero-value settings object is still useful to
+// preserve the position of other master/worker entries once any override exists.
+func expandMasterConfigInstanceAdvancedSettings(raw map[string]interface{}) (tke.InstanceAdvancedSettings, bool, error) {
+	var override tke.InstanceAdvancedSettings
+	if raw == nil {
+		return override, false, nil
+	}
+
+	if value, exists := raw["desired_pod_num"]; exists && value != nil {
+		desiredPodNum, ok := value.(int)
+		if !ok {
+			return override, false, fmt.Errorf("master_config.desired_pod_num must be an integer")
+		}
+		if int64(desiredPodNum) != DefaultDesiredPodNum {
+			override.DesiredPodNumber = helper.Int64(int64(desiredPodNum))
+		}
+	}
+
+	if value, exists := raw["pre_start_user_script"]; exists && value != nil {
+		script, ok := value.(string)
+		if !ok {
+			return override, false, fmt.Errorf("master_config.pre_start_user_script must be a string")
+		}
+		if script != "" {
+			override.PreStartUserScript = helper.String(script)
+		}
+	}
+
+	return override, override.DesiredPodNumber != nil || override.PreStartUserScript != nil, nil
+}
+
+func expandDesiredPodNumberOverride(raw map[string]interface{}) (tke.InstanceAdvancedSettings, bool, error) {
+	var override tke.InstanceAdvancedSettings
+	if raw == nil {
+		return override, false, nil
+	}
+	value, exists := raw["desired_pod_num"]
+	if !exists || value == nil {
+		return override, false, nil
+	}
+	desiredPodNum, ok := value.(int)
+	if !ok {
+		return override, false, fmt.Errorf("desired_pod_num must be an integer")
+	}
+	if int64(desiredPodNum) == DefaultDesiredPodNum {
+		return override, false, nil
+	}
+	override.DesiredPodNumber = helper.Int64(int64(desiredPodNum))
+	return override, true, nil
 }
 
 // masterConfigFieldsEquivalent reports whether two field values should be
@@ -3166,6 +3233,7 @@ func resourceTencentCloudTkeClusterCreate(d *schema.ResourceData, meta interface
 		Master: make([]tke.InstanceAdvancedSettings, 0),
 		Work:   make([]tke.InstanceAdvancedSettings, 0),
 	}
+	hasInstanceOverrides := false
 	if !runInstancesForNodeOk {
 		if masters, ok := d.GetOk("master_config"); ok {
 			if clusterDeployType == TKE_DEPLOY_TYPE_MANAGED {
@@ -3183,12 +3251,12 @@ func resourceTencentCloudTkeClusterCreate(d *schema.ResourceData, meta interface
 				cvms.Master = append(cvms.Master, paraJson)
 				masterCount += count
 
-				if v, ok := master["desired_pod_num"]; ok {
-					dpNum := int64(v.(int))
-					if dpNum != DefaultDesiredPodNum {
-						overrideSettings.Master = append(overrideSettings.Master, tke.InstanceAdvancedSettings{DesiredPodNumber: helper.Int64(dpNum)})
-					}
+				override, hasOverride, err := expandMasterConfigInstanceAdvancedSettings(master)
+				if err != nil {
+					return err
 				}
+				overrideSettings.Master = append(overrideSettings.Master, override)
+				hasInstanceOverrides = hasInstanceOverrides || hasOverride
 			}
 			if masterCount < 3 {
 				return fmt.Errorf("if `cluster_deploy_type` is `TKE_DEPLOY_TYPE_INDEPENDENT` len(master_config) should >=3")
@@ -3207,12 +3275,12 @@ func resourceTencentCloudTkeClusterCreate(d *schema.ResourceData, meta interface
 				}
 				cvms.Work = append(cvms.Work, paraJson)
 
-				if v, ok := worker["desired_pod_num"]; ok {
-					dpNum := int64(v.(int))
-					if dpNum != DefaultDesiredPodNum {
-						overrideSettings.Work = append(overrideSettings.Work, tke.InstanceAdvancedSettings{DesiredPodNumber: helper.Int64(dpNum)})
-					}
+				override, hasOverride, err := expandDesiredPodNumberOverride(worker)
+				if err != nil {
+					return err
 				}
+				overrideSettings.Work = append(overrideSettings.Work, override)
+				hasInstanceOverrides = hasInstanceOverrides || hasOverride
 
 				if v, ok := worker["data_disk"]; ok {
 					var (
@@ -3265,6 +3333,10 @@ func resourceTencentCloudTkeClusterCreate(d *schema.ResourceData, meta interface
 					iDiskMountSettings = append(iDiskMountSettings, iDiskMountSetting)
 				}
 			}
+		}
+		if !hasInstanceOverrides {
+			overrideSettings.Master = nil
+			overrideSettings.Work = nil
 		}
 	}
 
@@ -4286,7 +4358,8 @@ func resourceTencentCloudTkeClusterUpdate(d *schema.ResourceData, meta interface
 			var runInstancesForNodeList []*tke.RunInstancesForNode
 			for role, blocks := range roleGroups {
 				runInstancesParaList := make([]*string, 0)
-				var overrideSettings []*tke.InstanceAdvancedSettings
+				overrideSettings := make([]*tke.InstanceAdvancedSettings, 0, len(blocks))
+				hasInstanceOverrides := false
 				for _, block := range blocks {
 					paraJson, _, err := tkeGetCvmRunInstancesPara(block, meta, vpcId, projectId)
 					if err != nil {
@@ -4294,17 +4367,15 @@ func resourceTencentCloudTkeClusterUpdate(d *schema.ResourceData, meta interface
 					}
 					runInstancesParaList = append(runInstancesParaList, &paraJson)
 
-					// 仅当 desired_pod_num 与默认值不同时才生成 override，与 CreateCluster 路径
-					// (service_tencenttencentcloudenterprise_tke.go:CreateCluster) 行为保持一致：dpNum == DefaultDesiredPodNum
-					// 时不 append，最终 InstanceAdvancedSettingsOverrides 为 nil，SDK omitempty 会省略字段，
-					// API 等价于"该 instance 使用集群默认 InstanceAdvancedSettings"。
-					// 切勿 append(nil)——会序列化成 [null]，触发 API 报 InvalidParameter。
-					if v, ok := block["desired_pod_num"]; ok {
-						dpNum := int64(v.(int))
-						if dpNum != DefaultDesiredPodNum {
-							overrideSettings = append(overrideSettings, &tke.InstanceAdvancedSettings{DesiredPodNumber: helper.Int64(dpNum)})
-						}
+					override, hasOverride, err := expandMasterConfigInstanceAdvancedSettings(block)
+					if err != nil {
+						return err
 					}
+					overrideSettings = append(overrideSettings, &override)
+					hasInstanceOverrides = hasInstanceOverrides || hasOverride
+				}
+				if !hasInstanceOverrides {
+					overrideSettings = nil
 				}
 				nodeRole := role
 				runInstancesForNodeList = append(runInstancesForNodeList, &tke.RunInstancesForNode{
