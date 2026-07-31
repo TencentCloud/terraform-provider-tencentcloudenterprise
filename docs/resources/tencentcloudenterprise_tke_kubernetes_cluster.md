@@ -593,6 +593,7 @@ The `master_config` object supports the following:
 * `key_ids` - (Optional, List) ID list of keys, should be set if `password` not set.
 * `node_role` - (Optional, String) The role of the node. Valid values: `MASTER_ETCD` (default), `MASTER`, `ETCD`.
 * `password` - (Optional, String) Password to access, should be set if `key_ids` not set.
+* `pre_start_user_script` - (Optional, String) Base64-encoded user script, executed before initializing the master node. Only effective when creating a master node.
 * `public_ip_assigned` - (Optional, Bool) Specify whether to assign an Internet IP address.
 * `security_group_ids` - (Optional, List) Security groups to which a CVM instance belongs.
 * `system_disk_pool_group` - (Optional, String) System disk pool group.
