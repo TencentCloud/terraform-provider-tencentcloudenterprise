@@ -43,7 +43,7 @@ Provide a resource to create an auto scaling group for kubernetes cluster.
 
 //this is one example of managing node using node pool
 
-	resource "tencentcloudenterprise_kubernetes_node_pool" "mynodepool" {
+	resource "tencentcloudenterprise_tke_kubernetes_node_pool" "mynodepool" {
 	  name = "mynodepool"
 	  cluster_id = tencentcloudenterprise_tke_kubernetes_cluster.managed_cluster.id
 	  max_size = 6
@@ -105,7 +105,7 @@ Provide a resource to create an auto scaling group for kubernetes cluster.
 Using Spot CVM Instance
 ```hcl
 
-	resource "tencentcloudenterprise_kubernetes_node_pool" "mynodepool" {
+	resource "tencentcloudenterprise_tke_kubernetes_node_pool" "mynodepool" {
 	  name = "mynodepool"
 	  cluster_id = tencentcloudenterprise_tke_kubernetes_cluster.managed_cluster.id
 	  max_size = 6
@@ -180,6 +180,7 @@ func init() {
 			"scaling_mode":             "扩缩容模式",
 			"multi_zone_subnet_policy": "多可用区子网策略",
 			"node_config":              "节点配置",
+			"pre_start_user_script":    "Base64 编码的节点初始化前自定义脚本。",
 			"labels":                   "标签",
 			"taints":                   "污点",
 			"delete_keep_instance":     "删除节点池时是否保留节点",
@@ -190,6 +191,24 @@ func init() {
 			"runtime_version":          "容器运行时版本",
 		},
 	})
+}
+
+func tkeNodePoolInstanceAdvancedSetting() map[string]*schema.Schema {
+	nodeConfigSchema := TkeInstanceAdvancedSetting()
+	nodeConfigSchema["pre_start_user_script"] = &schema.Schema{
+		Type:        schema.TypeString,
+		Optional:    true,
+		Description: "Base64-encoded user script, executed before initializing the node, currently only effective for adding existing nodes.",
+	}
+	return nodeConfigSchema
+}
+
+func tkeGetNodePoolInstanceAdvancedPara(dMap map[string]interface{}, meta interface{}) tke.InstanceAdvancedSettings {
+	setting := tkeGetInstanceAdvancedPara(dMap, meta)
+	if v, ok := dMap["pre_start_user_script"]; ok {
+		setting.PreStartUserScript = helper.String(v.(string))
+	}
+	return setting
 }
 
 // merge `instance_type` to `backup_instance_types` as param `instance_types`
@@ -507,7 +526,7 @@ func resourceTencentCloudKubernetesNodePool() *schema.Resource {
 				Optional: true,
 				MaxItems: 1,
 				Elem: &schema.Resource{
-					Schema: TkeInstanceAdvancedSetting(),
+					Schema: tkeNodePoolInstanceAdvancedSetting(),
 				},
 				Description: "Node config.",
 			},
@@ -1102,7 +1121,7 @@ func desiredCapacityOutRange(d *schema.ResourceData) bool {
 }
 
 func resourceKubernetesNodePoolRead(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.tencentcloudenterprise_kubernetes_node_pool.read")()
+	defer logElapsed("resource.tencentcloudenterprise_tke_kubernetes_node_pool.read")()
 
 	var (
 		logId   = getLogId(contextNil)
@@ -1228,6 +1247,23 @@ func resourceKubernetesNodePoolRead(d *schema.ResourceData, meta interface{}) er
 			annotationsList = append(annotationsList, annotationMap)
 		}
 		_ = d.Set("annotations", annotationsList)
+	}
+
+	if _, configured := d.GetOk("node_config.0.pre_start_user_script"); nodePool.PreStartUserScript != nil || configured {
+		nodeConfig := make(map[string]interface{})
+		if current, ok := helper.InterfacesHeadMap(d, "node_config"); ok {
+			for key, value := range current {
+				nodeConfig[key] = value
+			}
+		}
+		preStartUserScript := ""
+		if nodePool.PreStartUserScript != nil {
+			preStartUserScript = *nodePool.PreStartUserScript
+		}
+		nodeConfig["pre_start_user_script"] = preStartUserScript
+		if err := d.Set("node_config", []interface{}{nodeConfig}); err != nil {
+			return err
+		}
 	}
 
 	//set composed struct
@@ -1389,7 +1425,7 @@ func resourceKubernetesNodePoolRead(d *schema.ResourceData, meta interface{}) er
 }
 
 func resourceKubernetesNodePoolCreate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.tencentcloudenterprise_kubernetes_node_pool.create")()
+	defer logElapsed("resource.tencentcloudenterprise_tke_kubernetes_node_pool.create")()
 	var (
 		logId           = getLogId(contextNil)
 		ctx             = context.WithValue(context.TODO(), logIdKey, logId)
@@ -1418,7 +1454,7 @@ func resourceKubernetesNodePoolCreate(d *schema.ResourceData, meta interface{}) 
 
 	//compose InstanceAdvancedSettings
 	if workConfig, ok := helper.InterfacesHeadMap(d, "node_config"); ok {
-		advanced := tkeGetInstanceAdvancedPara(workConfig, meta)
+		advanced := tkeGetNodePoolInstanceAdvancedPara(workConfig, meta)
 		iAdvanced = &advanced
 	}
 
@@ -1519,7 +1555,7 @@ func resourceKubernetesNodePoolCreate(d *schema.ResourceData, meta interface{}) 
 }
 
 func resourceKubernetesNodePoolUpdate(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.tencentcloudenterprise_kubernetes_node_pool.update")()
+	defer logElapsed("resource.tencentcloudenterprise_tke_kubernetes_node_pool.update")()
 
 	var (
 		logId     = getLogId(contextNil)
@@ -1640,6 +1676,21 @@ func resourceKubernetesNodePoolUpdate(d *schema.ResourceData, meta interface{}) 
 		}
 	}
 
+	if d.HasChange("node_config.0.pre_start_user_script") {
+		userData, _ := d.Get("node_config.0.user_data").(string)
+		preStartUserScript, _ := d.Get("node_config.0.pre_start_user_script").(string)
+		err := resource.Retry(writeRetryTimeout, func() *resource.RetryError {
+			errRet := service.ModifyClusterNodePoolPreStartUserScript(ctx, clusterId, nodePoolId, userData, preStartUserScript)
+			if errRet != nil {
+				return retryError(errRet)
+			}
+			return nil
+		})
+		if err != nil {
+			return err
+		}
+	}
+
 	// ModifyScalingGroup
 	if d.HasChange("scaling_group_name") ||
 		d.HasChange("zones") ||
@@ -1735,7 +1786,7 @@ func resourceKubernetesNodePoolUpdate(d *schema.ResourceData, meta interface{}) 
 }
 
 func resourceKubernetesNodePoolDelete(d *schema.ResourceData, meta interface{}) error {
-	defer logElapsed("resource.tencentcloudenterprise_kubernetes_node_pool.delete")()
+	defer logElapsed("resource.tencentcloudenterprise_tke_kubernetes_node_pool.delete")()
 
 	var (
 		logId              = getLogId(contextNil)

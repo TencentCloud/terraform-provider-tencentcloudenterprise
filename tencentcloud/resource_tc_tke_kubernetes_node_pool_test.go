@@ -16,8 +16,27 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 )
 
-var testTkeClusterNodePoolName = "tencentcloudenterprise_kubernetes_node_pool"
+var testTkeClusterNodePoolName = "tencentcloudenterprise_tke_kubernetes_node_pool"
 var testTkeClusterNodePoolResourceKey = testTkeClusterNodePoolName + ".np_test"
+
+func TestTkeNodePoolPreStartUserScript(t *testing.T) {
+	nodeConfigSchema := tkeNodePoolInstanceAdvancedSetting()
+	preStartSchema, ok := nodeConfigSchema["pre_start_user_script"]
+	if !ok {
+		t.Fatal("pre_start_user_script is missing from node_config schema")
+	}
+	if !preStartSchema.Optional || preStartSchema.ForceNew {
+		t.Fatal("pre_start_user_script should be optional and updatable")
+	}
+
+	const script = "IyEvYmluL3NoCmVjaG8gaGVsbG8="
+	setting := tkeGetNodePoolInstanceAdvancedPara(map[string]interface{}{
+		"pre_start_user_script": script,
+	}, nil)
+	if setting.PreStartUserScript == nil || *setting.PreStartUserScript != script {
+		t.Fatal("pre_start_user_script was not expanded into InstanceAdvancedSettings")
+	}
+}
 
 func init() {
 	// go test -v ./tencentcloud -sweep=ap-guangzhou -sweep-run=tencentcloudenterprise_node_pool
@@ -279,7 +298,7 @@ data "tencentcloudenterprise_vpc_security_groups" "sg_as" {
 `
 
 const testAccTkeNodePoolCluster string = testAccTkeNodePoolClusterBasic + `
-resource "tencentcloudenterprise_kubernetes_node_pool" "np_test" {
+resource "tencentcloudenterprise_tke_kubernetes_node_pool" "np_test" {
   name = "mynodepool"
   cluster_id = local.cluster_id
   max_size = 6
@@ -342,7 +361,7 @@ resource "tencentcloudenterprise_kubernetes_node_pool" "np_test" {
 `
 
 const testAccTkeNodePoolClusterUpdate string = testAccTkeNodePoolClusterBasic + `
-resource "tencentcloudenterprise_kubernetes_node_pool" "np_test" {
+resource "tencentcloudenterprise_tke_kubernetes_node_pool" "np_test" {
   name = "mynodepoolupdate"
   cluster_id = local.cluster_id
   max_size = 5
@@ -417,7 +436,7 @@ resource "tencentcloudenterprise_kubernetes_node_pool" "np_test" {
 `
 
 const testAccTkeNodePoolClusterEncrypt = testAccTkeNodePoolClusterBasic + `
-resource "tencentcloudenterprise_kubernetes_node_pool" "np_test" {
+resource "tencentcloudenterprise_tke_kubernetes_node_pool" "np_test" {
   name = "np_with_disk_encrypt"
   cluster_id = local.cluster_id
   max_size = 3
@@ -457,7 +476,7 @@ resource "tencentcloudenterprise_kubernetes_node_pool" "np_test" {
 `
 
 const testAccTkeNodePoolClusterGpu string = testAccTkeNodePoolClusterBasic + `
-resource "tencentcloudenterprise_kubernetes_node_pool" "np_test" {
+resource "tencentcloudenterprise_tke_kubernetes_node_pool" "np_test" {
   name = "gpu_args_node_pool"
   cluster_id = local.cluster_id
   max_size = 1
@@ -575,7 +594,7 @@ func TestAccTencentCloudKubernetesNodePoolResource_NewFields(t *testing.T) {
 }
 
 const testAccTkeNodePoolClusterNewFields = testAccTkeNodePoolClusterBasic + `
-resource "tencentcloudenterprise_kubernetes_node_pool" "np_test" {
+resource "tencentcloudenterprise_tke_kubernetes_node_pool" "np_test" {
   name = "np_new_fields"
   cluster_id = local.cluster_id
   max_size = 2
@@ -633,7 +652,7 @@ resource "tencentcloudenterprise_kubernetes_node_pool" "np_test" {
 `
 
 const testAccTkeNodePoolClusterNewFieldsUpdate = testAccTkeNodePoolClusterBasic + `
-resource "tencentcloudenterprise_kubernetes_node_pool" "np_test" {
+resource "tencentcloudenterprise_tke_kubernetes_node_pool" "np_test" {
   name = "np_new_fields_updated"
   cluster_id = local.cluster_id
   max_size = 3

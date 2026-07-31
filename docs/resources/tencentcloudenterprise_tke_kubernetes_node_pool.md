@@ -52,7 +52,7 @@ resource "tencentcloudenterprise_tke_kubernetes_cluster" "managed_cluster" {
 
 //this is one example of managing node using node pool
 
-resource "tencentcloudenterprise_kubernetes_node_pool" "mynodepool" {
+resource "tencentcloudenterprise_tke_kubernetes_node_pool" "mynodepool" {
   name                     = "mynodepool"
   cluster_id               = tencentcloudenterprise_tke_kubernetes_cluster.managed_cluster.id
   max_size                 = 6
@@ -113,7 +113,7 @@ resource "tencentcloudenterprise_kubernetes_node_pool" "mynodepool" {
 ### Using Spot CVM Instance
 
 ```hcl
-resource "tencentcloudenterprise_kubernetes_node_pool" "mynodepool" {
+resource "tencentcloudenterprise_tke_kubernetes_node_pool" "mynodepool" {
   name                     = "mynodepool"
   cluster_id               = tencentcloudenterprise_tke_kubernetes_cluster.managed_cluster.id
   max_size                 = 6
@@ -241,6 +241,7 @@ The `node_config` object supports the following:
 * `docker_graph_path` - (Optional, String, ForceNew) Docker graph path. Default is `/var/lib/docker`.
 * `extra_args` - (Optional, List, ForceNew) Custom parameter information related to the node. This is a white-list parameter.
 * `mount_target` - (Optional, String, ForceNew) Mount target. Default is not mounting.
+* `pre_start_user_script` - (Optional, String) Base64-encoded user script, executed before initializing the node, currently only effective for adding existing nodes.
 * `user_data` - (Optional, String, ForceNew) Base64-encoded User Data text, the length limit is 16KB.
 
 The `taints` object supports the following:
