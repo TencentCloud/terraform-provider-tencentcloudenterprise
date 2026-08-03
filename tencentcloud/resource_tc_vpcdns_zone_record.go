@@ -183,21 +183,31 @@ func resourceTencentCloudVpcDnsZoneRecordRead(d *schema.ResourceData, meta inter
 	zoneId := idSplit[0]
 	recordId := idSplit[1]
 
-	records, err := service.DescribeVpcDnsZoneRecordByFilter(ctx, zoneId, "")
+	// Query by record ID instead of listing all records in the zone. The list API
+	// can return overlapping pages, which may cause an existing record to be
+	// omitted from the aggregated result.
+	records, err := service.DescribeVpcDnsZoneRecordByFilter(ctx, zoneId, recordId)
 	if err != nil {
 		return err
 	}
 
-	if len(records) < 1 {
-		return fmt.Errorf("private dns record not exists.")
-	}
-
 	var record *vpcdns.PrivateZoneRecord
 	for _, item := range records {
-		if *item.RecordId == recordId {
+		if item != nil && item.RecordId != nil && *item.RecordId == recordId {
 			record = item
+			break
 		}
 	}
+
+	// A missing remote resource is normal Terraform drift. Clear the ID so
+	// Terraform can recreate it when it is still present in configuration.
+	if record == nil {
+		log.Printf("[WARN]%s VPCDNS zone record not found, zone_id=%s, record_id=%s; removing it from state\n",
+			logId, zoneId, recordId)
+		d.SetId("")
+		return nil
+	}
+
 	_ = d.Set("zone_id", record.ZoneId)
 	_ = d.Set("record_type", record.RecordType)
 	_ = d.Set("sub_domain", record.SubDomain)
