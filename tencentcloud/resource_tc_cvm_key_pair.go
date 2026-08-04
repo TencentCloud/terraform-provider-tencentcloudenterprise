@@ -32,10 +32,10 @@ import (
 	"log"
 	"strings"
 
-	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
-
 	"terraform-provider-tencentcloudenterprise/sdk/common/errors"
 	cvm "terraform-provider-tencentcloudenterprise/sdk/cvm/v20170312"
+	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
+
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
@@ -95,6 +95,7 @@ func resourceTencentCloudKeyPair() *schema.Resource {
 				Type:        schema.TypeString,
 				Computed:    true,
 				ForceNew:    true,
+				Sensitive:   true,
 				Description: "The private key of the key pair.",
 			},
 			"project_id": {
@@ -113,7 +114,7 @@ func resourceTencentCloudKeyPair() *schema.Resource {
 	}
 }
 
-func cvmCreateKeyPair(ctx context.Context, d *schema.ResourceData, meta interface{}) (keyPair *cvm.CreateKeyPair, err error) {
+func cvmCreateKeyPair(ctx context.Context, d *schema.ResourceData, meta interface{}) (keyId, privateKey string, err error) {
 	logId := getLogId(ctx)
 	request := cvm.NewCreateKeyPairRequest()
 	response := cvm.NewCreateKeyPairResponse()
@@ -131,16 +132,17 @@ func cvmCreateKeyPair(ctx context.Context, d *schema.ResourceData, meta interfac
 		return nil
 	})
 	if innerErr != nil {
-		log.Printf("[CRITAL]%s create cvm keyPair by import failed, reason:%+v", logId, err)
-		err = innerErr
-		return
+		log.Printf("[CRITAL]%s create cvm keyPair failed, reason:%+v", logId, innerErr)
+		return "", "", innerErr
 	}
-	if response == nil || response.Response == nil || response.Response.KeyPair == nil {
-		err = fmt.Errorf("Response is nil")
-		return
+	if response == nil || response.Response == nil || response.Response.KeyPair == nil || response.Response.KeyPair.KeyId == nil {
+		return "", "", fmt.Errorf("CreateKeyPair returned an incomplete response")
 	}
 
-	keyPair = response.Response.KeyPair
+	keyId = *response.Response.KeyPair.KeyId
+	if response.Response.KeyPair.PrivateKey != nil {
+		privateKey = *response.Response.KeyPair.PrivateKey
+	}
 	return
 }
 
@@ -163,13 +165,11 @@ func cvmCreateKeyPairByImportPublicKey(ctx context.Context, d *schema.ResourceDa
 		return nil
 	})
 	if innerErr != nil {
-		log.Printf("[CRITAL]%s create cvm keyPair by import failed, reason:%+v", logId, err)
-		err = innerErr
-		return
+		log.Printf("[CRITAL]%s create cvm keyPair by import failed, reason:%+v", logId, innerErr)
+		return "", innerErr
 	}
-	if response == nil || response.Response == nil {
-		err = fmt.Errorf("Response is nil")
-		return
+	if response == nil || response.Response == nil || response.Response.KeyId == nil {
+		return "", fmt.Errorf("ImportKeyPair returned an incomplete response")
 	}
 
 	keyId = *response.Response.KeyId
@@ -182,22 +182,24 @@ func resourceTencentCloudKeyPairCreate(d *schema.ResourceData, meta interface{})
 	logId := getLogId(contextNil)
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
 	var (
-		keyId   string
-		keyPair *cvm.CreateKeyPair
-		err     error
+		keyId, privateKey string
+		err               error
 	)
 
 	if _, ok := d.GetOk("public_key"); ok {
 		keyId, err = cvmCreateKeyPairByImportPublicKey(ctx, d, meta)
 	} else {
-		keyPair, err = cvmCreateKeyPair(ctx, d, meta)
-		keyId = *keyPair.KeyId
-		d.Set("private_key", keyPair.PrivateKey)
+		keyId, privateKey, err = cvmCreateKeyPair(ctx, d, meta)
 	}
 	if err != nil {
 		return err
 	}
 	d.SetId(keyId)
+	if privateKey != "" {
+		if err := d.Set("private_key", privateKey); err != nil {
+			return err
+		}
+	}
 
 	if tags := helper.GetTags(d, "tags"); len(tags) > 0 {
 		tcClient := meta.(*TencentCloudClient).apiV3Conn
