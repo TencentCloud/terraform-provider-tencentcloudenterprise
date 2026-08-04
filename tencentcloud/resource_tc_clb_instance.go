@@ -365,6 +365,24 @@ func resourceTencentCloudClbInstance() *schema.Resource {
 				ConflictsWith: []string{"vip"},
 				Description:   "The unique ID of EIP, e.g. `eip-11112222`. Only available for INTERNAL CLB instance to bind EIP.",
 			},
+			"tgw_set_labels": {
+				Type:     schema.TypeSet,
+				Optional: true,
+				ForceNew: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
+				Description: "Layer-4 cluster labels used to create an exclusive INTERNAL CLB instance.",
+			},
+			"stgw_set_labels": {
+				Type:     schema.TypeSet,
+				Optional: true,
+				ForceNew: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
+				Description: "Layer-7 cluster labels used to create an exclusive INTERNAL CLB instance.",
+			},
 		},
 	}
 }
@@ -466,6 +484,20 @@ func resourceTencentCloudClbInstanceCreate(d *schema.ResourceData, meta interfac
 			return fmt.Errorf("[CHECK][CLB instance][Create] check: eip_address_id only supports INTERNAL network_type")
 		}
 		request.EipAddressId = helper.String(v.(string))
+	}
+
+	if v, ok := d.GetOk("tgw_set_labels"); ok {
+		if networkType != CLB_NETWORK_TYPE_INTERNAL {
+			return fmt.Errorf("[CHECK][CLB instance][Create] check: tgw_set_labels only supports INTERNAL network_type")
+		}
+		request.TgwSetLabels = helper.InterfacesStringsPoint(v.(*schema.Set).List())
+	}
+
+	if v, ok := d.GetOk("stgw_set_labels"); ok {
+		if networkType != CLB_NETWORK_TYPE_INTERNAL {
+			return fmt.Errorf("[CHECK][CLB instance][Create] check: stgw_set_labels only supports INTERNAL network_type")
+		}
+		request.StgwSetLabels = helper.InterfacesStringsPoint(v.(*schema.Set).List())
 	}
 
 	if v, ok := d.GetOk("zone_id"); ok {
@@ -652,6 +684,12 @@ func resourceTencentCloudClbInstanceRead(d *schema.ResourceData, meta interface{
 	}
 	if instance.SecureGroups != nil {
 		_ = d.Set("security_groups", helper.StringsInterfaces(instance.SecureGroups))
+	}
+	if instance.TgwSetLabels != nil {
+		_ = d.Set("tgw_set_labels", helper.StringsInterfaces(instance.TgwSetLabels))
+	}
+	if instance.StgwSetLabels != nil {
+		_ = d.Set("stgw_set_labels", helper.StringsInterfaces(instance.StgwSetLabels))
 	}
 	if instance.LoadBalancerId != nil {
 		_ = d.Set("instance_id", instance.LoadBalancerId)
