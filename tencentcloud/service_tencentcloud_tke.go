@@ -72,6 +72,19 @@ type RunInstancesForNode struct {
 	Work   []string
 }
 
+func validateInstanceAdvancedSettingsOverrides(cvms RunInstancesForNode, overrideSettings *OverrideSettings) error {
+	if overrideSettings == nil {
+		return nil
+	}
+	if len(overrideSettings.Master) > 0 && len(overrideSettings.Master) != len(cvms.Master) {
+		return fmt.Errorf("master instance advanced settings overrides length %d does not match master run instances parameters length %d", len(overrideSettings.Master), len(cvms.Master))
+	}
+	if len(overrideSettings.Work) > 0 && len(overrideSettings.Work) != len(cvms.Work) {
+		return fmt.Errorf("worker instance advanced settings overrides length %d does not match worker run instances parameters length %d", len(overrideSettings.Work), len(cvms.Work))
+	}
+	return nil
+}
+
 type InstanceAdvancedSettings struct {
 	MountTarget        string
 	DockerGraphPath    string
@@ -732,11 +745,8 @@ func (me *TkeService) CreateCluster(ctx context.Context,
 		request.CdcId = &cdcId
 	}
 
-	if overrideSettings != nil {
-		if len(overrideSettings.Master)+len(overrideSettings.Work) > 0 &&
-			len(overrideSettings.Master)+len(overrideSettings.Work) != (len(cvms.Master)+len(cvms.Work)) {
-			return "", fmt.Errorf("len(overrideSettings) != (len(cvms.Master)+len(cvms.Work))")
-		}
+	if err := validateInstanceAdvancedSettingsOverrides(cvms, overrideSettings); err != nil {
+		return "", err
 	}
 
 	request.RunInstancesForNode = []*tke.RunInstancesForNode{}
