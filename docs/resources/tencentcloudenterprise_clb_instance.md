@@ -110,10 +110,12 @@ The following arguments are supported:
 * `project_id` - (Optional, Int, ForceNew) ID of the project within the CLB instance, `0` - Default Project.
 * `security_groups` - (Optional, List: [`String`]) Security groups of the CLB instance. Supports both `OPEN` and `INTERNAL` CLBs.
 * `slave_zone_id` - (Optional, String) Setting slave zone id of cross available zone disaster recovery. this zone will undertake traffic when the master is down.
+* `stgw_set_labels` - (Optional, Set: [`String`], ForceNew) Layer-7 cluster labels used to create an exclusive INTERNAL CLB instance.
 * `subnet_id` - (Optional, String, ForceNew) Subnet ID of the CLB. Effective only for CLB within the VPC.
 * `tags` - (Optional, Map) The available tags within this CLB.
 * `target_region_info_region` - (Optional, String) Region of the target region for cross-region CLB.
 * `target_region_info_vpc_id` - (Optional, String) VPC ID of the target region for cross-region CLB.
+* `tgw_set_labels` - (Optional, Set: [`String`], ForceNew) Layer-4 cluster labels used to create an exclusive INTERNAL CLB instance.
 * `vip` - (Optional, String, ForceNew) Specified VIP for INTERNAL CLB instance. The IP must be available in the selected subnet.
 * `vpc_id` - (Optional, String, ForceNew) VPC ID of the CLB.
 * `zone_id` - (Optional, String) Available zone id, only applicable to open CLB.

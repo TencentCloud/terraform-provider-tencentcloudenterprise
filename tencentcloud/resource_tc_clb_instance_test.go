@@ -4,10 +4,12 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"os"
 	"strings"
 	"testing"
 	"time"
 
+	clb "terraform-provider-tencentcloudenterprise/sdk/clb/v20180317"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 )
@@ -197,6 +199,69 @@ func TestAccTencentCloudClbInstance_internal(t *testing.T) {
 			},
 		},
 	})
+}
+
+func TestAccTencentCloudClbInstance_exclusiveSpec(t *testing.T) {
+	t.Parallel()
+
+	tgwLabel, stgwLabel := testAccClbExclusiveLabels(t)
+	name := fmt.Sprintf("tf-clb-exclusive-%d", time.Now().Unix())
+
+	resource.Test(t, resource.TestCase{
+		PreCheck:     func() { testAccPreCheck(t) },
+		Providers:    testAccProviders,
+		CheckDestroy: testAccCheckClbInstanceDestroy,
+		Steps: []resource.TestStep{
+			{
+				Config: fmt.Sprintf(testAccClbInstance_exclusiveSpec, name, tgwLabel, stgwLabel),
+				Check: resource.ComposeTestCheckFunc(
+					testAccCheckClbInstanceExists("tencentcloudenterprise_clb_instance.exclusive"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_clb_instance.exclusive", "network_type", "INTERNAL"),
+					resource.TestCheckTypeSetElemAttr("tencentcloudenterprise_clb_instance.exclusive", "tgw_set_labels.*", tgwLabel),
+					resource.TestCheckTypeSetElemAttr("tencentcloudenterprise_clb_instance.exclusive", "stgw_set_labels.*", stgwLabel),
+				),
+			},
+			{
+				ResourceName:      "tencentcloudenterprise_clb_instance.exclusive",
+				ImportState:       true,
+				ImportStateVerify: true,
+			},
+		},
+	})
+}
+
+func testAccClbExclusiveLabels(t *testing.T) (string, string) {
+	t.Helper()
+	testAccPreCheck(t)
+
+	client, err := sharedClientForRegion(os.Getenv("TENCENTCLOUD_REGION"))
+	if err != nil {
+		t.Fatalf("create CLB acceptance test client: %s", err)
+	}
+	response, err := client.(*TencentCloudClient).apiV3Conn.UseClbClient().DescribeAppIdLabel(clb.NewDescribeAppIdLabelRequest())
+	if err != nil {
+		t.Fatalf("query exclusive CLB labels: %s", err)
+	}
+	if response == nil || response.Response == nil {
+		t.Skip("exclusive CLB label query returned an empty response")
+	}
+
+	var tgwLabel, stgwLabel string
+	for _, item := range response.Response.OwnerLabelSet {
+		if item == nil || item.Label == nil || item.SetType == nil {
+			continue
+		}
+		switch *item.SetType {
+		case "L4_LAN_CLB":
+			tgwLabel = *item.Label
+		case "L7_LAN_CLB":
+			stgwLabel = *item.Label
+		}
+	}
+	if tgwLabel == "" || stgwLabel == "" {
+		t.Skip("the current account has no complete L4/L7 exclusive CLB specification")
+	}
+	return tgwLabel, stgwLabel
 }
 
 func TestAccTencentCloudClbInstance_internalVip(t *testing.T) {
@@ -414,6 +479,25 @@ resource "tencentcloudenterprise_clb_instance" "clb_internal" {
   tags = {
     test = "tf1"
   }
+}
+`
+
+const testAccClbInstance_exclusiveSpec = `
+data "tencentcloudenterprise_vpc_instances" "available" {
+  is_default = true
+}
+
+data "tencentcloudenterprise_vpc_subnets" "available" {
+  vpc_id = data.tencentcloudenterprise_vpc_instances.available.instance_list.0.vpc_id
+}
+
+resource "tencentcloudenterprise_clb_instance" "exclusive" {
+  network_type    = "INTERNAL"
+  clb_name        = "%s"
+  vpc_id          = data.tencentcloudenterprise_vpc_instances.available.instance_list.0.vpc_id
+  subnet_id       = data.tencentcloudenterprise_vpc_subnets.available.instance_list.0.subnet_id
+  tgw_set_labels  = ["%s"]
+  stgw_set_labels = ["%s"]
 }
 `
 
