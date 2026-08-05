@@ -709,7 +709,7 @@ func resourceTencentCloudKubernetesNodePool() *schema.Resource {
 }
 
 // this function composes every single parameter to an as scale parameter with json string format
-func composeParameterToAsScalingGroupParaSerial(d *schema.ResourceData) (string, error) {
+func composeParameterToAsScalingGroupParaSerial(d *schema.ResourceData, stageMultiZoneSubnetPolicy bool) (string, error) {
 	var (
 		result string
 		errRet error
@@ -736,6 +736,12 @@ func composeParameterToAsScalingGroupParaSerial(d *schema.ResourceData) (string,
 
 	}
 
+	// Apply the subnet policy before expanding the initial capacity.
+	if stageMultiZoneSubnetPolicy {
+		request.MinSize = helper.IntUint64(0)
+		request.DesiredCapacity = helper.IntUint64(0)
+	}
+
 	if v, ok := d.GetOk("retry_policy"); ok {
 		request.RetryPolicy = helper.String(v.(string))
 	}
@@ -748,13 +754,6 @@ func composeParameterToAsScalingGroupParaSerial(d *schema.ResourceData) (string,
 	if v, ok := d.GetOk("scaling_mode"); ok {
 		request.ServiceSettings = &as.ServiceSettings{ScalingMode: helper.String(v.(string))}
 	}
-
-	/*
-		if v, ok := d.GetOk("multi_zone_subnet_policy"); ok {
-			request.MultiZoneSubnetPolicy = helper.String(v.(string))
-		}
-
-	*/
 
 	result = request.ToJsonString()
 
@@ -1127,7 +1126,7 @@ func resourceKubernetesNodePoolRead(d *schema.ResourceData, meta interface{}) er
 		logId   = getLogId(contextNil)
 		ctx     = context.WithValue(context.TODO(), logIdKey, logId)
 		service = TkeService{client: meta.(*TencentCloudClient).apiV3Conn}
-		//asService = AsService{client: meta.(*TencentCloudClient).apiV3Conn}
+		asService = AsService{client: meta.(*TencentCloudClient).apiV3Conn}
 		items = strings.Split(d.Id(), FILED_SP)
 	)
 	if len(items) != 2 {
@@ -1198,7 +1197,19 @@ func resourceKubernetesNodePoolRead(d *schema.ResourceData, meta interface{}) er
 	//_ = d.Set("autoscaling_added_total", AutoscalingAddedTotal)
 	//_ = d.Set("manually_added_total", ManuallyAddedTotal)
 	//_ = d.Set("node_count", AutoscalingAddedTotal+ManuallyAddedTotal)
-	//_ = d.Set("auto_scaling_group_id", nodePool.AutoscalingGroupId)
+	if nodePool.AutoscalingGroupId != nil {
+		_ = d.Set("auto_scaling_group_id", nodePool.AutoscalingGroupId)
+
+		if _, ok := d.GetOk("multi_zone_subnet_policy"); ok {
+			asg, hasAsg, err := asService.DescribeAutoScalingGroupById(ctx, *nodePool.AutoscalingGroupId)
+			if err != nil {
+				return err
+			}
+			if hasAsg > 0 && asg.MultiZoneSubnetPolicy != nil {
+				_ = d.Set("multi_zone_subnet_policy", asg.MultiZoneSubnetPolicy)
+			}
+		}
+	}
 	//_ = d.Set("launch_config_id", nodePool.LaunchConfigurationId)
 	//set not force new parameters
 	//if nodePool.MaxNodesNum != nil {
@@ -1439,7 +1450,12 @@ func resourceKubernetesNodePoolCreate(d *schema.ResourceData, meta interface{}) 
 		return fmt.Errorf("need only one auto_scaling_config")
 	}
 
-	groupParaStr, err := composeParameterToAsScalingGroupParaSerial(d)
+	multiZoneSubnetPolicy, hasMultiZoneSubnetPolicy := d.GetOk("multi_zone_subnet_policy")
+	_, hasDesiredCapacity := d.GetOk("desired_capacity")
+	stageMultiZoneSubnetPolicy := hasMultiZoneSubnetPolicy &&
+		multiZoneSubnetPolicy.(string) == MultiZoneSubnetPolicyEquality
+
+	groupParaStr, err := composeParameterToAsScalingGroupParaSerial(d, stageMultiZoneSubnetPolicy)
 	if err != nil {
 		return err
 	}
@@ -1528,6 +1544,7 @@ func resourceKubernetesNodePoolCreate(d *schema.ResourceData, meta interface{}) 
 	}
 
 	service := TkeService{client: meta.(*TencentCloudClient).apiV3Conn}
+	asService := AsService{client: meta.(*TencentCloudClient).apiV3Conn}
 
 	nodePoolId, err := service.CreateClusterNodePool(ctx, clusterId, name, groupParaStr, configParaStr, enableAutoScale, nodeOs, nodeOsType, labels, taints, iAdvanced, deletionProtection, annotations, containerRuntime, runtimeVersion, tags)
 	if err != nil {
@@ -1535,6 +1552,54 @@ func resourceKubernetesNodePoolCreate(d *schema.ResourceData, meta interface{}) 
 	}
 
 	d.SetId(clusterId + FILED_SP + nodePoolId)
+
+	if hasMultiZoneSubnetPolicy {
+		var autoScalingGroupId string
+		err = resource.Retry(readRetryTimeout, func() *resource.RetryError {
+			nodePool, has, errRet := service.DescribeNodePool(ctx, clusterId, nodePoolId)
+			if errRet != nil {
+				return retryError(errRet, InternalError)
+			}
+			if !has || nodePool.AutoscalingGroupId == nil || *nodePool.AutoscalingGroupId == "" {
+				return resource.RetryableError(fmt.Errorf("waiting for node pool %s auto scaling group", nodePoolId))
+			}
+			autoScalingGroupId = *nodePool.AutoscalingGroupId
+
+			_, hasAutoScalingGroup, errRet := asService.DescribeAutoScalingGroupById(ctx, autoScalingGroupId)
+			if errRet != nil {
+				return retryError(errRet, InternalError)
+			}
+			if hasAutoScalingGroup < 1 {
+				return resource.RetryableError(fmt.Errorf("waiting for auto scaling group %s", autoScalingGroupId))
+			}
+			return nil
+		})
+		if err != nil {
+			return err
+		}
+
+		request := as.NewModifyAutoScalingGroupRequest()
+		request.AutoScalingGroupId = &autoScalingGroupId
+		request.MultiZoneSubnetPolicy = helper.String(multiZoneSubnetPolicy.(string))
+		if stageMultiZoneSubnetPolicy {
+			request.MinSize = helper.IntUint64(d.Get("min_size").(int))
+			request.MaxSize = helper.IntUint64(d.Get("max_size").(int))
+			if hasDesiredCapacity {
+				request.DesiredCapacity = helper.IntUint64(d.Get("desired_capacity").(int))
+			}
+		}
+
+		err = resource.Retry(writeRetryTimeout, func() *resource.RetryError {
+			errRet := asService.ModifyAutoScalingGroup(ctx, request)
+			if errRet != nil {
+				return retryError(errRet)
+			}
+			return nil
+		})
+		if err != nil {
+			return err
+		}
+	}
 
 	// wait for status ok
 	err = resource.Retry(5*readRetryTimeout, func() *resource.RetryError {
@@ -1699,29 +1764,29 @@ func resourceKubernetesNodePoolUpdate(d *schema.ResourceData, meta interface{}) 
 		d.HasChange("default_cooldown") ||
 		d.HasChange("termination_policies") {
 
-		//nodePool, _, err := service.DescribeNodePool(ctx, clusterId, nodePoolId)
-		//if err != nil {
-		//	return err
-		//}
+		nodePool, _, err := service.DescribeNodePool(ctx, clusterId, nodePoolId)
+		if err != nil {
+			return err
+		}
 
 		var (
-			request = as.NewModifyAutoScalingGroupRequest()
-			//scalingGroupId  = *nodePool.AutoscalingGroupId
-			name            = d.Get("scaling_group_name").(string)
-			projectId       = d.Get("scaling_group_project_id").(int)
-			defaultCooldown = d.Get("default_cooldown").(int)
-			//multiZoneSubnetPolicy = d.Get("multi_zone_subnet_policy").(string)
+			request               = as.NewModifyAutoScalingGroupRequest()
+			scalingGroupId        = *nodePool.AutoscalingGroupId
+			name                  = d.Get("scaling_group_name").(string)
+			projectId             = d.Get("scaling_group_project_id").(int)
+			defaultCooldown       = d.Get("default_cooldown").(int)
+			multiZoneSubnetPolicy = d.Get("multi_zone_subnet_policy").(string)
 		)
 
-		//request.AutoScalingGroupId = &scalingGroupId
+		request.AutoScalingGroupId = &scalingGroupId
 
 		if name != "" {
 			request.AutoScalingGroupName = &name
 		}
 
-		//if multiZoneSubnetPolicy != "" {
-		//	request.MultiZoneSubnetPolicy = &multiZoneSubnetPolicy
-		//}
+		if multiZoneSubnetPolicy != "" {
+			request.MultiZoneSubnetPolicy = &multiZoneSubnetPolicy
+		}
 
 		// It is safe to use Get() with default value 0.
 		request.ProjectId = helper.IntUint64(projectId)
@@ -1738,7 +1803,7 @@ func resourceKubernetesNodePoolUpdate(d *schema.ResourceData, meta interface{}) 
 			request.TerminationPolicies = helper.InterfacesStringsPoint(v.([]interface{}))
 		}
 
-		err := resource.Retry(writeRetryTimeout, func() *resource.RetryError {
+		err = resource.Retry(writeRetryTimeout, func() *resource.RetryError {
 			errRet := asService.ModifyAutoScalingGroup(ctx, request)
 			if errRet != nil {
 				return retryError(errRet)
