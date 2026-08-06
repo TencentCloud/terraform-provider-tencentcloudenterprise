@@ -593,13 +593,14 @@ The `master_config` object supports the following:
 * `key_ids` - (Optional, List) ID list of keys, should be set if `password` not set.
 * `node_role` - (Optional, String) The role of the node. Valid values: `MASTER_ETCD` (default), `MASTER`, `ETCD`.
 * `password` - (Optional, String) Password to access, should be set if `key_ids` not set.
-* `pre_start_user_script` - (Optional, String) Base64-encoded user script, executed before initializing the master node. Only effective when creating a master node.
+* `pre_start_user_script` - (Optional, String) Base64-encoded user script executed before TKE initializes the node. All master configurations must use the same value during cluster creation; newly added masters may use different values during scale-out.
 * `public_ip_assigned` - (Optional, Bool) Specify whether to assign an Internet IP address.
 * `security_group_ids` - (Optional, List) Security groups to which a CVM instance belongs.
 * `system_disk_pool_group` - (Optional, String) System disk pool group.
 * `system_disk_size` - (Optional, Int) Volume of system disk in GB. Default is `50`.
 * `system_disk_type` - (Optional, String) System disk type. For more information on limits of system disk types, see [Storage Overview](https://intl.cloud.com/document/product/213/4952). Valid values: `LOCAL_BASIC`: local disk, `LOCAL_SSD`: local SSD disk, `CLOUD_SSD`: SSD, `CLOUD_PREMIUM`: Premium Cloud Storage. NOTE: `CLOUD_BASIC`, `LOCAL_BASIC` and `LOCAL_SSD` are deprecated.
 * `user_data` - (Optional, String) Ase64-encoded User Data text, the length limit is 16KB.
+* `user_script` - (Optional, String) Base64-encoded user script executed after TKE initializes the node. All master configurations must use the same value during cluster creation; newly added masters may use different values during scale-out.
 
 The `run_instances_for_node` object supports the following:
 
