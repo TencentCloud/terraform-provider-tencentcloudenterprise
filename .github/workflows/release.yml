@@ -8,26 +8,56 @@ jobs:
     runs-on: terraform-releaser
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Unshallow
-        run: git fetch --prune --unshallow
+        run: git fetch --prune --unshallow --tags
+
+      - name: Resolve release tags
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          current_tag="${GITHUB_REF_NAME}"
+          if [[ ! "${current_tag}" =~ ^v[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z]+([.-][0-9A-Za-z]+)*)?$ ]]; then
+            echo "Unsupported release tag: ${current_tag}" >&2
+            exit 1
+          fi
+
+          current_stable_tag="${current_tag%%-*}"
+          previous_tag="$({
+            git tag --list
+            printf '%s\n' "${current_stable_tag}"
+          } | grep -E '^v[0-9]+\.[0-9]+\.[0-9]+$' \
+            | sort -Vu \
+            | awk -v current="${current_stable_tag}" '
+                $0 == current { print previous; exit }
+                { previous = $0 }
+              ')"
+
+          echo "GORELEASER_CURRENT_TAG=${current_tag}" >> "${GITHUB_ENV}"
+          if [[ -n "${previous_tag}" ]]; then
+            echo "GORELEASER_PREVIOUS_TAG=${previous_tag}" >> "${GITHUB_ENV}"
+          fi
+
+          echo "Current release tag: ${current_tag}"
+          echo "Previous stable tag: ${previous_tag:-<none>}"
 
       - name: Set up Go
-        uses: actions/setup-go@v5
+        uses: actions/setup-go@v6
         with:
           go-version: "1.23.2"
           cache: false
 
       - name: Import GPG key
         id: import_gpg
-        uses: crazy-max/ghaction-import-gpg@v6
+        uses: crazy-max/ghaction-import-gpg@v7
         with:
           gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
           passphrase: ${{ secrets.GPG_PASSPHRASE }}
 
       - name: Run GoReleaser
-        uses: goreleaser/goreleaser-action@v5
+        uses: goreleaser/goreleaser-action@v7
         with:
           version: "1.26.2"
           args: release --rm-dist --timeout 500m
