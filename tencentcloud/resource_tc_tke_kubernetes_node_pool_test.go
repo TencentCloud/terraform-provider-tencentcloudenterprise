@@ -13,6 +13,7 @@ import (
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 )
 
@@ -35,6 +36,45 @@ func TestTkeNodePoolPreStartUserScript(t *testing.T) {
 	}, nil)
 	if setting.PreStartUserScript == nil || *setting.PreStartUserScript != script {
 		t.Fatal("pre_start_user_script was not expanded into InstanceAdvancedSettings")
+	}
+}
+
+func TestTkeNodePoolDataDiskAutoFormatAndMount(t *testing.T) {
+	nodeConfigSchema := tkeNodePoolInstanceAdvancedSetting()
+	dataDiskResource := nodeConfigSchema["data_disk"].Elem.(*schema.Resource)
+
+	autoFormatSchema, ok := dataDiskResource.Schema["auto_format_and_mount"]
+	if !ok {
+		t.Fatal("node_config.data_disk.auto_format_and_mount is missing from schema")
+	}
+	if autoFormatSchema.Type != schema.TypeBool || !autoFormatSchema.Optional || !autoFormatSchema.ForceNew || autoFormatSchema.Default != false {
+		t.Fatalf("unexpected auto_format_and_mount schema: %#v", autoFormatSchema)
+	}
+
+	setting := tkeGetNodePoolInstanceAdvancedPara(map[string]interface{}{
+		"data_disk": []interface{}{
+			map[string]interface{}{
+				"disk_type":             "CLOUD_SSD",
+				"disk_size":             50,
+				"file_system":           "ext4",
+				"auto_format_and_mount": true,
+				"mount_target":          "/var/lib/containerd",
+			},
+		},
+	}, nil)
+
+	if len(setting.DataDisks) != 1 {
+		t.Fatalf("expected one data disk, got %d", len(setting.DataDisks))
+	}
+	disk := setting.DataDisks[0]
+	if disk.AutoFormatAndMount == nil || !*disk.AutoFormatAndMount {
+		t.Fatalf("expected AutoFormatAndMount=true, got %#v", disk.AutoFormatAndMount)
+	}
+	if disk.FileSystem == nil || *disk.FileSystem != "ext4" {
+		t.Fatalf("expected FileSystem=ext4, got %#v", disk.FileSystem)
+	}
+	if disk.MountTarget == nil || *disk.MountTarget != "/var/lib/containerd" {
+		t.Fatalf("expected MountTarget=/var/lib/containerd, got %#v", disk.MountTarget)
 	}
 }
 
