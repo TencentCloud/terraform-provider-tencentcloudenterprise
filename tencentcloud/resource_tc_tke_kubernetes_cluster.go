@@ -552,6 +552,8 @@ func init() {
 			"instance_name":                           "实例名称",
 			"security_group_ids":                      "安全组ID",
 			"user_data":                               "用户数据",
+			"pre_start_user_script":                   "节点初始化前脚本",
+			"user_script":                             "节点初始化后脚本",
 			"kube_apiserver":                          "K8S API服务器",
 			"kube_controller_manager":                 "K8S控制器管理器",
 			"kube_scheduler":                          "K8S调度器",
@@ -910,7 +912,13 @@ func TkeMasterCvmCreateInfo() map[string]*schema.Schema {
 		Type:        schema.TypeString,
 		Optional:    true,
 		ForceNew:    false,
-		Description: "Base64-encoded user script, executed before initializing the master node. Only effective when creating a master node.",
+		Description: "Base64-encoded user script executed before TKE initializes the node. All master configurations must use the same value during cluster creation; newly added masters may use different values during scale-out.",
+	}
+	masterRes["user_script"] = &schema.Schema{
+		Type:        schema.TypeString,
+		Optional:    true,
+		ForceNew:    false,
+		Description: "Base64-encoded user script executed after TKE initializes the node. All master configurations must use the same value during cluster creation; newly added masters may use different values during scale-out.",
 	}
 	return masterRes
 }
@@ -920,8 +928,8 @@ func TkeMasterCvmCreateInfo() map[string]*schema.Schema {
 // (user_data, security_group_ids). Without this, Terraform sees state as null
 // but the schema default as "" during plan, producing a plan drift on every
 // invocation and blocking scale-in/scale-out through masterConfigValueEqual.
-// pre_start_user_script is also not returned by the CVM API, so imported
-// clusters must get the same empty-string state value.
+// TKE user scripts are also not returned by the CVM API, so imported clusters
+// must get the same empty-string state value.
 func normalizeMasterConfigBlock(m map[string]interface{}) {
 	if m == nil {
 		return
@@ -937,6 +945,9 @@ func normalizeMasterConfigBlock(m map[string]interface{}) {
 	}
 	if _, ok := m["pre_start_user_script"]; !ok || m["pre_start_user_script"] == nil {
 		m["pre_start_user_script"] = ""
+	}
+	if _, ok := m["user_script"]; !ok || m["user_script"] == nil {
+		m["user_script"] = ""
 	}
 }
 
@@ -970,7 +981,17 @@ func expandMasterConfigInstanceAdvancedSettings(raw map[string]interface{}) (tke
 		}
 	}
 
-	return override, override.DesiredPodNumber != nil || override.PreStartUserScript != nil, nil
+	if value, exists := raw["user_script"]; exists && value != nil {
+		script, ok := value.(string)
+		if !ok {
+			return override, false, fmt.Errorf("master_config.user_script must be a string")
+		}
+		if script != "" {
+			override.UserScript = helper.String(script)
+		}
+	}
+
+	return override, override.DesiredPodNumber != nil || override.PreStartUserScript != nil || override.UserScript != nil, nil
 }
 
 func expandDesiredPodNumberOverride(raw map[string]interface{}) (tke.InstanceAdvancedSettings, bool, error) {
@@ -3234,6 +3255,11 @@ func resourceTencentCloudTkeClusterCreate(d *schema.ResourceData, meta interface
 		Work:   make([]tke.InstanceAdvancedSettings, 0),
 	}
 	hasInstanceOverrides := false
+	masterPreStartUserScript := ""
+	masterPreStartUserScriptCount := 0
+	masterUserScript := ""
+	masterUserScriptCount := 0
+	masterConfigCount := 0
 	if !runInstancesForNodeOk {
 		if masters, ok := d.GetOk("master_config"); ok {
 			if clusterDeployType == TKE_DEPLOY_TYPE_MANAGED {
@@ -3241,9 +3267,20 @@ func resourceTencentCloudTkeClusterCreate(d *schema.ResourceData, meta interface
 			}
 			var masterCount int64 = 0
 			masterList := masters.([]interface{})
+			masterConfigCount = len(masterList)
 			for index := range masterList {
 				master := masterList[index].(map[string]interface{})
-				paraJson, count, err := tkeGetCvmRunInstancesPara(master, meta, vpcId, basic.ProjectId)
+				masterCvmConfig := master
+				if userScript, _ := master["user_script"].(string); userScript != "" {
+					if userData, _ := master["user_data"].(string); userData == "" {
+						masterCvmConfig = make(map[string]interface{}, len(master)+1)
+						for key, value := range master {
+							masterCvmConfig[key] = value
+						}
+						masterCvmConfig["user_data"] = userScript
+					}
+				}
+				paraJson, count, err := tkeGetCvmRunInstancesPara(masterCvmConfig, meta, vpcId, basic.ProjectId)
 				if err != nil {
 					return err
 				}
@@ -3257,6 +3294,28 @@ func resourceTencentCloudTkeClusterCreate(d *schema.ResourceData, meta interface
 				}
 				overrideSettings.Master = append(overrideSettings.Master, override)
 				hasInstanceOverrides = hasInstanceOverrides || hasOverride
+				if override.PreStartUserScript != nil {
+					masterPreStartUserScriptCount++
+					if masterPreStartUserScript == "" {
+						masterPreStartUserScript = *override.PreStartUserScript
+					} else if masterPreStartUserScript != *override.PreStartUserScript {
+						return fmt.Errorf("master_config.pre_start_user_script must be identical for all master nodes during cluster creation")
+					}
+				}
+				if override.UserScript != nil {
+					masterUserScriptCount++
+					if masterUserScript == "" {
+						masterUserScript = *override.UserScript
+					} else if masterUserScript != *override.UserScript {
+						return fmt.Errorf("master_config.user_script must be identical for all master nodes during cluster creation")
+					}
+				}
+			}
+			if masterPreStartUserScriptCount > 0 && masterPreStartUserScriptCount != masterConfigCount {
+				return fmt.Errorf("master_config.pre_start_user_script must be configured for all master nodes during cluster creation")
+			}
+			if masterUserScriptCount > 0 && masterUserScriptCount != masterConfigCount {
+				return fmt.Errorf("master_config.user_script must be configured for all master nodes during cluster creation")
 			}
 			if masterCount < 3 {
 				return fmt.Errorf("if `cluster_deploy_type` is `TKE_DEPLOY_TYPE_INDEPENDENT` len(master_config) should >=3")
@@ -3359,8 +3418,20 @@ func resourceTencentCloudTkeClusterCreate(d *schema.ResourceData, meta interface
 	if temp, ok := d.GetOk("pre_start_user_script"); ok {
 		iAdvanced.PreStartUserScript = temp.(string)
 	}
+	if masterPreStartUserScript != "" {
+		if iAdvanced.PreStartUserScript != "" && iAdvanced.PreStartUserScript != masterPreStartUserScript {
+			return fmt.Errorf("master_config.pre_start_user_script conflicts with the cluster-level pre_start_user_script")
+		}
+		iAdvanced.PreStartUserScript = masterPreStartUserScript
+	}
 	if temp, ok := d.GetOk("user_script"); ok {
 		iAdvanced.UserScript = temp.(string)
+	}
+	if masterUserScript != "" {
+		if iAdvanced.UserScript != "" && iAdvanced.UserScript != masterUserScript {
+			return fmt.Errorf("master_config.user_script conflicts with the cluster-level user_script")
+		}
+		iAdvanced.UserScript = masterUserScript
 	}
 	if temp, ok := d.GetOk("mount_target"); ok {
 		iAdvanced.MountTarget = temp.(string)
@@ -3752,6 +3823,11 @@ func resourceTencentCloudTkeClusterRead(d *schema.ResourceData, meta interface{}
 				if len(masterConfigs) > 0 && len(masterConfigs) == len(cvmInstances) {
 					// Existing state matches CVM count: match each block to its CVM instance
 					masterList := masterConfigs
+					for _, masterRaw := range masterList {
+						if master, ok := masterRaw.(map[string]interface{}); ok {
+							normalizeMasterConfigBlock(master)
+						}
+					}
 					// Build lookup maps
 					cvmById := make(map[string]*cvm.Instance)
 					for _, instance := range cvmInstances {
