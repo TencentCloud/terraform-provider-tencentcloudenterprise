@@ -131,8 +131,8 @@ func init() {
 			"data_disk":             "数据盘配置信息。数据盘配置信息。",
 			"disk_type":             "磁盘类型。可用值：`CLOUD_PREMIUM` 和 `CLOUD_SSD`。",
 			"disk_size":             "磁盘容量（单位：GB）。默认为 `0`。",
-			//"file_system":           "文件系统，例如 `ext3/ext4/xfs`。",
-			//"auto_format_and_mount": "是否自动格式化和挂载。默认为 `false`。",
+			"file_system":           "文件系统，例如 `ext3/ext4/xfs`。",
+			"auto_format_and_mount": "是否自动格式化和挂载。默认为 `false`。",
 			"mount_target":          "挂载目标。",
 			//"disk_partition":        "要挂载的设备或分区的名称。注意：此参数不支持在节点池中设置，否则会导致挂载错误。",
 			"extra_args":            "与节点相关的自定义参数信息。这是一个白名单参数。",
@@ -221,20 +221,20 @@ func TkeInstanceAdvancedSetting() map[string]*schema.Schema {
 						Default:     0,
 						Description: "Volume of disk in GB. Default is `0`.",
 					},
-					//"file_system": {
-					//	Type:        schema.TypeString,
-					//	ForceNew:    true,
-					//	Optional:    true,
-					//	Default:     "",
-					//	Description: "File system, e.g. `ext3/ext4/xfs`.",
-					//},
-					//"auto_format_and_mount": {
-					//	Type:        schema.TypeBool,
-					//	Optional:    true,
-					//	ForceNew:    true,
-					//	Default:     false,
-					//	Description: "Indicate whether to auto format and mount or not. Default is `false`.",
-					//},
+					"file_system": {
+						Type:        schema.TypeString,
+						ForceNew:    true,
+						Optional:    true,
+						Default:     "",
+						Description: "File system, e.g. `ext3/ext4/xfs`.",
+					},
+					"auto_format_and_mount": {
+						Type:        schema.TypeBool,
+						Optional:    true,
+						ForceNew:    true,
+						Default:     false,
+						Description: "Indicate whether to auto format and mount or not. Default is `false`.",
+					},
 					"mount_target": {
 						Type:        schema.TypeString,
 						Optional:    true,
@@ -401,14 +401,14 @@ func tkeGetInstanceAdvancedPara(dMap map[string]interface{}, meta interface{}) (
 				value              = d.(map[string]interface{})
 				diskType           = value["disk_type"].(string)
 				diskSize           = int64(value["disk_size"].(int))
-				//fileSystem         = value["file_system"].(string)
-				//autoFormatAndMount = value["auto_format_and_mount"].(bool)
+				fileSystem         = value["file_system"].(string)
+				autoFormatAndMount = value["auto_format_and_mount"].(bool)
 				mountTarget        = value["mount_target"].(string)
 				//diskPartition      = value["disk_partition"].(string)
 				dataDisk = tke.DataDisk{
 					DiskType:           &diskType,
-					//FileSystem:         &fileSystem,
-					//AutoFormatAndMount: &autoFormatAndMount,
+					FileSystem:         &fileSystem,
+					AutoFormatAndMount: &autoFormatAndMount,
 					MountTarget:        &mountTarget,
 					//DiskPartition:      &diskPartition,
 				}
