@@ -101,11 +101,13 @@ func resourceTencentCloudTkeClusterEndpoint() *schema.Resource {
 			"cluster_internet_security_group": {
 				Type:        schema.TypeString,
 				Optional:    true,
+				Computed:    true,
 				Description: "Specify security group, NOTE: This argument must not be empty if cluster internet enabled.",
 			},
 			"cluster_internet_domain": {
 				Type:     schema.TypeString,
 				Optional: true,
+				Computed: true,
 				Description: "Domain name for cluster Kube-apiserver internet access. " +
 					" Be careful if you modify value of this parameter, the cluster_external_endpoint value may be changed automatically too.",
 			},
@@ -118,12 +120,14 @@ func resourceTencentCloudTkeClusterEndpoint() *schema.Resource {
 			"cluster_intranet_domain": {
 				Type:     schema.TypeString,
 				Optional: true,
+				Computed: true,
 				Description: "Domain name for cluster Kube-apiserver intranet access." +
 					" Be careful if you modify value of this parameter, the cluster_intranet_endpoint value may be changed automatically too.",
 			},
 			"cluster_intranet_subnet_id": {
 				Type:     schema.TypeString,
 				Optional: true,
+				Computed: true,
 				Description: "Subnet id who can access this independent cluster, this field must and can only set  when `cluster_intranet` is true." +
 					" `cluster_intranet_subnet_id` can not modify once be set.",
 			},
