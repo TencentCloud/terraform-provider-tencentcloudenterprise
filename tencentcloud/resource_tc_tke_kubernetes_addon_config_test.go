@@ -26,6 +26,9 @@ func TestAccTencentCloudTkeKubernetesAddonConfigResource_basic(t *testing.T) {
 				ResourceName:      "tencentcloudenterprise_tke_kubernetes_addon_config.kubernetes_addon_config",
 				ImportState:       true,
 				ImportStateVerify: true,
+				ImportStateVerifyIgnore: []string{
+					"raw_values",
+				},
 			},
 		},
 	})

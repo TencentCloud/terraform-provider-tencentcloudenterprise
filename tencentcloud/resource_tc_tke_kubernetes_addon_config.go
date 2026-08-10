@@ -157,7 +157,7 @@ func resourceTencentCloudTkeKubernetesAddonConfigRead(d *schema.ResourceData, me
 	if addon.RawValues != nil {
 		rawValues, err := base64.StdEncoding.DecodeString(*addon.RawValues)
 		if err == nil {
-			_ = d.Set("raw_values", string(rawValues))
+			_ = d.Set("raw_values", addonRawValuesForState(d, string(rawValues)))
 		}
 	}
 	if addon.Phase != nil {
@@ -234,7 +234,9 @@ func resourceTencentCloudTkeKubernetesAddonConfigDelete(d *schema.ResourceData, 
 	return nil
 }
 
-// suppressJSONOrderDiff compares two JSON strings and ignores ordering differences
+// suppressJSONOrderDiff ignores ordering and server-added defaults. Explicitly
+// configured values still produce a diff when the service returns a different
+// value or omits them.
 func suppressJSONOrderDiff(k, old, new string, d *schema.ResourceData) bool {
 	if old == "" && new == "" {
 		return true
@@ -253,5 +255,70 @@ func suppressJSONOrderDiff(k, old, new string, d *schema.ResourceData) bool {
 		return old == new
 	}
 
-	return reflect.DeepEqual(oldJSON, newJSON)
+	return reflect.DeepEqual(oldJSON, newJSON) || jsonValueContains(oldJSON, newJSON)
+}
+
+// addonRawValuesForState keeps the user's configured JSON when TKE only adds
+// server-side defaults. This prevents the expanded response from becoming a
+// new desired configuration while still exposing genuine changes to values
+// explicitly managed by Terraform.
+func addonRawValuesForState(d *schema.ResourceData, remote string) string {
+	rawConfig := d.GetRawConfig()
+	if rawConfig.IsNull() || !rawConfig.IsKnown() || !rawConfig.Type().HasAttribute("raw_values") {
+		return remote
+	}
+
+	configuredValue := rawConfig.GetAttr("raw_values")
+	if configuredValue.IsNull() || !configuredValue.IsKnown() {
+		return remote
+	}
+
+	configured := configuredValue.AsString()
+	if jsonContainsConfiguredValues(remote, configured) {
+		return configured
+	}
+
+	return remote
+}
+
+func jsonContainsConfiguredValues(remote, configured string) bool {
+	var remoteJSON, configuredJSON interface{}
+	if err := json.Unmarshal([]byte(remote), &remoteJSON); err != nil {
+		return false
+	}
+	if err := json.Unmarshal([]byte(configured), &configuredJSON); err != nil {
+		return false
+	}
+
+	return jsonValueContains(remoteJSON, configuredJSON)
+}
+
+func jsonValueContains(actual, expected interface{}) bool {
+	switch expectedValue := expected.(type) {
+	case map[string]interface{}:
+		actualValue, ok := actual.(map[string]interface{})
+		if !ok {
+			return false
+		}
+		for key, value := range expectedValue {
+			actualItem, exists := actualValue[key]
+			if !exists || !jsonValueContains(actualItem, value) {
+				return false
+			}
+		}
+		return true
+	case []interface{}:
+		actualValue, ok := actual.([]interface{})
+		if !ok || len(actualValue) != len(expectedValue) {
+			return false
+		}
+		for i := range expectedValue {
+			if !jsonValueContains(actualValue[i], expectedValue[i]) {
+				return false
+			}
+		}
+		return true
+	default:
+		return reflect.DeepEqual(actual, expected)
+	}
 }

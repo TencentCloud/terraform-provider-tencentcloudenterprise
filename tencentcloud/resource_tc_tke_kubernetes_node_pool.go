@@ -660,7 +660,6 @@ func resourceTencentCloudKubernetesNodePool() *schema.Resource {
 				Type:        schema.TypeList,
 				MaxItems:    1,
 				Optional:    true,
-				Computed:    true,
 				Description: "Policy of scaling group termination. Available values: `[\"OLDEST_INSTANCE\"]`, `[\"NEWEST_INSTANCE\"]`.",
 				Elem:        &schema.Schema{Type: schema.TypeString},
 			},
