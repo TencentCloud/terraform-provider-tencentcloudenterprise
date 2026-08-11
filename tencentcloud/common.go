@@ -115,6 +115,71 @@ func ignoreParseJsonError(err error) error {
 	return err
 }
 
+// unwrapParseJsonBusinessError recovers a business API error that was masked by
+// ClientError.ParseJsonError. Some TCE error payloads include both string "Code"
+// and numeric "code"; Go's encoding/json is case-insensitive and fails the parse
+// before the SDK can surface the real FailedOperation.* code.
+func unwrapParseJsonBusinessError(err error) error {
+	if err == nil {
+		return nil
+	}
+	sdkErr, ok := errors.Cause(err).(*sdkErrors.CloudSDKError)
+	if !ok || sdkErr.Code != "ClientError.ParseJsonError" {
+		return err
+	}
+
+	const prefix = "Fail to parse json content: "
+	msg := sdkErr.Message
+	start := strings.Index(msg, prefix)
+	if start < 0 {
+		return err
+	}
+	rest := msg[start+len(prefix):]
+	end := strings.LastIndex(rest, ", because:")
+	if end < 0 {
+		return err
+	}
+	raw := strings.TrimSpace(rest[:end])
+
+	var root map[string]json.RawMessage
+	if e := json.Unmarshal([]byte(raw), &root); e != nil {
+		return err
+	}
+	respRaw, ok := root["Response"]
+	if !ok {
+		return err
+	}
+	var response map[string]json.RawMessage
+	if e := json.Unmarshal(respRaw, &response); e != nil {
+		return err
+	}
+	errRaw, ok := response["Error"]
+	if !ok {
+		return err
+	}
+	var apiErr map[string]json.RawMessage
+	if e := json.Unmarshal(errRaw, &apiErr); e != nil {
+		return err
+	}
+
+	var code, message, requestId string
+	if v, ok := apiErr["Code"]; ok {
+		_ = json.Unmarshal(v, &code)
+	}
+	if v, ok := apiErr["Message"]; ok {
+		_ = json.Unmarshal(v, &message)
+	}
+	if v, ok := response["RequestId"]; ok {
+		_ = json.Unmarshal(v, &requestId)
+	}
+	if code == "" {
+		return err
+	}
+
+	log.Printf("[WARN] recovered business error from ParseJsonError: code=%s message=%s requestId=%s", code, message, requestId)
+	return sdkErrors.NewCloudSDKError(code, message, requestId)
+}
+
 // retryableCosErrorCode is retryable error code for COS/CI SDK
 var retryableCosErrorCode = []string{
 	"RequestTimeout",

@@ -229,11 +229,12 @@ func resourceTencentCloudCamUserCreate(d *schema.ResourceData, meta interface{})
 	err := resource.Retry(writeRetryTimeout, func() *resource.RetryError {
 		result, e := meta.(*TencentCloudClient).apiV3Conn.UseCamClient().AddSubAccount(request)
 		if e != nil {
+			e = unwrapParseJsonBusinessError(e)
 			log.Printf("[CRITAL]%s api[%s] fail, request body [%s], reason[%s]\n",
 				logId, request.GetAction(), request.ToJsonString(), e.Error())
 			if ee, ok := e.(*sdkErrors.CloudSDKError); ok {
 				errCode := ee.GetCode()
-				if strings.Contains(errCode, "SubUserNameInUse") {
+				if strings.Contains(errCode, "SubUserNameInUse") || strings.Contains(errCode, "NameAlreadyExist") {
 					return resource.NonRetryableError(e)
 				}
 			}
