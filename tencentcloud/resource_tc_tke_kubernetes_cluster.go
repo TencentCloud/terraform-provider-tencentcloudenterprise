@@ -416,12 +416,12 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"terraform-provider-tencentcloudenterprise/sdk/common/errors"
 	cvm "terraform-provider-tencentcloudenterprise/sdk/cvm/v20170312"
 	tke "terraform-provider-tencentcloudenterprise/sdk/tke/v20180525"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func init() {
@@ -951,6 +951,291 @@ func normalizeMasterConfigBlock(m map[string]interface{}) {
 	}
 }
 
+func bindMasterConfigInstance(existing map[string]interface{}, instance *cvm.Instance) map[string]interface{} {
+	bound := make(map[string]interface{}, len(existing)+1)
+	for key, value := range existing {
+		bound[key] = value
+	}
+	if instance != nil && instance.InstanceId != nil {
+		bound["instance_id"] = helper.PString(instance.InstanceId)
+	}
+	normalizeMasterConfigBlock(bound)
+	return bound
+}
+
+func newMasterConfigFromCvm(instance *cvm.Instance, masterInfo InstanceInfo) map[string]interface{} {
+	mapping := map[string]interface{}{
+		"instance_charge_type_prepaid_period":     1,
+		"instance_charge_type_prepaid_renew_flag": CVM_PREPAID_RENEW_FLAG_NOTIFY_AND_MANUAL_RENEW,
+		"system_disk_pool_group":                  "",
+		"cam_role_name":                           "",
+		"desired_pod_num":                         DefaultDesiredPodNum,
+		"node_role":                               "MASTER_ETCD",
+		"enhanced_security_service":               true,
+		"enhanced_monitor_service":                true,
+		"enhanced_automation_service":             true,
+		"public_ip_assigned":                      false,
+		"internet_charge_type":                    INTERNET_CHARGE_TYPE_TRAFFIC_POSTPAID_BY_HOUR,
+	}
+	if instance == nil {
+		normalizeMasterConfigBlock(mapping)
+		return mapping
+	}
+	if instance.InstanceId != nil {
+		mapping["instance_id"] = helper.PString(instance.InstanceId)
+	}
+	if instance.InstanceName != nil {
+		mapping["instance_name"] = helper.PString(instance.InstanceName)
+	}
+	if instance.InstanceType != nil {
+		mapping["instance_type"] = helper.PString(instance.InstanceType)
+	}
+	if instance.InstanceChargeType != nil {
+		mapping["instance_charge_type"] = helper.PString(instance.InstanceChargeType)
+	}
+	if instance.ImageId != nil {
+		mapping["img_id"] = helper.PString(instance.ImageId)
+	}
+	if instance.VirtualPrivateCloud != nil && instance.VirtualPrivateCloud.SubnetId != nil {
+		mapping["subnet_id"] = helper.PString(instance.VirtualPrivateCloud.SubnetId)
+	}
+	if instance.Placement != nil && instance.Placement.Zone != nil {
+		mapping["availability_zone"] = helper.PString(instance.Placement.Zone)
+	}
+	if instance.SystemDisk != nil {
+		if instance.SystemDisk.DiskType != nil {
+			mapping["system_disk_type"] = helper.PString(instance.SystemDisk.DiskType)
+		}
+		if instance.SystemDisk.DiskSize != nil {
+			mapping["system_disk_size"] = helper.PInt64(instance.SystemDisk.DiskSize)
+		}
+	}
+	if instance.InternetAccessible != nil {
+		if instance.InternetAccessible.InternetChargeType != nil {
+			mapping["internet_charge_type"] = helper.PString(instance.InternetAccessible.InternetChargeType)
+		}
+		if instance.InternetAccessible.InternetMaxBandwidthOut != nil {
+			bandwidth := helper.PInt64(instance.InternetAccessible.InternetMaxBandwidthOut)
+			mapping["internet_max_bandwidth_out"] = bandwidth
+			mapping["public_ip_assigned"] = bandwidth > 0
+		}
+	}
+	if instance.SecurityGroupIds != nil {
+		mapping["security_group_ids"] = helper.StringsInterfaces(instance.SecurityGroupIds)
+	}
+	if instance.RenewFlag != nil && helper.PString(instance.InstanceChargeType) == "PREPAID" {
+		mapping["instance_charge_type_prepaid_renew_flag"] = helper.PString(instance.RenewFlag)
+	}
+	if instance.CamRoleName != nil {
+		mapping["cam_role_name"] = helper.PString(instance.CamRoleName)
+	}
+	if instance.LoginSettings != nil {
+		mapping["key_ids"] = helper.StringsInterfaces(instance.LoginSettings.KeyIds)
+	}
+	if instance.DataDisks != nil {
+		dataDisks := make([]interface{}, 0, len(instance.DataDisks))
+		for _, disk := range instance.DataDisks {
+			if disk == nil {
+				continue
+			}
+			diskConfig := make(map[string]interface{})
+			if disk.DiskType != nil {
+				diskConfig["disk_type"] = helper.PString(disk.DiskType)
+			}
+			if disk.DiskSize != nil {
+				diskConfig["disk_size"] = helper.PInt64(disk.DiskSize)
+			}
+			dataDisks = append(dataDisks, diskConfig)
+		}
+		mapping["data_disk"] = dataDisks
+	}
+	if masterInfo.InstanceRole != "" {
+		mapping["node_role"] = masterInfo.InstanceRole
+	}
+	if masterInfo.InstanceAdvancedSettings != nil {
+		if masterInfo.InstanceAdvancedSettings.DesiredPodNumber != nil {
+			mapping["desired_pod_num"] = helper.PInt64(masterInfo.InstanceAdvancedSettings.DesiredPodNumber)
+		}
+		if masterInfo.InstanceAdvancedSettings.PreStartUserScript != nil {
+			mapping["pre_start_user_script"] = helper.PString(masterInfo.InstanceAdvancedSettings.PreStartUserScript)
+		}
+		if masterInfo.InstanceAdvancedSettings.UserScript != nil {
+			mapping["user_script"] = helper.PString(masterInfo.InstanceAdvancedSettings.UserScript)
+		}
+	}
+	normalizeMasterConfigBlock(mapping)
+	return mapping
+}
+
+func masterConfigMatchesCvmSpec(config map[string]interface{}, instance *cvm.Instance) bool {
+	if instance == nil {
+		return false
+	}
+	matchedField := false
+	if value, _ := config["instance_type"].(string); value != "" {
+		matchedField = true
+		if value != helper.PString(instance.InstanceType) {
+			return false
+		}
+	}
+	if value, _ := config["subnet_id"].(string); value != "" {
+		matchedField = true
+		if instance.VirtualPrivateCloud == nil || value != helper.PString(instance.VirtualPrivateCloud.SubnetId) {
+			return false
+		}
+	}
+	if value, _ := config["availability_zone"].(string); value != "" {
+		matchedField = true
+		if instance.Placement == nil || value != helper.PString(instance.Placement.Zone) {
+			return false
+		}
+	}
+	return matchedField
+}
+
+func matchMasterConfigToCvm(config map[string]interface{}, instances []*cvm.Instance, matched map[string]bool) *cvm.Instance {
+	instanceName, _ := config["instance_name"].(string)
+	var idCandidate *cvm.Instance
+	if instanceId, _ := config["instance_id"].(string); instanceId != "" {
+		for _, instance := range instances {
+			if instance != nil && instance.InstanceId != nil && helper.PString(instance.InstanceId) == instanceId && !matched[instanceId] {
+				// A TypeList plan may carry the computed instance_id from the old
+				// positional element after HCL reorders the blocks. Trust the ID only
+				// when it still agrees with the configured instance_name; otherwise
+				// keep it as a fallback and rebind by name below.
+				if instanceName == "" || helper.PString(instance.InstanceName) == instanceName {
+					return instance
+				}
+				idCandidate = instance
+				break
+			}
+		}
+	}
+
+	var nameCandidate *cvm.Instance
+	for _, instance := range instances {
+		if instance == nil || instance.InstanceId == nil || matched[helper.PString(instance.InstanceId)] {
+			continue
+		}
+		if instanceName != "" && helper.PString(instance.InstanceName) == instanceName {
+			if masterConfigMatchesCvmSpec(config, instance) {
+				return instance
+			}
+			if nameCandidate == nil {
+				nameCandidate = instance
+			}
+		}
+	}
+	if nameCandidate != nil {
+		return nameCandidate
+	}
+	if idCandidate != nil {
+		return idCandidate
+	}
+	if instanceName != "" {
+		return nil
+	}
+
+	for _, instance := range instances {
+		if instance == nil || instance.InstanceId == nil || matched[helper.PString(instance.InstanceId)] {
+			continue
+		}
+		if masterConfigMatchesCvmSpec(config, instance) {
+			return instance
+		}
+	}
+	return nil
+}
+
+func reconcileMasterConfigState(existing []interface{}, instances []*cvm.Instance, masters []InstanceInfo) []interface{} {
+	orderedInstances := make([]*cvm.Instance, 0, len(instances))
+	for _, instance := range instances {
+		if instance != nil && instance.InstanceId != nil {
+			orderedInstances = append(orderedInstances, instance)
+		}
+	}
+	sort.SliceStable(orderedInstances, func(i, j int) bool {
+		leftName := helper.PString(orderedInstances[i].InstanceName)
+		rightName := helper.PString(orderedInstances[j].InstanceName)
+		if leftName == rightName {
+			return helper.PString(orderedInstances[i].InstanceId) < helper.PString(orderedInstances[j].InstanceId)
+		}
+		return leftName < rightName
+	})
+
+	masterById := make(map[string]InstanceInfo, len(masters))
+	for _, master := range masters {
+		masterById[master.InstanceId] = master
+	}
+	matched := make(map[string]bool, len(orderedInstances))
+	reconciled := make([]interface{}, 0, len(orderedInstances))
+
+	// Preserve the configuration order and all create-only fields for masters
+	// that still exist. This is the normal create, scale-out, and scale-in path.
+	for _, raw := range existing {
+		config, ok := raw.(map[string]interface{})
+		if !ok || config == nil {
+			continue
+		}
+		instance := matchMasterConfigToCvm(config, orderedInstances, matched)
+		if instance == nil || instance.InstanceId == nil {
+			continue
+		}
+		instanceId := helper.PString(instance.InstanceId)
+		matched[instanceId] = true
+		reconciled = append(reconciled, bindMasterConfigInstance(config, instance))
+	}
+
+	// Unmatched CVMs are masters created outside the current state (including
+	// import and externally added nodes). Append them in deterministic order.
+	for _, instance := range orderedInstances {
+		if instance == nil || instance.InstanceId == nil {
+			continue
+		}
+		instanceId := helper.PString(instance.InstanceId)
+		if matched[instanceId] {
+			continue
+		}
+		reconciled = append(reconciled, newMasterConfigFromCvm(instance, masterById[instanceId]))
+	}
+	return reconciled
+}
+
+func validateMasterConfigStateSchema(configs []interface{}) error {
+	masterSchema := TkeMasterCvmCreateInfo()
+	for index, raw := range configs {
+		config, ok := raw.(map[string]interface{})
+		if !ok || config == nil {
+			continue
+		}
+		for key := range config {
+			if _, exists := masterSchema[key]; !exists {
+				return fmt.Errorf("master_config.%d contains unsupported state field %q", index, key)
+			}
+		}
+	}
+	return nil
+}
+
+func failedMasterInstancesError(masters []InstanceInfo) error {
+	failed := make([]string, 0)
+	for _, master := range masters {
+		if !strings.EqualFold(master.InstanceState, "failed") {
+			continue
+		}
+		reason := strings.TrimSpace(master.FailedReason)
+		if reason == "" {
+			reason = "reason not reported by TKE"
+		}
+		failed = append(failed, fmt.Sprintf("%s (%s)", master.InstanceId, reason))
+	}
+	if len(failed) == 0 {
+		return nil
+	}
+	sort.Strings(failed)
+	return fmt.Errorf("TKE reported failed master node(s): %s. Terraform will not automatically delete or recreate failed control-plane nodes; resolve or remove the failed node(s) before continuing", strings.Join(failed, ", "))
+}
+
 // expandMasterConfigInstanceAdvancedSettings expands the TKE per-node settings
 // supported by master_config. The returned bool is true only when a non-empty
 // override must be sent to TKE. A zero-value settings object is still useful to
@@ -1022,6 +1307,21 @@ func expandDesiredPodNumberOverride(raw map[string]interface{}) (tke.InstanceAdv
 // but the user's HCL never set the field at all (or vice versa).
 func masterConfigFieldsEquivalent(a, b interface{}) bool {
 	return isMasterConfigZero(a) && isMasterConfigZero(b)
+}
+
+// masterConfigFieldCanHydrateFromConfig reports whether a value that cannot be
+// recovered from the read APIs may be restored from configuration. This is
+// needed when a scale operation has already changed the remote cluster but the
+// apply fails before Terraform persists the planned master_config blocks.
+//
+// Only an empty state value may be hydrated. A change between two non-empty
+// values remains an unsupported mutation of an existing master.
+func masterConfigFieldCanHydrateFromConfig(field string, oldValue, newValue interface{}) bool {
+	writeOnlyFields := map[string]bool{
+		"hostname":  true,
+		"user_data": true,
+	}
+	return writeOnlyFields[field] && isMasterConfigZero(oldValue) && !isMasterConfigZero(newValue)
 }
 
 func isMasterConfigZero(v interface{}) bool {
@@ -3798,6 +4098,7 @@ func resourceTencentCloudTkeClusterRead(d *schema.ResourceData, meta interface{}
 
 	_ = d.Set("worker_instances_list", workerInstancesList)
 
+	var masterHealthErr error
 	// 回读 master_config（仅 INDEPENDENT_CLUSTER）
 	if info.DeployType == TKE_DEPLOY_TYPE_INDEPENDENT {
 		masterInstanceIds := make([]*string, 0, len(masters))
@@ -3805,7 +4106,11 @@ func resourceTencentCloudTkeClusterRead(d *schema.ResourceData, meta interface{}
 			id := m.InstanceId
 			masterInstanceIds = append(masterInstanceIds, &id)
 		}
+		// An independent cluster cannot legitimately have zero masters. During
+		// creation the TKE instance list may briefly be empty, so keep the
+		// configured blocks until TKE exposes the authoritative instance set.
 		if len(masterInstanceIds) > 0 {
+			masterConfigs, _ := d.Get("master_config").([]interface{})
 			cvmService := CvmService{client: meta.(*TencentCloudClient).apiV3Conn}
 			var cvmInstances []*cvm.Instance
 			err = resource.Retry(readRetryTimeout, func() *resource.RetryError {
@@ -3814,159 +4119,29 @@ func resourceTencentCloudTkeClusterRead(d *schema.ResourceData, meta interface{}
 				if inErr != nil {
 					return retryError(inErr)
 				}
+				if len(cvmInstances) != len(masterInstanceIds) {
+					return resource.RetryableError(fmt.Errorf("master_config: TKE returned %d masters but CVM returned %d instances", len(masterInstanceIds), len(cvmInstances)))
+				}
 				return nil
 			})
 			if err != nil {
-				log.Printf("[WARN] master_config: DescribeInstanceByFilter failed: %s", err.Error())
+				// Keep known configuration during transient CVM read/count mismatch.
+				// Import has no usable master state to preserve, so it must fail.
+				if len(masterConfigs) == 0 {
+					return err
+				}
+				log.Printf("[WARN] master_config: keeping existing state because CVM instances could not be read completely: %s", err.Error())
 			} else {
-				masterConfigs := d.Get("master_config").([]interface{})
-				if len(masterConfigs) > 0 && len(masterConfigs) == len(cvmInstances) {
-					// Existing state matches CVM count: match each block to its CVM instance
-					masterList := masterConfigs
-					for _, masterRaw := range masterList {
-						if master, ok := masterRaw.(map[string]interface{}); ok {
-							normalizeMasterConfigBlock(master)
-						}
-					}
-					// Build lookup maps
-					cvmById := make(map[string]*cvm.Instance)
-					for _, instance := range cvmInstances {
-						if instance != nil && instance.InstanceId != nil {
-							cvmById[*instance.InstanceId] = instance
-						}
-					}
-					cvmByName := make(map[string]*cvm.Instance)
-					for _, instance := range cvmInstances {
-						if instance != nil && instance.InstanceName != nil {
-							cvmByName[*instance.InstanceName] = instance
-						}
-					}
-
-					// Track which CVM instances have been matched
-					matched := make(map[string]bool)
-
-					// Round 1: match by instance_id (most reliable)
-					for _, mRaw := range masterList {
-						if mRaw == nil {
-							continue
-						}
-						m := mRaw.(map[string]interface{})
-						if existingId, _ := m["instance_id"].(string); existingId != "" {
-							if _, found := cvmById[existingId]; found {
-								matched[existingId] = true
-							}
-						}
-					}
-
-					// Round 2: for unmatched blocks, try instance_name then spec matching
-					for _, mRaw := range masterList {
-						if mRaw == nil {
-							continue
-						}
-						m := mRaw.(map[string]interface{})
-						existingId, _ := m["instance_id"].(string)
-						if existingId != "" && matched[existingId] {
-							// Already matched by id, keep it
-							continue
-						}
-
-						var matchedInstance *cvm.Instance
-
-						// Try instance_name match
-						if name, _ := m["instance_name"].(string); name != "" {
-							if inst, found := cvmByName[name]; found && !matched[*inst.InstanceId] {
-								matchedInstance = inst
-							}
-						}
-
-						// Try spec match (instance_type + subnet_id + zone) from remaining unmatched CVMs
-						if matchedInstance == nil {
-							instType, _ := m["instance_type"].(string)
-							subnetId, _ := m["subnet_id"].(string)
-							zone, _ := m["availability_zone"].(string)
-							for _, inst := range cvmInstances {
-								if inst == nil || inst.InstanceId == nil || matched[*inst.InstanceId] {
-									continue
-								}
-								if helper.PString(inst.InstanceType) == instType &&
-									helper.PString(inst.VirtualPrivateCloud.SubnetId) == subnetId &&
-									helper.PString(inst.Placement.Zone) == zone {
-									matchedInstance = inst
-									break
-								}
-							}
-						}
-
-						if matchedInstance != nil {
-							m["instance_id"] = *matchedInstance.InstanceId
-							matched[*matchedInstance.InstanceId] = true
-						} else {
-							m["instance_id"] = ""
-						}
-						normalizeMasterConfigBlock(m)
-					}
-					_ = d.Set("master_config", masterList)
-				} else {
-				// Import scenario: no master_config in state, build from CVM instances
-				masterList := make([]interface{}, 0, len(cvmInstances))
-				for _, instance := range cvmInstances {
-					mapping := map[string]interface{}{
-						"instance_charge_type_prepaid_period": 1,
-						"instance_type":                       helper.PString(instance.InstanceType),
-						"subnet_id":                           helper.PString(instance.VirtualPrivateCloud.SubnetId),
-						"availability_zone":                   helper.PString(instance.Placement.Zone),
-						"instance_name":                       helper.PString(instance.InstanceName),
-						"instance_charge_type":                helper.PString(instance.InstanceChargeType),
-						"system_disk_type":                    helper.PString(instance.SystemDisk.DiskType),
-						"system_disk_size":                    helper.PInt64(instance.SystemDisk.DiskSize),
-						"system_disk_pool_group":              "",
-						"internet_charge_type":                helper.PString(instance.InternetAccessible.InternetChargeType),
-						"internet_max_bandwidth_out":          helper.PInt64(instance.InternetAccessible.InternetMaxBandwidthOut),
-						"security_group_ids":                  helper.StringsInterfaces(instance.SecurityGroupIds),
-						"img_id":                              helper.PString(instance.ImageId),
-						"cam_role_name":                       "",
-						"desired_pod_num":                     DefaultDesiredPodNum,
-						"node_role":                           "MASTER_ETCD",
-						"enhanced_security_service":           true,
-						"enhanced_monitor_service":            true,
-						"enhanced_automation_service":         true,
-						"instance_id":                         helper.PString(instance.InstanceId),
-					}
-					if instance.RenewFlag != nil && helper.PString(instance.InstanceChargeType) == "PREPAID" {
-						mapping["instance_charge_type_prepaid_renew_flag"] = helper.PString(instance.RenewFlag)
-					} else {
-						mapping["instance_charge_type_prepaid_renew_flag"] = CVM_PREPAID_RENEW_FLAG_NOTIFY_AND_MANUAL_RENEW
-					}
-					if helper.PInt64(instance.InternetAccessible.InternetMaxBandwidthOut) > 0 {
-						mapping["public_ip_assigned"] = true
-					} else {
-						mapping["public_ip_assigned"] = false
-					}
-					if instance.CamRoleName != nil {
-						mapping["cam_role_name"] = helper.PString(instance.CamRoleName)
-					}
-					if instance.LoginSettings != nil && len(instance.LoginSettings.KeyIds) > 0 {
-						mapping["key_ids"] = helper.StringsInterfaces(instance.LoginSettings.KeyIds)
-					}
-						if instance.DisasterRecoverGroupId != nil && helper.PString(instance.DisasterRecoverGroupId) != "" {
-							mapping["disaster_recover_group_ids"] = []string{helper.PString(instance.DisasterRecoverGroupId)}
-						}
-						dataDisks := make([]interface{}, 0, len(instance.DataDisks))
-						for _, v := range instance.DataDisks {
-							dataDisk := map[string]interface{}{
-								"disk_type": helper.PString(v.DiskType),
-								"disk_size": helper.PInt64(v.DiskSize),
-							}
-							dataDisks = append(dataDisks, dataDisk)
-						}
-						mapping["data_disk"] = dataDisks
-						normalizeMasterConfigBlock(mapping)
-						masterList = append(masterList, mapping)
-					}
-					_ = d.Set("master_config", masterList)
+				masterList := reconcileMasterConfigState(masterConfigs, cvmInstances, masters)
+				if schemaErr := validateMasterConfigStateSchema(masterList); schemaErr != nil {
+					return schemaErr
+				}
+				if setErr := d.Set("master_config", masterList); setErr != nil {
+					return setErr
 				}
 			}
 		}
+		masterHealthErr = failedMasterInstancesError(masters)
 	}
 
 	securityRet, err := service.DescribeClusterSecurity(ctx, d.Id())
@@ -4054,7 +4229,7 @@ func resourceTencentCloudTkeClusterRead(d *schema.ResourceData, meta interface{}
 
 		//_ = d.Set("node_pool_global_config", []map[string]interface{}{temp})
 	}
-	return nil
+	return masterHealthErr
 }
 
 func resourceTencentCloudTkeClusterUpdate(d *schema.ResourceData, meta interface{}) error {
@@ -4387,6 +4562,9 @@ func resourceTencentCloudTkeClusterUpdate(d *schema.ResourceData, meta interface
 					if skipFields[k] {
 						continue
 					}
+					if masterConfigFieldCanHydrateFromConfig(k, oldM[k], v) {
+						continue
+					}
 					if masterConfigFieldsEquivalent(v, oldM[k]) {
 						continue
 					}
@@ -4472,6 +4650,15 @@ func resourceTencentCloudTkeClusterUpdate(d *schema.ResourceData, meta interface
 				return err
 			}
 
+			// ScaleOutClusterMaster only acknowledges an asynchronous operation.
+			// From this point the remote cluster may already contain the requested
+			// masters. Disable legacy partial-state preservation before polling so
+			// the SDK persists the planned master_config if convergence later fails;
+			// otherwise create-only values such as hostname cannot be recovered by
+			// the next Read. The name/ID reconciler will bind or discard individual
+			// blocks according to what TKE actually created.
+			d.Partial(false)
+
 			// Poll and wait for all master nodes to be running
 			err = resource.Retry(10*readRetryTimeout, func() *resource.RetryError {
 				masters, _, inErr := tkeService.DescribeClusterInstances(ctx, id)
@@ -4546,6 +4733,10 @@ func resourceTencentCloudTkeClusterUpdate(d *schema.ResourceData, meta interface
 			if err != nil {
 				return err
 			}
+
+			// As with scale-out, the API acknowledgement means the remote state may
+			// already have changed even if the subsequent convergence check fails.
+			d.Partial(false)
 
 			// Poll and wait for scaling down to complete
 			err = resource.Retry(10*readRetryTimeout, func() *resource.RetryError {
