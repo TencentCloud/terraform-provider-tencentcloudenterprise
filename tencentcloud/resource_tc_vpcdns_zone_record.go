@@ -145,14 +145,22 @@ func resourceTencentCloudVpcDnsZoneRecordCreate(d *schema.ResourceData, meta int
 		request.Remark = helper.String(v.(string))
 	}
 
-	result, err := meta.(*TencentCloudClient).apiV3Conn.UseVpcDnsClient().CreatePrivateZoneRecord(request)
-
+	var response *vpcdns.CreatePrivateZoneRecordResponse
+	err := resource.Retry(writeRetryTimeout, func() *resource.RetryError {
+		result, e := meta.(*TencentCloudClient).apiV3Conn.UseVpcDnsClient().CreatePrivateZoneRecord(request)
+		if e != nil {
+			return retryError(e, vpcdnsSuffixLockRetryableErrors...)
+		}
+		if result == nil || result.Response == nil || result.Response.RecordId == nil {
+			return resource.NonRetryableError(fmt.Errorf("create PrivateDns record failed, Response is nil"))
+		}
+		response = result
+		return nil
+	})
 	if err != nil {
 		log.Printf("[CRITAL]%s create PrivateDns record failed, reason:%s\n", logId, err.Error())
 		return err
 	}
-
-	response := result
 
 	recordId := *response.Response.RecordId
 	d.SetId(strings.Join([]string{zoneId, recordId}, FILED_SP))
@@ -301,10 +309,10 @@ func resourceTencentCloudVpcDnsZoneRecordUpdate(d *schema.ResourceData, meta int
 		if v, ok := d.GetOk("record_value"); ok {
 			request.RecordValue = helper.String(v.(string))
 		}
-		err := resource.Retry(readRetryTimeout, func() *resource.RetryError {
+		err := resource.Retry(writeRetryTimeout, func() *resource.RetryError {
 			_, e := meta.(*TencentCloudClient).apiV3Conn.UseVpcDnsClient().ModifyPrivateZoneRecord(request)
 			if e != nil {
-				return retryError(e)
+				return retryError(e, vpcdnsSuffixLockRetryableErrors...)
 			}
 			return nil
 		})
@@ -399,7 +407,7 @@ func resourceTencentCloudVpcDnsZoneRecordDelete(d *schema.ResourceData, meta int
 	err = resource.Retry(writeRetryTimeout, func() *resource.RetryError {
 		_, e := meta.(*TencentCloudClient).apiV3Conn.UseVpcDnsClient().DeletePrivateZoneRecord(recordRequest)
 		if e != nil {
-			return retryError(e)
+			return retryError(e, vpcdnsSuffixLockRetryableErrors...)
 		}
 		return nil
 	})
