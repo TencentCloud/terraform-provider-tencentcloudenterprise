@@ -20,6 +20,52 @@ type CicService struct {
 	client *connectivity.TencentCloudClient
 }
 
+// ListCicRoleConfigurationProvisionings lists role configurations that are
+// deployed, require redeployment, or failed to deploy for CIC targets.
+// The console uses this API to populate its permission deployment page before
+// invoking ProvisionRoleConfiguration for a selected row.
+func (me *CicService) ListCicRoleConfigurationProvisionings(ctx context.Context, zoneId, deploymentStatus, roleConfigurationId, targetType string, targetUin int64) (ret []*cic.RoleConfigurationProvisionings, errRet error) {
+	logId := getLogId(ctx)
+	nextToken := ""
+
+	for {
+		request := cic.NewListRoleConfigurationProvisioningsRequest()
+		request.ZoneId = helper.String(zoneId)
+		request.DeploymentStatus = helper.String(deploymentStatus)
+		request.MaxResults = helper.Int64(100)
+		if nextToken != "" {
+			request.NextToken = helper.String(nextToken)
+		}
+		if roleConfigurationId != "" {
+			request.RoleConfigurationId = helper.String(roleConfigurationId)
+		}
+		if targetType != "" {
+			request.TargetType = helper.String(targetType)
+		}
+		if targetUin > 0 {
+			request.TargetUin = helper.Int64(targetUin)
+		}
+
+		ratelimit.Check(request.GetAction())
+		response, err := me.client.UseCicClient().ListRoleConfigurationProvisionings(request)
+		if err != nil {
+			errRet = err
+			log.Printf("[CRITAL]%s api[%s] fail, request body [%s], reason[%s]\n", logId, request.GetAction(), request.ToJsonString(), err.Error())
+			return
+		}
+		if response == nil || response.Response == nil {
+			log.Printf("[DEBUG]%s api[%s] returned an empty response, request body [%s]\n", logId, request.GetAction(), request.ToJsonString())
+			return ret, nil
+		}
+		log.Printf("[DEBUG]%s api[%s] success, request body [%s], response body [%s]\n", logId, request.GetAction(), request.ToJsonString(), response.ToJsonString())
+		ret = append(ret, response.Response.RoleConfigurationProvisionings...)
+		if response.Response.IsTruncated == nil || !*response.Response.IsTruncated || response.Response.NextToken == nil || *response.Response.NextToken == "" {
+			return ret, nil
+		}
+		nextToken = *response.Response.NextToken
+	}
+}
+
 func (me *CicService) DescribeCicIdentityCenter(ctx context.Context) (ret *cic.DescribeIdentityCenterResponse, errRet error) {
 	logId := getLogId(ctx)
 
@@ -306,6 +352,9 @@ func (me *CicService) AssignmentTaskStatusStateRefreshFunc(zoneId, taskId string
 			result, e := me.GetAssignmentTaskStatus(ctx, zoneId, taskId)
 			if e != nil {
 				return retryError(e)
+			}
+			if result == nil || result.Status == nil {
+				return resource.RetryableError(fmt.Errorf("CIC task %s returned an empty status", taskId))
 			}
 			object = result
 			return nil
