@@ -13,6 +13,7 @@ Provide a resource to create a Private Dns Record.
 	  ttl          = 300
 	  weight       = 1
 	  mx           = 0
+	  remark       = "test"
 	}
 
 ```
@@ -102,6 +103,11 @@ func resourceTencentCloudVpcDnsZoneRecord() *schema.Resource {
 				ValidateFunc: validateAllowedStringValue([]string{"enabled", "disabled"}),
 				Description:  "Record status. Valid values: enabled, disabled.",
 			},
+			"remark": {
+				Type:        schema.TypeString,
+				Optional:    true,
+				Description: "Remarks.",
+			},
 		},
 	}
 }
@@ -134,6 +140,9 @@ func resourceTencentCloudVpcDnsZoneRecordCreate(d *schema.ResourceData, meta int
 	}
 	if v, ok := d.GetOk("ttl"); ok {
 		request.TTL = helper.Int64(int64(v.(int)))
+	}
+	if v, ok := d.GetOk("remark"); ok {
+		request.Remark = helper.String(v.(string))
 	}
 
 	result, err := meta.(*TencentCloudClient).apiV3Conn.UseVpcDnsClient().CreatePrivateZoneRecord(request)
@@ -215,6 +224,7 @@ func resourceTencentCloudVpcDnsZoneRecordRead(d *schema.ResourceData, meta inter
 	_ = d.Set("weight", record.Weight)
 	_ = d.Set("mx", record.MX)
 	_ = d.Set("ttl", record.TTL)
+	_ = d.Set("remark", record.Remark)
 
 	if record.Enabled != nil {
 		if *record.Enabled == 0 {
@@ -274,6 +284,11 @@ func resourceTencentCloudVpcDnsZoneRecordUpdate(d *schema.ResourceData, meta int
 		if v, ok := d.GetOk("ttl"); ok {
 			request.TTL = helper.Int64(int64(v.(int)))
 		}
+	}
+
+	if d.HasChange("remark") {
+		needModify = true
+		request.Remark = helper.String(d.Get("remark").(string))
 	}
 
 	if needModify {
