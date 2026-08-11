@@ -52,5 +52,10 @@ In addition to all arguments above, the following attributes are exported:
 tencentcloudenterprise_vpcdns_zone_record can be imported using the id, e.g.
 
 ```
+Private Dns Record can be imported, e.g.
+
+```
 $ terraform import tencentcloudenterprise_vpcdns_zone_record.foo zone_id#record_id
 ```
+```
+
