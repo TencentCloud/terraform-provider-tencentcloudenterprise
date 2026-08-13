@@ -62,3 +62,4 @@ In addition to all arguments above, the following attributes are exported:
   * `target_name` - Name of the target account returned by CIC.
   * `target_type` - Type of the target account deployed by this operation.
   * `target_uin` - UIN of the target account deployed by this operation.
+
