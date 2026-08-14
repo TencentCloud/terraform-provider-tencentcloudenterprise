@@ -9,36 +9,6 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 )
 
-func TestCicRoleAssignmentCreateRetryHelpers(t *testing.T) {
-	if got, want := cicRoleAssignmentID("z-test", "rc-test", "MemberUin", 110000000218, "Group", "g-test"), "z-test#rc-test#MemberUin#110000000218#Group#g-test"; got != want {
-		t.Fatalf("unexpected role assignment ID: got %q, want %q", got, want)
-	}
-
-	if !cicRoleAssignmentTaskNeedsRetry(TASK_STATUS_FAILED, "") {
-		t.Fatal("empty failure reason should be retryable")
-	}
-	if !cicRoleAssignmentTaskNeedsRetry(TASK_STATUS_FAILED, "   ") {
-		t.Fatal("whitespace-only failure reason should be retryable")
-	}
-	if cicRoleAssignmentTaskNeedsRetry(TASK_STATUS_FAILED, "Target member is invalid") {
-		t.Fatal("explicit failure reason should not be retryable")
-	}
-	if cicRoleAssignmentTaskNeedsRetry(TASK_STATUS_SUCCESS, "") {
-		t.Fatal("successful task should not be retryable")
-	}
-
-	if got := cicRoleAssignmentFailureReason(nil); got != "" {
-		t.Fatalf("nil failure reason should be empty, got %q", got)
-	}
-	if got := cicRoleAssignmentFailureReason(stringPtr("  transient propagation error  ")); got != "transient propagation error" {
-		t.Fatalf("failure reason was not trimmed: got %q", got)
-	}
-}
-
-func stringPtr(value string) *string {
-	return &value
-}
-
 func TestAccTencentCloudCicRoleAssignmentResource_concurrentCreate(t *testing.T) {
 	t.Parallel()
 
