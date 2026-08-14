@@ -5,7 +5,7 @@ Provide a resource to create a Private Dns Record.
 
 ```hcl
 
-	resource "cloud_vpcdns_zone_record" "foo" {
+	resource "tencentcloudenterprise_vpcdns_zone_record" "foo" {
 	  zone_id      = "zone-rqndjnki"
 	  record_type  = "A"
 	  record_value = "192.168.1.2"
@@ -13,6 +13,7 @@ Provide a resource to create a Private Dns Record.
 	  ttl          = 300
 	  weight       = 1
 	  mx           = 0
+	  remark       = "test"
 	}
 
 ```
@@ -22,7 +23,7 @@ Provide a resource to create a Private Dns Record.
 Private Dns Record can be imported, e.g.
 
 ```
-$ terraform import cloud_vpcdns_zone_record.foo zone_id#record_id
+$ terraform import tencentcloudenterprise_vpcdns_zone_record.foo zone_id#record_id
 ```
 */
 package tencentcloud
@@ -102,6 +103,11 @@ func resourceTencentCloudVpcDnsZoneRecord() *schema.Resource {
 				ValidateFunc: validateAllowedStringValue([]string{"enabled", "disabled"}),
 				Description:  "Record status. Valid values: enabled, disabled.",
 			},
+			"remark": {
+				Type:        schema.TypeString,
+				Optional:    true,
+				Description: "Remarks.",
+			},
 		},
 	}
 }
@@ -135,15 +141,26 @@ func resourceTencentCloudVpcDnsZoneRecordCreate(d *schema.ResourceData, meta int
 	if v, ok := d.GetOk("ttl"); ok {
 		request.TTL = helper.Int64(int64(v.(int)))
 	}
+	if v, ok := d.GetOk("remark"); ok {
+		request.Remark = helper.String(v.(string))
+	}
 
-	result, err := meta.(*TencentCloudClient).apiV3Conn.UseVpcDnsClient().CreatePrivateZoneRecord(request)
-
+	var response *vpcdns.CreatePrivateZoneRecordResponse
+	err := resource.Retry(writeRetryTimeout, func() *resource.RetryError {
+		result, e := meta.(*TencentCloudClient).apiV3Conn.UseVpcDnsClient().CreatePrivateZoneRecord(request)
+		if e != nil {
+			return retryError(e, vpcdnsSuffixLockRetryableErrors...)
+		}
+		if result == nil || result.Response == nil || result.Response.RecordId == nil {
+			return resource.NonRetryableError(fmt.Errorf("create PrivateDns record failed, Response is nil"))
+		}
+		response = result
+		return nil
+	})
 	if err != nil {
 		log.Printf("[CRITAL]%s create PrivateDns record failed, reason:%s\n", logId, err.Error())
 		return err
 	}
-
-	response := result
 
 	recordId := *response.Response.RecordId
 	d.SetId(strings.Join([]string{zoneId, recordId}, FILED_SP))
@@ -215,6 +232,7 @@ func resourceTencentCloudVpcDnsZoneRecordRead(d *schema.ResourceData, meta inter
 	_ = d.Set("weight", record.Weight)
 	_ = d.Set("mx", record.MX)
 	_ = d.Set("ttl", record.TTL)
+	_ = d.Set("remark", record.Remark)
 
 	if record.Enabled != nil {
 		if *record.Enabled == 0 {
@@ -276,6 +294,11 @@ func resourceTencentCloudVpcDnsZoneRecordUpdate(d *schema.ResourceData, meta int
 		}
 	}
 
+	if d.HasChange("remark") {
+		needModify = true
+		request.Remark = helper.String(d.Get("remark").(string))
+	}
+
 	if needModify {
 		if v, ok := d.GetOk("record_type"); ok {
 			request.RecordType = helper.String(v.(string))
@@ -286,10 +309,10 @@ func resourceTencentCloudVpcDnsZoneRecordUpdate(d *schema.ResourceData, meta int
 		if v, ok := d.GetOk("record_value"); ok {
 			request.RecordValue = helper.String(v.(string))
 		}
-		err := resource.Retry(readRetryTimeout, func() *resource.RetryError {
+		err := resource.Retry(writeRetryTimeout, func() *resource.RetryError {
 			_, e := meta.(*TencentCloudClient).apiV3Conn.UseVpcDnsClient().ModifyPrivateZoneRecord(request)
 			if e != nil {
-				return retryError(e)
+				return retryError(e, vpcdnsSuffixLockRetryableErrors...)
 			}
 			return nil
 		})
@@ -384,7 +407,7 @@ func resourceTencentCloudVpcDnsZoneRecordDelete(d *schema.ResourceData, meta int
 	err = resource.Retry(writeRetryTimeout, func() *resource.RetryError {
 		_, e := meta.(*TencentCloudClient).apiV3Conn.UseVpcDnsClient().DeletePrivateZoneRecord(recordRequest)
 		if e != nil {
-			return retryError(e)
+			return retryError(e, vpcdnsSuffixLockRetryableErrors...)
 		}
 		return nil
 	})

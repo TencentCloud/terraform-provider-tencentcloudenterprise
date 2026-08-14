@@ -231,14 +231,22 @@ func resourceTencentCloudVpcDnsZoneCreate(d *schema.ResourceData, meta interface
 		request.AccountVpcSet = accountVpcSet
 	}
 
-	result, err := meta.(*TencentCloudClient).apiV3Conn.UseVpcDnsClient().CreatePrivateZone(request)
-
+	var response *vpcdns.CreatePrivateZoneResponse
+	err := resource.Retry(writeRetryTimeout, func() *resource.RetryError {
+		result, e := meta.(*TencentCloudClient).apiV3Conn.UseVpcDnsClient().CreatePrivateZone(request)
+		if e != nil {
+			return retryError(e, vpcdnsSuffixLockRetryableErrors...)
+		}
+		if result == nil || result.Response == nil || result.Response.ZoneId == nil {
+			return resource.NonRetryableError(fmt.Errorf("create PrivateDns zone failed, Response is nil"))
+		}
+		response = result
+		return nil
+	})
 	if err != nil {
 		log.Printf("[CRITAL]%s create PrivateDns failed, reason:%s\n", logId, err.Error())
 		return err
 	}
-
-	response := result
 
 	id := *response.Response.ZoneId
 	d.SetId(id)
@@ -356,10 +364,10 @@ func resourceTencentCloudVpcDnsZoneUpdate(d *schema.ResourceData, meta interface
 		if v, ok := d.GetOk("cname_speedup_status"); ok {
 			request.CnameSpeedupStatus = helper.String(v.(string))
 		}
-		err := resource.Retry(readRetryTimeout, func() *resource.RetryError {
+		err := resource.Retry(writeRetryTimeout, func() *resource.RetryError {
 			_, e := meta.(*TencentCloudClient).apiV3Conn.UseVpcDnsClient().ModifyPrivateZone(request)
 			if e != nil {
-				return retryError(e)
+				return retryError(e, vpcdnsSuffixLockRetryableErrors...)
 			}
 			return nil
 		})
@@ -476,7 +484,7 @@ func resourceTencentCloudVpcDnsZoneDelete(d *schema.ResourceData, meta interface
 	err := resource.Retry(writeRetryTimeout, func() *resource.RetryError {
 		_, e := meta.(*TencentCloudClient).apiV3Conn.UseVpcDnsClient().DeletePrivateZone(request)
 		if e != nil {
-			return retryError(e)
+			return retryError(e, vpcdnsSuffixLockRetryableErrors...)
 		}
 		return nil
 	})

@@ -349,6 +349,9 @@ func (me *CicService) AssignmentTaskStatusStateRefreshFunc(zoneId, taskId string
 			if e != nil {
 				return retryError(e)
 			}
+			if result == nil || result.Status == nil {
+				return resource.RetryableError(fmt.Errorf("CIC task %s returned an empty status", taskId))
+			}
 			object = result
 			return nil
 		})

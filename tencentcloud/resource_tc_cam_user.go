@@ -229,11 +229,12 @@ func resourceTencentCloudCamUserCreate(d *schema.ResourceData, meta interface{})
 	err := resource.Retry(writeRetryTimeout, func() *resource.RetryError {
 		result, e := meta.(*TencentCloudClient).apiV3Conn.UseCamClient().AddSubAccount(request)
 		if e != nil {
+			e = unwrapParseJsonBusinessError(e)
 			log.Printf("[CRITAL]%s api[%s] fail, request body [%s], reason[%s]\n",
 				logId, request.GetAction(), request.ToJsonString(), e.Error())
 			if ee, ok := e.(*sdkErrors.CloudSDKError); ok {
 				errCode := ee.GetCode()
-				if strings.Contains(errCode, "SubUserNameInUse") {
+				if strings.Contains(errCode, "SubUserNameInUse") || strings.Contains(errCode, "NameAlreadyExist") {
 					return resource.NonRetryableError(e)
 				}
 			}
@@ -515,6 +516,59 @@ func resourceTencentCloudCamUserDelete(d *schema.ResourceData, meta interface{})
 		return nil
 	}
 
+	deleteForce := false
+	if v, ok := d.GetOkExists("force_delete"); ok {
+		deleteForce = v.(bool)
+	}
+
+	var keys []*cam.ApiKey
+	err = resource.Retry(readRetryTimeout, func() *resource.RetryError {
+		result, e := camService.QueryApiKey(ctx, *instance.Uin)
+		if e != nil {
+			return retryError(unwrapParseJsonBusinessError(e))
+		}
+		keys = result
+		return nil
+	})
+	if err != nil {
+		log.Printf("[CRITAL]%s query CAM user API keys failed before delete, reason:%s\n", logId, err.Error())
+		return err
+	}
+	if len(keys) > 0 && !deleteForce {
+		return fmt.Errorf("CAM user %s still has %d API secret key(s); set force_delete=true to delete them with the user", userId, len(keys))
+	}
+	if deleteForce {
+		for _, key := range keys {
+			if key == nil || key.SecretId == nil || *key.SecretId == "" {
+				continue
+			}
+			secretId := *key.SecretId
+			// Disable before delete; some TCE environments reject deleting an active key
+			// with InvalidParameter.SecurityStatusError.
+			_ = resource.Retry(writeRetryTimeout, func() *resource.RetryError {
+				if e := camService.DisableApiKey(ctx, *instance.Uin, secretId); e != nil {
+					return retryError(unwrapParseJsonBusinessError(e))
+				}
+				return nil
+			})
+			err = resource.Retry(writeRetryTimeout, func() *resource.RetryError {
+				if e := camService.DeleteApiKey(ctx, *instance.Uin, secretId); e != nil {
+					e = unwrapParseJsonBusinessError(e)
+					if isExpectError(e, []string{"InvalidParameter.SecurityStatusError"}) {
+						log.Printf("[WARN]%s delete API key %s hit SecurityStatusError; continue to delete user", logId, secretId)
+						return nil
+					}
+					return retryError(e)
+				}
+				return nil
+			})
+			if err != nil {
+				log.Printf("[CRITAL]%s delete CAM user API key %s failed, reason:%s\n", logId, secretId, err.Error())
+				return err
+			}
+		}
+	}
+
 	uinfo := &cam.GroupUidUinInfo{
 		Uid:     instance.Uid,
 		Uin:     instance.Uin,
@@ -529,6 +583,7 @@ func resourceTencentCloudCamUserDelete(d *schema.ResourceData, meta interface{})
 	err = resource.Retry(writeRetryTimeout, func() *resource.RetryError {
 		_, e := meta.(*TencentCloudClient).apiV3Conn.UseCamClient().DeleteSubAccount(request)
 		if e != nil {
+			e = unwrapParseJsonBusinessError(e)
 			log.Printf("[CRITAL]%s reason[%s]\n", logId, e.Error())
 			return retryError(e)
 		}

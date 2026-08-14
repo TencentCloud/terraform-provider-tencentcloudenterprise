@@ -38,7 +38,7 @@ func TestAccTencentCloudCamUser_basic(t *testing.T) {
 				ResourceName:            "tencentcloudenterprise_cam_user.test",
 				ImportState:             true,
 				ImportStateVerify:       true,
-				ImportStateVerifyIgnore: []string{"password", "secret_id", "secret_key"},
+				ImportStateVerifyIgnore: []string{"password", "secret_id", "secret_key", "force_delete", "use_api", "need_reset_password"},
 			},
 		},
 	})
@@ -94,6 +94,7 @@ resource "tencentcloudenterprise_cam_user" "test" {
   console_login       = false
   need_reset_password = true
   use_api             = true
+  force_delete        = true
   phone_num           = "%s"
   country_code        = "86"
   email               = "%s"
@@ -114,6 +115,7 @@ resource "tencentcloudenterprise_cam_user" "test" {
   console_login       = true
   need_reset_password = false
   use_api             = true
+  force_delete        = true
   phone_num           = "%s"
   country_code        = "86"
   email               = "%s"

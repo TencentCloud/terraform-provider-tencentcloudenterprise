@@ -1,28 +1,29 @@
 /*
 Provides a resource to create a organization cic_role_assignment
 
-Example Usage
+# Example Usage
 
 ```hcl
-resource "tencentcloudenterprise_cic_role_assignment" "cic_role_assignment" {
-  zone_id = "z-xxxxxx"
-  principal_id = "u-xxxxxx"
-  principal_type = "User"
-  target_uin = "xxxxxx"
-  target_type = "MemberUin"
-  role_configuration_id = "rc-xxxxxx"
-}
+
+	resource "tencentcloudenterprise_cic_role_assignment" "cic_role_assignment" {
+	  zone_id = "z-xxxxxx"
+	  principal_id = "u-xxxxxx"
+	  principal_type = "User"
+	  target_uin = "xxxxxx"
+	  target_type = "MemberUin"
+	  role_configuration_id = "rc-xxxxxx"
+	}
+
 ```
 
-Import
+# Import
 
 organization cic_role_assignment can be imported using the id, e.g.
 
 ```
 terraform import tencentcloudenterprise_cic_role_assignment.cic_role_assignment {zoneId}#{roleConfigurationId}#{targetType}#{targetUinString}#{principalType}#{principalId}
 ```
-
- */
+*/
 package tencentcloud
 
 import (
@@ -36,9 +37,9 @@ import (
 
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
 
-	cic "terraform-provider-tencentcloudenterprise/sdk/cic/v20210331"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	cic "terraform-provider-tencentcloudenterprise/sdk/cic/v20210331"
 )
 
 // Serialize Create/Delete that share the same (zone, role configuration, target)
@@ -61,6 +62,36 @@ func isCicDismantleAlreadyGone(errMsg string) bool {
 		strings.Contains(errMsg, "DBOperationError")
 }
 
+// cicRoleAssignmentID is also the provider's import/state ID. Build it before
+// calling CreateRoleAssignment so a retry can first reconcile an assignment
+// that was created remotely even if its asynchronous task was reported as
+// failed or Terraform was interrupted before state was written.
+func cicRoleAssignmentID(zoneId, roleConfigurationId, targetType string, targetUin int64, principalType, principalId string) string {
+	return strings.Join([]string{
+		zoneId,
+		roleConfigurationId,
+		targetType,
+		strconv.FormatInt(targetUin, 10),
+		principalType,
+		principalId,
+	}, FILED_SP)
+}
+
+func cicRoleAssignmentFailureReason(reason *string) string {
+	if reason == nil {
+		return ""
+	}
+	return strings.TrimSpace(*reason)
+}
+
+// CIC has returned Failed with a nil/empty FailureReason while a newly-created
+// organization member was still propagating to Identity Center. Such a task
+// is safe to reconcile and retry; an explicit reason is a real API failure and
+// must be surfaced to the user immediately.
+func cicRoleAssignmentTaskNeedsRetry(status, reason string) bool {
+	return status == TASK_STATUS_FAILED && strings.TrimSpace(reason) == ""
+}
+
 func init() {
 	registerResourceDescriptionProvider("tencentcloudenterprise_cic_role_assignment", CNDescription{
 		TerraformTypeCN: "身份中心角色分配",
@@ -80,9 +111,9 @@ func init() {
 func resourceTencentCloudCicRoleAssignment() *schema.Resource {
 	return &schema.Resource{
 		Description: "Provide identity center role assignment resources for allocating role configurations to users or user groups.",
-		Create: resourceTencentCloudCicRoleAssignmentCreate,
-		Read:   resourceTencentCloudCicRoleAssignmentRead,
-		Delete: resourceTencentCloudCicRoleAssignmentDelete,
+		Create:      resourceTencentCloudCicRoleAssignmentCreate,
+		Read:        resourceTencentCloudCicRoleAssignmentRead,
+		Delete:      resourceTencentCloudCicRoleAssignmentDelete,
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
@@ -174,10 +205,7 @@ func resourceTencentCloudCicRoleAssignmentCreate(d *schema.ResourceData, meta in
 		principalType       string
 		principalId         string
 	)
-	var (
-		request  = cic.NewCreateRoleAssignmentRequest()
-		response = cic.NewCreateRoleAssignmentResponse()
-	)
+	request := cic.NewCreateRoleAssignmentRequest()
 
 	if v, ok := d.GetOk("zone_id"); ok {
 		zoneId = v.(string)
@@ -206,20 +234,105 @@ func resourceTencentCloudCicRoleAssignmentCreate(d *schema.ResourceData, meta in
 		roleAssignmentInfo.RoleConfigurationId = helper.String(roleConfigurationId)
 	}
 	request.RoleAssignmentInfo = []*cic.RoleAssignmentInfo{&roleAssignmentInfo}
+	assignmentID := cicRoleAssignmentID(zoneId, roleConfigurationId, targetType, targetUin, principalType, principalId)
 
 	// Hold until post-create Read finishes so concurrent creates on the same
 	// target do not race ListRoleAssignments / provision tasks.
 	unlock := cicRoleAssignmentTargetUnlock(zoneId, roleConfigurationId, targetType, targetUin)
 	defer unlock()
 
-	err := resource.Retry(writeRetryTimeout, func() *resource.RetryError {
-		result, e := meta.(*TencentCloudClient).apiV3Conn.UseCicClient().CreateRoleAssignment(request)
+	// The organization API can return a new member UIN before CIC can accept
+	// an authorization for that member. Retry the complete asynchronous
+	// operation, but reconcile first so a successful remote operation is never
+	// submitted a second time.
+	err := resource.Retry(2*writeRetryTimeout, func() *resource.RetryError {
+		existing, e := service.DescribeCicRoleAssignmentById(context.WithValue(context.Background(), logIdKey, logId), assignmentID)
 		if e != nil {
 			return retryError(e)
-		} else {
-			log.Printf("[DEBUG]%s api[%s] success, request body [%s], response body [%s]\n", logId, request.GetAction(), request.ToJsonString(), result.ToJsonString())
 		}
-		response = result
+		if existing != nil && len(existing.RoleAssignments) > 0 {
+			d.SetId(assignmentID)
+			log.Printf("[INFO]%s CIC role assignment already exists, adopting remote assignment %s", logId, assignmentID)
+			return nil
+		}
+
+		result, e := meta.(*TencentCloudClient).apiV3Conn.UseCicClient().CreateRoleAssignment(request)
+		if e != nil {
+			// A previous attempt may have completed remotely while returning an
+			// ambiguous duplicate/authorization error. Reconcile that case.
+			if strings.Contains(e.Error(), "AuthorizationExist") {
+				existing, listErr := service.DescribeCicRoleAssignmentById(context.WithValue(context.Background(), logIdKey, logId), assignmentID)
+				if listErr != nil {
+					return retryError(listErr)
+				}
+				if existing != nil && len(existing.RoleAssignments) > 0 {
+					d.SetId(assignmentID)
+					return nil
+				}
+				return resource.RetryableError(fmt.Errorf("CIC reports the role assignment already exists but it is not visible yet; retrying"))
+			}
+			return retryError(e)
+		}
+
+		if result == nil || result.Response == nil || len(result.Response.Tasks) == 0 || result.Response.Tasks[0] == nil {
+			return resource.NonRetryableError(fmt.Errorf("create role assignment succeeded but no task returned"))
+		}
+		log.Printf("[DEBUG]%s api[%s] success, request body [%s], response body [%s]\n", logId, request.GetAction(), request.ToJsonString(), result.ToJsonString())
+
+		task := result.Response.Tasks[0]
+		taskReason := cicRoleAssignmentFailureReason(task.FailureReason)
+		if task.Status != nil && *task.Status == TASK_STATUS_FAILED {
+			if !cicRoleAssignmentTaskNeedsRetry(*task.Status, taskReason) {
+				return resource.NonRetryableError(fmt.Errorf("create role assignment task failed, failure reason:%s", taskReason))
+			}
+
+			// The task can be marked Failed without a reason while the remote
+			// assignment is still becoming visible. Check before retrying Create.
+			existing, listErr := service.DescribeCicRoleAssignmentById(context.WithValue(context.Background(), logIdKey, logId), assignmentID)
+			if listErr != nil {
+				return retryError(listErr)
+			}
+			if existing != nil && len(existing.RoleAssignments) > 0 {
+				d.SetId(assignmentID)
+				return nil
+			}
+			return resource.RetryableError(fmt.Errorf("create role assignment task failed without a reason; retrying after CIC propagation delay"))
+		}
+
+		if task.TaskId == nil {
+			return resource.NonRetryableError(fmt.Errorf("create role assignment task id is nil"))
+		}
+		conf := BuildStateChangeConf([]string{}, []string{TASK_STATUS_SUCCESS, TASK_STATUS_FAILED},
+			2*readRetryTimeout, time.Second, service.AssignmentTaskStatusStateRefreshFunc(zoneId, *task.TaskId, []string{}))
+		object, waitErr := conf.WaitForState()
+		if waitErr != nil {
+			return resource.RetryableError(waitErr)
+		}
+		taskStatus, ok := object.(*cic.TaskStatus)
+		if !ok || taskStatus == nil || taskStatus.Status == nil {
+			return resource.RetryableError(fmt.Errorf("create role assignment task status is nil; retrying"))
+		}
+		statusReason := cicRoleAssignmentFailureReason(taskStatus.FailureReason)
+		if *taskStatus.Status == TASK_STATUS_FAILED {
+			if !cicRoleAssignmentTaskNeedsRetry(*taskStatus.Status, statusReason) {
+				return resource.NonRetryableError(fmt.Errorf("create role assignment task failed, failure reason:%s", statusReason))
+			}
+
+			existing, listErr := service.DescribeCicRoleAssignmentById(context.WithValue(context.Background(), logIdKey, logId), assignmentID)
+			if listErr != nil {
+				return retryError(listErr)
+			}
+			if existing != nil && len(existing.RoleAssignments) > 0 {
+				d.SetId(assignmentID)
+				return nil
+			}
+			return resource.RetryableError(fmt.Errorf("create role assignment task failed without a reason; retrying after CIC propagation delay"))
+		}
+		if *taskStatus.Status != TASK_STATUS_SUCCESS {
+			return resource.RetryableError(fmt.Errorf("create role assignment task status is %s; retrying", *taskStatus.Status))
+		}
+
+		d.SetId(assignmentID)
 		return nil
 	})
 	if err != nil {
@@ -227,40 +340,8 @@ func resourceTencentCloudCicRoleAssignmentCreate(d *schema.ResourceData, meta in
 		return err
 	}
 
-	if len(response.Response.Tasks) > 0 {
-		task := response.Response.Tasks[0]
-		if task == nil {
-			return fmt.Errorf("task is nil")
-		}
-		if task.Status != nil && *task.Status == TASK_STATUS_FAILED {
-			if task.FailureReason != nil {
-				return fmt.Errorf("create role assignment task failed, failure reason:%s", *task.FailureReason)
-			}
-			return fmt.Errorf("create role assignment task failed")
-		}
-
-		if task.TaskId == nil {
-			return fmt.Errorf("create role assignment task id is nil")
-		}
-		taskId := *task.TaskId
-		roleConfigurationId := *task.RoleConfigurationId
-		conf := BuildStateChangeConf([]string{}, []string{TASK_STATUS_SUCCESS, TASK_STATUS_FAILED},
-			2*readRetryTimeout, time.Second, service.AssignmentTaskStatusStateRefreshFunc(zoneId, taskId, []string{}))
-		if object, e := conf.WaitForState(); e != nil {
-			return e
-		} else {
-			taskStatus := object.(*cic.TaskStatus)
-			if taskStatus.Status != nil && *taskStatus.Status == TASK_STATUS_FAILED {
-				return fmt.Errorf("create role assignment task failed")
-			}
-		}
-
-		targetUinString := strconv.FormatInt(targetUin, 10)
-		d.SetId(strings.Join([]string{zoneId, roleConfigurationId, targetType, targetUinString, principalType, principalId}, FILED_SP))
-	}
-
 	if d.Id() == "" {
-		return fmt.Errorf("create role assignment succeeded but no task/id returned; cannot persist resource state")
+		return fmt.Errorf("create role assignment succeeded but no id returned; cannot persist resource state")
 	}
 
 	return resourceTencentCloudCicRoleAssignmentRead(d, meta)
