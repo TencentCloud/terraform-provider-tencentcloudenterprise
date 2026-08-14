@@ -2,17 +2,46 @@ package tencentcloud
 
 import (
 	"context"
+	"log"
+
 	vpcdns "terraform-provider-tencentcloudenterprise/sdk/vpcdns/v20191025"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/connectivity"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/ratelimit"
+
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/pkg/errors"
-	"log"
 )
 
 type VpcDnsService struct {
 	client *connectivity.TencentCloudClient
+}
+
+func (me *VpcDnsService) DescribeVpcDnsZoneById(ctx context.Context, zoneId string) (
+	zone *vpcdns.PrivateZone, errRet error) {
+	logId := getLogId(ctx)
+	request := vpcdns.NewDescribePrivateZoneRequest()
+	request.ZoneId = helper.String(zoneId)
+
+	var response *vpcdns.DescribePrivateZoneResponse
+	if err := resource.Retry(readRetryTimeout, func() *resource.RetryError {
+		ratelimit.Check(request.GetAction())
+		result, err := me.client.UseVpcDnsClient().DescribePrivateZone(request)
+		if err != nil {
+			return retryError(err)
+		}
+		response = result
+		return nil
+	}); err != nil {
+		log.Printf("[CRITAL]%s read PrivateDns zone failed, reason: %v", logId, err)
+		return nil, err
+	}
+
+	if response == nil || response.Response == nil {
+		return nil, errors.New("DescribePrivateZone response is nil")
+	}
+
+	return response.Response.PrivateZone, nil
 }
 
 // CreateVpcDnsForwardRule create vpc dns forward rule

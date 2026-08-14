@@ -216,37 +216,36 @@ func resourceTencentCloudCicRoleConfigurationPermissionPolicyAttachmentRead(d *s
 		return err
 	}
 
-	if respData == nil {
-		d.SetId("")
-		log.Printf("[WARN]%s resource `cic_role_configuration_permission_policy_attachment` [%s] not found, please check if it has been deleted.\n", logId, d.Id())
-		return nil
-	}
-
-	if respData.RolePolicies != nil {
-		var rolePolicie *cic.RolePolicie
-		for _, r := range respData.RolePolicies {
-			if *r.RolePolicyId == rolePolicyId {
-				rolePolicie = r
+	var rolePolicy *cic.RolePolicie
+	if respData != nil {
+		for _, candidate := range respData.RolePolicies {
+			if candidate != nil && candidate.RolePolicyId != nil && *candidate.RolePolicyId == rolePolicyId {
+				rolePolicy = candidate
 				break
 			}
 		}
+	}
+	if rolePolicy == nil {
+		attachmentID := d.Id()
+		d.SetId("")
+		log.Printf("[WARN]%s resource `cic_role_configuration_permission_policy_attachment` [%s] not found, please check if it has been deleted.\n", logId, attachmentID)
+		return nil
+	}
 
-		if rolePolicie.RolePolicyName != nil {
-			_ = d.Set("role_policy_name", rolePolicie.RolePolicyName)
-		}
+	if rolePolicy.RolePolicyName != nil {
+		_ = d.Set("role_policy_name", rolePolicy.RolePolicyName)
+	}
 
-		if rolePolicie.RolePolicyType != nil {
-			_ = d.Set("role_policy_type", rolePolicie.RolePolicyType)
-		}
+	if rolePolicy.RolePolicyType != nil {
+		_ = d.Set("role_policy_type", rolePolicy.RolePolicyType)
+	}
 
-		if rolePolicie.RolePolicyDocument != nil {
-			_ = d.Set("role_policy_document", rolePolicie.RolePolicyDocument)
-		}
+	if rolePolicy.RolePolicyDocument != nil {
+		_ = d.Set("role_policy_document", rolePolicy.RolePolicyDocument)
+	}
 
-		if rolePolicie.AddTime != nil {
-			_ = d.Set("add_time", rolePolicie.AddTime)
-		}
-
+	if rolePolicy.AddTime != nil {
+		_ = d.Set("add_time", rolePolicy.AddTime)
 	}
 
 	return nil
