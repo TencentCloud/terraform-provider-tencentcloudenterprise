@@ -21,4 +21,3 @@ var vpcdnsSuffixLockRetryableErrors = []string{
 	"FailedOperation",
 	"RequestLimitExceeded",
 }
-
