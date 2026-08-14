@@ -40,12 +40,13 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"strconv"
 
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
 
-	vpcdns "terraform-provider-tencentcloudenterprise/sdk/vpcdns/v20191025"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	vpcdns "terraform-provider-tencentcloudenterprise/sdk/vpcdns/v20191025"
 )
 
 func resourceTencentCloudVpcDnsZone() *schema.Resource {
@@ -250,12 +251,22 @@ func resourceTencentCloudVpcDnsZoneCreate(d *schema.ResourceData, meta interface
 	id := *response.Response.ZoneId
 	d.SetId(id)
 
-	client := meta.(*TencentCloudClient).apiV3Conn
-	tagService := TagService{client: client}
-	region := client.Region
-
 	if tags := helper.GetTags(d, "tags"); len(tags) > 0 {
-		resourceName := BuildTagResourceName("privatedns", "zone", region, id)
+		client := meta.(*TencentCloudClient).apiV3Conn
+		service := VpcDnsService{client: client}
+		zone, err := service.DescribeVpcDnsZoneById(ctx, id)
+		if err != nil {
+			return err
+		}
+		if zone == nil {
+			return fmt.Errorf("private zone %s not found after creation", id)
+		}
+
+		resourceName, err := buildVpcDnsZoneTagResourceName(zone, client.Region)
+		if err != nil {
+			return err
+		}
+		tagService := TagService{client: client}
 		if err := tagService.ModifyTags(ctx, resourceName, tags, nil); err != nil {
 			return err
 		}
@@ -272,27 +283,20 @@ func resourceTencentCloudVpcDnsZoneRead(d *schema.ResourceData, meta interface{}
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
 
 	id := d.Id()
-
-	request := vpcdns.NewDescribePrivateZoneRequest()
-	request.ZoneId = helper.String(id)
-
-	var response *vpcdns.DescribePrivateZoneResponse
-
-	err := resource.Retry(readRetryTimeout, func() *resource.RetryError {
-		result, e := meta.(*TencentCloudClient).apiV3Conn.UseVpcDnsClient().DescribePrivateZone(request)
-		if e != nil {
-			return retryError(e)
-		}
-
-		response = result
-		return nil
-	})
+	client := meta.(*TencentCloudClient).apiV3Conn
+	service := VpcDnsService{client: client}
+	info, err := service.DescribeVpcDnsZoneById(ctx, id)
 	if err != nil {
-		log.Printf("[CRITAL]%s read DnsPod Domain failed, reason:%s\n", logId, err.Error())
 		return err
 	}
-
-	info := response.Response.PrivateZone
+	if info == nil {
+		log.Printf("[WARN]%s resource `tencentcloudenterprise_vpcdns_zone` [%s] not found, please check if it has been deleted.\n", logId, id)
+		d.SetId("")
+		return nil
+	}
+	if info.ZoneId == nil {
+		return fmt.Errorf("private zone %s has no ZoneId", id)
+	}
 	d.SetId(*info.ZoneId)
 
 	_ = d.Set("domain", info.Domain)
@@ -306,11 +310,12 @@ func resourceTencentCloudVpcDnsZoneRead(d *schema.ResourceData, meta interface{}
 	}
 	_ = d.Set("tag_set", tagSets)
 
-	client := meta.(*TencentCloudClient).apiV3Conn
 	tagService := TagService{client: client}
-	region := client.Region
-
-	tags, err := tagService.DescribeResourceTags(ctx, "privatedns", "zone", region, id)
+	tagResourceID, err := vpcDnsZoneTagResourceID(info)
+	if err != nil {
+		return err
+	}
+	tags, err := tagService.DescribeResourceTags(ctx, VPCDNS_SERVICE_TYPE, VPCDNS_RESOURCE_TYPE, client.Region, tagResourceID)
 	if err != nil {
 		return err
 	}
@@ -421,15 +426,24 @@ func resourceTencentCloudVpcDnsZoneUpdate(d *schema.ResourceData, meta interface
 		return fmt.Errorf("tag_set do not support change, please use tags instead.")
 	}
 
-	client := meta.(*TencentCloudClient).apiV3Conn
-	tagService := TagService{client: client}
-	region := client.Region
-
 	if d.HasChange("tags") {
 		oldTags, newTags := d.GetChange("tags")
 		replaceTags, deleteTags := diffTags(oldTags.(map[string]interface{}), newTags.(map[string]interface{}))
 
-		resourceName := BuildTagResourceName("privatedns", "zone", region, id)
+		client := meta.(*TencentCloudClient).apiV3Conn
+		service := VpcDnsService{client: client}
+		zone, err := service.DescribeVpcDnsZoneById(ctx, id)
+		if err != nil {
+			return err
+		}
+		if zone == nil {
+			return fmt.Errorf("private zone %s not found while updating tags", id)
+		}
+		resourceName, err := buildVpcDnsZoneTagResourceName(zone, client.Region)
+		if err != nil {
+			return err
+		}
+		tagService := TagService{client: client}
 		if err := tagService.ModifyTags(ctx, resourceName, replaceTags, deleteTags); err != nil {
 			return err
 		}
@@ -437,6 +451,26 @@ func resourceTencentCloudVpcDnsZoneUpdate(d *schema.ResourceData, meta interface
 	}
 
 	return resourceTencentCloudVpcDnsZoneRead(d, meta)
+}
+
+func vpcDnsZoneTagResourceID(zone *vpcdns.PrivateZone) (string, error) {
+	if zone == nil || zone.DomainId == nil {
+		return "", fmt.Errorf("private zone has no DomainId for tags")
+	}
+
+	return strconv.FormatInt(*zone.DomainId, 10), nil
+}
+
+func buildVpcDnsZoneTagResourceName(zone *vpcdns.PrivateZone, region string) (string, error) {
+	resourceID, err := vpcDnsZoneTagResourceID(zone)
+	if err != nil {
+		return "", err
+	}
+	if zone.OwnerUin == nil {
+		return "", fmt.Errorf("private zone %s has no OwnerUin for tags", resourceID)
+	}
+
+	return fmt.Sprintf("qcs::%s:%s:uin/%d:%s/%s", VPCDNS_SERVICE_TYPE, region, *zone.OwnerUin, VPCDNS_RESOURCE_TYPE, resourceID), nil
 }
 
 func resourceTencentCloudVpcDnsZoneDelete(d *schema.ResourceData, meta interface{}) error {

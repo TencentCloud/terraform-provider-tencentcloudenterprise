@@ -3,8 +3,8 @@ package tencentcloud
 import (
 	"context"
 	"fmt"
-	sdkErrors "terraform-provider-tencentcloudenterprise/sdk/common/errors"
 	"log"
+	sdkErrors "terraform-provider-tencentcloudenterprise/sdk/common/errors"
 	"testing"
 	"time"
 
@@ -666,7 +666,6 @@ resource "tencentcloudenterprise_tke_kubernetes_cluster" "managed_cluster" {
   }
 }`
 
-
 // TestAccTencentCloudTkeKubernetesClusterMasterScale creates an independent cluster,
 // then tests ScaleOut (3→5 masters) and ScaleIn (5→3 masters).
 func TestAccTencentCloudTkeKubernetesClusterMasterScale(t *testing.T) {
@@ -684,19 +683,31 @@ func TestAccTencentCloudTkeKubernetesClusterMasterScale(t *testing.T) {
 					resource.TestCheckResourceAttr("tencentcloudenterprise_tke_kubernetes_cluster.scale_test", "master_config.#", "3"),
 				),
 			},
-			// Step 2: ScaleOut - add 2 more MASTER_ETCD nodes (3→5)
+			// Step 2: ScaleOut - add 2 more MASTER_ETCD nodes (3→5).
+			// A new block is intentionally inserted at index 0 so Read must bind
+			// computed instance IDs by master identity rather than list position.
 			{
 				Config: testAccTkeIndependentClusterScaleOut,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr("tencentcloudenterprise_tke_kubernetes_cluster.scale_test", "master_config.#", "5"),
 				),
 			},
-			// Step 3: ScaleIn - remove 2 nodes back to 3
+			// Step 3: Re-planning after scale-out must not reshuffle master blocks.
+			{
+				Config:   testAccTkeIndependentClusterScaleOut,
+				PlanOnly: true,
+			},
+			// Step 4: ScaleIn - remove 2 nodes back to 3.
 			{
 				Config: testAccTkeIndependentCluster,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr("tencentcloudenterprise_tke_kubernetes_cluster.scale_test", "master_config.#", "3"),
 				),
+			},
+			// Step 5: Re-planning after scale-in must also be idempotent.
+			{
+				Config:   testAccTkeIndependentCluster,
+				PlanOnly: true,
 			},
 		},
 	})
@@ -766,6 +777,17 @@ resource "tencentcloudenterprise_tke_kubernetes_cluster" "scale_test" {
   eni_subnet_ids          = ["subnet-ll9bvz02"]
 
   master_config {
+    instance_name     = "tf-scale-master-4"
+    instance_type     = "S5l.LARGE4"
+    subnet_id         = "subnet-ll9bvz02"
+    availability_zone = "kazakhstan-az1"
+    system_disk_type  = "CLOUD_SSD"
+    system_disk_size  = 50
+    security_group_ids = ["sg-9v7lwts0"]
+    password           = "Tencent@123"
+  }
+
+  master_config {
     instance_name     = "tf-scale-master-1"
     instance_type     = "S5l.LARGE4"
     subnet_id         = "subnet-ll9bvz02"
@@ -789,17 +811,6 @@ resource "tencentcloudenterprise_tke_kubernetes_cluster" "scale_test" {
 
   master_config {
     instance_name     = "tf-scale-master-3"
-    instance_type     = "S5l.LARGE4"
-    subnet_id         = "subnet-ll9bvz02"
-    availability_zone = "kazakhstan-az1"
-    system_disk_type  = "CLOUD_SSD"
-    system_disk_size  = 50
-    security_group_ids = ["sg-9v7lwts0"]
-    password           = "Tencent@123"
-  }
-
-  master_config {
-    instance_name     = "tf-scale-master-4"
     instance_type     = "S5l.LARGE4"
     subnet_id         = "subnet-ll9bvz02"
     availability_zone = "kazakhstan-az1"

@@ -20,10 +20,6 @@ type CicService struct {
 	client *connectivity.TencentCloudClient
 }
 
-// ListCicRoleConfigurationProvisionings lists role configurations that are
-// deployed, require redeployment, or failed to deploy for CIC targets.
-// The console uses this API to populate its permission deployment page before
-// invoking ProvisionRoleConfiguration for a selected row.
 func (me *CicService) ListCicRoleConfigurationProvisionings(ctx context.Context, zoneId, deploymentStatus, roleConfigurationId, targetType string, targetUin int64) (ret []*cic.RoleConfigurationProvisionings, errRet error) {
 	logId := getLogId(ctx)
 	nextToken := ""
