@@ -1,0 +1,7 @@
+provider_installation {
+  dev_overrides {
+    "TencentCloud/tencentcloudenterprise" = "<PROVIDER_BIN_DIR>"
+  }
+
+  direct {}
+}

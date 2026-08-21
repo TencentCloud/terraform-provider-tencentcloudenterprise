@@ -1,0 +1,9 @@
+cluster_id = "cls-xxxxxxxx"
+target_uin = "100000000000"
+
+permissions = [
+  {
+    role_name = "tke:ro"
+    role_type = "cluster"
+  }
+]
