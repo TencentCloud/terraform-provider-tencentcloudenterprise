@@ -2798,3 +2798,55 @@ func (me *TkeService) DescribeKubernetesChartsByFilter(ctx context.Context, para
 	ret = response.Response.AppCharts
 	return
 }
+
+// DescribeClusterRoleBindingsByUin lists ClusterRoleBindings for a given uin in a cluster.
+func (me *TkeService) DescribeClusterRoleBindingsByUin(ctx context.Context, clusterId, uin string) (responseBody string, errRet error) {
+	path := fmt.Sprintf("/apis/rbac.authorization.k8s.io/v1/clusterrolebindings?labelSelector=cloud.tencent.com/tke-account=%s", uin)
+	return me.ForwardPlatformRequestV3(ctx, "GET", path, clusterId, "")
+}
+
+// DescribeRoleBindingsByUin lists RoleBindings for a given uin across all namespaces.
+func (me *TkeService) DescribeRoleBindingsByUin(ctx context.Context, clusterId, uin string) (responseBody string, errRet error) {
+	path := fmt.Sprintf("/apis/rbac.authorization.k8s.io/v1/rolebindings?labelSelector=cloud.tencent.com/tke-account=%s", uin)
+	return me.ForwardPlatformRequestV3(ctx, "GET", path, clusterId, "")
+}
+
+// DescribeClusterCommonName resolves an account identifier to the CN used by its cluster client certificate.
+func (me *TkeService) DescribeClusterCommonName(ctx context.Context, clusterId, accountId string) (commonName string, errRet error) {
+	logId := getLogId(ctx)
+	resolve := func(isRole bool) (string, error) {
+		request := tke.NewDescribeClusterCommonNamesRequest()
+		request.ClusterId = helper.String(clusterId)
+		if isRole {
+			request.RoleIds = []*string{helper.String(accountId)}
+		} else {
+			request.SubaccountUins = []*string{helper.String(accountId)}
+		}
+
+		ratelimit.Check(request.GetAction())
+		response, err := me.client.UseTkeClient().DescribeClusterCommonNames(request)
+		if err != nil {
+			log.Printf("[CRITAL]%s api[%s] fail, request body [%s], reason[%s]\n",
+				logId, request.GetAction(), request.ToJsonString(), err.Error())
+			return "", err
+		}
+		log.Printf("[DEBUG]%s api[%s] success, request body [%s], response body [%s]\n",
+			logId, request.GetAction(), request.ToJsonString(), response.ToJsonString())
+
+		if response == nil || response.Response == nil {
+			return "", nil
+		}
+		for _, item := range response.Response.CommonNames {
+			if item.CN != nil && *item.CN != "" {
+				return *item.CN, nil
+			}
+		}
+		return "", nil
+	}
+
+	commonName, err := resolve(false)
+	if err != nil || commonName != "" {
+		return commonName, err
+	}
+	return resolve(true)
+}

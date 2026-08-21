@@ -274,6 +274,7 @@ Tencent Kubernetes Engine(TKE)
 	  Resource
 	    tencentcloudenterprise_tke_kubernetes_cluster
 	    tencentcloudenterprise_tke_kubernetes_scale_worker
+	    tencentcloudenterprise_tke_kubernetes_user_permissions
 	    tencentcloudenterprise_tke_kubernetes_cluster_attachment
 		tencentcloudenterprise_tke_kubernetes_cluster_endpoint
 		tencentcloudenterprise_tke_kubernetes_log_config
@@ -1322,6 +1323,7 @@ func Provider() *schema.Provider {
 			"tencentcloudenterprise_tke_kubernetes_encryption_protection": resourceTencentCloudKubernetesEncryptionProtection(),
 			"tencentcloudenterprise_tke_kubernetes_health_check_policy":   resourceTencentCloudKubernetesHealthCheckPolicy(),
 			"tencentcloudenterprise_tke_kubernetes_scale_worker":          resourceTencentCloudTkeScaleWorker(),
+			"tencentcloudenterprise_tke_kubernetes_user_permissions":      resourceTencentCloudTkeKubernetesUserPermissions(),
 			//"tencentcloudenterprise_tke_kubernetes_serverless_node_pool": resourceTkeServerLessNodePool(),
 			//"tencentcloudenterprise_tse_instance":                                   resourceTencentCloudTseInstance(),
 			"tencentcloudenterprise_tsf_cluster":                           resourceTencentCloudTsfCluster(),

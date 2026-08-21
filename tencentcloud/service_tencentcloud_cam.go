@@ -769,6 +769,33 @@ func (me *CamService) DescribeCamServiceLinkedRole(ctx context.Context, roleId s
 
 // User related methods
 
+func (me *CamService) DescribeUserNameByUin(ctx context.Context, uin int64) (userName string, errRet error) {
+	logId := getLogId(ctx)
+	request := cam.NewGetUserListByUinListRequest()
+	request.UinList = []*int64{&uin}
+
+	ratelimit.Check(request.GetAction())
+	response, err := me.client.UseCamClient().GetUserListByUinList(request)
+	if err != nil {
+		log.Printf("[CRITAL]%s api[%s] fail, request body [%s], reason[%s]\n",
+			logId, request.GetAction(), request.ToJsonString(), err.Error())
+		return "", err
+	}
+	log.Printf("[DEBUG]%s api[%s] success, request body [%s], response body [%s]\n",
+		logId, request.GetAction(), request.ToJsonString(), response.ToJsonString())
+
+	if response == nil || response.Response == nil {
+		return "", nil
+	}
+	for _, user := range response.Response.UserList {
+		if user.UserUin != nil && *user.UserUin == uint64(uin) && user.UserName != nil {
+			return *user.UserName, nil
+		}
+	}
+
+	return "", nil
+}
+
 func (me *CamService) DescribeUserById(ctx context.Context, userId string) (user *cam.SubAccountFilter, errRet error) {
 	logId := getLogId(ctx)
 	request := cam.NewListSubAccountsRequest()
