@@ -2705,7 +2705,7 @@ type ReplaceCcnRouteTableAggregatePolicysRequest struct {
 	RouteTableId *string `json:"RouteTableId,omitempty" name:"RouteTableId"`
 	// 新的路由接收策略。
 
-	Policys []*CcnRouteTableAggregatePolicy `json:"Policys,omitempty" name:"Policys"`
+	Policys []*CcnRouteTableAggregatePolicy `json:"Policys" name:"Policys"`
 }
 
 func (r *ReplaceCcnRouteTableAggregatePolicysRequest) ToJsonString() string {
@@ -4401,7 +4401,7 @@ type ReplaceCcnRouteTableBroadcastPolicysRequest struct {
 	RouteTableId *string `json:"RouteTableId,omitempty" name:"RouteTableId"`
 	// 新的路由传播策略
 
-	Policys []*CcnRouteTableBroadcastPolicy `json:"Policys,omitempty" name:"Policys"`
+	Policys []*CcnRouteTableBroadcastPolicy `json:"Policys" name:"Policys"`
 }
 
 func (r *ReplaceCcnRouteTableBroadcastPolicysRequest) ToJsonString() string {
@@ -5072,7 +5072,7 @@ type ReplaceCcnRouteTableInputPolicysRequest struct {
 	RouteTableId *string `json:"RouteTableId,omitempty" name:"RouteTableId"`
 	// 新的路由接收策略。
 
-	Policys []*CcnRouteTableInputPolicy `json:"Policys,omitempty" name:"Policys"`
+	Policys []*CcnRouteTableInputPolicy `json:"Policys" name:"Policys"`
 }
 
 func (r *ReplaceCcnRouteTableInputPolicysRequest) ToJsonString() string {
