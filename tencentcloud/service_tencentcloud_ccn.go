@@ -7,6 +7,7 @@ import (
 	"strings"
 
 	ccn "terraform-provider-tencentcloudenterprise/sdk/ccn/v20170312"
+	sdkErrors "terraform-provider-tencentcloudenterprise/sdk/common/errors"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/ratelimit"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
@@ -818,6 +819,10 @@ func (me *VpcService) DescribeVpcReplaceCcnRouteTableInputPolicysById(ctx contex
 	ratelimit.Check(request.GetAction())
 	response, err := me.client.UseCcnClient().DescribeCcnRouteTableInputPolicys(request)
 	if err != nil {
+		// the policies are gone once the route table no longer exists
+		if sdkError, ok := err.(*sdkErrors.CloudSDKError); ok && sdkError.Code == "ResourceNotFound" {
+			return
+		}
 		errRet = err
 		return
 	}
@@ -842,6 +847,10 @@ func (me *VpcService) DescribeVpcReplaceCcnRouteTableBroadcastPolicysById(ctx co
 	ratelimit.Check(request.GetAction())
 	response, err := me.client.UseCcnClient().DescribeCcnRouteTableBroadcastPolicys(request)
 	if err != nil {
+		// the policies are gone once the route table no longer exists
+		if sdkError, ok := err.(*sdkErrors.CloudSDKError); ok && sdkError.Code == "ResourceNotFound" {
+			return
+		}
 		errRet = err
 		return
 	}
