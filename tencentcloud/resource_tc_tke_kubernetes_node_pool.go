@@ -1661,31 +1661,9 @@ func resourceKubernetesNodePoolUpdate(d *schema.ResourceData, meta interface{}) 
 	//
 	//}
 
-	//var capacityHasChanged = false
-	// assuming
-	// min 1 max 6 desired 2
-	// to
-	// min 3 max 6 desired 5
-	// modify min/max first will cause error, this case must upgrade desired first
-	//if d.HasChange("desired_capacity") || !desiredCapacityOutRange(d) {
-	//	desiredCapacity := int64(d.Get("desired_capacity").(int))
-	//	err := resource.Retry(writeRetryTimeout, func() *resource.RetryError {
-	//		errRet := service.ModifyClusterNodePoolDesiredCapacity(ctx, clusterId, nodePoolId, desiredCapacity)
-	//		if errRet != nil {
-	//			return retryError(errRet)
-	//		}
-	//		return nil
-	//	})
-	//	if err != nil {
-	//		return err
-	//	}
-	//	capacityHasChanged = true
-	//}
-
-	// ModifyClusterNodePool
-	if d.HasChanges(
-		"min_size",
-		"max_size",
+	minMaxChanged := d.HasChange("min_size") || d.HasChange("max_size")
+	desiredChanged := d.HasChange("desired_capacity")
+	nodePoolMetaChanged := d.HasChanges(
 		"name",
 		"labels",
 		"taints",
@@ -1694,48 +1672,126 @@ func resourceKubernetesNodePoolUpdate(d *schema.ResourceData, meta interface{}) 
 		"enable_auto_scale",
 		"node_os_type",
 		"node_os",
-	) {
-		maxSize := int64(d.Get("max_size").(int))
-		minSize := int64(d.Get("min_size").(int))
-		enableAutoScale := d.Get("enable_auto_scale").(bool)
-		name := d.Get("name").(string)
-		nodeOs := d.Get("node_os").(string)
-		nodeOsType := d.Get("node_os_type").(string)
-		labels := GetTkeLabels(d, "labels")
-		taints := GetTkeTaints(d, "taints")
-		tags := helper.GetTags(d, "tags")
+	)
 
-		// deletion protection
-		var deletionProtection *bool
-		if v, ok := d.GetOkExists("deletion_protection"); ok {
-			dp := v.(bool)
-			deletionProtection = &dp
-		}
+	enableAutoScale := d.Get("enable_auto_scale").(bool)
+	name := d.Get("name").(string)
+	nodeOs := d.Get("node_os").(string)
+	nodeOsType := d.Get("node_os_type").(string)
+	labels := GetTkeLabels(d, "labels")
+	taints := GetTkeTaints(d, "taints")
+	tags := helper.GetTags(d, "tags")
+	newMin := int64(d.Get("min_size").(int))
+	newMax := int64(d.Get("max_size").(int))
+	newDesired := int64(d.Get("desired_capacity").(int))
+	_, hasDesired := d.GetOkExists("desired_capacity")
 
-		// annotations
-		var annotations []*tke.AnnotationValue
-		if v, ok := d.GetOk("annotations"); ok {
-			for _, item := range v.(*schema.Set).List() {
-				annotationsMap := item.(map[string]interface{})
-				annotationValue := tke.AnnotationValue{}
-				if v, ok := annotationsMap["name"]; ok {
-					annotationValue.Name = helper.String(v.(string))
-				}
-				if v, ok := annotationsMap["value"]; ok {
-					annotationValue.Value = helper.String(v.(string))
-				}
-				annotations = append(annotations, &annotationValue)
+	var deletionProtection *bool
+	if v, ok := d.GetOkExists("deletion_protection"); ok {
+		dp := v.(bool)
+		deletionProtection = &dp
+	}
+
+	var annotations []*tke.AnnotationValue
+	if v, ok := d.GetOk("annotations"); ok {
+		for _, item := range v.(*schema.Set).List() {
+			annotationsMap := item.(map[string]interface{})
+			annotationValue := tke.AnnotationValue{}
+			if v, ok := annotationsMap["name"]; ok {
+				annotationValue.Name = helper.String(v.(string))
 			}
+			if v, ok := annotationsMap["value"]; ok {
+				annotationValue.Value = helper.String(v.(string))
+			}
+			annotations = append(annotations, &annotationValue)
 		}
+	}
 
-		err := resource.Retry(writeRetryTimeout, func() *resource.RetryError {
+	modifyNodePool := func(minSize, maxSize int64) error {
+		return resource.Retry(writeRetryTimeout, func() *resource.RetryError {
 			errRet := service.ModifyClusterNodePool(ctx, clusterId, nodePoolId, name, enableAutoScale, minSize, maxSize, nodeOs, nodeOsType, labels, taints, tags, deletionProtection, annotations)
 			if errRet != nil {
 				return retryError(errRet)
 			}
 			return nil
 		})
+	}
+
+	capacityChanged := minMaxChanged || desiredChanged
+	finalRangeApplied := false
+	if capacityChanged {
+		oldMin, _ := d.GetChange("min_size")
+		oldMax, _ := d.GetChange("max_size")
+		oldDesired, _ := d.GetChange("desired_capacity")
+		currentMin := int64(oldMin.(int))
+		currentMax := int64(oldMax.(int))
+		currentDesired := int64(oldDesired.(int))
+
+		nodePool, hasNodePool, describeErr := service.DescribeNodePool(ctx, clusterId, nodePoolId)
+		if describeErr == nil && hasNodePool && nodePool != nil {
+			if nodePool.MinNodesNum != nil {
+				currentMin = *nodePool.MinNodesNum
+			}
+			if nodePool.MaxNodesNum != nil {
+				currentMax = *nodePool.MaxNodesNum
+			}
+			if nodePool.DesiredNodesNum != nil {
+				currentDesired = *nodePool.DesiredNodesNum
+			}
+		}
+
+		updateDesired := !enableAutoScale && hasDesired && (desiredChanged || newDesired != currentDesired)
+		capacityPlan, err := planNodePoolCapacityUpdate(currentMin, currentMax, currentDesired, newMin, newMax, newDesired, updateDesired)
 		if err != nil {
+			return err
+		}
+
+		if capacityPlan.NeedTempRange {
+			if err := modifyNodePool(capacityPlan.TempMin, capacityPlan.TempMax); err != nil {
+				return err
+			}
+		}
+
+		if capacityPlan.NeedDesired {
+			err := resource.Retry(writeRetryTimeout, func() *resource.RetryError {
+				errRet := service.ModifyClusterNodePoolDesiredCapacity(ctx, clusterId, nodePoolId, capacityPlan.Desired)
+				if errRet != nil {
+					return retryError(errRet)
+				}
+				return nil
+			})
+			if err != nil {
+				return err
+			}
+
+			err = resource.Retry(readRetryTimeout, func() *resource.RetryError {
+				updatedPool, _, errRet := service.DescribeNodePool(ctx, clusterId, nodePoolId)
+				if errRet != nil {
+					return retryError(errRet)
+				}
+				if updatedPool == nil || updatedPool.DesiredNodesNum == nil {
+					return nil
+				}
+				if *updatedPool.DesiredNodesNum == capacityPlan.Desired {
+					return nil
+				}
+				return resource.RetryableError(fmt.Errorf("waiting for desired capacity %d, current %d", capacityPlan.Desired, *updatedPool.DesiredNodesNum))
+			})
+			if err != nil {
+				return err
+			}
+		}
+
+		if capacityPlan.NeedFinalRange || nodePoolMetaChanged {
+			if err := modifyNodePool(capacityPlan.FinalMin, capacityPlan.FinalMax); err != nil {
+				return err
+			}
+			finalRangeApplied = true
+		}
+	}
+
+	if nodePoolMetaChanged && !finalRangeApplied {
+		if err := modifyNodePool(newMin, newMax); err != nil {
 			return err
 		}
 	}
@@ -1815,20 +1871,6 @@ func resourceKubernetesNodePoolUpdate(d *schema.ResourceData, meta interface{}) 
 		}
 
 	}
-
-	//if d.HasChange("desired_capacity") && !capacityHasChanged {
-	//	desiredCapacity := int64(d.Get("desired_capacity").(int))
-	//	err := resource.Retry(writeRetryTimeout, func() *resource.RetryError {
-	//		errRet := service.ModifyClusterNodePoolDesiredCapacity(ctx, clusterId, nodePoolId, desiredCapacity)
-	//		if errRet != nil {
-	//			return retryError(errRet)
-	//		}
-	//		return nil
-	//	})
-	//	if err != nil {
-	//		return err
-	//	}
-	//}
 
 	//if d.HasChange("auto_scaling_config.0.backup_instance_types") {
 	//	instanceTypes := getNodePoolInstanceTypes(d)
