@@ -1582,27 +1582,27 @@ func (me *TkeService) ModifyClusterNodePoolPreStartUserScript(ctx context.Contex
 	return
 }
 
-//func (me *TkeService) ModifyClusterNodePoolDesiredCapacity(ctx context.Context, clusterId, nodePoolId string, desiredCapacity int64) (errRet error) {
-//	logId := getLogId(ctx)
-//	request := tke.NewModifyNodePoolDesiredCapacityAboutAsgRequest()
-//
-//	defer func() {
-//		if errRet != nil {
-//			log.Printf("[CRITAL]%s api[%s] fail, reason[%s]\n", logId, request.GetAction(), errRet.Error())
-//		}
-//	}()
-//	request.ClusterId = &clusterId
-//	request.NodePoolId = &nodePoolId
-//	request.DesiredCapacity = &desiredCapacity
-//
-//	ratelimit.Check(request.GetAction())
-//	_, err := me.client.UseTkeClient().ModifyNodePoolDesiredCapacityAboutAsg(request)
-//	if err != nil {
-//		errRet = err
-//		return
-//	}
-//	return
-//}
+func (me *TkeService) ModifyClusterNodePoolDesiredCapacity(ctx context.Context, clusterId, nodePoolId string, desiredCapacity int64) (errRet error) {
+	logId := getLogId(ctx)
+	request := tke.NewModifyNodePoolDesiredCapacityAboutAsgRequest()
+
+	defer func() {
+		if errRet != nil {
+			log.Printf("[CRITAL]%s api[%s] fail, reason[%s]\n", logId, request.GetAction(), errRet.Error())
+		}
+	}()
+	request.ClusterId = &clusterId
+	request.NodePoolId = &nodePoolId
+	request.DesiredCapacity = &desiredCapacity
+
+	ratelimit.Check(request.GetAction())
+	_, err := me.client.UseTkeClient().ModifyNodePoolDesiredCapacityAboutAsg(request)
+	if err != nil {
+		errRet = err
+		return
+	}
+	return
+}
 
 //func (me *TkeService) ModifyClusterNodePoolInstanceTypes(ctx context.Context, clusterId, nodePoolId string, instanceTypes []*string) (errRet error) {
 //	logId := getLogId(ctx)
