@@ -1709,13 +1709,17 @@ func resourceKubernetesNodePoolUpdate(d *schema.ResourceData, meta interface{}) 
 		if err := waitNodePoolNormal(ctx, service, clusterId, nodePoolId, nodePoolReadyTimeout); err != nil {
 			return err
 		}
-		return resource.Retry(writeRetryTimeout, func() *resource.RetryError {
+		err := resource.Retry(writeRetryTimeout, func() *resource.RetryError {
 			errRet := service.ModifyClusterNodePool(ctx, clusterId, nodePoolId, name, enableAutoScale, minSize, maxSize, nodeOs, nodeOsType, labels, taints, tags, deletionProtection, annotations)
 			if errRet != nil {
 				return retryNodePoolWriteError(errRet)
 			}
 			return nil
 		})
+		if err != nil {
+			return err
+		}
+		return waitNodePoolNormal(ctx, service, clusterId, nodePoolId, nodePoolReadyTimeout)
 	}
 	modifyDesired := func(desired int64) error {
 		if err := waitNodePoolNormal(ctx, service, clusterId, nodePoolId, nodePoolReadyTimeout); err != nil {
@@ -1731,7 +1735,10 @@ func resourceKubernetesNodePoolUpdate(d *schema.ResourceData, meta interface{}) 
 		if err != nil {
 			return err
 		}
-		return waitNodePoolDesiredCapacity(ctx, service, clusterId, nodePoolId, desired, nodePoolReadyTimeout)
+		if err := waitNodePoolDesiredCapacity(ctx, service, clusterId, nodePoolId, desired, nodePoolReadyTimeout); err != nil {
+			return err
+		}
+		return waitNodePoolNormal(ctx, service, clusterId, nodePoolId, nodePoolReadyTimeout)
 	}
 
 	needCapacityWrite := minMaxChanged || (!enableAutoScale && hasDesired && desiredChanged)
@@ -1793,17 +1800,23 @@ func resourceKubernetesNodePoolUpdate(d *schema.ResourceData, meta interface{}) 
 		}
 	}
 
-	if d.HasChange("node_config.0.pre_start_user_script") {
+	if d.HasChange("node_config.0.user_data") || d.HasChange("node_config.0.pre_start_user_script") {
+		if err := waitNodePoolNormal(ctx, service, clusterId, nodePoolId, nodePoolReadyTimeout); err != nil {
+			return err
+		}
 		userData, _ := d.Get("node_config.0.user_data").(string)
 		preStartUserScript, _ := d.Get("node_config.0.pre_start_user_script").(string)
 		err := resource.Retry(writeRetryTimeout, func() *resource.RetryError {
 			errRet := service.ModifyClusterNodePoolPreStartUserScript(ctx, clusterId, nodePoolId, userData, preStartUserScript)
 			if errRet != nil {
-				return retryError(errRet)
+				return retryNodePoolWriteError(errRet)
 			}
 			return nil
 		})
 		if err != nil {
+			return err
+		}
+		if err := waitNodePoolNormal(ctx, service, clusterId, nodePoolId, nodePoolReadyTimeout); err != nil {
 			return err
 		}
 	}
@@ -1815,6 +1828,10 @@ func resourceKubernetesNodePoolUpdate(d *schema.ResourceData, meta interface{}) 
 		d.HasChange("multi_zone_subnet_policy") ||
 		d.HasChange("default_cooldown") ||
 		d.HasChange("termination_policies") {
+
+		if err := waitNodePoolNormal(ctx, service, clusterId, nodePoolId, nodePoolReadyTimeout); err != nil {
+			return err
+		}
 
 		nodePool, _, err := service.DescribeNodePool(ctx, clusterId, nodePoolId)
 		if err != nil {
