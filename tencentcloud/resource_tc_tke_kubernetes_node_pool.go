@@ -153,14 +153,16 @@ package tencentcloud
 import (
 	"context"
 	"fmt"
-	sdkErrors "terraform-provider-tencentcloudenterprise/sdk/common/errors"
 	"strings"
+	"time"
 
+	sdkErrors "terraform-provider-tencentcloudenterprise/sdk/common/errors"
+
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	as "terraform-provider-tencentcloudenterprise/sdk/as/v20180419"
 	tke "terraform-provider-tencentcloudenterprise/sdk/tke/v20180525"
 	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func init() {
@@ -285,30 +287,30 @@ func composedKubernetesAsScalingConfigPara() map[string]*schema.Schema {
 						Default:     0,
 						Description: "Volume of disk in GB. Default is `0`.",
 					},
-				"snapshot_id": {
-					Type:        schema.TypeString,
-					Optional:    true,
-					Computed:    true,
-					ForceNew:    true,
-					Description: "Data disk snapshot ID.",
-				},
-				"delete_with_instance": {
-					Type:        schema.TypeBool,
-					Optional:    true,
-					Computed:    true,
-					Description: "Indicates whether the disk remove after instance terminated. Default is `false`.",
-				},
-				"encrypt": {
-					Type:        schema.TypeBool,
-					Optional:    true,
-					Description: "Specify whether to encrypt data disk, default: false. NOTE: Make sure the instance type is offering and the cam role `QcloudKMSAccessForCVMRole` was provided.",
-				},
-				"throughput_performance": {
-					Type:        schema.TypeInt,
-					Optional:    true,
-					Computed:    true,
-					Description: "Add extra performance to the data disk. Only works when disk type is `CLOUD_TSSD` or `CLOUD_HSSD` and `data_size` > 460GB.",
-				},
+					"snapshot_id": {
+						Type:        schema.TypeString,
+						Optional:    true,
+						Computed:    true,
+						ForceNew:    true,
+						Description: "Data disk snapshot ID.",
+					},
+					"delete_with_instance": {
+						Type:        schema.TypeBool,
+						Optional:    true,
+						Computed:    true,
+						Description: "Indicates whether the disk remove after instance terminated. Default is `false`.",
+					},
+					"encrypt": {
+						Type:        schema.TypeBool,
+						Optional:    true,
+						Description: "Specify whether to encrypt data disk, default: false. NOTE: Make sure the instance type is offering and the cam role `QcloudKMSAccessForCVMRole` was provided.",
+					},
+					"throughput_performance": {
+						Type:        schema.TypeInt,
+						Optional:    true,
+						Computed:    true,
+						Description: "Add extra performance to the data disk. Only works when disk type is `CLOUD_TSSD` or `CLOUD_HSSD` and `data_size` > 460GB.",
+					},
 				},
 			},
 		},
@@ -1122,11 +1124,11 @@ func resourceKubernetesNodePoolRead(d *schema.ResourceData, meta interface{}) er
 	defer logElapsed("resource.tencentcloudenterprise_tke_kubernetes_node_pool.read")()
 
 	var (
-		logId   = getLogId(contextNil)
-		ctx     = context.WithValue(context.TODO(), logIdKey, logId)
-		service = TkeService{client: meta.(*TencentCloudClient).apiV3Conn}
+		logId     = getLogId(contextNil)
+		ctx       = context.WithValue(context.TODO(), logIdKey, logId)
+		service   = TkeService{client: meta.(*TencentCloudClient).apiV3Conn}
 		asService = AsService{client: meta.(*TencentCloudClient).apiV3Conn}
-		items = strings.Split(d.Id(), FILED_SP)
+		items     = strings.Split(d.Id(), FILED_SP)
 	)
 	if len(items) != 2 {
 		return fmt.Errorf("resource_tc_kubernetes_node_pool id  is broken")
@@ -1600,18 +1602,7 @@ func resourceKubernetesNodePoolCreate(d *schema.ResourceData, meta interface{}) 
 		}
 	}
 
-	// wait for status ok
-	err = resource.Retry(5*readRetryTimeout, func() *resource.RetryError {
-		nodePool, _, errRet := service.DescribeNodePool(ctx, clusterId, nodePoolId)
-		if errRet != nil {
-			return retryError(errRet, InternalError)
-		}
-		if nodePool != nil && *nodePool.LifeState == "normal" {
-			return nil
-		}
-		return resource.RetryableError(fmt.Errorf("node pool status is %s, retry...", *nodePool.LifeState))
-	})
-	if err != nil {
+	if err = waitNodePoolNormal(ctx, service, clusterId, nodePoolId, 5*readRetryTimeout); err != nil {
 		return err
 	}
 
@@ -1707,19 +1698,56 @@ func resourceKubernetesNodePoolUpdate(d *schema.ResourceData, meta interface{}) 
 		}
 	}
 
+	nodePoolReadyTimeout := 5 * readRetryTimeout
+	retryNodePoolWriteError := func(err error) *resource.RetryError {
+		if isBareOperationDenied(err) {
+			return resource.RetryableError(err)
+		}
+		return retryError(err)
+	}
 	modifyNodePool := func(minSize, maxSize int64) error {
-		return resource.Retry(writeRetryTimeout, func() *resource.RetryError {
+		if err := waitNodePoolNormal(ctx, service, clusterId, nodePoolId, nodePoolReadyTimeout); err != nil {
+			return err
+		}
+		err := resource.Retry(writeRetryTimeout, func() *resource.RetryError {
 			errRet := service.ModifyClusterNodePool(ctx, clusterId, nodePoolId, name, enableAutoScale, minSize, maxSize, nodeOs, nodeOsType, labels, taints, tags, deletionProtection, annotations)
 			if errRet != nil {
-				return retryError(errRet)
+				return retryNodePoolWriteError(errRet)
 			}
 			return nil
 		})
+		if err != nil {
+			return err
+		}
+		return waitNodePoolNormal(ctx, service, clusterId, nodePoolId, nodePoolReadyTimeout)
+	}
+	modifyDesired := func(desired int64) error {
+		if err := waitNodePoolNormal(ctx, service, clusterId, nodePoolId, nodePoolReadyTimeout); err != nil {
+			return err
+		}
+		err := resource.Retry(writeRetryTimeout, func() *resource.RetryError {
+			errRet := service.ModifyClusterNodePoolDesiredCapacity(ctx, clusterId, nodePoolId, desired)
+			if errRet != nil {
+				return retryNodePoolWriteError(errRet)
+			}
+			return nil
+		})
+		if err != nil {
+			return err
+		}
+		if err := waitNodePoolDesiredCapacity(ctx, service, clusterId, nodePoolId, desired, nodePoolReadyTimeout); err != nil {
+			return err
+		}
+		return waitNodePoolNormal(ctx, service, clusterId, nodePoolId, nodePoolReadyTimeout)
 	}
 
-	capacityChanged := minMaxChanged || desiredChanged
+	needCapacityWrite := minMaxChanged || (!enableAutoScale && hasDesired && desiredChanged)
 	finalRangeApplied := false
-	if capacityChanged {
+	if needCapacityWrite {
+		if err := waitNodePoolNormal(ctx, service, clusterId, nodePoolId, nodePoolReadyTimeout); err != nil {
+			return err
+		}
+
 		oldMin, _ := d.GetChange("min_size")
 		oldMax, _ := d.GetChange("max_size")
 		oldDesired, _ := d.GetChange("desired_capacity")
@@ -1753,31 +1781,7 @@ func resourceKubernetesNodePoolUpdate(d *schema.ResourceData, meta interface{}) 
 		}
 
 		if capacityPlan.NeedDesired {
-			err := resource.Retry(writeRetryTimeout, func() *resource.RetryError {
-				errRet := service.ModifyClusterNodePoolDesiredCapacity(ctx, clusterId, nodePoolId, capacityPlan.Desired)
-				if errRet != nil {
-					return retryError(errRet)
-				}
-				return nil
-			})
-			if err != nil {
-				return err
-			}
-
-			err = resource.Retry(readRetryTimeout, func() *resource.RetryError {
-				updatedPool, _, errRet := service.DescribeNodePool(ctx, clusterId, nodePoolId)
-				if errRet != nil {
-					return retryError(errRet)
-				}
-				if updatedPool == nil || updatedPool.DesiredNodesNum == nil {
-					return nil
-				}
-				if *updatedPool.DesiredNodesNum == capacityPlan.Desired {
-					return nil
-				}
-				return resource.RetryableError(fmt.Errorf("waiting for desired capacity %d, current %d", capacityPlan.Desired, *updatedPool.DesiredNodesNum))
-			})
-			if err != nil {
+			if err := modifyDesired(capacityPlan.Desired); err != nil {
 				return err
 			}
 		}
@@ -1796,17 +1800,23 @@ func resourceKubernetesNodePoolUpdate(d *schema.ResourceData, meta interface{}) 
 		}
 	}
 
-	if d.HasChange("node_config.0.pre_start_user_script") {
+	if d.HasChange("node_config.0.user_data") || d.HasChange("node_config.0.pre_start_user_script") {
+		if err := waitNodePoolNormal(ctx, service, clusterId, nodePoolId, nodePoolReadyTimeout); err != nil {
+			return err
+		}
 		userData, _ := d.Get("node_config.0.user_data").(string)
 		preStartUserScript, _ := d.Get("node_config.0.pre_start_user_script").(string)
 		err := resource.Retry(writeRetryTimeout, func() *resource.RetryError {
 			errRet := service.ModifyClusterNodePoolPreStartUserScript(ctx, clusterId, nodePoolId, userData, preStartUserScript)
 			if errRet != nil {
-				return retryError(errRet)
+				return retryNodePoolWriteError(errRet)
 			}
 			return nil
 		})
 		if err != nil {
+			return err
+		}
+		if err := waitNodePoolNormal(ctx, service, clusterId, nodePoolId, nodePoolReadyTimeout); err != nil {
 			return err
 		}
 	}
@@ -1818,6 +1828,10 @@ func resourceKubernetesNodePoolUpdate(d *schema.ResourceData, meta interface{}) 
 		d.HasChange("multi_zone_subnet_policy") ||
 		d.HasChange("default_cooldown") ||
 		d.HasChange("termination_policies") {
+
+		if err := waitNodePoolNormal(ctx, service, clusterId, nodePoolId, nodePoolReadyTimeout); err != nil {
+			return err
+		}
 
 		nodePool, _, err := service.DescribeNodePool(ctx, clusterId, nodePoolId)
 		if err != nil {
@@ -1960,4 +1974,49 @@ func resourceKubernetesNodePoolDelete(d *schema.ResourceData, meta interface{}) 
 	})
 
 	return err
+}
+
+func waitNodePoolNormal(ctx context.Context, service TkeService, clusterId, nodePoolId string, timeout time.Duration) error {
+	return resource.Retry(timeout, func() *resource.RetryError {
+		pool, has, errRet := service.DescribeNodePool(ctx, clusterId, nodePoolId)
+		if errRet != nil {
+			return retryError(errRet, InternalError)
+		}
+		var lifeState *string
+		if pool != nil {
+			lifeState = pool.LifeState
+		}
+		action, state := nodePoolWaitDecision(has && pool != nil, lifeState)
+		switch action {
+		case nodePoolWaitReady:
+			return nil
+		case nodePoolWaitFail:
+			if state == "not found" {
+				return resource.NonRetryableError(fmt.Errorf("node pool %s not found", nodePoolId))
+			}
+			return resource.NonRetryableError(fmt.Errorf("node pool %s is %s", nodePoolId, state))
+		default:
+			return resource.RetryableError(fmt.Errorf("node pool %s is %s, retry...", nodePoolId, state))
+		}
+	})
+}
+
+func waitNodePoolDesiredCapacity(ctx context.Context, service TkeService, clusterId, nodePoolId string, desired int64, timeout time.Duration) error {
+	return resource.Retry(timeout, func() *resource.RetryError {
+		pool, has, errRet := service.DescribeNodePool(ctx, clusterId, nodePoolId)
+		if errRet != nil {
+			return retryError(errRet, InternalError)
+		}
+		if !has || pool == nil {
+			return resource.NonRetryableError(fmt.Errorf("node pool %s not found", nodePoolId))
+		}
+		if pool.DesiredNodesNum == nil || *pool.DesiredNodesNum != desired {
+			current := int64(-1)
+			if pool.DesiredNodesNum != nil {
+				current = *pool.DesiredNodesNum
+			}
+			return resource.RetryableError(fmt.Errorf("waiting for desired capacity %d, current %d", desired, current))
+		}
+		return nil
+	})
 }

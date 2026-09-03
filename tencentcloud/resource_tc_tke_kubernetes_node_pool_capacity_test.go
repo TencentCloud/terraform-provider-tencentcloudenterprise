@@ -1,6 +1,10 @@
 package tencentcloud
 
-import "testing"
+import (
+	"testing"
+
+	sdkErrors "terraform-provider-tencentcloudenterprise/sdk/common/errors"
+)
 
 func TestPlanNodePoolCapacityUpdate(t *testing.T) {
 	t.Parallel()
@@ -139,5 +143,55 @@ func TestPlanNodePoolCapacityUpdate(t *testing.T) {
 				t.Fatalf("final range = (%v,%d,%d), want (%v,%d,%d)", plan.NeedFinalRange, plan.FinalMin, plan.FinalMax, tt.wantFinal, tt.finalMin, tt.finalMax)
 			}
 		})
+	}
+}
+
+func TestNodePoolWaitDecision(t *testing.T) {
+	t.Parallel()
+
+	updating := "updating"
+	normal := "normal"
+	abnormal := "abnormal"
+
+	tests := []struct {
+		name      string
+		has       bool
+		lifeState *string
+		want      nodePoolWaitAction
+		wantState string
+	}{
+		{name: "missing pool", has: false, want: nodePoolWaitFail, wantState: "not found"},
+		{name: "nil life state", has: true, want: nodePoolWaitRetry, wantState: "unknown"},
+		{name: "updating", has: true, lifeState: &updating, want: nodePoolWaitRetry, wantState: "updating"},
+		{name: "normal", has: true, lifeState: &normal, want: nodePoolWaitReady, wantState: "normal"},
+		{name: "abnormal", has: true, lifeState: &abnormal, want: nodePoolWaitFail, wantState: "abnormal"},
+	}
+
+	for _, tt := range tests {
+		tt := tt
+		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
+			got, state := nodePoolWaitDecision(tt.has, tt.lifeState)
+			if got != tt.want || state != tt.wantState {
+				t.Fatalf("nodePoolWaitDecision() = (%v,%q), want (%v,%q)", got, state, tt.want, tt.wantState)
+			}
+		})
+	}
+}
+
+func TestIsBareOperationDenied(t *testing.T) {
+	t.Parallel()
+
+	if isBareOperationDenied(nil) {
+		t.Fatal("nil should not match")
+	}
+	if !isBareOperationDenied(sdkErrors.NewCloudSDKError("OperationDenied", "denied", "req-1")) {
+		t.Fatal("bare OperationDenied should match")
+	}
+	if isBareOperationDenied(sdkErrors.NewCloudSDKError("OperationDenied.ClusterInDeletionProtection", "protected", "req-2")) {
+		t.Fatal("OperationDenied subcode should not match")
+	}
+	if isBareOperationDenied(sdkErrors.NewCloudSDKError("InvalidParameterValue.Size", "size", "req-3")) {
+		t.Fatal("unrelated code should not match")
 	}
 }
