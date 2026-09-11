@@ -1154,29 +1154,35 @@ func (c *CosService) GetBucketACL(ctx context.Context, bucket string) (result *c
 	}
 
 	// 转换 S3 ACL 响应为 cos.BucketGetACLResult 格式
-	if response.Owner == nil {
-		errRet = fmt.Errorf("cos [GetBucketACL] error: owner is nil, bucket: %s", bucket)
-	}
+	// Owner 与 Grantee 均为可选字段，缺失时跳过而不是中断读取
 	result = &cos.BucketGetACLResult{
-		Owner: &cos.Owner{
-			ID:          *response.Owner.ID,
-			DisplayName: *response.Owner.DisplayName,
-		},
-		AccessControlList: make([]cos.ACLGrant, len(response.Grants)),
+		AccessControlList: make([]cos.ACLGrant, 0, len(response.Grants)),
 	}
 
-	for i, grant := range response.Grants {
+	if response.Owner != nil {
+		result.Owner = &cos.Owner{
+			ID:          aws.StringValue(response.Owner.ID),
+			DisplayName: aws.StringValue(response.Owner.DisplayName),
+		}
+	} else {
+		// 归属正常的桶一定会返回 Owner；为空说明服务端没有该桶的归属记录，
+		// 这类桶通常也不会出现在按账号过滤的桶列表和控制台里
+		log.Printf("[WARN]%s api[%s] bucket (%s) returned no owner, "+
+			"it may not be registered to any account\n", logId, "GetBucketACL", bucket)
+	}
+
+	for _, grant := range response.Grants {
 		if grant.Grantee == nil {
 			continue
 		}
-		result.AccessControlList[i] = cos.ACLGrant{
+		result.AccessControlList = append(result.AccessControlList, cos.ACLGrant{
 			Grantee: &cos.ACLGrantee{
-				Type: *grant.Grantee.Type,
+				Type: aws.StringValue(grant.Grantee.Type),
 				URI:  aws.StringValue(grant.Grantee.URI),
 				ID:   aws.StringValue(grant.Grantee.ID),
 			},
-			Permission: *grant.Permission,
-		}
+			Permission: aws.StringValue(grant.Permission),
+		})
 	}
 
 	log.Printf("[DEBUG]%s api[%s] success\n", logId, "GetBucketACL")

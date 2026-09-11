@@ -356,9 +356,8 @@ func resourceTencentCloudCspBucket() *schema.Resource {
 		Update:      resourceTencentCloudCspBucketUpdate,
 		Delete:      resourceTencentCloudCspBucketDelete,
 		Importer: &schema.ResourceImporter{
-			State: helper.ImportWithDefaultValue(map[string]interface{}{
-				"force_clean": false,
-			}),
+			// csp 桶未开放 force_clean 参数，导入时不能回填该字段
+			State: schema.ImportStatePassthrough,
 		},
 
 		Schema: map[string]*schema.Schema{
