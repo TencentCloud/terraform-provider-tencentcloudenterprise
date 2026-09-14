@@ -273,9 +273,12 @@ func (me *CosService) TencentcloudHeadBucket(ctx context.Context, bucket string)
 		errRet = err
 		// 对于S3 SDK，我们需要从错误中提取状态码
 		if awsErr, ok := err.(awserr.Error); ok {
-			if awsErr.Code() == "NotFound" {
+			switch awsErr.Code() {
+			case "NotFound":
 				code = 404
-			} else {
+			case "Forbidden", "AccessDenied":
+				code = 403
+			default:
 				code = 500
 			}
 		} else {

@@ -751,6 +751,16 @@ func resourceTencentCloudCspBucketCreate(d *schema.ResourceData, meta interface{
 
 	cosService := CosService{client: meta.(*TencentCloudClient).apiV3Conn, useCspClient: true}
 
+	// 建前预检：桶名全局唯一，且 CSP 的 PutBucket 对已存在的桶幂等返回成功，
+	// 不预检会把残留或他人的桶静默当成创建成功
+	if code, _, headErr := cosService.TencentcloudHeadBucket(ctx, bucket); headErr == nil {
+		return fmt.Errorf("bucket (%s) already exists, please import it with `terraform import` instead of creating", bucket)
+	} else if code == 403 {
+		return fmt.Errorf("bucket name (%s) is already taken by another account", bucket)
+	} else if code != 404 {
+		return fmt.Errorf("check bucket (%s) existence before creation failed: %s", bucket, headErr.Error())
+	}
+
 	useCosService, createOptions := getBucketPutOptions(d)
 
 	if useCosService {
@@ -765,6 +775,24 @@ func resourceTencentCloudCspBucketCreate(d *schema.ResourceData, meta interface{
 		return err
 	}
 	d.SetId(bucket)
+
+	// 登记校验：数据面建桶后，桶应出现在账号维度的桶列表中。
+	// 可按名访问但不在列表里，说明 CSP 平台未登记该桶，控制台将不可见，
+	// 这是平台侧行为，不是 provider 错误
+	if listResult, listErr := cosService.ListTencentCloudBuckets(ctx); listErr == nil {
+		registered := false
+		for _, b := range listResult.Buckets {
+			if b.Name == bucket {
+				registered = true
+				break
+			}
+		}
+		if !registered {
+			log.Printf("[WARN]%s bucket (%s) was created via the COS data plane but is absent from the account bucket list, "+
+				"it will not appear in the TCE console. This indicates the CSP platform did not register a data-plane-created bucket, "+
+				"which is a platform-side behavior rather than a provider error\n", logId, bucket)
+		}
+	}
 
 	if tags := helper.GetTags(d, "tags"); len(tags) > 0 {
 		if err := cosService.SetBucketTags(ctx, bucket, tags); err != nil {
