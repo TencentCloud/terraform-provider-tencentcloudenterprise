@@ -5393,7 +5393,7 @@ type Image struct {
 	OperationMask *int64 `json:"OperationMask,omitempty" name:"OperationMask"`
 	// 镜像标记
 
-	Flags *string `json:"Flags,omitempty" name:"Flags"`
+	Flags []*string `json:"Flags,omitempty" name:"Flags"`
 	// 自定义镜像id
 
 	DeviceImageId *int64 `json:"DeviceImageId,omitempty" name:"DeviceImageId"`
