@@ -1350,6 +1350,29 @@ func (me *VpcService) DescribeSecurityGroupsAssociate(ctx context.Context, ids [
 	return response.Response.SecurityGroupAssociationStatisticsSet, nil
 }
 
+func (me *VpcService) ReplaceSecurityGroupPolicy(ctx context.Context, request *vpc.ReplaceSecurityGroupPolicyRequest) (errRet error) {
+	logId := getLogId(ctx)
+	defer func() {
+		if errRet != nil {
+			log.Printf("[CRITAL]%s api[%s] fail, request body [%s], reason[%s]\n",
+				logId, request.GetAction(), request.ToJsonString(), errRet.Error())
+		}
+	}()
+
+	ratelimit.Check(request.GetAction())
+	response, err := me.client.UseVpcClient().ReplaceSecurityGroupPolicy(request)
+
+	if err != nil {
+		errRet = err
+		return
+	}
+
+	log.Printf("[DEBUG]%s api[%s] success, request body [%s], response body [%s]\n",
+		logId, request.GetAction(), request.ToJsonString(), response.ToJsonString())
+
+	return
+}
+
 // Deprecated: the redundant type struct cause cause unnecessary mental burden, use sdk request directly
 func (me *VpcService) CreateSecurityGroupPolicy(ctx context.Context, info securityGroupRuleBasicInfoWithPolicyIndex) (ruleId string, err error) {
 	logId := getLogId(ctx)

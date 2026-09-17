@@ -3,6 +3,8 @@ Provides a resource to create security group rule. This resource is similar with
 
 ~> **NOTE:** This resource must exclusive in one security group, do not declare additional rule resources of this security group elsewhere.
 
+~> **NOTE:** `ingress` and `egress` are ordered lists, the first rule has the highest priority. Inserting a rule in the middle makes Terraform show all subsequent rules as changed because list elements are compared by index; this is a display effect only. On apply, simple changes (append, insert, remove, in-place modify) are applied incrementally and only touch the affected rules; complex changes such as reordering combined with other edits fall back to resetting the whole rule set of the changed direction.
+
 Example Usage
 
 ```hcl
@@ -116,50 +118,44 @@ func resourceTencentCloudSecurityGroupRuleSet() *schema.Resource {
 		"ipv6_cidr_block": {
 			Type:        schema.TypeString,
 			Optional:    true,
-			Computed:    true,
 			Description: "An IPV6 address network or CIDR segment, and conflict with `source_security_id` and `address_template_*`.",
 		},
 		"source_security_id": {
 			Type:        schema.TypeString,
 			Optional:    true,
-			Computed:    true,
 			Description: "ID of the nested security group, and conflicts with `cidr_block` and `address_template_*`.",
 		},
 		"address_template_id": {
 			Type:        schema.TypeString,
 			Optional:    true,
-			Computed:    true,
 			Description: "Specify Address template ID like `ipm-xxxxxxxx`, conflict with `source_security_id` and `cidr_block`.",
 		},
 		"address_template_group": {
 			Type:        schema.TypeString,
 			Optional:    true,
-			Computed:    true,
 			Description: "Specify Group ID of Address template like `ipmg-xxxxxxxx`, conflict with `source_security_id` and `cidr_block`.",
 		},
 		"service_template_id": {
 			Type:        schema.TypeString,
 			Optional:    true,
-			Computed:    true,
 			Description: "Specify Protocol template ID like `ppm-xxxxxxxx`, conflict with `cidr_block` and `port`.",
 		},
 		"service_template_group": {
 			Type:        schema.TypeString,
 			Optional:    true,
-			Computed:    true,
 			Description: "Specify Group ID of Protocol template ID like `ppmg-xxxxxxxx`, conflict with `cidr_block` and `port`.",
 		},
 		"protocol": {
-			Type:        schema.TypeString,
-			Optional:    true,
-			Computed:    true,
-			Description: "Type of IP protocol. Valid values: `TCP`, `UDP` and `ICMP`. Default to all types protocol, and conflicts with `service_template_*`.",
+			Type:             schema.TypeString,
+			Optional:         true,
+			DiffSuppressFunc: suppressSecurityGroupRuleDefaultValue,
+			Description:      "Type of IP protocol. Valid values: `TCP`, `UDP` and `ICMP`. Default to all types protocol, and conflicts with `service_template_*`.",
 		},
 		"port": {
-			Type:        schema.TypeString,
-			Optional:    true,
-			Computed:    true,
-			Description: "Range of the port. The available value can be one, multiple or one segment. E.g. `80`, `80,90` and `80-90`. Default to all ports, and conflicts with `service_template_*`.",
+			Type:             schema.TypeString,
+			Optional:         true,
+			DiffSuppressFunc: suppressSecurityGroupRuleDefaultValue,
+			Description:      "Range of the port. The available value can be one, multiple or one segment. E.g. `80`, `80,90` and `80-90`. Default to all ports, and conflicts with `service_template_*`.",
 		},
 	}
 	return &schema.Resource{
@@ -275,41 +271,354 @@ func resourceTencentCloudSecurityGroupRuleSetUpdate(d *schema.ResourceData, m in
 	ctx := context.WithValue(context.TODO(), logIdKey, logId)
 	client := m.(*TencentCloudClient).apiV3Conn
 	service := VpcService{client}
+	sgId := d.Id()
+
+	needFullReplace := make(map[string]bool)
+	incrementalDone := false
+
+	for _, direction := range []string{"ingress", "egress"} {
+		if !d.HasChange(direction) {
+			continue
+		}
+		oldRaw, newRaw := d.GetChange(direction)
+		oldList := oldRaw.([]interface{})
+		newList := newRaw.([]interface{})
+		edit := diffSecurityGroupRuleList(oldList, newList)
+		if edit.typ == securityGroupRuleEditNone {
+			continue
+		}
+		if edit.typ == securityGroupRuleEditFull {
+			needFullReplace[direction] = true
+			continue
+		}
+		// Incremental operations are index based: verify the remote list still
+		// matches the last known state before touching single rules, otherwise
+		// fall back to a full replace which also heals out-of-band drift.
+		remote, err := service.DescribeSecurityGroupPolicies(ctx, sgId)
+		if err != nil {
+			return err
+		}
+		if !securityGroupRuleListMatchesRemote(remote, direction, oldList) {
+			log.Printf("[WARN]%s security group %s %s rules drifted from state, falling back to full replace", logId, sgId, direction)
+			needFullReplace[direction] = true
+			continue
+		}
+		if err := applySecurityGroupRuleEdit(ctx, &service, sgId, direction, edit); err != nil {
+			log.Printf("[WARN]%s incremental update of security group %s %s failed: %v, falling back to full replace", logId, sgId, direction, err)
+			needFullReplace[direction] = true
+			continue
+		}
+		incrementalDone = true
+	}
+
+	if len(needFullReplace) > 0 {
+		if err := modifySecurityGroupPoliciesFullReplace(ctx, &service, d, needFullReplace, incrementalDone); err != nil {
+			return err
+		}
+	}
+
+	return resourceTencentCloudSecurityGroupRuleSetRead(d, m)
+}
+
+// modifySecurityGroupPoliciesFullReplace resets the given directions of the
+// security group rule set via ModifySecurityGroupPolicies, which removes all
+// existing rules of the given directions and recreates them from the
+// configuration. When incrementalOpsDone is true the remote version is
+// refreshed first, because preceding incremental calls may have bumped it.
+func modifySecurityGroupPoliciesFullReplace(ctx context.Context, service *VpcService, d *schema.ResourceData, directions map[string]bool, incrementalOpsDone bool) error {
+	logId := getLogId(ctx)
+	sgId := d.Id()
 
 	version := d.Get("version").(string)
+	if incrementalOpsDone {
+		remote, err := service.DescribeSecurityGroupPolicies(ctx, sgId)
+		if err != nil {
+			return err
+		}
+		if remote.Version != nil {
+			version = *remote.Version
+		}
+	}
 	ver, vErr := strconv.ParseInt(version, 10, 64)
-	nextVer := ""
 
 	request := vpc.NewModifySecurityGroupPoliciesRequest()
-	request.SecurityGroupId = helper.String(d.Id())
+	request.SecurityGroupId = helper.String(sgId)
 	request.SecurityGroupPolicySet = &vpc.SecurityGroupPolicySet{}
 	request.SortPolicys = helper.Bool(true)
 	if vErr == nil {
-		nextVer = fmt.Sprintf("%d", ver+1)
+		nextVer := fmt.Sprintf("%d", ver+1)
 		request.SecurityGroupPolicySet.Version = &nextVer
 	}
 
 	var err error
-	if d.HasChange("ingress") {
-		rules := d.Get("ingress").([]interface{})
-		request.SecurityGroupPolicySet.Ingress, err = unmarshalSecurityPolicy(rules)
+	if directions["ingress"] {
+		request.SecurityGroupPolicySet.Ingress, err = unmarshalSecurityPolicy(d.Get("ingress").([]interface{}))
 		if err != nil {
 			return err
 		}
 	}
-	if d.HasChange("egress") {
-		rules := d.Get("egress").([]interface{})
-		request.SecurityGroupPolicySet.Egress, err = unmarshalSecurityPolicy(rules)
+	if directions["egress"] {
+		request.SecurityGroupPolicySet.Egress, err = unmarshalSecurityPolicy(d.Get("egress").([]interface{}))
 		if err != nil {
 			return err
 		}
 	}
-	err = service.ModifySecurityGroupPolicies(ctx, request)
-	if err != nil {
-		return err
+	if request.SecurityGroupPolicySet.Ingress == nil && request.SecurityGroupPolicySet.Egress == nil {
+		log.Printf("[WARN]%s security group %s full replace skipped, no direction to update", logId, sgId)
+		return nil
+	}
+	return service.ModifySecurityGroupPolicies(ctx, request)
+}
+
+type securityGroupRuleEditType int
+
+const (
+	securityGroupRuleEditNone securityGroupRuleEditType = iota
+	securityGroupRuleEditAppend
+	securityGroupRuleEditInsert
+	securityGroupRuleEditRemove
+	securityGroupRuleEditReplace
+	securityGroupRuleEditFull
+)
+
+// securityGroupRuleEdit describes a minimal incremental change of one rule
+// direction (ingress or egress) of a security group.
+type securityGroupRuleEdit struct {
+	typ     securityGroupRuleEditType
+	index   int64         // insert: position the block is inserted at
+	indices []int         // remove/replace: indices in the old list
+	rules   []interface{} // append/insert: rules to create
+	newList []interface{} // replace: the full new list, index aligned with the old list
+}
+
+// diffSecurityGroupRuleList computes a minimal edit between the old (state)
+// and new (config) rule lists. It returns securityGroupRuleEditFull when the
+// change cannot be expressed as a simple append, insert, remove or in-place
+// replace, in which case the caller falls back to a full replace.
+func diffSecurityGroupRuleList(oldList, newList []interface{}) *securityGroupRuleEdit {
+	ruleAt := func(list []interface{}, i int) string {
+		m, _ := list[i].(map[string]interface{})
+		return canonicalSecurityGroupRuleFromMap(m)
 	}
 
-	return resourceTencentCloudSecurityGroupRuleSetRead(d, m)
+	switch {
+	case len(newList) == len(oldList):
+		var changed []int
+		for i := range oldList {
+			if ruleAt(oldList, i) != ruleAt(newList, i) {
+				changed = append(changed, i)
+			}
+		}
+		if len(changed) == 0 {
+			return &securityGroupRuleEdit{typ: securityGroupRuleEditNone}
+		}
+		return &securityGroupRuleEdit{typ: securityGroupRuleEditReplace, indices: changed, newList: newList}
+
+	case len(newList) > len(oldList):
+		prefix := 0
+		for prefix < len(oldList) && ruleAt(oldList, prefix) == ruleAt(newList, prefix) {
+			prefix++
+		}
+		suffix := 0
+		for suffix < len(oldList)-prefix && ruleAt(oldList, len(oldList)-1-suffix) == ruleAt(newList, len(newList)-1-suffix) {
+			suffix++
+		}
+		if prefix+suffix == len(oldList) {
+			block := newList[prefix : len(newList)-suffix]
+			if prefix == len(oldList) {
+				return &securityGroupRuleEdit{typ: securityGroupRuleEditAppend, rules: block}
+			}
+			return &securityGroupRuleEdit{typ: securityGroupRuleEditInsert, index: int64(prefix), rules: block}
+		}
+		return &securityGroupRuleEdit{typ: securityGroupRuleEditFull}
+
+	default: // len(newList) < len(oldList)
+		var removed []int
+		j := 0
+		for i := range oldList {
+			if j < len(newList) && ruleAt(oldList, i) == ruleAt(newList, j) {
+				j++
+			} else {
+				removed = append(removed, i)
+			}
+		}
+		if j == len(newList) {
+			return &securityGroupRuleEdit{typ: securityGroupRuleEditRemove, indices: removed}
+		}
+		return &securityGroupRuleEdit{typ: securityGroupRuleEditFull}
+	}
+}
+
+// applySecurityGroupRuleEdit executes one incremental edit on the given
+// direction of the security group. Every API call is atomic; on failure the
+// caller falls back to a full replace which converges from any intermediate
+// state.
+func applySecurityGroupRuleEdit(ctx context.Context, service *VpcService, sgId, direction string, edit *securityGroupRuleEdit) error {
+	switch edit.typ {
+	case securityGroupRuleEditAppend, securityGroupRuleEditInsert:
+		policies, err := unmarshalSecurityPolicy(edit.rules)
+		if err != nil {
+			return err
+		}
+		if edit.typ == securityGroupRuleEditInsert {
+			// The API requires all policies of one request to carry the same index.
+			for _, policy := range policies {
+				policy.PolicyIndex = helper.Int64(edit.index)
+			}
+		}
+		request := vpc.NewCreateSecurityGroupPoliciesRequest()
+		request.SecurityGroupId = helper.String(sgId)
+		request.SecurityGroupPolicySet = &vpc.SecurityGroupPolicySet{}
+		setSecurityGroupPolicySetDirection(request.SecurityGroupPolicySet, direction, policies)
+		return service.CreateSecurityGroupPolicies(ctx, request)
+
+	case securityGroupRuleEditRemove:
+		policies := make([]*vpc.SecurityGroupPolicy, 0, len(edit.indices))
+		// Delete from the highest index down so lower indices stay valid even
+		// if the backend applies the policies sequentially.
+		for i := len(edit.indices) - 1; i >= 0; i-- {
+			policies = append(policies, &vpc.SecurityGroupPolicy{PolicyIndex: helper.Int64(int64(edit.indices[i]))})
+		}
+		request := vpc.NewDeleteSecurityGroupPoliciesRequest()
+		request.SecurityGroupId = helper.String(sgId)
+		request.SecurityGroupPolicySet = &vpc.SecurityGroupPolicySet{}
+		setSecurityGroupPolicySetDirection(request.SecurityGroupPolicySet, direction, policies)
+		return service.DeleteSecurityGroupPolicies(ctx, request)
+
+	case securityGroupRuleEditReplace:
+		// Replace does not shift indices, ascending order is fine. The API
+		// replaces exactly one rule per request.
+		for _, idx := range edit.indices {
+			policies, err := unmarshalSecurityPolicy([]interface{}{edit.newList[idx]})
+			if err != nil {
+				return err
+			}
+			policies[0].PolicyIndex = helper.Int64(int64(idx))
+			request := vpc.NewReplaceSecurityGroupPolicyRequest()
+			request.SecurityGroupId = helper.String(sgId)
+			request.SecurityGroupPolicySet = &vpc.SecurityGroupPolicySet{}
+			setSecurityGroupPolicySetDirection(request.SecurityGroupPolicySet, direction, policies)
+			if err := service.ReplaceSecurityGroupPolicy(ctx, request); err != nil {
+				return err
+			}
+		}
+		return nil
+	}
+	return nil
+}
+
+func setSecurityGroupPolicySetDirection(set *vpc.SecurityGroupPolicySet, direction string, policies []*vpc.SecurityGroupPolicy) {
+	if direction == "ingress" {
+		set.Ingress = policies
+	} else {
+		set.Egress = policies
+	}
+}
+
+// securityGroupRuleListMatchesRemote checks whether the remote rule list of
+// the given direction is identical to the last known state, so that index
+// based incremental operations target the intended rules.
+func securityGroupRuleListMatchesRemote(remote *vpc.SecurityGroupPolicySet, direction string, oldList []interface{}) bool {
+	var sdkRules []*vpc.SecurityGroupPolicy
+	if direction == "ingress" {
+		sdkRules = remote.Ingress
+	} else {
+		sdkRules = remote.Egress
+	}
+	if len(sdkRules) != len(oldList) {
+		return false
+	}
+	for i := range sdkRules {
+		m, ok := oldList[i].(map[string]interface{})
+		if !ok {
+			return false
+		}
+		if canonicalSecurityGroupRuleFromSdk(sdkRules[i]) != canonicalSecurityGroupRuleFromMap(m) {
+			return false
+		}
+	}
+	return true
+}
+
+func securityGroupRuleMapField(rule map[string]interface{}, key string) string {
+	if v, ok := rule[key]; ok && v != nil {
+		switch t := v.(type) {
+		case string:
+			return t
+		case *string:
+			if t != nil {
+				return *t
+			}
+		}
+	}
+	return ""
+}
+
+func canonicalSecurityGroupRuleFromMap(rule map[string]interface{}) string {
+	return canonicalSecurityGroupRuleString(
+		securityGroupRuleMapField(rule, "action"),
+		securityGroupRuleMapField(rule, "cidr_block"),
+		securityGroupRuleMapField(rule, "ipv6_cidr_block"),
+		securityGroupRuleMapField(rule, "source_security_id"),
+		securityGroupRuleMapField(rule, "address_template_id"),
+		securityGroupRuleMapField(rule, "address_template_group"),
+		securityGroupRuleMapField(rule, "service_template_id"),
+		securityGroupRuleMapField(rule, "service_template_group"),
+		securityGroupRuleMapField(rule, "protocol"),
+		securityGroupRuleMapField(rule, "port"),
+		securityGroupRuleMapField(rule, "description"),
+	)
+}
+
+func canonicalSecurityGroupRuleFromSdk(policy *vpc.SecurityGroupPolicy) string {
+	str := func(s *string) string {
+		if s == nil {
+			return ""
+		}
+		return *s
+	}
+	var addressId, addressGroupId, serviceId, serviceGroupId string
+	if policy.AddressTemplate != nil {
+		addressId = str(policy.AddressTemplate.AddressId)
+		addressGroupId = str(policy.AddressTemplate.AddressGroupId)
+	}
+	if policy.ServiceTemplate != nil {
+		serviceId = str(policy.ServiceTemplate.ServiceId)
+		serviceGroupId = str(policy.ServiceTemplate.ServiceGroupId)
+	}
+	return canonicalSecurityGroupRuleString(
+		str(policy.Action), str(policy.CidrBlock), str(policy.Ipv6CidrBlock), str(policy.SecurityGroupId),
+		addressId, addressGroupId, serviceId, serviceGroupId,
+		str(policy.Protocol), str(policy.Port), str(policy.PolicyDescription),
+	)
+}
+
+func canonicalSecurityGroupRuleString(action, cidrBlock, ipv6CidrBlock, securityGroupId, addressTemplateId, addressTemplateGroup, serviceTemplateId, serviceTemplateGroup, protocol, port, description string) string {
+	// The backend treats an omitted protocol or port as "ALL" but may return
+	// the field empty or as the literal "ALL"; both forms are equivalent.
+	withDefault := func(s string) string {
+		if s == "" {
+			return "ALL"
+		}
+		return strings.ToUpper(s)
+	}
+	return strings.Join([]string{
+		strings.ToUpper(action), cidrBlock, ipv6CidrBlock, securityGroupId,
+		addressTemplateId, addressTemplateGroup, serviceTemplateId, serviceTemplateGroup,
+		withDefault(protocol), withDefault(port), description,
+	}, "\x00")
+}
+
+// suppressSecurityGroupRuleDefaultValue suppresses diffs between an unset
+// optional value and the backend default "ALL", so that omitting protocol or
+// port does not produce a perpetual diff after the backend fills in the
+// default.
+func suppressSecurityGroupRuleDefaultValue(k, old, new string, d *schema.ResourceData) bool {
+	if strings.EqualFold(old, new) {
+		return true
+	}
+	isAll := func(s string) bool { return strings.EqualFold(s, "ALL") }
+	return (old == "" && isAll(new)) || (new == "" && isAll(old))
 }
 
 func resourceTencentCloudSecurityGroupRuleSetDelete(d *schema.ResourceData, m interface{}) error {
