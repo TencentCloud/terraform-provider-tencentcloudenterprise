@@ -13,6 +13,8 @@ Provides a resource to create security group rule. This resource is similar with
 
 ~> **NOTE:** This resource must exclusive in one security group, do not declare additional rule resources of this security group elsewhere.
 
+~> **NOTE:** `ingress` and `egress` are ordered lists, the first rule has the highest priority. Inserting a rule in the middle makes Terraform show all subsequent rules as changed because list elements are compared by index; this is a display effect only. On apply, simple changes (append, insert, remove, in-place modify) are applied incrementally and only touch the affected rules; complex changes such as reordering combined with other edits fall back to resetting the whole rule set of the changed direction.
+
 ## Example Usage
 
 ```hcl
