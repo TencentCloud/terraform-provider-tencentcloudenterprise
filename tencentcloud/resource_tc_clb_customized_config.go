@@ -68,9 +68,12 @@ func resourceTencentCloudClbCustomizedConfig() *schema.Resource {
 				Description: "Name of Customized Config.",
 			},
 			"config_content": {
-				Type:        schema.TypeString,
-				Required:    true,
-				Description: "Content of Customized Config.",
+				Type:     schema.TypeString,
+				Required: true,
+				DiffSuppressFunc: func(k, old, new string, d *schema.ResourceData) bool {
+					return normalizeClbCustomizedConfigContent(old) == normalizeClbCustomizedConfigContent(new)
+				},
+				Description: "Content of Customized Config. NOTE: the CLB API may normalize the content returned (e.g. convert line endings to CRLF, reorder or expand the ssl_ciphers list); after the first apply, please align the configuration with the content stored in the state to avoid persistent diffs.",
 			},
 			"load_balancer_ids": {
 				Type:        schema.TypeSet,
@@ -174,7 +177,7 @@ func resourceTencentCloudClbCustomizedConfigRead(d *schema.ResourceData, meta in
 	}
 
 	_ = d.Set("config_name", config.ConfigName)
-	_ = d.Set("config_content", strings.TrimSpace(*config.ConfigContent))
+	_ = d.Set("config_content", normalizeClbCustomizedConfigContent(*config.ConfigContent))
 	_ = d.Set("create_time", config.CreateTimestamp)
 	_ = d.Set("update_time", config.UpdateTimestamp)
 
@@ -205,8 +208,6 @@ func resourceTencentCloudClbCustomizedConfigUpdate(d *schema.ResourceData, meta 
 	defer logElapsed("resource.tencentcloudenterprise_clb_customized_config.update")()
 
 	logId := getLogId(contextNil)
-
-	d.Partial(true)
 
 	configId := d.Id()
 	request := clb.NewSetCustomizedConfigForLoadBalancerRequest()
@@ -270,7 +271,7 @@ func resourceTencentCloudClbCustomizedConfigUpdate(d *schema.ResourceData, meta 
 			}
 		}
 	}
-	return nil
+	return resourceTencentCloudClbCustomizedConfigRead(d, meta)
 }
 
 func resourceTencentCloudClbCustomizedConfigDelete(d *schema.ResourceData, meta interface{}) error {
@@ -297,4 +298,18 @@ func resourceTencentCloudClbCustomizedConfigDelete(d *schema.ResourceData, meta 
 	}
 
 	return nil
+}
+
+// normalizeClbCustomizedConfigContent normalizes the config content returned by
+// the CLB API, which rewrites line endings to CRLF and may leave trailing
+// blanks, into the LF form used by HCL configurations, so that semantically
+// identical content does not produce perpetual diffs.
+func normalizeClbCustomizedConfigContent(content string) string {
+	content = strings.ReplaceAll(content, "\r\n", "\n")
+	content = strings.ReplaceAll(content, "\r", "\n")
+	lines := strings.Split(content, "\n")
+	for i := range lines {
+		lines[i] = strings.TrimRight(lines[i], " \t")
+	}
+	return strings.TrimSpace(strings.Join(lines, "\n"))
 }

@@ -28,7 +28,7 @@ resource "tencentcloudenterprise_clb_customized_config" "foo" {
 
 The following arguments are supported:
 
-* `config_content` - (Required, String) Content of Customized Config.
+* `config_content` - (Required, String) Content of Customized Config. NOTE: the CLB API may normalize the content returned (e.g. convert line endings to CRLF, reorder or expand the ssl_ciphers list); after the first apply, please align the configuration with the content stored in the state to avoid persistent diffs.
 * `config_name` - (Required, String) Name of Customized Config.
 * `load_balancer_ids` - (Optional, Set: [`String`]) List of LoadBalancer Ids.
 
