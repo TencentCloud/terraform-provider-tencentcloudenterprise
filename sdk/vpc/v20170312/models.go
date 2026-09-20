@@ -20835,3 +20835,198 @@ type CcnBandwidthInfo struct {
 
 	CcnRegionBandwidthLimit *CcnRegionBandwidthLimit `json:"CcnRegionBandwidthLimit,omitempty" name:"CcnRegionBandwidthLimit"`
 }
+
+type SourceIpTranslationNatRule struct {
+
+	// Snat规则ID
+
+	NatGatewaySnatId *string `json:"NatGatewaySnatId,omitempty" name:"NatGatewaySnatId"`
+	// 资源ID
+
+	ResourceId *string `json:"ResourceId,omitempty" name:"ResourceId"`
+	// 资源类型，目前包含SUBNET、NETWORKINTERFACE
+
+	ResourceType *string `json:"ResourceType,omitempty" name:"ResourceType"`
+	// 源IP/网段
+
+	PrivateIpAddress *string `json:"PrivateIpAddress,omitempty" name:"PrivateIpAddress"`
+	// 弹性IP地址池
+
+	PublicIpAddresses []*string `json:"PublicIpAddresses,omitempty" name:"PublicIpAddresses"`
+	// 描述
+
+	Description *string `json:"Description,omitempty" name:"Description"`
+	// NAT网关的ID。
+
+	NatGatewayId *string `json:"NatGatewayId,omitempty" name:"NatGatewayId"`
+	// 私有网络VPC的ID。
+
+	VpcId *string `json:"VpcId,omitempty" name:"VpcId"`
+	// NAT网关SNAT规则创建时间。
+
+	CreatedTime *string `json:"CreatedTime,omitempty" name:"CreatedTime"`
+}
+
+type CreateNatGatewaySourceIpTranslationNatRuleRequest struct {
+	*tchttp.BaseRequest
+
+	// NAT网关的ID，形如："nat-df45454"。
+
+	NatGatewayId *string `json:"NatGatewayId,omitempty" name:"NatGatewayId"`
+	// NAT网关的SNAT转换规则
+
+	SourceIpTranslationNatRules []*SourceIpTranslationNatRule `json:"SourceIpTranslationNatRules,omitempty" name:"SourceIpTranslationNatRules"`
+}
+
+func (r *CreateNatGatewaySourceIpTranslationNatRuleRequest) ToJsonString() string {
+	b, _ := json.Marshal(r)
+	return string(b)
+}
+
+func (r *CreateNatGatewaySourceIpTranslationNatRuleRequest) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
+type CreateNatGatewaySourceIpTranslationNatRuleResponse struct {
+	*tchttp.BaseResponse
+
+	Response *struct {
+		// 唯一请求 ID，每次请求都会返回。定位问题时需要提供该次请求的 RequestId。
+		RequestId *string `json:"RequestId,omitempty" name:"RequestId"`
+	} `json:"Response"`
+}
+
+func (r *CreateNatGatewaySourceIpTranslationNatRuleResponse) ToJsonString() string {
+	b, _ := json.Marshal(r)
+	return string(b)
+}
+
+func (r *CreateNatGatewaySourceIpTranslationNatRuleResponse) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
+type DescribeNatGatewaySourceIpTranslationNatRulesRequest struct {
+	*tchttp.BaseRequest
+
+	// NAT网关统一 ID，形如：`nat-jktxx454`。
+
+	NatGatewayId *string `json:"NatGatewayId,omitempty" name:"NatGatewayId"`
+	// 过滤条件
+
+	Filters []*Filter `json:"Filters,omitempty" name:"Filters"`
+	// 偏移量，默认为0。
+
+	Offset *int64 `json:"Offset,omitempty" name:"Offset"`
+	// 返回数量，默认为20，最大值为100。
+
+	Limit *int64 `json:"Limit,omitempty" name:"Limit"`
+}
+
+func (r *DescribeNatGatewaySourceIpTranslationNatRulesRequest) ToJsonString() string {
+	b, _ := json.Marshal(r)
+	return string(b)
+}
+
+func (r *DescribeNatGatewaySourceIpTranslationNatRulesRequest) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
+type DescribeNatGatewaySourceIpTranslationNatRulesResponse struct {
+	*tchttp.BaseResponse
+
+	Response *struct {
+		// NAT网关SNAT规则对象数组。
+
+		SourceIpTranslationNatRuleSet []*SourceIpTranslationNatRule `json:"SourceIpTranslationNatRuleSet,omitempty" name:"SourceIpTranslationNatRuleSet"`
+		// 符合条件的NAT网关端口转发规则对象数目。
+
+		TotalCount *int64 `json:"TotalCount,omitempty" name:"TotalCount"`
+		// 唯一请求 ID，每次请求都会返回。定位问题时需要提供该次请求的 RequestId。
+		RequestId *string `json:"RequestId,omitempty" name:"RequestId"`
+	} `json:"Response"`
+}
+
+func (r *DescribeNatGatewaySourceIpTranslationNatRulesResponse) ToJsonString() string {
+	b, _ := json.Marshal(r)
+	return string(b)
+}
+
+func (r *DescribeNatGatewaySourceIpTranslationNatRulesResponse) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
+type ModifyNatGatewaySourceIpTranslationNatRuleRequest struct {
+	*tchttp.BaseRequest
+
+	// NAT网关的ID，形如：`nat-df453454`。
+
+	NatGatewayId *string `json:"NatGatewayId,omitempty" name:"NatGatewayId"`
+	// NAT网关的SNAT转换规则。
+
+	SourceIpTranslationNatRule *SourceIpTranslationNatRule `json:"SourceIpTranslationNatRule,omitempty" name:"SourceIpTranslationNatRule"`
+}
+
+func (r *ModifyNatGatewaySourceIpTranslationNatRuleRequest) ToJsonString() string {
+	b, _ := json.Marshal(r)
+	return string(b)
+}
+
+func (r *ModifyNatGatewaySourceIpTranslationNatRuleRequest) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
+type ModifyNatGatewaySourceIpTranslationNatRuleResponse struct {
+	*tchttp.BaseResponse
+
+	Response *struct {
+		// 唯一请求 ID，每次请求都会返回。定位问题时需要提供该次请求的 RequestId。
+		RequestId *string `json:"RequestId,omitempty" name:"RequestId"`
+	} `json:"Response"`
+}
+
+func (r *ModifyNatGatewaySourceIpTranslationNatRuleResponse) ToJsonString() string {
+	b, _ := json.Marshal(r)
+	return string(b)
+}
+
+func (r *ModifyNatGatewaySourceIpTranslationNatRuleResponse) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
+type DeleteNatGatewaySourceIpTranslationNatRuleRequest struct {
+	*tchttp.BaseRequest
+
+	// NAT网关的ID，形如：`nat-df45454`。
+
+	NatGatewayId *string `json:"NatGatewayId,omitempty" name:"NatGatewayId"`
+	// NAT网关的SNAT ID列表，形如：`snat-df43254`。
+
+	NatGatewaySnatIds []*string `json:"NatGatewaySnatIds,omitempty" name:"NatGatewaySnatIds"`
+}
+
+func (r *DeleteNatGatewaySourceIpTranslationNatRuleRequest) ToJsonString() string {
+	b, _ := json.Marshal(r)
+	return string(b)
+}
+
+func (r *DeleteNatGatewaySourceIpTranslationNatRuleRequest) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
+type DeleteNatGatewaySourceIpTranslationNatRuleResponse struct {
+	*tchttp.BaseResponse
+
+	Response *struct {
+		// 唯一请求 ID，每次请求都会返回。定位问题时需要提供该次请求的 RequestId。
+		RequestId *string `json:"RequestId,omitempty" name:"RequestId"`
+	} `json:"Response"`
+}
+
+func (r *DeleteNatGatewaySourceIpTranslationNatRuleResponse) ToJsonString() string {
+	b, _ := json.Marshal(r)
+	return string(b)
+}
+
+func (r *DeleteNatGatewaySourceIpTranslationNatRuleResponse) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}

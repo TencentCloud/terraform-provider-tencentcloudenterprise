@@ -362,6 +362,7 @@ Virtual Private Cloud(VPC)
 	   tencentcloudenterprise_vpc_route_table_entry
 	   tencentcloudenterprise_vpc_dnat
 	   tencentcloudenterprise_vpc_nat_gateway
+	   tencentcloudenterprise_vpc_nat_gateway_snat
 	   tencentcloudenterprise_vpc_ha_vip
 	   tencentcloudenterprise_vpc_ha_vip_eip_attachment
 	tencentcloudenterprise_vpc_bandwidth_package
@@ -1031,6 +1032,7 @@ func Provider() *schema.Provider {
 			"tencentcloudenterprise_vpc_ipv6_eni_address":                    resourceTencentCloudVpcIpv6EniAddress(),
 			"tencentcloudenterprise_vpc_ipv6_subnet_cidr_block":              resourceTencentCloudVpcIpv6SubnetCidrBlock(),
 			"tencentcloudenterprise_vpc_nat_gateway":                         resourceTencentCloudNatGateway(),
+			"tencentcloudenterprise_vpc_nat_gateway_snat":                    resourceTencentCloudVpcNatGatewaySnat(),
 			"tencentcloudenterprise_vpc_net_detect":                          resourceTencentCloudVpcNetDetect(),
 			"tencentcloudenterprise_vpc_route_table":                         resourceTencentCloudVpcRouteTable(),
 			"tencentcloudenterprise_vpc_route_table_entry":                   resourceTencentCloudVpcRouteEntry(),

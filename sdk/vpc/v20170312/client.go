@@ -9940,3 +9940,103 @@ func (c *Client) GetUpdateCcnBandwidthDeal(request *GetUpdateCcnBandwidthDealReq
 	err = c.Send(request, response)
 	return
 }
+
+func NewCreateNatGatewaySourceIpTranslationNatRuleRequest() (request *CreateNatGatewaySourceIpTranslationNatRuleRequest) {
+	request = &CreateNatGatewaySourceIpTranslationNatRuleRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("vpc", APIVersion, "CreateNatGatewaySourceIpTranslationNatRule")
+	return
+}
+
+func NewCreateNatGatewaySourceIpTranslationNatRuleResponse() (response *CreateNatGatewaySourceIpTranslationNatRuleResponse) {
+	response = &CreateNatGatewaySourceIpTranslationNatRuleResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 本接口(CreateNatGatewaySourceIpTranslationNatRule)用于创建NAT网关SNAT规则
+func (c *Client) CreateNatGatewaySourceIpTranslationNatRule(request *CreateNatGatewaySourceIpTranslationNatRuleRequest) (response *CreateNatGatewaySourceIpTranslationNatRuleResponse, err error) {
+	if request == nil {
+		request = NewCreateNatGatewaySourceIpTranslationNatRuleRequest()
+	}
+	response = NewCreateNatGatewaySourceIpTranslationNatRuleResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewModifyNatGatewaySourceIpTranslationNatRuleRequest() (request *ModifyNatGatewaySourceIpTranslationNatRuleRequest) {
+	request = &ModifyNatGatewaySourceIpTranslationNatRuleRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("vpc", APIVersion, "ModifyNatGatewaySourceIpTranslationNatRule")
+	return
+}
+
+func NewModifyNatGatewaySourceIpTranslationNatRuleResponse() (response *ModifyNatGatewaySourceIpTranslationNatRuleResponse) {
+	response = &ModifyNatGatewaySourceIpTranslationNatRuleResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 本接口（ModifyNatGatewaySourceIpTranslationNatRule）用于修改NAT网关SNAT转发规则。
+func (c *Client) ModifyNatGatewaySourceIpTranslationNatRule(request *ModifyNatGatewaySourceIpTranslationNatRuleRequest) (response *ModifyNatGatewaySourceIpTranslationNatRuleResponse, err error) {
+	if request == nil {
+		request = NewModifyNatGatewaySourceIpTranslationNatRuleRequest()
+	}
+	response = NewModifyNatGatewaySourceIpTranslationNatRuleResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewDescribeNatGatewaySourceIpTranslationNatRulesRequest() (request *DescribeNatGatewaySourceIpTranslationNatRulesRequest) {
+	request = &DescribeNatGatewaySourceIpTranslationNatRulesRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("vpc", APIVersion, "DescribeNatGatewaySourceIpTranslationNatRules")
+	return
+}
+
+func NewDescribeNatGatewaySourceIpTranslationNatRulesResponse() (response *DescribeNatGatewaySourceIpTranslationNatRulesResponse) {
+	response = &DescribeNatGatewaySourceIpTranslationNatRulesResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 本接口（DescribeNatGatewaySourceIpTranslationNatRules）用于查询NAT网关SNAT转发规则对象数组。
+func (c *Client) DescribeNatGatewaySourceIpTranslationNatRules(request *DescribeNatGatewaySourceIpTranslationNatRulesRequest) (response *DescribeNatGatewaySourceIpTranslationNatRulesResponse, err error) {
+	if request == nil {
+		request = NewDescribeNatGatewaySourceIpTranslationNatRulesRequest()
+	}
+	response = NewDescribeNatGatewaySourceIpTranslationNatRulesResponse()
+	err = c.Send(request, response)
+	return
+}
+
+func NewDeleteNatGatewaySourceIpTranslationNatRuleRequest() (request *DeleteNatGatewaySourceIpTranslationNatRuleRequest) {
+	request = &DeleteNatGatewaySourceIpTranslationNatRuleRequest{
+		BaseRequest: &tchttp.BaseRequest{},
+	}
+	request.Init().WithApiInfo("vpc", APIVersion, "DeleteNatGatewaySourceIpTranslationNatRule")
+	return
+}
+
+func NewDeleteNatGatewaySourceIpTranslationNatRuleResponse() (response *DeleteNatGatewaySourceIpTranslationNatRuleResponse) {
+	response = &DeleteNatGatewaySourceIpTranslationNatRuleResponse{
+		BaseResponse: &tchttp.BaseResponse{},
+	}
+	return
+}
+
+// 本接口（DeleteNatGatewaySourceIpTranslationNatRule）用于删除NAT网关端口SNAT转发规则。
+func (c *Client) DeleteNatGatewaySourceIpTranslationNatRule(request *DeleteNatGatewaySourceIpTranslationNatRuleRequest) (response *DeleteNatGatewaySourceIpTranslationNatRuleResponse, err error) {
+	if request == nil {
+		request = NewDeleteNatGatewaySourceIpTranslationNatRuleRequest()
+	}
+	response = NewDeleteNatGatewaySourceIpTranslationNatRuleResponse()
+	err = c.Send(request, response)
+	return
+}
