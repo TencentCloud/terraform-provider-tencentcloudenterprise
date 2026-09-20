@@ -5120,7 +5120,6 @@ func (me *VpcService) DeleteVpnGatewaySslClient(ctx context.Context, SslClientId
 }
 */
 
-/*
 func (me *VpcService) CreateNatGatewaySnat(ctx context.Context, natGatewayId string, snat *vpc.SourceIpTranslationNatRule) (errRet error) {
 	logId := getLogId(ctx)
 	request := vpc.NewCreateNatGatewaySourceIpTranslationNatRuleRequest()
@@ -5151,9 +5150,7 @@ func (me *VpcService) CreateNatGatewaySnat(ctx context.Context, natGatewayId str
 	}
 	return
 }
-*/
 
-/*
 func (me *VpcService) ModifyNatGatewaySnat(ctx context.Context, natGatewayId string, snat *vpc.SourceIpTranslationNatRule) (errRet error) {
 	logId := getLogId(ctx)
 	request := vpc.NewModifyNatGatewaySourceIpTranslationNatRuleRequest()
@@ -5183,9 +5180,7 @@ func (me *VpcService) ModifyNatGatewaySnat(ctx context.Context, natGatewayId str
 	}
 	return
 }
-*/
 
-/*
 func (me *VpcService) DeleteNatGatewaySnat(ctx context.Context, natGatewayId string, snatId string) (errRet error) {
 	logId := getLogId(ctx)
 	request := vpc.NewDeleteNatGatewaySourceIpTranslationNatRuleRequest()
@@ -5207,9 +5202,7 @@ func (me *VpcService) DeleteNatGatewaySnat(ctx context.Context, natGatewayId str
 	})
 	return
 }
-*/
 
-/*
 func (me *VpcService) DescribeNatGatewaySnats(ctx context.Context, natGatewayId string, filters []*vpc.Filter) (errRet error, result []*vpc.SourceIpTranslationNatRule) {
 	logId := getLogId(ctx)
 	request := vpc.NewDescribeNatGatewaySourceIpTranslationNatRulesRequest()
@@ -5251,7 +5244,6 @@ func (me *VpcService) DescribeNatGatewaySnats(ctx context.Context, natGatewayId 
 		offset = offset + limit
 	}
 }
-*/
 
 func (me *VpcService) DescribeAssistantCidr(ctx context.Context, vpcId string) (info []*vpc.AssistantCidr, errRet error) {
 	logId := getLogId(ctx)
