@@ -45,7 +45,7 @@ const (
 func init() {
 	testAccProvider = Provider()
 	testAccProviders = map[string]*schema.Provider{
-		"cloud": testAccProvider,
+		"tencentcloudenterprise": testAccProvider,
 	}
 	envProject := os.Getenv("QCI_JOB_ID")
 	envNum := os.Getenv("QCI_BUILD_NUMBER")

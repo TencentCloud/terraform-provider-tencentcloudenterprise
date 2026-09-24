@@ -222,3 +222,46 @@ resource "tencentcloudenterprise_vpc_acl" "foo" {
 	]
 } 
 `
+
+func TestAccTencentCloudVpcAcl_protocolAll(t *testing.T) {
+	t.Parallel()
+	resource.Test(t, resource.TestCase{
+		PreCheck:     func() { testAccPreCheck(t) },
+		Providers:    testAccProviders,
+		CheckDestroy: testAccCheckVpcACLDestroy,
+		Steps: []resource.TestStep{
+			{
+				Config: testAccVpcACLConfigProtocolAll,
+				Check: resource.ComposeTestCheckFunc(
+					testAccCheckVpcACLExists("tencentcloudenterprise_vpc_acl.foo"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_vpc_acl.foo", "name", "test_acl_all"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_vpc_acl.foo", "ingress.#", "3"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_vpc_acl.foo", "ingress.0", "ACCEPT#10.0.0.0/8#ALL#ALL"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_vpc_acl.foo", "ingress.1", "ACCEPT#172.16.0.0/12#ALL#ALL"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_vpc_acl.foo", "ingress.2", "ACCEPT#192.168.1.0/24#80#TCP"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_vpc_acl.foo", "egress.#", "1"),
+					resource.TestCheckResourceAttr("tencentcloudenterprise_vpc_acl.foo", "egress.0", "ACCEPT#0.0.0.0/0#ALL#ALL"),
+				),
+			},
+		},
+	})
+}
+
+const testAccVpcACLConfigProtocolAll = `
+data "tencentcloudenterprise_vpc_instances" "default" {
+	is_default = true
+}
+
+resource "tencentcloudenterprise_vpc_acl" "foo" {
+    vpc_id = data.tencentcloudenterprise_vpc_instances.default.instance_list.0.vpc_id
+    name   = "test_acl_all"
+	ingress = [
+		"ACCEPT#10.0.0.0/8#ALL#ALL",
+		"ACCEPT#172.16.0.0/12#ALL#ALL",
+		"ACCEPT#192.168.1.0/24#80#TCP",
+	]
+	egress = [
+		"ACCEPT#0.0.0.0/0#ALL#ALL",
+	]
+}
+`
