@@ -1,22 +1,24 @@
 /*
 Provide a resource to create a KMS key.
 
-Example Usage
+# Example Usage
 
 ```hcl
-resource "tencentcloudenterprise_kms_key" "foo" {
-	alias = "test"
-	description = "describe key test message."
-	key_rotation_enabled = true
-	is_enabled = true
 
-	tags = {
-		"test-tag":"key-test"
+	resource "tencentcloudenterprise_kms_key" "foo" {
+		alias = "test"
+		description = "describe key test message."
+		key_rotation_enabled = true
+		is_enabled = true
+
+		tags = {
+			"test-tag":"key-test"
+		}
 	}
-}
+
 ```
 
-Import
+# Import
 
 KMS keys can be imported using the id, e.g.
 
@@ -29,13 +31,13 @@ package tencentcloud
 import (
 	"context"
 	"fmt"
-	sdkErrors "terraform-provider-tencentcloudenterprise/sdk/common/errors"
 	"log"
+	sdkErrors "terraform-provider-tencentcloudenterprise/sdk/common/errors"
 
-	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	kms "terraform-provider-tencentcloudenterprise/sdk/kms/v20190118"
+	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
 )
 
 func init() {
@@ -43,21 +45,21 @@ func init() {
 		TerraformTypeCN: "用户密钥",
 		DescriptionCN:   "提供KMS用户密钥资源，用于创建和管理KMS用户密钥。",
 		AttributesCN: map[string]string{
-			"alias":                "密钥别名",
-			"description":          "密钥描述",
-			"is_enabled":           "是否启用密钥",
-			"is_archived":          "是否归档密钥",
-			"key_usage":            "密钥用途",
-			"key_rotation_enabled": "是否开启密钥轮换",
-			"tags":                 "标签",
-			"key_id":               "密钥ID",
-			"arn":                  "密钥ARN",
-			"key_state":            "密钥状态",
-			"create_time":          "创建时间",
-			"creator_uin":          "创建者UIN",
-			"key_rotation_status":  "密钥轮换状态",
-			"next_rotate_time":     "下次轮换时间",
-			"pending_delete_window_in_days":"计划删除时间区间[7,30]",
+			"alias":                         "密钥别名",
+			"description":                   "密钥描述",
+			"is_enabled":                    "是否启用密钥",
+			"is_archived":                   "是否归档密钥",
+			"key_usage":                     "密钥用途",
+			"key_rotation_enabled":          "是否开启密钥轮换",
+			"tags":                          "标签",
+			"key_id":                        "密钥ID",
+			"arn":                           "密钥ARN",
+			"key_state":                     "密钥状态",
+			"create_time":                   "创建时间",
+			"creator_uin":                   "创建者UIN",
+			"key_rotation_status":           "密钥轮换状态",
+			"next_rotate_time":              "下次轮换时间",
+			"pending_delete_window_in_days": "计划删除时间区间[7,30]",
 		},
 	})
 }
@@ -141,6 +143,21 @@ func resourceTencentCloudKmsKey() *schema.Resource {
 	}
 }
 
+// kmsTagResourceId is the id placed in the tag six-segment resource name.
+// TCE DescribeKey can return an empty ResourceId; the tag service accepts the key id.
+func kmsTagResourceId(key *kms.KeyMetadata) string {
+	if key == nil {
+		return ""
+	}
+	if key.ResourceId != nil && *key.ResourceId != "" {
+		return *key.ResourceId
+	}
+	if key.KeyId != nil {
+		return *key.KeyId
+	}
+	return ""
+}
+
 func resourceTencentCloudKmsKeyCreate(d *schema.ResourceData, meta interface{}) error {
 	defer logElapsed("resource.tencentcloudenterprise_kms_key.create")()
 
@@ -154,21 +171,19 @@ func resourceTencentCloudKmsKeyCreate(d *schema.ResourceData, meta interface{}) 
 	alias := d.Get("alias").(string)
 	description := ""
 	keyUsage := ""
-	var tag map[string]string
 	if v, ok := d.GetOk("description"); ok {
 		description = v.(string)
 	}
 	if v, ok := d.GetOk("key_usage"); ok {
 		keyUsage = v.(string)
 	}
-	if tags := helper.GetTags(d, "tags"); len(tags) > 0 {
-		tag = tags
-	}
 
 	var keyId string
 	var outErr, inErr error
 	outErr = resource.Retry(writeRetryTimeout, func() *resource.RetryError {
-		keyId, inErr = kmsService.CreateKey(ctx, keyType, alias, description, keyUsage, tag)
+		// TCE KMS CreateKey rejects tags that are not already registered
+		// (InvalidParameterValue.TagsNotExisted). Bind them after the key exists.
+		keyId, inErr = kmsService.CreateKey(ctx, keyType, alias, description, keyUsage, nil)
 		if inErr != nil {
 			return retryError(inErr)
 		}
@@ -224,18 +239,18 @@ func resourceTencentCloudKmsKeyCreate(d *schema.ResourceData, meta interface{}) 
 		}
 	}
 
-	// if tags := helper.GetTags(d, "tags"); len(tags) > 0 {
-	// 	tcClient := meta.(*TencentCloudClient).apiV3Conn
-	// 	tagService := &TagService{client: tcClient}
-	// 	keyMetaData, err := kmsService.DescribeKeyById(ctx, keyId)
-	// 	if err != nil {
-	// 		return err
-	// 	}
-	// 	resourceName := BuildTagResourceName("kms", "key", tcClient.Region, *keyMetaData.ResourceId)
-	// 	if err := tagService.ModifyTags(ctx, resourceName, tags, nil); err != nil {
-	// 		return err
-	// 	}
-	// }
+	if tags := helper.GetTags(d, "tags"); len(tags) > 0 {
+		tcClient := meta.(*TencentCloudClient).apiV3Conn
+		tagService := &TagService{client: tcClient}
+		keyMetaData, err := kmsService.DescribeKeyById(ctx, keyId)
+		if err != nil {
+			return err
+		}
+		resourceName := BuildTagResourceName("kms", "key", tcClient.Region, kmsTagResourceId(keyMetaData))
+		if err := tagService.ModifyTags(ctx, resourceName, tags, nil); err != nil {
+			return err
+		}
+	}
 
 	return resourceTencentCloudKmsKeyRead(d, meta)
 
@@ -280,7 +295,7 @@ func resourceTencentCloudKmsKeyRead(d *schema.ResourceData, meta interface{}) er
 
 	tcClient := meta.(*TencentCloudClient).apiV3Conn
 	tagService := &TagService{client: tcClient}
-	tags, err := tagService.DescribeResourceTags(ctx, "kms", "key", tcClient.Region, *key.ResourceId)
+	tags, err := tagService.DescribeResourceTags(ctx, "kms", "key", tcClient.Region, kmsTagResourceId(key))
 	if err != nil {
 		return err
 	}
@@ -372,7 +387,7 @@ func resourceTencentCloudKmsKeyUpdate(d *schema.ResourceData, meta interface{}) 
 		if err != nil {
 			return err
 		}
-		resourceName := BuildTagResourceName("kms", "key", tcClient.Region, *keyMetaData.ResourceId)
+		resourceName := BuildTagResourceName("kms", "key", tcClient.Region, kmsTagResourceId(keyMetaData))
 		if err := tagService.ModifyTags(ctx, resourceName, replaceTags, deleteTags); err != nil {
 			return err
 		}
