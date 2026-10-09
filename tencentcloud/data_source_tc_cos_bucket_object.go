@@ -281,8 +281,11 @@ func dataSourceTencentCloudCosBucketObjectsRead(ctx context.Context, d *schema.R
 		content["last_modified"] = v.LastModified
 		content["etag"] = v.ETag
 		content["size"] = v.Size
-		content["owner_id"] = v.Owner.ID
-		content["display_name"] = v.Owner.DisplayName
+		// 列举对象时服务端仅在请求带 fetch-owner 时才返回 Owner，该选项当前不可设置
+		if v.Owner != nil {
+			content["owner_id"] = v.Owner.ID
+			content["display_name"] = v.Owner.DisplayName
+		}
 		content["storage_class"] = v.StorageClass
 		contents = append(contents, content)
 	}
