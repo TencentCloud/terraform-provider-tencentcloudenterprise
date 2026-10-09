@@ -1,6 +1,12 @@
 package tencentcloud
 
-import "fmt"
+import (
+	"fmt"
+
+	sdkErrors "terraform-provider-tencentcloudenterprise/sdk/common/errors"
+
+	"github.com/pkg/errors"
+)
 
 type nodePoolCapacityPlan struct {
 	NeedTempRange  bool
@@ -12,6 +18,14 @@ type nodePoolCapacityPlan struct {
 	FinalMin       int64
 	FinalMax       int64
 }
+
+type nodePoolWaitAction int
+
+const (
+	nodePoolWaitReady nodePoolWaitAction = iota
+	nodePoolWaitRetry
+	nodePoolWaitFail
+)
 
 func minInt64(values ...int64) int64 {
 	minValue := values[0]
@@ -64,4 +78,33 @@ func planNodePoolCapacityUpdate(currentMin, currentMax, currentDesired, newMin, 
 		FinalMin:       newMin,
 		FinalMax:       newMax,
 	}, nil
+}
+
+func nodePoolWaitDecision(has bool, lifeState *string) (nodePoolWaitAction, string) {
+	if !has {
+		return nodePoolWaitFail, "not found"
+	}
+	state := "unknown"
+	if lifeState != nil {
+		state = *lifeState
+	}
+	switch state {
+	case "normal":
+		return nodePoolWaitReady, state
+	case "abnormal":
+		return nodePoolWaitFail, state
+	default:
+		return nodePoolWaitRetry, state
+	}
+}
+
+func isBareOperationDenied(err error) bool {
+	if err == nil {
+		return false
+	}
+	sdkErr, ok := err.(*sdkErrors.CloudSDKError)
+	if !ok {
+		sdkErr, ok = errors.Cause(err).(*sdkErrors.CloudSDKError)
+	}
+	return ok && sdkErr.Code == "OperationDenied"
 }
