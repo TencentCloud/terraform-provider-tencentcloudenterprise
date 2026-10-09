@@ -1,20 +1,22 @@
 /*
 Provide a resource to create a KMS external key.
 
-Example Usage
+# Example Usage
 
 ```hcl
-resource "tencentcloudenterprise_kms_external_key" "foo" {
-	alias = "test"
-	description = "describe key test message."
-	wrapping_algorithm = "RSAES_PKCS1_V1_5"
-	key_material_base64 = "MTIzMTIzMTIzMTIzMTIzQQ=="
-	valid_to = 2147443200
-	is_enabled = true
-}
+
+	resource "tencentcloudenterprise_kms_external_key" "foo" {
+		alias = "test"
+		description = "describe key test message."
+		wrapping_algorithm = "RSAES_PKCS1_V1_5"
+		key_material_base64 = "MTIzMTIzMTIzMTIzMTIzQQ=="
+		valid_to = 2147443200
+		is_enabled = true
+	}
+
 ```
 
-Import
+# Import
 
 KMS external keys can be imported using the id, e.g.
 
@@ -29,10 +31,10 @@ import (
 	"fmt"
 	"log"
 
-	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	kms "terraform-provider-tencentcloudenterprise/sdk/kms/v20190118"
+	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
 )
 
 func init() {
@@ -40,20 +42,20 @@ func init() {
 		TerraformTypeCN: "外部密钥",
 		DescriptionCN:   "提供KMS外部密钥资源，用于创建和管理KMS外部密钥。",
 		AttributesCN: map[string]string{
-			"alias":               "密钥别名",
-			"description":         "密钥描述",
-			"wrapping_algorithm":  "密钥材料加密算法",
-			"key_material_base64": "密钥材料",
-			"valid_to":            "密钥材料过期时间",
-			"is_enabled":          "是否启用密钥",
-			"tags":                "标签",
-			"key_id":              "密钥ID",
-			"arn":                 "密钥ARN",
-			"key_state":           "密钥状态",
-			"create_time":         "创建时间",
-			"creator_uin":         "创建者UIN",
-			"pending_delete_window_in_days":"计划删除时间区间[7,30]",
-			"is_archived":		   "是否对密钥进行归档，被归档的密钥只能用于解密，不能加密",
+			"alias":                         "密钥别名",
+			"description":                   "密钥描述",
+			"wrapping_algorithm":            "密钥材料加密算法",
+			"key_material_base64":           "密钥材料",
+			"valid_to":                      "密钥材料过期时间",
+			"is_enabled":                    "是否启用密钥",
+			"tags":                          "标签",
+			"key_id":                        "密钥ID",
+			"arn":                           "密钥ARN",
+			"key_state":                     "密钥状态",
+			"create_time":                   "创建时间",
+			"creator_uin":                   "创建者UIN",
+			"pending_delete_window_in_days": "计划删除时间区间[7,30]",
+			"is_archived":                   "是否对密钥进行归档，被归档的密钥只能用于解密，不能加密",
 		},
 	})
 }
@@ -186,7 +188,7 @@ func resourceTencentCloudKmsExternalKeyCreate(d *schema.ResourceData, meta inter
 		if err != nil {
 			return err
 		}
-		resourceName := BuildTagResourceName("kms", "key", tcClient.Region, *keyMetaData.ResourceId)
+		resourceName := BuildTagResourceName("kms", "key", tcClient.Region, kmsTagResourceId(keyMetaData))
 		if err := tagService.ModifyTags(ctx, resourceName, tags, nil); err != nil {
 			return err
 		}
@@ -233,7 +235,7 @@ func resourceTencentCloudKmsExternalKeyRead(d *schema.ResourceData, meta interfa
 
 	tcClient := meta.(*TencentCloudClient).apiV3Conn
 	tagService := &TagService{client: tcClient}
-	tags, err := tagService.DescribeResourceTags(ctx, "kms", "key", tcClient.Region, *key.ResourceId)
+	tags, err := tagService.DescribeResourceTags(ctx, "kms", "key", tcClient.Region, kmsTagResourceId(key))
 	if err != nil {
 		return err
 	}
@@ -335,7 +337,7 @@ func resourceTencentCloudKmsExternalKeyUpdate(d *schema.ResourceData, meta inter
 		if err != nil {
 			return err
 		}
-		resourceName := BuildTagResourceName("kms", "key", tcClient.Region, *keyMetaData.ResourceId)
+		resourceName := BuildTagResourceName("kms", "key", tcClient.Region, kmsTagResourceId(keyMetaData))
 		if err := tagService.ModifyTags(ctx, resourceName, replaceTags, deleteTags); err != nil {
 			return err
 		}
