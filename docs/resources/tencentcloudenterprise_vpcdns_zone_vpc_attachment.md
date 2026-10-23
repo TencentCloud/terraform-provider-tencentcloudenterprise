@@ -4,21 +4,53 @@ layout: "tencentcloudenterprise"
 page_title: "TencentCloudEnterprise: tencentcloudenterprise_vpcdns_zone_vpc_attachment"
 sidebar_current: "docs-tencentcloudenterprise-resource-vpcdns_zone_vpc_attachment"
 description: |-
-  Provide a resource to bindvpc for a Private Dns Zone.
+  Manage a single VPC association with a private DNS zone.
 ---
 
 # tencentcloudenterprise_vpcdns_zone_vpc_attachment
 
-Provide a resource to bindvpc for a Private Dns Zone.
+Manage a single VPC association with a private DNS zone.
+
+An existing zone can be referenced by its ID without recreating or importing the zone. Other VPC associations are preserved when this attachment is created or removed.
+
+If the zone's VPC list is managed by another Terraform configuration, ensure that configuration does not overwrite independently managed attachments. When delegating associations to attachment resources, exclude `vpc_set` from updates in the zone configuration, for example with `lifecycle { ignore_changes = [vpc_set] }`.
 
 ## Example Usage
 
+### Attach a new VPC to an existing private DNS zone:
+
 ```hcl
-resource "tencentcloudenterprise_vpcdns_zone_vpc_attachment" "foo" {
-  zone_id = tencentcloudenterprise_vpcdns_zone.zone.id
+variable "existing_zone_id" {
+  type        = string
+  description = "ID of the existing private DNS zone."
+}
+
+variable "region" {
+  type        = string
+  description = "Region of the new VPC."
+}
+
+variable "vpc_name" {
+  type        = string
+  description = "Name of the new VPC."
+}
+
+variable "vpc_cidr" {
+  type        = string
+  description = "IPv4 CIDR block of the new VPC."
+}
+
+resource "tencentcloudenterprise_vpc" "new" {
+  name       = var.vpc_name
+  cidr_block = var.vpc_cidr
+}
+
+resource "tencentcloudenterprise_vpcdns_zone_vpc_attachment" "existing_zone" {
+  zone_id = var.existing_zone_id
+
   vpc_set {
-    uniq_vpc_id = "vpc-xxxxx"
-    region      = "ap-guangzhou"
+    uniq_vpc_id = tencentcloudenterprise_vpc.new.id
+    region      = var.region
   }
 }
 ```
@@ -54,10 +86,6 @@ In addition to all arguments above, the following attributes are exported:
 tencentcloudenterprise_vpcdns_zone_vpc_attachment can be imported using the id, e.g.
 
 ```
-Private Dns Zone Vpc Attachment can be imported, e.g.
-
-```
-$ terraform import tencentcloudenterprise_vpcdns_zone_vpc_attachment.foo zone_id#vpc_id
-```
+terraform import tencentcloudenterprise_vpcdns_zone_vpc_attachment.existing_zone 'zone-id#vpc-id'
 ```
 
