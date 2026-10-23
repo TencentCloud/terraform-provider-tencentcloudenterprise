@@ -468,14 +468,19 @@ func dataSourceTencentCloudCosBucketsRead(d *schema.ResourceData, meta interface
 
 	ids := make([]string, 2)
 	ids[0] = "bucket_list"
-	ids[1] = bucketResult.Owner.ID
+	// 桶在服务端没有归属记录时 Owner 为空，此时仍返回桶列表而不是崩溃
+	if bucketResult.Owner != nil {
+		ids[1] = bucketResult.Owner.ID
+	}
 	d.SetId(helper.DataResourceIdsHash(ids))
 	if err := d.Set("bucket_list", bucketList); err != nil {
 		return fmt.Errorf("setting bucket list error: %s", err.Error())
 	}
 	owner := make(map[string]interface{})
-	owner["id"] = bucketResult.Owner.ID
-	owner["display_name"] = bucketResult.Owner.DisplayName
+	if bucketResult.Owner != nil {
+		owner["id"] = bucketResult.Owner.ID
+		owner["display_name"] = bucketResult.Owner.DisplayName
+	}
 	if err := d.Set("owner", owner); err != nil {
 		return fmt.Errorf("setting owner error: %s", err.Error())
 	}
