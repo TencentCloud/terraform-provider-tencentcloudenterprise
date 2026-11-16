@@ -19,6 +19,10 @@ Provide a resource to create an auto scaling group for kubernetes cluster.
 
 ## Example Usage
 
+Changes to `auto_scaling_config.data_disk` update the launch template for newly created nodes. Existing node disks retain their current sizes. The `snapshot_id` field retains its replacement behavior.
+
+Changes to `node_config.user_data` update the node pool script configuration in place. This does not rerun the script on existing nodes.
+
 ```hcl
 variable "availability_zone" {
   default = "ap-guangzhou-3"
@@ -244,7 +248,7 @@ The `node_config` object supports the following:
 * `extra_args` - (Optional, List, ForceNew) Custom parameter information related to the node. This is a white-list parameter.
 * `mount_target` - (Optional, String, ForceNew) Mount target. Default is not mounting.
 * `pre_start_user_script` - (Optional, String) Base64-encoded user script, executed before initializing the node, currently only effective for adding existing nodes.
-* `user_data` - (Optional, String, ForceNew) Base64-encoded User Data text, the length limit is 16KB.
+* `user_data` - (Optional, String) Base64-encoded User Data text, the length limit is 16KB. Changes update the node pool script configuration without replacing the node pool.
 
 The `taints` object supports the following:
 
