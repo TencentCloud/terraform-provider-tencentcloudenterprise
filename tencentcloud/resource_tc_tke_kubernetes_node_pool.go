@@ -269,6 +269,12 @@ func composedKubernetesAsScalingConfigPara() map[string]*schema.Schema {
 			ValidateFunc: validateIntegerInRange(50, 500),
 			Description:  "Volume of system disk in GB. Default is `50`.",
 		},
+		"system_disk_storage_pool_group": {
+			Type:        schema.TypeString,
+			Optional:    true,
+			ForceNew:    true,
+			Description: "CBS storage pool group name for the system disk. If omitted, the default CBS storage pool is used. Changes replace the entire node pool.",
+		},
 		"data_disk": {
 			Type:        schema.TypeList,
 			Optional:    true,
@@ -296,6 +302,12 @@ func composedKubernetesAsScalingConfigPara() map[string]*schema.Schema {
 						Computed:    true,
 						ForceNew:    true,
 						Description: "Data disk snapshot ID.",
+					},
+					"disk_storage_pool_group": {
+						Type:        schema.TypeString,
+						Optional:    true,
+						ForceNew:    true,
+						Description: "CBS storage pool group name for this data disk. If omitted, the default CBS storage pool is used. Changes replace the entire node pool.",
 					},
 					"delete_with_instance": {
 						Type:        schema.TypeBool,
@@ -784,6 +796,9 @@ func composedKubernetesAsScalingConfigParaSerial(dMap map[string]interface{}, me
 	if v, ok := dMap["system_disk_size"]; ok {
 		request.SystemDisk.DiskSize = helper.IntUint64(v.(int))
 	}
+	if v, ok := dMap["system_disk_storage_pool_group"].(string); ok && v != "" {
+		request.SystemDisk.DiskStoragePoolGroup = helper.String(v)
+	}
 
 	if v, ok := dMap["data_disk"]; ok {
 		request.DataDisks = expandNodePoolDataDisks(v.([]interface{}))
@@ -938,6 +953,9 @@ func expandNodePoolDataDisks(dataDisks []interface{}) []*as.DataDisk {
 		}
 		if snapshotId := value["snapshot_id"].(string); snapshotId != "" {
 			disk.SnapshotId = helper.String(snapshotId)
+		}
+		if poolGroup, ok := value["disk_storage_pool_group"].(string); ok && poolGroup != "" {
+			disk.DiskStoragePoolGroup = helper.String(poolGroup)
 		}
 		disks = append(disks, disk)
 	}
