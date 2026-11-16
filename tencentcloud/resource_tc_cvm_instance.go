@@ -131,6 +131,7 @@ func init() {
 			"password":                                "密码",
 			"system_disk_type":                        "系统盘类型",
 			"system_disk_id":                          "系统盘ID",
+			"system_disk_storage_pool_group":          "系统盘存储池分组",
 			"disable_security_service":                "禁用安全服务",
 			"keep_image_login":                        "保留镜像登录",
 			"disable_monitor_service":                 "禁用监控服务",
@@ -144,6 +145,7 @@ func init() {
 			"instance_id":                             "实例ID",
 			"data_disk_id":                            "用于初始化数据磁盘的数据磁盘ID。当数据磁盘类型为“LOCAL_BASIC”和“LOCAL_SSD”时，不支持磁盘id",
 			"data_disk_size":                          "数据磁盘的大小，单位为GB",
+			"data_disk_storage_pool_group":            "数据盘存储池分组",
 			"data_disk_snapshot_id":                   "数据磁盘的快照ID。所选数据磁盘快照大小必须小于数据磁盘大小",
 			"data_disk_type":                          "数据磁盘类型。有效值LOCAL_BASIC本地磁盘、LOCAL_SSD本地SSD磁盘、LOCAL_NVME本地NVME磁盘，在InstanceType中指定，LOCAL_PRO本地HDD磁盘，在Instance Type中指定、CLOUD_BASIC HDD云磁盘、CLOUD_PREMIUM高级云存储、CLOUD_SSD SSD、CLOUD_HSSD增强型SSD、CLOUD_TSSD巨大型SSD、CLAUD_BSSD平衡型SSD",
 			"delete_with_instance":                    "决定是否使用实例删除磁盘（仅适用于具有“POSTAID_BY_HOUR”实例的“CLOUD_BASIC”、“CLOUD_SSD”和“CLOUD_PREMIUM”磁盘），默认值为true",
@@ -358,6 +360,13 @@ func resourceTencentCloudInstance() *schema.Resource {
 				Computed:    true,
 				Description: "System disk snapshot ID used to initialize the system disk. When system disk type is `LOCAL_BASIC` and `LOCAL_SSD`, disk id is not supported.",
 			},
+			"system_disk_storage_pool_group": {
+				Type:        schema.TypeString,
+				Optional:    true,
+				Computed:    true,
+				ForceNew:    true,
+				Description: "Storage pool group for the system disk.",
+			},
 			"data_disks": {
 				Type:        schema.TypeList,
 				Optional:    true,
@@ -383,6 +392,13 @@ func resourceTencentCloudInstance() *schema.Resource {
 							Optional:    true,
 							ForceNew:    true,
 							Description: "Snapshot ID of the data disk. The selected data disk snapshot size must be smaller than the data disk size.",
+						},
+						"data_disk_storage_pool_group": {
+							Type:        schema.TypeString,
+							Optional:    true,
+							Computed:    true,
+							ForceNew:    true,
+							Description: "Storage pool group for the data disk.",
 						},
 						"data_disk_id": {
 							Type:        schema.TypeString,
@@ -668,6 +684,9 @@ func resourceTencentCloudInstanceCreate(d *schema.ResourceData, meta interface{}
 	if v, ok := d.GetOk("system_disk_id"); ok {
 		request.SystemDisk.DiskId = helper.String(v.(string))
 	}
+	if v, ok := d.GetOk("system_disk_storage_pool_group"); ok {
+		request.SystemDisk.DiskStoragePoolGroup = helper.String(v.(string))
+	}
 	if v, ok := d.GetOk("data_disks"); ok {
 		dataDisks := v.([]interface{})
 		request.DataDisks = make([]*cvm.DataDisk, 0, len(dataDisks))
@@ -689,6 +708,9 @@ func resourceTencentCloudInstanceCreate(d *schema.ResourceData, meta interface{}
 			}
 			if value["data_disk_id"] != "" {
 				dataDisk.DiskId = helper.String(value["data_disk_id"].(string))
+			}
+			if poolGroup := value["data_disk_storage_pool_group"].(string); poolGroup != "" {
+				dataDisk.DiskStoragePoolGroup = helper.String(poolGroup)
 			}
 			if deleteWithInstance, ok := value["delete_with_instance"]; ok {
 				deleteWithInstanceBool := deleteWithInstance.(bool)
@@ -964,6 +986,7 @@ func resourceTencentCloudInstanceRead(d *schema.ResourceData, meta interface{}) 
 	_ = d.Set("system_disk_type", instance.SystemDisk.DiskType)
 	_ = d.Set("system_disk_size", instance.SystemDisk.DiskSize)
 	_ = d.Set("system_disk_id", instance.SystemDisk.DiskId)
+	_ = d.Set("system_disk_storage_pool_group", instance.SystemDisk.DiskStoragePoolGroup)
 	_ = d.Set("instance_status", instance.InstanceState)
 	_ = d.Set("create_time", instance.CreatedTime)
 	_ = d.Set("expired_time", instance.ExpiredTime)
@@ -1026,7 +1049,7 @@ func resourceTencentCloudInstanceRead(d *schema.ResourceData, meta interface{}) 
 		}
 	}
 	for _, disk := range instance.DataDisks {
-		dataDisk := make(map[string]interface{}, 5)
+		dataDisk := make(map[string]interface{}, 6)
 		dataDisk["data_disk_id"] = disk.DiskId
 		if disk.DiskId == nil {
 			dataDisk["data_disk_size"] = disk.DiskSize
@@ -1034,6 +1057,7 @@ func resourceTencentCloudInstanceRead(d *schema.ResourceData, meta interface{}) 
 			dataDisk["data_disk_size"] = size
 		}
 		dataDisk["data_disk_type"] = disk.DiskType
+		dataDisk["data_disk_storage_pool_group"] = disk.DiskStoragePoolGroup
 		dataDisk["data_disk_snapshot_id"] = disk.SnapshotId
 		dataDisk["delete_with_instance"] = disk.DeleteWithInstance
 		//dataDisk["encrypt"] = disk.Encrypt
