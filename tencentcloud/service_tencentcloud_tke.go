@@ -338,6 +338,11 @@ func (me *TkeService) DescribeClusters(ctx context.Context, id string, name stri
 		clusterInfo.DeployType = strings.ToUpper(*cluster.ClusterType)
 		clusterInfo.Ipvs = *cluster.ClusterNetworkSettings.Ipvs
 		clusterInfo.CreatedTime = *cluster.CreatedTime
+		clusterInfo.NetworkType, err = parseTkeClusterNetworkType(cluster.Property)
+		if err != nil {
+			errRet = fmt.Errorf("cluster %q: %w", clusterInfo.ClusterId, err)
+			return
+		}
 
 		if len(cluster.TagSpecification) > 0 {
 			clusterInfo.Tags = make(map[string]string)
@@ -410,10 +415,10 @@ func (me *TkeService) DescribeCluster(ctx context.Context, id string) (
 	clusterInfo.MaxNodePodNum = int64(*cluster.ClusterNetworkSettings.MaxNodePodNum)
 	clusterInfo.DeployType = strings.ToUpper(*cluster.ClusterType)
 	clusterInfo.Ipvs = *cluster.ClusterNetworkSettings.Ipvs
-	if cluster.ClusterNetworkSettings.Cni != nil && *cluster.ClusterNetworkSettings.Cni {
-		clusterInfo.NetworkType = TKE_CLUSTER_NETWORK_TYPE_VPC_CNI
-	} else {
-		clusterInfo.NetworkType = TKE_CLUSTER_NETWORK_TYPE_GR
+	clusterInfo.NetworkType, err = parseTkeClusterNetworkType(cluster.Property)
+	if err != nil {
+		errRet = fmt.Errorf("cluster %q: %w", clusterInfo.ClusterId, err)
+		return
 	}
 
 	if len(cluster.TagSpecification) > 0 {
