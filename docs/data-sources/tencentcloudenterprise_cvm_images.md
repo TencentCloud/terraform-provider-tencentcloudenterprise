@@ -47,6 +47,7 @@ In addition to all arguments above, the following attributes are exported:
   * `image_state` - State of the image.
   * `image_type` - Type of the image.
   * `os_name` - OS name of the image.
+  * `os_key` - Operating system key (`OsKey`) of the image returned by the CVM API. Empty if unavailable.
   * `platform` - Platform of the image.
   * `snapshots` - List of snapshot details.
     * `disk_size` - Size of the cloud disk used to create the snapshot; unit: GB.
