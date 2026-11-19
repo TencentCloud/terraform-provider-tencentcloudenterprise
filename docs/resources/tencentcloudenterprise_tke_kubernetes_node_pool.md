@@ -22,21 +22,6 @@ Provide a resource to create an auto scaling group for kubernetes cluster.
 Changes to `auto_scaling_config.data_disk` update the launch template for newly created nodes. Existing node disks retain their current sizes. The `snapshot_id` field retains its replacement behavior.
 
 Changes to `node_config.user_data` update the node pool script configuration in place. This does not rerun the script on existing nodes.
-Use `auto_scaling_config.system_disk_storage_pool_group` and `auto_scaling_config.data_disk.disk_storage_pool_group` to select CBS storage pool groups. Omit them to use the default CBS storage pool. Changing either field replaces the entire node pool; it does not migrate existing disks.
-
-```hcl
-auto_scaling_config {
-  instance_type                  = "S1.SMALL1"
-  key_ids                        = ["skey-xxxxxxxx"]
-  system_disk_storage_pool_group = "system-pool"
-
-  data_disk {
-    disk_type               = "CLOUD_SSD"
-    disk_size               = 100
-    disk_storage_pool_group = "data-pool"
-  }
-}
-```
 
 ```hcl
 variable "availability_zone" {
@@ -272,6 +257,24 @@ The `taints` object supports the following:
 * `effect` - (Required, String) Effect of the taint. Valid values are: `NoSchedule`, `PreferNoSchedule`, `NoExecute`.
 * `key` - (Required, String) Key of the taint. The taint key name does not exceed 63 characters, only supports English, numbers,'/','-', and does not allow beginning with ('/').
 * `value` - (Required, String) Value of the taint.
+
+## Storage Pool Groups
+
+Use `auto_scaling_config.system_disk_storage_pool_group` and `auto_scaling_config.data_disk.disk_storage_pool_group` to select CBS storage pool groups. Omit them to use the default CBS storage pool. Changing either field replaces the entire node pool; it does not migrate existing disks.
+
+```hcl
+auto_scaling_config {
+  instance_type                  = "S1.SMALL1"
+  key_ids                        = ["skey-xxxxxxxx"]
+  system_disk_storage_pool_group = "system-pool"
+
+  data_disk {
+    disk_type               = "CLOUD_SSD"
+    disk_size               = 100
+    disk_storage_pool_group = "data-pool"
+  }
+}
+```
 
 ## Attributes Reference
 
