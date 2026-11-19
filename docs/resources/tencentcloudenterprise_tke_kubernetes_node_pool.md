@@ -19,24 +19,6 @@ Provide a resource to create an auto scaling group for kubernetes cluster.
 
 ## Example Usage
 
-To verify node counts after creation or update, set `enable_auto_scale = false` and `wait_node_ready = true`. The provider uses TKE's `NodeCountSummary.AutoscalingAdded` statistics, not Kubernetes Ready conditions or manually added nodes. By default all desired nodes must be normal; `scale_tolerance` accepts 0-100 percent and defaults to 100 when omitted. Explicitly setting 0 allows zero normal nodes.
-
-The AS-added total must not exceed the target, including during scale-in. A zero target requires both total and normal counts to be zero. Retained or expired nodes still included in TKE's total can delay completion; this check does not force their deletion. If `desired_capacity` is omitted, the provider adopts the first normal, in-range cloud target after configuration is submitted and stops if that target subsequently changes. With waiting enabled, an explicit zero desired capacity is sent during creation.
-
-Capacity verification runs after the final configuration stage, including EQUALITY setup, and also runs on updates that do not require another desired-capacity write. Create and update timeout budgets default to 30 minutes and may be configured using `timeouts`. Errors include the target and last observed counts. A failed create can be marked tainted by Terraform even when its node pool ID has been saved; inspect the next plan before retrying. AS activity diagnostics are not included.
-
-```hcl
-# Add these settings to the node pool resource.
-enable_auto_scale = false
-wait_node_ready  = true
-scale_tolerance  = 100
-
-timeouts {
-  create = "30m"
-  update = "30m"
-}
-```
-
 ```hcl
 variable "availability_zone" {
   default = "ap-guangzhou-3"
@@ -170,6 +152,26 @@ resource "tencentcloudenterprise_tke_kubernetes_node_pool" "mynodepool" {
     "test2" = "test2",
   }
 
+}
+```
+
+## Node Count Convergence
+
+To verify node counts after creation or update, set `enable_auto_scale = false` and `wait_node_ready = true`. The provider uses TKE's `NodeCountSummary.AutoscalingAdded` statistics, not Kubernetes Ready conditions or manually added nodes. By default all desired nodes must be normal; `scale_tolerance` accepts 0-100 percent and defaults to 100 when omitted. Explicitly setting 0 allows zero normal nodes.
+
+The AS-added total must not exceed the target, including during scale-in. A zero target requires both total and normal counts to be zero. Retained or expired nodes still included in TKE's total can delay completion; this check does not force their deletion. If `desired_capacity` is omitted, the provider adopts the first normal, in-range cloud target after configuration is submitted and stops if that target subsequently changes. With waiting enabled, an explicit zero desired capacity is sent during creation.
+
+Capacity verification runs after the final configuration stage, including EQUALITY setup, and also runs on updates that do not require another desired-capacity write. Create and update timeout budgets default to 30 minutes and may be configured using `timeouts`. Errors include the target and last observed counts. A failed create can be marked tainted by Terraform even when its node pool ID has been saved; inspect the next plan before retrying. AS activity diagnostics are not included.
+
+```hcl
+# Add these settings to the node pool resource.
+enable_auto_scale = false
+wait_node_ready  = true
+scale_tolerance  = 100
+
+timeouts {
+  create = "30m"
+  update = "30m"
 }
 ```
 
