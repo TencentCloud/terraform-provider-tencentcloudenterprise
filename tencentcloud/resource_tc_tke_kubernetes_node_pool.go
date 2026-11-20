@@ -176,6 +176,8 @@ func init() {
 			"min_size":                 "最小节点数",
 			"desired_capacity":         "期望节点数",
 			"enable_auto_scale":        "是否开启自动扩缩容",
+			"wait_node_ready":          "等待伸缩节点数量收敛",
+			"scale_tolerance":          "正常节点数量占目标数量的最低百分比",
 			"retry_policy":             "重试策略",
 			"vpc_id":                   "VPC ID",
 			"subnet_ids":               "子网ID",
@@ -443,11 +445,16 @@ func composedKubernetesAsScalingConfigPara() map[string]*schema.Schema {
 
 func resourceTencentCloudKubernetesNodePool() *schema.Resource {
 	return &schema.Resource{
-		Description: "Provide a resource to create an auto scaling group for kubernetes cluster.",
-		Create:      resourceKubernetesNodePoolCreate,
-		Read:        resourceKubernetesNodePoolRead,
-		Delete:      resourceKubernetesNodePoolDelete,
-		Update:      resourceKubernetesNodePoolUpdate,
+		Description:   "Provide a resource to create an auto scaling group for kubernetes cluster.",
+		Create:        resourceKubernetesNodePoolCreate,
+		Read:          resourceKubernetesNodePoolRead,
+		Delete:        resourceKubernetesNodePoolDelete,
+		Update:        resourceKubernetesNodePoolUpdate,
+		CustomizeDiff: customizeNodePoolCapacityWaitDiff,
+		Timeouts: &schema.ResourceTimeout{
+			Create: schema.DefaultTimeout(30 * time.Minute),
+			Update: schema.DefaultTimeout(30 * time.Minute),
+		},
 		Schema: map[string]*schema.Schema{
 			"cluster_id": {
 				Type:        schema.TypeString,
@@ -484,6 +491,18 @@ func resourceTencentCloudKubernetesNodePool() *schema.Resource {
 				Optional:    true,
 				Default:     true,
 				Description: "Indicate whether to enable auto scaling or not.",
+			},
+			"wait_node_ready": {
+				Type:        schema.TypeBool,
+				Optional:    true,
+				Default:     false,
+				Description: "Wait for TKE-reported AS-added node counts to converge after create/update. Requires enable_auto_scale=false. This does not directly check Kubernetes Ready conditions.",
+			},
+			"scale_tolerance": {
+				Type:         schema.TypeInt,
+				Optional:     true,
+				ValidateFunc: validateIntegerInRange(0, 100),
+				Description:  "Minimum percentage of desired AS-added nodes that must be normal. Effective default is 100. Requires wait_node_ready=true. A value of 0 permits zero normal nodes. Excess nodes must still disappear before success.",
 			},
 			"retry_policy": {
 				Type:        schema.TypeString,
@@ -728,7 +747,13 @@ func composeParameterToAsScalingGroupParaSerial(d *schema.ResourceData, stageMul
 
 	request.VpcId = helper.String(d.Get("vpc_id").(string))
 
-	if v, ok := d.GetOk("desired_capacity"); ok {
+	v, hasDesired := d.GetOk("desired_capacity")
+	if d.Get("wait_node_ready").(bool) {
+		if desired := configuredNodePoolDesired(d); desired != nil {
+			v, hasDesired = int(*desired), true
+		}
+	}
+	if hasDesired {
 		request.DesiredCapacity = helper.IntUint64(v.(int))
 		if *request.DesiredCapacity > *request.MaxSize ||
 			*request.DesiredCapacity < *request.MinSize {
@@ -1438,6 +1463,10 @@ func resourceKubernetesNodePoolRead(d *schema.ResourceData, meta interface{}) er
 
 func resourceKubernetesNodePoolCreate(d *schema.ResourceData, meta interface{}) error {
 	defer logElapsed("resource.tencentcloudenterprise_tke_kubernetes_node_pool.create")()
+	if err := validateNodePoolCapacityWaitData(d); err != nil {
+		return err
+	}
+	capacityDeadline := time.Now().Add(d.Timeout(schema.TimeoutCreate))
 	var (
 		logId           = getLogId(contextNil)
 		ctx             = context.WithValue(context.TODO(), logIdKey, logId)
@@ -1453,6 +1482,9 @@ func resourceKubernetesNodePoolCreate(d *schema.ResourceData, meta interface{}) 
 
 	multiZoneSubnetPolicy, hasMultiZoneSubnetPolicy := d.GetOk("multi_zone_subnet_policy")
 	_, hasDesiredCapacity := d.GetOk("desired_capacity")
+	if d.Get("wait_node_ready").(bool) {
+		hasDesiredCapacity = configuredNodePoolDesired(d) != nil
+	}
 	stageMultiZoneSubnetPolicy := hasMultiZoneSubnetPolicy &&
 		multiZoneSubnetPolicy.(string) == MultiZoneSubnetPolicyEquality
 
@@ -1605,12 +1637,19 @@ func resourceKubernetesNodePoolCreate(d *schema.ResourceData, meta interface{}) 
 	if err = waitNodePoolNormal(ctx, service, clusterId, nodePoolId, 5*readRetryTimeout); err != nil {
 		return err
 	}
+	if err = waitForNodePoolCapacity(ctx, service, clusterId, nodePoolId, d, capacityDeadline); err != nil {
+		return err
+	}
 
 	return resourceKubernetesNodePoolRead(d, meta)
 }
 
 func resourceKubernetesNodePoolUpdate(d *schema.ResourceData, meta interface{}) error {
 	defer logElapsed("resource.tencentcloudenterprise_tke_kubernetes_node_pool.update")()
+	if err := validateNodePoolCapacityWaitData(d); err != nil {
+		return err
+	}
+	capacityDeadline := time.Now().Add(d.Timeout(schema.TimeoutUpdate))
 
 	var (
 		logId     = getLogId(contextNil)
@@ -1900,6 +1939,9 @@ func resourceKubernetesNodePoolUpdate(d *schema.ResourceData, meta interface{}) 
 	//	}
 	//	_ = d.Set("auto_scaling_config.0.backup_instance_types", instanceTypes)
 	//}
+	if err := waitForNodePoolCapacity(ctx, service, clusterId, nodePoolId, d, capacityDeadline); err != nil {
+		return err
+	}
 	d.Partial(false)
 
 	return resourceKubernetesNodePoolRead(d, meta)
