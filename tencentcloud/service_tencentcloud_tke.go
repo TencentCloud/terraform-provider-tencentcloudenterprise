@@ -1559,6 +1559,21 @@ func (me *TkeService) ModifyClusterNodePool(ctx context.Context, clusterId, node
 	return
 }
 
+func (me *TkeService) ModifyClusterNodePoolDataDisks(ctx context.Context, clusterId, nodePoolId, launchConfigurePara string) (errRet error) {
+	logId := getLogId(ctx)
+	request := tke.NewModifyClusterNodePoolRequest()
+	request.ClusterId = &clusterId
+	request.NodePoolId = &nodePoolId
+	request.LaunchConfigurePara = &launchConfigurePara
+
+	ratelimit.Check(request.GetAction())
+	_, errRet = me.client.UseTkeClient().ModifyClusterNodePool(request)
+	if errRet != nil {
+		log.Printf("[CRITAL]%s api[%s] fail, reason[%s]\n", logId, request.GetAction(), errRet.Error())
+	}
+	return
+}
+
 func (me *TkeService) ModifyClusterNodePoolPreStartUserScript(ctx context.Context, clusterId, nodePoolId, userData, preStartUserScript string) (errRet error) {
 	logId := getLogId(ctx)
 	request := tke.NewModifyClusterNodePoolRequest()

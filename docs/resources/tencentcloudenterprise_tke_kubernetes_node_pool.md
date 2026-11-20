@@ -19,6 +19,10 @@ Provide a resource to create an auto scaling group for kubernetes cluster.
 
 ## Example Usage
 
+Changes to `auto_scaling_config.data_disk` update the launch template for newly created nodes. Existing node disks retain their current sizes. The `snapshot_id` field retains its replacement behavior.
+
+Changes to `node_config.user_data` update the node pool script configuration in place. This does not rerun the script on existing nodes.
+
 ```hcl
 variable "availability_zone" {
   default = "ap-guangzhou-3"
@@ -218,6 +222,7 @@ The `auto_scaling_config` object supports the following:
 * `spot_instance_type` - (Optional, String) Type of spot instance, only support `one-time` now. Note: it only works when instance_charge_type is set to `SPOTPAID`.
 * `spot_max_price` - (Optional, String) Max price of a spot instance, is the format of decimal string, for example "0.50". Note: it only works when instance_charge_type is set to `SPOTPAID`.
 * `system_disk_size` - (Optional, Int) Volume of system disk in GB. Default is `50`.
+* `system_disk_storage_pool_group` - (Optional, String, ForceNew) CBS storage pool group name for the system disk. Omit to use the default CBS storage pool. Changes replace the entire node pool.
 * `system_disk_type` - (Optional, String) Type of a CVM disk. Valid value: `CLOUD_PREMIUM` and `CLOUD_SSD`. Default is `CLOUD_PREMIUM`.
 
 The `data_disk` object supports the following:
@@ -232,6 +237,7 @@ The `data_disk` object supports the following:
 
 * `delete_with_instance` - (Optional, Bool) Indicates whether the disk remove after instance terminated. Default is `false`.
 * `disk_size` - (Optional, Int) Volume of disk in GB. Default is `0`.
+* `disk_storage_pool_group` - (Optional, String, ForceNew) CBS storage pool group name for this data disk. Omit to use the default CBS storage pool. Changes replace the entire node pool.
 * `disk_type` - (Optional, String) Types of disk. Valid value: `CLOUD_PREMIUM` and `CLOUD_SSD`.
 * `encrypt` - (Optional, Bool) Specify whether to encrypt data disk, default: false. NOTE: Make sure the instance type is offering and the cam role `QcloudKMSAccessForCVMRole` was provided.
 * `snapshot_id` - (Optional, String, ForceNew) Data disk snapshot ID.
@@ -244,13 +250,31 @@ The `node_config` object supports the following:
 * `extra_args` - (Optional, List, ForceNew) Custom parameter information related to the node. This is a white-list parameter.
 * `mount_target` - (Optional, String, ForceNew) Mount target. Default is not mounting.
 * `pre_start_user_script` - (Optional, String) Base64-encoded user script, executed before initializing the node, currently only effective for adding existing nodes.
-* `user_data` - (Optional, String, ForceNew) Base64-encoded User Data text, the length limit is 16KB.
+* `user_data` - (Optional, String) Base64-encoded User Data text, the length limit is 16KB. Changes update the node pool script configuration without replacing the node pool.
 
 The `taints` object supports the following:
 
 * `effect` - (Required, String) Effect of the taint. Valid values are: `NoSchedule`, `PreferNoSchedule`, `NoExecute`.
 * `key` - (Required, String) Key of the taint. The taint key name does not exceed 63 characters, only supports English, numbers,'/','-', and does not allow beginning with ('/').
 * `value` - (Required, String) Value of the taint.
+
+## Storage Pool Groups
+
+Use `auto_scaling_config.system_disk_storage_pool_group` and `auto_scaling_config.data_disk.disk_storage_pool_group` to select CBS storage pool groups. Omit them to use the default CBS storage pool. Changing either field replaces the entire node pool; it does not migrate existing disks.
+
+```hcl
+auto_scaling_config {
+  instance_type                  = "S1.SMALL1"
+  key_ids                        = ["skey-xxxxxxxx"]
+  system_disk_storage_pool_group = "system-pool"
+
+  data_disk {
+    disk_type               = "CLOUD_SSD"
+    disk_size               = 100
+    disk_storage_pool_group = "data-pool"
+  }
+}
+```
 
 ## Attributes Reference
 

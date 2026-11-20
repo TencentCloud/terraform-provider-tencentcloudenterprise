@@ -692,6 +692,9 @@ type SystemDisk struct {
 	// 系统盘大小，单位：GB。默认值为 50
 
 	DiskSize *uint64 `json:"DiskSize,omitempty" name:"DiskSize"`
+	// CBS 资源池（存储池组）名称。不填时使用 CBS 默认资源池。
+
+	DiskStoragePoolGroup *string `json:"DiskStoragePoolGroup,omitempty" name:"DiskStoragePoolGroup"`
 }
 
 type RemoveSelectedInstanceRequest struct {
@@ -1393,6 +1396,9 @@ type DataDisk struct {
 	// 数据盘快照 ID，类似 `snap-l8psqwnt`。
 
 	SnapshotId *string `json:"SnapshotId,omitempty" name:"SnapshotId"`
+	// CBS 资源池（存储池组）名称。不填时使用 CBS 默认资源池。
+
+	DiskStoragePoolGroup *string `json:"DiskStoragePoolGroup,omitempty" name:"DiskStoragePoolGroup"`
 }
 
 type RemoveInstancesRequest struct {

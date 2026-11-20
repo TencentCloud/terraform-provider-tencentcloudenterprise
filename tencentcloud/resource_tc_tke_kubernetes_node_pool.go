@@ -152,6 +152,7 @@ package tencentcloud
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"strings"
 	"time"
@@ -197,6 +198,8 @@ func init() {
 
 func tkeNodePoolInstanceAdvancedSetting() map[string]*schema.Schema {
 	nodeConfigSchema := TkeInstanceAdvancedSetting()
+	nodeConfigSchema["user_data"].ForceNew = false
+	nodeConfigSchema["user_data"].Description += " Changes update the node pool script configuration without replacing the node pool."
 	nodeConfigSchema["pre_start_user_script"] = &schema.Schema{
 		Type:        schema.TypeString,
 		Optional:    true,
@@ -266,10 +269,16 @@ func composedKubernetesAsScalingConfigPara() map[string]*schema.Schema {
 			ValidateFunc: validateIntegerInRange(50, 500),
 			Description:  "Volume of system disk in GB. Default is `50`.",
 		},
+		"system_disk_storage_pool_group": {
+			Type:        schema.TypeString,
+			Optional:    true,
+			ForceNew:    true,
+			Description: "CBS storage pool group name for the system disk. If omitted, the default CBS storage pool is used. Changes replace the entire node pool.",
+		},
 		"data_disk": {
 			Type:        schema.TypeList,
 			Optional:    true,
-			Description: "Configurations of data disk.",
+			Description: "Configurations of data disk. Changes update the launch template for newly created nodes and do not resize existing node disks.",
 			Elem: &schema.Resource{
 				Schema: map[string]*schema.Schema{
 					"disk_type": {
@@ -293,6 +302,12 @@ func composedKubernetesAsScalingConfigPara() map[string]*schema.Schema {
 						Computed:    true,
 						ForceNew:    true,
 						Description: "Data disk snapshot ID.",
+					},
+					"disk_storage_pool_group": {
+						Type:        schema.TypeString,
+						Optional:    true,
+						ForceNew:    true,
+						Description: "CBS storage pool group name for this data disk. If omitted, the default CBS storage pool is used. Changes replace the entire node pool.",
 					},
 					"delete_with_instance": {
 						Type:        schema.TypeBool,
@@ -781,41 +796,12 @@ func composedKubernetesAsScalingConfigParaSerial(dMap map[string]interface{}, me
 	if v, ok := dMap["system_disk_size"]; ok {
 		request.SystemDisk.DiskSize = helper.IntUint64(v.(int))
 	}
+	if v, ok := dMap["system_disk_storage_pool_group"].(string); ok && v != "" {
+		request.SystemDisk.DiskStoragePoolGroup = helper.String(v)
+	}
 
 	if v, ok := dMap["data_disk"]; ok {
-		dataDisks := v.([]interface{})
-		request.DataDisks = make([]*as.DataDisk, 0, len(dataDisks))
-		for _, d := range dataDisks {
-			value := d.(map[string]interface{})
-			diskType := value["disk_type"].(string)
-			diskSize := uint64(value["disk_size"].(int))
-			snapshotId := value["snapshot_id"].(string)
-			//deleteWithInstance, dOk := value["delete_with_instance"].(bool)
-			//encrypt, eOk := value["encrypt"].(bool)
-			//throughputPerformance := value["throughput_performance"].(int)
-			dataDisk := as.DataDisk{
-				DiskType: &diskType,
-			}
-			if diskSize > 0 {
-				dataDisk.DiskSize = &diskSize
-			}
-			if snapshotId != "" {
-				dataDisk.SnapshotId = &snapshotId
-			}
-			/*
-				if dOk {
-					dataDisk.DeleteWithInstance = &deleteWithInstance
-				}
-				if eOk {
-					dataDisk.Encrypt = &encrypt
-				}
-				if throughputPerformance > 0 {
-					dataDisk.ThroughputPerformance = helper.IntUint64(throughputPerformance)
-				}
-
-			*/
-			request.DataDisks = append(request.DataDisks, &dataDisk)
-		}
+		request.DataDisks = expandNodePoolDataDisks(v.([]interface{}))
 	}
 
 	request.InternetAccessible = &as.InternetAccessible{}
@@ -953,6 +939,27 @@ func composedKubernetesAsScalingConfigParaSerial(dMap map[string]interface{}, me
 	*/
 	result = request.ToJsonString()
 	return result, errRet
+}
+
+func expandNodePoolDataDisks(dataDisks []interface{}) []*as.DataDisk {
+	disks := make([]*as.DataDisk, 0, len(dataDisks))
+	for _, item := range dataDisks {
+		value := item.(map[string]interface{})
+		disk := &as.DataDisk{
+			DiskType: helper.String(value["disk_type"].(string)),
+		}
+		if size := uint64(value["disk_size"].(int)); size > 0 {
+			disk.DiskSize = &size
+		}
+		if snapshotId := value["snapshot_id"].(string); snapshotId != "" {
+			disk.SnapshotId = helper.String(snapshotId)
+		}
+		if poolGroup, ok := value["disk_storage_pool_group"].(string); ok && poolGroup != "" {
+			disk.DiskStoragePoolGroup = helper.String(poolGroup)
+		}
+		disks = append(disks, disk)
+	}
+	return disks
 }
 
 func composeAsLaunchConfigModifyRequest(d *schema.ResourceData, launchConfigId string) *as.ModifyLaunchConfigurationAttributesRequest {
@@ -1148,7 +1155,7 @@ func resourceKubernetesNodePoolRead(d *schema.ResourceData, meta interface{}) er
 	}
 
 	if err != nil {
-		return nil
+		return err
 	}
 
 	if !has {
@@ -1658,6 +1665,7 @@ func resourceKubernetesNodePoolUpdate(d *schema.ResourceData, meta interface{}) 
 		"name",
 		"labels",
 		"taints",
+		"tags",
 		"deletion_protection",
 		"annotations",
 		"enable_auto_scale",
@@ -1756,7 +1764,10 @@ func resourceKubernetesNodePoolUpdate(d *schema.ResourceData, meta interface{}) 
 		currentDesired := int64(oldDesired.(int))
 
 		nodePool, hasNodePool, describeErr := service.DescribeNodePool(ctx, clusterId, nodePoolId)
-		if describeErr == nil && hasNodePool && nodePool != nil {
+		if describeErr != nil {
+			return describeErr
+		}
+		if hasNodePool && nodePool != nil {
 			if nodePool.MinNodesNum != nil {
 				currentMin = *nodePool.MinNodesNum
 			}
@@ -1796,6 +1807,30 @@ func resourceKubernetesNodePoolUpdate(d *schema.ResourceData, meta interface{}) 
 
 	if nodePoolMetaChanged && !finalRangeApplied {
 		if err := modifyNodePool(newMin, newMax); err != nil {
+			return err
+		}
+	}
+
+	if d.HasChange("auto_scaling_config.0.data_disk") {
+		if err := waitNodePoolNormal(ctx, service, clusterId, nodePoolId, nodePoolReadyTimeout); err != nil {
+			return err
+		}
+		dataDisks := expandNodePoolDataDisks(d.Get("auto_scaling_config.0.data_disk").([]interface{}))
+		launchConfigurePara, err := json.Marshal(map[string]interface{}{"DataDisks": dataDisks})
+		if err != nil {
+			return err
+		}
+		err = resource.Retry(writeRetryTimeout, func() *resource.RetryError {
+			errRet := service.ModifyClusterNodePoolDataDisks(ctx, clusterId, nodePoolId, string(launchConfigurePara))
+			if errRet != nil {
+				return retryNodePoolWriteError(errRet)
+			}
+			return nil
+		})
+		if err != nil {
+			return err
+		}
+		if err := waitNodePoolNormal(ctx, service, clusterId, nodePoolId, nodePoolReadyTimeout); err != nil {
 			return err
 		}
 	}
