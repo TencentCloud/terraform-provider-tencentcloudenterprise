@@ -47,6 +47,7 @@ func init() {
 			"result_output_file": "用于保存结果的文件",
 			"image_id":           "表示某种镜像唯一性的镜像 ID，可用于实例创建或重置",
 			"image_name":         "此镜像的名称",
+			"os_key":             "镜像操作系统标识（OsKey）",
 			"name":               "过滤器的键，有效键：`image-id`, `image-type`, `image-name`",
 			"values":             "过滤器的值",
 		},
@@ -105,6 +106,11 @@ func dataSourceTencentCloudImage() *schema.Resource {
 				Type:        schema.TypeString,
 				Computed:    true,
 				Description: "Name of this image.",
+			},
+			"os_key": {
+				Type:        schema.TypeString,
+				Computed:    true,
+				Description: "Operating system key of the image returned by the CVM API. Empty if unavailable.",
 			},
 		},
 	}
@@ -166,11 +172,13 @@ func dataSourceTencentCloudImageRead(d *schema.ResourceData, meta interface{}) e
 	}
 
 	var resultImageId string
+	var resultOsKey string
 	images = sortImages(images)
 	for _, image := range images {
 		if osName != "" {
 			if strings.Contains(strings.ToLower(*image.OsName), strings.ToLower(osName)) {
 				resultImageId = *image.ImageId
+				resultOsKey = helper.PString(image.OsKey)
 				_ = d.Set("image_name", *image.ImageName)
 				break
 			}
@@ -180,6 +188,7 @@ func dataSourceTencentCloudImageRead(d *schema.ResourceData, meta interface{}) e
 		if imageNameRegex != nil {
 			if imageNameRegex.MatchString(*image.ImageName) {
 				resultImageId = *image.ImageId
+				resultOsKey = helper.PString(image.OsKey)
 				_ = d.Set("image_name", *image.ImageName)
 				break
 			}
@@ -187,6 +196,7 @@ func dataSourceTencentCloudImageRead(d *schema.ResourceData, meta interface{}) e
 		}
 
 		resultImageId = *image.ImageId
+		resultOsKey = helper.PString(image.OsKey)
 		_ = d.Set("image_name", *image.ImageName)
 		break
 	}
@@ -197,6 +207,9 @@ func dataSourceTencentCloudImageRead(d *schema.ResourceData, meta interface{}) e
 
 	d.SetId(helper.DataResourceIdHash(resultImageId))
 	if err := d.Set("image_id", resultImageId); err != nil {
+		return err
+	}
+	if err := d.Set("os_key", resultOsKey); err != nil {
 		return err
 	}
 

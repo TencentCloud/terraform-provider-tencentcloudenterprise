@@ -36,6 +36,7 @@ func init() {
 			"filter":             "一个或多个名称/值对过滤器",
 			"image_name_regex":   "应用于返回的镜像列表的正则表达式注意：这不是通配符",
 			"os_name":            "将应用于返回的镜像列表中的 os_name 属性的模糊匹配字符串",
+			"os_key":             "镜像操作系统标识（OsKey）",
 			"result_output_file": "用于保存结果的文件",
 			"image_id":           "表示某种镜像唯一性的镜像 ID，可用于实例创建或重置",
 			"image_name":         "此镜像的名称",
@@ -117,6 +118,11 @@ func dataSourceTencentCloudImages() *schema.Resource {
 							Type:        schema.TypeString,
 							Computed:    true,
 							Description: "OS name of the image.",
+						},
+						"os_key": {
+							Type:        schema.TypeString,
+							Computed:    true,
+							Description: "Operating system key of the image returned by the CVM API. Empty if unavailable.",
 						},
 						"image_type": {
 							Type:        schema.TypeString,
@@ -321,6 +327,7 @@ func dataSourceTencentCloudImagesRead(d *schema.ResourceData, meta interface{}) 
 
 		mapping := map[string]interface{}{
 			"image_id":           image.ImageId,
+			"os_key":             helper.PString(image.OsKey),
 			"os_name":            image.OsName,
 			"image_type":         image.ImageType,
 			"created_time":       image.CreatedTime,

@@ -48,4 +48,5 @@ In addition to all arguments above, the following attributes are exported:
 
 * `image_id` - An image id indicate the uniqueness of a certain image,  which can be used for instance creation or resetting.
 * `image_name` - Name of this image.
+* `os_key` - Operating system key (`OsKey`) of the selected image returned by the CVM API. Empty if unavailable.
 
