@@ -1,0 +1,45 @@
+---
+subcategory: "TDMQ"
+layout: "tencentcloudenterprise"
+page_title: "TencentCloudEnterprise: tencentcloudenterprise_tdmq_rocketmq_cluster"
+sidebar_current: "docs-tencentcloudenterprise-resource-tdmq_rocketmq_cluster"
+description: |-
+  Manages a RocketMQ cluster.
+---
+
+# tencentcloudenterprise_tdmq_rocketmq_cluster
+
+Manages a RocketMQ cluster.
+
+## Example Usage
+
+```hcl
+resource "tencentcloudenterprise_tdmq_rocketmq_cluster" "example" {
+  cluster_name = "tf-example"
+}
+```
+
+## Argument Reference
+
+The following arguments are supported:
+
+* `cluster_name` - (Required, String) Cluster name, which can contain 3-64 letters, digits, hyphens, and underscores.
+* `remark` - (Optional, String) Cluster description (up to 128 characters).
+
+## Attributes Reference
+
+In addition to all arguments above, the following attributes are exported:
+
+* `id` - ID of the resource.
+* `cluster_id` - Cluster ID.
+* `create_time` - Creation time in milliseconds.
+* `is_vip` - Whether it is an exclusive instance.
+* `public_end_point` - Public network access address.
+* `region` - Region information.
+* `rocket_m_q_flag` - Rocketmq cluster identification.
+* `support_namespace_endpoint` - Whether the namespace access point is supported.
+* `vpc_end_point` - VPC access address.
+* `vpcs` - Vpc list.
+  * `subnet_id` - Subnet ID.
+  * `vpc_id` - Vpc ID.
+

@@ -1,0 +1,412 @@
+/*
+Manages a CFS file system.
+
+# Example Usage
+
+```hcl
+variable "availability_zone" { type = string }
+variable "subnet_id" { type = string }
+variable "vpc_id" { type = string }
+variable "tag_id" { type = number }
+
+	resource "tencentcloudenterprise_cfs_file_system" "example" {
+	  availability_zone = var.availability_zone
+	  name = "tf-example"
+	  subnet_id = var.subnet_id
+	  vpc_id = var.vpc_id
+	  tag_id = var.tag_id
+	}
+
+```
+*/
+package tencentcloud
+
+import (
+	"context"
+	"fmt"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	"log"
+	cfs "terraform-provider-tencentcloudenterprise/sdk/cfs/v20190719"
+	"terraform-provider-tencentcloudenterprise/tencentcloud/internal/helper"
+	"terraform-provider-tencentcloudenterprise/tencentcloud/ratelimit"
+)
+
+func init() {
+	registerResourceDescriptionProvider("tencentcloudenterprise_cfs_file_system", CNDescription{
+		TerraformTypeCN: "CFS文件系统",
+		DescriptionCN:   "提供云文件存储CFS文件系统资源，用于创建和管理CFS文件系统。",
+		AttributesCN: map[string]string{
+			"name":              "文件系统名称",
+			"availability_zone": "可用区",
+			"access_group_id":   "权限组ID",
+			"protocol":          "协议类型",
+			"snap_id":           "快照ID",
+			"storage_type":      "存储类型",
+			"project_id":        "项目ID",
+			"vpc_id":            "VPC ID",
+			"subnet_id":         "子网ID",
+			"mount_ip":          "挂载IP",
+			"create_time":       "创建时间",
+			"fs_id":             "文件系统ID",
+			"tags":              "标签",
+			"tag_id":            "可用区内支持所选存储类型的 CFS 资源池 ID，可通过 DescribeCfsTags 查询",
+		},
+	})
+}
+
+func resourceTencentCloudCfsFileSystem() *schema.Resource {
+	return &schema.Resource{
+		Description: "Provides a resource to create a cloud file system(CFS).",
+		Create:      resourceTencentCloudCfsFileSystemCreate,
+		Read:        resourceTencentCloudCfsFileSystemRead,
+		Update:      resourceTencentCloudCfsFileSystemUpdate,
+		Delete:      resourceTencentCloudCfsFileSystemDelete,
+		Importer: &schema.ResourceImporter{
+			State: schema.ImportStatePassthrough,
+		},
+
+		Schema: map[string]*schema.Schema{
+			"name": {
+				Type:        schema.TypeString,
+				Required:    true,
+				Description: "Name of a file system.",
+			},
+			"availability_zone": {
+				Type:        schema.TypeString,
+				Required:    true,
+				ForceNew:    true,
+				Description: "The available zone that the file system locates at.",
+			},
+			"access_group_id": {
+				Type:        schema.TypeString,
+				Optional:    true,
+				Default:     "pgroupbasic",
+				Description: "ID of a access group.",
+			},
+			"protocol": {
+				Type:         schema.TypeString,
+				Optional:     true,
+				Default:      CFS_PROTOCOL_NFS,
+				ValidateFunc: validateAllowedStringValue(CFS_PROTOCOL),
+				ForceNew:     true,
+				Description:  "File service protocol. Valid values are `NFS` and `CIFS`. and the default is `NFS`.",
+			},
+			"snap_id": {
+				Type:        schema.TypeString,
+				Optional:    true,
+				Description: "Snapshot ID.",
+			},
+			"storage_type": {
+				Type:         schema.TypeString,
+				Optional:     true,
+				Default:      CFS_STORAGETYPE_SD,
+				ForceNew:     true,
+				ValidateFunc: validateAllowedStringValue(CFS_STORAGETYPE),
+				Description:  "File service StorageType. Valid values are `SD` and `EP`. The default is `SD`.",
+			},
+			"project_id": {
+				Type:        schema.TypeString,
+				Optional:    true,
+				ForceNew:    true,
+				Description: "Project ID.",
+			},
+
+			"vpc_id": {
+				Type:        schema.TypeString,
+				Required:    true,
+				ForceNew:    true,
+				Description: "ID of a VPC network.",
+			},
+			"subnet_id": {
+				Type:        schema.TypeString,
+				Required:    true,
+				ForceNew:    true,
+				Description: "ID of a subnet.",
+			},
+			"mount_ip": {
+				Type:        schema.TypeString,
+				Optional:    true,
+				ForceNew:    true,
+				Computed:    true,
+				Description: "IP of mount point.",
+			},
+			"tag_id": {
+				Type:        schema.TypeInt,
+				Required:    true,
+				Description: "ID of a CFS storage pool in the availability zone. Use DescribeCfsTags to select a pool offering the requested storage type.",
+			},
+			// computed
+			"create_time": {
+				Type:        schema.TypeString,
+				Computed:    true,
+				Description: "Create time of the file system.",
+			},
+			"fs_id": {
+				Type:        schema.TypeString,
+				Computed:    true,
+				Description: "Mount root-directory.",
+			},
+			"tags": {
+				Type:        schema.TypeMap,
+				Optional:    true,
+				Description: "Instance tags.",
+			},
+		},
+	}
+}
+
+func resourceTencentCloudCfsFileSystemCreate(d *schema.ResourceData, meta interface{}) error {
+	defer logElapsed("resource.tencentcloudenterprise_cfs_file_system.create")()
+	logId := getLogId(contextNil)
+	ctx := context.WithValue(context.TODO(), logIdKey, logId)
+	cfsService := CfsService{
+		client: meta.(*TencentCloudClient).apiV3Conn,
+	}
+
+	request := cfs.NewCreateCfsFileSystemRequest()
+	request.Zone = helper.String(d.Get("availability_zone").(string))
+	request.PGroupId = helper.String(d.Get("access_group_id").(string))
+	request.Protocol = helper.String(d.Get("protocol").(string))
+	if v, ok := d.GetOk("snap_id"); ok {
+		request.SnapId = helper.String(v.(string))
+	}
+	request.UnVpcId = helper.String(d.Get("vpc_id").(string))
+	request.UnSubnetId = helper.String(d.Get("subnet_id").(string))
+	request.TagId = helper.IntUint64(d.Get("tag_id").(int))
+	//request.CfsVersion = helper.String("1.0")
+	request.StorageType = helper.String(d.Get("storage_type").(string))
+	request.FsName = helper.String(d.Get("name").(string))
+	request.NetInterface = helper.String("vpc")
+	if v, ok := d.GetOk("project_id"); ok {
+		request.ProjectId = helper.String(v.(string))
+	}
+
+	if v, ok := d.GetOk("mount_ip"); ok {
+		request.MountIP = helper.String(v.(string))
+	}
+
+	if v := helper.GetTags(d, "tags"); len(v) > 0 {
+		for tagKey, tagValue := range v {
+			tag := cfs.ResourceTags{
+				TagKey:   helper.String(tagKey),
+				TagValue: helper.String(tagValue),
+			}
+			request.ResourceTags = append(request.ResourceTags, &tag)
+		}
+	}
+
+	fsId := ""
+	err := resource.Retry(writeRetryTimeout, func() *resource.RetryError {
+		ratelimit.Check(request.GetAction())
+		response, err := meta.(*TencentCloudClient).apiV3Conn.UseCfsClient().CreateCfsFileSystem(request)
+		if err != nil {
+			log.Printf("[CRITAL]%s api[%s] fail, request body [%s], reason[%s]\n",
+				logId, request.GetAction(), request.ToJsonString(), err.Error())
+			return retryError(err)
+		}
+		log.Printf("[DEBUG]%s api[%s] success, request body [%s], response body [%s]\n",
+			logId, request.GetAction(), request.ToJsonString(), response.ToJsonString())
+
+		if response.Response.FileSystemId == nil {
+			err = fmt.Errorf("file system id is nil")
+			return resource.NonRetryableError(err)
+		}
+		fsId = *response.Response.FileSystemId
+		return nil
+	})
+	if err != nil {
+		return err
+	}
+	d.SetId(fsId)
+
+	// wait for success status
+	err = resource.Retry(2*readRetryTimeout, func() *resource.RetryError {
+		fileSystems, errRet := cfsService.DescribeFileSystem(ctx, fsId, "", "")
+		if errRet != nil {
+			return retryError(errRet, InternalError)
+		}
+		if len(fileSystems) < 1 {
+			return resource.RetryableError(fmt.Errorf("file system %s not exist", fsId))
+		}
+		if *fileSystems[0].LifeCycleState == CFS_FILE_SYSTEM_STATUS_CREATING {
+			return resource.RetryableError(fmt.Errorf("file system status is %s, retry...", *fileSystems[0].LifeCycleState))
+		}
+		return nil
+	})
+	if err != nil {
+		return err
+	}
+	if tags := helper.GetTags(d, "tags"); len(tags) > 0 {
+		tcClient := meta.(*TencentCloudClient).apiV3Conn
+		tagService := &TagService{client: tcClient}
+		resourceName := BuildTagResourceName("cfs", "filesystem", tcClient.Region, d.Id())
+		if err := tagService.ModifyTags(ctx, resourceName, tags, nil); err != nil {
+			return err
+		}
+	}
+
+	return resourceTencentCloudCfsFileSystemRead(d, meta)
+}
+
+func resourceTencentCloudCfsFileSystemRead(d *schema.ResourceData, meta interface{}) error {
+	defer logElapsed("resource.tencentcloudenterprise_cfs_file_system.read")()
+	defer inconsistentCheck(d, meta)()
+
+	logId := getLogId(contextNil)
+	ctx := context.WithValue(context.TODO(), logIdKey, logId)
+
+	fsId := d.Id()
+	cfsService := CfsService{
+		client: meta.(*TencentCloudClient).apiV3Conn,
+	}
+	var fileSystem *cfs.FileSystemInfo
+	err := resource.Retry(readRetryTimeout, func() *resource.RetryError {
+		fileSystems, errRet := cfsService.DescribeFileSystem(ctx, fsId, "", "")
+		if errRet != nil {
+			return retryError(errRet, InternalError)
+		}
+		if len(fileSystems) > 0 {
+			fileSystem = fileSystems[0]
+		}
+		return nil
+	})
+	if err != nil {
+		return err
+	}
+	if fileSystem == nil {
+		d.SetId("")
+		return nil
+	}
+
+	_ = d.Set("name", fileSystem.FsName)
+	_ = d.Set("availability_zone", fileSystem.Zone)
+	_ = d.Set("access_group_id", fileSystem.PGroup.PGroupId)
+	_ = d.Set("protocol", fileSystem.Protocol)
+	_ = d.Set("snap_id", fileSystem.SnapId)
+	_ = d.Set("create_time", fileSystem.CreationTime)
+	_ = d.Set("storage_type", fileSystem.StorageType)
+
+	var mountTarget *cfs.MountInfo
+	err = resource.Retry(readRetryTimeout, func() *resource.RetryError {
+		targets, errRet := cfsService.DescribeMountTargets(ctx, fsId)
+		if errRet != nil {
+			return retryError(errRet, InternalError)
+		}
+		if len(targets) > 0 {
+			mountTarget = targets[0]
+		}
+		return nil
+	})
+	if err != nil {
+		return err
+	}
+	tcClient := meta.(*TencentCloudClient).apiV3Conn
+	tagService := &TagService{client: tcClient}
+	tags, err := tagService.DescribeResourceTags(ctx, "cfs", "filesystem", tcClient.Region, d.Id())
+	if err != nil {
+		return err
+	}
+
+	_ = d.Set("tags", tags)
+
+	if mountTarget != nil {
+		_ = d.Set("vpc_id", mountTarget.VpcId)
+		_ = d.Set("subnet_id", mountTarget.SubnetId)
+		_ = d.Set("mount_ip", mountTarget.IpAddress)
+		_ = d.Set("fs_id", mountTarget.FSID)
+	}
+
+	return nil
+}
+
+func resourceTencentCloudCfsFileSystemUpdate(d *schema.ResourceData, meta interface{}) error {
+	defer logElapsed("resource.tencentcloudenterprise_cfs_file_system.update")()
+	logId := getLogId(contextNil)
+	ctx := context.WithValue(context.TODO(), logIdKey, logId)
+	fsId := d.Id()
+	cfsService := CfsService{
+		client: meta.(*TencentCloudClient).apiV3Conn,
+	}
+
+	d.Partial(true)
+
+	if d.HasChange("name") {
+		err := resource.Retry(writeRetryTimeout, func() *resource.RetryError {
+			errRet := cfsService.ModifyFileSystemName(ctx, fsId, d.Get("name").(string))
+			if errRet != nil {
+				return retryError(errRet)
+			}
+			return nil
+		})
+		if err != nil {
+			return err
+		}
+
+	}
+
+	if d.HasChange("access_group_id") {
+		err := resource.Retry(writeRetryTimeout, func() *resource.RetryError {
+			errRet := cfsService.ModifyFileSystemAccessGroup(ctx, fsId, d.Get("access_group_id").(string))
+			if errRet != nil {
+				return retryError(errRet)
+			}
+			return nil
+		})
+		if err != nil {
+			return err
+		}
+
+	}
+
+	if d.HasChange("tags") {
+
+		oldValue, newValue := d.GetChange("tags")
+		replaceTags, deleteTags := diffTags(oldValue.(map[string]interface{}), newValue.(map[string]interface{}))
+
+		tcClient := meta.(*TencentCloudClient).apiV3Conn
+		tagService := &TagService{client: tcClient}
+		resourceName := BuildTagResourceName("cfs", "filesystem", tcClient.Region, d.Id())
+		err := tagService.ModifyTags(ctx, resourceName, replaceTags, deleteTags)
+		if err != nil {
+			return err
+		}
+
+	}
+
+	d.Partial(false)
+
+	return resourceTencentCloudCfsFileSystemRead(d, meta)
+}
+
+func resourceTencentCloudCfsFileSystemDelete(d *schema.ResourceData, meta interface{}) error {
+	defer logElapsed("resource.tencentcloudenterprise_cfs_file_system.delete")()
+	logId := getLogId(contextNil)
+	ctx := context.WithValue(context.TODO(), logIdKey, logId)
+
+	fsId := d.Id()
+	cfsService := CfsService{
+		client: meta.(*TencentCloudClient).apiV3Conn,
+	}
+	err := resource.Retry(writeRetryTimeout, func() *resource.RetryError {
+		errRet := cfsService.DeleteFileSystem(ctx, fsId)
+		if errRet != nil {
+			return retryError(errRet)
+		}
+		return nil
+	})
+	if err != nil {
+		return err
+	}
+
+	return resource.Retry(2*readRetryTimeout, func() *resource.RetryError {
+		files, err := cfsService.DescribeFileSystem(ctx, fsId, "", "")
+		if err != nil {
+			return retryError(err, InternalError)
+		}
+		if len(files) > 0 {
+			return resource.RetryableError(fmt.Errorf("waiting for file system %s to be deleted", fsId))
+		}
+		return nil
+	})
+}
