@@ -78,12 +78,14 @@ func resourceTencentCloudSsmSecretVersion() *schema.Resource {
 			"secret_binary": {
 				Type:         schema.TypeString,
 				Optional:     true,
+				Sensitive:    true,
 				ExactlyOneOf: []string{"secret_string"},
 				Description:  "The base64-encoded binary secret. secret_binary and secret_string must be set only one, and the maximum support is 4096 bytes. When secret status is `Disabled`, this field will not update anymore.",
 			},
 			"secret_string": {
 				Type:         schema.TypeString,
 				Optional:     true,
+				Sensitive:    true,
 				ExactlyOneOf: []string{"secret_binary"},
 				Description:  "The string text of secret. secret_binary and secret_string must be set only one, and the maximum support is 4096 bytes. When secret status is `Disabled`, this field will not update anymore.",
 			},
