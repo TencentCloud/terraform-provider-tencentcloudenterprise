@@ -11,6 +11,19 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 )
 
+func TestResourceTencentCloudSsmSecretVersionSchemaSensitive(t *testing.T) {
+	res := resourceTencentCloudSsmSecretVersion()
+	for _, field := range []string{"secret_string", "secret_binary"} {
+		s, ok := res.Schema[field]
+		if !ok {
+			t.Fatalf("expected schema field %q to exist", field)
+		}
+		if !s.Sensitive {
+			t.Errorf("expected schema field %q to be marked Sensitive", field)
+		}
+	}
+}
+
 func TestAccTencentCloudSsmSecretVersion_basic(t *testing.T) {
 	t.Parallel()
 	resourceName := "tencentcloudenterprise_ssm_secret_version.v1"
