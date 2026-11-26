@@ -167,3 +167,24 @@ func validateStringPrefix(prefix ...string) schema.SchemaValidateFunc {
 		return
 	}
 }
+
+func validateImageID(v interface{}, k string) (ws []string, errors []error) {
+	value := v.(string)
+	if !strings.HasPrefix(value, "img-") {
+		errors = append(errors, fmt.Errorf("the format of %q is invalid: %s, it should begin with `img-`", k, value))
+	}
+	return
+}
+
+func validateTkeGpuDriverVersion(v interface{}, k string) (ws []string, errors []error) {
+	value := v.(map[string]interface{})
+	if len(value) > 0 {
+		keySet := []string{"name", "version"}
+		for _, paraKey := range keySet {
+			if value[paraKey] == nil || strings.TrimSpace(value[paraKey].(string)) == "" {
+				errors = append(errors, fmt.Errorf("%s in %s cannot be empty", paraKey, k))
+			}
+		}
+	}
+	return
+}

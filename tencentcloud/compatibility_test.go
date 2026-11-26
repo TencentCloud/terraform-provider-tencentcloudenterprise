@@ -892,3 +892,339 @@ func TestMariaDBCpuArchCreateAndRead(t *testing.T) {
 		t.Fatalf("expected normalized cpu_arch=ARM, got %q", got)
 	}
 }
+
+func TestProviderInternalValidateWithTKE(t *testing.T) {
+	p := Provider()
+	if err := p.InternalValidate(); err != nil {
+		t.Fatalf("Provider().InternalValidate() failed: %v", err)
+	}
+	for _, resName := range []string{
+		"tencentcloudenterprise_tke_kubernetes_cluster",
+		"tencentcloudenterprise_tke_kubernetes_scale_worker",
+		"tencentcloudenterprise_tke_kubernetes_cluster_attachment",
+		"tencentcloudenterprise_tke_kubernetes_cluster_endpoint",
+	} {
+		if _, ok := p.ResourcesMap[resName]; !ok {
+			t.Fatalf("expected resource %q to be registered", resName)
+		}
+	}
+	if _, ok := p.DataSourcesMap["tencentcloudenterprise_tke_kubernetes_clusters"]; !ok {
+		t.Fatalf("expected data source tencentcloudenterprise_tke_kubernetes_clusters to be registered")
+	}
+}
+
+func TestTKEClusterNetworkTypeAndKubeconfig(t *testing.T) {
+	t.Run("parseTkeClusterNetworkType", func(t *testing.T) {
+		for _, tc := range []struct {
+			name    string
+			prop    *string
+			want    string
+			wantErr bool
+		}{
+			{"nil property", nil, "", false},
+			{"empty property", new(string), "", false},
+			{"GR", func() *string { s := `{"NodeNameType":"lan-ip","NetworkType":"GR"}`; return &s }(), "GR", false},
+			{"VPC-CNI", func() *string { s := `{"NetworkType":"VPC-CNI"}`; return &s }(), "VPC-CNI", false},
+			{"invalid json", func() *string { s := `{bad`; return &s }(), "", true},
+		} {
+			t.Run(tc.name, func(t *testing.T) {
+				got, err := parseTkeClusterNetworkType(tc.prop)
+				if (err != nil) != tc.wantErr {
+					t.Fatalf("err=%v, wantErr=%t", err, tc.wantErr)
+				}
+				if got != tc.want {
+					t.Fatalf("got=%q, want=%q", got, tc.want)
+				}
+			})
+		}
+	})
+
+	t.Run("cluster read and data source populate network_type and kubeconfig", func(t *testing.T) {
+		conn := testClient()
+		var seenKubeTypes []string
+		conn.UseTkeClient().WithHttpTransport(testTransport(func(r *http.Request) (*http.Response, error) {
+			switch requestAction(r) {
+			case "DescribeClusters":
+				return testResponse(`{"Response":{"TotalCount":1,"Clusters":[{"ClusterId":"cls-test1","ClusterName":"demo","ClusterDescription":"desc","ClusterVersion":"1.24.4","ClusterOs":"centos7.6.0_x64","ClusterType":"MANAGED_CLUSTER","ClusterNetworkSettings":{"ClusterCIDR":"172.24.0.0/16","IgnoreClusterCIDRConflict":false,"MaxNodePodNum":32,"MaxClusterServiceNum":32,"Ipvs":true,"VpcId":"vpc-1","Cni":true},"ClusterNodeNum":1,"ProjectId":0,"ClusterStatus":"Running","Property":"{\"NodeNameType\":\"lan-ip\",\"NetworkType\":\"GR\"}","ClusterArch":"x86","CreatedTime":"2026-01-01T00:00:00Z"}],"RequestId":"r1"}}`), nil
+			case "DescribeClusterKubeconfig":
+				var body struct{ Type string }
+				_ = json.NewDecoder(r.Body).Decode(&body)
+				seenKubeTypes = append(seenKubeTypes, body.Type)
+				return testResponse(fmt.Sprintf(`{"Response":{"Kubeconfig":"apiVersion: v1\nclusters:\n- name: %s\n","RequestId":"r2"}}`, body.Type)), nil
+			case "DescribeClusterInstances":
+				return testResponse(`{"Response":{"TotalCount":1,"InstanceSet":[{"InstanceId":"ins-1","InstanceRole":"WORKER","InstanceState":"running","FailedReason":""}],"RequestId":"r3"}}`), nil
+			case "DescribeClusterSecurity":
+				return testResponse(`{"Response":{"UserName":"admin","Password":"secret","CertificationAuthority":"ca-cert","ClusterExternalEndpoint":"1.2.3.4","Domain":"cls-test1.ccs.tencent-cloud.com","PgwEndpoint":"10.0.0.10","SecurityPolicy":["0.0.0.0/0"],"RequestId":"r4"}}`), nil
+			case "DescribeClusterAsGroupOption":
+				return testResponse(`{"Response":{"ClusterAsGroupOption":{"IsScaleDownEnabled":false,"Expander":"random"},"RequestId":"r5"}}`), nil
+			default:
+				return nil, fmt.Errorf("unexpected tke action %s", requestAction(r))
+			}
+		}))
+
+		// Resource Read
+		res := resourceTencentCloudTkeCluster()
+		d := schema.TestResourceDataRaw(t, res.Schema, map[string]interface{}{
+			"cluster_os": "centos7.6.0_x64",
+		})
+		d.SetId("cls-test1")
+		if err := res.Read(d, &TencentCloudClient{apiV3Conn: conn}); err != nil {
+			t.Fatalf("cluster Read failed: %v", err)
+		}
+		if got := d.Get("network_type").(string); got != "GR" {
+			t.Fatalf("expected network_type=GR (not VPC-CNI despite Cni=true), got %q", got)
+		}
+		if got := d.Get("cluster_arch").(string); got != "x86" {
+			t.Fatalf("expected cluster_arch=x86, got %q", got)
+		}
+		if got := d.Get("kube_config").(string); !strings.Contains(got, "INTERNETLB") {
+			t.Fatalf("expected kube_config from INTERNETLB, got %q", got)
+		}
+		if got := d.Get("kube_config_intranet").(string); !strings.Contains(got, "INNERLB") {
+			t.Fatalf("expected kube_config_intranet from INNERLB, got %q", got)
+		}
+
+		// Data Source Read
+		ds := dataSourceTencentCloudKubernetesClusters()
+		dsData := schema.TestResourceDataRaw(t, ds.Schema, map[string]interface{}{
+			"cluster_id": "cls-test1",
+		})
+		if err := ds.Read(dsData, &TencentCloudClient{apiV3Conn: conn}); err != nil {
+			t.Fatalf("clusters data source Read failed: %v", err)
+		}
+		if got := dsData.Get("list.0.network_type").(string); got != "GR" {
+			t.Fatalf("expected ds network_type=GR, got %q", got)
+		}
+		if got := dsData.Get("list.0.kube_config").(string); !strings.Contains(got, "INTERNETLB") {
+			t.Fatalf("expected ds kube_config from INTERNETLB, got %q", got)
+		}
+		if got := dsData.Get("list.0.kube_config_intranet").(string); !strings.Contains(got, "INNERLB") {
+			t.Fatalf("expected ds kube_config_intranet from INNERLB, got %q", got)
+		}
+		if got := dsData.Get("list.0.user_name").(string); got != "admin" {
+			t.Fatalf("expected ds user_name=admin, got %q", got)
+		}
+		if len(seenKubeTypes) < 4 {
+			t.Fatalf("expected INTERNETLB and INNERLB calls for resource + data source, got %v", seenKubeTypes)
+		}
+	})
+}
+
+func TestTKENodeStoragePoolGroupAndPreStartScript(t *testing.T) {
+	cvmJson, count, err := tkeGetCvmRunInstancesPara(map[string]interface{}{
+		"count":                          2,
+		"availability_zone":              "zone-1",
+		"instance_type":                  "S3.LARGE8",
+		"subnet_id":                      "subnet-1",
+		"system_disk_type":               "CLOUD_HSSD",
+		"system_disk_size":               60,
+		"system_disk_storage_pool_group": "pool-sys-tke",
+		"data_disk": []interface{}{
+			map[string]interface{}{
+				"disk_type":               "CLOUD_SSD",
+				"disk_size":               100,
+				"disk_storage_pool_group": "pool-data-tke",
+			},
+		},
+		"public_ip_assigned": false,
+		"password":           "TkeTest@2026",
+	}, nil, "vpc-1", 0)
+	if err != nil {
+		t.Fatalf("tkeGetCvmRunInstancesPara failed: %v", err)
+	}
+	if count != 2 {
+		t.Fatalf("expected count=2, got %d", count)
+	}
+	var payload map[string]interface{}
+	if err := json.Unmarshal([]byte(cvmJson), &payload); err != nil {
+		t.Fatalf("invalid RunInstances JSON: %v", err)
+	}
+	sysDisk, _ := payload["SystemDisk"].(map[string]interface{})
+	if sysDisk["DiskStoragePoolGroup"] != "pool-sys-tke" || sysDisk["DiskType"] != "CLOUD_HSSD" {
+		t.Fatalf("unexpected SystemDisk payload: %#v", sysDisk)
+	}
+	dataDisks, _ := payload["DataDisks"].([]interface{})
+	if len(dataDisks) != 1 || dataDisks[0].(map[string]interface{})["DiskStoragePoolGroup"] != "pool-data-tke" {
+		t.Fatalf("unexpected DataDisks payload: %#v", dataDisks)
+	}
+
+	adv := tkeGetInstanceAdvancedPara(map[string]interface{}{
+		"pre_start_user_script": "ZWNobyBoZWxsbw==",
+		"user_data":             "ZWNobyB3b3JsZA==",
+	}, nil)
+	if adv.PreStartUserScript == nil || *adv.PreStartUserScript != "ZWNobyBoZWxsbw==" {
+		t.Fatalf("expected PreStartUserScript to be populated, got %#v", adv.PreStartUserScript)
+	}
+}
+
+func TestTKEClusterEndpointAntiDriftAndUpdate(t *testing.T) {
+	res := resourceTencentCloudTkeClusterEndpoint()
+	for _, field := range []string{
+		"cluster_internet_security_group",
+		"cluster_internet_domain",
+		"cluster_intranet_domain",
+		"cluster_intranet_subnet_id",
+	} {
+		s := res.Schema[field]
+		if s == nil || !s.Optional || !s.Computed {
+			t.Fatalf("expected %s to be Optional+Computed to prevent repeated apply drift", field)
+		}
+	}
+	if np := res.Schema["node_pool_id"]; np == nil || np.Required {
+		t.Fatalf("expected node_pool_id to be Optional in 3.10.0")
+	}
+
+	// Ensure ModifyClusterAttribute update does not panic when DescribeCluster returns nil ClusterLevel.
+	conn := testClient()
+	var modifiedName string
+	conn.UseTkeClient().WithHttpTransport(testTransport(func(r *http.Request) (*http.Response, error) {
+		switch requestAction(r) {
+		case "DescribeClusters":
+			return testResponse(`{"Response":{"TotalCount":1,"Clusters":[{"ClusterId":"cls-upd","ClusterName":"old","ClusterDescription":"old","ClusterVersion":"1.24.4","ClusterOs":"centos7.6.0_x64","ClusterType":"MANAGED_CLUSTER","ClusterNetworkSettings":{"ClusterCIDR":"172.24.0.0/16","IgnoreClusterCIDRConflict":false,"MaxNodePodNum":32,"MaxClusterServiceNum":32,"Ipvs":true,"VpcId":"vpc-1"},"ClusterNodeNum":0,"ProjectId":0,"ClusterStatus":"Running","Property":"{\"NetworkType\":\"GR\"}"}],"RequestId":"r1"}}`), nil
+		case "ModifyClusterAttribute":
+			var body struct{ ClusterName string }
+			_ = json.NewDecoder(r.Body).Decode(&body)
+			modifiedName = body.ClusterName
+			return testResponse(`{"Response":{"RequestId":"r2"}}`), nil
+		case "DescribeClusterKubeconfig":
+			return testResponse(`{"Response":{"Kubeconfig":"apiVersion: v1\nclusters: []\n","RequestId":"r3"}}`), nil
+		case "DescribeClusterInstances":
+			return testResponse(`{"Response":{"TotalCount":0,"InstanceSet":[],"RequestId":"r4"}}`), nil
+		case "DescribeClusterSecurity":
+			return testResponse(`{"Response":{"UserName":"admin","RequestId":"r5"}}`), nil
+		case "DescribeClusterAsGroupOption":
+			return testResponse(`{"Response":{"ClusterAsGroupOption":{"IsScaleDownEnabled":false},"RequestId":"r6"}}`), nil
+		case "DescribeAvailableClusterVersion":
+			return testResponse(`{"Response":{"Versions":["1.10.5","1.24.4"],"RequestId":"r7"}}`), nil
+		case "UpdateClusterVersion":
+			return testResponse(`{"Response":{"RequestId":"r8"}}`), nil
+		default:
+			return nil, fmt.Errorf("unexpected action %s", requestAction(r))
+		}
+	}))
+
+	clusterRes := resourceTencentCloudTkeCluster()
+	updData := schema.TestResourceDataRaw(t, clusterRes.Schema, map[string]interface{}{
+		"cluster_name": "renamed",
+		"cluster_desc": "new desc",
+	})
+	updData.SetId("cls-upd")
+	if err := clusterRes.Update(updData, &TencentCloudClient{apiV3Conn: conn}); err != nil {
+		t.Fatalf("cluster Update should not panic or fail when ClusterLevel is nil: %v", err)
+	}
+	if modifiedName != "renamed" {
+		t.Fatalf("expected ModifyClusterAttribute ClusterName=renamed, got %q", modifiedName)
+	}
+}
+
+func TestTKEClusterCreateFastFailOnProgressError(t *testing.T) {
+	conn := testClient()
+	conn.UseTkeClient().WithHttpTransport(testTransport(func(r *http.Request) (*http.Response, error) {
+		switch requestAction(r) {
+		case "CreateCluster":
+			return testResponse(`{"Response":{"ClusterId":"cls-fail","RequestId":"r1"}}`), nil
+		case "DescribeClusters":
+			return testResponse(`{"Response":{"TotalCount":1,"Clusters":[{"ClusterId":"cls-fail","ClusterName":"fail-test","ClusterVersion":"1.24.4","ClusterOs":"centos7.6.0_x64","ClusterType":"MANAGED_CLUSTER","ClusterNetworkSettings":{"ClusterCIDR":"172.24.0.0/16","IgnoreClusterCIDRConflict":false,"MaxNodePodNum":32,"MaxClusterServiceNum":32,"Ipvs":true,"VpcId":"vpc-1"},"ClusterNodeNum":0,"ProjectId":0,"ClusterStatus":"Initializing","Property":"{\"NetworkType\":\"GR\"}"}],"RequestId":"r2"}}`), nil
+		case "DescribeClusterCreateProgress":
+			return testResponse(`{"Response":{"Progress":[{"Type":"EnsureCreateTceCvm","Status":"False","Message":"Failed to create cvm. This cluster has failed to be created and can be cleaned up. Code=ResourceInsufficient.SpecifiedInstanceType"}],"RequestId":"r3"}}`), nil
+		default:
+			return nil, fmt.Errorf("unexpected action %s", requestAction(r))
+		}
+	}))
+
+	clusterRes := resourceTencentCloudTkeCluster()
+	d := schema.TestResourceDataRaw(t, clusterRes.Schema, map[string]interface{}{
+		"vpc_id":                  "vpc-1",
+		"cluster_cidr":            "172.24.0.0/16",
+		"cluster_max_pod_num":     32,
+		"cluster_max_service_num": 32,
+		"cluster_name":            "fail-test",
+		"cluster_deploy_type":     "MANAGED_CLUSTER",
+		"cluster_version":         "1.24.4",
+		"cluster_os":              "centos7.6.0_x64",
+	})
+	err := clusterRes.Create(d, &TencentCloudClient{apiV3Conn: conn})
+	if err == nil {
+		t.Fatalf("expected Create to fail fast when DescribeClusterCreateProgress reports fatal failure")
+	}
+	if !strings.Contains(err.Error(), "EnsureCreateTceCvm") || !strings.Contains(err.Error(), "ResourceInsufficient.SpecifiedInstanceType") {
+		t.Fatalf("expected error to include step and cause, got: %v", err)
+	}
+}
+
+func TestTKEScaleWorkerReadPreservesLabelsWhenAPIReturnsEmpty(t *testing.T) {
+	conn := testClient()
+	conn.UseTkeClient().WithHttpTransport(testTransport(func(r *http.Request) (*http.Response, error) {
+		switch requestAction(r) {
+		case "DescribeClusters":
+			return testResponse(`{"Response":{"TotalCount":1,"Clusters":[{"ClusterId":"cls-sw","ClusterName":"sw","ClusterVersion":"1.26.1","ClusterOs":"tlinux3.3x86_64","ClusterType":"INDEPENDENT_CLUSTER","ClusterNetworkSettings":{"ClusterCIDR":"172.26.0.0/16","IgnoreClusterCIDRConflict":false,"MaxNodePodNum":64,"MaxClusterServiceNum":256,"Ipvs":true,"VpcId":"vpc-1"},"ClusterNodeNum":1,"ProjectId":0,"ClusterStatus":"Running","Property":"{\"NetworkType\":\"GR\"}"}],"RequestId":"r1"}}`), nil
+		case "DescribeClusterInstances":
+			return testResponse(`{"Response":{"TotalCount":1,"InstanceSet":[{"InstanceId":"ins-w1","InstanceRole":"WORKER","InstanceState":"running","FailedReason":"","InstanceAdvancedSettings":{"Labels":null}}],"RequestId":"r2"}}`), nil
+		default:
+			return nil, fmt.Errorf("unexpected action %s", requestAction(r))
+		}
+	}))
+
+	res := resourceTencentCloudTkeScaleWorker()
+	d := schema.TestResourceDataRaw(t, res.Schema, map[string]interface{}{
+		"cluster_id": "cls-sw",
+		"labels": map[string]interface{}{
+			"env": "e2e",
+		},
+		"worker_instances_list": []interface{}{
+			map[string]interface{}{
+				"instance_id":    "ins-w1",
+				"instance_role":  "WORKER",
+				"instance_state": "initializing",
+			},
+		},
+	})
+	d.SetId("TkeScaleWorker.test")
+
+	if err := res.Read(d, &TencentCloudClient{apiV3Conn: conn}); err != nil {
+		t.Fatalf("scale worker Read failed: %v", err)
+	}
+	labels := d.Get("labels").(map[string]interface{})
+	if labels["env"] != "e2e" {
+		t.Fatalf("expected labels[env]=e2e to be preserved when API returns null Labels, got %#v", labels)
+	}
+	workers := d.Get("worker_instances_list").([]interface{})
+	if len(workers) != 1 || workers[0].(map[string]interface{})["instance_state"] != "running" {
+		t.Fatalf("expected worker_instances_list to refresh to running, got %#v", workers)
+	}
+}
+
+func TestTKEClusterAttachmentReadAllowsNonRunningStateForDestroy(t *testing.T) {
+	conn := testClient()
+	conn.UseTkeClient().WithHttpTransport(testTransport(func(r *http.Request) (*http.Response, error) {
+		switch requestAction(r) {
+		case "DescribeClusters":
+			return testResponse(`{"Response":{"TotalCount":1,"Clusters":[{"ClusterId":"cls-att","ClusterName":"att","ClusterVersion":"1.26.1","ClusterOs":"tlinux3.3x86_64","ClusterType":"INDEPENDENT_CLUSTER","ClusterNetworkSettings":{"ClusterCIDR":"172.26.0.0/16","IgnoreClusterCIDRConflict":false,"MaxNodePodNum":64,"MaxClusterServiceNum":256,"Ipvs":true,"VpcId":"vpc-1"},"ClusterNodeNum":1,"ProjectId":0,"ClusterStatus":"Running","Property":"{\"NetworkType\":\"GR\"}"}],"RequestId":"r1"}}`), nil
+		case "DescribeClusterInstances":
+			return testResponse(`{"Response":{"TotalCount":1,"InstanceSet":[{"InstanceId":"ins-att1","InstanceRole":"WORKER","InstanceState":"failed","FailedReason":"init failed"}],"RequestId":"r2"}}`), nil
+		default:
+			return nil, fmt.Errorf("unexpected tke action %s", requestAction(r))
+		}
+	}))
+	conn.UseCvmClient().WithHttpTransport(testTransport(func(r *http.Request) (*http.Response, error) {
+		if requestAction(r) == "DescribeInstances" {
+			return testResponse(`{"Response":{"TotalCount":1,"InstanceSet":[{"InstanceId":"ins-att1","InstanceState":"RUNNING","SecurityGroupIds":["sg-1"]}],"RequestId":"r3"}}`), nil
+		}
+		return nil, fmt.Errorf("unexpected cvm action %s", requestAction(r))
+	}))
+
+	res := resourceTencentCloudTkeClusterAttachment()
+	d := schema.TestResourceDataRaw(t, res.Schema, map[string]interface{}{
+		"cluster_id":  "cls-att",
+		"instance_id": "ins-att1",
+	})
+	d.SetId("ins-att1_cls-att")
+
+	if err := res.Read(d, &TencentCloudClient{apiV3Conn: conn}); err != nil {
+		t.Fatalf("attachment Read should not fail on non-running worker state so destroy can proceed: %v", err)
+	}
+	if got := d.Get("state").(string); got != "failed" {
+		t.Fatalf("expected state=failed, got %q", got)
+	}
+}
+

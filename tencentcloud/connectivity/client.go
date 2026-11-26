@@ -19,6 +19,7 @@ import (
 	tag "terraform-provider-tencentcloudenterprise/sdk/tag/v20180813"
 	tbase "terraform-provider-tencentcloudenterprise/sdk/tbase/v20190107"
 	tdmq "terraform-provider-tencentcloudenterprise/sdk/tdmq/v20200217"
+	tke "terraform-provider-tencentcloudenterprise/sdk/tke/v20180525"
 	vpc "terraform-provider-tencentcloudenterprise/sdk/vpc/v20170312"
 )
 
@@ -49,6 +50,7 @@ type TencentCloudClient struct {
 	ckafkaConn    *ckafka.Client
 	mariadbConn   *mariadb.Client
 	tbaseConn     *tbase.Client
+	tkeConn       *tke.Client
 }
 
 // NewClientProfile returns a new ClientProfile
@@ -264,6 +266,19 @@ func (me *TencentCloudClient) UseMariadbClient() *mariadb.Client {
 	me.mariadbConn.WithHttpTransport(&LogRoundTripper{})
 
 	return me.mariadbConn
+}
+
+// UseTkeClient returns tke client for service
+func (me *TencentCloudClient) UseTkeClient() *tke.Client {
+	if me.tkeConn != nil {
+		return me.tkeConn
+	}
+
+	cpf := me.NewClientProfileTce(300)
+	me.tkeConn, _ = tke.NewClient(me.CredentialTce, me.Region, cpf)
+	me.tkeConn.WithHttpTransport(&LogRoundTripper{})
+
+	return me.tkeConn
 }
 
 func getEnvDefault(key string, defVal int) int {
