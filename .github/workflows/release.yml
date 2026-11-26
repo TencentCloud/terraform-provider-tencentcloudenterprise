@@ -64,3 +64,59 @@ jobs:
         env:
           GPG_FINGERPRINT: ${{ steps.import_gpg.outputs.fingerprint }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Wait for Terraform Registry sync and mark prerelease
+        if: contains(github.ref_name, '-')
+        shell: bash
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+
+          version="${GITHUB_REF_NAME#v}"
+          download_url="https://registry.terraform.io/v1/providers/TencentCloud/tencentcloudenterprise/${version}/download/linux/amd64"
+
+          # Wait briefly before first poll so the webhook ingestion finishes before CDN caches a 404.
+          sleep 5
+
+          synced="false"
+          for attempt in $(seq 1 12); do
+            if curl -fsSL --max-time 10 "${download_url}" >/dev/null 2>&1; then
+              echo "Terraform Registry ingested ${version} (attempt ${attempt})"
+              synced="true"
+              break
+            fi
+            sleep 5
+          done
+
+          if [[ "${synced}" != "true" ]]; then
+            echo "::warning::Terraform Registry did not confirm ${version} within 65s; marking GitHub Release as prerelease anyway."
+          fi
+
+          if command -v gh >/dev/null 2>&1; then
+            gh release edit "${GITHUB_REF_NAME}" -R "${GITHUB_REPOSITORY}" --prerelease=true
+          else
+            release_json="$(curl -fsSL \
+              -H "Accept: application/vnd.github+json" \
+              -H "Authorization: Bearer ${GITHUB_TOKEN}" \
+              -H "X-GitHub-Api-Version: 2022-11-28" \
+              "${GITHUB_API_URL}/repos/${GITHUB_REPOSITORY}/releases/tags/${GITHUB_REF_NAME}")"
+            if command -v jq >/dev/null 2>&1; then
+              release_id="$(printf '%s\n' "${release_json}" | jq -r '.id')"
+            elif command -v python3 >/dev/null 2>&1; then
+              release_id="$(printf '%s\n' "${release_json}" | python3 -c 'import json,sys; print(json.load(sys.stdin)["id"])')"
+            else
+              release_id="$(printf '%s\n' "${release_json}" | sed -n 's/^  "id":[[:space:]]*\([0-9][0-9]*\),$/\1/p' | head -n 1)"
+            fi
+            if [[ -z "${release_id}" ]]; then
+              echo "Failed to resolve GitHub release ID for ${GITHUB_REF_NAME}" >&2
+              exit 1
+            fi
+            curl -fsSL -X PATCH \
+              -H "Accept: application/vnd.github+json" \
+              -H "Authorization: Bearer ${GITHUB_TOKEN}" \
+              -H "X-GitHub-Api-Version: 2022-11-28" \
+              -d '{"prerelease":true}' \
+              "${GITHUB_API_URL}/repos/${GITHUB_REPOSITORY}/releases/${release_id}" >/dev/null
+          fi
+          echo "Marked GitHub Release ${GITHUB_REF_NAME} as prerelease."

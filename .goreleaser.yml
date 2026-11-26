@@ -56,7 +56,7 @@ signs:
 
 release:
   draft: false
-  prerelease: auto
+  prerelease: false
   make_latest: false
 
 changelog:
