@@ -11,7 +11,7 @@ variable "vpc_id" { type = string }
 	resource "tencentcloudenterprise_tdmq_rabbitmq_vip_instance" "example" {
 	  cluster_name = "tf-example"
 	  zone_ids = var.zone_ids
-	  pay_mode = 0
+	  pay_mode = 1
 	  node_num = 3
 	  subnet_id = var.subnet_id
 	  vpc_id = var.vpc_id
@@ -47,7 +47,7 @@ func init() {
 			"enable_create_default_ha_mirror_queue": "是否创建默认的HA镜像队列,一般为true，请根据需要配置",
 			"auto_renew_flag":                       "自动续费标志,默认为true",
 			"time_span":                             "购买时长,默认为1(月)",
-			"pay_mode":                              "付费模式,0表示后付费,1表示预付费,默认为预付费",
+			"pay_mode":                              "付费模式,1表示预付费(默认,TCE私有云推荐使用),0表示后付费",
 			"cluster_version":                       "集群版本,支持3.8.30和3.11.8,默认为3.8.30",
 			"public_access_endpoint":                "公网接入点地址",
 			"vpcs":                                  "VPC接入点列表",
@@ -71,7 +71,7 @@ func resourceTencentCloudTdmqRabbitmqVipInstance() *schema.Resource {
 			"pay_mode": {
 				Type: schema.TypeInt, Optional: true, ForceNew: true, Default: 1,
 				ValidateFunc: validateIntegerInRange(0, 1),
-				Description:  "Billing mode. Use 0 for postpaid or 1 for prepaid (default).",
+				Description:  "Billing mode. Use 1 for prepaid (default, recommended for TCE environments) or 0 for postpaid.",
 			},
 			"zone_ids": {
 				Required:    true,

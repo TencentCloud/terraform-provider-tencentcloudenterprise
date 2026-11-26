@@ -21,7 +21,7 @@ variable "vpc_id" { type = string }
 resource "tencentcloudenterprise_tdmq_rabbitmq_vip_instance" "example" {
   cluster_name                          = "tf-example"
   zone_ids                              = var.zone_ids
-  pay_mode                              = 0
+  pay_mode                              = 1
   node_num                              = 3
   subnet_id                             = var.subnet_id
   vpc_id                                = var.vpc_id
@@ -41,7 +41,7 @@ The following arguments are supported:
 * `zone_ids` - (Required, Set: [`Int`]) Availability zone ID list. For single availability zone deployment, provide one zone ID; for multi-availability zone deployment, provide multiple zone IDs. Multi-availability zone instances require at least 3 nodes.
 * `cluster_version` - (Optional, String) RabbitMQ cluster version. Valid values: `3.8.30` (default), `3.11.8`. Different versions may have different features and performance characteristics.
 * `node_spec` - (Optional, String) Node specification. Valid values: `rabbit-vip-basic-5` (2C4G), `rabbit-vip-profession-2c8g` (2C8G), `rabbit-vip-basic-1` (4C8G, default), `rabbit-vip-profession-4c16g` (4C16G), `rabbit-vip-basic-2` (8C16G), `rabbit-vip-profession-8c32g` (8C32G), `rabbit-vip-basic-4` (16C32G), `rabbit-vip-profession-16c64g` (16C64G). Note: Some specifications may be unavailable due to stock limitations.
-* `pay_mode` - (Optional, Int, ForceNew) Billing mode. Use 0 for postpaid or 1 for prepaid (default).
+* `pay_mode` - (Optional, Int, ForceNew) Billing mode. Use 1 for prepaid (default, recommended for TCE environments) or 0 for postpaid.
 * `storage_size` - (Optional, Int) Storage capacity per node in GB. Default is 200GB.
 
 ## Attributes Reference
